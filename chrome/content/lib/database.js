@@ -36,7 +36,7 @@
 
 					this.name = aDatabase;
 					this.path = this.file.path;
-					this.storageService = Components.classes["@mozilla.org/storage/service;1"]  
+					this.storageService = Components.classes["@mozilla.org/storage/service;1"]
 												.getService(Components.interfaces.mozIStorageService);
 					this.aConnection = this.storageService.openDatabase(this.file);
 				}
@@ -57,7 +57,7 @@
 				object.init = function()
 				{
 					//first define the custom functions
-					
+
 						this.aConnection.createFunction(
 															'regexp',
 															2,
@@ -65,7 +65,7 @@
 															{
 																var regExp = new RegExp(aArguments.getString(0));
 																var strVal = new String(aArguments.getString(1));
-															
+
 																if(regExp.test(strVal))
 																	return 1;
 																else
@@ -73,10 +73,10 @@
 															}
 														);
 					//vacuum query
-						this._vacuum = this.query(<sql>VACUUM</sql>);
+						this._vacuum = this.query('VACUUM');
 					//retreiving the tables names, this is useful to check when a database is imported if all the tables are there.
-						this._tables = this.query(<sql>SELECT name FROM sqlite_master WHERE type = "table"</sql>);
-						
+						this._tables = this.query('SELECT name FROM sqlite_master WHERE type = "table"');
+
 						for(var id in this.queriesReferences)
 						{
 							try
@@ -91,7 +91,7 @@
 								this.theExtension.code('ODPExtension').error('init:re-createStatement FAILED:\nQUERY:\n\t'+this.queriesReferences[id].sql+'\nSQLITE SAYS:\n\t'+this.aConnection.lastErrorString);
 							};
 						}
-						
+
 				}
 				object.setPrefix = function(aPrefix)
 				{
@@ -137,12 +137,12 @@
 					{
 						this.theExtension.code('ODPExtension').dump('Connection to the database can\'t be closed');
 					}
-					
+
 					this.aConnection = false;
 				}
 				//exports a database to a user prompted directory
 				object.export = function()
-				{	
+				{
 					var aFolder = this.theExtension.code('ODPExtension').fileAskUserFileSave(this.name, 'sqlite');
 					if(aFolder)
 					{
@@ -154,12 +154,12 @@
 				}
 				//returns an arrray with the tables names
 				object.getTables = function()
-				{	
+				{
 					var current_tables = [];
 					var row;
 					while(row = this.fetchObjects(this._tables))
 						current_tables[current_tables.length] = row.name;
-						
+
 					return current_tables;
 				}
 				//import a database
@@ -187,13 +187,13 @@
 								this.theExtension.code('ODPExtension').fileCopy(aFile.file.path, this.path);
 							//open database
 								this.open();
-								
+
 							//checking if the database contains all the tables
 								var imported_tables = [];
 								var row;
 								while(row = this.fetchObjects(this._tables))
 									imported_tables[imported_tables.length] = row.name;
-								
+
 								for(var id in current_tables)
 								{
 									if(!this.theExtension.code('ODPExtension').inArray(imported_tables, current_tables[id]))
@@ -209,7 +209,7 @@
 										break;
 									}
 								}
-								
+
 						}
 					}
 				}
@@ -221,7 +221,7 @@
 						while(row = this.fetchObjects(this._tables))
 						{
 							var query = [];
-								query[0] = 'delete from "'+ row.name+'"';
+								query = 'delete from "'+ row.name+'"';
 							this.deleteAsync(this.query(query));
 						}
 						this.vacuum();
@@ -241,27 +241,27 @@
 					this.queriesReferences[id] = {};
 					this.queriesReferences[id].id = id;
 					this.queriesReferences[id].aConnection = this.aConnection;
-					
+
 					try{
-						this.queriesReferences[id].query = this.aConnection.createStatement(query[0].split('PREFIX').join(this.prefix))
+						this.queriesReferences[id].query = this.aConnection.createStatement(query.split('PREFIX').join(this.prefix))
 					}
 					catch(e)
 					{/*probably bad wrote of a query*/
-						this.theExtension.code('ODPExtension').error('createStatement FAILED:\nQUERY:\n\t'+query[0]+'\nSQLITE SAYS:\n\t'+this.aConnection.lastErrorString);
+						this.theExtension.code('ODPExtension').error('createStatement FAILED:\nQUERY:\n\t'+query+'\nSQLITE SAYS:\n\t'+this.aConnection.lastErrorString);
 					};
-					this.queriesReferences[id].sql = String(query[0]);
+					this.queriesReferences[id].sql = String(query);
 					this.queriesReferences[id].columnNames = {};
 					this.queriesReferences[id].paramsValues = {};
 					this.queriesReferences[id].theExtension = this.theExtension;
 
 					//retreiveing columns names
 					var columnNames = [];
-					var length = this.queriesReferences[id].query.columnCount; 
+					var length = this.queriesReferences[id].query.columnCount;
 					for (var a=0;a<length;a++)
 						columnNames[columnNames.length] = this.queriesReferences[id].query.getColumnName(a);
 					this.queriesReferences[id].columnNames = columnNames;
 
-					//fill parameters					
+					//fill parameters
 					this.queriesReferences[id].params = function(aParam, aValue)
 					{
 						aValue = !aValue ? '' : aValue.toString();
@@ -272,7 +272,7 @@
 						}
 						catch(e)
 						{
-							//this failed because the query is filled again with parameters but was not "reset"  
+							//this failed because the query is filled again with parameters but was not "reset"
 							//(this happend when you get just one row with fetchObject)
 							this.query.reset();
 							try{
@@ -282,7 +282,7 @@
 							{
 								this.theExtension.code('ODPExtension').dump('FILL PARAMS FAILED:\n\tCan\'t fill params:aParam:'+aParam+':aValue:'+aValue+'\nQUERY:\n\t'+this.sql+'\nQUERY VALUES:\n\t'+this.paramsValues.toSource()+'\nSQLITE SAYS:\n\t'+this.aConnection.lastErrorString);
 							}
-							
+
 							this.paramsValues = {};
 							this.paramsValues[aParam] = aValue;
 						}
@@ -291,7 +291,7 @@
 					return this.queriesReferences[id];
 				};
 				//'create' statements should use this function
-				object.create = function(query, canFail){try{this.aConnection.executeSimpleSQL(query[0].split('PREFIX').join(this.prefix))}catch(e){/*probably bad wrote of a query*/if(!canFail){this.theExtension.code('ODPExtension').error('executeSimpleSQL FAILED:\nQUERY:\n\t'+query[0]+'\nSQLITE SAYS:\n\t'+this.aConnection.lastErrorString);}}};
+				object.create = function(query, canFail){try{this.aConnection.executeSimpleSQL(query.split('PREFIX').join(this.prefix))}catch(e){/*probably bad wrote of a query*/if(!canFail){this.theExtension.code('ODPExtension').error('executeSimpleSQL FAILED:\nQUERY:\n\t'+query+'\nSQLITE SAYS:\n\t'+this.aConnection.lastErrorString);}}};
 				//function mapping
 				object.update = function(q, canFail){this.executeStep(q, canFail);	}
 				//function mapping
@@ -306,7 +306,7 @@
 				object.delete = function(q, canFail){this.execute(q, canFail);}
 				//function mapping
 				object.deleteAsync = function(q, canFail){this.executeAsync(q, canFail);}
-				
+
 				//executes a query Async, canFail is for queries that is spected to fail, like inserting two indentical values in a unique column
 				object.executeAsync = function(q, canFail)
 				{
@@ -370,7 +370,7 @@
 						var query = this.queriesReferences[q.id].query;
 						var columnNames = this.queriesReferences[q.id].columnNames;
 					//getting result values
-						query.executeStep();					
+						query.executeStep();
 					//build the row, reset the consult if needed and return it
 						var row = {};
 						for(var id in columnNames)
@@ -393,7 +393,7 @@
 							this.queriesReferences[q.id].paramsValues = {};
 							query.reset();
 						}
-							
+
 					//return the row
 						return row;
 				};

@@ -13,32 +13,32 @@
 				var categories = [];
 
 				//sql query
-				var query = this.DBRDF.query(<sql>
-											 	SELECT
-													*,
-													(LENGTH(categories_path) - LENGTH(REPLACE(categories_path, '/', ''))) AS cnt
-												FROM
-													`PREFIX_categories`
-												where
-													`categories_path` GLOB  'World/*' and
-													`categories_id` not in
-												(
-												 	select
-														`altlang_id_to`
-													from
-														`PREFIX_altlang`
-												)
-												and
-												`categories_id`  in
-												(
-												 	select
-														`altlang_id_from`
-													from
-														`PREFIX_altlang`
-												)
-												order by
-																								cnt asc
-											</sql>);
+				var query = this.DBRDF.query(' \
+											 	SELECT \
+													*, \
+													(LENGTH(categories_path) - LENGTH(REPLACE(categories_path, \'/\', \'\'))) AS cnt \
+												FROM \
+													`PREFIX_categories` \
+												where \
+													`categories_path` GLOB  \'World/*\' and \
+													`categories_id` not in \
+												( \
+												 	select \
+														`altlang_id_to` \
+													from \
+														`PREFIX_altlang` \
+												) \
+												and \
+												`categories_id`  in \
+												( \
+												 	select \
+														`altlang_id_from` \
+													from \
+														`PREFIX_altlang` \
+												) \
+												order by \
+																								cnt asc \
+											');
 
 				for(var results = 0;row = this.DBRDF.fetchObjects(query);results++)
 				{
@@ -46,27 +46,27 @@
 				}
 
 				//sql query
-				var query = this.DBRDF.query(<sql>
-											 	SELECT
-													*,
-													(LENGTH(categories_path) - LENGTH(REPLACE(categories_path, '/', ''))) AS cnt
-												FROM
-													`PREFIX_categories`
-												where
-													`categories_path` GLOB  'World/*' and
-													`categories_id` not in
-												(
-												 	select
-														`altlang_id_to`
-													from
-														`PREFIX_altlang`
-												)
-												and cnt &gt; 2 and cnt &lt; 7
-												and
-												LENGTH(categories_category) &gt; 1
-												order by
-													cnt asc
-											</sql>);
+				var query = this.DBRDF.query(' \
+											 	SELECT \
+													*, \
+													(LENGTH(categories_path) - LENGTH(REPLACE(categories_path, \'/\', \'\'))) AS cnt \
+												FROM \
+													`PREFIX_categories` \
+												where \
+													`categories_path` GLOB  \'World/*\' and \
+													`categories_id` not in \
+												( \
+												 	select \
+														`altlang_id_to` \
+													from \
+														`PREFIX_altlang` \
+												) \
+												and cnt &gt; 2 and cnt &lt; 7 \
+												and \
+												LENGTH(categories_category) &gt; 1 \
+												order by \
+													cnt asc \
+											');
 
 				for(var results = 0;row = this.DBRDF.fetchObjects(query);results++)
 				{
@@ -74,28 +74,28 @@
 				}
 
 				//sql query
-				var query = this.DBRDF.query(<sql>
-											 	SELECT
-													*,
-													(LENGTH(categories_path) - LENGTH(REPLACE(categories_path, '/', ''))) AS cnt
-												FROM
-													`PREFIX_categories`
-												where
-													`categories_path` GLOB  'World/*' and
-													`categories_id` not in
-												(
-												 	select
-														`altlang_id_from`
-													from
-														`PREFIX_altlang`
-												)
-												and cnt &gt; 2 and cnt &lt; 7
-												and
-												LENGTH(categories_category) &gt; 1
-												order by
-													cnt asc,
-													categories_path asc
-											</sql>);
+				var query = this.DBRDF.query(' \
+											 	SELECT \
+													*, \
+													(LENGTH(categories_path) - LENGTH(REPLACE(categories_path, \'/\', \'\'))) AS cnt \
+												FROM \
+													`PREFIX_categories` \
+												where \
+													`categories_path` GLOB  \'World/*\' and \
+													`categories_id` not in \
+												( \
+												 	select \
+														`altlang_id_from` \
+													from \
+														`PREFIX_altlang` \
+												) \
+												and cnt &gt; 2 and cnt &lt; 7 \
+												and \
+												LENGTH(categories_category) &gt; 1 \
+												order by \
+													cnt asc, \
+													categories_path asc \
+											');
 
 				for(var results = 0;row = this.DBRDF.fetchObjects(query);results++)
 				{

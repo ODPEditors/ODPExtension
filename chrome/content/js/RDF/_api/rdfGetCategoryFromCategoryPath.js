@@ -7,16 +7,16 @@
 			this.rdfGetCategoryFromCategoryPath = function(aCategory)
 			{
 				this.rdfOpen();//opens a connection to the RDF SQLite database.
-				
+
 				//sql query
-				var query = this.DBRDF.query(<sql>
-											 	SELECT 
-													* 
-												FROM 
-													`PREFIX_categories`
-												where
-													`categories_path` = :categories_path
-											</sql>);
+				var query = this.DBRDF.query('\
+											 	SELECT \
+													* \
+												FROM \
+													`PREFIX_categories` \
+												where \
+													`categories_path` = :categories_path \
+											');
 					query.params('categories_path', aCategory);
 
 				//searching

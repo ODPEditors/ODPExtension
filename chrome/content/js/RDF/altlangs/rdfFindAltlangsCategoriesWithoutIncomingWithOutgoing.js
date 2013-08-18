@@ -7,35 +7,35 @@
 			this.rdfFindAltlangsCategoriesWithoutIncomingWithOutgoing = function(aCategory)
 			{
 				this.rdfOpen();//opens a connection to the RDF SQLite database.
-				
+
 				var aMsg = 'Categories without incoming but with outgoing alternative languages on "{CATEGORY}" and on its subcategories ({RESULTS})';//informative msg and title of document
 
 				//sql query
-				var query = this.DBRDF.query(<sql>
-											 	SELECT 
-													*
-												FROM 
-													`PREFIX_categories` 
-												where
-													`categories_path` GLOB  :categories_path and 
-													`categories_id` not in 
-													(
-													 	select 
-															`altlang_id_to` 
-														from 
-															`PREFIX_altlang`
-													)
-													and 
-													`categories_id` in 
-													(
-													 	select 
-															`altlang_id_from` 
-														from 
-															`PREFIX_altlang`
-													)
-												order by
-													categories_id asc
-											</sql>);
+				var query = this.DBRDF.query(' \
+											 	SELECT \
+													* \
+												FROM \
+													`PREFIX_categories` \
+												where \
+													`categories_path` GLOB  :categories_path and \
+													`categories_id` not in \
+													( \
+													 	select \
+															`altlang_id_to` \
+														from \
+															`PREFIX_altlang` \
+													) \
+													and \
+													`categories_id` in \
+													( \
+													 	select \
+															`altlang_id_from` \
+														from \
+															`PREFIX_altlang` \
+													) \
+												order by \
+													categories_id asc \
+											');
 					query.params('categories_path', aCategory+'*');
 
 				var row, rows = [], aData = '';
@@ -69,8 +69,8 @@
 				//display results
 				if(results>0)
 					this.tabOpen(this.fileCreateTemporal(
-															'RDF.html',  
-															aMsg, 
+															'RDF.html',
+															aMsg,
 															'<div class="header">'+aMsg+'</div>'+
 															'<pre style="background-color:white !important;padding:2px;">'
 																+aData+

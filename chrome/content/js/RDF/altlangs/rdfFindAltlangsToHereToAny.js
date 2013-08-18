@@ -7,31 +7,31 @@
 			this.rdfFindAltlangsToHereToAny = function(aCategory)
 			{
 				this.rdfOpen();//opens a connection to the RDF SQLite database.
-				
+
 				var aMsg = 'Alternative languages to "{CATEGORY}" and to any of its subcategories ({RESULTS})';//informative msg and title of document
 
 				//sql query
-				var query = this.DBRDF.query(<sql>
-											 	SELECT 
-													* 
-												FROM 
-													`PREFIX_categories`,
-													`PREFIX_altlang`
-												where
-													`altlang_id_to` IN 
-													(
-													 	SELECT 
-															categories_id
-														FROM
-															`PREFIX_categories`
-														WHERE
-															`categories_path` GLOB  :categories_path 
-													 ) AND
-													`categories_id` = `altlang_id_from` 
-												order by
-													`altlang_id_to` asc,
-													`altlang_id_from` asc
-											</sql>);
+				var query = this.DBRDF.query(' \
+											 	SELECT \
+													* \
+												FROM \
+													`PREFIX_categories`, \
+													`PREFIX_altlang` \
+												where \
+													`altlang_id_to` IN \
+													( \
+													 	SELECT \
+															categories_id \
+														FROM \
+															`PREFIX_categories` \
+														WHERE \
+															`categories_path` GLOB  :categories_path \
+													 ) AND \
+													`categories_id` = `altlang_id_from` \
+												order by \
+													`altlang_id_to` asc, \
+													`altlang_id_from` asc \
+											');
 					query.params('categories_path', aCategory+'*');
 
 				//searching
@@ -59,8 +59,8 @@
 				//display results
 				if(results>0)
 					this.tabOpen(this.fileCreateTemporal(
-															'RDF.html',  
-															aMsg, 
+															'RDF.html',
+															aMsg,
 															'<div class="header">'+aMsg+'</div>'+
 															'<pre style="background-color:white !important;padding:2px;">'
 																+aData+

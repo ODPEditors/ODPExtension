@@ -5,7 +5,7 @@
 			var debugingThisFile = true;
 
 			//opens a connection to the RDF SQLite database
-			
+
 			this.rdfOpen = function()
 			{
 				if(!this.DBRDF)
@@ -25,10 +25,10 @@
 						prefix.sort(this.sortLocale);
 						this.rdfCurrentData = prefix.pop();
 						this.rdfPreviousData =  prefix.pop();
-					
+
 					this.DBRDF.setPrefix(this.rdfCurrentData);
-					this.DBRDF.create(<sql>PRAGMA temp_store = 2</sql>);
-					this.DBRDF.create(<sql>PRAGMA journal_mode = memory</sql>);
+					this.DBRDF.create('PRAGMA temp_store = 2');
+					this.DBRDF.create('PRAGMA journal_mode = memory');
 				}
 			}
 			this.rdfClose = function()

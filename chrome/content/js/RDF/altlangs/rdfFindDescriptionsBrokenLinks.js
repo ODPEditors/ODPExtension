@@ -11,13 +11,11 @@
 				var aMsg = 'Categories with broken or external links in descriptions [{CATEGORY}] ({RESULTS}) ';//informative msg and title of document
 
 				//sql query
-				var query = this.DBRDF.query(<sql>
-											 	SELECT
-													categories_path
-												FROM
-													`PREFIX_categories`
-
-											</sql>);
+				var query = this.DBRDF.query(' \
+											 	SELECT \
+													categories_path \
+												FROM \
+													`PREFIX_categories` 																		');
 
 				var categories = [];
 				for(var results = 0;row = this.DBRDF.fetchObjects(query);results++)
@@ -26,15 +24,15 @@
 				}
 
 				//sql query
-				var query = this.DBRDF.query(<sql>
-											 	SELECT
-													*
-												FROM
-													`PREFIX_categories`
-											where categories_description like "%href%"
-												order by
-													categories_id asc
-											</sql>);
+				var query = this.DBRDF.query(' \
+											 	SELECT \
+													* \
+												FROM \
+													`PREFIX_categories` \
+											where categories_description like "%href%" \
+												order by \
+													categories_id asc \
+										');
 
 				var row, rows = [], aData = [], hrefs = [];
 

@@ -7,19 +7,19 @@
 			this.rdfGetCategoryRelatedCategoriesFromCategoryID = function(aCategoryID)
 			{
 				this.rdfOpen();//opens a connection to the RDF SQLite database.
-				
-				var query = this.DBRDF.query(<sql>
-											 	SELECT 
-													*
-												FROM 
-													`PREFIX_categories`,
-													`PREFIX_related`
-												where
-													`related_id_from` = :categories_id and
-													`categories_id` = `related_id_to` 
-												order by 
-													related_id_to asc
-											</sql>);
+
+				var query = this.DBRDF.query(' \
+											 	SELECT \
+													* \
+												FROM \
+													`PREFIX_categories`, \
+													`PREFIX_related` \
+												where \
+													`related_id_from` = :categories_id and \
+													`categories_id` = `related_id_to` \
+												order by \
+													related_id_to asc \
+											');
 					query.params('categories_id', aCategoryID);
 
 				if(!anArrayResults)

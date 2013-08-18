@@ -60,10 +60,6 @@
 	//CONTEXT MENU - DONE
 
 		pref('extensions.ODPExtension.ui.context.menu.translate', true);
-		pref('extensions.ODPExtension.ui.context.menu.translate.menu.not.in.sub', false);
-		pref('extensions.ODPExtension.ui.context.menu.translate.menu.in.sub', false);
-		pref('extensions.ODPExtension.ui.context.menu.translate.menu.in.sub.if.to.many', true);
-		pref('extensions.ODPExtension.ui.context.menu.translate.menu.in.sub.if.to.many.is', 3);
 
 		pref('extensions.ODPExtension.ui.context.menu.word.reference', true);
 		pref('extensions.ODPExtension.ui.context.menu.url.tools', true);
@@ -223,25 +219,25 @@
 	pref('extensions.ODPExtension.tab.behavior.word.reference.tab.sub.browser.position', 'L');
 
 //languages display - ALL DONE
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ca', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.zh-CN', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.zh-TW', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.da', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.nl', true);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ca', false);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.zh-CN', false);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.zh-TW', false);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.da', false);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.nl', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.en', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.fr', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.de', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.it', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ja', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.pl', true);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.fr', false);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.de', false);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.it', false);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ja', false);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.pl', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ru', true);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.es', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.sv', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.tr', true);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.sv', false);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.tr', false);
 
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.af', true);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.af', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.sq', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ar', true);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ar', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.be', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.bg', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.hr', false);
@@ -253,11 +249,11 @@ pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.gl', false)
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.el', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ht', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.iw', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.hi', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.hu', true);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.hi', false);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.hu', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.is', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.id', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ga', true);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ga', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ko', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.lv', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.lt', false);
@@ -267,69 +263,13 @@ pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.mt', false)
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.no', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.fa', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.pt', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ro', true);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ro', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.sr', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.sk', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.sl', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.sw', true);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.sw', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.th', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.uk', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.vi', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.cy', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.yi', false);
-
-//languages priority
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.ca', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.zh-CN', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.zh-TW', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.da', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.nl', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.en', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.fr', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.de', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.it', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.ja', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.pl', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.ru', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.es', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.sv', true);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.tr', true);
-
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.af', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.sq', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.ar', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.be', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.bg', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.hr', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.cs', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.et', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.tl', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.fi', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.gl', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.el', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.ht', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.iw', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.hi', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.hu', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.is', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.id', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.ga', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.ko', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.lv', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.lt', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.mk', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.ms', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.mt', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.no', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.fa', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.pt', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.ro', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.sr', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.sk', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.sl', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.sw', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.th', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.uk', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.vi', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.cy', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.priority.yi', false);

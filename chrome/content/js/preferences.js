@@ -56,10 +56,6 @@
 										'ui.icon.position.status.bar', //DONE
 										'ui.icon.position.location.bar', //DONE
 
-										'ui.context.menu.translate.menu.not.in.sub',//DONE
-										'ui.context.menu.translate.menu.in.sub',//DONE
-										'ui.context.menu.translate.menu.in.sub.if.to.many',//DONE
-
 										'privacy.listing.method.url',//DONE
 										'privacy.listing.method.domain',//DONE
 										'privacy.listing.method.none',//DONE
@@ -69,7 +65,6 @@
 									   ];
 
 			this.preferences.ints = [
-									 'ui.context.menu.translate.menu.in.sub.if.to.many.is',//DONE//hidden pref
 									 'ui.informative.panel.x',//DONE
 									 'ui.informative.panel.y'//DONE
 									];
@@ -269,63 +264,8 @@
 											'ui.context.menu.translate.lang.display.uk',
 											'ui.context.menu.translate.lang.display.vi',
 											'ui.context.menu.translate.lang.display.cy',
-											'ui.context.menu.translate.lang.display.yi',
+											'ui.context.menu.translate.lang.display.yi'
 
-											//languages priority
-											'ui.context.menu.translate.lang.priority.ca',
-											'ui.context.menu.translate.lang.priority.zh-CN',
-											'ui.context.menu.translate.lang.priority.zh-TW',
-											'ui.context.menu.translate.lang.priority.da',
-											'ui.context.menu.translate.lang.priority.nl',
-											'ui.context.menu.translate.lang.priority.en',
-											'ui.context.menu.translate.lang.priority.fr',
-											'ui.context.menu.translate.lang.priority.de',
-											'ui.context.menu.translate.lang.priority.it',
-											'ui.context.menu.translate.lang.priority.ja',
-											'ui.context.menu.translate.lang.priority.pl',
-											'ui.context.menu.translate.lang.priority.ru',
-											'ui.context.menu.translate.lang.priority.es',
-											'ui.context.menu.translate.lang.priority.sv',
-											'ui.context.menu.translate.lang.priority.tr',
-
-											'ui.context.menu.translate.lang.priority.af',
-											'ui.context.menu.translate.lang.priority.sq',
-											'ui.context.menu.translate.lang.priority.ar',
-											'ui.context.menu.translate.lang.priority.be',
-											'ui.context.menu.translate.lang.priority.bg',
-											'ui.context.menu.translate.lang.priority.hr',
-											'ui.context.menu.translate.lang.priority.cs',
-											'ui.context.menu.translate.lang.priority.et',
-											'ui.context.menu.translate.lang.priority.tl',
-											'ui.context.menu.translate.lang.priority.fi',
-											'ui.context.menu.translate.lang.priority.gl',
-											'ui.context.menu.translate.lang.priority.el',
-											'ui.context.menu.translate.lang.priority.ht',
-											'ui.context.menu.translate.lang.priority.iw',
-											'ui.context.menu.translate.lang.priority.hi',
-											'ui.context.menu.translate.lang.priority.hu',
-											'ui.context.menu.translate.lang.priority.is',
-											'ui.context.menu.translate.lang.priority.id',
-											'ui.context.menu.translate.lang.priority.ga',
-											'ui.context.menu.translate.lang.priority.ko',
-											'ui.context.menu.translate.lang.priority.lv',
-											'ui.context.menu.translate.lang.priority.lt',
-											'ui.context.menu.translate.lang.priority.mk',
-											'ui.context.menu.translate.lang.priority.ms',
-											'ui.context.menu.translate.lang.priority.mt',
-											'ui.context.menu.translate.lang.priority.no',
-											'ui.context.menu.translate.lang.priority.fa',
-											'ui.context.menu.translate.lang.priority.pt',
-											'ui.context.menu.translate.lang.priority.ro',
-											'ui.context.menu.translate.lang.priority.sr',
-											'ui.context.menu.translate.lang.priority.sk',
-											'ui.context.menu.translate.lang.priority.sl',
-											'ui.context.menu.translate.lang.priority.sw',
-											'ui.context.menu.translate.lang.priority.th',
-											'ui.context.menu.translate.lang.priority.uk',
-											'ui.context.menu.translate.lang.priority.vi',
-											'ui.context.menu.translate.lang.priority.cy',
-											'ui.context.menu.translate.lang.priority.yi'
 									];
 
 		/*

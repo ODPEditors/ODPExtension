@@ -62,9 +62,6 @@
 <!ENTITY ODPExtension.ui.context.menu "Indholds menu">
 <!ENTITY ODPExtension.ui.context.menu.categories "Kategorier">
 <!ENTITY ODPExtension.ui.context.menu.translate "Translate to">
-<!ENTITY ODPExtension.ui.context.menu.translate.menu.not.in.sub "Not in submenu">
-<!ENTITY ODPExtension.ui.context.menu.translate.menu.in.sub "In submenu">
-<!ENTITY ODPExtension.ui.context.menu.translate.menu.in.sub.if.to.many "In submenu if there is many">
 
 <!ENTITY ODPExtension.ui.context.menu.frames "Rammer">
 <!ENTITY ODPExtension.ui.context.menu.frame.selected "Open Selected Frame">
@@ -104,7 +101,6 @@
 <!ENTITY ODPExtension.tab.translate "Oversæt (Google Tran)">
 
 <!ENTITY ODPExtension.ui.context.menu.translate.languages "Languages in the translate context menu">
-<!ENTITY ODPExtension.ui.context.menu.translate.languages.with.priority "Languages with priority in the menu">
 
 
 <!ENTITY ODPExtension.tab.icon.clicks "Icon Clicks">

@@ -139,11 +139,6 @@
 								<hbox flex="1">
 									<vbox flex="1">
 										<checkbox label="&ODPExtension.ui.context.menu.translate;" id="ui.context.menu.translate"/>
-										<radiogroup class="invisible" style="margin-left:15px;">
-											<radio label="&ODPExtension.ui.context.menu.translate.menu.not.in.sub;" id="ui.context.menu.translate.menu.not.in.sub"/>
-											<radio label="&ODPExtension.ui.context.menu.translate.menu.in.sub;" id="ui.context.menu.translate.menu.in.sub"/>
-											<radio label="&ODPExtension.ui.context.menu.translate.menu.in.sub.if.to.many;" id="ui.context.menu.translate.menu.in.sub.if.to.many" selected="true"/>
-										</radiogroup>
 										<checkbox label="&ODPExtension.ui.context.menu.word.reference;" id="ui.context.menu.word.reference"/>
 										<checkbox label="&ODPExtension.ui.context.menu.url.tools;" id="ui.context.menu.url.tools"/>
 										<checkbox label="&ODPExtension.ui.context.menu.frame.selected;" id="ui.context.menu.frame.selected"/>
@@ -298,64 +293,6 @@
 					</groupbox>
 				</groupbox>
 
-				<groupbox flex="1">
-					<caption label="&ODPExtension.ui.context.menu.translate.languages.with.priority;"/>
-					<groupbox class="groupboxInvisible">
-						<checkbox id="ui.context.menu.translate.lang.priority.af" label="Afrikaans"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.sq" label="Albanian"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.ar" label="Arabic"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.be" label="Belarusian"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.bg" label="Bulgarian"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.ca" label="Catalan"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.zh-CN" label="Chinese (Simplified)"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.zh-TW" label="Chinese (Traditional)"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.hr" label="Croatian"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.cs" label="Czech"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.da" label="Danish"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.nl" label="Dutch"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.et" label="Estonian"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.en" label="English"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.tl" label="Filipino"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.fi" label="Finnish"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.fr" label="French"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.gl" label="Galician"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.de" label="German"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.el" label="Greek"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.ht" label="Haitian Creole ALPHA"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.iw" label="Hebrew"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.hi" label="Hindi"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.hu" label="Hungarian"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.is" label="Icelandic"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.id" label="Indonesian"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.ga" label="Irish"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.it" label="Italian"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.ja" label="Japanese"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.ko" label="Korean"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.lv" label="Latvian"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.lt" label="Lithuanian"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.mk" label="Macedonian"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.ms" label="Malay"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.mt" label="Maltese"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.no" label="Norwegian"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.fa" label="Persian"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.pl" label="Polish"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.pt" label="Portuguese"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.ro" label="Romanian"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.ru" label="Russian"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.sr" label="Serbian"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.sk" label="Slovak"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.sl" label="Slovenian"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.es" label="Spanish"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.sw" label="Swahili"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.sv" label="Swedish"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.th" label="Thai"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.tr" label="Turkish"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.uk" label="Ukrainian"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.vi" label="Vietnamese"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.cy" label="Welsh"/>
-						<checkbox id="ui.context.menu.translate.lang.priority.yi" label="Yiddish"/>
-					</groupbox>
-				</groupbox>
 			</hbox>
 			</vbox>
 			</hbox>

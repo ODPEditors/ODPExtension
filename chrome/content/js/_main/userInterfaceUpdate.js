@@ -82,6 +82,8 @@
 						this.getElement('toolbarbutton-odp-url-notes-copy-publish').setAttribute('hidden', true);
 					if(this.getElement('toolbarbutton-odp-url-notes-copy-unreview'))
 						this.getElement('toolbarbutton-odp-url-notes-copy-unreview').setAttribute('hidden', true);
+
+
 					//forms css
 					this.cssRemove('forms.css');
 

@@ -1,7 +1,7 @@
 
 
 /*
-	
+
 	LEYEND:
 		header : is the container that holds, the title, description, urls and possibles icons for the site. The focused site in the "informative panel"
 		related : the list of categories and other uris related to the focused site. Sites from the same domain, but maybe not from the same subdomain.
@@ -27,7 +27,7 @@
 			border:0px !important;
 			word-wrap:break-word !important;
 		}
-		
+
 	/*the container of the header and realted*/
 		#ODPExtension-panel-subcontainer
 		{
@@ -36,16 +36,16 @@
 			font-size:11px;
 			color:black;
 			word-wrap:break-word !important;
-			
+
 			padding:0px !important;
 			margin:0px !important;
-			
+
 			border-left:#666666 solid 3px;
 			border-top:#666666 solid 1px;
 			border-bottom:#666666 solid 2px;
 			border-right:#666666 solid 1px;
-			
-			-moz-border-radius: 1px 14px;  
+
+			border-radius: 1px 14px;
 		}
 		#ODPExtension-panel-subcontainer[listed="listed"]
 		{
@@ -78,16 +78,16 @@
 				border:0px;
 				padding:0px;
 				margin:0px;
-				
+
 				cursor:pointer !important;
-				
+
 				color:#000000;
 				font-weight:bold;
 			}
 			#ODPExtension-panel-header-title[listed="listed"]{color:#006600;}
 			#ODPExtension-panel-header-title[listed="listed-domain-uri"]{color:#626CAF;}
 			#ODPExtension-panel-header-title[listed="listed-other-uri"]{color:#666666;}
-			
+
 			/* the type of the site*/
 			#ODPExtension-panel-header-title[type="RSS-"]
 			{
@@ -127,13 +127,13 @@
 			}
 		/*description*/
 			#ODPExtension-panel-header-description
-			{			
+			{
 				border:0px;
 				padding:0px;
 				margin:0px;
-				
+
 				cursor:pointer !important;
-				
+
 				color:#333333;
 			}
 		/*uri*/
@@ -142,9 +142,9 @@
 				border:0px;
 				padding:0px;
 				margin:0px;
-				
+
 				cursor:pointer !important;
-				
+
 				color:#000000;
 			}
 
@@ -155,8 +155,8 @@
 		{
 			padding:0px;
 		}
-		#ODPExtension-panel-related-titles > description, 
-		#ODPExtension-panel-related-uris > description, 
+		#ODPExtension-panel-related-titles > description,
+		#ODPExtension-panel-related-uris > description,
 		#ODPExtension-panel-related-categories > description
 		{
 			padding:0px;
@@ -164,9 +164,9 @@
 			padding-right:3px;
 			margin:0px;
 			border:0px;
-			
+
 			cursor:pointer !important;
-			
+
 			color:#000000;
 		}
 		#ODPExtension-panel-related-categories[data-align="right"] > description
@@ -178,89 +178,89 @@
 			text-align:left;
 		}
 		/* the type of the site*/
-		#ODPExtension-panel-related-titles > description[type="RSS-"], 
-		#ODPExtension-panel-related-uris > description[type="RSS-"], 
+		#ODPExtension-panel-related-titles > description[type="RSS-"],
+		#ODPExtension-panel-related-uris > description[type="RSS-"],
 		#ODPExtension-panel-related-categories > description[type="RSS-"]
 		{
 			background:url('chrome://ODPExtension/content/xul/navigator/informative-panel/rss-margin.png') top left no-repeat;
 			padding-left:17px;
 		}
-		#ODPExtension-panel-related-titles > description[type="Atom-"], 
-		#ODPExtension-panel-related-uris > description[type="Atom-"], 
+		#ODPExtension-panel-related-titles > description[type="Atom-"],
+		#ODPExtension-panel-related-uris > description[type="Atom-"],
 		#ODPExtension-panel-related-categories > description[type="Atom-"]
 		{
 			background:url('chrome://ODPExtension/content/xul/navigator/informative-panel/atom-margin.png') top left no-repeat;
 			padding-left:18px;
 		}
-		#ODPExtension-panel-related-titles > description[type="PDF-"], 
-		#ODPExtension-panel-related-uris > description[type="PDF-"], 
+		#ODPExtension-panel-related-titles > description[type="PDF-"],
+		#ODPExtension-panel-related-uris > description[type="PDF-"],
 		#ODPExtension-panel-related-categories > description[type="PDF-"]
 		{
 			background:url('chrome://ODPExtension/content/xul/navigator/informative-panel/pdf-margin.png') top left no-repeat;
 			padding-left:18px;
 		}
 		/*cool or not*/
-		#ODPExtension-panel-related-titles > description[type="RSS-Y"], 
-		#ODPExtension-panel-related-uris > description[type="RSS-Y"], 
+		#ODPExtension-panel-related-titles > description[type="RSS-Y"],
+		#ODPExtension-panel-related-uris > description[type="RSS-Y"],
 		#ODPExtension-panel-related-categories > description[type="RSS-Y"]
 		{
 			background:url('chrome://ODPExtension/content/xul/navigator/informative-panel/rss-cool-margin.png') top left no-repeat;
 			padding-left:31px;
 		}
-		#ODPExtension-panel-related-titles > description[type="Atom-Y"], 
-		#ODPExtension-panel-related-uris > description[type="Atom-Y"], 
+		#ODPExtension-panel-related-titles > description[type="Atom-Y"],
+		#ODPExtension-panel-related-uris > description[type="Atom-Y"],
 		#ODPExtension-panel-related-categories > description[type="Atom-Y"]
 		{
 			background:url('chrome://ODPExtension/content/xul/navigator/informative-panel/atom-cool-margin.png') top left no-repeat;
 			padding-left:31px;
 		}
-		#ODPExtension-panel-related-titles > description[type="PDF-Y"], 
-		#ODPExtension-panel-related-uris > description[type="PDF-Y"], 
+		#ODPExtension-panel-related-titles > description[type="PDF-Y"],
+		#ODPExtension-panel-related-uris > description[type="PDF-Y"],
 		#ODPExtension-panel-related-categories > description[type="PDF-Y"]
 		{
 			background:url('chrome://ODPExtension/content/xul/navigator/informative-panel/pdf-cool-margin.png') top left no-repeat;
 			padding-left:31px;
 		}
-		#ODPExtension-panel-related-titles > description[type="-Y"], 
-		#ODPExtension-panel-related-uris > description[type="-Y"], 
+		#ODPExtension-panel-related-titles > description[type="-Y"],
+		#ODPExtension-panel-related-uris > description[type="-Y"],
 		#ODPExtension-panel-related-categories > description[type="-Y"]
 		{
 			background:url('chrome://ODPExtension/content/xul/navigator/informative-panel/cool-margin.png') top left no-repeat;
 			padding-left:18px;
 		}
 
-		#ODPExtension-panel-related-titles > description:hover, 
-		#ODPExtension-panel-related-uris > description:hover, 
+		#ODPExtension-panel-related-titles > description:hover,
+		#ODPExtension-panel-related-uris > description:hover,
 		#ODPExtension-panel-related-categories > description:hover
 		{
 			background-color:Highlight !important;
 			color: HighlightText;
-			-moz-border-radius-bottomleft: 11px;
-			-moz-border-radius-topright: 13px;
+			border-bottom-left-radius: 11px;
+			border-top-right-radius: 13px;
 		}
-		
-		#ODPExtension-panel-related-titles > description[selected="true"], 
-		#ODPExtension-panel-related-uris > description[selected="true"], 
+
+		#ODPExtension-panel-related-titles > description[selected="true"],
+		#ODPExtension-panel-related-uris > description[selected="true"],
 		#ODPExtension-panel-related-categories > description[selected="true"]
 		{
 			font-weight:bold;
 			background-color:#f2f2f2;
-			-moz-border-radius-bottomleft: 11px;
-			-moz-border-radius-topright: 13px;
+			border-bottom-left-radius: 11px;
+			border-top-right-radius: 13px;
 		}
 		/*
 			this is not working probably is bad written
-		
-			#ODPExtension-panel-related-titles > description:last-child, 
-			#ODPExtension-panel-related-uris > description:last-child, 
+
+			#ODPExtension-panel-related-titles > description:last-child,
+			#ODPExtension-panel-related-uris > description:last-child,
 			#ODPExtension-panel-related-categories > description:last-child
 			{
-				-moz-border-radius-bottomleft:14px;
+				border-radius-bottomleft:14px;
 			}
 		*/
 
 /* the move panel button and hide show popup */
-		
+
 		#ODPExtension-panel-move
 		{
 			list-style-image:url("chrome://ODPExtension/content/xul/navigator/informative-panel/buttons.png") !important;

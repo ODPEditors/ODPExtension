@@ -1,6 +1,6 @@
-/* 
+/*
 	JSSTRINGS - LOADS LOCALIZED STRINGS USED BY JAVASCRIPT (BUNDLE)
-	tito (ed:development) <extensiondevelopment@gmail.com>
+	tito (ed:development) <tito.bouzout@gmail.com>
 */
 
 	(function()
@@ -9,11 +9,11 @@
 			var debugingThisFile = false;//sets debuging on/off for this JavaScript file
 			var bundle; //reference to the ODPExtension-localization
   /*shared*/var strings = [];//holds all the strings by the extension
-			
+
 		//it loads the bundle when the browser fully loaded
 			this.addListener('browserLoad', function (){ODPExtension.initJSStrings();});
 
-		// init the bundle, called when the browser has been loaded 
+		// init the bundle, called when the browser has been loaded
 			this.initJSStrings = function()
 			{
 				this.dump('initJSStrings', debugingThisFile);
@@ -33,7 +33,7 @@
 					}
 					catch(e)
 					{
-						//the default string is the ID it self, just to not break the test of the extension 
+						//the default string is the ID it self, just to not break the test of the extension
 						strings[aStringID] = aStringID.replace('ODPExtension.', '');
 						this.dump('getString:noExistsInPropiertiesFile:aStringID:'+aStringID+':strings[aStringID]:'+strings[aStringID], true);//always dump to the console that a string is missing, but not break the execution
 					}
@@ -45,7 +45,7 @@
 				}
 				return strings[aStringID];
 			};
-			
+
 		return null;
-			
+
 	}).apply(ODPExtension);

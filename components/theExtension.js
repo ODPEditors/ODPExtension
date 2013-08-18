@@ -1,6 +1,6 @@
-/* 
+/*
 	gets the extension main object from places where maybe is not in the scope. Example inside a shared object from a window that was closed.
-	tito (ed:development) <extensiondevelopment@gmail.com>
+	tito (ed:development) <tito.bouzout@gmail.com>
 */
 
 const nsITheExtension = Components.interfaces.nsITheExtension;
@@ -12,7 +12,7 @@ const CLASS_NAME = "Gets the extension main object from places where maybe is no
 const CONTRACT_ID = "@particle.universe.tito/TheExtension;3";
 
 function TheExtension(){this.wrappedJSObject = this;}
-TheExtension.prototype = 
+TheExtension.prototype =
 {
 	classID : CLASS_ID,
 	classDescription : CLASS_NAME,
@@ -24,8 +24,8 @@ TheExtension.prototype =
 	code: function(anExt)
 	{
 		//try to use the most recent window
-		var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]  
-					.getService(Components.interfaces.nsIWindowMediator);  
+		var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+					.getService(Components.interfaces.nsIWindowMediator);
 		var win = wm.getMostRecentWindow('navigator:browser');
 
 		//waiting for the extension to load
@@ -38,8 +38,8 @@ TheExtension.prototype =
 	win: function()
 	{
 		//try to use the most recent window
-		var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]  
-					.getService(Components.interfaces.nsIWindowMediator);  
+		var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+					.getService(Components.interfaces.nsIWindowMediator);
 		var win = wm.getMostRecentWindow('navigator:browser');
 
 		return win;
@@ -84,7 +84,7 @@ var TheExtensionModule = {
   {
     aCompMgr = aCompMgr.
         QueryInterface(Components.interfaces.nsIComponentRegistrar);
-    aCompMgr.registerFactoryLocation(CLASS_ID, CLASS_NAME, 
+    aCompMgr.registerFactoryLocation(CLASS_ID, CLASS_NAME,
         CONTRACT_ID, aFileSpec, aLocation, aType);
   },
 
@@ -92,9 +92,9 @@ var TheExtensionModule = {
   {
     aCompMgr = aCompMgr.
         QueryInterface(Components.interfaces.nsIComponentRegistrar);
-    aCompMgr.unregisterFactoryLocation(CLASS_ID, aLocation);        
+    aCompMgr.unregisterFactoryLocation(CLASS_ID, aLocation);
   },
-  
+
   getClassObject: function(aCompMgr, aCID, aIID)
   {
     if (!aIID.equals(Components.interfaces.nsIFactory))

@@ -1,6 +1,6 @@
-/* 
+/*
 	PREFERENCES - LOAD, FILL, SET AND OBSERVE PREFERENCES
-	tito (ed:development) <extensiondevelopment@gmail.com>
+	tito (ed:development) <tito.bouzout@gmail.com>
 */
 	(function()
 	{
@@ -33,7 +33,7 @@
 			this.addListener('browserInstantiated', function (){ODPExtension.preferencesInit()});//this is the very first listener called by the extension
 			this.addListener('browserLoad', function (){ODPExtension.preferencesBrowserLoad()});//this is the second listener called by the extension
 
-		//called just when a new instance of firefox is created (no window, many windows can be from one instance) 
+		//called just when a new instance of firefox is created (no window, many windows can be from one instance)
 			this.preferencesInit = function()
 			{
 				this.dump('preferencesInit', debugingThisFile);
@@ -43,7 +43,7 @@
 				pref = preferencesManagerComponent.getPref('ODPExtension');
 				//fills the pref reference
 				this.preferencesLoad();
-				
+
 			}
 		//called when a new window is created
 			this.preferencesBrowserLoad = function()
@@ -95,7 +95,7 @@
 
 				for(var id in this.preferences.stringsMultilineSort)
 					pref[this.preferences.stringsMultilineSort[id]] = this.decodeUTF8(branch.getCharPref(this.preferences.stringsMultilineSort[id]));
-				
+
 				for(var id in this.preferences.menuList)
 					pref[this.preferences.menuList[id]] = this.decodeUTF8(branch.getCharPref(this.preferences.menuList[id]));
 			};
@@ -110,7 +110,7 @@
 					if(item)//if the preference is editable
 						item.setAttribute("checked",  pref[this.preferences.bools[id]]);
 				}
-	
+
 				for(var id in this.preferences.radios)
 				{
 					var item = this.getBrowserElement(this.preferences.radios[id]);
@@ -121,42 +121,42 @@
 							item.click();
 					}
 				}
-	
+
 				for(var id in this.preferences.ints)
 				{
 					var item = this.getBrowserElement(this.preferences.ints[id]);
 					if(item)//if the preference is editable
 						item.value = pref[this.preferences.ints[id]];
 				}
-	
+
 				for(var id in this.preferences.colors)
 				{
 					var item = this.getBrowserElement(this.preferences.colors[id]);
 					if(item)//if the preference is editable
 						item.color = this.trim(pref[this.preferences.colors[id]]);
 				}
-	
+
 				for(var id in this.preferences.strings)
 				{
 					var item = this.getBrowserElement(this.preferences.strings[id]);
 					if(item)//if the preference is editable
 						item.value = this.trim(pref[this.preferences.strings[id]]);
 				}
-	
+
 				for(var id in this.preferences.stringsMultiline)
 				{
 					var item = this.getBrowserElement(this.preferences.stringsMultiline[id]);
 					if(item)//if the preference is editable
 						item.value = this.trim(pref[this.preferences.stringsMultiline[id]])+'\n';
 				}
-	
+
 				for(var id in this.preferences.stringsMultilineSort)
 				{
 					var item = this.getBrowserElement(this.preferences.stringsMultilineSort[id]);
 					if(item)//if the preference is editable
 						item.value = this.trim(pref[this.preferences.stringsMultilineSort[id]])+'\n';
 				}
-	
+
 				for(var id in this.preferences.menuList)
 				{
 					var item = this.getBrowserElement(this.preferences.menuList[id]);
@@ -173,14 +173,14 @@
 						}
 					}
 				}
-			
+
 				this.dispatchEvent('onPreferencesFilled');
 			};
 		//when the window or dialog that holds the preferences is closed this event is fired
 			this.preferencesWindowClosed = function()
 			{
 				this.dump('preferencesWindowClosed', debugingThisFile);
-				
+
 				this.dispatchEvent('onPreferencesWindowClosed');
 			}
 		//saves and apply the preferences
@@ -189,9 +189,9 @@
 				this.dump('preferencesSave', debugingThisFile);
 
 				preferencesManagerComponent.removeObserver('ODPExtension');
-				
+
 				var value;
-				
+
 				for(var id in this.preferences.bools)
 				{
 					if(this.preferences.bools[id].indexOf('locked.') !== 0)
@@ -206,7 +206,7 @@
 						}
 					}
 				}
-					
+
 				for(var id in this.preferences.radios)
 				{
 					if(this.preferences.radios[id].indexOf('locked.') !== 0)
@@ -220,7 +220,7 @@
 						}
 					}
 				}
-					
+
 				for(var id in this.preferences.ints)
 				{
 					if(this.preferences.ints[id].indexOf('locked.') !== 0)
@@ -234,7 +234,7 @@
 						}
 					}
 				}
-					
+
 				for(var id in this.preferences.colors)
 				{
 					if(this.preferences.colors[id].indexOf('locked.') !== 0)
@@ -248,7 +248,7 @@
 						}
 					}
 				}
-					
+
 				for(var id in this.preferences.strings)
 				{
 					if(this.preferences.strings[id].indexOf('locked.') !== 0)
@@ -262,7 +262,7 @@
 						}
 					}
 				}
-					
+
 				for(var id in this.preferences.stringsMultiline)
 				{
 					if(this.preferences.stringsMultiline[id].indexOf('locked.') !== 0)
@@ -276,7 +276,7 @@
 						}
 					}
 				}
-					
+
 				for(var id in this.preferences.stringsMultilineSort)
 				{
 					if(this.preferences.stringsMultilineSort[id].indexOf('locked.') !== 0)
@@ -320,43 +320,43 @@
 					if(this.preferences.bools[id].indexOf('locked.') !== 0 && this.getBrowserElement(this.preferences.bools[id]))//if the preference is editable
 						pref[this.preferences.bools[id]] = (this.getBrowserElement(this.preferences.bools[id]).getAttribute("checked") == "true");
 				}
-					
+
 				for(var id in this.preferences.radios)
 				{
 					if(this.preferences.radios[id].indexOf('locked.') !== 0 && this.getBrowserElement(this.preferences.radios[id]))//if the preference is editable
 						pref[this.preferences.radios[id]] = (this.getBrowserElement(this.preferences.radios[id]).getAttribute("selected") == "true");
 				}
-					
+
 				for(var id in this.preferences.ints)
 				{
 					if(this.preferences.ints[id].indexOf('locked.') !== 0 && this.getBrowserElement(this.preferences.ints[id]))//if the preference is editable
 						pref[this.preferences.ints[id]] = this.getBrowserElement(this.preferences.ints[id]).value;
 				}
-					
+
 				for(var id in this.preferences.colors)
 				{
 					if(this.preferences.colors[id].indexOf('locked.') !== 0 && this.getBrowserElement(this.preferences.colors[id]))//if the preference is editable
 						pref[this.preferences.colors[id]] = this.trim(this.getBrowserElement(this.preferences.colors[id]).color);
 				}
-					
+
 				for(var id in this.preferences.strings)
 				{
 					if(this.preferences.strings[id].indexOf('locked.') !== 0 && this.getBrowserElement(this.preferences.strings[id]))//if the preference is editable
 						pref[this.preferences.strings[id]] = this.trim(this.getBrowserElement(this.preferences.strings[id]).value);
 				}
-					
+
 				for(var id in this.preferences.stringsMultiline)
 				{
 					if(this.preferences.stringsMultiline[id].indexOf('locked.') !== 0 && this.getBrowserElement(this.preferences.stringsMultiline[id]))//if the preference is editable
 						pref[this.preferences.stringsMultiline[id]] = this.trim(this.getBrowserElement(this.preferences.stringsMultiline[id]).value);
 				}
-					
+
 				for(var id in this.preferences.stringsMultilineSort)
 				{
 					if(this.preferences.stringsMultilineSort[id].indexOf('locked.') !== 0 && this.getBrowserElement(this.preferences.stringsMultilineSort[id]))//if the preference is editable
 						pref[this.preferences.stringsMultilineSort[id]] = this.trim(this.arrayUnique(this.trim(this.getBrowserElement(this.preferences.stringsMultilineSort[id]).value).split('\n')).sort().join('\n'));
 				}
-				
+
 				for(var id in this.preferences.menuList)
 				{
 					if(this.preferences.menuList[id].indexOf('locked.') !== 0 && this.getBrowserElement(this.preferences.menuList[id]))//if the preference is editable
@@ -372,7 +372,7 @@
 			this.preferenceSet = function (aName, aValue, dontRemoveObserver)
 			{
 				this.dump('preferenceSet:aName:'+aName+':aValue:'+aValue, debugingThisFile);
-				
+
 				if(!dontRemoveObserver)
 					preferencesManagerComponent.removeObserver('ODPExtension');
 
@@ -382,7 +382,7 @@
 						aValue = true;
 					else if(aValue === 'false')
 						aValue = false;
-						
+
 					branch.setBoolPref(aName, aValue);
 					pref[aName] = aValue;
 				}
@@ -392,7 +392,7 @@
 						aValue = true;
 					else if(aValue === 'false')
 						aValue = false;
-						
+
 					branch.setBoolPref(aName, aValue);
 					pref[aName] = aValue;
 				}
@@ -433,7 +433,7 @@
 				if(!dontRemoveObserver)
 					preferencesManagerComponent.addObserver('ODPExtension');
 			};
-			
+
 		//returns the value of a browser's preference
 			this.preferenceBrowserGet = function(aName)
 			{
@@ -465,7 +465,7 @@
 			this.preferenceChange = function(aName, aValue)
 			{
 				this.dump('preferenceChanged:aName:'+aName+':pref[aName]:'+pref[aName], debugingThisFile);
-				
+
 				this.preferenceSet(aName, aValue, true);
 			};
 		//creates a preference
@@ -533,7 +533,7 @@
 			this.preferencesDefault = function()
 			{
 				var branchDefault = preferencesManagerComponent.getDefaultBranch('ODPExtension');
-				
+
 				for(var id in this.preferences.bools)
 					this.preferenceSet(this.preferences.bools[id], branchDefault.getBoolPref(this.preferences.bools[id]));
 
@@ -554,10 +554,10 @@
 
 				for(var id in this.preferences.stringsMultilineSort)
 					this.preferenceSet(this.preferences.stringsMultilineSort[id],  this.decodeUTF8(branchDefault.getCharPref(this.preferences.stringsMultilineSort[id])));
-				
+
 				for(var id in this.preferences.menuList)
 					this.preferenceSet(this.preferences.menuList[id],  this.decodeUTF8(branchDefault.getCharPref(this.preferences.menuList[id])));
-				
+
 				if(this.getElement('preferences-window'))
 				{
 					this.preferencesFill();
@@ -570,47 +570,47 @@
 				{
 					this.preferencesSave();
 				}
-				
+
 				this.dump('preferencesExport', debugingThisFile);
-				
+
 				var forExport = '';
-				
+
 				for(var id in this.preferences.bools)
 				{
 					if(this.preferences.bools[id].indexOf('locked.') !== 0 && (!this.getElement('preferences-window') || this.getBrowserElement(this.preferences.bools[id])))//if the preference is editable
 						forExport += this.preferences.bools[id]+' = '+this.encodeUTF8(pref[this.preferences.bools[id]])+'\n';
 				}
-					
+
 				for(var id in this.preferences.radios)
 				{
 					if(this.preferences.radios[id].indexOf('locked.') !== 0 && (!this.getElement('preferences-window') ||  this.getBrowserElement(this.preferences.radios[id])))//if the preference is editable
 						forExport += this.preferences.radios[id]+' = '+this.encodeUTF8(pref[this.preferences.radios[id]])+'\n';
 				}
-					
+
 				for(var id in this.preferences.ints)
 				{
 					if(this.preferences.ints[id].indexOf('locked.') !== 0 && (!this.getElement('preferences-window') ||  this.getBrowserElement(this.preferences.ints[id])))//if the preference is editable
 						forExport += this.preferences.ints[id]+' = '+this.encodeUTF8(pref[this.preferences.ints[id]])+'\n';
 				}
-					
+
 				for(var id in this.preferences.colors)
 				{
 					if(this.preferences.colors[id].indexOf('locked.') !== 0 && (!this.getElement('preferences-window') ||  this.getBrowserElement(this.preferences.colors[id])))//if the preference is editable
 						forExport += this.preferences.colors[id]+' = '+this.encodeUTF8(pref[this.preferences.colors[id]])+'\n';
 				}
-					
+
 				for(var id in this.preferences.strings)
 				{
 					if(this.preferences.strings[id].indexOf('locked.') !== 0 && (!this.getElement('preferences-window') ||  this.getBrowserElement(this.preferences.strings[id])))//if the preference is editable
 						forExport += this.preferences.strings[id]+' = '+this.encodeUTF8(pref[this.preferences.strings[id]])+'\n';
 				}
-					
+
 				for(var id in this.preferences.stringsMultiline)
 				{
 					if(this.preferences.stringsMultiline[id].indexOf('locked.') !== 0 && (!this.getElement('preferences-window') ||  this.getBrowserElement(this.preferences.stringsMultiline[id])))//if the preference is editable
 						forExport += this.preferences.stringsMultiline[id]+' = '+this.encodeUTF8(pref[this.preferences.stringsMultiline[id]])+'\n';
 				}
-					
+
 				for(var id in this.preferences.stringsMultilineSort)
 				{
 					if(this.preferences.stringsMultilineSort[id].indexOf('locked.') !== 0 && (!this.getElement('preferences-window') || this.getBrowserElement(this.preferences.stringsMultilineSort[id])))//if the preference is editable
@@ -623,7 +623,7 @@
 						forExport += this.preferences.menuList[id]+' = '+this.encodeUTF8(pref[this.preferences.menuList[id]])+'\n';
 					}
 				}
-				
+
 				var aPath = this.fileWrite('preferences.backup.txt', forExport);
 				var aFile = this.fileAskUserFileSave("ODPExtension", 'txt');
 				if(aFile)
@@ -650,12 +650,12 @@
 					}
 				}
 			}
-			
+
 		return null;
 
 	}).apply(ODPExtension);
 	/*
-	  
+
  force import functions from the compiler.
   this.sortLocale(
 

@@ -4,7 +4,7 @@
 ODP Extension  License
 
 ODP Extension  - Different editing experience
-Copyright (C) 2006-2013 tito (ed:development) <extensiondevelopment@gmail.com>
+Copyright (C) 2006-2013 tito (ed:development) <tito.bouzout@gmail.com>
 This license apply to all the files inside this program unless noted different for some files.
 
 This program is free software: you can redistribute it and/or modify

@@ -1,6 +1,6 @@
 /*
 	EXTENSION CONTROLLER - SETS AND CALL LISTENERS AND SHUTDOWN FUNCTIONS, ALSO DUMPS MESSAGES TO THE CONSOLE
-	tito (ed:development) <extensiondevelopment@gmail.com>
+	tito (ed:development) <tito.bouzout@gmail.com>
 */
 
 	var ODPExtension = {};

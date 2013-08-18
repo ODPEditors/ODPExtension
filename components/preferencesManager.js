@@ -1,7 +1,7 @@
-/* 
-	MANAGE THE BRANCHS, THE REFERENCES TO "PREF" (SHARED BY ALL THE WINDOWS) AND 
+/*
+	MANAGE THE BRANCHS, THE REFERENCES TO "PREF" (SHARED BY ALL THE WINDOWS) AND
 	DISPATCH THE EVENT ONPREFERENCESET FOR N ADD-ONS
-	tito (ed:development) <extensiondevelopment@gmail.com>
+	tito (ed:development) <tito.bouzout@gmail.com>
 */
 
 const nsIPreferencesManager = Components.interfaces.nsIPreferencesManager;
@@ -14,13 +14,13 @@ const CONTRACT_ID = "@particle.universe.tito/PreferencesManager;7";
 
 function PreferencesManager(){this.wrappedJSObject = this;}
 
-PreferencesManager.prototype = 
+PreferencesManager.prototype =
 {
 	classID : CLASS_ID,
 	classDescription : CLASS_NAME,
 	contractID : CONTRACT_ID,
-	
-	debugingThisFile : false, 
+
+	debugingThisFile : false,
 	consoleService : Components.classes["@mozilla.org/consoleservice;1"].
 						getService(Components.interfaces.nsIConsoleService),
 	branchs : [],
@@ -33,7 +33,7 @@ PreferencesManager.prototype =
 	getBranch: function(anExtension)
 	{
 		//this.dump('getBranch:anExtension:'+anExtension);
-		
+
 		if(this.branchs[anExtension])
 		{
 			//this.dump('getBranch:anExtension:'+anExtension+':exists');
@@ -41,12 +41,12 @@ PreferencesManager.prototype =
 		else
 		{
 			//this.dump('getBranch:anExtension:'+anExtension+':noExists');
-			
+
 			this.branchs[anExtension] = Components.classes["@mozilla.org/preferences-service;1"].
 											getService(Components.interfaces.nsIPrefService).getBranch("extensions."+anExtension+".");
 			this.branchs[anExtension].QueryInterface(Components.interfaces.nsIPrefBranch2);
 
-			this.observers[anExtension] = 
+			this.observers[anExtension] =
 			{
 				//called when the preferences for anExtension change
 					observe : function(aSubject, aTopic, aPreferenceName)
@@ -68,10 +68,10 @@ PreferencesManager.prototype =
 	getDefaultBranch: function(anExtension)
 	{
 		return Components.classes["@mozilla.org/preferences-service;1"].
-			getService(Components.interfaces.nsIPrefService).getDefaultBranch("extensions."+anExtension+".");	
+			getService(Components.interfaces.nsIPrefService).getDefaultBranch("extensions."+anExtension+".");
 	},
 	//returns a reference for an extension preference
-	getPref: function(anExtension)	
+	getPref: function(anExtension)
 	{
 		//this.dump('getPref:anExtension:'+anExtension);
 		return this.prefs[anExtension];
@@ -80,7 +80,7 @@ PreferencesManager.prototype =
 	loadChangedPreference : function (anExtension, aPreferenceName)
 	{
 		//this.dump('loadChangedPreference:anExtension:'+anExtension+':aPreferenceName:'+aPreferenceName);
-			
+
 			try
 			{
 				this.prefs[anExtension][aPreferenceName] = this.branchs[anExtension].getBoolPref(aPreferenceName);
@@ -105,10 +105,10 @@ PreferencesManager.prototype =
 			}
 
 			//try to use the most recent window
-			var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]  
-						.getService(Components.interfaces.nsIWindowMediator);  
+			var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+						.getService(Components.interfaces.nsIWindowMediator);
 			var win = wm.getMostRecentWindow('navigator:browser');
-	
+
 			//waiting for the extension to load
 			if(win && (anExtension in win) && win[anExtension].extensionHasBeenLoaded)
 			{
@@ -120,11 +120,11 @@ PreferencesManager.prototype =
 				var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
 							.getService(Components.interfaces.nsIWindowMediator);
 				var enumerator = wm.getEnumerator('navigator:browser');
-				
+
 				while(enumerator.hasMoreElements())
 				{
 					var win = enumerator.getNext();// win is [Object ChromeWindow] (just like window), do something with it
-	
+
 					//waiting for the extension to load
 					if(win && (anExtension in win) && win[anExtension].extensionHasBeenLoaded)
 					{
@@ -202,7 +202,7 @@ var PreferencesManagerModule = {
   {
     aCompMgr = aCompMgr.
         QueryInterface(Components.interfaces.nsIComponentRegistrar);
-    aCompMgr.registerFactoryLocation(CLASS_ID, CLASS_NAME, 
+    aCompMgr.registerFactoryLocation(CLASS_ID, CLASS_NAME,
         CONTRACT_ID, aFileSpec, aLocation, aType);
   },
 
@@ -210,9 +210,9 @@ var PreferencesManagerModule = {
   {
     aCompMgr = aCompMgr.
         QueryInterface(Components.interfaces.nsIComponentRegistrar);
-    aCompMgr.unregisterFactoryLocation(CLASS_ID, aLocation);        
+    aCompMgr.unregisterFactoryLocation(CLASS_ID, aLocation);
   },
-  
+
   getClassObject: function(aCompMgr, aCID, aIID)
   {
     if (!aIID.equals(Components.interfaces.nsIFactory))

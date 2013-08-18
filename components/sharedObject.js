@@ -1,6 +1,6 @@
-/* 
-	SHARES OBJECTS BETWEEN WINDOWS OF THE SAME BROWSER INSTANCE FOR N ADD-ONS 
-	tito (ed:development) <extensiondevelopment@gmail.com>
+/*
+	SHARES OBJECTS BETWEEN WINDOWS OF THE SAME BROWSER INSTANCE FOR N ADD-ONS
+	tito (ed:development) <tito.bouzout@gmail.com>
 */
 
 const nsISharedObject = Components.interfaces.nsISharedObject;
@@ -13,7 +13,7 @@ const CONTRACT_ID = "@particle.universe.tito/SharedObject;3";
 
 function SharedObject(){this.wrappedJSObject = this;}
 
-SharedObject.prototype = 
+SharedObject.prototype =
 {
 	classID : CLASS_ID,
 	classDescription : CLASS_NAME,
@@ -36,8 +36,8 @@ SharedObject.prototype =
 	//sets to null the array in the position aName
 	sharedObjectDestroy: function(aName)
 	{
-		/* 
-			CAUTION THIS WILL DESTROY THE OBJECT INSIDE THE XPCOM COMPONENT 
+		/*
+			CAUTION THIS WILL DESTROY THE OBJECT INSIDE THE XPCOM COMPONENT
 			BUT THE REFERENCE (if any) ON YOUR EXTENSION WILL REMAIN INTACT
 		*/
 		this.s[aName] = null;
@@ -90,7 +90,7 @@ var SharedObjectModule = {
   {
     aCompMgr = aCompMgr.
         QueryInterface(Components.interfaces.nsIComponentRegistrar);
-    aCompMgr.registerFactoryLocation(CLASS_ID, CLASS_NAME, 
+    aCompMgr.registerFactoryLocation(CLASS_ID, CLASS_NAME,
         CONTRACT_ID, aFileSpec, aLocation, aType);
   },
 
@@ -98,9 +98,9 @@ var SharedObjectModule = {
   {
     aCompMgr = aCompMgr.
         QueryInterface(Components.interfaces.nsIComponentRegistrar);
-    aCompMgr.unregisterFactoryLocation(CLASS_ID, aLocation);        
+    aCompMgr.unregisterFactoryLocation(CLASS_ID, aLocation);
   },
-  
+
   getClassObject: function(aCompMgr, aCID, aIID)
   {
     if (!aIID.equals(Components.interfaces.nsIFactory))

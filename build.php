@@ -47,7 +47,7 @@
 	}
 	$zip->close();
 
-//	sleep(1);//on MAC OS takes time to close the zip file
+	sleep(1);//on MAC OS takes time to close the zip file
 
 	echo "<script>window.open('./ODPExtension.xpi', '_top')</script>";
 	echo "<script>close()</script>";

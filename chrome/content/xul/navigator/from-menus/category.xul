@@ -1,0 +1,16 @@
+<window id="main-window">
+
+	<menupopup 
+		id="ODPExtension-from-category"
+		class="ODPExtension-from-category-xbl ODPExtension-crop"
+		onpopuphiding="ODPExtension.fromCategoryOnHidden();"
+		onmouseover="ODPExtension.categoryBrowserNavigate(event);" 
+		onmouseout="ODPExtension.categoryBrowserNavigate(event);" 
+		onpopupshowing="if( event.currentTarget != event.originalTarget || !document.popupNode){}else{ODPExtension.fromCategoryUpdateMenu(event, 'from-category');}"
+		onmouseup="ODPExtension.stopEvent(event);if(event.originalTarget.hasAttribute('disabled')){ ODPExtension.stopEvent(event);}else if(event.originalTarget.hasAttribute('action')){ODPExtension.fromCategoryClick(event)}else if(event.originalTarget.hasAttribute('value')){ODPExtension.categoryBrowserClick(event);}"
+		ondblclick="ODPExtension.stopEvent(event)"
+		ignorekeys="true"
+		tooltip="ODPExtension-from-categories-tooltip"
+	/>
+
+</window>

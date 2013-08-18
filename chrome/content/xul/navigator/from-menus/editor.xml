@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE bindings [
+<!ENTITY % ODPExtension SYSTEM "chrome://ODPExtension/locale/xul.dtd">
+%ODPExtension;
+]>
+
+<!-- this makes the from category menu accesible from many places -->
+<!-- actions in the menu starting with "command_" will not require a category -->
+
+<bindings xmlns="http://www.mozilla.org/xbl"
+          xmlns:html="http://www.w3.org/1999/xhtml"
+          xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+          xmlns:xbl="http://www.mozilla.org/xbl">
+
+	<binding
+		id="from-editor-xbl"
+		extends="chrome://global/content/bindings/popup.xml#popup"
+	>
+	  <content>
+
+		<xul:menuitem label="&ODPExtension.from.editor.feedback;" action="command_editor_feedback" style="font-weight: bold;"/>
+		<xul:menuseparator/>
+		<xul:menuitem label="&ODPExtension.from.editor.edit.summary;" action="command_editor_log_summary"/>
+		<xul:menuitem label="&ODPExtension.from.editor.detailed.edits;" action="command_editor_log_detail"/>
+		<xul:menuitem label="&ODPExtension.from.editor.requested.categories;" action="command_editor_log_request"/>
+		<xul:menuitem label="&ODPExtension.from.editor.cooling.log;" action="command_editor_log_cool"/>
+		<xul:menuitem label="&ODPExtension.from.editor.new.categories;" action="command_editor_log_new_cat"/>
+		<xul:menuitem label="&ODPExtension.from.editor.deleted.categories;" action="command_editor_log_del_cat"/>
+		<xul:menuseparator/>
+		<xul:menuitem label="&ODPExtension.from.editor.profile.private;" action="command_editor_profile_editor"/>
+		<xul:menuitem label="&ODPExtension.from.editor.profile.public;" action="command_editor_profile_public"/>
+		<xul:menuseparator/>
+		<xul:menuitem label="&ODPExtension.from.editor.log.new.editors;" action="command_editor_log_new_editors"/>
+			
+	  </content>
+
+	</binding>
+	
+</bindings>

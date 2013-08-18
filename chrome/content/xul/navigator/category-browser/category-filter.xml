@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE bindings [
+<!ENTITY % ODPExtension SYSTEM "chrome://ODPExtension/locale/xul.dtd">
+%ODPExtension;
+]>
+
+<bindings xmlns="http://www.mozilla.org/xbl"
+          xmlns:html="http://www.w3.org/1999/xhtml"
+          xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+          xmlns:xbl="http://www.mozilla.org/xbl">
+	
+	<!--
+		This one is a little better, still is dependt of external libraries but libraries are making things easy.. this time
+	 -->
+	
+	<binding
+		id="category-filter"
+		extends="chrome://global/content/bindings/popup.xml#popup"
+		>
+	
+	  <content>
+		<xul:hbox locked="true">
+			<xul:textbox 
+				class="ODPExtension-filter-textbox"
+				anonid="ODPExtension-category-filter-textbox-xbl"
+				emptytext="&ODPExtension.filter.this.menu.ellipsis;"
+				flex="1" 
+				onmouseover="this.focus();ODPExtension.hideChildrensPopupsOpened(this.parentNode.parentNode);this.focus();"
+				type="search" 
+				timeout="150" 
+				oncommand="ODPExtension.filterNodeBasedOnAttribute(this.parentNode.parentNode, this, 'value');ODPExtension.stopEvent(event)"
+				onkeydown="if(event.keyCode == 27){ if(this.value=='')this.parentNode.parentNode.hidePopup();}if(event.keyCode == 27 || event.keyCode == 13){ ODPExtension.filterNodeBasedOnAttribute(this.parentNode.parentNode, this, 'value');}"
+			/>
+		</xul:hbox>
+		<children includes="menupopup"/>
+	 	<children/>
+	  </content>
+
+	</binding>
+	
+</bindings>

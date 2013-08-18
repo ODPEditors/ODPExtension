@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE bindings [
+<!ENTITY % ODPExtension SYSTEM "chrome://ODPExtension/locale/xul.dtd">
+%ODPExtension;
+]>
+
+<!-- this makes the from category menu accesible from many places -->
+<!-- actions in the menu starting with "command_" will not require a category -->
+
+<bindings xmlns="http://www.mozilla.org/xbl"
+          xmlns:html="http://www.w3.org/1999/xhtml"
+          xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+          xmlns:xbl="http://www.mozilla.org/xbl">
+	
+	<binding
+		id="from-category-xbl"
+		extends="chrome://global/content/bindings/popup.xml#popup"
+	>
+	  <content>
+			  <xul:menu action="cat_open" label="&ODPExtension.from.category.open;" style="font-weight: bold;">
+				<xul:menupopup>
+				  <xul:menuitem action="cat_open_public" label="&ODPExtension.from.category.open.public.page;"/>
+				  <xul:menuitem action="cat_open_desc" label="&ODPExtension.from.category.open.description;"/>
+				  <xul:menuitem action="cat_open_faq" label="&ODPExtension.from.category.open.faq;"/>
+				</xul:menupopup>
+			  </xul:menu>
+			  <xul:menuseparator/>
+			  <xul:menuitem anonid="ODPExtension-from-category-cut" hidden="true" action="command_cut" label="&ODPExtension.from.category.cut;"/>
+			  <xul:menu action="copy" label="&ODPExtension.from.category.copy;">
+				<xul:menupopup>
+				  <xul:menuitem action="copy_edit_cat" label="&ODPExtension.from.category.copy.edit.url;"/>
+				  <xul:menuitem action="copy_encoded" label="&ODPExtension.from.category.copy.encoded;"/>
+				  <xul:menuitem action="copy_worldlinkerate" label="&ODPExtension.from.category.copy.worldlinkerate;"/>
+				  <xul:menuitem  anonid="ODPExtension-from-category-copy-selection" hidden="true" action="command_copy_selection" label="&ODPExtension.from.category.copy.selection;"/>
+				  <xul:menuitem action="copy_abreviated" label="&ODPExtension.from.category.copy.abbreviated;"/>
+				  <xul:menuitem action="copy_phpbb_link_with_anchor" label="&ODPExtension.from.category.copy.phpbb.link.with.anchor;"/>
+				</xul:menupopup>
+			  </xul:menu>
+			  <xul:menuitem anonid="ODPExtension-from-category-paste" hidden="true" action="command_paste" label="&ODPExtension.from.category.paste;"/>
+			  <xul:menuitem anonid="ODPExtension-from-category-delete" hidden="true" action="command_delete" label="&ODPExtension.from.category.delete;"/>
+			  <xul:menuseparator/>
+			  <xul:menuitem action="edit_cat" label="&ODPExtension.from.category.edit;"/>
+			  <!-- <xul:menuitem action="tool_pub" label="Publish"/> -->
+			  
+				<xul:menuitem action="tool_worldlinkerate" label="WorldLinkerate"/>
+			  <xul:menuitem action="rdf_find_hyperlinks_to_here" label="Hyper-Links to Here"/>
+
+			  <xul:menu action="edit_cat_altlang" label="&ODPExtension.from.category.edit.altlangs;">
+				<xul:menupopup>
+					<!--
+					<xul:menuitem disabled="true" label="Web" style="font-weight:bold;"/>
+					<xul:menuitem action="linkfinder_altlangs_from_here_or_from_any" label="&ODPExtension.from.category.find.all.altlangs.from.here.or.from.any.subcategory;"/>
+					<xul:menuitem action="linkfinder_altlangs_to_here" label="&ODPExtension.from.category.find.all.altlangs.to.here;"/>
+					<xul:menuitem action="linkfinder_altlangs_to_here_or_to_any" label="&ODPExtension.from.category.find.all.altlangs.to.here.or.to.any.subcategory;"/>
+					<xul:menuseparator/>
+					-->
+					<xul:menuitem disabled="true" label="RDF" style="font-weight:bold;"/>
+					<xul:menuitem action="rdf_find_altlangs_non_reciprocal" label="Find categories with non reciprocal alternative languages"/>
+					<xul:menuseparator/>
+					<xul:menuitem action="rdf_find_altlangs_from_here" label="Find alternative languages from here"/>
+					<xul:menuitem action="rdf_find_altlangs_to_here" label="Find alternative languages to here"/>
+					<xul:menuitem action="rdf_find_altlangs_from_here_or_from_any" label="Find alternative languages from here or from any of its subcategories"/>
+					<xul:menuitem action="rdf_find_altlangs_to_here_or_to_any" label="Find alternative languages to here or to any of its subcategories"/>
+					<xul:menuseparator/>
+					<xul:menuitem action="rdf_find_altlangs_subcategories_without_incoming" label="Find categories without incoming alternative languages"/>
+					<xul:menuitem action="rdf_find_altlangs_subcategories_without_outgoing" label="Find categories without outgoing alternative languages"/>
+					<xul:menuitem action="rdf_find_altlangs_subcategories_without_incoming_with_outgoing" label="Find categories without incoming but with outgoing alternative languages"/>
+					<xul:menuitem action="rdf_find_altlangs_subcategories_without_outgoing_with_incoming" label="Find categories without outgoing but with incoming alternative languages"/>
+				</xul:menupopup>
+			  </xul:menu>
+			  <xul:menu action="edit_cat_related" label="&ODPExtension.from.category.edit.related;">
+				<xul:menupopup>
+				  <!--
+					<xul:menuitem disabled="true" label="Web" style="font-weight:bold;"/>
+					<xul:menuitem action="linkfinder_related_from_here_or_from_any" label="&ODPExtension.from.category.find.all.related.from.here.or.from.any.subcategory;"/>
+					<xul:menuitem action="linkfinder_related_to_here" label="&ODPExtension.from.category.find.all.related.to.here;"/>
+					<xul:menuitem action="linkfinder_related_to_here_or_to_any" label="&ODPExtension.from.category.find.all.related.to.here.or.to.any.subcategory;"/>
+					<xul:menuseparator/>
+					-->
+					<xul:menuitem disabled="true" label="RDF" style="font-weight:bold;"/>
+					<xul:menuitem action="rdf_find_related_to_different_language" label="Find related categories to a different language from here or from any of its subcategories"/>
+					<xul:menuseparator/>
+					<xul:menuitem action="rdf_find_related_from_here" label="Find related categories from here"/>
+					<xul:menuitem action="rdf_find_related_to_here" label="Find related categories to here"/>
+					<xul:menuitem action="rdf_find_related_from_here_or_from_any" label="Find related categories from here or from any of its subcategories"/>
+					<xul:menuitem action="rdf_find_related_to_here_or_to_any" label="Find related categories to here or to any of its subcategories"/>
+				</xul:menupopup>
+			  </xul:menu>
+			  
+				<xul:menu action="edit_cat_addlink" label="&ODPExtension.from.category.edit.links;">
+					<xul:menupopup>
+					  <!--
+						<xul:menuitem disabled="true" label="Web" style="font-weight:bold;"/>
+						<xul:menuitem action="linkfinder_links_from_here_or_from_any" label="&ODPExtension.from.category.find.all.links.from.here.or.from.any.subcategory;"/>
+						<xul:menuitem action="linkfinder_links_to_here" label="&ODPExtension.from.category.find.all.links.to.here;"/>
+						<xul:menuitem action="linkfinder_links_to_here_or_to_any" label="&ODPExtension.from.category.find.all.links.to.here.or.to.any.subcategory;"/>
+						<xul:menuseparator/>
+						-->
+						<xul:menuitem disabled="true" label="RDF" style="font-weight:bold;"/>
+						<xul:menuitem action="rdf_find_links_from_here_from_any_with_invalid_name" label="Find @links with invalid names from here or from any of its subcategories"/>
+						<xul:menuitem action="rdf_find_links_to_here_to_any_with_invalid_name" label="Find @links with invalid names to here or to any of its subcategories"/>
+						<xul:menuseparator/>
+						<xul:menuitem action="rdf_find_links_from_here" label="Find @links from here"/>
+						<xul:menuitem action="rdf_find_links_to_here" label="Find @links to here"/>
+						<xul:menuitem action="rdf_find_links_from_here_or_from_any" label="Find @links from here or from any of its subcategories"/>
+						<xul:menuitem action="rdf_find_links_to_here_or_to_any" label="Find @links to here or to any of its subcategories"/>
+					</xul:menupopup>
+				</xul:menu>
+			  <xul:menuseparator/>
+			  <xul:menuitem action="edit_cat_pricat" label="&ODPExtension.from.category.sort.priority;"/>
+			  <xul:menu action="edit_cat_desc" label="&ODPExtension.from.category.edit.description;">
+				<xul:menupopup>
+					<xul:menuitem disabled="true" label="Web" style="font-weight:bold;"/>
+				 	<xul:menuitem action="search_in_cat_description" label="&ODPExtension.from.category.find.in.category.description;"/>
+					<xul:menuitem action="command_editor_produced_tool_Cat_Descriptor" label="Cat Descriptor"/>
+					<xul:menuseparator/>
+					<xul:menuitem disabled="true" label="RDF" style="font-weight:bold;"/>
+					<xul:menuitem action="rdf_find_category_description_search" label="Search for a string in the categories description…"/>
+					<xul:menuitem action="rdf_find_category_description_empty" label="Display categories without description"/>
+					<xul:menuseparator/>
+					<xul:menuitem action="rdf_find_category_description" label="Display category description"/>
+					<xul:menuitem action="rdf_find_category_description_recursive" label="Display categories description (recursive)"/>
+
+				</xul:menupopup>
+			  </xul:menu>
+			  <xul:menu label="Features">
+				<xul:menupopup>
+				  <xul:menuitem action="change_mozilla" label="&ODPExtension.from.category.edit.mozilla;"/>
+				  <xul:menuitem action="edit_cat_faq" label="&ODPExtension.from.category.edit.faq;"/>
+				  <xul:menuitem action="edit_cat_usenet" label="&ODPExtension.from.category.edit.usenet;"/>
+				</xul:menupopup>
+			  </xul:menu>
+			  <xul:menuseparator/>
+			  <xul:menuitem action="new_subcat" label="&ODPExtension.from.category.new.category;"/>
+			<xul:menuitem action="search_find_subcategory" label="&ODPExtension.from.category.find.subcategory;"/>
+			  <xul:menu label="Subcategories">
+				<xul:menupopup>
+					<xul:menuitem disabled="true" label="categories.txt" style="font-weight:bold;"/>
+					<!-- <xul:menuitem action="search_find_subcategory_called" label="&ODPExtension.from.category.find.subcategory.called;"/> -->
+					<xul:menuitem action="search_display_subcategories" label="&ODPExtension.from.category.display.subcategories;"/>
+					<xul:menuitem action="search_display_all_subcategories" label="&ODPExtension.from.category.display.all.subcategories;"/>
+					
+					<xul:menuseparator/>
+					<xul:menuitem disabled="true" label="Spider" style="font-weight:bold;"/>
+					
+					<xul:menuitem disabled="true" action="display_empty_categories" label="&ODPExtension.from.category.display.empty.categories;"/>
+					<xul:menuseparator/>
+					
+					<xul:menuitem disabled="true" label="RDF" style="font-weight:bold;"/>
+					<xul:menuitem action="rdf_category_spell_check" label="Spell check on categories names"/>
+					<xul:menuitem action="rdf_find_categories_with_invalid_names" label="Find categories with invalid names"/>
+					<xul:menuseparator/>
+					<xul:menuitem action="rdf_find_category_with_path" label="Find categories doing a search engine search on category paths…"/>
+					<xul:menuitem action="rdf_find_category_with_name" label="Find categories doing a search engine search on category names…"/>
+					<xul:menuitem action="rdf_find_category_with_name_exact" label="Find categories with the exact name…"/>
+					<xul:menuseparator/>
+					<xul:menuitem action="rdf_find_category_subcategories" label="Display category subcategories"/>
+					<xul:menuitem action="rdf_find_category_subcategories_recursive" label="Display category subcategories (recursive)"/>
+
+				</xul:menupopup>
+			  </xul:menu>
+			  <xul:menuseparator/>
+			  <xul:menu action="edit_cat_unreview" label="&ODPExtension.from.category.unreview;">
+				<xul:menupopup>
+				  <xul:menuitem action="edit_cat_unreview_power" label="&ODPExtension.from.category.power;"/>
+				  <xul:menuitem action="edit_cat_unreview_power_url" label="&ODPExtension.from.category.power.sort.url;"/>
+				  <xul:menuitem action="edit_cat_unreview_power_title" label="&ODPExtension.from.category.power.sort.title;"/>
+				  <xul:menuitem action="edit_cat_unreview_power_ip" label="&ODPExtension.from.category.power.sort.ip;"/>
+				  <xul:menuitem action="edit_cat_unreview_power_email" label="&ODPExtension.from.category.power.sort.email;"/>
+				  <xul:menuseparator/>
+				  <xul:menuitem action="edit_cat_unreview_super" label="&ODPExtension.from.category.super;"/>
+				  <xul:menuitem action="edit_cat_unreview_super_url" label="&ODPExtension.from.category.super.sort.url;"/>
+				  <xul:menuitem action="edit_cat_unreview_super_title" label="&ODPExtension.from.category.super.sort.title;"/>
+				  <xul:menuitem action="edit_cat_unreview_super_cat" label="&ODPExtension.from.category.super.sort.cat;"/>
+				  <xul:menuitem action="edit_cat_unreview_super_ip" label="&ODPExtension.from.category.super.sort.ip;"/>
+				  <xul:menuitem action="edit_cat_unreview_super_email" label="&ODPExtension.from.category.super.sort.email;"/>
+				  <xul:menuseparator/>
+				  <xul:menuitem action="edit_cat_updates" label="&ODPExtension.from.category.updates;"/>
+				  <xul:menuitem action="edit_cat_greenbusts" label="&ODPExtension.from.category.greenbusts;"/>
+					<xul:menuseparator/>
+				  <xul:menuitem action="edit_cat_errors" label="&ODPExtension.from.category.errors;"/>
+					<xul:menuseparator/>
+					<xul:menuitem action="command_editor_produced_tool_Tattle" label="Tattle"/>
+					<xul:menuitem action="command_editor_produced_tool_Frog" label="Frog"/>
+					<xul:menuseparator/>
+					<xul:menuitem action="command_editor_produced_tool_Redbust" label="Redbust"/>
+					<xul:menuitem action="command_editor_produced_tool_PNF" label="PNF"/>
+				</xul:menupopup>
+			  </xul:menu>
+			
+			  <xul:menu action="cat_log_edit" label="&ODPExtension.from.category.logs;">
+				<xul:menupopup>
+				  <xul:menuitem action="cat_log_cool" label="&ODPExtension.from.category.cooling;"/>
+				  <xul:menuitem action="cat_log_new_editor" label="&ODPExtension.from.category.new.editors;"/>
+				  <xul:menuitem action="cat_log_new_editor_permissions" label="&ODPExtension.from.category.new.editor.permissions;"/>
+				  <xul:menuitem action="cat_log_new_editor_permissions_recent" label="&ODPExtension.from.category.new.editor.permissions.recent;"/>
+				  <xul:menuitem action="cat_log_new_cat" label="&ODPExtension.from.category.new.categories;"/>
+				  <xul:menuitem action="cat_log_catmv" label="&ODPExtension.from.category.catmv;"/>
+				  <xul:menuitem action="cat_log_del_cat" label="&ODPExtension.from.category.deleted.categories;"/>
+				  <xul:menuitem action="cat_log_cat_terms" label="&ODPExtension.from.category.terms;"/>
+				</xul:menupopup>
+			  </xul:menu>
+			  <xul:menuseparator/>
+			  <xul:menu label="Editors">
+				<xul:menupopup>
+					<xul:menuitem disabled="true" label="Web" style="font-weight:bold;"/>
+					<xul:menuitem action="find_in_cat_editors_rdf" label="Notice : &ODPExtension.from.category.find.editors.rdf;"/>
+					<xul:menuitem action="find_in_cat_editors_scan" label="Notice : &ODPExtension.from.category.find.editors.scan;"/>
+					<xul:menuseparator/>
+					<xul:menuitem action="command_editor_produced_tool_Feedback_If_New_Editor" label="Feedback If New Editor"/>
+					<xul:menuseparator/>
+					<xul:menuitem action="command_editor_produced_tool_Birthdays" label="Birthdays"/>
+					<xul:menuseparator/>
+					<xul:menuitem action="command_editor_produced_tool_Flash" label="Flash"/>
+					<xul:menuseparator/>
+					<xul:menuitem disabled="true" label="RDF" style="font-weight:bold;"/>
+					<xul:menuitem action="rdf_find_editors_from_here_or_from_any" label="Find for editors on subcategories"/>
+					<xul:menuitem action="rdf_find_editors_from_here" label="Find for editors on a category"/>
+				</xul:menupopup>
+			  </xul:menu>
+			  <xul:menu action="find_dmoz" label="Sites">
+				<xul:menupopup>
+				  <xul:menuitem action="search_in_cat_site_title" label="&ODPExtension.from.category.find.in.site.title;"/>
+				  <xul:menuitem action="search_in_cat_site_description" label="&ODPExtension.from.category.find.in.site.description;"/>
+				  <xul:menuitem action="search_in_cat_site_url" label="&ODPExtension.from.category.find.in.site.url;"/>
+				</xul:menupopup>
+			  </xul:menu>
+			  <!-- 
+			  <xul:menuseparator anonid="ODPExtension-from-category-encode-decode-separator" hidden="true"/>
+			  <xul:menu anonid="ODPExtension-from-category-encode-decode" hidden="true" action="command_decode_links" label="&ODPExtension.from.category.encode.decode;">
+				<xul:menupopup>
+				  <xul:menuitem anonid="ODPExtension-from-category-encode" action="command_encode" label="&ODPExtension.from.category.encode.links.anchors;"/>
+				  <xul:menuitem anonid="ODPExtension-from-category-decode" action="command_decode" label="&ODPExtension.from.category.decode.links.anchors;"/>
+				</xul:menupopup>
+			  </xul:menu>
+			  -->
+			  <xul:menuseparator/>
+			  <xul:menu action="command_toolbox" label="&ODPExtension.from.category.tools;">
+				<xul:menupopup>
+
+					<xul:menuitem disabled="true" label="Categories" style="font-weight:bold;"/>
+					
+					<xul:menuitem action="command_editor_produced_tool_Numbers" label="Numbers"/>
+					<xul:menuseparator/>
+					<xul:menuitem action="command_tool_spell_check" label="Spell check"/>
+					<!--
+					<xul:menuseparator/>
+					<xul:menuitem action="command_editor_produced_tool_CatFinder" label="Cat Finder"/>
+					<xul:menuitem action="command_editor_produced_tool_LinkFinder" label="Link Finder"/>
+					<xul:menuitem action="command_editor_produced_tool_FatCat" label="Fat Cat"/>
+					<xul:menuitem action="command_editor_produced_tool_TemplateChecker" label="Template Checker"/>
+					-->
+					<xul:menuseparator/>
+					<xul:menuitem action="command_editor_produced_tool_AutoCat" label="Auto Cat"/>
+					<xul:menuitem action="command_editor_produced_tool_Rellinkerator" label="Rellinkerator"/>
+					<!--
+					<xul:menuseparator/>
+					<xul:menuitem action="tool_clean_ghost" label="Clean Ghost"/>
+					<xul:menuitem action="tool_cat_spider" label="Cat Spider"/>
+					-->
+					<xul:menuseparator/>
+					<xul:menuitem disabled="true" label="RDF Database" style="font-weight:bold;"/>
+					<xul:menuitem action="command_rdf_parse_files" label="&ODPExtension.rdf.parse.files;"/>
+					<xul:menuitem action="command_rdf_find_string_on_node" label="Find for a string in an RDF U8 file…"/>
+
+				</xul:menupopup>
+			  </xul:menu>
+			<xul:menuseparator anonid="ODPExtension-from-category-navigate-separator"/>
+			<xul:menu class="ODPExtension-menu-no-arrow" anonid="ODPExtension-from-category-navigate" label="&ODPExtension.from.category.navigate;" original_label="&ODPExtension.from.category.navigate;" style="font-weight:bold;"/>
+			<xul:menu class="ODPExtension-menu-no-arrow" anonid="ODPExtension-from-category-navigate-parents" label="&ODPExtension.from.category.parents;" original_label="&ODPExtension.from.category.parents;" style="font-weight:bold;"/>
+	  </content>
+	</binding>
+</bindings>

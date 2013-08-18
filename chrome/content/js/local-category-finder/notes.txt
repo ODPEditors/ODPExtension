@@ -1,0 +1,16 @@
+SEMI DOCUMENTATION OF THIS FOLDER
+
+	NOTES 
+		
+		none!
+		
+	FILES 
+
+		categoryFinderMenuListUpdate.js
+
+			updates the selected/dropdown/menulist which shows all the tops categories of the local category finder toolabr and the category browser
+			
+		categoryFinderQuery.js
+
+			opens in a new tab a query to the database categories.txt from the local category finder toolbar
+			

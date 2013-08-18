@@ -1,0 +1,21 @@
+SEMI DOCUMENTATION OF THIS FOLDER
+
+	NOTES 
+		
+		An a URL tool:  extract data from an aURL and replaces the extracted values in another URL called urlTool
+						the resultant urlTool with the data replaces is openen in a new tab
+
+		
+	FILES 
+
+		URLToolsApply.js
+
+			find a replaces the variables
+	
+		URLToolsMenuUpdate.js
+		
+			rebuilds the context menu url tools base on user configuration
+			
+		URLToolsOpen.js
+		
+			opens a url tool

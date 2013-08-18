@@ -1,0 +1,23 @@
+SEMI DOCUMENTATION OF THIS FOLDER
+
+	NOTES 
+		
+		none!
+		
+	FILES 
+
+		privacyRemoveReferrer.js
+
+			if the user is hidden the referrer for private odp domains, then 
+			the referrer is the url that we will open
+			the referrer is not sent blank
+			
+		isPrivateURL.js
+		
+			returns true if the url is private ( for nono public usage ) based on user configuration
+			
+	GLOBALS FOR INSTANCE
+	
+		this.shared.privacy.noReferrer - an array with all the regulas expression with the private odp domains
+		this.shared.privacy.excluded.domains - an array of domains that exclude urls from being public	
+		this.shared.privacy.excluded.strings - an array of string that exclude urls from being public

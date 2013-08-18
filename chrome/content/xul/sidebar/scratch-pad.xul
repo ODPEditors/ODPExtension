@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://ODPExtension/content/xul/navigator/sidebars/scratch-pad.css" type="text/css"?>
+
+<window title="ODP Scratch Pad"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  onload="ODPExtension.scratchPadUpdate();"
+  onunload="ODPExtension.scratchPadSave();"
+>
+
+<script type="application/x-javascript">
+
+	//gets a reference to the extension code
+		var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]  
+					.getService(Components.interfaces.nsIWindowMediator);  
+		var ODPExtension = wm.getMostRecentWindow('navigator:browser')['ODPExtension'];
+			ODPExtension.scratchPad = window.document;
+			
+</script>
+	<hbox> <button class="ODPExtension-sratchpad-undo" label="I'm in panic, back to previous saved content" oncommand="ODPExtension.scratchPadPanic();"/></hbox>
+	<hbox flex="1" onmouseover="ODPExtension.scratchPadUpdate();" onmouseout="ODPExtension.scratchPadSave();">
+	  <vbox flex="1">
+			<textbox 
+				id="ODPExtension-sratchpad" 
+				flex="1" 
+				wrap="true"
+				multiline="true"
+				onblur="ODPExtension.scratchPadSave();"
+				onkeypress="if(event.keyCode == event.DOM_VK_ESCAPE){ ODPExtension.sidebarClose('viewODPSractchPadSidebar'); }"
+			/>
+	  </vbox>
+	</hbox>
+  
+</window>

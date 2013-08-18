@@ -1,0 +1,385 @@
+<!ENTITY ODPExtension.odp.extension.project "ODP Extension Project">
+<!ENTITY ODPExtension.extension.description "Different editing experience">
+
+<!-- general usage -->
+
+<!ENTITY ODPExtension.find "Find">
+<!ENTITY ODPExtension.search.ellipsis "Search…">
+<!ENTITY ODPExtension.filter.this.menu.ellipsis "Filter this menu…">
+<!ENTITY ODPExtension.close "Close">
+<!ENTITY ODPExtension.last.update "Last Update">
+<!ENTITY ODPExtension.update.now "Update now">
+<!ENTITY ODPExtension.example "Example:">
+<!ENTITY ODPExtension.browse "Browse…">
+<!ENTITY ODPExtension.reset.menu "Reset menu">
+
+<!ENTITY ODPExtension.progress.download "Download progress">
+<!ENTITY ODPExtension.progress.process "Process progress">
+<!ENTITY ODPExtension.progress.saving "Saving progress">
+<!ENTITY ODPExtension.please.wait "Wait please be patient">
+
+<!-- extension icon context menu -->
+<!ENTITY ODPExtension.enable.disable "Enable / Disable">
+<!ENTITY ODPExtension.preferences.ellipsis "Preferences…">
+<!ENTITY ODPExtension.places "Places">
+<!ENTITY ODPExtension.blogs "Blogs">
+
+<!-- toolbar - local category finder -->
+<!ENTITY ODPExtension.local.category.finder.find.top "Find in Topical">
+<!ENTITY ODPExtension.local.category.finder.find.regional "Find in Regional">
+<!ENTITY ODPExtension.local.category.finder.find.world "Find in World">
+<!ENTITY ODPExtension.local.category.finder.find.all "Find in All">
+
+<!-- toolbar buttons -->
+<!ENTITY ODPExtension.sisters.categories "Sisters Categories">
+<!ENTITY ODPExtension.category.browser "Category Browser">
+<!ENTITY ODPExtension.tab.category.browser "Category Browser">
+<!ENTITY ODPExtension.category.navigator "Category Navigator">
+<!ENTITY ODPExtension.add.site.to.odp "Add Site to Open Directory">
+<!ENTITY ODPExtension.toolbars.toggle "Toggle Toolbars &amp; Toolbars Buttons">
+
+
+<!-- preferences window -->
+<!ENTITY ODPExtension.preferences "Preferences">
+
+<!ENTITY ODPExtension.preferences.apply "Preview">
+<!ENTITY ODPExtension.preferences.save "Save">
+<!ENTITY ODPExtension.preferences.cancel "Cancel">
+
+<!ENTITY ODPExtension.preferences.defaults "Defaults">
+<!ENTITY ODPExtension.preferences.import "Import">
+<!ENTITY ODPExtension.preferences.export "Export">
+<!ENTITY ODPExtension.preferences.font.size "Textboxes font size:">
+
+<!-- preferences window - tab user interface -->
+<!ENTITY ODPExtension.tab.ui "User Interface">
+
+<!ENTITY ODPExtension.ui.icon.position "Extension Icon Position">
+<!ENTITY ODPExtension.ui.icon.position.status.bar "Status Bar">
+<!ENTITY ODPExtension.ui.icon.position.location.bar "Location Bar">
+<!ENTITY ODPExtension.ui.icon.position.no.icon "No Icon">
+
+<!ENTITY ODPExtension.ui.context.menu "Display in context menu">
+<!ENTITY ODPExtension.ui.context.menu.categories "Categories">
+<!ENTITY ODPExtension.ui.context.menu.translate "Translate to">
+<!ENTITY ODPExtension.ui.context.menu.translate.menu.not.in.sub "Not in submenu">
+<!ENTITY ODPExtension.ui.context.menu.translate.menu.in.sub "In submenu">
+<!ENTITY ODPExtension.ui.context.menu.translate.menu.in.sub.if.to.many "In submenu if there is many">
+
+<!ENTITY ODPExtension.ui.context.menu.frames "Open Frame">
+<!ENTITY ODPExtension.ui.context.menu.frame.selected "Open Selected Frame">
+<!ENTITY ODPExtension.ui.context.menu.frame "Open Frame &quot;{URL}&quot;">
+
+<!ENTITY ODPExtension.ui.context.menu.url.tools "URL Tools">
+<!ENTITY ODPExtension.ui.context.menu.word.reference "Word Reference">
+
+<!ENTITY ODPExtension.ui.from.context.menu "'From' context menu">
+<!ENTITY ODPExtension.ui.context.menu.from.categories "From categories">
+<!ENTITY ODPExtension.ui.context.menu.from.category "From category &quot;{CATEGORY}&quot;">
+<!ENTITY ODPExtension.ui.context.menu.from.category.empty "From category">
+<!ENTITY ODPExtension.ui.context.menu.from.category.in.tab.context.menu "In tab context menu">
+<!ENTITY ODPExtension.ui.context.menu.from.editor.empty "From editor">
+<!ENTITY ODPExtension.ui.context.menu.from.editors.empty "From editors">
+<!ENTITY ODPExtension.ui.context.menu.from.editor "From editor &quot;{EDITOR}&quot;">
+<!ENTITY ODPExtension.ui.context.menu.from.editors "From editors &quot;{EDITORS}&quot;">
+
+<!ENTITY ODPExtension.ui.informative.panel "Informative panel">
+<!ENTITY ODPExtension.ui.informative.panel.show.inside "Show inside the informative panel">
+<!ENTITY ODPExtension.ui.informative.panel.show "Show the informative panel">
+<!ENTITY ODPExtension.ui.informative.panel.categories.titles.urls "Categories, titles and URLs">
+<!ENTITY ODPExtension.ui.informative.panel.categories.align.left "Categories align to left side">
+<!ENTITY ODPExtension.ui.informative.panel.description "Description">
+<!ENTITY ODPExtension.ui.informative.panel.title "Title">
+<!ENTITY ODPExtension.ui.informative.panel.url "URL">
+<!ENTITY ODPExtension.ui.informative.panel.reset.position "Reset position of the panel">
+
+<!ENTITY ODPExtension.miscellaneous "Miscellaneous">
+
+<!ENTITY ODPExtension.ui.from.category.auto "Show command menu when a category is highlighted ( Recommended )">
+<!ENTITY ODPExtension.ui.abbreviate.category.names "Abbreviate category names">
+<!ENTITY ODPExtension.ui.forms.css "Pretty form styles">
+<!ENTITY ODPExtension.single.key.command "Single key command">
+
+<!-- preferences window - tab translate -->
+<!ENTITY ODPExtension.tab.translate "Translate">
+
+<!ENTITY ODPExtension.ui.context.menu.translate.languages "Languages in the translate context menu">
+<!ENTITY ODPExtension.ui.context.menu.translate.languages.with.priority "Languages with priority in the menu">
+
+<!-- preferences window - tab icon clicks -->
+<!ENTITY ODPExtension.tab.icon.clicks "Icon Clicks">
+
+<!ENTITY ODPExtension.click.left "Left click">
+<!ENTITY ODPExtension.click.middle "Middle click">
+<!ENTITY ODPExtension.click.right "Right click">
+<!ENTITY ODPExtension.click.simple "Simple click">
+<!ENTITY ODPExtension.click.double "Double click">
+<!ENTITY ODPExtension.key.alt "Alt">
+<!ENTITY ODPExtension.key.ctrl "Control(Command)">
+<!ENTITY ODPExtension.key.shift "Shift">
+
+<!ENTITY ODPExtension.command.do.nothing "Do nothing">
+<!ENTITY ODPExtension.command.copy.location "Copy category or location">
+<!ENTITY ODPExtension.command.copy.location.html "Copy category or location as link HTML format">
+<!ENTITY ODPExtension.command.copy.location.phpbb "Copy category or location as link phpBB format">
+<!ENTITY ODPExtension.command.domain.site.odp "Search for focused domain in ODP">
+<!ENTITY ODPExtension.command.domain.site.se "Search for focused domain in SE">
+<!ENTITY ODPExtension.command.highlight.listings "Highlight listings on document links">
+<!ENTITY ODPExtension.command.retrieve.listings "Display listing information for focused location">
+
+<!ENTITY ODPExtension.command.open.preferences "Open preferences">
+<!ENTITY ODPExtension.command.open.d.context.menu "Open &quot;d&quot; menu">
+<!ENTITY ODPExtension.command.extension.toggle "Extension Toggle">
+
+<!-- preferences window - tab advanced -->
+<!ENTITY ODPExtension.tab.advanced "Advanced">
+<!ENTITY ODPExtension.advanced.warning.title "Here be dragons!">
+<!ENTITY ODPExtension.advanced.warning.description "Robozilla &amp; friends, throwing fire from the mouth! Please be carefull!">
+<!ENTITY ODPExtension.advanced.warning.button "I'll be careful, I promise!">
+
+<!ENTITY ODPExtension.advanced.urls.word.reference "Word Reference URLs">
+<!ENTITY ODPExtension.advanced.urls.odp.private.no.referrer "ODP Private URLs (to avoid referrer)">
+<!ENTITY ODPExtension.advanced.url.rdf "Listing verification URL">
+<!ENTITY ODPExtension.advanced.urls.domain.explorer "Site explorer URLs">
+
+<!ENTITY ODPExtension.advanced.use.private.odp.when.posible "Use private ODP URLs when posible, such http://editors.dmoz.org/Category/ instead of http://www.dmoz.org/Category/">
+<!ENTITY ODPExtension.advanced.use.power.extensions "Use power extensions when available">
+<!ENTITY ODPExtension.advanced.categories.txt.auto.update "Auto-update the local database categories.txt on idle if needed">
+
+<!ENTITY ODPExtension.extension.directory "Extension directory (Extension has total control over this folder)">
+<!ENTITY ODPExtension.extension.directory.change "Change extension directory">
+
+<!ENTITY ODPExtension.local.category.finder "Local Category Finder">
+
+<!-- preferences window - license tab -->
+<!ENTITY ODPExtension.tab.license "License">
+
+<!-- preferences window - help tab -->
+<!ENTITY ODPExtension.tab.help "Help!?">
+
+<!-- preferences window - privacy tab -->
+<!ENTITY ODPExtension.tab.privacy "Privacy">
+<!ENTITY ODPExtension.privacy.queries.exclude.domains "The following domains are excluded">
+<!ENTITY ODPExtension.privacy.queries.exclude.strings "The URLs with the following strings are excluded">
+<!ENTITY ODPExtension.privacy.queries.exclude.ips "Exclude all IPs like http://207.200.81.154/. Note: Private IPs blocks are blocked always">
+<!ENTITY ODPExtension.privacy.queries.exclude.https "Exclude secure sites, https:// schema">
+
+<!ENTITY ODPExtension.privacy.no.referrer "Don't send referrer from private ODP domains (will sent the visited URL, not an empty referrer)">
+<!ENTITY ODPExtension.privacy.private.browsing.on "Disable the extension when entering on private browsing mode">
+
+<!ENTITY ODPExtension.privacy.information "Small print">
+
+<!-- preferences window - tab user interface -->
+<!ENTITY ODPExtension.tab.url.tools "URL Tools">
+
+<!ENTITY ODPExtension.url.tools.available.variables "Available variables:">
+
+<!ENTITY ODPExtension.url.tools.link.check.status  "Check HTTP status">
+<!ENTITY ODPExtension.url.tools.link.check.listing "Highlight listings on document links">
+
+<!-- preferences window - tab category abbreviations -->
+<!ENTITY ODPExtension.tab.category.abbreviations "Category abbreviations">
+
+<!ENTITY ODPExtension.category.abbreviations.find "Find the following strings on categories">
+<!ENTITY ODPExtension.category.abbreviations.replace "and replace these with">
+
+<!-- preferences window - tab tab Behavior -->
+<!ENTITY ODPExtension.tab.tab.behavior "Tab Behavior">
+
+<!ENTITY ODPExtension.tab.open.in.sub.browser "Open in Sub Browser">
+<!ENTITY ODPExtension.tab.open.in.new.window "Open in new window">
+<!ENTITY ODPExtension.tab.open.in.new.tab "Open in new Tab">
+<!ENTITY ODPExtension.tab.select.tab "Give Focus To Tab">
+<!ENTITY ODPExtension.tab.sub.browser.position "Sub browser position">
+
+<!ENTITY ODPExtension.left "Left">
+<!ENTITY ODPExtension.right "Right">
+<!ENTITY ODPExtension.top "Top">
+<!ENTITY ODPExtension.bottom "Bottom">
+
+
+<!-- menu from category -->
+
+<!ENTITY ODPExtension.from.category.open  "Open">
+<!ENTITY ODPExtension.from.category.find  "Find">
+<!ENTITY ODPExtension.from.category.open.public.page  "Open public page">
+<!ENTITY ODPExtension.from.category.open.description  "Open description">
+<!ENTITY ODPExtension.from.category.open.faq  "Open FAQ">
+<!ENTITY ODPExtension.from.category.open.worldlinkerate.url  "Open worldlinkerate URL">
+<!ENTITY ODPExtension.from.category.copy  "Copy">
+<!ENTITY ODPExtension.from.category.copy.edit.url  "Copy edit URL">
+<!ENTITY ODPExtension.from.category.copy.worldlinkerate  "Copy worldlinkerate URL">
+<!ENTITY ODPExtension.from.category.copy.phpbb.link.with.anchor  "Copy phpBB link with anchor">
+<!ENTITY ODPExtension.from.category.copy.encoded  "Copy encoded">
+<!ENTITY ODPExtension.from.category.copy.selection  "Copy selection">
+<!ENTITY ODPExtension.from.category.copy.abbreviated  "Copy abbreviated">
+<!ENTITY ODPExtension.from.category.paste  "Paste">
+<!ENTITY ODPExtension.from.category.cut  "Cut">
+<!ENTITY ODPExtension.from.category.delete  "Delete">
+<!ENTITY ODPExtension.from.category.encode.decode  "Enc/Dec">
+<!ENTITY ODPExtension.from.category.encode.links.anchors  "Encode links anchors">
+<!ENTITY ODPExtension.from.category.decode.links.anchors  "Decode links anchors">
+<!ENTITY ODPExtension.from.category.edit  "Edit">
+<!ENTITY ODPExtension.from.category.edit.description  "Edit Description">
+<!ENTITY ODPExtension.from.category.edit.faq  "Edit FAQ">
+<!ENTITY ODPExtension.from.category.sort.priority  "Sort Priority">
+<!ENTITY ODPExtension.from.category.edit.links  "Edit @links">
+<!ENTITY ODPExtension.from.category.edit.related  "Edit Related">
+<!ENTITY ODPExtension.from.category.edit.altlangs  "Edit Altlangs">
+<!ENTITY ODPExtension.from.category.edit.usenet  "Edit Usenet">
+<!ENTITY ODPExtension.from.category.edit.mozilla  "Edit Mozilla">
+<!ENTITY ODPExtension.from.category.new.category  "New Category">
+<!ENTITY ODPExtension.from.category.unreview  "Unreview">
+<!ENTITY ODPExtension.from.category.power  "Power">
+<!ENTITY ODPExtension.from.category.power.sort.url  "Power sort URL">
+<!ENTITY ODPExtension.from.category.power.sort.title  "Power sort title">
+<!ENTITY ODPExtension.from.category.power.sort.ip  "Power sort IP">
+<!ENTITY ODPExtension.from.category.power.sort.email  "Power sort email">
+<!ENTITY ODPExtension.from.category.super  "Super">
+<!ENTITY ODPExtension.from.category.super.sort.url  "Super sort URL">
+<!ENTITY ODPExtension.from.category.super.sort.title  "Super sort title">
+<!ENTITY ODPExtension.from.category.super.sort.cat  "Super sort cat">
+<!ENTITY ODPExtension.from.category.super.sort.ip  "Super sort IP">
+<!ENTITY ODPExtension.from.category.super.sort.email  "Super sort email">
+<!ENTITY ODPExtension.from.category.updates  "Updates">
+<!ENTITY ODPExtension.from.category.errors  "Errors">
+<!ENTITY ODPExtension.from.category.greenbusts  "Greenbusts">
+<!ENTITY ODPExtension.from.category.logs  "Logs">
+<!ENTITY ODPExtension.from.category.cooling  "Cooling">
+<!ENTITY ODPExtension.from.category.new.editors  "New editors">
+<!ENTITY ODPExtension.from.category.new.editor.permissions  "New editor permissions">
+<!ENTITY ODPExtension.from.category.new.editor.permissions.recent  "New editor permissions ( recent )">
+<!ENTITY ODPExtension.from.category.new.categories  "New categories">
+<!ENTITY ODPExtension.from.category.catmv  "Moved / Renamed categories">
+<!ENTITY ODPExtension.from.category.deleted.categories "Deleted categories">
+
+<!ENTITY ODPExtension.from.category.terms  "Terms">
+<!ENTITY ODPExtension.from.category.last.edits  "Last edits">
+<!ENTITY ODPExtension.from.category.external.search  "External search">
+<!ENTITY ODPExtension.from.category.find.subcategory  "Find subcategory">
+<!ENTITY ODPExtension.from.category.find.subcategory.called  "Find subcategory called">
+<!ENTITY ODPExtension.from.category.display.subcategories  "Display subcategories">
+<!ENTITY ODPExtension.from.category.display.all.subcategories  "Display all subcategories">
+<!ENTITY ODPExtension.from.category.display.empty.categories  "Display empty categories">
+<!ENTITY ODPExtension.from.category.find.links.to.here  "Find @links to here">
+<!ENTITY ODPExtension.from.category.find.related.categories.to.here  "Find related categories to here">
+<!ENTITY ODPExtension.from.category.find.in.category.description  "Find in category description">
+<!ENTITY ODPExtension.from.category.find.in.site.title  "Find in site title">
+<!ENTITY ODPExtension.from.category.find.in.site.description  "Find in site description">
+<!ENTITY ODPExtension.from.category.find.in.site.url  "Find in site URL">
+<!ENTITY ODPExtension.from.category.find.editors.rdf  "Find editors RDF">
+<!ENTITY ODPExtension.from.category.find.editors.scan  "Find editors scan">
+<!ENTITY ODPExtension.from.category.tools  "Tools">
+
+
+<!ENTITY ODPExtension.from.category.find.all.links.from.here.or.from.any.subcategory "Find all @links from here or from any of its subcategories">
+<!ENTITY ODPExtension.from.category.find.all.links.to.here "Find all @links to here">
+<!ENTITY ODPExtension.from.category.find.all.links.to.here.or.to.any.subcategory "Find all @links to here or to any of its subcategories">
+
+<!ENTITY ODPExtension.from.category.find.all.related.from.here.or.from.any.subcategory "Find all related categories from here or from any of its subcategories">
+<!ENTITY ODPExtension.from.category.find.all.related.to.here "Find all related categories to here">
+<!ENTITY ODPExtension.from.category.find.all.related.to.here.or.to.any.subcategory "Find all related categories to here or to any of its subcategories">
+
+<!ENTITY ODPExtension.from.category.find.all.altlangs.from.here.or.from.any.subcategory "Find all altlangs from here or from any of its subcategories">
+<!ENTITY ODPExtension.from.category.find.all.altlangs.to.here "Find all altlangs to here">
+<!ENTITY ODPExtension.from.category.find.all.altlangs.to.here.or.to.any.subcategory "Find all altlangs to here or to any of its subcategories">
+<!ENTITY ODPExtension.from.category.navigate "Navigate">
+<!ENTITY ODPExtension.from.category.parents "Parents">
+
+
+<!-- menu from editor -->
+
+<!ENTITY ODPExtension.from.editor.feedback "Feedback">
+
+<!ENTITY ODPExtension.from.editor.edit.summary "Edit summary">
+<!ENTITY ODPExtension.from.editor.detailed.edits "Detailed edits">
+<!ENTITY ODPExtension.from.editor.requested.categories "Requested categories">
+<!ENTITY ODPExtension.from.editor.cooling.log "Cooling log">
+<!ENTITY ODPExtension.from.editor.new.categories  "New categories">
+<!ENTITY ODPExtension.from.editor.deleted.categories "Deleted categories">
+
+<!ENTITY ODPExtension.from.editor.profile.private "Editor side profile">
+<!ENTITY ODPExtension.from.editor.profile.public "Public profile">
+
+<!ENTITY ODPExtension.from.editor.log.new.editors "New editor log">
+
+<!-- odp url notes -->
+
+<!ENTITY ODPExtension.tab.url.notes "URL Notes">
+
+<!ENTITY ODPExtension.url.notes.action.update "Update">
+<!ENTITY ODPExtension.url.notes.action.unreview "Unreview">
+<!ENTITY ODPExtension.url.notes.action.delete "Delete">
+<!ENTITY ODPExtension.url.notes.action.move "Move">
+<!ENTITY ODPExtension.url.notes.action.copy "Copy">
+<!ENTITY ODPExtension.url.notes.new.note "New note…">
+<!ENTITY ODPExtension.url.notes.form.submit.confirm "Confirm after send">
+<!ENTITY ODPExtension.url.notes.form.next.site "Next Site">
+<!ENTITY ODPExtension.url.notes.form.reset "Reset Form">
+<!ENTITY ODPExtension.url.notes.form.submit "Send Form">
+<!ENTITY ODPExtension.url.notes.move.to.category.unreview "Move to unreview in category…">
+<!ENTITY ODPExtension.url.notes.move.to.category.publish "Move to public directory in category…">
+<!ENTITY ODPExtension.url.notes.copy.to.category.unreview "Copy site to unreview in category…">
+<!ENTITY ODPExtension.url.notes.copy.to.category.publish "Copy site to public directory in category…">
+
+<!-- forms css -->
+
+<!ENTITY ODPExtension.forms.css "Slim Forms">
+
+<!-- formater --> 
+
+<!ENTITY ODPExtension.forms.edit.url.description.lowercase "To lower-case description">
+<!ENTITY ODPExtension.forms.edit.url.fix.spaces "Fix backspaces">
+<!ENTITY ODPExtension.forms.edit.url.paste.formatted "Paste formatted">
+<!ENTITY ODPExtension.forms.edit.url.formatter "Formatter">
+
+<!-- editor forums pages -->
+
+<!ENTITY ODPExtension.forum.pages.show.inactive "Show inactive editors">
+<!ENTITY ODPExtension.forum.pages.custom.nicknames "Show custom nicknames">
+<!ENTITY ODPExtension.forum.pages.show.newbies "Show new editors as newbies">
+<!ENTITY ODPExtension.forum.pages "Editor Forum pages">
+
+<!-- rdf tools -->
+<!ENTITY ODPExtension.rdf.parse.files "Build or update the SQLite database with the content of the RDF files">
+
+<!-- older -->
+
+<!ENTITY odpsite.str.maybe.already.in "Maybe already in">
+<!ENTITY odpsite.str.informative.popup "Informative pop-up">
+<!ENTITY odpsite.str.disable.listings.verification "Disable listings verification">
+<!ENTITY odpsite.str.engine.used.to.get.info.about.the.site "Engine used to get info about the site">
+<!ENTITY odpsite.str.select.all.opened.tabs "Select all opened tabs">
+<!ENTITY odpsite.str.if.it.is.valid "If it is valid">
+<!ENTITY odpsite.str.start.find.as.i.type "Start searching whilst typing the URL. Note: To start the search you will need a domain and one slash (/)">
+<!ENTITY odpsite.str.switch.engine "Switch engine">
+<!ENTITY odpsite.str.general "General">
+
+<!ENTITY odpsite.str.category.browser.menu "Category browser menu">
+<!ENTITY odpsite.str.locked.categories "Locked categories">
+<!ENTITY odpsite.str.maximum.categories.in.menu "Maximum categories in menu">
+<!ENTITY odpsite.str.worldlinkerate.desc "Sends to unreview the following site to the selected categories">
+<!ENTITY ODPExtension.ui.context.menu.categories.one.per.line "Categories ( one per line )">
+<!ENTITY odpsite.str.click.on.this.box.if.this.is.a.uk.site "Click on this box if this is a UK site">
+<!ENTITY odpsite.str.sort.date.optional.only.for.media.references "Sort Date, optional, only for media references">
+<!ENTITY odpsite.str.what.type.of.link.is.this "What type of link is this?">
+<!ENTITY odpsite.str.urls "URLs">
+<!ENTITY odpsite.str.editors "Editors">
+<!ENTITY odpsite.str.styling "Styling">
+<!ENTITY odpsite.str.add.on.description "Different editing experience">
+<!ENTITY odpsite.str.dont.skip.test.and.bookmarks "Don't Skip Test &amp; Bookmarks">
+<!ENTITY ODPExtension.category.edit.page "Category edit page">
+<!ENTITY ODPExtension.category.public.pages "Public page">
+<!ENTITY ODPExtension.navegador "Browser">
+<!ENTITY ODPExtension.category.edit.pages.highlight.greenbusts "Highlight greenbusts">
+<!ENTITY ODPExtension.category.edit.pages.highlight.updates "Highlight updates">
+<!ENTITY ODPExtension.category.edit.pages.select.form "Auto-select the category on the public search form">
+<!ENTITY ODPExtension.navegador.abbreviate.tabs.titles "Abbreviate the tab's title">
+<!ENTITY odpsite.str.odp.urls "ODP URLs">
+<!ENTITY odpsite.str.field "Field">
+<!ENTITY odpsite.str.start "Start">
+<!ENTITY odpsite.str.starting.category "Starting category">
+<!ENTITY odpsite.str.append.search "Append search">
+<!ENTITY odpsite.str.usage "Usage">
+<!ENTITY odpsite.str.clear.cached.data "Clear cached data">
+<!ENTITY odpsite.str.clear.current.database "Clear current database">

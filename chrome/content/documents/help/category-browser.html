@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<head>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ODPExtension Help!? Category Browser</title>
+</head>
+
+<body bgcolor="#F5F5F5" style="font-family:Georgia, Times New Roman, Times, serif">
+<h2><a href="index.html">Index</a> : ODP Extension HELP!?</h2>
+<p><b>Category Browser</b></p>
+<p><i>A full-screen menu that allows navigate, filter or find for categories in the entire directory.</i></p>
+<ul><li><b>Objective</b>
+    <ul>
+      <li>Allows quick access to any category in the directory.</li>
+      <li>Most important: Help when you want to apply an action to a category.</li>
+    </ul>
+  </li>
+  <li><b>Usages</b>:
+    <ul>
+      <li>Basically has two usages:
+        <ul>
+          <li>[ action to category ] For when you previously selected and action (example: edit a category description ) and wants to find the category to apply that action. </li>
+          <li>[ category to action ] For when&nbsp; you want to find a category to then apply an action (example: edit a category description ). </li>
+        </ul>
+      </li>
+      <li>Invocations methods
+        <ul>
+          <li>In the case of [category to action ] you need first to find a category to later select an action to apply to that category.
+            <ul>
+              <li>Example:
+                <ul>
+                  <li>By clicking the &quot;/&quot; toolbarbutton the &quot;Category Browser&quot; popups if you click any category the default action is copy to clipboard the category path. If you want to apply another action to the category just right click the hovered category to see a menu of predefined actions ( The &quot;From category&quot; menu, help about this menu later ) </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>In the case of [action to category] you need first to select an action to later  find for the category  to apply that action.
+            <ul>
+              <li>Example:
+                <ul>
+                  <li>Let's say that we want to edit the description of a category. Open a new blank tab. Now double click with the Right button of your mouse ( inside the blank page ), the &quot;From category&quot; menu with the predefined actions will popup, then select &quot;Edit Description&quot;, that will open the &quot;Category Browser&quot; menu asking you for the category were you want to edit the description.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><b>Quick view 
+    of the menu items </b>
+    <ul>
+      <li>Textbox filter/finder </li>
+      <li>-----------------</li>
+      <li>Reset menu </li>
+      <li>-----------------</li>
+      <li>Top categories</li>
+      <li>This browsing session categories (if any) </li>
+      <li>-----------------</li>
+      <li>Categories that are opened in this browser tabs (if any) </li>
+      <li>-----------------</li>
+      <li>Categories found on your clipboard (if any) </li>
+      <li>-----------------</li>
+      <li>Searches on categories txt (if any) </li>
+      <li>----------------</li>
+      <li>Locked categories</li>
+      <li>---------------</li>
+      <li>Category history (if any) </li>
+    </ul>
+  </li>
+  <li><b>Explanation of the menu items</b>
+      <ul>
+        <li>Textbox filter finder
+          <ul>
+            <li>Usages:
+              <ul>
+                <li>Basically has two usages:
+                  <ul>
+                    <li>Filter the content of the category browser menu.</li>
+                    <li>Append searches of the categories.txt database to the category browser menu.</li>
+                  </ul>
+                </li>
+                <li>Filtering the content
+                  <ul>
+                    <li>This textbox allows you to type a search term  and the menu will filter the contents to show you only categories that match the search term.
+                      <ul>
+                        <li>Example
+                          <ul>
+                            <li>This search term &quot;development -computer -bus, development arts -computer&quot;  will show only the categories that contain &quot;development&quot; but will hide these containing &quot;computer&quot; and &quot;bus&quot;&nbsp; OR will show these containing &quot;development&quot; AND &quot;arts&quot; but will hide these containing &quot;computer&quot;.</li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>Appending searches
+                  <ul>
+                    <li>Another usage of this textbox is to append searches from the categories.txt database, this is useful for when the category that you are trying to find is no present yet in the menu.
+                      <ul>
+                        <li>Example
+                          <ul>
+                            <li>( assuming that you already have processed the &quot;categories.txt&quot; database, clicking &quot;update now&quot; on &quot;Preferences -&gt; Advanced&quot; ) you will see a button &quot;search&quot; and a listbox with some of the top categories in groups. Then you can enter some search term and press &quot;search&quot; to do a deep search on the database. 
+                              <ul>
+                                <li>This search will detect if it is a REGEXP  and use that if applicable. </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>Reset menu
+          <ul>
+            <li>This is simply a button that &quot;resets&quot; the menu to the default configuration, for example to clean the menu of searches made on the categories.txt database, or too free resources if to many categories were added to the menu. </li>
+          </ul>
+        </li>
+        <li>Top
+          <ul>
+            <li>A shortcut to some  top categories. </li>
+          </ul>
+        </li>
+        <li>This browsing session categories
+          <ul>
+            <li>Holds all the categories that you previously navigated on this browser session. ( cleaned on browser shutdown ) </li>
+          </ul>
+        </li>
+        <li>Categories opened
+          <ul>
+            <li>It will add a shortcut to the every category that is opened in your browser tabs.</li>
+          </ul>
+        </li>
+        <li>Clipboard categories
+          <ul>
+            <li>Will list all the categories that you have on your clipboard</li>
+          </ul>
+        </li>
+        <li>Searches on the categories.txt
+          <ul>
+            <li>Foreach search on the categories.txt the menu will list the categories and the amount of categories found. </li>
+          </ul>
+        </li>
+        <li>Locked categories
+          <ul>
+            <li> Because you maybe access to some categories more frequently than others, this menu allows you to set some &quot;locked&quot; categories, that never will be removed, configurable via Preferences -&gt; Category Browser.</li>
+          </ul>
+        </li>
+        <li>Category history
+          <ul>
+            <li>Every time you open or edit a category, this menu saves the category on a database, so the next time you open this menu the categories are there. Also it tries to add some relevance to the menu, for example giving priority to categories that you edit most frequently.</li>
+          </ul>
+        </li>
+      </ul>
+  </li>
+  <li><b>Navigation</b>
+    <ul>
+      <li>Another cool feature of this menu is that allows you to navigate the directory. </li>
+      <li>When you hover a category X the extension will read the public or editor pages and parse the content to dynamically build a submenu that shows the subcategories of the hovered category. If the category starts with Test, the server to read is the editors server, this is because Test is private ( non public accessible ). If you already downloaded and processed the categories.txt database the extension will look for subcategories there if applicable. </li>
+      <li>There is a preference &quot;extensions.ODPExtension.advanced.use.private.odp.when.posible&quot; that holds if the user wants to read editors or public server in all the cases. <i>But still will ask for editors server when reading Test.</i></li>
+      <li>When the navigation reach the limit ( when the category doesn't' have subcategories ) a slash is added to the category path to indicate that.</li>
+      <li>Currently this feature only navigates subcategories, not @links, altlangs or related categories.</li>
+    </ul>
+  </li>
+  <li><b>Applying an action</b>
+    <ul>
+      <li>Another cool feature is that every category in this menu has a context menu. You can right click any category to immediately apply an action to the selected category. </li>
+    </ul>
+  </li>
+  <li><b>Source of the data</b> 
+      <ul>
+        <li>This feature has several sources to fill the menu with categories.
+          <ul>
+            <li>Categories that are currently opened in the browser </li>
+            <li>Categories that were opened in this browser session</li>
+            <li>Categories that you keep on the clipboard</li>
+            <li>Categories  searches from the categories.txt database</li>
+            <li>Locked categories that are set on the extension preferences</li>
+            <li>Every time you visit or edit a category the category is saved in a SQLite database. ( category history )</li>
+            <li>Editors server ( editors.dmoz.org )</li>
+            <li>Public server ( www.dmoz.org ) </li>
+            <li>Categories imported from your past browsing history</li>
+          </ul>
+        </li>
+      </ul>
+  </li>
+  <li><b>Importing categories from your past browsing history </b>
+      <ul>
+        <li>You have the option to import to the database the categories that you were navigating/editing in the past. See: Preferences -&gt; Category Browser -&gt; Import categories from my browsing history button. This is a cool feature because: fills the menu with relevant categories to you. It also give to most edited/accessed categories priority on the menu, it's probably that your favourite categories will remain on top of the menu.</li>
+      </ul>
+  </li>
+  <li><b>Resources</b>
+    <ul>
+      <li>By doing lots of searches the menu increase by an appreciable amount of categories. To keep the  resources  low this menu automatically short the number of items to 100 every time the popup is closed.</li>
+    </ul>
+  </li>
+</ul>
+</body>
+</html>

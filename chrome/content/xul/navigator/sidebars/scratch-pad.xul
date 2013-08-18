@@ -1,0 +1,17 @@
+
+	<menupopup id="viewSidebarMenu">
+	  <menuitem key="viewODPSractchPadSidebarKey" observes="viewODPSractchPadSidebar"/>
+	</menupopup>
+	
+	<broadcasterset id="mainBroadcasterSet">
+		<broadcaster id="viewODPSractchPadSidebar" autoCheck="false" label="ODP Scratch Pad"
+					 type="checkbox" group="sidebar"
+					 sidebarurl="chrome://ODPExtension/content/xul/sidebar/scratch-pad.xul"
+					 oncommand="toggleSidebar('viewODPSractchPadSidebar');"/>
+	</broadcasterset>
+	
+	<keyset id="mainKeyset">
+		<key id="viewODPSractchPadSidebarKey"/>
+	</keyset>
+	
+	<key id="viewODPSractchPadSidebarKey" modifiers="control,alt" key="O" oncommand="toggleSidebar('viewODPSractchPadSidebar');"/>

@@ -1,0 +1,3 @@
+.ODPExtension-from-editor-xbl {
+    -moz-binding:  url('chrome://ODPExtension/content/xul/navigator/from-menus/editor.xml#from-editor-xbl');
+}

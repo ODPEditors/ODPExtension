@@ -1,0 +1,126 @@
+
+<window id="main-window">
+
+		<menupopup
+			id="ODPExtension-extension-icon-context" 
+			position="before_end" 
+
+			onpopupshowing="this.removeAttribute('height');" 
+			onclick="
+				if(event.originalTarget.hasAttribute('url') &amp;&amp; event.originalTarget.getAttribute('url') != '')
+				{
+					ODPExtension.tabOpen(event.originalTarget.getAttribute('url'), true);
+					this.hidePopup();
+				}
+			"
+		>
+			<menuitem label="&ODPExtension.enable.disable;" oncommand="ODPExtension.extensionToggle();"/>
+			<menuitem label="&ODPExtension.preferences;" oncommand="ODPExtension.preferencesOpen();"/>
+			<menuseparator/>
+			<menu label="More…">
+				<menupopup>
+					<menuitem url="http://odp.tubert.org/wiki/index.cgi?English/Firefox-Guide" tooltiptext="http://odp.tubert.org/wiki/index.cgi?English/Firefox-Guide" label="Firefox-Guide for Editors"/>
+					<menuseparator/>
+					<menuitem url="http://www.seamonkey-project.org/" tooltiptext="http://www.seamonkey-project.org/" label="SeaMonkey"/>
+					<menuitem url="http://www.mozilla.com/"  tooltiptext="http://www.mozilla.com/" label="Firefox"/>
+					<menuseparator/>
+					<menuitem url="http://www.mozillamessaging.com/" tooltiptext="http://www.mozillamessaging.com/" label="Thunderbird"/>
+					<menuseparator/>
+					<menuitem url="http://mozillazine.org" tooltiptext="http://mozillazine.org" label="MozillaZine"/>
+					<menuseparator/>
+					<menuitem url="http://www.dmoz.org/Computers/Software/Internet/Clients/WWW/Browsers/Firefox/Add-ons/" tooltiptext="http://www.dmoz.org/Computers/Software/Internet/Clients/WWW/Browsers/Firefox/Add-ons/" label="Add-ons Directory"/>					
+					<menuseparator/>
+					<menuitem url="http://forums.dmoz.org/forum/viewtopic.php?t=920940" tooltiptext="http://forums.dmoz.org/forum/viewtopic.php?t=920940" label="&ODPExtension.odp.extension.project;"/>
+					<menuitem url="chrome://odpextension/content/documents/help/index.html" tooltiptext="chrome://odpextension/content/documents/help/index.html" label="Documentation"/>
+					<menuseparator/>
+					<menuitem url="http://github.com/titoBouzout/extensions" tooltiptext="http://github.com/titoBouzout/extensions" label="Source code"/>
+				</menupopup>
+			</menu>
+			<menuseparator/>
+			<menuitem url="http://passport.dmoz.org/" tooltiptext="http://passport.dmoz.org/" label="ODP Passport"/>
+			<menuitem url="http://tools.dmoz.org/" tooltiptext="http://tools.dmoz.org/" label="ODP Toolbox"/>
+			<menuitem url="http://www.dmoz.org/Test/Tools_for_Editors/" tooltiptext="http://www.dmoz.org/Test/Tools_for_Editors/" label="Tools for Editors"/>
+			<menuseparator/>
+			<menu label="&ODPExtension.blogs;">
+				<menupopup>
+					<menuitem url="http://blog.dmoz.org/" tooltiptext="http://blog.dmoz.org/" label="DMOZ Blog ( official )"/>
+					<menuitem url="http://www.aef-dmoz.org/blog/" tooltiptext="http://www.aef-dmoz.org/blog/" label="aef DMOZ Blog"/>
+					<menuitem url="http://www.dmoz-blog.de/" tooltiptext="http://www.dmoz-blog.de/" label="ODP-Weblog"/>
+					<menuitem url="http://dmoze.ru/blog/" tooltiptext="http://dmoze.ru/blog/" label="DMOZE блог"/>
+					<menuitem url="http://ameblo.jp/dmoz/" tooltiptext="http://ameblo.jp/dmoz/" label="Dmoz エディタ日記"/>
+					<menuitem url="http://editando.org/" tooltiptext="http://editando.org/" label="Editando"/>
+					<menuitem url="http://dmozblog.dk/" tooltiptext="http://dmozblog.dk/" label="Dansk Dmoz Blog"/>
+					<menuitem url="http://trilobit.bloguje.cz/" tooltiptext="http://trilobit.bloguje.cz/" label="Trilobit bloguje"/>
+					<menuitem url="http://dmoz-es.org/" tooltiptext="http://dmoz-es.org/" label="dmoz blog"/>
+				</menupopup>
+			</menu>
+			<menuitem url="http://www.dmoz.org/newsletter/index.html" tooltiptext="http://www.dmoz.org/newsletter/index.html" label="Newsletter"/>
+			<menuseparator/>
+			<menuitem url="http://www.dmoz.org/Test/Tips/" tooltiptext="http://www.dmoz.org/Test/Tips/" label="Tips"/>
+			<menuitem url="http://www.dmoz.org/Test/Help_Wanted/" tooltiptext="http://www.dmoz.org/Test/Help_Wanted/" label="Help Wanted"/>
+			<menuseparator/>
+			<menu url="http://www.dmoz.org/about.html" tooltiptext="http://www.dmoz.org/about.html" label="About ODP">
+				<menupopup>
+					<menuitem url="http://www.dmoz.org/help/become.html" tooltiptext="http://www.dmoz.org/help/become.html" label="Become an Editor"/>
+					<menuitem url="http://www.dmoz.org/reinstate.html" tooltiptext="http://www.dmoz.org/reinstate.html" label="Request Reinstatement"/>
+					<menuseparator/>
+					<menuitem url="http://www.dmoz.org/socialcontract.html" tooltiptext="http://www.dmoz.org/socialcontract.html" label="Social Contract"/>
+					<menuitem url="http://rdf.dmoz.org/" tooltiptext="http://rdf.dmoz.org/" label="ODP Data - RDF"/>
+					<menuitem url="http://www.dmoz.org/help/submit.html" tooltiptext="http://www.dmoz.org/help/submit.html" label="Submitting a Site"/>
+					<menuseparator/>
+					<menuitem url="http://www.dmoz.org/termsofuse.html" tooltiptext="http://www.dmoz.org/termsofuse.html" label="Terms of Use"/>
+					<menuitem url="http://www.dmoz.org/license.html" tooltiptext="http://www.dmoz.org/license.html" label="License"/>
+				</menupopup>
+			</menu>
+			<menu url="http://www.dmoz.org/erz/" tooltiptext="http://www.dmoz.org/erz/" label="Editor Resource">
+				<menupopup>
+					<menuitem url="http://www.dmoz.org/newperms.html" tooltiptext="http://www.dmoz.org/newperms.html" label="Applying for Categories"/>
+					<menuitem url="http://www.dmoz.org/catcheck.html" tooltiptext="http://www.dmoz.org/catcheck.html" label="Category Checking"/>
+					<menuitem url="http://www.dmoz.org/preferredterms.html" tooltiptext="http://www.dmoz.org/preferredterms.html" label="Preferred Terms"/>
+					<menuitem url="http://www.dmoz.org/404help.html" tooltiptext="http://www.dmoz.org/404help.html" label="Robozilla Reds"/>
+					<menuitem url="http://www.dmoz.org/urlnote.html" tooltiptext="http://www.dmoz.org/urlnote.html" label="URL Notes"/>
+					<menuitem url="http://www.dmoz.org/erz/glossary.html" tooltiptext="http://www.dmoz.org/erz/glossary.html" label="Glossary"/>
+				</menupopup>
+			</menu>
+			<menu url="http://www.dmoz.org/guidelines/" tooltiptext="http://www.dmoz.org/guidelines/" label="Guidelines">
+				<menupopup>
+				<menuitem url="http://www.dmoz.org/guidelines/admin/" tooltiptext="http://www.dmoz.org/guidelines/admin/" label="Administrator"/>
+				<menuitem url="http://www.dmoz.org/guidelines/meta/" tooltiptext="http://www.dmoz.org/guidelines/meta/" label="Meta"/>
+				<menuitem url="http://www.dmoz.org/guidelines/catmod/" tooltiptext="http://www.dmoz.org/guidelines/catmod/" label="Catmod"/>
+				<menuitem url="http://www.dmoz.org/guidelines/editall/" tooltiptext="http://www.dmoz.org/guidelines/editall/" label="Editall"/>
+				<menuitem url="http://www.dmoz.org/guidelines/greenbuster/" tooltiptext="http://www.dmoz.org/guidelines/greenbuster/" label="Greenbuster"/>
+				<menuitem url="http://www.dmoz.org/guidelines/kguidelines/" tooltiptext="http://www.dmoz.org/guidelines/kguidelines/" label="Kids &amp; Teens"/>
+				<menuitem url="http://www.dmoz.org/guidelines/regional/" tooltiptext="http://www.dmoz.org/guidelines/regional/" label="Regional"/>
+				<menuitem url="http://www.dmoz.org/guidelines/travel/" tooltiptext="http://www.dmoz.org/guidelines/travel/" label="Travel"/>
+				<menuitem url="http://www.dmoz.org/guidelines/gambling/" tooltiptext="http://www.dmoz.org/guidelines/gambling/" label="Gambling"/>
+				<menuitem url="http://www.dmoz.org/guidelines/adult/" tooltiptext="http://www.dmoz.org/guidelines/adult/" label="Adult"/>
+				</menupopup>
+			</menu>
+
+			<menuseparator/>
+			<menuitem url="http://www.resource-zone.com/forum/" tooltiptext="http://www.resource-zone.com/forum/" label="Resource Zone"/>
+			<menuitem url="http://forums.dmoz.org/forum/" tooltiptext="http://forums.dmoz.org/forum/" label="Editor Forum"/>
+			<menuseparator/>
+			<menuitem url="http://odp.tubert.org/wiki/" tooltiptext="http://odp.tubert.org/wiki/" label="Wiki"/>
+			<menuseparator/>
+			<menu id="ODPExtension-extension-icon-from-editor" label="&ODPExtension.ui.context.menu.from.editor.empty;">
+				<menupopup
+					class="ODPExtension-from-editor-xbl"
+					onmouseover="ODPExtension.fromCategoryClickType = 'single';"
+					onmouseup="ODPExtension.stopEvent(event);if(event.originalTarget.hasAttribute('disabled')){ ODPExtension.stopEvent(event);}else if(event.originalTarget.hasAttribute('action')){ODPExtension.fromCategoryClick(event)}"
+					ondblclick="ODPExtension.stopEvent(event)"
+				/>
+			</menu>
+			<menu id="ODPExtension-extension-icon-from-category" label="&ODPExtension.ui.context.menu.from.category.empty;" tooltip="ODPExtension-from-categories-tooltip" >
+				<menupopup
+					class="ODPExtension-from-category-xbl ODPExtension-crop"
+					onmouseover="ODPExtension.fromCategoryClickType = 'single';ODPExtension.categoryBrowserNavigate(event);" 
+					onmouseout="ODPExtension.categoryBrowserNavigate(event);" 
+					onmouseup="ODPExtension.stopEvent(event);if(event.originalTarget.hasAttribute('disabled')){ ODPExtension.stopEvent(event);}else if(event.originalTarget.hasAttribute('action')){ODPExtension.fromCategoryClick(event)}else if(event.originalTarget.hasAttribute('value')){ODPExtension.categoryBrowserClick(event);}"
+					ondblclick="ODPExtension.stopEvent(event)"
+					tooltip="ODPExtension-from-categories-tooltip" 
+				/>
+			</menu>
+		</menupopup>
+		
+</window>

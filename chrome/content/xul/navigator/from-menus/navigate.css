@@ -1,0 +1,5 @@
+
+.ODPExtension-menu-no-arrow > hbox
+{
+	display:none !important;
+}

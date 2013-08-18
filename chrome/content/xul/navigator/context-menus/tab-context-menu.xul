@@ -1,0 +1,22 @@
+	
+	<window id="main-window">
+	
+		<menupopup>
+			<menu 
+				id="ODPExtension-tab-context-from-category" 
+				hidden="true" 
+				original_label="&ODPExtension.ui.context.menu.from.category;" 
+				label="&ODPExtension.ui.context.menu.from.category;"
+			>
+				<menupopup 
+					class="ODPExtension-from-category-xbl ODPExtension-crop"
+					onmouseover="ODPExtension.fromCategoryClickType = 'single';ODPExtension.categoryBrowserNavigate(event);" 
+					onmouseout="ODPExtension.categoryBrowserNavigate(event);" 
+					onmouseup="ODPExtension.stopEvent(event);if(event.originalTarget.hasAttribute('disabled')){ ODPExtension.stopEvent(event);}else if(event.originalTarget.hasAttribute('action')){ODPExtension.fromCategoryClick(event)}else if(event.originalTarget.hasAttribute('value')){ODPExtension.categoryBrowserClick(event);}"
+					ondblclick="ODPExtension.stopEvent(event)"
+				/>
+			</menu>
+
+		</menupopup>
+		
+	</window>

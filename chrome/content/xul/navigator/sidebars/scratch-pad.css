@@ -1,0 +1,12 @@
+
+#ODPExtension-sratchpad > hbox > deck
+{
+	display:none !important;
+}
+
+#ODPExtension-sratchpad 
+{
+	height:100% !important;
+	padding:1px !important;
+}
+

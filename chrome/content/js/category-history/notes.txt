@@ -1,0 +1,31 @@
+SEMI DOCUMENTATION OF THIS FOLDER
+
+	NOTES 
+		
+		the "category history" is the real database based on sqlite that holds all the categoires that you were navigating
+		has the intention of implement some type of algortim to sort the categories by relevance based on your edits
+		but more important make your category history easy accesible
+		Today I added browser suppoort reconition, if the browser is not supporting database it will not add the feature, like these users using 3.0.*
+
+	FILES 
+
+		categoryHistoryCreateTable.js
+
+			sql query that creates the table
+
+		categoryHistoryStatements.js
+
+			holds the sql statements that insert, update, select and do logical delete of a category in the table
+			
+		categoryHistoryInsert.js
+		
+			calculate the "radiation" ( the points that will give relevance to the categories ) and inserts the data
+			
+	GLOBALS FOR THE WINDOW NOT THE INSTANCE
+		
+			the statements
+			
+				this.insertCategoryHistory 
+				this.updateCategoryHistory 
+				this.categoryHistoryGetMostVisitedLimit
+				this.categoryHistoryGetHistory 

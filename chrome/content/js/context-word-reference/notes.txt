@@ -1,0 +1,11 @@
+SEMI DOCUMENTATION OF THIS FOLDER
+
+	NOTES 
+
+		none!
+		
+	FILES 
+
+		wordReference.js
+		
+			opens a new tab with the selected text, if no text is selected then ask user.

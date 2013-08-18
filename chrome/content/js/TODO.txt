@@ -1,0 +1,38 @@
+A MEDIAS
+
+	enable disable
+	vaciar toda global y local que cuando la extnesion pasa a enable otra vez se setean solas
+	probarla en linux, tested crash popup
+	agregar el parseo de contenido
+	
+	ideas para tools de rdf
+	
+		diferencias de categorias con dump anterior
+		diferencias en sitios con dump anterior
+		compare two or more categories taxonomies
+
+	plugins
+	
+----------------------------------------------------------------
+
+	WORLINKERATE URL
+	DESPUES	
+		el encode/decode selection
+		STYLES
+			los titulos de las paginas espero que no sean necesarios para las pagians de edicion
+		preferencias
+			añadir tooltips informativos
+			cuando cambia de direcorio tengo que mover los archivos!
+		archivos
+			CHeckear los permisos para linux en los archivos
+		treee style tab
+			abrir los resultados de las busquedas de categories.txt en el mismo arbol en tree style tab
+		icono
+			dar vuelta el conteio del context menu del icono de la extension si este esta en la url bar
+		BETA
+			CATEGORY DIFF
+			LINK AND RELCAT SUGGESTER
+			red no tan red en la extension
+			super unreview
+			world navigator
+			toolipan chain

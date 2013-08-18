@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+	<Description about="urn:mozilla:install-manifest">
+
+		<em:id>development@dmoz.org</em:id>
+		<em:name>ODP Magic...</em:name>
+		<em:creator>tito (ed:development)</em:creator>
+		<em:developer>development</em:developer>
+		<em:version>3.130816.56</em:version>
+		<em:description>Different editing experience</em:description>
+
+		<em:optionsURL>chrome://ODPExtension/content/xul/preferences/preferences.xul</em:optionsURL>
+		<em:homepageURL>http://forums.dmoz.org/forum/viewtopic.php?t=920940</em:homepageURL>
+		<em:iconURL>chrome://ODPExtension/content/icon/icon.png</em:iconURL>
+		<em:updateURL>https://dl.dropbox.com/u/9303546/extensions/update.rdf</em:updateURL>
+		<em:translator>Deutsch - by benjiwiebe, liszt, cls</em:translator>
+		<em:translator>Русский - by vader</em:translator>
+		<em:translator>Română - by sovidiu</em:translator>
+		<em:translator>日本語 - by keyaki</em:translator>
+		<em:translator>Dansk - by pbj</em:translator>
+		<em:translator>Türkçe - by maxcoder</em:translator>
+		<em:translator>Français - by astrozygote</em:translator>
+		<em:translator>English (Template), Español - by development</em:translator>
+
+		<em:contributor>bigmarlin</em:contributor>
+		<em:contributor>callimachus</em:contributor>
+		<em:contributor>chaos127</em:contributor>
+		<em:contributor>cmic</em:contributor>
+		<em:contributor>emil2004</em:contributor>
+		<em:contributor>filex</em:contributor>
+		<em:contributor>guidix</em:contributor>
+		<em:contributor>isadora</em:contributor>
+		<em:contributor>itubert</em:contributor>
+		<em:contributor>kazhar</em:contributor>
+		<em:contributor>kgendler</em:contributor>
+		<em:contributor>kovrad</em:contributor>
+		<em:contributor>laigh</em:contributor>
+		<em:contributor>liszt</em:contributor>
+		<em:contributor>mollybdenum</em:contributor>
+		<em:contributor>MostEvilMeta ™</em:contributor>
+		<em:contributor>ottodv</em:contributor>
+		<em:contributor>revr</em:contributor>
+		<em:contributor>rzan</em:contributor>
+		<em:contributor>stegozor</em:contributor>
+		<em:contributor>zrum</em:contributor>
+		<em:contributor>&amp;</em:contributor>
+		<em:contributor>MANY THANKS TO:</em:contributor>
+		<em:contributor>github.com</em:contributor>
+		<em:contributor>MozDev.org</em:contributor>
+		<em:contributor>mozillaZine.org community</em:contributor>
+		<em:contributor>Tortoise *</em:contributor>
+ 
+		<!-- Firefox -->
+			<em:targetApplication>
+				<Description>
+					<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+					<em:minVersion>4.0</em:minVersion>
+					<em:maxVersion>30000000</em:maxVersion>
+				</Description>
+			</em:targetApplication>
+
+		<!-- new SeaMonkey -->
+			<em:targetApplication>
+				<Description>
+					<em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
+					<em:minVersion>2.0</em:minVersion>
+					<em:maxVersion>30000000</em:maxVersion>
+				</Description>
+			</em:targetApplication>
+
+
+	</Description>
+</RDF>

@@ -1,0 +1,2 @@
+The compiler of the extension is saving all the XUL files of this folder and subfolders.
+But the unique used or included in the browser is navigator.xul ( which is all the XUL in one )

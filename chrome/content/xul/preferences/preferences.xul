@@ -1,0 +1,857 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chrome://global/skin/config.css" type="text/css"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://ODPExtension/content/xul/preferences/preferences.css" type="text/css"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://ODPExtension/locale/xul.dtd"> 
+
+<dialog 
+	title="&ODPExtension.preferences;" 
+	id="ODPExtension-preferences-window"
+	onload="
+		sizeToContent();
+		document.getElementById('translate-box').setAttribute('maxheight', document.getElementById('licence-browser').boxObject.height);
+		document.getElementById('translate-box').removeAttribute('hidden');
+		" 
+	ondialogaccept="ODPExtension.preferencesSave();return true;" 
+	ondialogcancel="ODPExtension.preferencesLoad();ODPExtension.preferencesWindowClosed();return true;" 
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	minwidth="700"
+>
+
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/core/navigator.js"/>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/core/preferences.js"/>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/arrays.js"/>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/dom.js"/>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/files.js"/>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/forms.js"/>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/windows.js"/>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/strings.js"/>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/sharedMemory.js"/>	
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/preferences.js"/>
+	<script type="application/x-javascript">
+				
+		//gets a reference to the extension code
+			var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]  
+						.getService(Components.interfaces.nsIWindowMediator);  
+			var ODPExtensionOnWindow = wm.getMostRecentWindow('navigator:browser')['ODPExtension'];
+	</script>
+
+	<dialogheader title="ODP Extension Project" description="&ODPExtension.extension.description;"/>
+
+	<tabbox  flex="1">
+		<vbox flex="1" >
+			
+				<!-- hahahack! -->
+				
+					<radiogroup  class="paneSelector chromeclass-toolbar radiogroupWhite" role="listbox" orient="horizontal">
+					
+						  <radio onclick="ODPExtension.getElement('tab-1').click();" pane="nada" label="&ODPExtension.tab.ui;" class="tabUserInterface radioButton"/>
+						  <radio onclick="ODPExtension.getElement('tab-2').click();" pane="nada" label="&ODPExtension.tab.privacy;" class="tabPrivacy radioButton"/>
+						  <radio onclick="ODPExtension.getElement('tab-7').click();" pane="nada" label="&ODPExtension.tab.icon.clicks;" class="tabIconClicks radioButton"/>
+						  <radio onclick="ODPExtension.getElement('tab-9').click();" pane="nada" label="&ODPExtension.tab.tab.behavior;" class="tabBehavior radioButton"/>
+						  
+						  <radio onclick="ODPExtension.getElement('tab-3').click();" pane="nada" label="&ODPExtension.tab.translate;" class="tabTranslate radioButton"/>
+						  <radio onclick="ODPExtension.getElement('tab-6').click();" pane="nada" label="&ODPExtension.tab.url.tools;" class="tabURLTools radioButton"/>
+						  <radio onclick="ODPExtension.getElement('tab-11').click();" pane="nada" label="&ODPExtension.tab.url.notes;" class="tabURLNotes radioButton"/>
+						  <radio onclick="ODPExtension.getElement('tab-8').click();" pane="nada" label="&ODPExtension.tab.category.abbreviations;" class="tabAbbreviations radioButton"/>
+						  <radio onclick="ODPExtension.getElement('tab-10').click();" pane="nada" label="&ODPExtension.tab.category.browser;" class="tabCategoryBrowser radioButton"/>
+						  
+						  <radio onclick="ODPExtension.getElement('tab-4').click();" pane="nada" label="&ODPExtension.tab.advanced;" class="tabAdvanced radioButton"/>
+						  <radio onclick="ODPExtension.getElement('tab-12').click();" pane="nada" label="&ODPExtension.tab.help;" class="tabDocumentation radioButton"/>
+						  <radio onclick="ODPExtension.getElement('tab-5').click();" pane="nada" label="&ODPExtension.tab.license;" class="tabLicense radioButton"/>
+						  
+					</radiogroup>
+				
+				
+					<tabs  hidden="true" orient="vertical" >
+						<tab id="ODPExtension-tab-1" active="true"/>
+						<tab id="ODPExtension-tab-2"/>
+						<tab id="ODPExtension-tab-3"/>
+						<tab id="ODPExtension-tab-4"/>
+						<tab id="ODPExtension-tab-5"/>
+						<tab id="ODPExtension-tab-6"/>
+						<tab id="ODPExtension-tab-7"/>
+						<tab id="ODPExtension-tab-8"/>
+						<tab id="ODPExtension-tab-9"/>
+						<tab id="ODPExtension-tab-10"/>
+						<tab id="ODPExtension-tab-11"/>
+						<tab id="ODPExtension-tab-12"/>
+					</tabs>
+					<tabpanels flex="1" orient="vertical">
+						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">			<hbox>
+
+					<vbox flex="1">
+	
+						<groupbox flex="1">
+							<caption label="&ODPExtension.ui.icon.position;"/>
+							<radiogroup flex="1">
+								<radio label="&ODPExtension.ui.icon.position.status.bar;" 		id="ui.icon.position.status.bar" class="image"   src="chrome://ODPExtension/content/xul/preferences/images/icon-position-status-bar.png" align="center" selected="true"/>
+								<radio label="&ODPExtension.ui.icon.position.location.bar;"  	id="ui.icon.position.location.bar" class="image" src="chrome://ODPExtension/content/xul/preferences/images/icon-position-location-bar.png" align="center"/>
+								<radio label="&ODPExtension.ui.icon.position.no.icon;"  		id="ui.icon.position.no.icon" class="image" align="center"/>
+							</radiogroup>
+						</groupbox>
+						
+						<groupbox flex="1">
+						
+							<caption label="&ODPExtension.miscellaneous;"/>
+	
+							<vbox flex="1">
+								<checkbox label="&ODPExtension.ui.abbreviate.category.names;" id="ui.abbreviate.category.names"/>
+								<checkbox label="&ODPExtension.ui.from.category.auto;" id="ui.from.category.auto"/>
+								<checkbox label="&ODPExtension.ui.forms.css;" id="forms.css"/>
+								<checkbox label="&ODPExtension.single.key.command;" id="single.key.command"/>
+							</vbox>
+
+						</groupbox>
+
+						<groupbox>
+							<caption label="&ODPExtension.category.edit.page;"/>
+								<checkbox label="&ODPExtension.category.edit.pages.highlight.greenbusts;" id="onload.highlight.greenbusted.sites" disabled="true"/>
+								<checkbox label="&ODPExtension.category.edit.pages.highlight.updates;" id="onload.highlight.update.sites" disabled="true"/>
+						</groupbox>
+
+						<groupbox>
+							<caption label="&ODPExtension.category.public.pages;"/>
+								<checkbox label="&ODPExtension.category.edit.pages.select.form;" id="onload.select.first.child.of.search.form" disabled="true"/>
+								<checkbox label="Highlight category differences" id="onload.show.category.differences" disabled="true"/>
+								<checkbox label="Show language navigator" id="onload.show.category.differences" disabled="true"/>
+						</groupbox>
+
+						<groupbox>
+							<caption label="&ODPExtension.forum.pages;"/>
+								<checkbox label="&ODPExtension.forum.pages.custom.nicknames;" id="ui.forum.pages.custom.nicknames"/>
+								<checkbox label="&ODPExtension.forum.pages.show.inactive;" id="ui.forum.pages.show.inactive"/>
+								<checkbox label="&ODPExtension.forum.pages.show.newbies;" id="ui.forum.pages.show.newbies"/>
+						</groupbox>
+
+						<groupbox>
+							<caption label="&ODPExtension.navegador;"/>
+								<checkbox label="&ODPExtension.navegador.abbreviate.tabs.titles;" id="abreviate.tab.title" disabled="true"/>				
+						</groupbox>
+
+					</vbox>
+
+					<vbox flex="1">
+
+						<groupbox flex="1">
+							<caption label="&ODPExtension.ui.context.menu;"/>
+								<hbox flex="1">
+									<vbox flex="1">
+										<checkbox label="&ODPExtension.ui.context.menu.translate;" id="ui.context.menu.translate"/>
+										<radiogroup class="invisible" style="margin-left:15px;">
+											<radio label="&ODPExtension.ui.context.menu.translate.menu.not.in.sub;" id="ui.context.menu.translate.menu.not.in.sub"/>
+											<radio label="&ODPExtension.ui.context.menu.translate.menu.in.sub;" id="ui.context.menu.translate.menu.in.sub"/>
+											<radio label="&ODPExtension.ui.context.menu.translate.menu.in.sub.if.to.many;" id="ui.context.menu.translate.menu.in.sub.if.to.many" selected="true"/>
+										</radiogroup>
+										<checkbox label="&ODPExtension.ui.context.menu.word.reference;" id="ui.context.menu.word.reference"/>
+										<checkbox label="&ODPExtension.ui.context.menu.url.tools;" id="ui.context.menu.url.tools"/>
+										<checkbox label="&ODPExtension.ui.context.menu.frame.selected;" id="ui.context.menu.frame.selected"/>
+										<checkbox label="&ODPExtension.ui.context.menu.frames;" id="ui.context.menu.frames"/>
+									</vbox>
+								</hbox>
+						</groupbox>
+
+						<groupbox flex="1">
+							<caption label="&ODPExtension.ui.from.context.menu;"/>
+								<checkbox label="&ODPExtension.ui.context.menu.from.categories;" id="ui.context.menu.from.categories"/>
+								<checkbox label="&ODPExtension.ui.context.menu.from.category.empty;" id="ui.context.menu.from.category"/>
+								<checkbox label="&ODPExtension.ui.context.menu.from.category.in.tab.context.menu;" style="margin-left:15px;" id="ui.context.menu.from.category.in.tab.context.menu"/>
+								<checkbox label="&ODPExtension.ui.context.menu.from.editors.empty;" id="ui.context.menu.from.editors"/>
+								<checkbox label="&ODPExtension.ui.context.menu.from.editor.empty;" id="ui.context.menu.from.editor"/>
+						</groupbox>
+
+						<groupbox flex="1">
+							<caption label="&ODPExtension.ui.informative.panel;"/>
+							<hbox flex="1">
+								<checkbox label="&ODPExtension.ui.informative.panel.show;" id="ui.informative.panel"/>
+								<spacer flex="1"/>
+								<button  label="&ODPExtension.ui.informative.panel.reset.position;" oncommand="ODPExtensionOnWindow.panelInformationResetPosition();"/>
+							</hbox>
+							<groupbox flex="1">
+							<caption label="&ODPExtension.ui.informative.panel.show.inside;"/>
+								<checkbox label="&ODPExtension.ui.informative.panel.categories.titles.urls;" id="ui.informative.panel.categories.titles.urls"/>
+								<checkbox label="&ODPExtension.ui.informative.panel.categories.align.left;" style="margin-left:15px;" id="ui.informative.panel.categories.align.left"/>
+								<checkbox label="&ODPExtension.ui.informative.panel.title;" id="ui.informative.panel.title"/>
+								<checkbox label="&ODPExtension.ui.informative.panel.url;" id="ui.informative.panel.url"/>
+								<checkbox label="&ODPExtension.ui.informative.panel.description;" id="ui.informative.panel.description"/>
+							</groupbox>
+
+						</groupbox>
+
+					</vbox>
+
+			</hbox>
+	</vbox></tabpanel>
+						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">
+			<hbox flex="1">
+				<vbox flex="1">
+					<groupbox flex="1">
+						<caption label="&ODPExtension.privacy.queries.exclude.domains;"/>
+						<textbox id="privacy.queries.exclude.domains" wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
+					</groupbox>
+					<groupbox flex="1">
+						<caption label="&ODPExtension.privacy.queries.exclude.strings;"/>
+						<textbox id="privacy.queries.exclude.strings"  wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
+					</groupbox>
+				</vbox>
+				<groupbox flex="1">
+					<caption label="&ODPExtension.privacy.information;"/>
+						<browser type="content" flex="1" src="chrome://ODPExtension/content/documents/privacy.html"/>
+				</groupbox>
+			</hbox>
+
+			<hbox >
+				<groupbox flex="1">
+					<caption  label="&ODPExtension.tab.advanced;"/>
+					<checkbox label="&ODPExtension.privacy.queries.exclude.ips;" id="privacy.queries.exclude.ips"/>
+					<checkbox label="&ODPExtension.privacy.queries.exclude.https;" id="privacy.queries.exclude.https"/>
+					<checkbox label="&ODPExtension.privacy.no.referrer;" id="privacy.no.referrer"/>
+					<checkbox label="&ODPExtension.privacy.private.browsing.on;" id="privacy.private.browsing.on"/>
+				</groupbox>
+				<vbox flex="1">
+					<hbox>
+						<groupbox flex="1">
+							<caption label="Listing verification preferred method"/>
+							<radiogroup flex="1">
+								<radio label="Find the most close URL"  			id="privacy.listing.method.url"/>
+								<radio label="Look at the subdomain"  				id="privacy.listing.method.domain"/>
+								<radio label="Disable listing verification" 		id="privacy.listing.method.none"/>
+							</radiogroup>
+						</groupbox>
+						<groupbox flex="1">
+							<caption label="Verify listings when"/>
+							<radiogroup flex="1">
+								<radio label="The focused location change"  		id="privacy.listing.when.location"/>
+								<hbox>
+								<radio label="I click the extension icon" 			id="privacy.listing.when.click"/><label onclick="ODPExtension.getElement('tab-7').click();" class="text-link" value="(customize)"/>
+								</hbox>
+							</radiogroup>
+						</groupbox>
+					</hbox>
+					<groupbox>
+						<caption label="&ODPExtension.advanced.url.rdf;"/>
+						<textbox flex="1" id="advanced.urls.rdf" style="padding:1px;"/>
+					</groupbox>
+				</vbox>
+			</hbox>
+			</vbox></tabpanel>
+						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">			<hbox hidden="true" id="translate-box">
+				<vbox flex="1" style="overflow:auto;">
+				<hbox flex="1">
+				<groupbox flex="1" >	
+					<caption label="&ODPExtension.ui.context.menu.translate.languages;"/>
+					<groupbox class="groupboxInvisible">
+						<checkbox id="ui.context.menu.translate.lang.display.af" label="Afrikaans"/>
+						<checkbox id="ui.context.menu.translate.lang.display.sq" label="Albanian"/>
+						<checkbox id="ui.context.menu.translate.lang.display.ar" label="Arabic"/>
+						<checkbox id="ui.context.menu.translate.lang.display.be" label="Belarusian"/>
+						<checkbox id="ui.context.menu.translate.lang.display.bg" label="Bulgarian"/>
+						<checkbox id="ui.context.menu.translate.lang.display.ca" label="Catalan"/>
+						<checkbox id="ui.context.menu.translate.lang.display.zh-CN" label="Chinese (Simplified)"/>
+						<checkbox id="ui.context.menu.translate.lang.display.zh-TW" label="Chinese (Traditional)"/>
+						<checkbox id="ui.context.menu.translate.lang.display.hr" label="Croatian"/>
+						<checkbox id="ui.context.menu.translate.lang.display.cs" label="Czech"/>
+						<checkbox id="ui.context.menu.translate.lang.display.da" label="Danish"/>
+						<checkbox id="ui.context.menu.translate.lang.display.nl" label="Dutch"/>
+						<checkbox id="ui.context.menu.translate.lang.display.et" label="Estonian"/>
+						<checkbox id="ui.context.menu.translate.lang.display.en" label="English"/>
+						<checkbox id="ui.context.menu.translate.lang.display.tl" label="Filipino"/>
+						<checkbox id="ui.context.menu.translate.lang.display.fi" label="Finnish"/>
+						<checkbox id="ui.context.menu.translate.lang.display.fr" label="French"/>
+						<checkbox id="ui.context.menu.translate.lang.display.gl" label="Galician"/>
+						<checkbox id="ui.context.menu.translate.lang.display.de" label="German"/>
+						<checkbox id="ui.context.menu.translate.lang.display.el" label="Greek"/>
+						<checkbox id="ui.context.menu.translate.lang.display.ht" label="Haitian Creole ALPHA"/>
+						<checkbox id="ui.context.menu.translate.lang.display.iw" label="Hebrew"/>
+						<checkbox id="ui.context.menu.translate.lang.display.hi" label="Hindi"/>
+						<checkbox id="ui.context.menu.translate.lang.display.hu" label="Hungarian"/>
+						<checkbox id="ui.context.menu.translate.lang.display.is" label="Icelandic"/>
+						<checkbox id="ui.context.menu.translate.lang.display.id" label="Indonesian"/>
+						<checkbox id="ui.context.menu.translate.lang.display.ga" label="Irish"/>
+						<checkbox id="ui.context.menu.translate.lang.display.it" label="Italian"/>
+						<checkbox id="ui.context.menu.translate.lang.display.ja" label="Japanese"/>
+						<checkbox id="ui.context.menu.translate.lang.display.ko" label="Korean"/>
+						<checkbox id="ui.context.menu.translate.lang.display.lv" label="Latvian"/>
+						<checkbox id="ui.context.menu.translate.lang.display.lt" label="Lithuanian"/>
+						<checkbox id="ui.context.menu.translate.lang.display.mk" label="Macedonian"/>
+						<checkbox id="ui.context.menu.translate.lang.display.ms" label="Malay"/>
+						<checkbox id="ui.context.menu.translate.lang.display.mt" label="Maltese"/>
+						<checkbox id="ui.context.menu.translate.lang.display.no" label="Norwegian"/>
+						<checkbox id="ui.context.menu.translate.lang.display.fa" label="Persian"/>
+						<checkbox id="ui.context.menu.translate.lang.display.pl" label="Polish"/>
+						<checkbox id="ui.context.menu.translate.lang.display.pt" label="Portuguese"/>
+						<checkbox id="ui.context.menu.translate.lang.display.ro" label="Romanian"/>
+						<checkbox id="ui.context.menu.translate.lang.display.ru" label="Russian"/>
+						<checkbox id="ui.context.menu.translate.lang.display.sr" label="Serbian"/>
+						<checkbox id="ui.context.menu.translate.lang.display.sk" label="Slovak"/>
+						<checkbox id="ui.context.menu.translate.lang.display.sl" label="Slovenian"/>
+						<checkbox id="ui.context.menu.translate.lang.display.es" label="Spanish"/>
+						<checkbox id="ui.context.menu.translate.lang.display.sw" label="Swahili"/>
+						<checkbox id="ui.context.menu.translate.lang.display.sv" label="Swedish"/>
+						<checkbox id="ui.context.menu.translate.lang.display.th" label="Thai"/>
+						<checkbox id="ui.context.menu.translate.lang.display.tr" label="Turkish"/>
+						<checkbox id="ui.context.menu.translate.lang.display.uk" label="Ukrainian"/>
+						<checkbox id="ui.context.menu.translate.lang.display.vi" label="Vietnamese"/>
+						<checkbox id="ui.context.menu.translate.lang.display.cy" label="Welsh"/>
+						<checkbox id="ui.context.menu.translate.lang.display.yi" label="Yiddish"/>
+					</groupbox>
+				</groupbox>
+				
+				<groupbox flex="1">
+					<caption label="&ODPExtension.ui.context.menu.translate.languages.with.priority;"/>
+					<groupbox class="groupboxInvisible">
+						<checkbox id="ui.context.menu.translate.lang.priority.af" label="Afrikaans"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.sq" label="Albanian"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.ar" label="Arabic"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.be" label="Belarusian"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.bg" label="Bulgarian"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.ca" label="Catalan"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.zh-CN" label="Chinese (Simplified)"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.zh-TW" label="Chinese (Traditional)"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.hr" label="Croatian"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.cs" label="Czech"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.da" label="Danish"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.nl" label="Dutch"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.et" label="Estonian"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.en" label="English"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.tl" label="Filipino"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.fi" label="Finnish"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.fr" label="French"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.gl" label="Galician"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.de" label="German"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.el" label="Greek"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.ht" label="Haitian Creole ALPHA"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.iw" label="Hebrew"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.hi" label="Hindi"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.hu" label="Hungarian"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.is" label="Icelandic"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.id" label="Indonesian"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.ga" label="Irish"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.it" label="Italian"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.ja" label="Japanese"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.ko" label="Korean"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.lv" label="Latvian"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.lt" label="Lithuanian"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.mk" label="Macedonian"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.ms" label="Malay"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.mt" label="Maltese"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.no" label="Norwegian"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.fa" label="Persian"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.pl" label="Polish"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.pt" label="Portuguese"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.ro" label="Romanian"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.ru" label="Russian"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.sr" label="Serbian"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.sk" label="Slovak"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.sl" label="Slovenian"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.es" label="Spanish"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.sw" label="Swahili"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.sv" label="Swedish"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.th" label="Thai"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.tr" label="Turkish"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.uk" label="Ukrainian"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.vi" label="Vietnamese"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.cy" label="Welsh"/>
+						<checkbox id="ui.context.menu.translate.lang.priority.yi" label="Yiddish"/>
+					</groupbox>
+				</groupbox>
+			</hbox>
+			</vbox>
+			</hbox>
+</vbox></tabpanel>
+						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">			<hbox flex="1">
+
+				  <vbox id="ODPExtension-warningScreen" flex="1" align="center" style="overflow: auto;">
+					<spacer flex="1"/>
+					<hbox id="warningBox" align="top">
+					  <image src="chrome://ODPExtension/content/xul/preferences/images/godzuki.png" style="padding:12px;"/>
+					  <vbox id="warningInnerBox" flex="1">
+						<label id="warningTitle">&ODPExtension.advanced.warning.title;</label>
+						<label id="warningText">&ODPExtension.advanced.warning.description;</label>
+						<hbox pack="center">
+						  <button id="warningButton" oncommand="ODPExtension.getElement('warningScreen').setAttribute('hidden', true);ODPExtension.getElement('non-warningScreen').setAttribute('hidden', false);" label="&ODPExtension.advanced.warning.button;"/>
+						</hbox>
+					  </vbox>
+					</hbox>
+					<spacer flex="2"/>
+				  </vbox>
+
+					<vbox id="ODPExtension-non-warningScreen" hidden="true" flex="1">
+
+							<groupbox flex="1">
+								<caption label="&ODPExtension.advanced.urls.word.reference;"/>
+								<textbox id="advanced.urls.word.reference" wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
+							</groupbox>
+
+							<groupbox flex="1">
+								<caption label="&ODPExtension.advanced.urls.domain.explorer;"/>
+								<textbox id="advanced.urls.domain.explorer" wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
+							</groupbox>
+
+							<groupbox flex="1">
+								<caption label="&ODPExtension.advanced.urls.odp.private.no.referrer;"/>
+								<textbox id="advanced.urls.odp.private.no.referrer" wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
+							</groupbox>
+
+							<groupbox>
+								<caption  label="&ODPExtension.tab.advanced;"/>
+
+								<checkbox label="&ODPExtension.advanced.use.private.odp.when.posible;" id="advanced.use.private.odp.when.posible"/>
+								<checkbox label="&ODPExtension.advanced.use.power.extensions; [Tree Style Tab, Multiple Tab Handler, Split Browser]" id="advanced.use.power.extensions"/>
+								<checkbox label="&ODPExtension.advanced.categories.txt.auto.update;" id="advanced.categories.txt.auto.update"/>
+
+							</groupbox>
+
+							<groupbox>
+
+								<caption label="&ODPExtension.local.category.finder;"/>
+								<hbox flex="1">
+									<textbox flex="1" id="advanced.urls.categories.txt" style="padding:1px;"/>
+									<description value="&ODPExtension.last.update;"/>
+									<description id="locked.advanced.urls.categories.txt.last.update"/>
+									<button label="&ODPExtension.update.now;" oncommand="ODPExtension.preferencesSave();ODPExtensionOnWindow.categoriesTXTUpdate(true)"/>
+								</hbox>
+
+							</groupbox>
+							
+							<groupbox>
+								<caption label="&ODPExtension.extension.directory;"/>
+								<hbox flex="1">
+									<textbox flex="1" id="extension.directory" style="padding:1px;"/>
+									<button label="&ODPExtension.browse;" oncommand="ODPExtensionOnWindow.folderOpen(document.getElementById('extension.directory').value);"/>
+									<button  label="&ODPExtension.extension.directory.change;" oncommand="var folder = ODPExtension.fileAskUserFolderSelect(); if(!folder){}else{ ODPExtension.getBrowserElement('extension.directory').value = folder.file.path}"/>
+								</hbox>
+							</groupbox>
+
+	
+					</vbox>
+
+			</hbox>
+</vbox></tabpanel>
+						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">	<browser id="licence-browser" type="content" flex="1" src="chrome://ODPExtension/content/documents/license.html" style="margin-bottom:4px;"/>
+</vbox></tabpanel>
+						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">
+			<hbox flex="1">
+				<groupbox flex="1">
+					<caption label="&ODPExtension.tab.url.tools;"/>
+					<textbox id="url.tools.urls" wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
+					<description>&ODPExtension.url.tools.available.variables; {SCHEMA}, {WWW_DOMAIN}, {DOMAIN}, {OWNER_DOMAIN}, {URL}, {URL_FIRST_FOLDER}, {URL_LAST_FOLDER}</description>
+					<description> {IP}, {CAT}, {EDITOR}, {SELECTED_TEXT}, {CLIPBOARD}, {ASK}, {TITLE}, {META_DESC}</description>
+					<description>&ODPExtension.example; &quot;This is the tool title for the menu|http://www.mytool.org/?url={URL}&amp;ip={IP}&amp;cat={CAT}&quot;</description>
+				</groupbox>
+			</hbox></vbox></tabpanel>
+						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">			
+			<hbox flex="1">
+
+				<vbox  flex="1">
+						<groupbox flex="1">
+							<caption label="&ODPExtension.tab.icon.clicks;"/>
+						
+					<!-- customizable! -->
+						<groupbox flex="1">
+							<caption label="&ODPExtension.click.left;"/>
+							<hbox flex="1" pack="center" style="margin:1px;padding:0px;">
+								<groupbox flex="1" pack="center" class="invisible" align="center">
+									<vbox>
+										<groupbox flex="1" style="padding:1px;">
+											<caption label="&ODPExtension.click.simple;"/>
+											<hbox><label value=""  class="rowTitle"/><menulist id="event.click.icon.left.single">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+											<hbox><label value="&ODPExtension.key.ctrl;"  class="rowTitle"/><menulist id="event.click.icon.left.single.ctrl">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+											<hbox><label value="&ODPExtension.key.shift;"  class="rowTitle"/><menulist id="event.click.icon.left.single.shift">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+											<hbox><label value="&ODPExtension.key.alt;"  class="rowTitle"/><menulist id="event.click.icon.left.single.alt">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+										</groupbox>
+									</vbox>
+								</groupbox>
+								<groupbox   flex="1"  pack="center" class="invisible" align="center">
+									<vbox>
+										<groupbox flex="1" style="padding:1px;">
+											<caption label="&ODPExtension.click.double;"/>
+											<hbox><label value=""  class="rowTitle"/><menulist id="event.click.icon.left.double">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+											<hbox><label value="&ODPExtension.key.ctrl;"  class="rowTitle"/><menulist id="event.click.icon.left.double.ctrl">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+											<hbox><label value="&ODPExtension.key.shift;"  class="rowTitle"/><menulist id="event.click.icon.left.double.shift">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+											<hbox><label value="&ODPExtension.key.alt;"  class="rowTitle"/><menulist id="event.click.icon.left.double.alt">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+										</groupbox>
+									</vbox>
+								</groupbox>
+							</hbox>
+						</groupbox>
+						<groupbox flex="1" pack="center">
+							<caption label="&ODPExtension.click.middle;"/>
+							<hbox flex="1" pack="center" style="margin:1px;padding:0px;">
+								<groupbox  flex="1"   pack="center" class="invisible" align="center">
+									<vbox>
+										<groupbox flex="1" style="padding:1px;">
+											<caption label="&ODPExtension.click.simple;"/>
+											<hbox><label value=""  class="rowTitle"/><menulist id="event.click.icon.middle.single">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+											<hbox><label value="&ODPExtension.key.ctrl;"  class="rowTitle"/><menulist id="event.click.icon.middle.single.ctrl">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+											<hbox><label value="&ODPExtension.key.shift;"  class="rowTitle"/><menulist id="event.click.icon.middle.single.shift">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+											<hbox><label value="&ODPExtension.key.alt;"  class="rowTitle"/><menulist id="event.click.icon.middle.single.alt">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+										</groupbox>
+									</vbox>
+								</groupbox>
+								<groupbox  flex="1" pack="center" class="invisible" align="center">
+									<vbox>
+										<groupbox flex="1" style="padding:1px;">
+											<caption label="&ODPExtension.click.double;"/>
+											<hbox><label value=""  class="rowTitle"/><menulist id="event.click.icon.middle.double">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+											<hbox><label value="&ODPExtension.key.ctrl;"  class="rowTitle"/><menulist id="event.click.icon.middle.double.ctrl">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+											<hbox><label value="&ODPExtension.key.shift;"  class="rowTitle"/><menulist id="event.click.icon.middle.double.shift">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+											<hbox><label value="&ODPExtension.key.alt;"  class="rowTitle"/><menulist id="event.click.icon.middle.double.alt">	
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+										</groupbox>
+									</vbox>
+								</groupbox>
+							</hbox>
+						</groupbox>
+						<groupbox flex="1" pack="center">
+							<caption label="&ODPExtension.click.right;"/>
+							<hbox flex="1" pack="center" style="margin:1px;padding:0px;">
+								<groupbox  flex="1" pack="center" class="invisible" align="center">
+									<vbox>
+										<groupbox flex="1" style="padding:1px;">
+											<caption label="&ODPExtension.click.simple;"/>
+											<hbox><label value=""  class="rowTitle"/><menulist id="event.click.icon.right.single">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+											<hbox><label value="&ODPExtension.key.ctrl;"  class="rowTitle"/><menulist id="event.click.icon.right.single.ctrl">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+											<hbox><label value="&ODPExtension.key.shift;"  class="rowTitle"/><menulist id="event.click.icon.right.single.shift">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+											<hbox><label value="&ODPExtension.key.alt;"  class="rowTitle"/><menulist id="event.click.icon.right.single.alt">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+										</groupbox>
+									</vbox>
+								</groupbox>
+								<groupbox flex="1"  pack="center" class="invisible" align="center">
+									<vbox>
+										<groupbox flex="1" style="padding:1px;">
+											<caption label="&ODPExtension.click.double;"/>
+											<hbox><label value=""  class="rowTitle"/><menulist id="event.click.icon.right.double">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+											<hbox><label value="&ODPExtension.key.ctrl;"  class="rowTitle"/><menulist id="event.click.icon.right.double.ctrl">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+											<hbox><label value="&ODPExtension.key.shift;"  class="rowTitle"/><menulist id="event.click.icon.right.double.shift">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+											<hbox><label value="&ODPExtension.key.alt;"  class="rowTitle"/><menulist id="event.click.icon.right.double.alt">
+													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
+										</groupbox>
+									</vbox>
+								</groupbox>
+							</hbox>
+						</groupbox>
+						<description>New commands will be added by request. Then, if you want some cool command for these clicks feel free to request it, is welcome.</description>
+
+								</groupbox>
+
+				</vbox>
+				
+			</hbox></vbox></tabpanel>
+						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">
+
+		<hbox flex="1">
+			<hbox flex="1">
+				<groupbox flex="1">
+					<caption label="&ODPExtension.category.abbreviations.find;"/>
+					<textbox id="category.abbreviation.find" wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
+				</groupbox>
+			</hbox>
+			<hbox flex="1">
+				<groupbox flex="1">
+					<caption label="&ODPExtension.category.abbreviations.replace;"/>
+					<textbox id="category.abbreviation.replace" wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
+				</groupbox>
+			</hbox>
+		</hbox></vbox></tabpanel>
+						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">			<hbox>
+
+				<vbox  flex="1" >
+				<groupbox flex="1" orient="vertical" style="padding:9px;" >
+				<caption label="&ODPExtension.tab.tab.behavior;" class="rowTitle"/>
+		
+					<!-- customizable! -->
+					
+						<hbox>
+							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
+								<caption label="&ODPExtension.ui.context.menu.translate;" class="rowTitle"/>
+								<checkbox id="tab.behavior.translate.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.translate.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.translate.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.translate.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>  
+								<description value="&ODPExtension.tab.sub.browser.position;"/>
+								<menulist id="tab.behavior.translate.tab.sub.browser.position" >
+									<menupopup>
+										<menuitem value="L" label="&ODPExtension.left;"/>
+										<menuitem value="R" label="&ODPExtension.right;"/>
+										<menuitem value="T" label="&ODPExtension.top;"/>
+										<menuitem value="B" label="&ODPExtension.bottom;"/>
+									</menupopup>
+								</menulist>
+							</groupbox>
+						</hbox>
+						
+						<hbox>
+							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
+								<caption label="&ODPExtension.ui.context.menu.word.reference;" class="rowTitle"/>
+								<checkbox id="tab.behavior.word.reference.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.word.reference.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.word.reference.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.word.reference.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>  
+								<description value="&ODPExtension.tab.sub.browser.position;"/>
+								<menulist id="tab.behavior.word.reference.tab.sub.browser.position" label="&ODPExtension.tab.sub.browser.position;">
+									<menupopup>
+										<menuitem value="L" label="&ODPExtension.left;"/>
+										<menuitem value="R" label="&ODPExtension.right;"/>
+										<menuitem value="T" label="&ODPExtension.top;"/>
+										<menuitem value="B" label="&ODPExtension.bottom;"/>
+									</menupopup>
+								</menulist>
+							</groupbox>
+						</hbox>
+						
+						<hbox>
+							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
+								<caption label="&ODPExtension.ui.context.menu.url.tools;" class="rowTitle"/>
+								<checkbox id="tab.behavior.url.tools.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.url.tools.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.url.tools.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.url.tools.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/> 
+								<description value="&ODPExtension.tab.sub.browser.position;"/>
+								<menulist id="tab.behavior.url.tools.tab.sub.browser.position" label="&ODPExtension.tab.sub.browser.position;">
+									<menupopup>
+										<menuitem value="L" label="&ODPExtension.left;"/>
+										<menuitem value="R" label="&ODPExtension.right;"/>
+										<menuitem value="T" label="&ODPExtension.top;"/>
+										<menuitem value="B" label="&ODPExtension.bottom;"/>
+									</menupopup>
+								</menulist>
+							</groupbox>
+						</hbox>
+						
+						<hbox>
+							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
+								<caption label="&ODPExtension.ui.context.menu.frame.selected;" class="rowTitle"/>
+								<checkbox id="tab.behavior.frame.selected.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.frame.selected.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.frame.selected.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.frame.selected.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>  
+								<description value="&ODPExtension.tab.sub.browser.position;"/>
+								<menulist id="tab.behavior.frame.selected.tab.sub.browser.position" label="&ODPExtension.tab.sub.browser.position;">
+									<menupopup>
+										<menuitem value="L" label="&ODPExtension.left;"/>
+										<menuitem value="R" label="&ODPExtension.right;"/>
+										<menuitem value="T" label="&ODPExtension.top;"/>
+										<menuitem value="B" label="&ODPExtension.bottom;"/>
+									</menupopup>
+								</menulist>
+							</groupbox>
+						</hbox>
+						
+						<hbox>
+							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
+								<caption label="&ODPExtension.ui.context.menu.frames;" class="rowTitle"/>
+								
+								<checkbox id="tab.behavior.frame.from.menu.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.frame.from.menu.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.frame.from.menu.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.frame.from.menu.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>  
+								<description value="&ODPExtension.tab.sub.browser.position;"/>
+								<menulist id="tab.behavior.frame.from.menu.tab.sub.browser.position" label="&ODPExtension.tab.sub.browser.position;">
+									<menupopup>
+										<menuitem value="L" label="&ODPExtension.left;"/>
+										<menuitem value="R" label="&ODPExtension.right;"/>
+										<menuitem value="T" label="&ODPExtension.top;"/>
+										<menuitem value="B" label="&ODPExtension.bottom;"/>
+									</menupopup>
+								</menulist>
+							</groupbox>
+						</hbox>
+						
+						<hbox>
+							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
+								<caption label="&ODPExtension.command.domain.site.odp;" class="rowTitle"/>
+								<checkbox id="tab.behavior.odp.search.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.odp.search.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.odp.search.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.odp.search.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>  
+								<description value="&ODPExtension.tab.sub.browser.position;"/>
+								<menulist id="tab.behavior.odp.search.tab.sub.browser.position" label="&ODPExtension.tab.sub.browser.position;">
+									<menupopup>
+										<menuitem value="L" label="&ODPExtension.left;"/>
+										<menuitem value="R" label="&ODPExtension.right;"/>
+										<menuitem value="T" label="&ODPExtension.top;"/>
+										<menuitem value="B" label="&ODPExtension.bottom;"/>
+									</menupopup>
+								</menulist>
+							</groupbox>
+						</hbox>
+						
+						<hbox>
+							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
+								<caption label="&ODPExtension.command.domain.site.se;" class="rowTitle"/>
+								<checkbox id="tab.behavior.domain.site.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.domain.site.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.domain.site.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.domain.site.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>  
+								<description value="&ODPExtension.tab.sub.browser.position;"/>
+								<menulist id="tab.behavior.domain.site.tab.sub.browser.position" label="&ODPExtension.tab.sub.browser.position;">
+									<menupopup>
+										<menuitem value="L" label="&ODPExtension.left;"/>
+										<menuitem value="R" label="&ODPExtension.right;"/>
+										<menuitem value="T" label="&ODPExtension.top;"/>
+										<menuitem value="B" label="&ODPExtension.bottom;"/>
+									</menupopup>
+								</menulist>
+							</groupbox>
+						</hbox>
+						
+						<hbox>
+							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
+								<caption label="&ODPExtension.ui.informative.panel;" class="rowTitle"/>
+								<checkbox id="tab.behavior.informative.panel.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.informative.panel.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.informative.panel.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.informative.panel.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>  
+								<description value="&ODPExtension.tab.sub.browser.position;"/>
+								<menulist id="tab.behavior.informative.panel.tab.sub.browser.position" label="&ODPExtension.tab.sub.browser.position;">
+									<menupopup>
+										<menuitem value="L" label="&ODPExtension.left;"/>
+										<menuitem value="R" label="&ODPExtension.right;"/>
+										<menuitem value="T" label="&ODPExtension.top;"/>
+										<menuitem value="B" label="&ODPExtension.bottom;"/>
+									</menupopup>
+								</menulist>
+							</groupbox>
+						</hbox>
+						
+					<spacer flex="1"/>
+
+					
+					<hbox>
+						<description>
+							Note: Tabs behavior special features are powered by <label 
+								onclick="if (event.button == 0){ ODPExtensionOnWindow.openURL(this.getAttribute('tooltiptext'), true, false, true); }" 
+								class="text-link"
+								value="piro" 
+								tooltiptext="http://piro.sakura.ne.jp/"
+							/>'s extensions <label 
+								onclick="if (event.button == 0){ ODPExtensionOnWindow.openURL(this.getAttribute('tooltiptext'), true, false, true); }" 
+								class="text-link"
+								value="for Firefox" 
+								tooltiptext="https://addons.mozilla.org/en-US/firefox/user/9480"
+							/>, mostly <label 
+								onclick="if (event.button == 0){ ODPExtensionOnWindow.openURL(this.getAttribute('tooltiptext'), true, false, true); }" 
+								class="text-link"
+								value="Multiple Tab Handler" 
+								tooltiptext="http://piro.sakura.ne.jp/xul/_multipletab.html.en"
+							/>, <label 
+								onclick="if (event.button == 0){ ODPExtensionOnWindow.openURL(this.getAttribute('tooltiptext'), true, false, true); }" 
+								class="text-link"
+								value="Tree Style Tab" 
+								tooltiptext="http://piro.sakura.ne.jp/xul/_treestyletab.html.en"
+							/> and <label 
+								onclick="if (event.button == 0){ ODPExtensionOnWindow.openURL(this.getAttribute('tooltiptext'), true, false, true); }" 
+								class="text-link"
+								value="Split Browser" 
+								tooltiptext="http://piro.sakura.ne.jp/xul/_splitbrowser.html.en"
+							/> (Sub Browser feature).
+						</description>
+					</hbox>
+							
+						</groupbox>
+
+			</vbox>
+				
+				
+
+			</hbox></vbox></tabpanel>
+						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">	
+	<hbox flex="1">
+		<groupbox flex="1">
+			<caption label="&ODPExtension.tab.category.browser;"/>
+			<textbox id="category.browser" wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
+			<hbox>
+				<button flex="1" label="Import categories from my browsing history to the &quot;Categories History&quot; database and give to them radiation(points) to get a better relevance on the &quot;Category Browser&quot; menu." oncommand="ODPExtensionOnWindow.categoryHistoryImportBrowsingHistory()"/>
+			</hbox>
+		</groupbox>
+	</hbox></vbox></tabpanel>
+						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">	
+			<hbox flex="1">
+				<vbox flex="1">
+					<groupbox flex="1">
+						<caption label="&ODPExtension.tab.url.notes;"/>
+						<hbox>
+							<radiogroup style="padding:1px;border:0px;margin:0px;">
+								<hbox style="padding:1px;border:0px;margin:0px;">
+									<radio paginate="url.notes.update" onclick="ODPExtensionOnWindow.paginate(this);" selected="true" label="&ODPExtension.url.notes.action.update;"  src="chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-update.png" align="center" />
+									<radio paginate="url.notes.unreview" onclick="ODPExtensionOnWindow.paginate(this);" label="&ODPExtension.url.notes.action.unreview;"  src="chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-unreview.png" align="center" />
+									<radio paginate="url.notes.delete" onclick="ODPExtensionOnWindow.paginate(this);" label="&ODPExtension.url.notes.action.delete;"  src="chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-delete.png" align="center" />
+									<radio paginate="url.notes.copy" onclick="ODPExtensionOnWindow.paginate(this);" label="&ODPExtension.url.notes.action.copy;"  src="chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-copy-publish.png" align="center" />
+									<radio paginate="url.notes.move" onclick="ODPExtensionOnWindow.paginate(this);" label="&ODPExtension.url.notes.action.move;"  src="chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-move-publish.png" align="center" />
+								</hbox>
+							</radiogroup>
+						</hbox>
+						<textbox wrap="off" flex="1" id="url.notes.update" hidden="false" style="height:100%;padding:1px;" multiline="true"/>
+						<textbox wrap="off" flex="1" id="url.notes.unreview" hidden="true" style="height:100%;padding:1px;" multiline="true"/>
+						<textbox wrap="off" flex="1" id="url.notes.delete" hidden="true" style="height:100%;padding:1px;" multiline="true"/>
+						<textbox wrap="off" flex="1" id="url.notes.copy" hidden="true" style="height:100%;padding:1px;" multiline="true"/>
+						<textbox wrap="off" flex="1" id="url.notes.move" hidden="true" style="height:100%;padding:1px;" multiline="true"/>
+						<hbox>
+							<vbox>
+								<description>&ODPExtension.url.tools.available.variables; {URL}, {CAT}, {CLIPBOARD}, {ASK} [{ALREADY_IN}, {NEW_URL}, {NEW_CAT}].</description>
+								<description>&ODPExtension.example; &quot;Moving site to better category {NEW_CAT}, also this site is already listed on: {ALREADY_IN}, Not needed a listing on {CAT}. Corrected redirect from CMS {URL} to root {NEW_URL}&quot;</description>
+							</vbox>
+						</hbox>
+					</groupbox>
+				</vbox>
+			</hbox></vbox></tabpanel>
+						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">	<browser id="licence-browser" type="content" flex="1" src="chrome://ODPExtension/content/documents/help/index.html" style="margin-bottom:4px;"/>
+</vbox></tabpanel>
+					</tabpanels>
+					
+					<hbox >
+						<button type="menu" label="&ODPExtension.preferences;">
+						<menupopup position="before_start">
+						<menuitem id="import"  label="&ODPExtension.preferences.import;"   oncommand="ODPExtension.preferencesImport();"/>
+						<menuitem id="export"  label="&ODPExtension.preferences.export;"   oncommand="ODPExtension.preferencesExport();"/>
+						<menuitem id="default" label="&ODPExtension.preferences.defaults;" oncommand="if(ODPExtension.confirm(ODPExtensionOnWindow.getString('preferences.default')))ODPExtension.preferencesDefault();"/>
+
+						</menupopup>
+						</button>
+						<description value="&ODPExtension.preferences.font.size;"/>
+						<menulist id="preferences.font.size"  oncommand="ODPExtension.preferencesChangeFontSize(this.selectedItem.label)" >
+						 <menupopup>
+							<menuitem label="11" value="11" />
+							<menuitem label="12" value="12" />
+							<menuitem label="13" value="13" />
+							<menuitem label="14" value="14" />
+							<menuitem label="15" value="15" />
+							<menuitem label="16" value="16" />
+							<menuitem label="17" value="17" />
+						 </menupopup>
+						</menulist>
+
+						<spacer flex="1"/>
+						<button label="&ODPExtension.preferences.apply;" id="myApply" oncommand="ODPExtension.preferencesApply();"/>
+						<button label="&ODPExtension.preferences.save;" dlgtype="accept" id="myAccept"/>
+						<button label="&ODPExtension.preferences.cancel;" dlgtype="cancel" id="myCancel"/>
+					</hbox>
+					
+</vbox>
+
+</tabbox>
+</dialog>

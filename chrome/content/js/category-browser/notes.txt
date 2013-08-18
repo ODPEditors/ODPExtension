@@ -1,0 +1,63 @@
+SEMI DOCUMENTATION OF THIS FOLDER
+
+	NOTES 
+		
+		the "category browser" is the menupopup that open at the very top left of the screen
+		this menu is browseable "all hovered categoires will look for subcategoires in the database and create submenus"
+		
+	GLOBALS FOR THE WINDOW NOT THE INSTANCE
+		
+		this.categoryBrowserCategories - an array with all the categoires taht has been introduced in the menu ( to not attach the same category twice )
+											this array is global for the window because there is one popup for window
+	GLOBALS FOR THE INSTANCE
+	
+		this.shared.categories.session.categories - an array with all the cateoire visited
+
+	FILES 
+	
+		the called "database" is the split of the "categories.txt" in the filesystem
+
+		categoryBrowserMenuUpdate.js
+
+			is the menu initializer
+			empty the menu
+			apppend to the menu the user prefernece "locked categories"
+			apppend to the menu the last 50 categories with more "radiation"(a sistem of point to try give relevance to relevancy to the  used categories ) from the database (a real sqlite database)  
+			
+		categoryBrowserOnPopupShowing.js
+		
+			called when the menu is going to appear
+			looks into the clipboard and append all the categories from there
+			look into all the categoires you have opened in all the windows of this browser instance
+			also rememebers the categoires that you have closed, "this session categoires"
+			
+		categoryBrowserNavigate.js
+		
+			receives the hovered category and dispatch a "build a menu here with the subcategoires" if some time passed
+			
+		categoryBrowserNavigateRequestCategories.js
+		
+			look into the database if exists or download the cateories from dmoz.org/category in order to get the subcategories
+			if the cateory is test it will request the data from  editors.dmoz.org/category
+			
+		categoryBrowserNavigateBuildSubMenu.js
+		
+			generator of the menu that has been downloaded the subcategoires
+			
+		categoryBrowserNavigateMakeMenuPopupNavegable.js
+		
+			receives any menupopup and this fucntino makes that menupopup "browseable" by setting just a few attributes
+		
+		categoryBrowserClick.js
+		
+			handles the clicks over the menu
+			
+		categoryBrowserQueryMenu.js
+		
+			looking at the filter box will filter the cateogry browser 
+			if not results are shown will look in the "category history" real database
+		
+		categoryBrowserQueryTXT.js
+		
+			do queries  to the categories.txt file and put the reuslt in the menu
+			

@@ -1,0 +1,3 @@
+.ODPExtension-category-browser {
+    -moz-binding:  url('chrome://ODPExtension/content/xul/navigator/category-browser/category-browser.xml#category-browser');
+}

@@ -1,0 +1,42 @@
+SEMI DOCUMENTATION OF THIS FOLDER
+
+	NOTES 
+		
+		The is a context menu entry if the domain name is editor.dmoz.org and if the "edit URL" form was found. 
+		The actions in the editing form works even if it is framed.
+		
+	FILES 
+
+		editingFormURLCleanChars.js
+			
+			fix the puntuation and replace some unwanted chars from a String
+
+		editingFormURLExists.js
+			
+			check if the "edit URL" form exits on aDoc
+
+		editingFormURLFormatDescription.js
+			
+			formats a description in the "edit URL" form even if it is framed
+			first letter upper case, and remove unwanted chars.
+			
+		editingFormURLFormatFixSpaces.js
+			
+			fixes the puntuation in the description, title and category charters
+
+		editingFormURLFormatLowerCase.js
+			
+			fixes the puntuation in the description, title and category charters
+			formats an input in the "edit URL" form to lowercase with first letter uppercase
+
+		editingFormURLFormatPaste.js
+		
+			formats and paste a string in the "edit URL" 
+			
+		editingFormURLFormatTitle.js
+		
+			formats a title in the "edit URL" form
+
+		editingFormURLMenuUpdate.js
+		
+			hides or shows the "formater" content menu if the focused domain is editors.dmoz.org and if the "edit URL" form exists

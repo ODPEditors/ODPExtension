@@ -1,0 +1,12 @@
+SEMI DOCUMENTATION OF THIS FOLDER
+
+	NOTES 
+		
+		This is the feature "add site to open directory"
+		
+	FILES 
+
+		addSiteMenuUpdate.js
+		
+			builds the menuitems of the menu "add site to open directory" looking at the URL in the location bar.
+			

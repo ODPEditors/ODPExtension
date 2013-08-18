@@ -114,7 +114,6 @@
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/_main/preferencesLoadLocal.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/_main/userInterfaceLoad.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/_main/userInterfaceUpdate.js"></script>
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/_tests/testCategoryDetection.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/add-site/addSiteMenuUpdate.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/categories-txt/categoriesTXTExists.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/categories-txt/categoriesTXTGetDatabaseNameFromCategory.js"></script>

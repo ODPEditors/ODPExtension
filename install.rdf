@@ -14,7 +14,7 @@
 		<em:optionsURL>chrome://ODPExtension/content/xul/preferences/preferences.xul</em:optionsURL>
 		<em:homepageURL>http://forums.dmoz.org/forum/viewtopic.php?t=920940</em:homepageURL>
 		<em:iconURL>chrome://ODPExtension/content/icon/icon.png</em:iconURL>
-		<em:updateURL>https://dl.dropbox.com/u/9303546/extensions/update.rdf</em:updateURL>
+		<em:updateURL>https://dl.dropboxusercontent.com/u/9303546/ODP/EPT/ODPExtension/update.rdf</em:updateURL>
 		<em:translator>Deutsch - by benjiwiebe, liszt, cls</em:translator>
 		<em:translator>Русский - by vader</em:translator>
 		<em:translator>Română - by sovidiu</em:translator>

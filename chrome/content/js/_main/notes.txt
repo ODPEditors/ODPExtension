@@ -5,15 +5,15 @@ NOTES
 	This folder is not documented yet.
 
 		_setFocusedCategory.js
-		
+
 			changes the user interface that is dependent of a category currently focused
 			items:
 				the toolbarbutton sisters categories [=]
 				the full toolbar "category navigator"
-				
+
 			also saves to a global shared variable the "category browsing history"
-	
+
 	GLOBALS FOR INSTANCE
-	
+
 		this.shared.categories.session.categories - an array with all the categories that the user has opened in this browser session
-		
+

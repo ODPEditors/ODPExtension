@@ -4,19 +4,19 @@ A MEDIAS
 	vaciar toda global y local que cuando la extnesion pasa a enable otra vez se setean solas
 	probarla en linux, tested crash popup
 	agregar el parseo de contenido
-	
+
 	ideas para tools de rdf
-	
+
 		diferencias de categorias con dump anterior
 		diferencias en sitios con dump anterior
 		compare two or more categories taxonomies
 
 	plugins
-	
+
 ----------------------------------------------------------------
 
 	WORLINKERATE URL
-	DESPUES	
+	DESPUES
 		el encode/decode selection
 		STYLES
 			los titulos de las paginas espero que no sean necesarios para las pagians de edicion

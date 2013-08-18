@@ -5,7 +5,7 @@
 	{
 		//components
 			var sss = this.service('sss');
-			
+
 		//checking if this style already exists
 		var appliedStyles = this.sharedObjectGet('cssStyles');
 			if(appliedStyles[name])
@@ -20,7 +20,7 @@
 			}
 			//saving style
 			appliedStyles[name] = contentsRule;
-		
+
 			//re-apply the style
 			if(contentsRule.indexOf('chrome') === 0)
 				var uri = this.newURI(contentsRule);
@@ -33,7 +33,7 @@
 	{
 		//components
 			var sss = this.service('sss');
-			
+
 		//checking if this style already exists
 		var appliedStyles = this.sharedObjectGet('cssStyles');
 			if(appliedStyles[name])

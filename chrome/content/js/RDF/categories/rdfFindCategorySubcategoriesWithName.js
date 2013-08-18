@@ -7,7 +7,7 @@
 			this.rdfFindCategorySubcategoriesWithName = function(aCategory, aQuery)
 			{
 				this.rdfOpen();//opens a connection to the RDF SQLite database.
-				
+
 				var aMsg = 'Subcategories of "{CATEGORY}" with search "{QUERY}" ({RESULTS})';//informative msg and title of document
 
 				//sql query
@@ -24,7 +24,7 @@
 					aData += subCategories[i].categories_path;
 					aData += this.__NEW_LINE__;
 				}
-				
+
 				//sets msg
 				aMsg = aMsg.replace('{CATEGORY}', aCategory).replace('{RESULTS}', results).replace('{QUERY}', aQuery);
 

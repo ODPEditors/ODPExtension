@@ -3,7 +3,7 @@
 	this.faviconGetFromURL = function(aURL)
 	{
 	  var faviconURI;
-	  
+
 		try
 		{
 			faviconURI = this.service('fs').getFaviconForPage(this.newURI(aURL));
@@ -12,7 +12,7 @@
 		{
 			faviconURI = false;
 		}
-		
+
 		if(faviconURI) 	{	}
 		else
 		{
@@ -25,7 +25,7 @@
 			  faviconURI = false;
 		  }
 		}
-		if(faviconURI) 
+		if(faviconURI)
 		{
 			try
 			{
@@ -36,7 +36,7 @@
 						return 'chrome://ODPExtension/content/lib/history/faviconGetFromURL/icon.png';
 					else
 						return dataURL;
-				}				
+				}
 			}
 			catch(e)
 			{

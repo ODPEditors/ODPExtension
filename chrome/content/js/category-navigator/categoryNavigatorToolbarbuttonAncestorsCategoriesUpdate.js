@@ -7,14 +7,14 @@
 		//only popupshowing for the original target
 		if(aEvent.currentTarget != aEvent.originalTarget || currentPopup.hasAttribute('done'))//check if this menu was builded
 			return;
-	
+
 		//this.dump('categoryNavigatorToolbarbuttonParentCategoriesUpdate');
-		
+
 		//removeAttribute('onpopupshowing') is not working!.. probably because is a listener
 		currentPopup.setAttribute('done', true);
 
 		var aCategory = currentPopup.getAttribute('value');
-		
+
 		//this.dump('obtener todos los parientes de ¿+'+aCategory);
 
 		var aCategoryNodes = aCategory.split('/');
@@ -37,7 +37,7 @@
 						break;
 					path += aCategoryNodes[id]+'/'
 					aQueries[aQueries.length] = path+'[^/]*'+aCategoryLastChild+'[^/]*$';
-					
+
 					//skiping this same category for the two childs search
 					if(id==aCategoryNodes.length-3){}
 					else
@@ -47,7 +47,7 @@
 				}
 			aQueries = this.arrayUnique(aQueries);
 			var somethingFound = false;
-			
+
 			currentPopup.appendChild(this.create('menuseparator'));
 
 		//search the database, push the items

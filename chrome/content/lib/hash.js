@@ -5,7 +5,7 @@
 		var converter =
 		  Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].
 			createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
-		
+
 		// we use UTF-8 here, you can choose other encodings.
 		converter.charset = "UTF-8";
 		// result is an out parameter,
@@ -18,13 +18,13 @@
 		ch.init(ch.SHA256);
 		ch.update(data, data.length);
 		var hash = ch.finish(false);
-		
+
 		// return the two-digit hexadecimal code for a byte
 		function toHexString(charCode)
 		{
 		  return ("0" + charCode.toString(16)).slice(-2);
 		}
-		
+
 		// convert the binary hash data to a hex string.
 		var s = [toHexString(hash.charCodeAt(i)) for (i in hash)].join("");
 		// s now contains your hash in hex: should be

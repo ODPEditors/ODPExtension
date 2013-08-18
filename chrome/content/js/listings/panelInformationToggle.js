@@ -1,8 +1,8 @@
 (function()
 {
-			
+
 			//toggle the visibility of the panel
-			
+
 			this.panelInformationToggle = function(closed, saveStatus)
 			{
 				if(closed)

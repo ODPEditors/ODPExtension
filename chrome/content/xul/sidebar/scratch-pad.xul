@@ -12,18 +12,18 @@
 <script type="application/x-javascript">
 
 	//gets a reference to the extension code
-		var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]  
-					.getService(Components.interfaces.nsIWindowMediator);  
+		var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+					.getService(Components.interfaces.nsIWindowMediator);
 		var ODPExtension = wm.getMostRecentWindow('navigator:browser')['ODPExtension'];
 			ODPExtension.scratchPad = window.document;
-			
+
 </script>
 	<hbox> <button class="ODPExtension-sratchpad-undo" label="I'm in panic, back to previous saved content" oncommand="ODPExtension.scratchPadPanic();"/></hbox>
 	<hbox flex="1" onmouseover="ODPExtension.scratchPadUpdate();" onmouseout="ODPExtension.scratchPadSave();">
 	  <vbox flex="1">
-			<textbox 
-				id="ODPExtension-sratchpad" 
-				flex="1" 
+			<textbox
+				id="ODPExtension-sratchpad"
+				flex="1"
 				wrap="true"
 				multiline="true"
 				onblur="ODPExtension.scratchPadSave();"
@@ -31,5 +31,5 @@
 			/>
 	  </vbox>
 	</hbox>
-  
+
 </window>

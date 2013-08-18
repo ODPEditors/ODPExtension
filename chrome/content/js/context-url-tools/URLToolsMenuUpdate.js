@@ -27,7 +27,7 @@
 					{
 						menu.setAttribute('hidden', false);
 					}
-					
+
 					if(urls != '')
 						urls = (urls+'\n--nada\n-\na|http://nada.com').split('\n');
 					else
@@ -79,7 +79,7 @@
 						{
 							var add = this.create("menuitem");
 								add.setAttribute('class', 'menuitem-iconic');
-								
+
 						//adding a pretty icon
 							//moz
 								if(urls[id].indexOf('tubert.org') != -1)
@@ -91,11 +91,11 @@
 								else if(urls[id].indexOf('mathmos') != -1)
 									add.setAttribute("image", "chrome://ODPExtension/content/xul/navigator/url-tools/mathmos.png");
 								else if(
-										urls[id].indexOf('moz') != -1 || 
-										urls[id].indexOf('odp') != -1 || 
-										urls[id].indexOf('jtlabs.net') != -1 || 
-										urls[id].indexOf('dlugan.com') != -1 || 
-										urls[id].indexOf('sfromis') != -1 || 
+										urls[id].indexOf('moz') != -1 ||
+										urls[id].indexOf('odp') != -1 ||
+										urls[id].indexOf('jtlabs.net') != -1 ||
+										urls[id].indexOf('dlugan.com') != -1 ||
+										urls[id].indexOf('sfromis') != -1 ||
 										urls[id].indexOf('danielmclean') != -1
 										)
 									add.setAttribute("image", "chrome://ODPExtension/content/xul/navigator/url-tools/odp.png");
@@ -116,10 +116,10 @@
 								else if(urls[id].indexOf('wolfram') != -1)
 									add.setAttribute("image", "chrome://ODPExtension/content/xul/navigator/url-tools/wolfram.ico");
 								else if(
-										urls[id].indexOf('yahoo') != -1 || 
-										urls[id].indexOf('google') != -1 || 
-										urls[id].indexOf('ask.com') != -1 || 
-										urls[id].indexOf('bing') != -1 
+										urls[id].indexOf('yahoo') != -1 ||
+										urls[id].indexOf('google') != -1 ||
+										urls[id].indexOf('ask.com') != -1 ||
+										urls[id].indexOf('bing') != -1
 										)
 									add.setAttribute("image", "chrome://ODPExtension/content/xul/navigator/url-tools/spider.png");
 							//blank
@@ -139,7 +139,7 @@
 									add.setAttribute("tooltiptext", this.decodeUTF8Recursive(urls[id]));
 									add.setAttribute("value",  urls[id]);
 								}
-								
+
 							currentPopup.appendChild(add);
 						}
 					}
@@ -149,17 +149,17 @@
 						//menuTool.appendChild(menuToolPopup);
 					//	rootPopup.appendChild(menuTool);
 					}
-					
+
 					if(this.tagName(rootPopup.firstChild) == 'menuseparator')
 					{
 						this.removeElement(rootPopup.firstChild);
 					}
-				
+
 					if(this.tagName(rootPopup.lastChild) == 'menuseparator')
 					{
 						this.removeElement(rootPopup.lastChild);
 					}
-				
+
 				/*
 				//get domains for building groups
 					var domainTools = [];
@@ -171,8 +171,8 @@
 							domain = this.getDomainFromURL(urls[id].replace(/^[^\|]+\|/, ''));
 						else
 							domain = this.getDomainFromURL(urls[id]);
-						
-						if(!domainTools[domain])	
+
+						if(!domainTools[domain])
 							domainTools[domain] = [];
 						domainTools[domain][domainTools[domain].length] = urls[id];
 					}
@@ -195,11 +195,11 @@
 								else if(domain.indexOf('mathmos') != -1)
 									menuDomain.setAttribute("image", "chrome://ODPExtension/content/xul/navigator/url-tools/mathmos.png");
 								else if(
-										domain.indexOf('moz') != -1 || 
-										domain.indexOf('odp') != -1 || 
-										domain.indexOf('jtlabs.net') != -1 || 
-										domain.indexOf('dlugan.com') != -1 || 
-										domain.indexOf('sfromis') != -1 || 
+										domain.indexOf('moz') != -1 ||
+										domain.indexOf('odp') != -1 ||
+										domain.indexOf('jtlabs.net') != -1 ||
+										domain.indexOf('dlugan.com') != -1 ||
+										domain.indexOf('sfromis') != -1 ||
 										domain.indexOf('danielmclean') != -1
 										)
 									menuDomain.setAttribute("image", "chrome://ODPExtension/content/xul/navigator/url-tools/odp.png");

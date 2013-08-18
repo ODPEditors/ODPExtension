@@ -5,9 +5,9 @@
 			var debugingThisFile = true;
 
 
-			//this function removes lots of thing that maybe are private 
+			//this function removes lots of thing that maybe are private
 			//but remove too things that not make sense to sent to the listings server
-			
+
 			this.anonymizeForListingChecking = function(aURL)
 			{
 				var aDomain = this.getDomainFromURL(aURL);
@@ -25,7 +25,7 @@
 					/*music*/
 					aURL = aURL.replace(/\/[^\/]*\.mp3$/i, '/').replace(/\/[^\/]*\.wav$/i, '/');
 					aURL = aURL.replace(/\/+$/, '/');
-					
+
 				if(aURL.indexOf('?') != -1)
 				{
 					/*q= privacy*/
@@ -38,11 +38,11 @@
 						aURL = aURL.replace(/sessid\=[^\&]*\&/gi, '').replace(/sessid\=[^\&]*$/i, '');
 						aURL = aURL.replace(/sess\=[^\&]*\&/gi, '').replace(/sess\=[^\&]*$/i, '');
 						aURL = aURL.replace(/sid\=[^\&]*\&/gi, '').replace(/sid\=[^\&]*$/i, '');
-						
+
 					/*email privacy*/
 						aURL = aURL.replace(/email\=[^\&]*\&/gi, '').replace(/email\=[^\&]*$/i, '');
 						aURL = aURL.replace(/mail\=[^\&]*\&/gi, '').replace(/mail\=[^\&]*$/i, '');
-						
+
 					/*forums privacy*/
 						/*hilos y post*/
 						aURL = aURL.replace(/showthread\.php.*$/i, "showthread.php");
@@ -59,7 +59,7 @@
 						aURL = aURL.replace(/newthread\.php.*$/i, '');
 						aURL = aURL.replace(/sendmessage\.php.*$/i, '');
 						aURL = aURL.replace(/private\.php.*$/i, '');
-						
+
 					/*pages-counts*/
 						aURL = aURL.replace(/page\=[0-9]+/gi, '');
 						aURL = aURL.replace(/start\=[0-9]+/gi, '');
@@ -96,37 +96,37 @@
 							aURL = aURL.replace(/\/mail\/.*$/i, "/mail");
 							aURL = aURL.replace(/\/group\/.*$/i, "/group");
 							aURL = aURL.replace(/\/adsense\/.*$/i, "/adsense");
-							
+
 							//stupid redirects
 							aURL = aURL.replace(/\/url\?.*$/i, "/url");
 						}
-						
+
 						if(aSubdomain.indexOf('search.msn') != -1 || aSubdomain.indexOf('search.blogger') != -1)
 						{
 							aURL =  aURL.replace(/\?.*$/, '');
 						}
-						
+
 						if(aDomain.indexOf('hotmail.') != -1 || aSubdomain.indexOf('.live.com') != -1)
 						{
 							aURL = aURL.replace(/\/cgi-bin\/.*$/i, '/');
 							aURL = aURL.replace(/\?.*$/, '');
 						}
-						
+
 						if(aSubdomain.indexOf('apps.facebook.') != -1)
 						{
 							aURL = aURL.replace(/\?.*$/, '');
 						}
-						
+
 						if(aDomain.indexOf('youtube.') != -1)
 						{
 							aURL = aURL.replace(/\/results\?.*$/i, "/results");
 						}
-						
+
 						if(aSubdomain.indexOf('.bing') != -1)
 						{
 							aURL = aURL.replace(/\?.*$/i, "");
 						}
-						
+
 						if(aSubdomain == 'search.dmoz.org')
 						{
 							aURL = aURL.replace(/\/cgi-bin\/search.*$/i, '/cgi-bin/search');
@@ -135,7 +135,7 @@
 					/*duplicate simbols*/
 						aURL = aURL.replace(/\&+/g, "&").replace(/\&$/, '').replace(/\?$/, '');
 				}
-				
+
 				//the "face"
 				if(aDomain.indexOf('facebook.') != -1)
 				{

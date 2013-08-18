@@ -7,7 +7,7 @@
 			this.rdfFindCategorySubcategoriesRecursive = function(aCategory)
 			{
 				this.rdfOpen();//opens a connection to the RDF SQLite database.
-				
+
 				var aMsg = 'Subcategories of "{CATEGORY}" including its subcategories ({RESULTS})';//informative msg and title of document
 
 				//sql query
@@ -20,15 +20,15 @@
 						aData += subCategories[i].categories_path;
 						aData += this.__NEW_LINE__;
 				}
-				
+
 				//sets msg
 				aMsg = aMsg.replace('{CATEGORY}', aCategory).replace('{RESULTS}', results);
-				
+
 				//display results
 				if(results>0)
 					this.tabOpen(this.fileCreateTemporal(
-															'RDF.html',  
-															aMsg, 
+															'RDF.html',
+															aMsg,
 															'<div class="header">'+aMsg+'</div>'+
 															'<pre style="background-color:white !important;padding:2px;">'
 																+aData+

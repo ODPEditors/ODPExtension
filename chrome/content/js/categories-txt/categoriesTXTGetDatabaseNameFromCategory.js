@@ -1,6 +1,6 @@
 (function()
 {
-	
+
 	this.categoriesTXTGetDatabaseNameFromCategory = function(aCategory)
 	{
 		//fixing regular expresions
@@ -24,7 +24,7 @@
 			else
 				database = '';
 		}
-			
+
 		return database;
 	}
 	return null;

@@ -15,7 +15,7 @@
 			//allow to re-add the category again
 			if(item.hasAttribute('value'))
 				this.categoryBrowserCategories[item.getAttribute('value')] = false;
-				
+
 			this.removeElement(item);
 			//this.dump('element removed')
 		}
@@ -29,7 +29,7 @@
 				if(i < 100 || item.childNodes[i].hasAttribute('anonid'))
 					continue;
 				toRemove[toRemove.length] = item.childNodes[i];
-				
+
 				//allow to re-add the category again
 				if(item.childNodes[i].hasAttribute('value'))
 					this.categoryBrowserCategories[item.childNodes[i].getAttribute('value')] = false;

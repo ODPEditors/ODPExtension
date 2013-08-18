@@ -4,20 +4,20 @@
 	this.categoryCheckFormat = function(aCategory, aggressive)
 	{
 		//multiples categories selected maybe
-		
+
 			if(aCategory.indexOf('\n') != -1 || aCategory.indexOf('\r') != -1)
 			{
 				aCategory = aCategory.replace(/\r/g, '\n').replace(/\n\n/g, '\n');
 				aCategory = aCategory.split('\n')[0];
 			}
-			
+
 		//ending with
 			aCategory = aCategory.replace(/(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_|-)*$/, '');
 		//starting with
 			aCategory = aCategory.replace(/^(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_|-)*/, '');
 
 		//stange caracteres
-		
+
 			//Test/Tools_for_Editors/New_Editors/faq.html#42
 			if(aCategory.indexOf('#') != -1)
 				aCategory = aCategory.split('#')[0];
@@ -26,7 +26,7 @@
 			//World/Español/?World/Español
 			if(aCategory.indexOf('?') != -1)
 				aCategory = aCategory.split('?')[0];
-			
+
 			//World/Español/Regional/Países/U@Uruguay
 			if(aCategory.indexOf('@') != -1)
 			{
@@ -37,37 +37,37 @@
 				else
 					aCategory = aCategory.split('@')[0];
 			}
-			
+
 			//World/Português/Artes/Música/Estilos&server=dmoz8080
 			if(aCategory.indexOf('&') != -1 && aCategory.indexOf('=') != -1)
 				aCategory = aCategory.split('&')[0];
-			
+
 		//some log pages
-		
+
 			aCategory = aCategory.replace(/ +\(.*$/, '');
 			aCategory = aCategory.replace(/ +\[.*$/, '');
 			aCategory = aCategory.replace(/Unreviewed$/, '');
 			aCategory = aCategory.replace(/Unrev$/, '');
 			aCategory = aCategory.replace(/unrev$/, '');
 			aCategory = aCategory.replace(/\.unreview$/, '');
-		
+
 		//ending with
-		
+
 			aCategory = aCategory.replace(/->.*$/, '');
 			aCategory = aCategory.replace(/(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_|-)*$/, '');
-			
+
 		//starting with
 			aCategory = aCategory.replace(/^(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_|-)*/, '');
-			
+
 			aCategory = this.trim(aCategory);
 
 		//I cant' remember this one
-		
+
 			if(aCategory.indexOf('[') == -1 && aCategory.indexOf(']') != -1)
 			{
 				aCategory = aCategory.replace(/]$/, '');
 			}
-		
+
 			if(aCategory.indexOf('[') != -1 && aCategory.indexOf(']') != -1 && /\]$/.test(aCategory))
 			{
 				var catTest = aCategory.replace(/.* ([^ ]+)\]$/, "$1");
@@ -75,19 +75,19 @@
 				{
 					aCategory = catTest;
 				}
-			}			
+			}
 		//well know used formats
-			
+
 			//lovely editor:tangyp use this format!??
 			//:World:+Chinese+Simplified:+科学:+科技:+电子工程/
-			
+
 				if(aCategory.indexOf(':+') != -1)
 					aCategory = aCategory.replace(/\:\+/g, '/').replace(/\+/g, '_').replace(/^\:+/, '');
-				
+
 			//World : Chinese Simplified : 科学 : 科技 : 电子工程
 				if(aCategory.indexOf(':') != -1)
 					aCategory=aCategory.replace(/\s*?:\s*/g,'/').replace(/\s/g,'_');
-					
+
 			//World / Euskara / Hezkuntza
 				if(aCategory.indexOf(' /') != -1 || aCategory.indexOf('/ ') != -1 )
 					aCategory=aCategory.replace(/\s*?\/\s*/g,'/');
@@ -95,14 +95,14 @@
 			//World_/_Euskara_/_Hezkuntza
 				if(aCategory.indexOf('_/') != -1 || aCategory.indexOf('/_') != -1 )
 					aCategory=aCategory.replace(/_*?\/_*/g,'/');
-				
+
 			//World/Español/Juegos/Cartas</td>
 				if(aCategory.indexOf('<') != -1)
 					aCategory=aCategory.replace(/<.*$/, '');
-				
+
 			//Test/Tools_for_Editors/New_Editors/faq.html
 				if(/\/([^\/]+)\.(html|cgi|htm|php)$/i.test(aCategory))
-					aCategory=aCategory.replace(/\/[^\/]+$/, '');		
+					aCategory=aCategory.replace(/\/[^\/]+$/, '');
 
 			aCategory = this.categorySanitize(aCategory);
 
@@ -110,12 +110,12 @@
 			aCategory = aCategory.replace(/(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_)*$/, '');
 		//starting with
 			aCategory = aCategory.replace(/^(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_)*/, '');
-			
+
 
 			//Bookmarks/D/development/Bandas y artistas/
 			if(aCategory.indexOf(' ') != -1)
 				aCategory=aCategory.replace(/ /g, '_');
-				
+
 			//ok we have a valid category
 			if(this.categoryStartsWithValidName(aCategory))
 				return aCategory;
@@ -125,22 +125,22 @@
 				{
 					var aCategory2 = '';
 					//argg!!!!!!! try to find the category in text
-					
+
 					//first try with world because the other categories maybe are inside of world
 					aCategory2 = aCategory.replace(/.*(Top\/[^ ]+).*$/, "$1");
 					if(this.categoryStartsWithValidName(aCategory2))
 						return aCategory2;
-					
+
 					//first try with world because the other categories maybe are inside of world
 					aCategory2 = aCategory.replace(/.*(Test\/[^ ]+).*$/, "$1");
 					if(this.categoryStartsWithValidName(aCategory2))
 						return aCategory2;
-					
+
 					//first try with world because the other categories maybe are inside of world
 					var aCategory2 = aCategory.replace(/.*(World\/[^ ]+).*$/, "$1");
 					if(this.categoryStartsWithValidName(aCategory2))
 						return aCategory2;
-					
+
 					//first try with world because the other categories maybe are inside of world
 					aCategory2 = aCategory.replace(/.*(Kids_and_Teens\/[^ ]+).*$/, "$1");
 					if(this.categoryStartsWithValidName(aCategory2))
@@ -150,7 +150,7 @@
 					aCategory2 = aCategory.replace(/.*(Regional\/[^ ]+).*$/, "$1");
 					if(this.categoryStartsWithValidName(aCategory2))
 						return aCategory2;
-					
+
 					aCategory = aCategory.replace(/.*((Bookmarks|Arts|Computers|Games|Health|Home|News|Recreation|Reference|Society|Sports|Science|Shopping|Business|Netscape|AOL|Adult)\/[^ ]+).*$/, "$1");
 					if(this.categoryStartsWithValidName(aCategory))
 					{
@@ -172,14 +172,14 @@
 	this.categoryGetFocused = function()
 	{
 		var focusedDocument = this.documentGetFocused();
-		
+
 		var isODPSubdomain = this.isODPSubdomain(this.getSubdomainFromURL(this.documentGetLocation(focusedDocument)));
 
 		var aCategory = this.categoryGetFromDocument(focusedDocument);
-		
+
 		if(isODPSubdomain && aCategory == '')
 			aCategory = this.categoryGetFromURL(this.documentGetLocation(focusedDocument));
-			
+
 		if(isODPSubdomain && aCategory != '')
 			return aCategory;
 		else
@@ -191,18 +191,18 @@
 			var aCategory = '';
 
 			//edit x pages
-				
+
 				var item = this.getElementNamed('cat', aDoc);
 				if(!item){}
 				else
 					aCategory = item.value;
-				
+
 			//public pages select
 
 				if(aCategory == '' || this.tagName(item) == 'select')
 				{
 					if(
-					   aDoc.getElementsByTagName("option").length && 
+					   aDoc.getElementsByTagName("option").length &&
 					   aDoc.getElementsByTagName("option").length > 1
 					   )
 					{
@@ -227,7 +227,7 @@
 
 		if(!aURI)
 			return aCategory;
-			
+
 		if(aURI.indexOf('cat=') != -1)
 		{
 			if(aURI.indexOf('?cat=') != -1)
@@ -282,7 +282,7 @@
 		{
 			aCategory = aURI;
 		}
-		
+
 		if(aggressive || this.isODPSubdomain(this.getSubdomainFromURL(aCategory)))
 			aCategory = this.removeSubdomain(aCategory);
 
@@ -290,7 +290,7 @@
 			return '';
 
 		aCategory = this.categorySanitize(aCategory);
-		
+
 		//if multiples categories founds
 		if(aCategory.indexOf('\n') != -1 || aCategory.indexOf('\r') != -1)
 		{
@@ -298,13 +298,13 @@
 			aCategory = aCategory.split('\n')[0];
 			aCategory = this.categorySanitize(aCategory);
 		}
-		
+
 		//aCategory = this.trim(aCategory);
-		
+
 		aCategory = this.categoryCheckFormat(aCategory, aggressive);
-		
+
 		//aCategory = this.categorySanitize(aCategory);
-		
+
 		if(this.categoryStartsWithValidName(aCategory))
 			return aCategory;
 		else
@@ -366,7 +366,7 @@
 		else
 			return false;
 	}
-	//returns true if the has badly characters, Note: should receive categories 
+	//returns true if the has badly characters, Note: should receive categories
 	this.categoryIsBadEncoded = function(aCategory)
 	{
 		return (aCategory.indexOf('%') != -1);
@@ -388,27 +388,27 @@
 	this.categoryStartsWithValidName = function(aCategory)
 	{
 		if(
-		   aCategory.indexOf('World') == 0 || 
-		   aCategory.indexOf('Regional') == 0 || 
-		   aCategory.indexOf('Bookmarks') == 0 || 
-		   aCategory.indexOf('Test') == 0 || 
+		   aCategory.indexOf('World') == 0 ||
+		   aCategory.indexOf('Regional') == 0 ||
+		   aCategory.indexOf('Bookmarks') == 0 ||
+		   aCategory.indexOf('Test') == 0 ||
 		   aCategory.indexOf('Top/') == 0 || //top should be followed by a a category
-		   aCategory.indexOf('Kids_and_Teens') == 0 || 
-		   aCategory.indexOf('Arts') == 0 || 
-		   aCategory.indexOf('Computers') == 0 || 
-		   aCategory.indexOf('Games') == 0 || 
-		   aCategory.indexOf('Health') == 0 || 
-		   aCategory.indexOf('Home') == 0 || 
-		   aCategory.indexOf('News') == 0 || 
-		   aCategory.indexOf('Recreation') == 0 || 
-		   aCategory.indexOf('Reference') == 0 || 
-		   aCategory.indexOf('Society') == 0 || 
-		   aCategory.indexOf('Sports') == 0 || 
-		   aCategory.indexOf('Science') == 0 || 
-		   aCategory.indexOf('Shopping') == 0 || 
-		   aCategory.indexOf('Business') == 0 || 
-		   aCategory.indexOf('Netscape') == 0 || 
-		   aCategory.indexOf('AOL') == 0 || 
+		   aCategory.indexOf('Kids_and_Teens') == 0 ||
+		   aCategory.indexOf('Arts') == 0 ||
+		   aCategory.indexOf('Computers') == 0 ||
+		   aCategory.indexOf('Games') == 0 ||
+		   aCategory.indexOf('Health') == 0 ||
+		   aCategory.indexOf('Home') == 0 ||
+		   aCategory.indexOf('News') == 0 ||
+		   aCategory.indexOf('Recreation') == 0 ||
+		   aCategory.indexOf('Reference') == 0 ||
+		   aCategory.indexOf('Society') == 0 ||
+		   aCategory.indexOf('Sports') == 0 ||
+		   aCategory.indexOf('Science') == 0 ||
+		   aCategory.indexOf('Shopping') == 0 ||
+		   aCategory.indexOf('Business') == 0 ||
+		   aCategory.indexOf('Netscape') == 0 ||
+		   aCategory.indexOf('AOL') == 0 ||
 		   aCategory.indexOf('Adult') == 0
 		   )
 			return true;
@@ -438,7 +438,7 @@
 	this.editorGetFromURL = function(aURI)
 	{
 		var aFellowEditor = '';
-		
+
 		if(aURI.indexOf('editor=') != -1)
 			aFellowEditor = aURI.replace(/^.*editor=(([a-z]|[0-9])+)[^\:]?[^\.]?[^\%]?[^a-z]?.*$/i, "$1");
 		else if(aURI.indexOf('/profiles/') != -1)
@@ -447,13 +447,13 @@
 			aFellowEditor = aURI.replace(/^.*Bookmarks\/.\/(([a-z]|[0-9])+)[^a-z]?.*$/, "$1");
 		else if(aURI.indexOf('Test/') != -1)//the regular expression is not accepting the chinise characters! !?
 			aFellowEditor = this.categoryGetFromURL(aURI).replace(/^.*\/(Редактори|编辑员|Redaktører|Editoren|Editores|Editoreak|Editeurs|Συντάκτες|Editori|Editors|Redacteuren|RedaktorzyРедакторы|Redaktörer)\/(.\/)?(([a-z]|[0-9])+)\/?.*$/i, "$3");
-			
+
 		if(aFellowEditor.indexOf('/') != -1 || aFellowEditor == 'http')
 			return '';
 		else
 			return this.trim(aFellowEditor).replace('$', '').replace('^', '');
 	}
-	//returns the public URL for an editor 
+	//returns the public URL for an editor
 	this.editorGetURLPublic = function(anEditor)
 	{
 		return this.encodeURI('http://www.dmoz.org/public/profile?editor='+anEditor);
@@ -462,7 +462,7 @@
 	this.isODPSubdomain = function(aSubdomain)
 	{
 			aSubdomain = this.removeWWW(aSubdomain);
-			
+
 			switch(aSubdomain)
 			{
 				case 'dmoz.org' :

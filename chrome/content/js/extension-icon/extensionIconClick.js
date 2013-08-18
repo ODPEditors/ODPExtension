@@ -54,13 +54,13 @@
 					}
 				}
 			}
-		
+
 		//handle the double click over the "d"
-		
+
 			this.extensionIconClickDouble = function(aEvent)
 			{
 				 clearTimeout(this.clickWaitDoubleClick);
-				 
+
 				//event mapping
 				if(aEvent.button == 0)
 				{

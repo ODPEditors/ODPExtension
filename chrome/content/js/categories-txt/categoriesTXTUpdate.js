@@ -1,6 +1,6 @@
 (function()
 {
-	
+
 	//handle the update of the categories.txt database if needed
 	this.categoriesTXTUpdate = function(forceUpdate)
 	{
@@ -8,7 +8,7 @@
 		if(!this.shared.categories.txt.lock)
 		{
 			this.shared.categories.txt.lock = true;
-			
+
 			//the user forced an update on the categories.txt database
 			if(forceUpdate)
 			{
@@ -34,7 +34,7 @@
 							var aDate = Requester.getResponseHeader('Last-Modified');
 								if(aDate == '')
 									aDate = Requester.getResponseHeader('last-modified');
-							
+
 							//yay an update!
 							if(aDate != '' && aDate != ODPExtension.preferenceGet('locked.advanced.urls.categories.txt.last.update'))
 								ODPExtension.categoriesTXTUpdateDownload(aDate);

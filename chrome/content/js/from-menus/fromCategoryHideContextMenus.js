@@ -1,7 +1,7 @@
 (function()
 {
 			//hides all problematic contexts menus
-			
+
 			this.fromCategoryHideContextMenus = function()
 			{
 				try{
@@ -12,22 +12,22 @@
 							/*
 						var aEvent = {};
 							aEvent.target =  this.contentAreaContextMenu();
-						
+
 						var fn = new Function("event", this.contentAreaContextMenu().getAttribute("onpopuphiding"));
 						fn.call(this.contentAreaContextMenu(), aEvent);
 */
-					this.contentAreaContextMenu().hidePopup(); 
+					this.contentAreaContextMenu().hidePopup();
 					this.contentAreaContextMenu().setAttribute('hidden', true);
 				}catch(e){
 
 				}
 
-				this.tabContextMenu().hidePopup(); 
+				this.tabContextMenu().hidePopup();
 				this.tabContextMenu().setAttribute('hidden', true);
-				
+
 				if(this.getBrowserElement('multipletab-selection-menu'))
 				{
-					this.getBrowserElement('multipletab-selection-menu').hidePopup(); 
+					this.getBrowserElement('multipletab-selection-menu').hidePopup();
 					this.getBrowserElement('multipletab-selection-menu').setAttribute('hidden', true);
 					this.getBrowserElement('multipletab-selection-menu').hidePopup();
 				}

@@ -3,18 +3,18 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://ODPExtension/content/xul/preferences/preferences.css" type="text/css"?>
 
-<!DOCTYPE overlay SYSTEM "chrome://ODPExtension/locale/xul.dtd"> 
+<!DOCTYPE overlay SYSTEM "chrome://ODPExtension/locale/xul.dtd">
 
-<dialog 
-	title="&ODPExtension.preferences;" 
+<dialog
+	title="&ODPExtension.preferences;"
 	id="ODPExtension-preferences-window"
 	onload="
 		sizeToContent();
 		document.getElementById('translate-box').setAttribute('maxheight', document.getElementById('licence-browser').boxObject.height);
 		document.getElementById('translate-box').removeAttribute('hidden');
-		" 
-	ondialogaccept="ODPExtension.preferencesSave();return true;" 
-	ondialogcancel="ODPExtension.preferencesLoad();ODPExtension.preferencesWindowClosed();return true;" 
+		"
+	ondialogaccept="ODPExtension.preferencesSave();return true;"
+	ondialogcancel="ODPExtension.preferencesLoad();ODPExtension.preferencesWindowClosed();return true;"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 	minwidth="700"
 >
@@ -27,13 +27,13 @@
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/forms.js"/>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/windows.js"/>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/strings.js"/>
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/sharedMemory.js"/>	
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/sharedMemory.js"/>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/preferences.js"/>
 	<script type="application/x-javascript">
-				
+
 		//gets a reference to the extension code
-			var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]  
-						.getService(Components.interfaces.nsIWindowMediator);  
+			var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+						.getService(Components.interfaces.nsIWindowMediator);
 			var ODPExtensionOnWindow = wm.getMostRecentWindow('navigator:browser')['ODPExtension'];
 	</script>
 
@@ -41,29 +41,29 @@
 
 	<tabbox  flex="1">
 		<vbox flex="1" >
-			
+
 				<!-- hahahack! -->
-				
+
 					<radiogroup  class="paneSelector chromeclass-toolbar radiogroupWhite" role="listbox" orient="horizontal">
-					
+
 						  <radio onclick="ODPExtension.getElement('tab-1').click();" pane="nada" label="&ODPExtension.tab.ui;" class="tabUserInterface radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-2').click();" pane="nada" label="&ODPExtension.tab.privacy;" class="tabPrivacy radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-7').click();" pane="nada" label="&ODPExtension.tab.icon.clicks;" class="tabIconClicks radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-9').click();" pane="nada" label="&ODPExtension.tab.tab.behavior;" class="tabBehavior radioButton"/>
-						  
+
 						  <radio onclick="ODPExtension.getElement('tab-3').click();" pane="nada" label="&ODPExtension.tab.translate;" class="tabTranslate radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-6').click();" pane="nada" label="&ODPExtension.tab.url.tools;" class="tabURLTools radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-11').click();" pane="nada" label="&ODPExtension.tab.url.notes;" class="tabURLNotes radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-8').click();" pane="nada" label="&ODPExtension.tab.category.abbreviations;" class="tabAbbreviations radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-10').click();" pane="nada" label="&ODPExtension.tab.category.browser;" class="tabCategoryBrowser radioButton"/>
-						  
+
 						  <radio onclick="ODPExtension.getElement('tab-4').click();" pane="nada" label="&ODPExtension.tab.advanced;" class="tabAdvanced radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-12').click();" pane="nada" label="&ODPExtension.tab.help;" class="tabDocumentation radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-5').click();" pane="nada" label="&ODPExtension.tab.license;" class="tabLicense radioButton"/>
-						  
+
 					</radiogroup>
-				
-				
+
+
 					<tabs  hidden="true" orient="vertical" >
 						<tab id="ODPExtension-tab-1" active="true"/>
 						<tab id="ODPExtension-tab-2"/>
@@ -82,7 +82,7 @@
 						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">			<hbox>
 
 					<vbox flex="1">
-	
+
 						<groupbox flex="1">
 							<caption label="&ODPExtension.ui.icon.position;"/>
 							<radiogroup flex="1">
@@ -91,11 +91,11 @@
 								<radio label="&ODPExtension.ui.icon.position.no.icon;"  		id="ui.icon.position.no.icon" class="image" align="center"/>
 							</radiogroup>
 						</groupbox>
-						
+
 						<groupbox flex="1">
-						
+
 							<caption label="&ODPExtension.miscellaneous;"/>
-	
+
 							<vbox flex="1">
 								<checkbox label="&ODPExtension.ui.abbreviate.category.names;" id="ui.abbreviate.category.names"/>
 								<checkbox label="&ODPExtension.ui.from.category.auto;" id="ui.from.category.auto"/>
@@ -127,7 +127,7 @@
 
 						<groupbox>
 							<caption label="&ODPExtension.navegador;"/>
-								<checkbox label="&ODPExtension.navegador.abbreviate.tabs.titles;" id="abreviate.tab.title" disabled="true"/>				
+								<checkbox label="&ODPExtension.navegador.abbreviate.tabs.titles;" id="abreviate.tab.title" disabled="true"/>
 						</groupbox>
 
 					</vbox>
@@ -239,7 +239,7 @@
 						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">			<hbox hidden="true" id="translate-box">
 				<vbox flex="1" style="overflow:auto;">
 				<hbox flex="1">
-				<groupbox flex="1" >	
+				<groupbox flex="1" >
 					<caption label="&ODPExtension.ui.context.menu.translate.languages;"/>
 					<groupbox class="groupboxInvisible">
 						<checkbox id="ui.context.menu.translate.lang.display.af" label="Afrikaans"/>
@@ -297,7 +297,7 @@
 						<checkbox id="ui.context.menu.translate.lang.display.yi" label="Yiddish"/>
 					</groupbox>
 				</groupbox>
-				
+
 				<groupbox flex="1">
 					<caption label="&ODPExtension.ui.context.menu.translate.languages.with.priority;"/>
 					<groupbox class="groupboxInvisible">
@@ -414,7 +414,7 @@
 								</hbox>
 
 							</groupbox>
-							
+
 							<groupbox>
 								<caption label="&ODPExtension.extension.directory;"/>
 								<hbox flex="1">
@@ -424,7 +424,7 @@
 								</hbox>
 							</groupbox>
 
-	
+
 					</vbox>
 
 			</hbox>
@@ -441,13 +441,13 @@
 					<description>&ODPExtension.example; &quot;This is the tool title for the menu|http://www.mytool.org/?url={URL}&amp;ip={IP}&amp;cat={CAT}&quot;</description>
 				</groupbox>
 			</hbox></vbox></tabpanel>
-						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">			
+						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">
 			<hbox flex="1">
 
 				<vbox  flex="1">
 						<groupbox flex="1">
 							<caption label="&ODPExtension.tab.icon.clicks;"/>
-						
+
 					<!-- customizable! -->
 						<groupbox flex="1">
 							<caption label="&ODPExtension.click.left;"/>
@@ -512,7 +512,7 @@
 													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
 											<hbox><label value="&ODPExtension.key.shift;"  class="rowTitle"/><menulist id="event.click.icon.middle.double.shift">
 													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
-											<hbox><label value="&ODPExtension.key.alt;"  class="rowTitle"/><menulist id="event.click.icon.middle.double.alt">	
+											<hbox><label value="&ODPExtension.key.alt;"  class="rowTitle"/><menulist id="event.click.icon.middle.double.alt">
 													<menupopup><menuitem value="" label="&ODPExtension.command.do.nothing;"/><menuitem value="copyLocation" label="&ODPExtension.command.copy.location;"/><menuitem value="copyLocationHTML" label="&ODPExtension.command.copy.location.html;"/><menuitem value="copyLocationPHPBB" label="&ODPExtension.command.copy.location.phpbb;"/><menuseparator/><menuitem value="domainSiteODP" label="&ODPExtension.command.domain.site.odp;"/><menuitem value="domainSiteSE" label="&ODPExtension.command.domain.site.se;"/><menuseparator/><menuitem value="highlightListings" label="&ODPExtension.command.highlight.listings;"/><menuitem value="retrieveListings" label="&ODPExtension.command.retrieve.listings;"/><menuseparator/><menuitem value="openPreferences" label="&ODPExtension.command.open.preferences;"/><menuitem value="openDContextMenu" label="&ODPExtension.command.open.d.context.menu;"/><menuitem value="extensionToggle" label="&ODPExtension.command.extension.toggle;"/></menupopup></menulist></hbox>
 										</groupbox>
 									</vbox>
@@ -559,7 +559,7 @@
 								</groupbox>
 
 				</vbox>
-				
+
 			</hbox></vbox></tabpanel>
 						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">
 
@@ -582,16 +582,16 @@
 				<vbox  flex="1" >
 				<groupbox flex="1" orient="vertical" style="padding:9px;" >
 				<caption label="&ODPExtension.tab.tab.behavior;" class="rowTitle"/>
-		
+
 					<!-- customizable! -->
-					
+
 						<hbox>
 							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
 								<caption label="&ODPExtension.ui.context.menu.translate;" class="rowTitle"/>
-								<checkbox id="tab.behavior.translate.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.translate.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.translate.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.translate.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.translate.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.translate.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.translate.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.translate.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>
 								<description value="&ODPExtension.tab.sub.browser.position;"/>
 								<menulist id="tab.behavior.translate.tab.sub.browser.position" >
 									<menupopup>
@@ -603,14 +603,14 @@
 								</menulist>
 							</groupbox>
 						</hbox>
-						
+
 						<hbox>
 							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
 								<caption label="&ODPExtension.ui.context.menu.word.reference;" class="rowTitle"/>
-								<checkbox id="tab.behavior.word.reference.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.word.reference.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.word.reference.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.word.reference.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.word.reference.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.word.reference.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.word.reference.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.word.reference.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>
 								<description value="&ODPExtension.tab.sub.browser.position;"/>
 								<menulist id="tab.behavior.word.reference.tab.sub.browser.position" label="&ODPExtension.tab.sub.browser.position;">
 									<menupopup>
@@ -622,14 +622,14 @@
 								</menulist>
 							</groupbox>
 						</hbox>
-						
+
 						<hbox>
 							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
 								<caption label="&ODPExtension.ui.context.menu.url.tools;" class="rowTitle"/>
-								<checkbox id="tab.behavior.url.tools.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.url.tools.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.url.tools.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.url.tools.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/> 
+								<checkbox id="tab.behavior.url.tools.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.url.tools.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.url.tools.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.url.tools.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>
 								<description value="&ODPExtension.tab.sub.browser.position;"/>
 								<menulist id="tab.behavior.url.tools.tab.sub.browser.position" label="&ODPExtension.tab.sub.browser.position;">
 									<menupopup>
@@ -641,14 +641,14 @@
 								</menulist>
 							</groupbox>
 						</hbox>
-						
+
 						<hbox>
 							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
 								<caption label="&ODPExtension.ui.context.menu.frame.selected;" class="rowTitle"/>
-								<checkbox id="tab.behavior.frame.selected.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.frame.selected.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.frame.selected.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.frame.selected.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.frame.selected.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.frame.selected.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.frame.selected.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.frame.selected.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>
 								<description value="&ODPExtension.tab.sub.browser.position;"/>
 								<menulist id="tab.behavior.frame.selected.tab.sub.browser.position" label="&ODPExtension.tab.sub.browser.position;">
 									<menupopup>
@@ -660,15 +660,15 @@
 								</menulist>
 							</groupbox>
 						</hbox>
-						
+
 						<hbox>
 							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
 								<caption label="&ODPExtension.ui.context.menu.frames;" class="rowTitle"/>
-								
-								<checkbox id="tab.behavior.frame.from.menu.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.frame.from.menu.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.frame.from.menu.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.frame.from.menu.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>  
+
+								<checkbox id="tab.behavior.frame.from.menu.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.frame.from.menu.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.frame.from.menu.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.frame.from.menu.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>
 								<description value="&ODPExtension.tab.sub.browser.position;"/>
 								<menulist id="tab.behavior.frame.from.menu.tab.sub.browser.position" label="&ODPExtension.tab.sub.browser.position;">
 									<menupopup>
@@ -680,14 +680,14 @@
 								</menulist>
 							</groupbox>
 						</hbox>
-						
+
 						<hbox>
 							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
 								<caption label="&ODPExtension.command.domain.site.odp;" class="rowTitle"/>
-								<checkbox id="tab.behavior.odp.search.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.odp.search.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.odp.search.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.odp.search.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.odp.search.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.odp.search.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.odp.search.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.odp.search.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>
 								<description value="&ODPExtension.tab.sub.browser.position;"/>
 								<menulist id="tab.behavior.odp.search.tab.sub.browser.position" label="&ODPExtension.tab.sub.browser.position;">
 									<menupopup>
@@ -699,14 +699,14 @@
 								</menulist>
 							</groupbox>
 						</hbox>
-						
+
 						<hbox>
 							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
 								<caption label="&ODPExtension.command.domain.site.se;" class="rowTitle"/>
-								<checkbox id="tab.behavior.domain.site.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.domain.site.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.domain.site.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.domain.site.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.domain.site.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.domain.site.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.domain.site.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.domain.site.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>
 								<description value="&ODPExtension.tab.sub.browser.position;"/>
 								<menulist id="tab.behavior.domain.site.tab.sub.browser.position" label="&ODPExtension.tab.sub.browser.position;">
 									<menupopup>
@@ -718,14 +718,14 @@
 								</menulist>
 							</groupbox>
 						</hbox>
-						
+
 						<hbox>
 							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
 								<caption label="&ODPExtension.ui.informative.panel;" class="rowTitle"/>
-								<checkbox id="tab.behavior.informative.panel.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.informative.panel.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.informative.panel.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>  
-								<checkbox id="tab.behavior.informative.panel.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>  
+								<checkbox id="tab.behavior.informative.panel.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.informative.panel.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.informative.panel.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>
+								<checkbox id="tab.behavior.informative.panel.tab.sub.browser" label="&ODPExtension.tab.open.in.sub.browser;"  class="rowTitle"/>
 								<description value="&ODPExtension.tab.sub.browser.position;"/>
 								<menulist id="tab.behavior.informative.panel.tab.sub.browser.position" label="&ODPExtension.tab.sub.browser.position;">
 									<menupopup>
@@ -737,49 +737,49 @@
 								</menulist>
 							</groupbox>
 						</hbox>
-						
+
 					<spacer flex="1"/>
 
-					
+
 					<hbox>
 						<description>
-							Note: Tabs behavior special features are powered by <label 
-								onclick="if (event.button == 0){ ODPExtensionOnWindow.openURL(this.getAttribute('tooltiptext'), true, false, true); }" 
+							Note: Tabs behavior special features are powered by <label
+								onclick="if (event.button == 0){ ODPExtensionOnWindow.openURL(this.getAttribute('tooltiptext'), true, false, true); }"
 								class="text-link"
-								value="piro" 
+								value="piro"
 								tooltiptext="http://piro.sakura.ne.jp/"
-							/>'s extensions <label 
-								onclick="if (event.button == 0){ ODPExtensionOnWindow.openURL(this.getAttribute('tooltiptext'), true, false, true); }" 
+							/>'s extensions <label
+								onclick="if (event.button == 0){ ODPExtensionOnWindow.openURL(this.getAttribute('tooltiptext'), true, false, true); }"
 								class="text-link"
-								value="for Firefox" 
+								value="for Firefox"
 								tooltiptext="https://addons.mozilla.org/en-US/firefox/user/9480"
-							/>, mostly <label 
-								onclick="if (event.button == 0){ ODPExtensionOnWindow.openURL(this.getAttribute('tooltiptext'), true, false, true); }" 
+							/>, mostly <label
+								onclick="if (event.button == 0){ ODPExtensionOnWindow.openURL(this.getAttribute('tooltiptext'), true, false, true); }"
 								class="text-link"
-								value="Multiple Tab Handler" 
+								value="Multiple Tab Handler"
 								tooltiptext="http://piro.sakura.ne.jp/xul/_multipletab.html.en"
-							/>, <label 
-								onclick="if (event.button == 0){ ODPExtensionOnWindow.openURL(this.getAttribute('tooltiptext'), true, false, true); }" 
+							/>, <label
+								onclick="if (event.button == 0){ ODPExtensionOnWindow.openURL(this.getAttribute('tooltiptext'), true, false, true); }"
 								class="text-link"
-								value="Tree Style Tab" 
+								value="Tree Style Tab"
 								tooltiptext="http://piro.sakura.ne.jp/xul/_treestyletab.html.en"
-							/> and <label 
-								onclick="if (event.button == 0){ ODPExtensionOnWindow.openURL(this.getAttribute('tooltiptext'), true, false, true); }" 
+							/> and <label
+								onclick="if (event.button == 0){ ODPExtensionOnWindow.openURL(this.getAttribute('tooltiptext'), true, false, true); }"
 								class="text-link"
-								value="Split Browser" 
+								value="Split Browser"
 								tooltiptext="http://piro.sakura.ne.jp/xul/_splitbrowser.html.en"
 							/> (Sub Browser feature).
 						</description>
 					</hbox>
-							
+
 						</groupbox>
 
 			</vbox>
-				
-				
+
+
 
 			</hbox></vbox></tabpanel>
-						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">	
+						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">
 	<hbox flex="1">
 		<groupbox flex="1">
 			<caption label="&ODPExtension.tab.category.browser;"/>
@@ -789,7 +789,7 @@
 			</hbox>
 		</groupbox>
 	</hbox></vbox></tabpanel>
-						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">	
+						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">
 			<hbox flex="1">
 				<vbox flex="1">
 					<groupbox flex="1">
@@ -822,7 +822,7 @@
 						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">	<browser id="licence-browser" type="content" flex="1" src="chrome://ODPExtension/content/documents/help/index.html" style="margin-bottom:4px;"/>
 </vbox></tabpanel>
 					</tabpanels>
-					
+
 					<hbox >
 						<button type="menu" label="&ODPExtension.preferences;">
 						<menupopup position="before_start">
@@ -850,7 +850,7 @@
 						<button label="&ODPExtension.preferences.save;" dlgtype="accept" id="myAccept"/>
 						<button label="&ODPExtension.preferences.cancel;" dlgtype="cancel" id="myCancel"/>
 					</hbox>
-					
+
 </vbox>
 
 </tabbox>

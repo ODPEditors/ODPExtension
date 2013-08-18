@@ -2,10 +2,10 @@
 <window id="main-window">
 
 		<menupopup
-			id="ODPExtension-extension-icon-context" 
-			position="before_end" 
+			id="ODPExtension-extension-icon-context"
+			position="before_end"
 
-			onpopupshowing="this.removeAttribute('height');" 
+			onpopupshowing="this.removeAttribute('height');"
 			onclick="
 				if(event.originalTarget.hasAttribute('url') &amp;&amp; event.originalTarget.getAttribute('url') != '')
 				{
@@ -28,7 +28,7 @@
 					<menuseparator/>
 					<menuitem url="http://mozillazine.org" tooltiptext="http://mozillazine.org" label="MozillaZine"/>
 					<menuseparator/>
-					<menuitem url="http://www.dmoz.org/Computers/Software/Internet/Clients/WWW/Browsers/Firefox/Add-ons/" tooltiptext="http://www.dmoz.org/Computers/Software/Internet/Clients/WWW/Browsers/Firefox/Add-ons/" label="Add-ons Directory"/>					
+					<menuitem url="http://www.dmoz.org/Computers/Software/Internet/Clients/WWW/Browsers/Firefox/Add-ons/" tooltiptext="http://www.dmoz.org/Computers/Software/Internet/Clients/WWW/Browsers/Firefox/Add-ons/" label="Add-ons Directory"/>
 					<menuseparator/>
 					<menuitem url="http://forums.dmoz.org/forum/viewtopic.php?t=920940" tooltiptext="http://forums.dmoz.org/forum/viewtopic.php?t=920940" label="&ODPExtension.odp.extension.project;"/>
 					<menuitem url="chrome://odpextension/content/documents/help/index.html" tooltiptext="chrome://odpextension/content/documents/help/index.html" label="Documentation"/>
@@ -114,13 +114,13 @@
 			<menu id="ODPExtension-extension-icon-from-category" label="&ODPExtension.ui.context.menu.from.category.empty;" tooltip="ODPExtension-from-categories-tooltip" >
 				<menupopup
 					class="ODPExtension-from-category-xbl ODPExtension-crop"
-					onmouseover="ODPExtension.fromCategoryClickType = 'single';ODPExtension.categoryBrowserNavigate(event);" 
-					onmouseout="ODPExtension.categoryBrowserNavigate(event);" 
+					onmouseover="ODPExtension.fromCategoryClickType = 'single';ODPExtension.categoryBrowserNavigate(event);"
+					onmouseout="ODPExtension.categoryBrowserNavigate(event);"
 					onmouseup="ODPExtension.stopEvent(event);if(event.originalTarget.hasAttribute('disabled')){ ODPExtension.stopEvent(event);}else if(event.originalTarget.hasAttribute('action')){ODPExtension.fromCategoryClick(event)}else if(event.originalTarget.hasAttribute('value')){ODPExtension.categoryBrowserClick(event);}"
 					ondblclick="ODPExtension.stopEvent(event)"
-					tooltip="ODPExtension-from-categories-tooltip" 
+					tooltip="ODPExtension-from-categories-tooltip"
 				/>
 			</menu>
 		</menupopup>
-		
+
 </window>

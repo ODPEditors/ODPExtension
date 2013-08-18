@@ -1,6 +1,6 @@
 (function()
 {
-	
+
 	//appends categories to the category browser below aPreviousNode
 	this.categoryBrowserAppendCategoriesAfter = function(aCategories, aPreviousNode, aTemporalNode)
 	{

@@ -20,12 +20,12 @@
 		else
 		{
 			container = this.create('hbox');
-			
+
 			var subcontainer = this.create('vbox');
 			subcontainer.setAttribute('id', 'ODPExtension-appendToTabbar-container');
-			
+
 			subcontainer.appendChild(anElement)
-			
+
 			if(this.isThereTreeStyleTab() || this.isThereTabKit() || this.isThereVertTabbar())//append the container to the bottom
 			{
 				var panelcontainer = this.getBrowserElement('appcontent');
@@ -51,7 +51,7 @@
 		if (node.namespaceURI == "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
 		&& (node.tagName == "menupopup" || node.tagName == "popup"))
 		  node.hidePopup();
-	
+
 		this.closeMenus(node.parentNode);
 	  }
 	}
@@ -69,11 +69,11 @@
 	this.createFormHiddenInput = function (anID, aDefault)
 	{
 		var aTextbox = this.create('textbox');
-		
+
 			aTextbox.setAttribute('id', 'ODPExtension-'+anID);
 			aTextbox.setAttribute('name', anID);
 			aTextbox.setAttribute('hidden', true);
-			
+
 			if(aDefault)
 				aTextbox.setAttribute('value', aDefault);
 
@@ -104,10 +104,10 @@
 	this.createTextbox = function (anID, aDefault, autoComplete)
 	{
 		var aTextbox = this.create('textbox');
-		
+
 			aTextbox.setAttribute('id', 'ODPExtension-'+anID);
 			aTextbox.setAttribute('name', anID);
-			
+
 			if(aDefault)
 				aTextbox.setAttribute('value', aDefault);
 
@@ -166,7 +166,7 @@
 			aTextbox.removeAttribute('status');
 		else
 			aTextbox.setAttribute('status', '404');
-		
+
 	}
 	//focus an Element, if the tab for the element is hidden will be focused too
 	this.focusElement = function(anElement)
@@ -175,7 +175,7 @@
 		{
 			if(anElement.ownerDocument)
 				this.tabSelect(this.tabGetFromDocument(anElement.ownerDocument));
-			
+
 			anElement.focus();
 		}
 		catch(e)
@@ -185,12 +185,12 @@
 	}
 	//returns true if the focused element is a textbox
 	this.focusedElementIsTextbox = function()
-	{		
+	{
 		if(!document.commandDispatcher || !document.commandDispatcher.focusedElement)
 			return false;
 
 		var tBox = document.commandDispatcher.focusedElement;
-		
+
 		if((this.tagName(tBox) == 'input' && (!tBox.hasAttribute('type') || tBox.getAttribute('type') == 'text')) || this.tagName(tBox) == 'textarea')
 			return true;
 		else
@@ -244,7 +244,7 @@
 	{
 	  if(!('getElementsByName' in aDoc))
 		return null;
-	
+
 	  var anElements = aDoc.getElementsByName(aName);
 	  if(anElements.length>0)
 		  return anElements[0];
@@ -274,7 +274,7 @@
 		{
 			aTargetNode.parentNode.insertBefore(aNode, aTargetNode.previousSibling);
 		}
-	
+
 	}
 	//hides the non selected item
 	this.paginate = function (aNode)
@@ -283,9 +283,9 @@
 		for(var i=0;i<childNodes.length;i++)
 		{
 			if(childNodes[i].hasAttribute('paginate'))
-				aNode.ownerDocument.getElementById(childNodes[i].getAttribute('paginate')).setAttribute('hidden', true);	
+				aNode.ownerDocument.getElementById(childNodes[i].getAttribute('paginate')).setAttribute('hidden', true);
 		}
-		aNode.ownerDocument.getElementById(aNode.getAttribute('paginate')).setAttribute('hidden', false);	
+		aNode.ownerDocument.getElementById(aNode.getAttribute('paginate')).setAttribute('hidden', false);
 	}
 	//removes all non locked childs from a node
 	this.removeChilds = function (anElement)
@@ -414,7 +414,7 @@
 				return;
 			var nodesToRemove = length-maxChilds;
 			var nodesRemoved = 0;
-			
+
 			if(fromTop)
 			{
 				for(var a=length-1;a>=0;a--)

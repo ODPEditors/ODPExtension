@@ -11,23 +11,23 @@
 			//this.dump('Is not public', true);
 			return true;
 		}
-		
+
 		//https check
 		if(this.preferenceGet('privacy.queries.exclude.https') &&  this.getSchema(aURL) =='https')
 		{
 			//this.dump('NO https!!', true);
 			return true;
 		}
-		
+
 		var aSubdomain = this.getSubdomainFromURL(aURL);
-		
+
 		//ip adress check
 		if(this.preferenceGet('privacy.queries.exclude.ips') &&  this.isIPAddress(aSubdomain))
 		{
 			//this.dump('NO ips!', true);
 			return true;
 		}
-		
+
 		//excluded.domains
 		for(var id in this.shared.privacy.excluded.domains)
 		{
@@ -37,7 +37,7 @@
 				return true;
 			}
 		}
-		
+
 		//excluded.odp.subdomains
 		for(var id in this.shared.privacy.odp.subdomains)
 		{
@@ -47,7 +47,7 @@
 				return true;
 			}
 		}
-		
+
 		var aDomain = this.getDomainFromURL(aURL);
 		//excluded.odp.domains
 		for(var id in this.shared.privacy.odp.domains)
@@ -58,10 +58,10 @@
 				return true;
 			}
 		}
-		
+
 		//excluded.strings
 		aURL = this.decodeUTF8Recursive(aURL.toLowerCase());
-		
+
 		for(var id in this.shared.privacy.excluded.strings)
 		{
 			if(this.shared.privacy.excluded.strings[id] != '' && aURL.indexOf(this.shared.privacy.excluded.strings[id]) != -1)
@@ -70,17 +70,17 @@
 				return true;
 			}
 		}
-		
+
 		//just in case
 		//urls with the string log something and pass for passwords are considerated private
 		if(
-		   aURL.indexOf('logout') != -1 || 
-		   aURL.indexOf('logoff') != -1 || 
-		   aURL.indexOf('login') != -1 || 
-		   aURL.indexOf('pass') != -1 
+		   aURL.indexOf('logout') != -1 ||
+		   aURL.indexOf('logoff') != -1 ||
+		   aURL.indexOf('login') != -1 ||
+		   aURL.indexOf('pass') != -1
 		   )
 			return true;
-			
+
 		//we are safe!
 		return false;
 	}

@@ -65,9 +65,9 @@
 			if(this.getElement('toolbarbutton-odp-url-notes-copy-unreview'))
 				this.toolbarCloseRemember(this.getElement('toolbarbutton-odp-url-notes-copy-unreview'));
 		}
-		
+
 		this.categoryNavigatorToolbarUpdate(this.categoryGetFocused());
-		
+
 		this.preferenceSet('toolbars.toggle', !this.preferenceGet('toolbars.toggle'))
 	}
 	return null;

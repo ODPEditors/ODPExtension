@@ -24,7 +24,7 @@
 				aCategory[a] = aCategory[a].join('');
 			}
 		}
-		
+
 		return aCategory.join(':').replace(/%/g, '~');
 	}
 	return null;

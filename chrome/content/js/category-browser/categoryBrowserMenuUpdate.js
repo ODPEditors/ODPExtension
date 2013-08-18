@@ -1,18 +1,18 @@
 (function()
 {
-	
+
 	//empties and recreate the category browser menu appending the categories that the user has "locked"
 	this.categoryBrowserMenuUpdate = function()
 	{
 		//this.dump('categoryBrowserMenuUpdate', true);
-			//to avoid adding of the same category twice or more 
+			//to avoid adding of the same category twice or more
 			this.categoryBrowserCategories = [];
 			this.categoryBrowserRemoveChilds = [];
 
 			this.removeChilds(this.getElement('category-browser'));
 
 		//locked categories
-		
+
 			var aTemp = this.preferenceGet('category.browser').split('\n');
 			var aCategories = [];
 			var aCategory = '';
@@ -33,9 +33,9 @@
 			{
 				this.getElement('category-browser-categories-locked').setAttribute('hidden', true);
 			}
-			
+
 		//categories history
-		
+
 			aCategories = [];
 			var row;
 			var i=0;
@@ -46,7 +46,7 @@
 					aCategories[i] = row.categories_history_category;
 				}
 			}
-			
+
 			if(i>0)
 			{
 				this.categoryBrowserAppendCategoriesAfter(aCategories.reverse(), this.getElement('category-browser-categories-history'));

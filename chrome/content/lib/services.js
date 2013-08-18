@@ -4,7 +4,7 @@
 	{
 		if(!this.services)
 			this.services = {};
-			
+
 		if(!this.services[aName])
 		{
 			switch(aName)
@@ -41,7 +41,7 @@
 						this.services[aName] = Components.classes["@mozilla.org/preferences-service;1"]
 													.getService(Components.interfaces.nsIPrefService).getBranch(aSome+'.');
 						this.services[aName].QueryInterface(Components.interfaces.nsIPrefBranch2);
-						
+
 						return this.services[aName];
 					}
 					return this.services[aName];
@@ -54,19 +54,19 @@
 						spellclass = "@mozilla.org/spellchecker/hunspell;1";
 					if ("@mozilla.org/spellchecker/engine;1" in Components.classes)
 						spellclass = "@mozilla.org/spellchecker/engine;1";
-					
+
 					this.services[aName] = {};
 					//this one check if a word is misspelled looking at the normal dictionary
 					this.services[aName].spellCheckEngine = Components.classes[spellclass]
 																.createInstance(Components.interfaces.mozISpellCheckingEngine);
-					//THIS one.. check if a word is misspelled by looking at the PERSONAL dictionary 
+					//THIS one.. check if a word is misspelled by looking at the PERSONAL dictionary
 					//( maybe a non-recognized(by the normal dict) word was added as CORRECT to the personal dictionary )
 					this.services[aName].mPersonalDictionary = Components.classes["@mozilla.org/spellchecker/personaldictionary;1"]
 																.getService(Components.interfaces.mozIPersonalDictionary);
 					break;
 				}
 			}
-		}		
+		}
 		return this.services[aName];
   	}
 

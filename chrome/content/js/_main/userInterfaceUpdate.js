@@ -10,9 +10,9 @@
 				//this.dump('userInterfaceUpdate', debugingThisFile);
 
 				this.extensionIconUpdatePosition();
-				//this.extensionIconUpdateStatus(); //this fires on location change 
+				//this.extensionIconUpdateStatus(); //this fires on location change
 				this.categoryBrowserMenuUpdate();
-				
+
 				//odp notes
 				this.odpURLNotesToolbarbuttonsMenuReset('update');
 				this.odpURLNotesToolbarbuttonsMenuReset('unreview');
@@ -21,9 +21,9 @@
 				this.odpURLNotesToolbarbuttonsMenuReset('move-unreview');
 				this.odpURLNotesToolbarbuttonsMenuReset('copy-publish');
 				this.odpURLNotesToolbarbuttonsMenuReset('copy-unreview');
-				
-				//this.listingGetInformation(this.focusedURL); //this fires on location change 
-				
+
+				//this.listingGetInformation(this.focusedURL); //this fires on location change
+
 				if(this.preferenceGet('ui.informative.panel.categories.align.left'))
 				{
 					this.getElement('panel-related-categories').setAttribute('data-align', 'left');
@@ -38,7 +38,7 @@
 				{
 					this.getElement('panel-related-categories').childNodes[i].setAttribute('crop',categoryCrop);
 				}
-				
+
 				if(!this.preferenceGet('enabled'))
 				{
 					//context menu
@@ -48,7 +48,7 @@
 					this.getElement('context-frames-menu').setAttribute('hidden', true);
 					this.getElement('context-frame').setAttribute('hidden', true);
 					this.getElement('context-separator').setAttribute('hidden', true);
-					
+
 					this.getElement('context-from-category').setAttribute('hidden', true);
 					this.getElement('context-from-categories').setAttribute('hidden', true);
 					this.getElement('context-from-editor').setAttribute('hidden', true);
@@ -84,19 +84,19 @@
 						this.getElement('toolbarbutton-odp-url-notes-copy-unreview').setAttribute('hidden', true);
 					//forms css
 					this.cssRemove('forms.css');
-						
+
 				}
 				else
 				{
 				//context menu
-				
+
 					var showContextMenuSeparator = false;
-				
+
 					//translate menu
 						this.translateMenuUpdate();
 						if(this.preferenceGet('ui.context.menu.translate'))
 							showContextMenuSeparator = true;
-							
+
 					//word reference
 						if(this.preferenceGet('ui.context.menu.word.reference'))
 						{
@@ -105,7 +105,7 @@
 						}
 						else
 							this.getElement('word-reference').setAttribute('hidden', true);
-							
+
 					//url tools
 						this.URLToolsMenuUpdate();
 						if(this.preferenceGet('ui.context.menu.url.tools'))
@@ -121,7 +121,7 @@
 							showContextMenuSeparator = true;
 						else
 							this.getElement('context-frame').setAttribute('hidden', true);
-							
+
 					//the separator
 						if(showContextMenuSeparator)
 							this.getElement('context-separator').setAttribute('hidden', false);
@@ -134,7 +134,7 @@
 					{
 						this.shared.categories.txt.exists = true;
 						this.shared.categories.txt.databases =  this.folderListContent('categories.txt/');
-						
+
 						this.categoryFinderMenuListUpdate(this.getElement('local-category-finder-database-list'));
 						this.categoryFinderMenuListUpdate(document.getAnonymousElementByAttribute(this.getElement('category-browser') , "anonid", "ODPExtension-local-category-finder-database-list-xbl"));
 
@@ -162,7 +162,7 @@
 					}
 					//toolbar
 					this.getElement('toolbar').setAttribute('hidden', false);
-				
+
 				//toolbarbuttons
 					if(this.getElement('toolbarbutton-category-browser'))
 						this.getElement('toolbarbutton-category-browser').setAttribute('hidden', false);
@@ -170,7 +170,7 @@
 						this.getElement('toolbarbutton-toggle').setAttribute('hidden', false);
 					if(this.getElement('toolbarbutton-add-to-open-directory'))
 						this.getElement('toolbarbutton-add-to-open-directory').setAttribute('hidden', false);
-					
+
 				//forms css
 					if(this.preferenceGet('forms.css'))
 						this.cssAppend('forms.css', 'chrome://odpextension/content/xul/navigator/html/editor.dmoz.org.css');
@@ -178,9 +178,9 @@
 						this.cssRemove('forms.css');
 
 				}
-				
-				//this.setFocusedCategory(true);//to update the UI based on the categories txt data //this fires on location change 
-				
+
+				//this.setFocusedCategory(true);//to update the UI based on the categories txt data //this fires on location change
+
 			}
 	return null;
 

@@ -23,14 +23,14 @@
 						(
 							 this.fromCategoryCanceledAutoPopup &&//if the element was showed with the rigth click event and the timeout to show the menu again is on
 							 (
-							 	aEvent.type == 'mouseup' || 
+							 	aEvent.type == 'mouseup' ||
 								aEvent.type == 'dblclick'
 							 )
 						 )
 						||
 						this.fromCategoryUpdating  //or this function is already running
 					)
-					&& 
+					&&
 					aEvent.type != 'dblclick' //allow processing if doble rigth click
 				)
 				{
@@ -45,7 +45,7 @@
 				//if XUL was clicked or if the click come with a modifier
 				if(aDocTypeXUL && aEvent.type == 'mouseup' || ( aEvent.type == 'mouseup' &&  (aEvent.ctrlKey  || aEvent.shiftKey ||  aEvent.altKey  ) ) )
 					return;
-					
+
 				//retreiving the data
 
 					this.fromCategoryUpdating = true;
@@ -56,13 +56,13 @@
 					//editors
 					this.fromEditorSelectedEditors = [];
 					this.fromEditorSelectedEditor = '';
-					
-					//ok let's check 
+
+					//ok let's check
 						var autoPopup = false;
 
 					//used vars
 							var aTemp;
-							
+
 							//hack for pre tag support
 							if(gContextMenu && gContextMenu.target && this.tagName(gContextMenu.target) == 'pre')
 							{
@@ -73,7 +73,7 @@
 								var selectedText 			= this.trim(this.getSelectedText(false));
 							}
 							//more hack for pre tag
-							/* 
+							/*
 								in this portion of code we don't know if we are in a pre tag, because maybe the popup was fired by doble rigth click or the autopopup
 								then
 								if the selected text contains a <a tag, then is not a pre tag or our own at least.
@@ -83,24 +83,24 @@
 								selectedTextHTML = selectedText;
 							else
 								selectedTextHTML 			= this.trim(this.htmlEntityDecode(this.stripTags(selectedTextHTML.replace(/<br>/gi, '\n').replace(/<\/br>/gi, '\n'))));
-							
+
 							//hack for multiple category selection on text area
 							if(this.focusedElementIsTextbox() && selectedTextHTML == '')
 								selectedTextHTML = selectedText;
-								
-								
+
+
 							var selectedTextInsideInput = (this.getFocusedElementSelection() != '' ? true : false);
 							var clipboard 				= (this.getClipboard() != '' ? true : false);
 
-					//single categories 
-					
+					//single categories
+
 						//check if the selected text is a valid category
 						//this.dump(selectedText);
 						var aCategorySelectedText = this.categoryGetFromURL(selectedText, true);
 
 						//check focused category
 						var aCategoryFocused = this.categoryGetFocused();
-						
+
 						//check if the selected first links are valid categories
 						var aCategoryLinks = '';
 							var aTemp = this.getSelectedLinksURLs();
@@ -114,7 +114,7 @@
 							}
 						//check if the selected link (not links) ( the rigth clicked link ) are a valid category
 						var aCategoryLink = this.categoryGetFromURL(this.getSelectedLink());
-						
+
 						//check rigth clicked category on some menu, menuitem or toolbarbutton
 						if(document.popupNode)
 						{
@@ -127,7 +127,7 @@
 						}
 						else
 							var aCategoryPopup = '';
-						
+
 						//check a SELECT with a category value - firefox 3.6 will not show up the context menu, then my context menu will not so disturbing!
 							if(this.tagName(aEvent.originalTarget) == 'select')
 							{
@@ -137,16 +137,16 @@
 							}
 							else
 								var aCategorySelectHTML = '';
-						
+
 						//check tab context menu
 						if(aDocTypeXUL)
 							var aCategoryTabContextMenu = this.categoryGetFromURL(this.tabContextMenuLocation());
 						else
 							var aCategoryTabContextMenu = '';
-							
+
 						//check link with category attribute
 						//this.dump(fromWhere);
-						
+
 						if(fromWhere == 'context-from-category' && gContextMenu && gContextMenu.link && (gContextMenu.link.hasAttribute('category') || gContextMenu.link.hasAttribute('data-category') ||  gContextMenu.link.hasAttribute('data-odpextension-autopopup')))
 						{
 							if(gContextMenu.link.hasAttribute('category'))
@@ -161,9 +161,9 @@
 						}
 						else
 							var aLinkCategoryAttribute = '';
-						
+
 					//multiple categories
-					
+
 						//check if the selected text is a valid category
 						var aMCategorySelectedText = [];
 							aTemp = selectedTextHTML.replace(/\*/g, '\n').replace(/\#/g, '\n').replace(/\"/g, '\n').replace(/\->/g, '\n').replace(/\</g, '\n').replace(/\)/g, '\n').replace(/\/\./g, '\n').split('\n');
@@ -173,9 +173,9 @@
 								aMCategorySelectedText[aMCategorySelectedText.length] = aTemp[id];
 						}
 						aMCategorySelectedText = this.arrayUnique(aMCategorySelectedText);
-					
+
 						//this.dump(aMCategorySelectedText);
-						
+
 						//check if the selected links are valid categories
 						var aMCategoryLinks = [];
 							aTemp = this.getSelectedLinksURLs();
@@ -202,14 +202,14 @@
 								aMCategoriesMultipleTabHandler[aMCategoriesMultipleTabHandler.length] = aTemp;
 							}
 						}
-						
+
 						aMCategoriesMultipleTabHandler = this.arrayUnique(aMCategoriesMultipleTabHandler);
 
 						if(fromWhere != 'from-category')
 							var thePopupContainer = this.getElement(fromWhere).firstChild;
 						else
 							var thePopupContainer = this.getElement(fromWhere);
-					
+
 				//from editor
 
 
@@ -219,18 +219,18 @@
 							for(var id in aTemp)
 							{
 								if((aEditor = this.editorGetFromURL(aTemp[id])) != '')
-									this.fromEditorSelectedEditors[this.fromEditorSelectedEditors.length] = aEditor;								  	
+									this.fromEditorSelectedEditors[this.fromEditorSelectedEditors.length] = aEditor;
 							}
-							
+
 							if(this.fromEditorSelectedEditors.length == 0 && this.documentGetFocused().body && this.documentGetFocused().body.innerHTML)
 							{
 								aTemp = this.categoryParserGetCategoryEditors(this.documentGetFocused().body.innerHTML);
 								for(var id in aTemp)
 								{
-									this.fromEditorSelectedEditors[this.fromEditorSelectedEditors.length] = aTemp[id];								  	
+									this.fromEditorSelectedEditors[this.fromEditorSelectedEditors.length] = aTemp[id];
 								}
 							}
-							
+
 							if((aEditor = this.editorGetFromURL(this.getSelectedLink())) != '')
 							{
 								this.fromEditorSelectedEditor = aEditor;
@@ -243,17 +243,17 @@
 							{
 								this.fromEditorSelectedEditor = aEditor;
 							}
-							
+
 					//from editor menu
 						this.getElement('context-from-editor').setAttribute('hidden', true);
 						this.getElement('context-from-editors').setAttribute('hidden', true);
-						
+
 						this.fromEditorSelectedEditors = this.arrayUnique(this.fromEditorSelectedEditors);
-						
+
 						if(this.preferenceGet('ui.context.menu.from.editors') && this.fromEditorSelectedEditors.length > 1)
 						{
 								this.getElement('context-from-editors').setAttribute('label', this.getElement('context-from-editors').getAttribute('original_label').replace('{EDITORS}', this.getURLForLabel(this.fromEditorSelectedEditors.join(','))));
-								
+
 								this.removeChilds(this.getElement('from-editors-tooltip-data'));
 								for(var id in  this.fromEditorSelectedEditors)
 								{
@@ -271,7 +271,7 @@
 							this.getElement('context-from-editor').firstChild.setAttribute('tooltiptext', this.fromEditorSelectedEditor);
 							this.getElement('context-from-editor').setAttribute('hidden', false);
 						}
-						
+
 					//	this.dump(this.fromEditorSelectedEditor);
 					//	this.dump(this.fromEditorSelectedEditors);
 
@@ -284,7 +284,7 @@
 						   aEvent.currentTarget == this.getElement('extension-icon-context')//from extension icon context
 						   )
 						{
-							//hide elements no realtive to the HTML 
+							//hide elements no realtive to the HTML
 							document.getAnonymousElementByAttribute(thePopupContainer , "anonid", "ODPExtension-from-category-paste").setAttribute('hidden', true);
 							document.getAnonymousElementByAttribute(thePopupContainer , "anonid", "ODPExtension-from-category-cut").setAttribute('hidden', true);
 							document.getAnonymousElementByAttribute(thePopupContainer , "anonid", "ODPExtension-from-category-delete").setAttribute('hidden', true);
@@ -299,7 +299,7 @@
 								document.getAnonymousElementByAttribute(thePopupContainer , "anonid", "ODPExtension-from-category-paste").setAttribute('hidden', false);
 							else
 								document.getAnonymousElementByAttribute(thePopupContainer , "anonid", "ODPExtension-from-category-paste").setAttribute('hidden', true);
-							
+
 						//check for selection to show cut and delete menuitem
 							if(selectedTextInsideInput)
 							{
@@ -326,7 +326,7 @@
 								}
 								else
 									document.getAnonymousElementByAttribute(thePopupContainer , "anonid", "ODPExtension-from-category-encode").setAttribute('hidden', true);
-								
+
 								if(selectedText.indexOf('%') != -1)
 								{
 									document.getAnonymousElementByAttribute(thePopupContainer , "anonid", "ODPExtension-from-category-decode").setAttribute('hidden', false);
@@ -334,7 +334,7 @@
 								}
 								else
 									document.getAnonymousElementByAttribute(thePopupContainer , "anonid", "ODPExtension-from-category-decode").setAttribute('hidden', true);
-								
+
 								document.getAnonymousElementByAttribute(thePopupContainer , "anonid", "ODPExtension-from-category-encode-decode-separator").setAttribute('hidden', hideEncodeDecodeSeparator);*/
 							}
 							else
@@ -361,7 +361,7 @@
 						*/
 
 					//let's show the menu if it is hidden and sets the value checking the exeptions
-						
+
 					//extension icon
 						if(aEvent.currentTarget == this.getElement('extension-icon-context'))
 						{
@@ -369,10 +369,10 @@
 								this.fromCategoryClickType = 'single';
 								//the "from category" in the extension icon helps to do a command in another category no matter if there is a category or editor selected
 								this.fromCategorySelectedCategory = '';
-								
+
 								this.fromEditorSelectedEditor='';
 								this.fromEditorSelectedEditors=[];
-								
+
 								this.removeChilds(this.getElement('from-categories-tooltip-data'));
 								var label = this.create('label');
 									label.setAttribute('value', this.getString('from.category.will.ask.category'));
@@ -381,9 +381,9 @@
 					//rigth double clik
 						else if(aEvent.type == 'dblclick')
 						{
-							
+
 							//this.dump('double click:'+aEvent.type);
-														
+
 							this.fromCategoryAutoPopupPreventAppearAgain = true;
 
 							if(aDocTypeXUL)
@@ -414,7 +414,7 @@
 								else if(aLinkCategoryAttribute != '')
 								{
 									this.fromCategoryClickType = 'single';
-									this.fromCategorySelectedCategory = aLinkCategoryAttribute;//rigth clicked link	
+									this.fromCategorySelectedCategory = aLinkCategoryAttribute;//rigth clicked link
 								}
 								else if(aMCategorySelectedText.length > 1)
 								{
@@ -448,7 +448,7 @@
 									this.fromCategorySelectedCategory = '';
 								}
 							}
-							
+
 							if(this.fromCategoryClickType == 'single' && this.fromCategorySelectedCategory == '')
 							{
 								this.removeChilds(this.getElement('from-categories-tooltip-data'));
@@ -473,7 +473,7 @@
 									this.getElement('from-categories-tooltip-data').appendChild(label);
 								}
 							}
-							
+
 							autoPopup = true;
 						}
 					//toolbarbutton
@@ -494,7 +494,7 @@
 						else if(fromWhere == 'context-from-category' || this.tagName(aEvent.originalTarget) == 'select')
 						{
 							//this.dump('area:'+aEvent.type);
-							
+
 							//single link chceking
 								if(aCategorySelectHTML != '')//firefox is not show the context menu when clicking a select, then give priority to this one
 								{
@@ -502,10 +502,10 @@
 									this.fromCategoryClickType = 'single';
 									this.fromCategorySelectedCategory = aCategorySelectHTML;
 									//this.dump(this.fromCategorySelectedCategory);
-									
+
 									if(aEvent.button && aEvent.button == 2)
 										autoPopup = true; //should autopopup, there is no context menu on selects
-									
+
 								}
 								else if(aCategoryLink != '')
 								{
@@ -517,9 +517,9 @@
 								{
 								//	this.dump('aLinkCategoryAttribute');
 									this.fromCategoryClickType = 'single';
-									this.fromCategorySelectedCategory = aLinkCategoryAttribute;//rigth clicked link	
+									this.fromCategorySelectedCategory = aLinkCategoryAttribute;//rigth clicked link
 								}
-								
+
 								else if(aCategorySelectedText != '')
 								{
 								//	this.dump('aCategorySelectedText');
@@ -555,7 +555,7 @@
 								}
 
 							//multiple link checking
-								
+
 								if(aMCategoryLinks.length > 1)
 									this.fromCategorySelectedCategories = aMCategoryLinks;//selected linked cateories
 								else if(aMCategorySelectedText.length > 1)
@@ -585,9 +585,9 @@
 
 							if(aCategoryTabContextMenu != '')
 								this.fromCategorySelectedCategory = aCategoryTabContextMenu;
-							else 
+							else
 								this.fromCategorySelectedCategory = '';
-							
+
 							if(!this.preferenceGet('ui.context.menu.from.category.in.tab.context.menu') || this.fromCategorySelectedCategory == '')
 								this.getElement('tab-context-from-category').setAttribute('hidden', true);
 							else
@@ -602,7 +602,7 @@
 						else if(fromWhere == 'tab-context-multiple-from-category')
 						{
 							//this.dump('MTH:'+aEvent.type);
-							
+
 							//this.dump(aMCategoriesMultipleTabHandler);
 							if(this.preferenceGet('ui.context.menu.from.category.in.tab.context.menu') && aMCategoriesMultipleTabHandler.length > 0)
 							{
@@ -629,7 +629,7 @@
 									this.getElement('tab-context-multiple-from-category').firstChild.setAttribute('tooltiptext', 	this.fromCategorySelectedCategories[0]);
 									this.getElement('tab-context-multiple-from-category').setAttribute('label', 	this.getElement('tab-context-multiple-from-category').getAttribute('original_label_single').replace('{CATEGORY}', this.categoryTitleForLabel(this.categoryAbbreviate(this.fromCategorySelectedCategories[0]))));
 								}
-								
+
 								this.getElement('tab-context-multiple-from-category').setAttribute('hidden', false);
 							}
 							else
@@ -637,7 +637,7 @@
 								this.getElement('tab-context-multiple-from-category').setAttribute('hidden', true);
 							}
 						}
-						
+
 					//text selection on document
 						else if(aDocTypeHTML && ( aEvent.type == 'mouseup' || aEvent.type == 'keypress') )
 						{
@@ -682,14 +682,14 @@
 									this.fromCategoryClickType = 'single';
 									this.fromCategorySelectedCategory = '';
 								}
-								
+
 							//bugfix: if there is some category selected in a input text and there is a click, and the click was not in the input text don't show the auto-menu
 							if(this.fromCategorySelectedCategory !='' || this.fromCategorySelectedCategories.length>0)
 							{
 								if(this.preferenceGet('ui.from.category.auto') && !cancelAutoPopup)
 									autoPopup = true;
 							}
-							
+
 							if(this.fromCategoryClickType == 'single')
 							{
 								this.removeChilds(this.getElement('from-categories-tooltip-data'));
@@ -708,17 +708,17 @@
 								}
 							}
 						}
-						
-						
+
+
 					//reset the "category navigate"
 					//adding navigate option only if is not from extension icon contextual menu and if there is no multiples categories
-					
+
 						if(!noNavigate && this.fromCategorySelectedCategory != '')
 						{
 							var navigate = document.getAnonymousElementByAttribute(thePopupContainer , 'anonid', 'ODPExtension-from-category-navigate');
-							
+
 							this.removeChilds(navigate);
-							
+
 								navigate.setAttribute('value', this.fromCategorySelectedCategory);
 								navigate.setAttribute('label', navigate.getAttribute('original_label'));
 								navigate.setAttribute('tooltiptext', this.fromCategorySelectedCategory);
@@ -726,8 +726,8 @@
 								navigate.removeAttribute('done');
 
 								document.getAnonymousElementByAttribute(thePopupContainer , 'anonid', 'ODPExtension-from-category-navigate-separator').setAttribute('hidden', false);
-							
-							
+
+
 							//parents too, why not!
 							var parents = document.getAnonymousElementByAttribute(thePopupContainer , 'anonid', 'ODPExtension-from-category-navigate-parents');
 							var path = '';
@@ -736,7 +736,7 @@
 
 								this.removeChilds(parents);
 								var aNodes = this.fromCategorySelectedCategory.split('/');
-								
+
 								var menupopup = this.create('menupopup')
 								for(var id in aNodes)
 								{
@@ -762,12 +762,12 @@
 							document.getAnonymousElementByAttribute(thePopupContainer , 'anonid', 'ODPExtension-from-category-navigate-parents').setAttribute('hidden', true);
 							document.getAnonymousElementByAttribute(thePopupContainer , 'anonid', 'ODPExtension-from-category-navigate-separator').setAttribute('hidden', true);
 						}
-						
-						
+
+
 						if(autoPopup)
 						{
 							//this.stopEvent(aEvent);
-						
+
 							this.fromCategoryHideContextMenus();
 							//add three pixels is for when the user clicked multiples time like triple click to select a line of text
 							//maybe the user clciked more than 3 times and that will active the first action of the menu
@@ -785,7 +785,7 @@
 								{
 									this.getElement('from-category').openPopupAtScreen(aEvent.screenX+25, aEvent.screenY-40, false);
 								}
-								catch(e)// try again!! 
+								catch(e)// try again!!
 								{
 									this.getBrowserElement('main-window').appendChild(this.getElement('from-category'));
 									try
@@ -797,7 +797,7 @@
 									/*}
 									catch(e)
 									{
-										// OK! 
+										// OK!
 									}
 								}
 							}*/

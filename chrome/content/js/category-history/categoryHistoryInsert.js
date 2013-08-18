@@ -10,10 +10,10 @@
 				return;
 			//this.dump('categoryHistoryInsert', debugingThisFile);
 			//this must be improved .. also modified when the new beta dmoz go live
-			
+
 			//based on location we set radiation(points) to make the category appear higher on the category browser
 			// ..........
-			
+
 				var radiation = 1;
 				if(aURL.indexOf('editors.dmoz.org') != -1 || aURL.indexOf('www.dmoz.org') != -1)
 				{
@@ -22,7 +22,7 @@
 					else if(aURL.indexOf('editurl/edit?urlId=') != -1)
 						radiation = 5;
 					else if(
-							aURL.indexOf('editfaq.cgi') != -1 || 
+							aURL.indexOf('editfaq.cgi') != -1 ||
 							aURL.indexOf('editcat/desc?cat=') != -1
 							)
 						radiation = 45;
@@ -31,12 +31,12 @@
 					else if(aURL.indexOf('editunrev/listurl?cat=') != -1)
 						radiation = 15;
 					else if(
-							aURL.indexOf('editcat/addrelation?cat=') != -1 || 
-							aURL.indexOf('editcat/editrelation?cat=') != -1 || 
-							aURL.indexOf('editcat/editrelation?cat=') != -1 || 
-							aURL.indexOf('editcat/editlink?cat=') != -1 || 
-							aURL.indexOf('manage/makealphabar?cat=') != -1 || 
-							aURL.indexOf('editcat/delete?cat=') != -1 
+							aURL.indexOf('editcat/addrelation?cat=') != -1 ||
+							aURL.indexOf('editcat/editrelation?cat=') != -1 ||
+							aURL.indexOf('editcat/editrelation?cat=') != -1 ||
+							aURL.indexOf('editcat/editlink?cat=') != -1 ||
+							aURL.indexOf('manage/makealphabar?cat=') != -1 ||
+							aURL.indexOf('editcat/delete?cat=') != -1
 							)
 						radiation = 2;
 					else if(aURL.indexOf('editcat/editImage?cat=') != -1)

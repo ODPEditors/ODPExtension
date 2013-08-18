@@ -2,15 +2,15 @@
 <toolbox id="navigator-toolbox">
 
 	<!-- the odp extension default toolbar container of the buttons -->
-	
-		<toolbar 
-			class="chromeclass-toolbar" 
-			context="toolbar-context-menu" 
-			customizable="true" 
-			inherits="collapsed,hidden" 
+
+		<toolbar
+			class="chromeclass-toolbar"
+			context="toolbar-context-menu"
+			customizable="true"
+			inherits="collapsed,hidden"
 			mode="full"
-			iconsize="small" 
-			id="ODPExtension-toolbar" 
+			iconsize="small"
+			id="ODPExtension-toolbar"
 			toolbarname="ODP Extension"
 			defaultset="ODPExtension-toolbarbutton-category-browser,ODPExtension-toolbarbutton-sisters-categories,ODPExtension-toolbarbutton-add-to-open-directory,ODPExtension-toolbarbutton-toggle,ODPExtension-toolbarbutton-odp-url-notes-update,ODPExtension-toolbarbutton-odp-url-notes-unreview,ODPExtension-toolbarbutton-odp-url-notes-delete,ODPExtension-toolbarbutton-odp-url-notes-move-publish,ODPExtension-toolbarbutton-odp-url-notes-move-unreview,ODPExtension-toolbarbutton-odp-url-notes-copy-publish,ODPExtension-toolbarbutton-odp-url-notes-copy-unreview,ODPExtension-toolbarbutton-odp-url-notes-notes"
 		>
@@ -19,14 +19,14 @@
 		</toolbar>
 
 	<!-- local category finder toolbar -->
-	
-		<toolbar 
-			class="chromeclass-toolbar" 
-			context="toolbar-context-menu" 
-			customizable="false" 
-			inherits="collapsed,hidden" 
+
+		<toolbar
+			class="chromeclass-toolbar"
+			context="toolbar-context-menu"
+			customizable="false"
+			inherits="collapsed,hidden"
 			mode="full"
-			id="ODPExtension-toolbar-local-category-finder" 
+			id="ODPExtension-toolbar-local-category-finder"
 			toolbarname="ODP &ODPExtension.local.category.finder;"
 		>
 			<hbox flex="1">
@@ -40,15 +40,15 @@
 						<menuseparator locked="true"/>
 					</menupopup>
 				</menulist>
-				<button 
-					label="&ODPExtension.find;" 
+				<button
+					label="&ODPExtension.find;"
 					oncommand="ODPExtension.categoryFinderQuery(ODPExtension.getElement('local-category-finder-textbox').value, ODPExtension.getElement('local-category-finder-database').selectedItem.getAttribute('database'));ODPExtension.saveAutocomplete(ODPExtension.getElement('local-category-finder-textbox'))"
 				/>
 				<textbox
 					emptytext="&ODPExtension.search.ellipsis;"
-					value="" 
+					value=""
 					flex="1"
-					id="ODPExtension-local-category-finder-textbox" 
+					id="ODPExtension-local-category-finder-textbox"
 					onkeypress="
 							if(event.keyCode == event.DOM_VK_RETURN)
 							{
@@ -64,5 +64,5 @@
 			<toolbarbutton class="ODPExtension-toolbarbutton-close" tooltiptext="&ODPExtension.close;" oncommand="ODPExtension.toolbarClose(this.parentNode);"/>
 		</toolbar>
 
-		
+
 </toolbox>

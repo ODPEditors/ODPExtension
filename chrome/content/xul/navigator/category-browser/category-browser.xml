@@ -9,18 +9,18 @@
           xmlns:html="http://www.w3.org/1999/xhtml"
           xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
           xmlns:xbl="http://www.mozilla.org/xbl">
-	
+
 	<!--
 		I can't believe, this was so easy to be true!
 		BTW, I have missed the point of XBL, and I finnally doing some not good implementations. bad me.
 		In category-filter.xml ( my second xbl ) will try to be a good one.
 	-->
-	
+
 	<binding
 		id="category-browser"
 		extends="chrome://global/content/bindings/popup.xml#popup"
 		>
-	
+
 	  <content>
 		<xul:hbox context="">
 			<xul:textbox
@@ -29,8 +29,8 @@
 				anonid="ODPExtension-category-browser-textbox-data-xbl"
 				emptytext="&ODPExtension.search.ellipsis;"
 				onmouseover="this.focus();ODPExtension.hideChildrensPopupsOpened(this.parentNode.parentNode);this.nextSibling.firstChild.nextSibling.firstChild.hidePopup();this.focus();"
-				type="search" 
-				timeout="500" 
+				type="search"
+				timeout="500"
 				flex="1"
 				oncommand="if(this.hasAttribute('stop')){this.removeAttribute('stop');}else{ODPExtension.categoryBrowserQueryMenu(this.parentNode.parentNode, this.value, this);}"
 				onkeydown="if(event.keyCode == 27){ if(this.value=='')this.parentNode.parentNode.hidePopup();ODPExtension.categoryBrowserQueryMenu(this.parentNode.parentNode, '', this);} else if(event.keyCode == 13){this.setAttribute('stop', true);ODPExtension.categoryBrowserQueryMenu(this.parentNode.parentNode, this.value, this);}"
@@ -53,5 +53,5 @@
 	  </content>
 
 	</binding>
-	
+
 </bindings>

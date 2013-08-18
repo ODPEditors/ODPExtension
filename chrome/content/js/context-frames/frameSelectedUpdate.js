@@ -10,7 +10,7 @@
 			this.frameSelectedUpdate = function()
 			{
 					var menuitem = this.getElement('context-frame');
-				
+
 				//update the visibility of "open frame in new tab"
 					if(gContextMenu && gContextMenu.inFrame)
 					{

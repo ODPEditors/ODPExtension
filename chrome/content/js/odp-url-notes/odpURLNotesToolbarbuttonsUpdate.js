@@ -11,7 +11,7 @@
 			{
 				//when the location change we empty the cache of documents selected with multiple tab handler
 				this.odpURLNotesMultipleTabHandlerSelectedDocuments = [];
-				
+
 				if((aSubdomain == 'editors.dmoz.org' || aSubdomain == 'www.dmoz.org' ) && this.editingFormURLExists(this.documentGetFocused()))
 				{
 					if(this.getElement('toolbarbutton-odp-url-notes-update'))
@@ -30,7 +30,7 @@
 						this.getElement('toolbarbutton-odp-url-notes-copy-publish').setAttribute('hidden', false);
 					if(this.getElement('toolbarbutton-odp-url-notes-copy-unreview'))
 						this.getElement('toolbarbutton-odp-url-notes-copy-unreview').setAttribute('hidden', false);
-						
+
 					this.odpNotesButtonsHidden = false;
 				}
 				else
@@ -54,7 +54,7 @@
 							this.getElement('toolbarbutton-odp-url-notes-copy-publish').setAttribute('hidden', true);
 						if(this.getElement('toolbarbutton-odp-url-notes-copy-unreview'))
 							this.getElement('toolbarbutton-odp-url-notes-copy-unreview').setAttribute('hidden', true);
-							
+
 						this.odpNotesButtonsHidden = true;
 					}
 				}

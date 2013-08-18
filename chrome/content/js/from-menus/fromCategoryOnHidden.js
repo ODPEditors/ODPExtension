@@ -9,9 +9,9 @@
 				if(this.fromCategoryAutoPopupPreventAppearAgain)
 				{
 					this.fromCategoryCanceledAutoPopup = true;
-					
+
 					clearTimeout(this.fromCategoryCanceledAutoPopupTimeout);
-					
+
 					this.fromCategoryCanceledAutoPopupTimeout = setTimeout(function(){
 										ODPExtension.fromCategoryCanceledAutoPopup=false;
 										ODPExtension.fromCategoryAutoPopupPreventAppearAgain=false;

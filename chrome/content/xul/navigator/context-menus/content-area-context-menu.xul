@@ -8,7 +8,7 @@
 	</window>
 
 	<popup id="contentAreaContextMenu">
-		<menu 
+		<menu
 			id="ODPExtension-context-editing-form-url-formater"
 			insertafter="context-openlinkintab"
 			hidden="true"
@@ -32,28 +32,28 @@
 		<menuseparator hidden="true" id="ODPExtension-context-separator" />
 
 		<menu hidden="true" id="ODPExtension-context-from-category" original_label="&ODPExtension.ui.context.menu.from.category;" label="&ODPExtension.ui.context.menu.from.category;">
-			<menupopup 
+			<menupopup
 				class="ODPExtension-from-category-xbl ODPExtension-crop"
-				onmouseover="ODPExtension.fromCategoryClickType = 'single';ODPExtension.categoryBrowserNavigate(event);" 
-				onmouseout="ODPExtension.categoryBrowserNavigate(event);" 
+				onmouseover="ODPExtension.fromCategoryClickType = 'single';ODPExtension.categoryBrowserNavigate(event);"
+				onmouseout="ODPExtension.categoryBrowserNavigate(event);"
 				onmouseup="ODPExtension.stopEvent(event);if(event.originalTarget.hasAttribute('disabled')){ ODPExtension.stopEvent(event);}else if(event.originalTarget.hasAttribute('action')){ODPExtension.fromCategoryClick(event)}else if(event.originalTarget.hasAttribute('value')){ODPExtension.categoryBrowserClick(event);}"
 				ondblclick="ODPExtension.stopEvent(event)"
 			/>
 		</menu>
 
 		<menu hidden="true" id="ODPExtension-context-from-categories" tooltip="ODPExtension-from-categories-tooltip" label="&ODPExtension.ui.context.menu.from.categories;">
-			<menupopup 
+			<menupopup
 				class="ODPExtension-from-category-xbl ODPExtension-crop"
-			 	tooltip="ODPExtension-from-categories-tooltip" 
-				onmouseover="ODPExtension.fromCategoryClickType = 'multiple';ODPExtension.categoryBrowserNavigate(event);" 
-				onmouseout="ODPExtension.categoryBrowserNavigate(event);" 
+			 	tooltip="ODPExtension-from-categories-tooltip"
+				onmouseover="ODPExtension.fromCategoryClickType = 'multiple';ODPExtension.categoryBrowserNavigate(event);"
+				onmouseout="ODPExtension.categoryBrowserNavigate(event);"
 				onmouseup="ODPExtension.stopEvent(event);if(event.originalTarget.hasAttribute('disabled')){ ODPExtension.stopEvent(event);}else if(event.originalTarget.hasAttribute('action')){ODPExtension.fromCategoryClick(event)}else if(event.originalTarget.hasAttribute('value')){ODPExtension.categoryBrowserClick(event);}"
 				ondblclick="ODPExtension.stopEvent(event)"
 			/>
 		</menu>
 
 		<menu hidden="true" id="ODPExtension-context-from-editor" original_label="&ODPExtension.ui.context.menu.from.editor;" label="&ODPExtension.ui.context.menu.from.editor;">
-			<menupopup 
+			<menupopup
 				class="ODPExtension-from-editor-xbl"
 				onmouseover="ODPExtension.fromCategoryClickType = 'single';"
 				onmouseup="ODPExtension.stopEvent(event);if(event.originalTarget.hasAttribute('disabled')){ ODPExtension.stopEvent(event);}else if(event.originalTarget.hasAttribute('action')){ODPExtension.fromCategoryClick(event)}"
@@ -62,15 +62,15 @@
 		</menu>
 
 		<menu hidden="true" id="ODPExtension-context-from-editors" tooltip="ODPExtension-from-editors-tooltip" original_label="&ODPExtension.ui.context.menu.from.editors;" label="&ODPExtension.ui.context.menu.from.editors;">
-			<menupopup 
+			<menupopup
 				class="ODPExtension-from-editor-xbl"
-				tooltip="ODPExtension-from-editors-tooltip" 
+				tooltip="ODPExtension-from-editors-tooltip"
 				onmouseover="ODPExtension.fromCategoryClickType = 'multiple';"
 				onmouseup="ODPExtension.stopEvent(event);if(event.originalTarget.hasAttribute('disabled')){ ODPExtension.stopEvent(event);}else if(event.originalTarget.hasAttribute('action')){ODPExtension.fromCategoryClick(event)}"
 				ondblclick="ODPExtension.stopEvent(event)"
 			/>
 		</menu>
-		
+
 		<menu hidden="true" id="ODPExtension-context-url-tools-menu" label="&ODPExtension.ui.context.menu.url.tools;">
 			<menupopup id="ODPExtension-context-url-tools-menupopup" oncommand="ODPExtension.URLToolsOpen(event)" onclick="checkForMiddleClick(this, event)"/>
 		</menu>
@@ -83,7 +83,7 @@
 
 		<menu hidden="true" id="ODPExtension-context-translate-menu" label="&ODPExtension.ui.context.menu.translate;">
 			<menupopup id="ODPExtension-context-translate-menupopup" oncommand="ODPExtension.translate(event)" onclick="checkForMiddleClick(this, event)">
-			
+
 				<menuitem value="ca" id="ODPExtension-context-translate-item-lang-ca" label="Catalan" original_label="Catalan" />
 				<menuitem value="zh-CN" id="ODPExtension-context-translate-item-lang-zh-CN" label="Chinese (Simplified)" original_label="Chinese (Simplified)" />
 				<menuitem value="zh-TW" id="ODPExtension-context-translate-item-lang-zh-TW" label="Chinese (Traditional)" original_label="Chinese (Traditional)" />
@@ -99,9 +99,9 @@
 				<menuitem value="es" id="ODPExtension-context-translate-item-lang-es" label="Spanish" original_label="Spanish" />
 				<menuitem value="sv" id="ODPExtension-context-translate-item-lang-sv" label="Swedish" original_label="Swedish" />
 				<menuitem value="tr" id="ODPExtension-context-translate-item-lang-tr" label="Turkish" original_label="Turkish" />
-				
+
 				<menuseparator id="ODPExtension-context-translate-priority-separator"/>
-				
+
 				<menuitem value="af" id="ODPExtension-context-translate-item-lang-af" label="Afrikaans" original_label="Afrikaans" />
 				<menuitem value="sq" id="ODPExtension-context-translate-item-lang-sq" label="Albanian" original_label="Albanian" />
 				<menuitem value="ar" id="ODPExtension-context-translate-item-lang-ar" label="Arabic" original_label="Arabic" />
@@ -142,7 +142,7 @@
 				<menuitem value="yi" id="ODPExtension-context-translate-item-lang-yi" label="Yiddish" original_label="Yiddish" />
 			</menupopup>
 		</menu>
-	
+
 		<menuitem hidden="true" id="ODPExtension-word-reference" label="&ODPExtension.ui.context.menu.word.reference;" oncommand="ODPExtension.wordReference(event);" onclick="checkForMiddleClick(this, event)"/>
 
 	</popup>

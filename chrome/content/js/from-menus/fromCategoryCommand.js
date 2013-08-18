@@ -6,11 +6,11 @@
 				this.getElement('category-browser').hidePopup();
 
 				var aCommand = this.fromCategoryAction;
-				
+
 				this.fromCategoryAction = '';
-				
+
 				var aCategories = [];
-				
+
 				if(this.fromCategoryClickType == 'single')
 					aCategories[aCategories.length] = this.fromCategorySelectedCategory;
 				else
@@ -21,7 +21,7 @@
 						this.error("fromCategoryClickType 'multiple' expected 'single'.");
 					}*/
 				}
-					
+
 				if(this.preferenceGet('ui.from.category.selected.array.unique'))
 					aCategories = this.arrayUnique(aCategories);
 				if(this.preferenceGet('ui.from.category.selected.array.sort'))
@@ -66,7 +66,7 @@
 							{
 								if(this.fromEditorSelectedEditor == '')
 								{
-									this.fromEditorSelectedEditor = this.prompt(this.getString('editor.enter'));	
+									this.fromEditorSelectedEditor = this.prompt(this.getString('editor.enter'));
 									if(this.fromEditorSelectedEditor == '')
 										return;
 								}
@@ -76,7 +76,7 @@
 							{
 								if(this.fromEditorSelectedEditors.length == 0)
 								{
-									this.fromEditorSelectedEditor = this.prompt(this.getString('editor.enter'));	
+									this.fromEditorSelectedEditor = this.prompt(this.getString('editor.enter'));
 									if(this.fromEditorSelectedEditor == '')
 										return;
 									else
@@ -91,16 +91,16 @@
 							this.openURL('http://www.dmoz.org/editors/log/search?cat=&editor=&type=all&function=queue_granteditor', true, false, inSelectedTab);
 							return;
 						}
-						
+
 						if(
-						   aCommand=='command_editor_profile_editor' || 
-						   aCommand=='command_editor_profile_public' || 
-						   aCommand=='command_editor_log_summary' || 
-						   aCommand=='command_editor_log_detail' || 
-						   aCommand=='command_editor_log_request' || 
-						   aCommand=='command_editor_log_cool' || 
-						   aCommand=='command_editor_log_new_cat'  || 
-						   aCommand=='command_editor_log_del_cat' || 
+						   aCommand=='command_editor_profile_editor' ||
+						   aCommand=='command_editor_profile_public' ||
+						   aCommand=='command_editor_log_summary' ||
+						   aCommand=='command_editor_log_detail' ||
+						   aCommand=='command_editor_log_request' ||
+						   aCommand=='command_editor_log_cool' ||
+						   aCommand=='command_editor_log_new_cat'  ||
+						   aCommand=='command_editor_log_del_cat' ||
 						   aCommand=='command_editor_tool_arwen'
 						  )
 						{
@@ -109,7 +109,7 @@
 							{
 								if(this.fromEditorSelectedEditor == '')
 								{
-									this.fromEditorSelectedEditor = this.prompt(this.getString('editor.enter'));	
+									this.fromEditorSelectedEditor = this.prompt(this.getString('editor.enter'));
 									if(this.fromEditorSelectedEditor == '')
 										return;
 								}
@@ -120,7 +120,7 @@
 							{
 								if(this.fromEditorSelectedEditors.length == 0)
 								{
-									this.fromEditorSelectedEditor = this.prompt(this.getString('editor.enter'));	
+									this.fromEditorSelectedEditor = this.prompt(this.getString('editor.enter'));
 									if(this.fromEditorSelectedEditor == '')
 										return;
 									else
@@ -152,18 +152,18 @@
 							}
 							return;
 						}
-	
+
 
 
 
 				//required data
-				
+
 					//categories.txt dependent
 						if(
 							(
-								aCommand=='search_display_subcategories' || 
-								aCommand=='search_display_all_subcategories' || 
-								aCommand=='search_find_subcategory' || 
+								aCommand=='search_display_subcategories' ||
+								aCommand=='search_display_all_subcategories' ||
+								aCommand=='search_find_subcategory' ||
 								aCommand=='search_find_subcategory_called' ||
 								aCommand=='find_category_localy'
 							)
@@ -174,21 +174,21 @@
 							return;
 						}
 
-				
+
 					//prompt
 						var searchFor;
 						if(
 							(
-								aCommand=='search_find_subcategory' || 
-								aCommand=='search_find_subcategory_called' || 
-								aCommand=='find_dmoz' || 
+								aCommand=='search_find_subcategory' ||
+								aCommand=='search_find_subcategory_called' ||
+								aCommand=='find_dmoz' ||
 
-								aCommand=='rdf_find_category_description_search' || 
-								aCommand=='command_rdf_find_string_on_node' || 
-								aCommand=='rdf_find_category_with_name_exact' || 
-								aCommand=='rdf_find_category_with_name' || 
-								aCommand=='rdf_find_category_with_path' || 
-								
+								aCommand=='rdf_find_category_description_search' ||
+								aCommand=='command_rdf_find_string_on_node' ||
+								aCommand=='rdf_find_category_with_name_exact' ||
+								aCommand=='rdf_find_category_with_name' ||
+								aCommand=='rdf_find_category_with_path' ||
+
 								aCommand.indexOf('search_in_cat') != -1
 							)
 							&&
@@ -197,24 +197,24 @@
 						{
 							return;
 						}
-						
-				
-				//no multiple items, should return 
-				
-					//paste 
+
+
+				//no multiple items, should return
+
+					//paste
 						if(aCommand == 'command_paste')
 						{
 							goDoCommand('cmd_paste');
 							return;
 						}
-					//cut 
+					//cut
 						else if(aCommand == 'command_cut')
 						{
 							goDoCommand('cmd_cut');
 							return;
 						}
-					//cut 
-						else if(aCommand == 'command_delete')			
+					//cut
+						else if(aCommand == 'command_delete')
 						{
 							goDoCommand('cmd_delete');
 							return;
@@ -324,7 +324,7 @@
 							this.openURL('http://odp.rpfuller.com/spell/', true, false, true);
 							return
 						}
-						
+
 						else if(aCommand=='command_encode')
 						{
 							this.selectionEncode();
@@ -347,24 +347,24 @@
 							this.rdfFind(searchFor);
 							return;
 						}
-						
-						
+
+
 					//copy
 						else if(
-									aCommand == 'copy' || 
+									aCommand == 'copy' ||
 									aCommand == 'copy_edit_cat' ||
-									aCommand == 'copy_worldlinkerate' || 
-									aCommand == 'copy_encoded' || 
-									aCommand == 'copy_abreviated' || 
+									aCommand == 'copy_worldlinkerate' ||
+									aCommand == 'copy_encoded' ||
+									aCommand == 'copy_abreviated' ||
 									aCommand == 'copy_phpbb_link_with_anchor'
 						)
 						{
 							var aData = '';
-							
+
 							for(var id in aCategories)
 							{
 								var aValue = aCategories[id];
-								
+
 								//copy
 									if(aCommand=='copy')
 									{
@@ -395,18 +395,18 @@
 											aData += '[url='+this.categoryGetURL(aValue)+']'+this.categoryAbbreviate(aValue+'/')+'[/url] '+this.__NEW_LINE__;
 									}
 							}
-							
+
 							this.copyToClipboard(this.trim(aData));
-								
+
 							return;
 						}
 
-	
+
 
 			//ask for RDF
-			
+
 				//one time notices
-					
+
 					if( aCommand.indexOf('rdf_') === 0 && !this.fileExists('RDF.sqlite') )
 					{
 						if(this.confirm(this.getString('rdf.there.is.no.database.based.on.rdf.data')))
@@ -421,7 +421,7 @@
 				for(var id in aCategories)
 				{
 					var aValue = aCategories[id];
-					
+
 					//one time notices
 					if(aCommand.indexOf('linkfinder') != -1 && aCommand.indexOf('linkfinder_altlangs') == -1)
 					{
@@ -461,7 +461,7 @@
 				//unrev
 					else if(aCommand=='edit_cat_unreview')
 						this.openURL('http://www.dmoz.org/editors/editunrev/listurl?cat='+this.encodeUTF8(aValue+'/'), true, false, inSelectedTab);
-						
+
 					else if(aCommand=='edit_cat_unreview_power')
 						this.openURL('http://www.dmoz.org/editors/editunrev/listurl?cat='+this.encodeUTF8(aValue+'/')+'&mode=power', true, false, inSelectedTab);
 					else if(aCommand=='edit_cat_unreview_power_url')
@@ -548,7 +548,7 @@
 						this.openURL('http://odp.kazhar.org/catbingo?q='+this.encodeUTF8(aValue+'/')+'&gen=1', true, false, inSelectedTab);
 					else if(aCommand=='tool_Olderupdate')
 						this.openURL('http://odp.kazhar.org/olderupdate?q='+this.encodeUTF8(aValue+'/')+'&gen=1', true, false, inSelectedTab);
-				
+
 				//RDF Tools
 					//altlangs
 						//misc tools
@@ -572,7 +572,7 @@
 								this.rdfFindAltlangsFromHere(aValue+'/');
 							else if(aCommand=='rdf_find_altlangs_from_here_or_from_any')
 								this.rdfFindAltlangsFromHereFromAny(aValue+'/');
-						
+
 					//@links
 						//dmclean's linkfinder port
 							else if(aCommand=='rdf_find_links_to_here')
@@ -617,21 +617,21 @@
 							else if(aCommand=='rdf_find_category_with_name_exact')
 								this.rdfFindCategorySubcategoriesWithNameExact(aValue+'/', searchFor);
 							else if(aCommand=='rdf_find_category_with_name')
-								this.rdfFindCategorySubcategoriesWithName(aValue+'/', searchFor);							
+								this.rdfFindCategorySubcategoriesWithName(aValue+'/', searchFor);
 							else if(aCommand=='rdf_find_category_with_path')
-								this.rdfFindCategorySubcategoriesWithPath(aValue+'/', searchFor);							
+								this.rdfFindCategorySubcategoriesWithPath(aValue+'/', searchFor);
 						//editors
 							else if(aCommand=='rdf_find_editors_from_here_or_from_any')
 								this.rdfFindEditorsFromHereFromAny(aValue+'/');
 							else if(aCommand=='rdf_find_editors_from_here')
 								this.rdfFindEditorsFromHere(aValue+'/');
-								
+
 						//descriptions
 							else if(aCommand=='rdf_find_category_description')
 								this.rdfFindCategoryDescription(aValue+'/');
 							else if(aCommand=='rdf_find_category_description_recursive')
 								this.rdfFindCategoryDescriptionRecursive(aValue+'/');
-								
+
 							else if(aCommand=='rdf_find_category_description_empty')
 								this.rdfFindCategoryDescriptionEmpty(aValue+'/');
 							else if(aCommand=='rdf_find_category_description_search')
@@ -648,12 +648,12 @@
 								//building the form
 									//xul content
 										var aLabel =  this.createFormLabel(this.getString('select.a.dictionary'));
-										
+
 										var menuList = this.create('menulist');
 											menuList.setAttribute('name', 'aDictionary');
-										
+
 										var menupopup = this.create('menupopup');
-										
+
 										var dictionaries = this.spellGetDictionaryList();
 											for(var id in dictionaries)
 											{
@@ -670,15 +670,15 @@
 										var button = [];
 											button[0] = this.getString('search');
 											button[1] = function(formData)
-														{ 
+														{
 															ODPExtension.rdfCategorySpellCheck(formData['aCategory'], formData['aDictionary']);
 														}
 										buttons[buttons.length] = button;
 										var button = [];
 											button[0] = this.getString('close');
-									
+
 										buttons[buttons.length] = button;
-				
+
 									this.form('spell.check', this.getString('category.spell.check'), [aLabel,menuList,aHiddenValue], buttons, true);
 							}
 
@@ -704,7 +704,7 @@
 						else if(aCommand=='search_in_cat_site_url')
 							this.openURL('http://www.dmoz.org/search?q='+this.encodeUTF8('u:'+searchFor)+'&cat='+this.encodeUTF8(aValue+'/')+'&all=no&ebuttons=1', true, false, inSelectedTab);
 					}
-					
+
 				}//end for
 
 

@@ -12,7 +12,7 @@
           xmlns:html="http://www.w3.org/1999/xhtml"
           xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
           xmlns:xbl="http://www.mozilla.org/xbl">
-	
+
 	<binding
 		id="from-category-xbl"
 		extends="chrome://global/content/bindings/popup.xml#popup"
@@ -42,7 +42,7 @@
 			  <xul:menuseparator/>
 			  <xul:menuitem action="edit_cat" label="&ODPExtension.from.category.edit;"/>
 			  <!-- <xul:menuitem action="tool_pub" label="Publish"/> -->
-			  
+
 				<xul:menuitem action="tool_worldlinkerate" label="WorldLinkerate"/>
 			  <xul:menuitem action="rdf_find_hyperlinks_to_here" label="Hyper-Links to Here"/>
 
@@ -87,7 +87,7 @@
 					<xul:menuitem action="rdf_find_related_to_here_or_to_any" label="Find related categories to here or to any of its subcategories"/>
 				</xul:menupopup>
 			  </xul:menu>
-			  
+
 				<xul:menu action="edit_cat_addlink" label="&ODPExtension.from.category.edit.links;">
 					<xul:menupopup>
 					  <!--
@@ -140,13 +140,13 @@
 					<!-- <xul:menuitem action="search_find_subcategory_called" label="&ODPExtension.from.category.find.subcategory.called;"/> -->
 					<xul:menuitem action="search_display_subcategories" label="&ODPExtension.from.category.display.subcategories;"/>
 					<xul:menuitem action="search_display_all_subcategories" label="&ODPExtension.from.category.display.all.subcategories;"/>
-					
+
 					<xul:menuseparator/>
 					<xul:menuitem disabled="true" label="Spider" style="font-weight:bold;"/>
-					
+
 					<xul:menuitem disabled="true" action="display_empty_categories" label="&ODPExtension.from.category.display.empty.categories;"/>
 					<xul:menuseparator/>
-					
+
 					<xul:menuitem disabled="true" label="RDF" style="font-weight:bold;"/>
 					<xul:menuitem action="rdf_category_spell_check" label="Spell check on categories names"/>
 					<xul:menuitem action="rdf_find_categories_with_invalid_names" label="Find categories with invalid names"/>
@@ -188,7 +188,7 @@
 					<xul:menuitem action="command_editor_produced_tool_PNF" label="PNF"/>
 				</xul:menupopup>
 			  </xul:menu>
-			
+
 			  <xul:menu action="cat_log_edit" label="&ODPExtension.from.category.logs;">
 				<xul:menupopup>
 				  <xul:menuitem action="cat_log_cool" label="&ODPExtension.from.category.cooling;"/>
@@ -226,7 +226,7 @@
 				  <xul:menuitem action="search_in_cat_site_url" label="&ODPExtension.from.category.find.in.site.url;"/>
 				</xul:menupopup>
 			  </xul:menu>
-			  <!-- 
+			  <!--
 			  <xul:menuseparator anonid="ODPExtension-from-category-encode-decode-separator" hidden="true"/>
 			  <xul:menu anonid="ODPExtension-from-category-encode-decode" hidden="true" action="command_decode_links" label="&ODPExtension.from.category.encode.decode;">
 				<xul:menupopup>
@@ -240,7 +240,7 @@
 				<xul:menupopup>
 
 					<xul:menuitem disabled="true" label="Categories" style="font-weight:bold;"/>
-					
+
 					<xul:menuitem action="command_editor_produced_tool_Numbers" label="Numbers"/>
 					<xul:menuseparator/>
 					<xul:menuitem action="command_tool_spell_check" label="Spell check"/>

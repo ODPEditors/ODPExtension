@@ -17,18 +17,18 @@
 		When this work get some stable point I would like to set some mini documentation on how to implement a feature with this code as base.
 		There is lots of problems solved that will help to concentrate to JavaScript developers in the feature that they want implement.
 
-	NOTES, THE 
+	NOTES, THE
 
 		you are at chrome://odpextension/content/js/
 
 		This is the main folder for ODP Extension JavaScript files
 
-		Other JavaScript files outside of this folder including components, extension controllers(in a folder called 'core') 
+		Other JavaScript files outside of this folder including components, extension controllers(in a folder called 'core')
 		and these inside a folder called lib are just APIs and controllers that I use in all of my extensions.
 
 		The "controllers" manage the listeners, preferences, and strings for user interface used by JavaScript
 
-	FILES 
+	FILES
 
 		preferences.js
 

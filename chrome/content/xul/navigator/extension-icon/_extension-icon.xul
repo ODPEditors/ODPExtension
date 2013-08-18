@@ -1,26 +1,26 @@
-	
+
 	<hbox id="urlbar-icons">
-		<image 
+		<image
 			id="ODPExtension-extension-icon"
 			class="plain urlbar-icon"
 			type="button"
 			status="nada"
 			tooltip="ODPExtension-extension-icon-tooltip"
-			onclick="ODPExtension.extensionIconClick(event);" 
-			ondblclick="ODPExtension.extensionIconClickDouble(event);" 
+			onclick="ODPExtension.extensionIconClick(event);"
+			ondblclick="ODPExtension.extensionIconClickDouble(event);"
 			context=""
 		/>
 	</hbox>
-	
+
 	<statusbar id="status-bar">
-		<statusbarpanel 
+		<statusbarpanel
 			id="ODPExtension-status-bar"
 			class="statusbarpanel-menu-iconic"
-			
+
 			tooltip="ODPExtension-extension-icon-tooltip"
-			onclick="ODPExtension.extensionIconClick(event);" 
-			ondblclick="ODPExtension.extensionIconClickDouble(event);" 
-			
+			onclick="ODPExtension.extensionIconClick(event);"
+			ondblclick="ODPExtension.extensionIconClickDouble(event);"
+
 			context=""
 		/>
 

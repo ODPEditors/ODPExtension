@@ -11,7 +11,7 @@
 		}
 
 		this.openURL(
-						aURL, 
+						aURL,
 						this.preferenceGet('tab.behavior.'+aUserPreference+'.tab.new.tab') || aEvent.button == 1,
 						this.preferenceGet('tab.behavior.'+aUserPreference+'.tab.new.window') || aEvent.ctrlKey,
 						this.preferenceGet('tab.behavior.'+aUserPreference+'.tab.selected'),

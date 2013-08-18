@@ -22,7 +22,7 @@
 
 				if((aSubdomain == 'editors.dmoz.org' || aSubdomain == 'www.dmoz.org' ) && this.editingFormURLExists(aDoc))
 				{
-					this.getElement('context-editing-form-url-formater').setAttribute('hidden', false);		
+					this.getElement('context-editing-form-url-formater').setAttribute('hidden', false);
 				}
 				else
 				{

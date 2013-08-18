@@ -2,10 +2,10 @@
 {
 	//returns true or false if searchQuery is found in aString
 	this.searchEngineSearch = function (searchQuery, aString)
-	{		
+	{
 		//normalizing aString - search is caseinsensitive
 			aString = this.trim(aString).toLowerCase();
-		
+
 		//finding "or" conditions
 			searchQuery = this.trim(searchQuery).toLowerCase().replace(/ or /gi, ',').replace(/ +/g, ' ');
 			searchQuery = searchQuery.split(',');
@@ -16,7 +16,7 @@
 					var subQuery = this.trim(searchQuery[id]).split(' ');
 				//found flag
 					var found = false;
-					
+
 				//foreach word to search
 				for(var id2 in subQuery)
 				{
@@ -60,11 +60,11 @@
 				snippetSize = 1800;
 			else
 				snippetSize = 1000;
-				
+
 		//normalizing aString - search is caseinsensitive
 			aString = this.trim(this.htmlEntityDecode(aString));
 			var aStringLower = this.trim(this.htmlEntityDecode(aString)).toLowerCase();
-		
+
 		//finding al the words to highlight
 			searchQuery = this.trim(searchQuery).replace(/ +/g, ' ').split(' ');
 			searchQuery = this.arrayUnique(searchQuery);
@@ -73,7 +73,7 @@
 			{
 				if(searchQuery[id][0] == '-')
 				{
-					searchQuery[id] = '';	
+					searchQuery[id] = '';
 				}
 			}
 			searchQuery = this.arrayUnique(searchQuery);
@@ -128,9 +128,9 @@
 					aString = aString.split(searchQuery[id]).join('<█>'+searchQuery[id]+'</█>');
 			}
 		//data security
-		
+
 			aString = this.htmlSpecialCharsEncode(aString).replace(/&lt;█&gt;/g, '<b>').replace(/&lt;\/█&gt;/g, '</b>');
-			
+
 		return aString;
 	};
 

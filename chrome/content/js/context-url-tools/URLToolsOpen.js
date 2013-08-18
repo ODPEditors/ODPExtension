@@ -12,7 +12,7 @@
 					var item = aEvent.originalTarget;
 					if(!item.hasAttribute('value'))
 						return;
-					
+
 					//ok, array here too
 					var urlTools = [];
 					var urlTool = item.getAttribute('value');
@@ -73,7 +73,7 @@
 							}
 						}
 					}
-					
+
 					tools = this.arrayUnique(tools);
 					for(var id in tools)
 						this.tabOpenCheckForBehavior(tools[id], aEvent, 'url.tools');

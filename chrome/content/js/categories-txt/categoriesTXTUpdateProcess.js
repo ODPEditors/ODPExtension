@@ -1,15 +1,15 @@
 (function()
 {
-	
+
 	//this separates the categories.txt file in multiples files to do quickly searchs of category names
 	this.categoriesTXTUpdateProcess = function()
 	{
 		this.categoriesTXT = this.categoriesTXT.split('\n').sort(this.sortLocale);
 		var aDate = this.categoriesTXTDate;
-		
+
 		this.categoriesTXTDate = null;
 		delete this.categoriesTXTDate;
-		
+
 		var categoryCount = this.categoriesTXT.length;
 
 		var progress = this.progress('local.category.finder');
@@ -18,8 +18,8 @@
 			progress.running = categoryCount-1;
 			progress.message = this.getString('local.category.finder')+' : '+this.getString('progress.process');
 
-		var 
-			aCategory = '', 
+		var
+			aCategory = '',
 			aCategoryLast ='',
 			aDatabase = '',
 			aDatabaseLast = '',
@@ -27,9 +27,9 @@
 			aData='',
 			aNodes,
 			aCategoryCount = 0;
-			
+
 		this.fileRemove('categories.txt/');
-		
+
 		//the file is not trimed i=1
 		for(var i=0;i<categoryCount;i++)
 		{
@@ -37,7 +37,7 @@
 
 			if(aCategory == '')
 				continue;
-			
+
 			if(i % 50000 == 0)
 			{
 				progress.done = i;
@@ -119,14 +119,14 @@
 			this.preferenceSet('locked.advanced.urls.categories.txt.last.update', this.ucFirst(new Date().toLocaleString()));
 		else
 			this.preferenceSet('locked.advanced.urls.categories.txt.last.update', aDate);
-	
+
 		this.shared.categories.txt.lock = false;
-		
+
 		this.notifyInstances('userInterfaceUpdate');
 
 		this.notifyTab(this.getString('categories.txt.has.been.updated').replace('{DATE}', this.preferenceGet('locked.advanced.urls.categories.txt.last.update')));
 	}
-	
+
 
 	return null;
 

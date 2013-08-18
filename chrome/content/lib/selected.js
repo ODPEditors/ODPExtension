@@ -17,7 +17,7 @@
 	//returns the selection that the focused window is returning was an object with the node
 	this.getBrowserSelectionObjects = function(tagName)
 	{
-		//inspired by linky		
+		//inspired by linky
 		var items = document.commandDispatcher.focusedWindow.document.getElementsByTagNameNS("*", tagName);
 		var objs = [];
 		if (items && items.length)
@@ -38,9 +38,9 @@
 	this.getFocusedElementSelection = function()
 	{
 		//http://forums.mozillazine.org/viewtopic.php?t=570720 and max1millon again! thanks
-		
+
 		var aTextSelection = '';
-		
+
 		if(!document.commandDispatcher || !document.commandDispatcher.focusedElement)
 			return '';
 
@@ -52,7 +52,7 @@
 			aTextSelection = this.trim(tBox.value.substring(tBox.selectionStart, tBox.selectionEnd));
 		}
 		catch(e){}
-		
+
 		return aTextSelection;
 	};
 	//returns the selection that the browser is returning looking in every frame until something found
@@ -70,7 +70,7 @@
 
 			if(aSelection != '' && aSelection != null)
 				return aSelection;
-				
+
 			//checking content of frames
 			if(win.frames.length  > 0)
 			{
@@ -80,7 +80,7 @@
 					if(!win.frames[a])
 						continue;
 					aSelection = win.frames[a].getSelection();
-					
+
 					if(aSelection != '' && aSelection != null)
 						return aSelection;
 					if(win.frames[a].frames.length  > 0)
@@ -116,7 +116,7 @@
 	this.getSelectedLinksURLs = function(forced)
 	{
 		//inspired by extended copy menu, linky and some mutations
-		var aSelection = this.getBrowserSelection();	
+		var aSelection = this.getBrowserSelection();
 		var links = [];
 		if((aSelection == '' || aSelection == null) && forced)
 		{
@@ -127,11 +127,11 @@
 			var objRange = aSelection.getRangeAt(i);
 
 			var objClone = objRange.cloneContents();
-			
+
 			var objDiv = this.documentGetFocused().createElement('div');
 				objDiv.appendChild(objClone);
 			var lk = objDiv.getElementsByTagName('a');
-	
+
 			for (var a=0;a<lk.length;a++)
 			{
 				if(lk[a].hasAttribute('href'))
@@ -174,12 +174,12 @@
 	//code behind this will run if the call to this function (getSelectedText) comes from an element that cause the lose of the focus in the window
 			if(!forced)
 				return aTextSelection;
-		
+
 		//gets selection from frames document
 			aTextSelection = this.trim(this.string(this.getFramesSelectionRecursive()));
 			if(aTextSelection != '')
 				return aTextSelection;
-			
+
 		//gets selection in inputs of the top document
 			var win = window.content;
 			if(!win){}
@@ -227,7 +227,7 @@
 					{
 						if(!win.frames[a].document)
 							continue;
-							
+
 						var win_frame = win.frames[a];
 						if(!win_frame.document.forms){}
 						else
@@ -262,23 +262,23 @@
 			}
 		return aTextSelection;
 	};
-	//gets the selected text HTML of a document 
+	//gets the selected text HTML of a document
 	this.getSelectedTextHTML = function()
 	{
 		var aTextSelection = '';
 		var focusedDocument = this.documentGetFocused();
-		
+
 		if(focusedDocument instanceof HTMLDocument)
 		{
 			var objDiv = this.documentGetFocused().createElement('div');
-			
+
 		//gets focused document selection
 			var aSelection = this.getBrowserSelection();
 			var objClone;
 			if(aSelection.rangeCount>0)
 			{
 				for(var i=0;i<aSelection.rangeCount;i++)
-				{	
+				{
 						objClone = aSelection.getRangeAt(i);
 						objClone = objClone.cloneContents();
 						objDiv.appendChild(objClone);
@@ -302,7 +302,7 @@
 		var selectedText = this.getSelectedText(forced);
 		if(selectedText=='')
 			selectedText = this.prompt(this.getString('there.is.no.selected.text.in.the.page.do.you.want.write.some'), aDefaultPrompt);
-		
+
 		return selectedText;
 	};
 	//decodes the selected text

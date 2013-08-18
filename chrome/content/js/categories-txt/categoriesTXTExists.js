@@ -1,6 +1,6 @@
 (function()
 {
-	
+
 	//returns true if the categories.txt database exists
 	this.categoriesTXTExists = function()
 	{

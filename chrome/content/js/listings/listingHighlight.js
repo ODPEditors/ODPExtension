@@ -32,25 +32,25 @@
 			this.listingsHighlightItem = function(item)
 			{
 				if(
-				   !item.href || 
-				   this.isGarbage(item.href) || 
-				   this.isPrivateURL(item.href) || 
-					item.href.indexOf('pmoz.info') != -1 || 
-					item.href.indexOf('.domaintools.com') != -1 || 
-					(this.focusedURLDomain.indexOf('google.') != -1 && item.href.indexOf('google.') != -1) || 
-					(this.focusedURLDomain.indexOf('yahoo.') != -1 && item.href.indexOf('yahoo.') != -1 ) ||																																						
-					(this.focusedURLDomain.indexOf('bing.') != -1 && item.href.indexOf('.bing') != -1 ) ||																																						
+				   !item.href ||
+				   this.isGarbage(item.href) ||
+				   this.isPrivateURL(item.href) ||
+					item.href.indexOf('pmoz.info') != -1 ||
+					item.href.indexOf('.domaintools.com') != -1 ||
+					(this.focusedURLDomain.indexOf('google.') != -1 && item.href.indexOf('google.') != -1) ||
+					(this.focusedURLDomain.indexOf('yahoo.') != -1 && item.href.indexOf('yahoo.') != -1 ) ||
+					(this.focusedURLDomain.indexOf('bing.') != -1 && item.href.indexOf('.bing') != -1 ) ||
 					((this.focusedURLDomain.indexOf('live.') != -1 || this.focusedURLDomain.indexOf('msn.') != -1) && (item.href.indexOf('msn.') != -1 || item.href.indexOf('live.') != -1 || item.href.indexOf('msnscache.') != -1))	||
-					(this.focusedURLDomain.indexOf('google.') != -1 && (item.href.indexOf('cache:') != -1 || item.href.indexOf('related:') != -1 || item.href.indexOf('site:') != -1))																																								
+					(this.focusedURLDomain.indexOf('google.') != -1 && (item.href.indexOf('cache:') != -1 || item.href.indexOf('related:') != -1 || item.href.indexOf('site:') != -1))
 				)
-					return;			
-				
+					return;
+
 				var tooltiptext = this.decodeUTF8Recursive(this.anonymizeForListingChecking(item.href));
-				item.setAttribute('tooltiptext', tooltiptext); 
+				item.setAttribute('tooltiptext', tooltiptext);
 				item.setAttribute('title', tooltiptext);
 				item.style.setProperty('border', '1px solid green', 'important');
 				item.style.setProperty('padding', '2px', 'important');
-				
+
 			var progress = this.progress('listings.highlight');
 				progress.add();
 
@@ -61,18 +61,18 @@
 							 null,
 							 function(){ ODPExtension.listingsHighlightRetreiveInformationForItem(arguments[0],arguments[1],arguments[2]);}, item , tooltiptext);//variable num of arguments
 			}
-			
+
 			//retreiving information about listings for item
 			this.listingsHighlightRetreiveInformationForItem = function(aData, item, tooltiptext)
 			{
 				//first syling
 					item.style.setProperty('color', 'black', 'important');
 					item.style.setProperty('background-color', '#FFFFCC', 'important');
-			
+
 				//progress
 				var progress = this.progress('listings.highlight');
 					progress.remove();
-					
+
 				//vars
 					var responseURL = '', responseCategory = '', results = 0, itemSubdomain = this.removeWWW(this.getSubdomainFromURL(item.href)), itemDomain = this.getDomainFromURL(item.href);
 					var foundDomain = false;
@@ -91,7 +91,7 @@
 							responseURL = data[1];
 							responseCategory = data[0];
 						}
-						
+
 						if(this.decodeUTF8Recursive(this.removeSchema(this.shortURL(item.href).replace(/\/+$/, ''))).replace(/\/$/, '').toLowerCase()==this.decodeUTF8Recursive(this.removeSchema(this.shortURL(responseURL).replace(/\/+$/, ''))).replace(/\/$/, '').toLowerCase())
 						{
 							item.style.setProperty('color', 'white', 'important');
@@ -102,7 +102,7 @@
 							item.setAttribute('onclick', "if(event.ctrlKey){window.open('"+this.categoryGetURL(responseCategory)+"', '_blank');return false;}");
 							break;
 						}
-						
+
 						else if(itemSubdomain == this.removeWWW(this.getSubdomainFromURL(responseURL)))
 						{
 							foundDomain = true;

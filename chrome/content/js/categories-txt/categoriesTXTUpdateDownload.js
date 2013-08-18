@@ -1,6 +1,6 @@
 (function()
 {
-	
+
 	//downloads the categories.txt and sends the result to the process that will split that file into multiples files
 	this.categoriesTXTUpdateDownload = function()
 	{
@@ -14,9 +14,9 @@
 			Requester.onprogress = function(aEvent)
 			{
 				if (aEvent.lengthComputable)
-					  progress.done = Math.floor(100 * (aEvent.loaded / aEvent.total))+'%';  
+					  progress.done = Math.floor(100 * (aEvent.loaded / aEvent.total))+'%';
 				else
-					  progress.done = 'Server is not giving size information';  
+					  progress.done = 'Server is not giving size information';
 
 				 if(progress.done < 2)
 					progress.done = '2%';
@@ -25,12 +25,12 @@
 			Requester.onload = function(aEvent)
 			{
 				if(
-				   Requester.status != '200' || 
-				   Requester.responseText == null || 
+				   Requester.status != '200' ||
+				   Requester.responseText == null ||
 				   Requester.responseText == ''
 				   )
 				{
-					progress.done = 'Error while reading categories.txt, server status = "'+Requester.status+'"';  
+					progress.done = 'Error while reading categories.txt, server status = "'+Requester.status+'"';
 					progress.progress();
 					ODPExtension.shared.categories.txt.lock = false;
 				}
@@ -58,7 +58,7 @@
 					setTimeout(function(){	ODPExtension.categoriesTXTUpdateProcess();}, 0);
 				}
 			};
-			
+
 			if(this.preferenceGet('advanced.urls.categories.txt') != '')
 			{
 				progress.progress();

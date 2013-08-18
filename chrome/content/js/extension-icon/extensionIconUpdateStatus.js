@@ -1,14 +1,14 @@
 (function()
 {
-		
+
 		//update the status of the icon
-		
+
 			this.extensionIconUpdateStatus = function()
 			{
 				var tooltip = this.getElement('extension-icon-tooltip-data');
 				this.removeChilds(tooltip);
 				var label = this.create('label');
-				
+
 				if(!this.preferenceGet('enabled'))
 				{
 					this.getElement('extension-icon').setAttribute('status', 'disabled');
@@ -17,7 +17,7 @@
 				else
 				{
 					var status = 'nada';
-					
+
 					if(this.isPrivateURL(this.focusedURL))
 					{
 						status = 'private';
@@ -43,7 +43,7 @@
 						else
 							label.setAttribute('value', this.decodeUTF8Recursive(this.focusedURL));
 					}
-					
+
 					if(this.documentHasFrameSet())
 					{
 						status = status+'-frameset';
@@ -51,7 +51,7 @@
 							labelFrameSet.setAttribute('value', this.getString('document.under.frameset'));
 							tooltip.appendChild(labelFrameSet);
 					}
-					
+
 					this.getElement('extension-icon').setAttribute('status', status);
 				}
 				tooltip.appendChild(label);

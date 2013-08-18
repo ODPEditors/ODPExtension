@@ -14,12 +14,12 @@
 	this.focusedLocationBar = function()
 	{
 		var aLocation = '';
-		
+
 		//if the URLBar is there...
 		if(this.getBrowserElement('urlbar'))
 		{
 			aLocation = this.string(this.getBrowserElement('urlbar').value);
-			
+
 			//the urlbar can contain any typed data, try to see if this is an url
 			if(aLocation.indexOf('.') != -1)
 			{
@@ -29,9 +29,9 @@
 					aLocation = 'http://'+aLocation;
 
 				//if the url don't have a slash after the domain name then do not use it
-				if(/^[a-z]+\:\/+[^\/]+$/i.test(aLocation)) 
+				if(/^[a-z]+\:\/+[^\/]+$/i.test(aLocation))
 					aLocation = '';
-				
+
 				//the url bar contains the data in a "pretty" not usable format
 				//aLocation = this.encodeURI(aLocation);
 			}
@@ -40,7 +40,7 @@
 				aLocation = '';
 			}
 		}
-		
+
 		if(aLocation != '' && this.isPublicURL(aLocation))
 			return aLocation;
 		else
@@ -63,19 +63,19 @@
 		var puntos = this.subStrCount(aSubdomainOrDomainOrIP, '.');
 		if(puntos == 1)
 			return aSubdomainOrDomainOrIP;
-		else if(puntos == 2 && 
+		else if(puntos == 2 &&
 				/(com|net|org|edu|gov|gub|mil|int|arpa|aero|biz|coop|info|museum|name|co|ac|ne|asia|jobs|mobi|pro|tel|travel)\.(ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bl|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mf|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)$/i.test(aSubdomainOrDomainOrIP)
 				)
 			return aSubdomainOrDomainOrIP;
 		else if(puntos >= 3 &&
-				/(com|net|org|edu|gov|gub|mil|int|arpa|aero|biz|coop|info|museum|name|co|ac|ne|asia|jobs|mobi|pro|tel|travel)\.(ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bl|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mf|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)$/i.test(aSubdomainOrDomainOrIP) 
+				/(com|net|org|edu|gov|gub|mil|int|arpa|aero|biz|coop|info|museum|name|co|ac|ne|asia|jobs|mobi|pro|tel|travel)\.(ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bl|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mf|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)$/i.test(aSubdomainOrDomainOrIP)
 				)
 			return aSubdomainOrDomainOrIP.replace(/.*\.([^\.]+\.[^\.]+\.[^\.]+)$/, "$1");
 		else
 			return aSubdomainOrDomainOrIP.replace(/.*\.([^\.]+\.[^\.]+)$/, "$1");
 	}
 	//returns the IP of a host name
-	
+
 	this.getIPFromDomain = function(aDomain)
 	{
 		var IP = '';
@@ -90,7 +90,7 @@
 				return IP;
 			}
 		}catch(e){}
-		
+
 		return IP;
 	}
 	//gets the schema of a URL
@@ -138,7 +138,7 @@
 			case 'doubleclick.net':
 			case 'fbcdn.net':
 			case 'sharethis.com':
-			
+
 				return true;
 			default:
 				return false;
@@ -166,17 +166,17 @@
 	this.isGarbageURL = function(aURL)
 	{
 		if(
-		   this.isGarbageSubdomain(this.getSubdomainFromURL(aURL)) || 
-		   this.isGarbageDomain(this.getDomainFromURL(aURL)) || 
+		   this.isGarbageSubdomain(this.getSubdomainFromURL(aURL)) ||
+		   this.isGarbageDomain(this.getDomainFromURL(aURL)) ||
 		   aURL.indexOf('http://www.google.com/url?') === 0 ||
-		   aURL.indexOf('tweetmeme.com/button') != -1 || 
-		   aURL.indexOf('facebook.com/plugins') != -1 || 
-		   aURL.indexOf('facebook.com/widgets') != -1 || 
+		   aURL.indexOf('tweetmeme.com/button') != -1 ||
+		   aURL.indexOf('facebook.com/plugins') != -1 ||
+		   aURL.indexOf('facebook.com/widgets') != -1 ||
 		   aURL.indexOf('facebook.com/xd_') != -1 ||
 		   aURL.indexOf('addthis.com/static') != -1  ||
 		   aURL.indexOf('.twitter.com/widgets') != -1  ||
-		   aURL.indexOf('gmodules.com/gadgets') != -1 
-		   
+		   aURL.indexOf('gmodules.com/gadgets') != -1
+
 		 )
 			return true;
 		else
@@ -193,9 +193,9 @@
 	//return true if the ip address is private
 	this.isIPAddressPrivate = function(aIP)
 	{
-		/* 
+		/*
 			checking private ranges - thanks to callimachus
-			The private IP blocks as documented in RFC 1918 and RFC 3330: 
+			The private IP blocks as documented in RFC 1918 and RFC 3330:
 				1 - 10.0.0.0 - 10.255.255.255
 				2 - 127.0.0.0 - 127.255.255.255
 				3 - 172.16.0.0 - 172.31.255.255
@@ -220,15 +220,15 @@
 		var schema = this.getSchema(aURL);
 		if(schema != 'http' && schema != 'https' && schema != 'ftp' && schema != 'feed' && schema != 'gopher')
 			return false;
-		
+
 		var aDomain = this.getSubdomainFromURL(aURL);
-		
+
 		if(aDomain.indexOf('.') == -1)
 			return false;
-		
+
 		if(this.isIPAddress(aDomain) && this.isIPAddressPrivate(aDomain))
 			return false
-			
+
 		if(aDomain.indexOf('@') != -1 && aDomain.indexOf(':') != -1)
 			return false;
 
@@ -238,9 +238,9 @@
 	this.isSecureURI = function(aURI)
 	{
 		var aURI = this.string(aURI).toLowerCase();
-		
+
 		if(
-			   aURI.indexOf('http://') === 0 || 
+			   aURI.indexOf('http://') === 0 ||
 			   aURI.indexOf('https://') === 0 ||
 			   aURI.indexOf('ftp://') === 0 ||
 			   aURI.indexOf('feed:') === 0 ||
@@ -279,10 +279,10 @@
 		  var ios = Components.classes["@mozilla.org/network/io-service;1"]
 							  .getService(Components.interfaces.nsIIOService);
 		  var uri = ios.newURI(aURL, null, null);
-		
+
 		  var protocolSvc = Components.classes["@mozilla.org/uriloader/external-protocol-service;1"]
 									  .getService(Components.interfaces.nsIExternalProtocolService);
-		
+
 		  if (!protocolSvc.isExposedProtocol(uri.scheme)) {
 			// If we're not a browser, use the external protocol service to load the URI.
 			protocolSvc.loadUrl(uri);
@@ -292,7 +292,7 @@
 									  .createInstance(Components.interfaces.nsILoadGroup);
 			var appstartup = Components.classes["@mozilla.org/toolkit/app-startup;1"]
 									   .getService(Components.interfaces.nsIAppStartup);
-		
+
 			var loadListener = {
 			  onStartRequest: function ll_start(aRequest, aContext) {
 				appstartup.enterLastWindowClosingSurvivalArea();
@@ -309,7 +309,7 @@
 			  }
 			}
 			loadgroup.groupObserver = loadListener;
-		
+
 			var uriListener = {
 			  onStartURIOpen: function(uri) { return false; },
 			  doContent: function(ctype, preferred, request, handler) { return false; },
@@ -325,15 +325,15 @@
 				throw Components.results.NS_ERROR_NO_INTERFACE;
 			  }
 			}
-		
+
 			var channel = ios.newChannelFromURI(uri);
 			var uriLoader = Components.classes["@mozilla.org/uriloader;1"]
 									  .getService(Components.interfaces.nsIURILoader);
 			uriLoader.openURI(channel, true, uriListener);
 		  }
-		})(aURL); 
+		})(aURL);
 	}
-	//opens a an URL that is already encoded example:http://www.dmoz.org/World/Espa%C3%B1ol/ 
+	//opens a an URL that is already encoded example:http://www.dmoz.org/World/Espa%C3%B1ol/
 	//if allowed and selected: in a sub browser of split browser extension, at the desired position
 	//else in a normal tab, selected or not
 	this.openURL = function(aURL, inNewTab, inNewWindow, giveFocus, onSubBrowser, subBrowserPosition, aPostData, byPassSecure)
@@ -369,13 +369,13 @@
 									aPosition = SplitBrowser.POSITION_TOP
 								else if(subBrowserPosition == 'B')
 									aPosition = SplitBrowser.POSITION_BOTTOM
-									
+
 							//check if there subbrowser is already opened
 							if(!this.aSubBrowser || !this.aSubBrowser[subBrowserPosition] || !this.aSubBrowser[subBrowserPosition].browser)
 							{
 								if(!this.aSubBrowser)
 									this.aSubBrowser = [];
-	
+
 								this.aSubBrowser[subBrowserPosition] = SplitBrowser.addSubBrowser('', SplitBrowser.activeBrowser, aPosition);
 								this.aSubBrowser[subBrowserPosition].browser.loadURIWithFlags(aURL, null, null, null, this.postData(aPostData) )
 							}
@@ -384,7 +384,7 @@
 								if(inNewTab)
 								{
 									var aTab = this.aSubBrowser[subBrowserPosition].browser.addTab(aURL, null, null, this.postData(aPostData));
-									
+
 									if(giveFocus)
 									{
 										this.aSubBrowser[subBrowserPosition].browser.focus();
@@ -397,7 +397,7 @@
 								}
 							}
 							return;
-							
+
 						}catch(e){}
 				}
 				//if split browser is not there, or if is usage of the power extensions is disabled ,or if fails
@@ -422,13 +422,13 @@
 		  stringStream.data = dataString;
 		else // 1.8 or older
 		  stringStream.setData(dataString, dataString.length);
-		
+
 		var postData = Components.classes["@mozilla.org/network/mime-input-stream;1"].
 					   createInstance(Components.interfaces.nsIMIMEInputStream);
 		postData.addHeader("Content-Type", "application/x-www-form-urlencoded");
 		postData.addContentLength = true;
 		postData.setData(stringStream);
-		
+
 		// postData is ready to be used as aPostData argument
 		return postData;
 	}
@@ -448,10 +448,10 @@
 			aCallbackArgs[8] = arguments[13];
 			aCallbackArgs[9] = arguments[14];
 			aCallbackArgs[10] = arguments[15];
-		
+
 		//builds the cache ID
 		var hash = this.sha256(aURL);
-		
+
 		var cachedFile = 'cached.request/'+aCacheID+'/'+hash[0]+'/'+hash[1]+'/'+hash+'.txt';
 
 		//check if the cached file exists
@@ -459,8 +459,8 @@
 		{
 			aURL = this.pathSanitize(this.extensionDirectory().path+'/'+cachedFile);
 			var ios = Components.classes["@mozilla.org/network/io-service;1"].
-							getService(Components.interfaces.nsIIOService);  
-			aURL = ios.newURI('file://'+aURL, null, null).spec;  
+							getService(Components.interfaces.nsIIOService);
+			aURL = ios.newURI('file://'+aURL, null, null).spec;
 		}
 
 		var Requester = new XMLHttpRequest();
@@ -492,10 +492,10 @@
 				{
 				  if(aCacheID !== null && aCacheID !== false )
 					ODPExtension.fileWrite(cachedFile, Requester.responseText);
-				  
+
 				  (function()
 				  {
-						  aFunction(Requester.responseText, 
+						  aFunction(Requester.responseText,
 							  aCallbackArgs[0],aCallbackArgs[1],aCallbackArgs[2],aCallbackArgs[3],
 							  aCallbackArgs[4],aCallbackArgs[5],aCallbackArgs[6],aCallbackArgs[7]
 						  )
@@ -515,7 +515,7 @@
 	this.removeFromTheFirstFolder = function (aURL)
 	{
 		aURL = this.removeVariables(aURL);
-	
+
 		if(this.subStrCount(aURL, '/') >= 2)
 			return aURL.replace(/^([a-z]+\:\/+[^\/]+\/[^\/]+\/).*$/, "$1");
 		else
@@ -555,7 +555,7 @@
 					/*music*/
 					aURL = aURL.replace(/\/[^\/]*\.mp3$/i, '/').replace(/\/[^\/]*\.wav$/i, '/');
 					aURL = aURL.replace(/\/+$/, '/');
-					
+
 				if(aURL.indexOf('?') != -1)
 				{
 					/*q= privacy*/
@@ -569,11 +569,11 @@
 						aURL = aURL.replace(/sessid\=[^\&]*\&/gi, '').replace(/sessid\=[^\&]*$/i, '');
 						aURL = aURL.replace(/sess\=[^\&]*\&/gi, '').replace(/sess\=[^\&]*$/i, '');
 						aURL = aURL.replace(/sid\=[^\&]*\&/gi, '').replace(/sid\=[^\&]*$/i, '');
-						
+
 					/*email privacy*/
 						aURL = aURL.replace(/email\=[^\&]*\&/gi, '').replace(/email\=[^\&]*$/i, '');
 						aURL = aURL.replace(/mail\=[^\&]*\&/gi, '').replace(/mail\=[^\&]*$/i, '');
-						
+
 					/*forums privacy*/
 						/*hilos y post*/
 						aURL = aURL.replace(/showthread\.php.*$/i, "showthread.php");
@@ -590,7 +590,7 @@
 						aURL = aURL.replace(/newthread\.php.*$/i, '');
 						aURL = aURL.replace(/sendmessage\.php.*$/i, '');
 						aURL = aURL.replace(/private\.php.*$/i, '');
-						
+
 					/*pages-counts*/
 						aURL = aURL.replace(/page\=[0-9]+/gi, '');
 						aURL = aURL.replace(/start\=[0-9]+/gi, '');
@@ -627,37 +627,37 @@
 							aURL = aURL.replace(/\/mail\/.*$/i, "/mail");
 							aURL = aURL.replace(/\/group\/.*$/i, "/group");
 							aURL = aURL.replace(/\/adsense\/.*$/i, "/adsense");
-							
+
 							//stupid redirects
 							aURL = aURL.replace(/\/url\?.*$/i, "/url");
 						}
-						
+
 						if(aSubdomain.indexOf('search.msn') != -1 || aSubdomain.indexOf('search.blogger') != -1)
 						{
 							aURL =  aURL.replace(/\?.*$/, '');
 						}
-						
+
 						if(aDomain.indexOf('hotmail.') != -1 || aSubdomain.indexOf('.live.com') != -1)
 						{
 							aURL = aURL.replace(/\/cgi-bin\/.*$/i, '/');
 							aURL = aURL.replace(/\?.*$/, '');
 						}
-						
+
 						if(aSubdomain.indexOf('apps.facebook.') != -1)
 						{
 							aURL = aURL.replace(/\?.*$/, '');
 						}
-						
+
 						if(aDomain.indexOf('youtube.') != -1)
 						{
 							aURL = aURL.replace(/\/results\?.*$/i, "/results");
 						}
-						
+
 						if(aSubdomain.indexOf('.bing') != -1)
 						{
 							aURL = aURL.replace(/\?.*$/i, "");
 						}
-						
+
 						if(aSubdomain == 'search.dmoz.org')
 						{
 							aURL = aURL.replace(/\/cgi-bin\/search.*$/i, '/cgi-bin/search');
@@ -666,7 +666,7 @@
 					/*duplicate simbols*/
 						aURL = aURL.replace(/\&+/g, "&").replace(/\&$/, '').replace(/\?$/, '');
 				}
-				
+
 				//the "face"
 				if(aDomain.indexOf('facebook.') != -1)
 				{
@@ -722,14 +722,14 @@
 			return aDomain.replace(/^www?-?([0-9]+)?\./i, '');
 	}
 	//returns aURL in short mode, example http://domain.org/index.html will throw http://domain.org
-	
+
 	this.shortURL = function(aURL)
 	{
 		aURL = aURL.replace(/\/index\.[a-z]{2,4}$/i, '/');
 		aURL = aURL.replace(/\/default\.[a-z]{2,4}$/i, '/');
 		aURL = aURL.replace(/\/index$/i, '/');
 		aURL = aURL.replace(/\/default$/i, '/');
-		
+
 		return aURL;
 	}
 

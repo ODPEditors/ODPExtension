@@ -1,7 +1,7 @@
 (function()
 {
 	//parse a category data (category public page HTML) and returns an array with the editors if any
-	
+
 	this.categoryParserGetCategoryEditors = function(aCategoryDocumentHTML)
 	{
 
@@ -27,9 +27,9 @@
 		//var debugingThisFile = false;//sets debuging on/off for this JavaScript file
 
 		var categorySubcategories = [];
-		
+
 		var elements = this.select('.dir-1 li', aCategoryDocumentHTML, anURI);
-		
+
 		for(var id in elements)
 		{
 		  if(elements[id].innerHTML.indexOf('>@') != -1){/*its a link*/}

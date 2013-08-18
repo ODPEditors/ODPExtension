@@ -24,8 +24,8 @@
 						aString = this.getSelectedTextOrPrompt(false);
 
 					if(aString != '')
-						this.tabOpenCheckForBehavior('http://translate.google.com/translate_t', 
-													aEvent, 
+						this.tabOpenCheckForBehavior('http://translate.google.com/translate_t',
+													aEvent,
 													'translate',
 													'text='+this.encodeUTF8(aString.replace(/_/g, ' ').replace(/\//g, ' / ').replace(/World\//g, ' '))+'&langpair=auto|'+aEvent.originalTarget.getAttribute('value')+'&ie=UTF-8&oe=UTF-8'
 													);

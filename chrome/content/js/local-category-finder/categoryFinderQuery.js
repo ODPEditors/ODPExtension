@@ -1,6 +1,6 @@
 (function()
 {
-	
+
 	//do a search in the categories.txt database
 	this.categoryFinderQuery = function(aQuery, aDatabase, aCategory)
 	{
@@ -11,7 +11,7 @@
 
 		if(!aQuery || aQuery=='')
 			return;
-		
+
 		if(
 		   aQuery.indexOf('^') != -1
 		   || aQuery.indexOf('$') != -1
@@ -33,12 +33,12 @@
 			aQuery = this.trim(aQuery).replace(/_/g, ' ');
 			var aResult = this.categoriesTXTQuery(aQuery, aDatabase, aCategory, true);
 		}
-			
+
 		//SHOWING RESULTS
 		if(aResult.count>0)
 			this.tabOpen(this.fileCreateTemporal(
-													'category-finder.html',  
-													aQuery, 
+													'category-finder.html',
+													aQuery,
 													'<div class="header">'+this.htmlSpecialCharsEncode(this.getString('results').replace('{QUERY}', aQuery).replace('{NUM}', aResult.count))+'</div>'+
 													'<pre style="background-color:white !important;padding:2px;">'
 														+aResult.categories.join(this.__NEW_LINE__)+

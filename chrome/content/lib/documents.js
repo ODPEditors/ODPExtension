@@ -20,12 +20,12 @@
 	{
 		return String(aDoc.location);
 	}
-	//returns the  content of the meta description of a document 
+	//returns the  content of the meta description of a document
 	this.documentGetMetaDescription = function(aDoc)
 	{
-		return this.trim(this.stripTags(this.htmlEntityDecode(this.stripTags(this.documentGetRAWMetaDescription(aDoc), ' ')), ' '));	
+		return this.trim(this.stripTags(this.htmlEntityDecode(this.stripTags(this.documentGetRAWMetaDescription(aDoc), ' ')), ' '));
 	}
-	//returns the  content of the meta description of a document 
+	//returns the  content of the meta description of a document
 	this.documentGetRAWMetaDescription = function(aDoc)
 	{
 		var tobj = aDoc.evaluate("//*/meta[translate(@name, 'DESCRIPTION', 'description') = 'description']", aDoc, null, XPathResult.ANY_TYPE, null);
@@ -38,7 +38,7 @@
 		else
 		{
 			var tobj = aDoc.evaluate("//*/meta[translate(@http-equiv, 'DESCRIPTION', 'description') = 'description']", aDoc, null, XPathResult.ANY_TYPE, null);
-	
+
 			var metaTag = tobj.iterateNext();
 			if(metaTag)
 			{

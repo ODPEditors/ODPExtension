@@ -7,7 +7,7 @@
 			this.rdfCategorySpellCheck = function(aCategory, aLang)
 			{
 				this.rdfOpen();//opens a connection to the RDF SQLite database.
-				
+
 				var aMsg = 'Spelling errors on categories names of "{CATEGORY}" including its subcategories ({RESULTS})';//informative msg and title of document
 
 				//sql query
@@ -40,15 +40,15 @@
 					aData += '<input type="text"  spellcheck="true" value="'+this.htmlSpecialCharsEncode(this.trim(spell))+'"/>';
 					aData += this.__NEW_LINE__;
 				}
-				
+
 				//sets msg
 				aMsg = aMsg.replace('{CATEGORY}', aCategory).replace('{RESULTS}', results);
-				
+
 				//display results
 				if(results>0)
 					this.tabOpen(this.fileCreateTemporal(
-															'RDF.html',  
-															aMsg, 
+															'RDF.html',
+															aMsg,
 															'<div class="header">'+aMsg+'</div>'+
 															'<div class="informative">You may want to suggest the words that are not recognized (but correct) to the dictionary maintainers by looking into the URLs on "Install dictionary" links at <a href="https://addons.mozilla.org/en-US/firefox/language-tools/">&lt;https://addons.mozilla.org/en-US/firefox/language-tools/&gt;</a></div>'+
 															'<pre style="background-color:white !important;padding:2px;">'

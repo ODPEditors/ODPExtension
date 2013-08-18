@@ -3,7 +3,7 @@
 
 			var debugingThisFile = true;
 
-			
+
 			this.setFocusedLocation = function()
 			{
 				this.focusedURL = this.focusedLocation();

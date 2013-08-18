@@ -16,9 +16,9 @@
 #ODPExtension-extension-icon[open="true"],
 #ODPExtension-extension-icon:hover:active {}
 #ODPExtension-extension-icon {
-	-moz-appearance: none; 
+	-moz-appearance: none;
 	-moz-user-focus: none;
-	min-width: 0px; 
+	min-width: 0px;
 	padding: 0 2px !important;
 	background-color: transparent !important;
 	list-style-image: url("chrome://ODPExtension/content/xul/navigator/extension-icon/nada.png");

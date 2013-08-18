@@ -1,21 +1,20 @@
 SEMI DOCUMENTATION OF THIS FOLDER
 
-	NOTES 
-		
+	NOTES
+
 		none!
-		
-	FILES 
+
+	FILES
 
 		frameMenuUpdate.js
 
 			updates the frame menu looking at frame of all the document in this tab
-			
+
 		frameOpen.js
 
 			opens a frame
-			
+
 		frameSelectedUpdate.js
-		
+
 			when the context menu popups looks for a frame under the mouse
 			if there is a frame shows "open selected frame"
-						

@@ -12,11 +12,11 @@
 
 				<vbox flex="1">
 					<vbox flex="1" id="ODPExtension-panel-subcontainer">
-							
-							<vbox 
-								id="ODPExtension-panel-header" 
+
+							<vbox
+								id="ODPExtension-panel-header"
 								url=""
-								category="" 
+								category=""
 								panel-header-selected="0"
 							>
 								<vbox onclick="ODPExtension.tabOpenCheckForBehavior(ODPExtension.siteGetURLEdit(this.parentNode.getAttribute('url'),this.parentNode.getAttribute('category')), event, 'informative.panel');">
@@ -25,9 +25,9 @@
 								</vbox>
 								<description id="ODPExtension-panel-header-uri" onclick="ODPExtension.tabOpenCheckForBehavior(this.parentNode.getAttribute('url'), event, 'informative.panel')" crop="end"><n/></description>
 							</vbox>
-			
+
 						<!-- most eficient for the browser seems to be the code rendered, WRONG, I SHOULD REWRITE THIS POPUP -->
-						
+
 							<vbox id="ODPExtension-panel-related"
 								panel-related-selected="0"
 							>
@@ -135,23 +135,23 @@
 								</vbox>
 							</vbox>
 					</vbox>
-					
+
 					<!-- the move popup, close and open button -->
 					<hbox>
 						<spacer flex="1"/>
-						<toolbarbutton 
-							id="ODPExtension-panel-move" 
+						<toolbarbutton
+							id="ODPExtension-panel-move"
 							status="opened"
-							oncommand="ODPExtension.panelInformationToggle(this.parentNode.previousSibling.getAttribute('hidden') == 'true', true);" 
+							oncommand="ODPExtension.panelInformationToggle(this.parentNode.previousSibling.getAttribute('hidden') == 'true', true);"
 							onmousedown="ODPExtension.panelInformationDragCheckStart();"
 							onmouseup="ODPExtension.stopEvent(event);ODPExtension.panelInformationDragCheckStop(event)"
 							context="ODPExtension-extension-icon-context"
 						/>
 					</hbox>
 
-					
+
 				</vbox>
-		
+
 		</hbox>
 
 	</panel>

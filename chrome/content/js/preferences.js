@@ -2,43 +2,43 @@
 {
 		//sets the preferences for this extension
 
-			
+
 			this.preferences.menuList = [
-										
+
 										//EVENTS - ALL DONE
 
 											 'event.click.icon.left.single',
 											 'event.click.icon.left.single.ctrl',
 											 'event.click.icon.left.single.shift',
 											 'event.click.icon.left.single.alt',
-	
+
 											 'event.click.icon.middle.single',
 											 'event.click.icon.middle.single.ctrl',
 											 'event.click.icon.middle.single.shift',
 											 'event.click.icon.middle.single.alt',
-	
+
 											 'event.click.icon.right.single',
 											 'event.click.icon.right.single.ctrl',
 											 'event.click.icon.right.single.shift',
 											 'event.click.icon.right.single.alt',
-											 
+
 											 'event.click.icon.left.double',
 											 'event.click.icon.left.double.ctrl',
 											 'event.click.icon.left.double.shift',
 											 'event.click.icon.left.double.alt',
-	
+
 											 'event.click.icon.middle.double',
 											 'event.click.icon.middle.double.ctrl',
 											 'event.click.icon.middle.double.shift',
 											 'event.click.icon.middle.double.alt',
-	
+
 											 'event.click.icon.right.double',
 											 'event.click.icon.right.double.ctrl',
 											 'event.click.icon.right.double.shift',
 											 'event.click.icon.right.double.alt',
-											 
+
 										//TAB BEHAIOR - ALL DONE
-										
+
 										 	'tab.behavior.translate.tab.sub.browser.position',
 										 	'tab.behavior.frame.from.menu.tab.sub.browser.position',
 										 	'tab.behavior.frame.selected.tab.sub.browser.position',
@@ -47,7 +47,7 @@
 											'tab.behavior.word.reference.tab.sub.browser.position',
 											'tab.behavior.domain.site.tab.sub.browser.position',
 											'tab.behavior.informative.panel.tab.sub.browser.position',
-											
+
 											'preferences.font.size'
 										 ];
 
@@ -55,28 +55,28 @@
 										'ui.icon.position.no.icon', //DONE
 										'ui.icon.position.status.bar', //DONE
 										'ui.icon.position.location.bar', //DONE
-										
+
 										'ui.context.menu.translate.menu.not.in.sub',//DONE
 										'ui.context.menu.translate.menu.in.sub',//DONE
 										'ui.context.menu.translate.menu.in.sub.if.to.many',//DONE
-										
+
 										'privacy.listing.method.url',//DONE
 										'privacy.listing.method.domain',//DONE
 										'privacy.listing.method.none',//DONE
-										
+
 										'privacy.listing.when.location',//DONE
 										'privacy.listing.when.click'//DONE
 									   ];
-			
+
 			this.preferences.ints = [
 									 'ui.context.menu.translate.menu.in.sub.if.to.many.is',//DONE//hidden pref
 									 'ui.informative.panel.x',//DONE
 									 'ui.informative.panel.y'//DONE
 									];
-			
+
 			this.preferences.colors = [];
 			this.preferences.strings = [
-										
+
 										'version',//DONE
 										'last.db.backup',//DONE
 										'extension.directory',//DONE
@@ -88,21 +88,21 @@
 										'url.tools.urls'//DONE
 										];
 			this.preferences.stringsMultiline = [
-												 
+
 												 'category.abbreviation.find',//DONE
 												 'category.abbreviation.replace',//DONE
 												 'scratch.pad'//DONE
 												 ];
 			this.preferences.stringsMultilineSort = [
-													 
+
 													 'advanced.urls.word.reference',//DONE
 													 'advanced.urls.odp.private.no.referrer',//DONE
 													 'advanced.urls.domain.explorer',//DONE
-													 
+
 													 'privacy.queries.exclude.domains',//DONE
 													 'privacy.queries.exclude.strings',//DONE
 													 'category.browser',
-													 
+
 													 'url.notes.update',
 													 'url.notes.unreview',
 													 'url.notes.delete',
@@ -116,60 +116,60 @@
 											'last.enabled',
 											'toolbars.toggle',
 											'single.key.command',
-											
+
 										//privacy - DONE
 											'privacy.no.referrer',
 											'privacy.queries.exclude.ips',
 											'privacy.queries.exclude.https',
 											'privacy.private.browsing.on',
-											
+
 										//advanced - DONE
 											'advanced.use.private.odp.when.posible',
 											'advanced.use.power.extensions',
 											'advanced.categories.txt.auto.update',
-											
-											
+
+
 										//context menu - DONE
 											'ui.context.menu.word.reference',
 											'ui.context.menu.url.tools',
 											'ui.context.menu.frame.selected',
 											'ui.context.menu.frames',
-										
+
 										//from menus - DONE
 											'ui.context.menu.from.category',
-											'ui.context.menu.from.category.in.tab.context.menu', 
+											'ui.context.menu.from.category.in.tab.context.menu',
 											'ui.context.menu.from.categories',
 											'ui.context.menu.from.editor',
 											'ui.context.menu.from.editors',
-											
+
 										//informative panel - DONE
 											'ui.informative.panel',
 											'ui.informative.panel.closed',
-											'ui.informative.panel.categories.titles.urls', 
-											'ui.informative.panel.categories.align.left', 
-											'ui.informative.panel.url', 
+											'ui.informative.panel.categories.titles.urls',
+											'ui.informative.panel.categories.align.left',
+											'ui.informative.panel.url',
 											'ui.informative.panel.title',
-											'ui.informative.panel.description', 
-											
+											'ui.informative.panel.description',
+
 										//miscelanea - DONE
 											'ui.abbreviate.category.names',
 											'ui.from.category.auto',
 											'ui.from.category.selected.array.unique',//hidden pref
 											'ui.from.category.selected.array.sort',//hidden pref
-											
+
 											'ui.forum.pages.custom.nicknames',
 											'ui.forum.pages.show.inactive',
 											'ui.forum.pages.show.newbies',
 
 										//url notes - DONE
-										
+
 											'url.notes.form.submit',
 											'url.notes.form.submit.confirm',
-										
+
 										//forms css
-										
+
 											'forms.css',
-											
+
 										//tab behavior - DONE
 
 											//informative.panel
@@ -231,7 +231,7 @@
 											'ui.context.menu.translate.lang.display.es',
 											'ui.context.menu.translate.lang.display.sv',
 											'ui.context.menu.translate.lang.display.tr',
-														
+
 											'ui.context.menu.translate.lang.display.af',
 											'ui.context.menu.translate.lang.display.sq',
 											'ui.context.menu.translate.lang.display.ar',
@@ -270,7 +270,7 @@
 											'ui.context.menu.translate.lang.display.vi',
 											'ui.context.menu.translate.lang.display.cy',
 											'ui.context.menu.translate.lang.display.yi',
-											
+
 											//languages priority
 											'ui.context.menu.translate.lang.priority.ca',
 											'ui.context.menu.translate.lang.priority.zh-CN',
@@ -287,7 +287,7 @@
 											'ui.context.menu.translate.lang.priority.es',
 											'ui.context.menu.translate.lang.priority.sv',
 											'ui.context.menu.translate.lang.priority.tr',
-														
+
 											'ui.context.menu.translate.lang.priority.af',
 											'ui.context.menu.translate.lang.priority.sq',
 											'ui.context.menu.translate.lang.priority.ar',
@@ -330,11 +330,11 @@
 
 		/*
 			examples of listeners for preferenes
-		
+
 			//called when the "form" (window/dialog/xul) was filled with all the preferences
 			this.addListener('onPreferencesFilled', function(){alert('the preferences form was filled!')});
-			
-			//called when the preferences were applied to the shared object "pref" and NOT to setBoolPref, setIntPref.. 
+
+			//called when the preferences were applied to the shared object "pref" and NOT to setBoolPref, setIntPref..
 			//clean user input, do stuff, don't save the preference is not the intention ( apply is preview )
 		*/
 
@@ -342,42 +342,42 @@
 															{
 																//dispatch to focused window (global)
 																ODPExtension.notifyFocused('preferencesLoadGlobal');
-																
+
 																//dispatch to all the windows (local)
 																ODPExtension.notifyInstances('preferencesLoadLocal');
 																ODPExtension.notifyInstances('dispatchOnLocationChange', true);
 																ODPExtension.notifyInstances('userInterfaceUpdate');
 															});
-			
-			//called when the preferences were saved to the shared object "pref" and to setBoolPref, setIntPref.. 
+
+			//called when the preferences were saved to the shared object "pref" and to setBoolPref, setIntPref..
 			//clean user input, do stuff, re-save modified preferences
 			this.addListener('onPreferencesSaved', function()
 															{
 																//dispatch to focused window (global)
 																ODPExtension.notifyFocused('preferencesLoadGlobal');
-																
+
 																//dispatch to all the windows (local)
 																ODPExtension.notifyInstances('preferencesLoadLocal');
 																ODPExtension.notifyInstances('dispatchOnLocationChange', true);
 																ODPExtension.notifyInstances('userInterfaceUpdate');
-																	
+
 															});
-			
+
 			//called when the preferences observer notices a change in a preference, usually by about:config modification
 			//or when the user modified a preferences by some menuitem or something, BUT not by the preference window
 			this.addListener('onPreferenceSet', function(aName, aValue)// if(aName == 'advanced.use.power.extensions'){ }
 														{
 																//dispatch to focused window (global)
 																ODPExtension.notifyFocused('preferencesLoadGlobal');
-																
+
 																//dispatch to all the windows (local)
 																ODPExtension.notifyInstances('preferencesLoadLocal');
 																ODPExtension.notifyInstances('dispatchOnLocationChange', true);
 																ODPExtension.notifyInstances('userInterfaceUpdate');
-																
+
 																if(aName=='enabled')
 																	ODPExtension.notifyInstances('checkListeners');
-																			
+
 														});
 
 			//when the window or dialog that holds the preferences is closed this event is fired
@@ -385,13 +385,13 @@
 														{
 																//dispatch to focused window (global)
 																ODPExtension.notifyFocused('preferencesLoadGlobal');
-																
+
 																//dispatch to all the windows (local)
 																ODPExtension.notifyInstances('preferencesLoadLocal');
 																ODPExtension.notifyInstances('dispatchOnLocationChange', true);
 																ODPExtension.notifyInstances('userInterfaceUpdate');
-																
-																
+
+
 														});
 
 	return null;

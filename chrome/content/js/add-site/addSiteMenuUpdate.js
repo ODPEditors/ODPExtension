@@ -1,14 +1,14 @@
 (function()
 {
-	
+
 	//builds the menuitems of the menu "add site to open directory" looking at the URL in the location bar.
-	
+
 	this.addSiteMenuUpdate = function(currentPopup)
 	{
 		this.removeChilds(currentPopup);
-		
+
 		var aURL = this.focusedLocationBar();
-		
+
 		if(aURL == '')
 		{
 			var add = this.create('menuitem');
@@ -28,7 +28,7 @@
 				aTemp = this.removeSession(aURL);
 				if(!this.inArray(pieces, aTemp) || this.subStrCount(aTemp,'/') < 2)
 					pieces[pieces.length] = this.shortURL(aTemp);
-					
+
 				aTemp = this.removeVariables(aURL);
 				if(!this.inArray(pieces, aTemp) || this.subStrCount(aTemp,'/') < 2)
 					pieces[pieces.length] = this.shortURL(aTemp);
@@ -57,7 +57,7 @@
 				aTemp = this.getSchema(aURL)+'://'+this.getSubdomainFromURL(aURL)+'/';
 				if(!this.inArray(pieces, aTemp))
 					pieces[pieces.length] = aTemp;
-				
+
 				if(this.getDomainFromURL(aURL) != this.removeWWW(this.getSubdomainFromURL(aURL)))//I should not suggest to remove the www.
 				{
 					if(this.isVisitedURL(this.getSchema(aURL)+'://www.'+this.getDomainFromURL(aURL)+'/'))
@@ -74,7 +74,7 @@
 					if(!this.inArray(pieces, aTemp))
 						pieces[pieces.length] = aTemp;
 				}
-				
+
 				pieces = this.arrayUnique(pieces);
 
 			var add = this.create('menuitem');
@@ -101,7 +101,7 @@
 							currentPopup.appendChild(add);
 					}
 				}
-				
+
 				if(this.tagName(currentPopup.lastChild) == 'menuseparator')
 					this.removeElement(currentPopup.lastChild )
 		}

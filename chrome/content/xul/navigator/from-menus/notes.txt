@@ -1,10 +1,10 @@
 NOTES
-	
+
 	There is a little dificult problem here, the menus "From editor" and "From category" are used in many places,
 	To not replicate innecesary code I have created some XBL.
-	
+
 	category.css - holds a references to the "From category" menu template, every menupopup with the class .ODPExtension-from-category-xbl will get as content the "From category" menu.
 	category.xml - holds the XBL template used to set a menupopup as a "From category" menu.
 	category.xul - It's the menupopup used as "context" for when the user click an item with holds a valid category as value
-	
+
 	editor.* - same as category, but this one is not havving an XUL because will not popup every where

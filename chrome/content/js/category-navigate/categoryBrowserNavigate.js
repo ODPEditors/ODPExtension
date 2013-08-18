@@ -6,9 +6,9 @@
 	this.categoryBrowserNavigate = function(aEvent)
 	{
 		var item = aEvent.originalTarget;//the hovered menuitem
-		
+
 		var tagName = this.tagName(item);
-		
+
 		if((tagName == 'xul:menu' || tagName == 'menu' || tagName == 'menuitem') &&  item.hasAttribute('value'))
 		{
 			if(aEvent.type == 'mouseover')

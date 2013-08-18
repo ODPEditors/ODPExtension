@@ -8,9 +8,9 @@
 			this.addListeners = function()
 			{
 				//this.dump('addListeners', debugingThisFile);
-				
+
 				//check for private browsing, add-on should be disabled
-				this.addListener('onPrivateBrowsingEnter', 
+				this.addListener('onPrivateBrowsingEnter',
 									function()
 									{
 										if(ODPExtension.preferenceGet('privacy.private.browsing.on'))
@@ -21,7 +21,7 @@
 									}
 								);
 				//check for private browsing exit, add-on should back to previous state
-				this.addListener('onPrivateBrowsingExit', 
+				this.addListener('onPrivateBrowsingExit',
 								 function()
 								 {
 										if(ODPExtension.preferenceGet('privacy.private.browsing.on'))
@@ -29,14 +29,14 @@
 											 ODPExtension.preferenceChange('enabled', ODPExtension.preferenceGet('last.enabled'));
 										}
 								 });
-				
+
 				//open the change log file on first run
-				this.addListener('firstRunForThisVesion', 
+				this.addListener('firstRunForThisVesion',
 								 function()
 								 {
 									setTimeout(function(){ODPExtension.openURL('https://addons.mozilla.org/en-US/firefox/addons/versions/176740#version-3.130816.56', true, false, true);}, 5000);
 								 });
-				
+
 				//changes some ui elements if the current focused document is a category
 				this.addListener('onLocationChange', function() { ODPExtension.setFocusedLocation(); });
 				//changes some ui elements if the current focused document is a category
@@ -52,14 +52,14 @@
 													 if(ODPExtension.preferenceGet('advanced.categories.txt.auto.update'))
 													 	ODPExtension.categoriesTXTUpdate();
 													});
-				
+
 				//referrer modification
 				this.addListener('onModifyRequest', function(aSubject){ODPExtension.privacyRemoveReferrer(aSubject)});
 
 			//informative popup
 					//updates the content when switching tabs
 					this.addListener('onLocationChange', function() { ODPExtension.listingGetInformation(ODPExtension.focusedURL); });
-					
+
 			//worldlinkerate in tabs
 				this.addListener('DOMContentLoadedNoFrames', function(aDoc) { ODPExtension.worldlinkerateInTabsLink(aDoc); });
 
@@ -74,7 +74,7 @@
 																			{
 																				// this will cache the documents selected with MTH to next apply a ODP Note
 																				 ODPExtension.odpURLNotesToolbarbuttonsUpdateMultipleTabHandler(event);
-																			}																											
+																			}
 																		 }, false );
 					}
 
@@ -96,8 +96,8 @@
 					this.addListener('DOMContentLoadedNoFrames', function(aDoc)
 																	 {
 																		 if(
-																			ODPExtension.preferenceGet('ui.forum.pages.custom.nicknames') || 
-																			ODPExtension.preferenceGet('ui.forum.pages.show.newbies') || 
+																			ODPExtension.preferenceGet('ui.forum.pages.custom.nicknames') ||
+																			ODPExtension.preferenceGet('ui.forum.pages.show.newbies') ||
 																			ODPExtension.preferenceGet('ui.forum.pages.show.inactive')
 																		)
 																		 {
@@ -105,7 +105,7 @@
 																		 }
 																	 }
 									);
-					//the user has opened the context menu, the menu of frames was builded, 
+					//the user has opened the context menu, the menu of frames was builded,
 					//but maybe the current document was not loaded complety and there is more frames
 					this.addListener('DOMContentLoadedWithFrames', function(aDoc)
 																	 {
@@ -120,7 +120,7 @@
 																		 }
 																	 }
 									);
-					//the user has opened the context menu, the menu of frames was builded, 
+					//the user has opened the context menu, the menu of frames was builded,
 					//but maybe the user switched from tab and there is o no frames
 					this.addListener('onLocationChange', function() {  if(ODPExtension.preferenceGet('ui.context.menu.frames') && ODPExtension.contentAreaContextMenu().state == 'open'){ODPExtension.frameMenuUpdate(); }});
 
@@ -128,23 +128,23 @@
 					this.getBrowserElement("content").addEventListener('keypress', function(event)
 																					{
 																						if(
-																						    !event.originalTarget 
-																						   || !event.originalTarget.tagName 
-																						   || !event.originalTarget.ownerDocument 
+																						    !event.originalTarget
+																						   || !event.originalTarget.tagName
+																						   || !event.originalTarget.ownerDocument
 																						   || event.originalTarget.ownerDocument != ODPExtension.documentGetFocused()
-																						   || !ODPExtension.preferenceGet('single.key.command') 
-																						   || event.ctrlKey 
-																						   || event.shiftKey 
-																						   || event.altKey 
+																						   || !ODPExtension.preferenceGet('single.key.command')
+																						   || event.ctrlKey
+																						   || event.shiftKey
+																						   || event.altKey
 																						   || ODPExtension.preferenceBrowserGet('accessibility.typeaheadfind')
 																						){}
 																						else
 																						{
-																							
+
 																							if(event.originalTarget.tagName.toLowerCase() == 'html')
 																							{
 																								ODPExtension.fromCategoryUpdateMenu(event, 'from-category', true);
-																								
+
 																								//getting categories selected/focused
 																								var aCategories = [];
 																								if(ODPExtension.fromCategorySelectedCategories.length > 0)
@@ -175,10 +175,10 @@
 																								else if(event.charCode == 241 ) //Ñ - español
 																								{
 																									ODPExtension.openURL(ODPExtension.encodeURI('http://www.dmoz.org/World/Español/'), inNewTab);
-																								} 
+																								}
 
 
-																							}																							
+																							}
 																						}
 																					}, false);
 
@@ -217,7 +217,7 @@
 																		{
 																			// this will update the label of the "from category" menu on context menu
 																			 ODPExtension.fromCategoryUpdateMenu(event,'tab-context-multiple-from-category');
-																		}																											
+																		}
 																	 }, false );
 				}
 				//in extension icon
@@ -226,7 +226,7 @@
 																		{
 																			// this will update the label of the "from category" menu on context menu
 																			 ODPExtension.fromCategoryUpdateMenu(event, 'extension-icon-from-category');
-																		}																											
+																		}
 																	 }, false );
 
 			//detecting when one of the toolbars are selected to collapse or not

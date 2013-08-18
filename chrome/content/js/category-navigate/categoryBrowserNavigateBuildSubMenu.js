@@ -8,19 +8,19 @@
 				menu.setAttribute('label', item.getAttribute('label'));
 				menu.setAttribute('value', item.getAttribute('value'));
 				menu.setAttribute('done', 'true');
-				
+
 			var menupopup = this.create('menupopup');
 				menupopup.setAttribute('ignorekeys', true);
-			
+
 			//alphabar menu if any
 			var menuAlphabar = this.create('menu');
 				menuAlphabar.setAttribute('label', 'Alphabar');
 				menuAlphabar.setAttribute('done', 'true');
 				//menuAlphabar.setAttribute('value', item.getAttribute('value'));
-				
+
 			var menupopupAlphabar = this.create('menupopup');
 				menupopupAlphabar.setAttribute('ignorekeys', true);
-				
+
 			var aCategoryLastChildName;
 			//adding the categories
 				for(var id in aCategories)
@@ -29,10 +29,10 @@
 						var add = this.create("menuitem");
 							add.setAttribute("label", this.categoryAbbreviate(aCategoryLastChildName));
 							add.setAttribute("value", aCategories[id]);
-							
+
 					if(aCategoryLastChildName.length == 1)
 						menupopupAlphabar.appendChild(add);
-					else 
+					else
 						menupopup.appendChild(add);
 				}
 				//if there is an Alphabar put the alphabar in a submenu
@@ -55,7 +55,7 @@
 					}
 				}
 				menu.appendChild(menupopup);
-			
+
 			//parents menu
 			if(this.subStrCount(item.getAttribute('value'), '/') > 0)
 			{
@@ -63,7 +63,7 @@
 					menuParents.setAttribute('label', 'Parents');
 					menuParents.setAttribute('style', 'font-weight:bold;');
 					menuParents.setAttribute('done', 'true');
-					
+
 				var menupopupParents = this.create('menupopup');
 					menupopupParents.setAttribute('ignorekeys', true);
 
@@ -84,7 +84,7 @@
 				menupopup.appendChild(menuParents);
 			}
 
-			
+
 			//appending the menus
 			if(item && item.hasAttribute('isFocused'))
 			{
@@ -120,7 +120,7 @@
 					}
 					if(item.hasAttribute('temporal'))
 						menu.setAttribute('temporal', item.getAttribute('temporal'));
-					
+
 					try
 					{
 						item.parentNode.replaceChild(menu, item);

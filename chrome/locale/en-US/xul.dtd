@@ -326,7 +326,7 @@
 
 <!ENTITY ODPExtension.forms.css "Slim Forms">
 
-<!-- formater --> 
+<!-- formater -->
 
 <!ENTITY ODPExtension.forms.edit.url.description.lowercase "To lower-case description">
 <!ENTITY ODPExtension.forms.edit.url.fix.spaces "Fix backspaces">

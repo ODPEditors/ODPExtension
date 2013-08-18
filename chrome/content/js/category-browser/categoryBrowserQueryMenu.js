@@ -1,6 +1,6 @@
 (function()
 {
-	
+
 	//do a search in the menu child nodes or database
 	this.categoryBrowserQueryMenu = function(aNode, aQuery, aTextbox)
 	{
@@ -52,7 +52,7 @@
 					//this.dump('categoryBrowserQueryMenu:database search ', true);
 					var aCategories = [];
 					var row;
-					
+
 					for(var i=0;row = this.db.fetchObjects(this.categoryHistoryGetHistory);i++)
 					{
 						if(this.searchEngineSearch(aQuery, row.categories_history_category.replace(/_/g, ' ').replace(/-/g, ' ')))
@@ -76,7 +76,7 @@
 				{
 					//this.getElement('category-browser-categories-history').setAttribute('hidden', true);
 				}
-				
+
 				if(foundChildNodes < 1)
 				{
 					this.notifyTab(this.getString('no.results').replace('{QUERY}', aQuery), 8);

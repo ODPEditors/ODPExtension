@@ -1,29 +1,29 @@
 SEMI DOCUMENTATION OF THIS FOLDER
 
-	NOTES 
-		
+	NOTES
+
 		holds uncategorized files
-		
-	FILES 
+
+	FILES
 
 		categoryAbbreviate.js
 
 			abbreviate a category if the user has selected that option
-			
+
 		categoryGetURL.js
 
 			resolves if need to read editor.dmoz.org or dmoz.org
-			
+
 		odpSearchGetURL.js
-		
+
 			resolves if need to read search.dmoz.org with the ebuttons=1
-			
+
 		tabOpenCheckForBehavior
-		
+
 			check where a tab should be opened
-						
+
 	GLOBALS FOR INSTANCE
-		
+
 		this.shared.category.abbreviation.user.find - an array of user abbreviations to find
 		this.shared.category.abbreviation.user.replace - an array of user abbreviations to replace
 		this.shared.category.abbreviation.languages.find- an array of  languages to find

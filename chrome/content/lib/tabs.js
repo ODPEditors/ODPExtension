@@ -14,7 +14,7 @@
 				gBrowser.removeTab(aTab);
 			}
 			return true;
-		}		
+		}
 		return false;
 	}
 	//returns the tab context menu
@@ -78,7 +78,7 @@
 	this.tabOpen = function(aURL, selected, aPostData)
 	{
 		this.treeStyleTabInTreeOpenStart();
-		
+
 		var aTab = gBrowser.addTab(aURL, null, null, this.postData(aPostData));
 		if(!selected){}
 		else

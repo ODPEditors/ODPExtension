@@ -36,11 +36,11 @@
 		}
 		//panel
 		var panel = this.create('vbox');
-			
-			
-			  
+
+
+
 			panel.setAttribute('style', 'padding:8px;');
-			
+
 
 		//title
 			var hbox = this.create('hbox');
@@ -109,7 +109,7 @@
 		//real panel
 		var container = this.create('panel');
 			container.setAttribute('id', 'ODPExtension-panel-'+idPanel);
-			
+
 			//to noautohide at least one button should be present
 			if(noautohide && anArrayButtons)
 				container.setAttribute('noautohide', true);
@@ -117,46 +117,46 @@
 			//focus the first textbox
 			container.setAttribute('onpopupshown', 'try{this.getElementsByTagName("textbox")[0].focus();}catch(e){}this.addEventListener("keypress", function(event){ if(event.keyCode == event.DOM_VK_RETURN && !(event.originalTarget instanceof HTMLTextAreaElement)){this.getElementsByTagName("button")[0].click()}else if(event.keyCode == event.DOM_VK_ESCAPE){try{this.hidePopup();}catch(e){}}}, false);');
 
-			
+
 			container.appendChild(panel);
-			
+
 			if(this.getBrowserElement('main-window'))
 				this.getBrowserElement('main-window').appendChild(container);
 			else if(this.getBrowserElement('messengerWindow'))
 				this.getBrowserElement('messengerWindow').appendChild(container);
-		
+
 		//open panel
 		try
 		{
-		  var aDoc = window.document;		
+		  var aDoc = window.document;
 		  window.focus();
 		}catch(e){}
-			
+
 			if(!height)
 			  height = 100;
-		  
+
 		container.setAttribute('style', 'opacity:0');
 		container.openPopup(null, '', 0, 0, false, false);
 		var popupH = container.boxObject.height;//789-popup
 		//var childH = container.firstChild.boxObject.height;//789-popup
-		
+
 		//ODPExtension.dump(height);
 		//ODPExtension.dump(popupH);//789-popup
 
 		container.hidePopup();
 		container.removeAttribute('style');
-		
+
 		if(popupH < height){}
 		else
 		  content.setAttribute('height', height);
-  
+
 		container.setAttribute('style', 'opacity:0');
 		container.openPopup(null, '', 0, 0, false, false);
 		var popupH = container.boxObject.height;//789-popup
 		container.hidePopup();
 		container.removeAttribute('style');
-		
-		container.openPopup(null, '', 
+
+		container.openPopup(null, '',
 							((this.screenGetDocumentW(aDoc)-container.boxObject.width)/2)-3,
 							((this.screenGetDocumentH(aDoc)-container.boxObject.height)/2), false, false);
 		container.addEventListener('popuphidden', function(event){ODPExtension.removeElement(event.currentTarget);}, false);
@@ -165,7 +165,7 @@
 	this.formValues = function(aForm)
 	{
 		var values = [];
-		
+
 		//textbox
 			var inputs = aForm.getElementsByTagName('textbox');
 			for(var a=0;a<inputs.length;a++)
@@ -187,24 +187,24 @@
 			}
 		//checkbox...
 		//radios...
-			
+
 		return values;
 	}
 	//creates and shows a notification in all the tabs behind the tabbar
 	/*
 		example:
 			var buttons = [];
-			
+
 			var button = [];
 				button[0] = 'Click to alert 1';
 				button[1] = function(){alert('Cliked one!')}
-				
+
 			buttons[buttons.length] = button;
-			
+
 			var button = [];
 				button[0] = 'Click to alert 2';
 				button[1] = function(){alert('Cliked two!')}
-				
+
 			buttons[buttons.length] = button;
 			this.notifyTabs('This is the mensajitoooooooooooooooo o o o o ooooooo ', '', buttons, 4);
 
@@ -246,9 +246,9 @@
 				toolbarbutton.setAttribute('image', 'chrome://ODPExtension/content/lib/forms/notifyTabs/info.png');
 			//toolbarbutton.setAttribute('label', aString);
 			toolbarbutton.setAttribute('style', 'border:1px solid transparent !important;margin:0px !important;padding:0px !important;-moz-appearance: none;');
-			
+
 			hbox.appendChild(toolbarbutton);
-			
+
 		// the message to display
 			if(aString instanceof XULElement)
 			{
@@ -269,8 +269,8 @@
 					msgContainer.appendChild(description)
 			}
 			hbox.appendChild(msgContainer);
-		
-		
+
+
 		//the buttons
 		var defaultButton = false;
 		if(anArrayButtons)
@@ -304,7 +304,7 @@
 		}
 		toolbarbutton.setAttribute('oncommand', 'ODPExtension.removeElement(this.parentNode)');
 		hbox.appendChild(toolbarbutton);
-		
+
 		//apppending the element to the tabbar
 		this.appendToTabbar(hbox);
 		//focusing the first button
@@ -313,7 +313,7 @@
 		//hidding the notification
 		if(aTime)
 			setTimeout(function(){hbox.setAttribute('hidden', true);}, aTime*1000);
-		
+
 		return hbox;
 	}
 	//shows a custom prompt
@@ -321,7 +321,7 @@
 	{
 		if(!aDefault)
 			aDefault = '';
-		
+
 		var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
                         .getService(Components.interfaces.nsIPromptService);
 
@@ -330,7 +330,7 @@
 		var input = {value: aDefault};                  // default the edit field to Bob
 
 		var result = prompts.prompt(null, "ODP Extension", aString, input, null, check);
-		
+
 		if(result)
 			return this.string(input.value);
 		else

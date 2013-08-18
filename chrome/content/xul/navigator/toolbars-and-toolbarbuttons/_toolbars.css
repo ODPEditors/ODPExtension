@@ -8,7 +8,7 @@
 		}
 
 	/*toolbar buttons */
-	
+
 		/*toggle button */
 			#ODPExtension-toolbarbutton-toggle{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/toggle.png");}
 			toolbar[iconsize="small"] #ODPExtension-toolbarbutton-toggle{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/toggle.png");}
@@ -36,7 +36,7 @@
 			/*delete*/
 			#ODPExtension-toolbarbutton-odp-url-notes-delete{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-delete.png");}
 			toolbar[iconsize="small"] #ODPExtension-toolbarbutton-odp-url-notes-delete{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-delete.png");}
-			
+
 			/*copy publish*/
 			#ODPExtension-toolbarbutton-odp-url-notes-copy-publish{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-copy-publish.png");}
 			toolbar[iconsize="small"] #ODPExtension-toolbarbutton-odp-url-notes-copy-publish{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-copy-publish.png");}
@@ -52,9 +52,9 @@
 			/*notes*/
 			#ODPExtension-toolbarbutton-odp-url-notes-notes{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-notes.png");}
 			toolbar[iconsize="small"] #ODPExtension-toolbarbutton-odp-url-notes-notes{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-notes.png");}
-			
+
 		/*category navigator*/
-		
+
 			#ODPExtension-toolbar-category-navigator-container
 			{
 				-moz-appearance:none;
@@ -64,11 +64,11 @@
 			{
 				padding-left:7px !important;
 			}
-			
+
 		/* crop very large/short menuitems. ( not so large and not so short) */
-		
+
 			.ODPExtension-crop{max-width:100%;}
-			
+
 			.ODPExtension-crop > menuitem{max-width:100%;}
 			.ODPExtension-crop > menuitem > menupopup{max-width:100%;}
 			.ODPExtension-crop > menuitem > menupopup > menuitem {max-width:100%;}

@@ -12,13 +12,13 @@
 
 		//removeAttribute('onpopupshowing') is not working!.. probably because is a listener
 		currentPopup.setAttribute('done', true);
-		
+
 		currentPopup.appendChild(this.create('menuseparator'));
 
 		var aCategory = currentPopup.getAttribute('value');
 		var aIndex	  = currentPopup.getAttribute('aCategoryIndex');
 		var aCategoryNodes = aCategory.split('/');
-	
+
 
 		//fix for when displaying bookmarks and test
 		if(aCategory.indexOf('Bookmarks') === 0 || aCategory.indexOf('Test') === 0)
@@ -36,15 +36,15 @@
 							aPath += aCategoryNodes[id]+'/';
 						}
 					}
-					
+
 				aCategory = aPath.replace(/\/$/, '');
 
 			var Requester = new XMLHttpRequest();
 				Requester.onload = function()
 				{
 					if(
-					   Requester.status != '200' || 
-					   Requester.responseText == null || 
+					   Requester.status != '200' ||
+					   Requester.responseText == null ||
 					   Requester.responseText == ''
 					)
 					{
@@ -82,9 +82,9 @@
 		else
 		{
 			//this.dump(currentPopup);
-			
+
 		//first finds all the subcategories
-	
+
 				var aQuery = '^';
 					for(var id in aCategoryNodes)
 					{
@@ -98,24 +98,24 @@
 							aQuery += aCategoryNodes[id]+'/';
 						}
 					}
-					
+
 				aQuery = aQuery.replace(/\/$/, '');
-	
+
 				//we need to search in a parent database in order to get the subcategories
 				if(this.subStrCount(aQuery, '/') < 3)
 					var aQueryCategory = aCategoryNodes[0]+'/';
 				else if(this.subStrCount(aQuery, '/') < 4)
 					var aQueryCategory = aCategoryNodes[0]+'/'+aCategoryNodes[1];
-				else	
+				else
 					var aQueryCategory = aCategory;
-					
+
 			//this.dump(aQueryCategory);
-	
-				
+
+
 				var somethingFound = false;
-	
+
 				var countFoundTopCategories = 0;
-				
+
 				var subcategories = this.categoriesTXTQuery(aQuery, null, aQueryCategory);
 				var aCategoryLastChild;
 			//	this.dump(subcategories.categories);
@@ -139,8 +139,8 @@
 					//this.dump('agregando el menuseparator entre las top y las categorias');
 					currentPopup.appendChild(this.create('menuseparator'));
 				}
-							
-				//adding the subcategories not top 
+
+				//adding the subcategories not top
 				for(var i=0;i<subcategories.count;i++)
 				{
 					if(subcategories.categories[i] != '')
@@ -153,16 +153,16 @@
 							somethingFound= true;
 					}
 				}
-	
-	
+
+
 			//this.dump(currentPopup.childNodes.length);
 			//find all the categories at the same level "sisters", restricted to the current category
 			//example(the useful example) Regional/Africa/[^/]+/Arts_and_Entertainment/
-			
+
 			//skiping top categories & skiping the last category
 				if(aIndex>2 && aIndex != aCategoryNodes.length-1)
 				{
-				
+
 					var aQuery = '^';
 						for(var id in aCategoryNodes)
 						{
@@ -173,7 +173,7 @@
 						}
 					aQuery = aQuery.replace(/\/$/, '');
 					aQuery += '$';
-					
+
 					var results = this.categoriesTXTQuery(aQuery, null, aQueryCategory);
 					//this.dump(results);
 					if(subcategories.count > 0 && results.count > 1)
@@ -186,7 +186,7 @@
 								add.setAttribute("label", this.categoryAbbreviate(results.categories[id]));
 								add.setAttribute("value", results.categories[id]);
 								currentPopup.appendChild(add);
-							
+
 							somethingFound= true;
 						}
 						//this.dump(currentPopup);
@@ -199,7 +199,7 @@
 				this.stopEvent(aEvent);
 				currentPopup.parentNode.setAttribute('disabled', true);
 			}
-		
+
 		}
 	}
 	return null;

@@ -6,16 +6,16 @@
 			var debugingThisFile = true;
 
 		//hides or shows the selected languages in the translate context menu, also sets the sort priority of these languages
-		
+
 			this.translateMenuUpdate = function()
 			{
 				//this.dump('translateMenuUpdate:');
-				
+
 				//elements
 				var menu = this.getElement('context-translate-menu');
 				var menupopup = this.getElement('context-translate-menupopup');
 				var separator = this.getElement('context-translate-priority-separator');
-				
+
 				//list of languages
 				var langs = this.shared.translateMenu.languages;
 
@@ -24,15 +24,15 @@
 				var langWithoutPriorityAdded = false;
 				var langAdded = false;
 				var languagesAdded = [];
-				
+
 				//reset positions
 					for(var id in langs)
 					{
 					  menupopup.appendChild(this.getElement('context-translate-item-lang-'+langs[id]));
 					  //this.dump('reset the position of '+langs[id]);
-					 
+
 					}
-					
+
 					//finds langs with priority and moves these to the bottom
 					for(var id in langs)
 					{
@@ -49,7 +49,7 @@
 							menupopup.appendChild(this.getElement('context-translate-item-lang-'+langs[id]));
 						}
 					}
-			
+
 				//moves the menuseparator to the bottom
 					if(langWithPriorityAdded)
 					{
@@ -62,8 +62,8 @@
 					  //this.dump('langWithPriorityAdded:false');
 					  separator.setAttribute('hidden', true);
 					}
-				
-				
+
+
 				//hides or shows the languages, and move the selected by the user(these without priority) to the bottom
 					for(var id in langs)
 					{
@@ -88,7 +88,7 @@
 							//this.dump('ui.context.menu.translate.lang.display:false:'+langs[id]);
 						}
 					}
-				
+
 				//if no items were selected hide the menu or if the menu is disabled
 					if(
 					   !langAdded ||
@@ -103,13 +103,13 @@
 					{
 						menu.setAttribute('hidden', false);
 					}
-					
+
 				//if no items without priority were added hide the separator
 					if(langWithoutPriorityAdded && langWithPriorityAdded)
 						separator.setAttribute('hidden', false);
 					else
 						separator.setAttribute('hidden', true);
-				
+
 				//customized context menu (the menuitem into a submenu or directly under the context menu)
 
 					if(

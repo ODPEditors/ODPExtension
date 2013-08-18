@@ -16,7 +16,7 @@
 			{
 				this.preferenceSet(item.getAttribute('value'), (item.getAttribute("checked") == "true"));
 			}
-			
+
 	return null;
 
 }).apply(ODPExtension);

@@ -17,12 +17,12 @@
 					var aDoc =  this.documentGetFocused();
 
 				var anElement = this.getElementNamed('newdesc', aDoc);
-				
+
 				if(!anElement){}
 				else
 				{
 					var value =  this.ucFirst(this.editingFormURLCleanChars(anElement.value).toLowerCase());
-					
+
 					//fix sentence uppercase
 					value = value.split('. ');
 					for(var id in value)

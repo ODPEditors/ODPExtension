@@ -1,6 +1,6 @@
 (function()
 {
-	
+
 	//obtains the categories for contruct the navegables menus
 	this.categoryBrowserNavigateRequestCategories = function(item)
 	{
@@ -20,8 +20,8 @@
 				Requester.onload = function(aEvent)
 				{
 					if(
-					   Requester.status != '200' || 
-					   Requester.responseText == null || 
+					   Requester.status != '200' ||
+					   Requester.responseText == null ||
 					   Requester.responseText == ''
 					   )
 					{
@@ -50,7 +50,7 @@
 		else
 		{
 			var aResult = this.categoriesTXTQuery('^'+aCategory+'/[^/]+$', null, aCategory);
-			
+
 			if(aResult.count == 0)
 			{
 				item.setAttribute('label', item.getAttribute('label')+'/');

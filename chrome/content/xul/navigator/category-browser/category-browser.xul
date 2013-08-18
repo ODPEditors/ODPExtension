@@ -1,15 +1,15 @@
 <window id="main-window">
 
-			<menupopup 
-				id="ODPExtension-category-browser" 
-				onpopuphidden="ODPExtension.categoryBrowserOnPopupHidden(event);" 
-				onpopupshowing="this.removeAttribute('height');ODPExtension.categoryBrowserOnPopupShowing(event);" 
-				onmouseover="ODPExtension.categoryBrowserNavigate(event);" 
-				onmouseout="ODPExtension.categoryBrowserNavigate(event);" 
+			<menupopup
+				id="ODPExtension-category-browser"
+				onpopuphidden="ODPExtension.categoryBrowserOnPopupHidden(event);"
+				onpopupshowing="this.removeAttribute('height');ODPExtension.categoryBrowserOnPopupShowing(event);"
+				onmouseover="ODPExtension.categoryBrowserNavigate(event);"
+				onmouseout="ODPExtension.categoryBrowserNavigate(event);"
 				onmouseup="ODPExtension.stopEvent(event);ODPExtension.categoryBrowserClick(event)"
 				ondblclick="ODPExtension.stopEvent(event)"
 				context="ODPExtension-from-category"
-				class="ODPExtension-category-browser" 
+				class="ODPExtension-category-browser"
 				crop="end"
 				ignorekeys="true"
 				resultsbelow="ODPExtension-category-browser-categories-search"
@@ -92,9 +92,9 @@
 				</menu>
 				<menuseparator id="ODPExtension-category-browser-categories-opened" locked="true"/>
 				<menuseparator id="ODPExtension-category-browser-categories-clipboard" locked="true"/>
-				<menuseparator id="ODPExtension-category-browser-categories-search" hidden="true" locked="true"/>				
+				<menuseparator id="ODPExtension-category-browser-categories-search" hidden="true" locked="true"/>
 				<menuseparator id="ODPExtension-category-browser-categories-locked" locked="true"/>
 				<menuseparator id="ODPExtension-category-browser-categories-history" locked="true"/>
 			</menupopup>
-		
+
 </window>

@@ -1,20 +1,20 @@
-	
-		
+
+
 		<menupopup id="multipletab-selection-menu">
-		
-			<menu 
-				id="ODPExtension-tab-context-multiple-from-category" 
-				hidden="true" 
+
+			<menu
+				id="ODPExtension-tab-context-multiple-from-category"
+				hidden="true"
 				label="&ODPExtension.ui.context.menu.from.categories;"
-				original_label_single="&ODPExtension.ui.context.menu.from.category;" 
+				original_label_single="&ODPExtension.ui.context.menu.from.category;"
 				original_label_multiple="&ODPExtension.ui.context.menu.from.categories;"
-				tooltip="ODPExtension-from-categories-tooltip" 
+				tooltip="ODPExtension-from-categories-tooltip"
 			>
-				<menupopup 
+				<menupopup
 					class="ODPExtension-from-category-xbl ODPExtension-crop"
-					tooltip="ODPExtension-from-categories-tooltip" 
-					onmouseover="ODPExtension.fromCategoryClickType = 'multiple';ODPExtension.categoryBrowserNavigate(event);" 
-					onmouseout="ODPExtension.categoryBrowserNavigate(event);" 
+					tooltip="ODPExtension-from-categories-tooltip"
+					onmouseover="ODPExtension.fromCategoryClickType = 'multiple';ODPExtension.categoryBrowserNavigate(event);"
+					onmouseout="ODPExtension.categoryBrowserNavigate(event);"
 					onmouseup="ODPExtension.stopEvent(event);if(event.originalTarget.hasAttribute('disabled')){ ODPExtension.stopEvent(event);}else if(event.originalTarget.hasAttribute('action')){ODPExtension.fromCategoryClick(event)}else if(event.originalTarget.hasAttribute('value')){ODPExtension.categoryBrowserClick(event);}"
 					ondblclick="ODPExtension.stopEvent(event)"
 				/>

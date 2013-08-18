@@ -1,6 +1,6 @@
 (function()
 {
-	
+
 	//returns true if the categories.txt database exists if not alerts the user that this tool needs the file
 	this.categoriesTXTRequired = function()
 	{

@@ -1,9 +1,9 @@
 SEMI DOCUMENTATION OF THIS FOLDER
 
-	NOTES 
-		
+	NOTES
+
 		the icon in the status bar or location bar
-	FILES 
+	FILES
 
 		extensionIconClick.js
 
@@ -12,12 +12,12 @@ SEMI DOCUMENTATION OF THIS FOLDER
 		extensionIconUpdatePosition.js
 
 			change the position of the icon to the status bar or location bar
-			
+
 		extensionIconUpdateStatus.js
-		
+
 			update the status or image of the file to show information about the focused tab
-			
+
 		extensionIconClickCommand.js
-		
+
 			hanlde the command of the click in the icon based on user configuration
-			
+

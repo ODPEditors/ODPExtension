@@ -39,7 +39,7 @@
 						this.getElement('toolbarbutton-odp-url-notes-copy-publish').setAttribute('hidden', false);
 					if(this.getElement('toolbarbutton-odp-url-notes-copy-unreview'))
 						this.getElement('toolbarbutton-odp-url-notes-copy-unreview').setAttribute('hidden', false);
-						
+
 					this.odpNotesButtonsHidden = false;
 				}
 				else
@@ -63,7 +63,7 @@
 							this.getElement('toolbarbutton-odp-url-notes-copy-publish').setAttribute('hidden', true);
 						if(this.getElement('toolbarbutton-odp-url-notes-copy-unreview'))
 							this.getElement('toolbarbutton-odp-url-notes-copy-unreview').setAttribute('hidden', true);
-							
+
 						this.odpNotesButtonsHidden = true;
 					}
 				}

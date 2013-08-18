@@ -1,12 +1,12 @@
 (function()
 {
-	
+
 	//searchs in the categories.txt database
 	this.categoriesTXTQuery = function(aQuery, aDatabase, aCategory, aSearchEngineSearch)
 	{
 		if(!aQuery || aQuery=='' || !this.categoriesTXTRequired())
 			return;
-			
+
 		//var queryHash = this.sha256(aQuery+'_-_'+aDatabase+'_-_'+aCategory);//for caching results but they are fast
 		//this.dump('categoriesTXTQuery:aQuery:'+aQuery+':'+aDatabase+':'+aCategory);
 		//GETTING THE DATABASES
@@ -24,7 +24,7 @@
 			{
 				database = databases;
 			}
-			else 
+			else
 			{
 				for(var id in databases)
 				{
@@ -34,7 +34,7 @@
 						database[database.length] = databases[id];
 					else if(aDatabase == 'world' &&  databases[id].indexOf('World') === 0)
 						database[database.length] = databases[id];
-				}	
+				}
 			}
 		}
 		else
@@ -55,7 +55,7 @@
 				database[database.length] = aDatabase;
 			}
 		}
-		
+
 
 		//SEARCHING
 		var aCategories;
@@ -64,11 +64,11 @@
 			results.query = aQuery;
 			results.categories = [];
 			results.databases = database;
-			
+
 		if(!aSearchEngineSearch)
 		{
 			aQuery = this.trim(aQuery).replace(/ /g, '_');
-	
+
 			for(var id in database)
 			{
 				aCategories = this.fileRead('categories.txt/'+database[id]).split('\n');
@@ -86,7 +86,7 @@
 		else
 		{
 			aQuery = this.trim(aQuery).replace(/_/g, ' ');
-	
+
 			for(var id in database)
 			{
 				aCategories = this.fileRead('categories.txt/'+database[id]).split('\n');

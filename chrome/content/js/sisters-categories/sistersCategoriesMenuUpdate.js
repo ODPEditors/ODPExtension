@@ -3,7 +3,7 @@
 
 	//toolbar button that will show all the categories at the same level
 	//finds all the categories at the same level
-	
+
 	this.sistersCategoriesMenuUpdate = function(currentPopup, aEvent)
 	{
 		//this.dump('updating sisters categories');

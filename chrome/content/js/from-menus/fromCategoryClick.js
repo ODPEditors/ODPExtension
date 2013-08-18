@@ -1,7 +1,7 @@
 (function()
 {
 		//This handle the click on the From category menu and lanches the category browser if no category was found
-		
+
 		/*
 			DONT FORGET TO SET THIS VARS WHEN CALLING THIS FUNCTION:
 				If the command comes from a menu the menu should be closed first. ( unless the command is for context menu ), if not the category browser will not popups
@@ -63,10 +63,10 @@
 				this.fromCategoryHideContextMenus();
 				this.getElement('from-category').hidePopup();
 				this.getElement('extension-icon-context').hidePopup();
-			
+
 				//do the actions
 				this.fromCategoryCommand(aEvent);
-				
+
 			}
 	return null;
 

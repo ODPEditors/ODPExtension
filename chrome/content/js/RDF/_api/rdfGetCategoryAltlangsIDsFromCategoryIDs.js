@@ -9,7 +9,7 @@
 				this.rdfOpen();//opens a connection to the RDF SQLite database.
 
 				try{aCategoryID = aCategoryID.join(',');}catch(e){/*stupid....*/}
-				
+
 				var query = this.DBRDF.query([/*stupid...*/
 									'	SELECT '+
 									'		DISTINCT(categories_id),'+
@@ -23,7 +23,7 @@
 									'	order by'+
 									'		categories_id asc'
 									]);
-					
+
 				if(!anArrayResults)
 					anArrayResults = [];
 

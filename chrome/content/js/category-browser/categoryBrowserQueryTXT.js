@@ -37,9 +37,9 @@
 				if(!menus[database])
 				{
 					menu = this.create('menu');
-					//menu.setAttribute('locked', true);					
-					//menu.setAttribute('label', this.categoryAbbreviate(database));					
-					//menu.setAttribute('value', database);					
+					//menu.setAttribute('locked', true);
+					//menu.setAttribute('label', this.categoryAbbreviate(database));
+					//menu.setAttribute('value', database);
 					menupopup = this.create('menupopup');
 					menu.appendChild(menupopup);
 					menus[database] = menu;
@@ -48,7 +48,7 @@
 				item.setAttribute('value', aResult.categories[id]);
 				item.setAttribute('label', this.categoryAbbreviate(aResult.categories[id])+'/');
 				item.setAttribute('done', 'true');
-				
+
 				menus[database].firstChild.appendChild(item);
 			}
 			menus = menus.reverse();

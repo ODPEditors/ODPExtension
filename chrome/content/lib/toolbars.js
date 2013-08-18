@@ -10,14 +10,14 @@
 	this.toolbarCloseRemember = function(aToolbar)
 	{
 		var aName = 'toolbars.collapsed.'+aToolbar.getAttribute('id');
-		
+
 		if(!this.preferenceExists(aName, 'bool'))
 			this.preferenceCreate(aName, aToolbar.collapsed, 'bool');
 
 		if(aToolbar.collapsed == false)
 		{
 			if(!this.preferenceGet(aName))
-				this.preferenceSet(aName, true); 
+				this.preferenceSet(aName, true);
 			aToolbar.collapsed = true;
 			document.persist(aToolbar.getAttribute('id'), "collapsed");
 		}
@@ -26,13 +26,13 @@
 	this.toolbarOpenRemember = function(aToolbar)
 	{
 		var aName = 'toolbars.collapsed.'+aToolbar.getAttribute('id');
-		
+
 		if(!this.preferenceExists(aName, 'bool'))
 			this.preferenceCreate(aName, aToolbar.collapsed, 'bool');
 
 		if(this.preferenceGet(aName) && aToolbar.collapsed == true)
 		{
-			this.preferenceSet(aName, false); 
+			this.preferenceSet(aName, false);
 			aToolbar.collapsed = false;
 			document.persist(aToolbar.getAttribute('id'), "collapsed");
 		}

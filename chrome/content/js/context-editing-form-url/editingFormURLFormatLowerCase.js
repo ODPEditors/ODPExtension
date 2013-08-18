@@ -16,14 +16,14 @@
 					var aDoc =  this.documentGetFocused();
 
 				var anElement = this.getElementNamed(aName, aDoc);
-				
+
 				if(!anElement){}
 				else
 				{
 					this.editingFormURLFormatFixSpaces();//do espacios
-					
+
 					var value = this.ucFirst(anElement.value.toLowerCase());
-					
+
 					//fix sentence uppercase
 					value = value.split('. ');
 					for(var id in value)

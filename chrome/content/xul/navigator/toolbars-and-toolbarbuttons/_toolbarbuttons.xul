@@ -3,48 +3,48 @@
 
 	<!-- odp toolbars and toolbarsbuttons switch (show/hide all)-->
 
-		<toolbarbutton 
-			id="ODPExtension-toolbarbutton-toggle" 
-			label="&ODPExtension.toolbars.toggle;" 
-			tooltiptext="&ODPExtension.toolbars.toggle;" 
-			type="button" 
+		<toolbarbutton
+			id="ODPExtension-toolbarbutton-toggle"
+			label="&ODPExtension.toolbars.toggle;"
+			tooltiptext="&ODPExtension.toolbars.toggle;"
+			type="button"
 			oncommand="ODPExtension.toolbarsToggle();"
 			class="toolbarbutton"
 		/>
 
 	<!-- category browser launcher -->
 
-		<toolbarbutton 
-			id="ODPExtension-toolbarbutton-category-browser" 
-			label="&ODPExtension.category.browser;" 
-			tooltiptext="&ODPExtension.category.browser;" 
-			type="button" 
+		<toolbarbutton
+			id="ODPExtension-toolbarbutton-category-browser"
+			label="&ODPExtension.category.browser;"
+			tooltiptext="&ODPExtension.category.browser;"
+			type="button"
 			oncommand="ODPExtension.fromCategorySelectedCategories = []; ODPExtension.fromCategorySelectedCategory = ''; ODPExtension.fromCategoryAction= '';ODPExtension.getElement('category-browser').hidePopup();ODPExtension.getElement('category-browser').openPopup();"
 			class="toolbarbutton chromeclass-toolbar-additional"
 		/>
 
 	<!-- sisters categories -->
 
-		<toolbarbutton 
-			id="ODPExtension-toolbarbutton-sisters-categories" 
-			label="&ODPExtension.sisters.categories;" 
-			tooltiptext="&ODPExtension.sisters.categories;" 
-			type="menu" 
+		<toolbarbutton
+			id="ODPExtension-toolbarbutton-sisters-categories"
+			label="&ODPExtension.sisters.categories;"
+			tooltiptext="&ODPExtension.sisters.categories;"
+			type="menu"
 			nocategories="true"
 			class="chromeclass-toolbar-additional"
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event)"
 		>
 			<!-- don't use oncommand in this; will not work over menu tags -->
-			<menupopup 
-				onpopupshowing="this.removeAttribute('height');ODPExtension.sistersCategoriesMenuUpdate(this, event)" 
-				
-				onmouseover="ODPExtension.categoryBrowserNavigate(event);" 
-				onmouseout="ODPExtension.categoryBrowserNavigate(event);" 
-				
+			<menupopup
+				onpopupshowing="this.removeAttribute('height');ODPExtension.sistersCategoriesMenuUpdate(this, event)"
+
+				onmouseover="ODPExtension.categoryBrowserNavigate(event);"
+				onmouseout="ODPExtension.categoryBrowserNavigate(event);"
+
 				onmouseup="ODPExtension.stopEvent(event);ODPExtension.categoryBrowserClick(event)"
-				
+
 				context="ODPExtension-from-category"
-				class="ODPExtension-category-filter" 
+				class="ODPExtension-category-filter"
 				crop="end"
 				ignorekeys="true"
 			/>
@@ -52,19 +52,19 @@
 
 	<!-- add to category -->
 
-		<toolbarbutton 
-			id="ODPExtension-toolbarbutton-add-to-open-directory" 
-			label="&ODPExtension.add.site.to.odp;" 
-			tooltiptext="&ODPExtension.add.site.to.odp;" 
-			type="menu" 
+		<toolbarbutton
+			id="ODPExtension-toolbarbutton-add-to-open-directory"
+			label="&ODPExtension.add.site.to.odp;"
+			tooltiptext="&ODPExtension.add.site.to.odp;"
+			type="menu"
 			class="toolbarbutton chromeclass-toolbar-additional"
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event)"
 		>
-			<menupopup 
-				onpopupshowing="this.removeAttribute('height');ODPExtension.addSiteMenuUpdate(this)" 
+			<menupopup
+				onpopupshowing="this.removeAttribute('height');ODPExtension.addSiteMenuUpdate(this)"
 				oncommand="
 					if(event.originalTarget.hasAttribute('disabled'))
-					{ 
+					{
 						ODPExtension.stopEvent(event);
 					}
 					else if(!event.originalTarget.hasAttribute('disabled') &amp;&amp; event.originalTarget.hasAttribute('secondary') &amp;&amp; event.button==1)
@@ -86,18 +86,18 @@
 		</toolbarbutton>
 
 	<!-- odp url notes -->
-		
-		<toolbarbutton 
-			id="ODPExtension-toolbarbutton-odp-url-notes-update" 
-			label="&ODPExtension.url.notes.action.update;" 
-			tooltiptext="&ODPExtension.url.notes.action.update;" 
-			type="menu" 
+
+		<toolbarbutton
+			id="ODPExtension-toolbarbutton-odp-url-notes-update"
+			label="&ODPExtension.url.notes.action.update;"
+			tooltiptext="&ODPExtension.url.notes.action.update;"
+			type="menu"
 			hidden="true"
 			class="chromeclass-toolbar-additional"
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event)"
 		>
-			<menupopup 
-				onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)" 
+			<menupopup
+				onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
 				oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
 				value="update"
 				build="false"
@@ -108,17 +108,17 @@
 			</menupopup>
 		</toolbarbutton>
 
-		<toolbarbutton 
-			id="ODPExtension-toolbarbutton-odp-url-notes-unreview" 
-			label="&ODPExtension.url.notes.action.unreview;" 
-			tooltiptext="&ODPExtension.url.notes.action.unreview;" 
-			type="menu" 
+		<toolbarbutton
+			id="ODPExtension-toolbarbutton-odp-url-notes-unreview"
+			label="&ODPExtension.url.notes.action.unreview;"
+			tooltiptext="&ODPExtension.url.notes.action.unreview;"
+			type="menu"
 			hidden="true"
 			class="chromeclass-toolbar-additional"
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event)"
 		>
-			<menupopup 
-				onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)" 
+			<menupopup
+				onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
 				oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
 				value="unreview"
 				build="false"
@@ -129,17 +129,17 @@
 			</menupopup>
 		</toolbarbutton>
 
-		<toolbarbutton 
-			id="ODPExtension-toolbarbutton-odp-url-notes-delete" 
-			label="&ODPExtension.url.notes.action.delete;" 
-			tooltiptext="&ODPExtension.url.notes.action.delete;" 
-			type="menu" 
+		<toolbarbutton
+			id="ODPExtension-toolbarbutton-odp-url-notes-delete"
+			label="&ODPExtension.url.notes.action.delete;"
+			tooltiptext="&ODPExtension.url.notes.action.delete;"
+			type="menu"
 			hidden="true"
 			class="chromeclass-toolbar-additional"
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event)"
 		>
-			<menupopup 
-				onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)" 
+			<menupopup
+				onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
 				oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
 				value="delete"
 				build="false"
@@ -150,17 +150,17 @@
 			</menupopup>
 		</toolbarbutton>
 
-		<toolbarbutton 
-			id="ODPExtension-toolbarbutton-odp-url-notes-move-publish" 
-			label="&ODPExtension.url.notes.move.to.category.publish;"  
-			tooltiptext="&ODPExtension.url.notes.move.to.category.publish;" 
-			type="menu" 
+		<toolbarbutton
+			id="ODPExtension-toolbarbutton-odp-url-notes-move-publish"
+			label="&ODPExtension.url.notes.move.to.category.publish;"
+			tooltiptext="&ODPExtension.url.notes.move.to.category.publish;"
+			type="menu"
 			hidden="true"
 			class="chromeclass-toolbar-additional"
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event)"
 		>
-			<menupopup 
-				onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)" 
+			<menupopup
+				onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
 				oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
 				value="move.publish"
 				build="false"
@@ -171,17 +171,17 @@
 			</menupopup>
 		</toolbarbutton>
 
-		<toolbarbutton 
-			id="ODPExtension-toolbarbutton-odp-url-notes-move-unreview" 
-			label="&ODPExtension.url.notes.move.to.category.unreview;"  
-			tooltiptext="&ODPExtension.url.notes.move.to.category.unreview;" 
-			type="menu" 
+		<toolbarbutton
+			id="ODPExtension-toolbarbutton-odp-url-notes-move-unreview"
+			label="&ODPExtension.url.notes.move.to.category.unreview;"
+			tooltiptext="&ODPExtension.url.notes.move.to.category.unreview;"
+			type="menu"
 			hidden="true"
 			class="chromeclass-toolbar-additional"
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event)"
 		>
-			<menupopup 
-				onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)" 
+			<menupopup
+				onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
 				oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
 				value="move.unreview"
 				build="false"
@@ -192,17 +192,17 @@
 			</menupopup>
 		</toolbarbutton>
 
-		<toolbarbutton 
-			id="ODPExtension-toolbarbutton-odp-url-notes-copy-publish" 
-			label="&ODPExtension.url.notes.copy.to.category.publish;"  
-			tooltiptext="&ODPExtension.url.notes.copy.to.category.publish;" 
-			type="menu" 
+		<toolbarbutton
+			id="ODPExtension-toolbarbutton-odp-url-notes-copy-publish"
+			label="&ODPExtension.url.notes.copy.to.category.publish;"
+			tooltiptext="&ODPExtension.url.notes.copy.to.category.publish;"
+			type="menu"
 			hidden="true"
 			class="chromeclass-toolbar-additional"
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event)"
 		>
-			<menupopup 
-				onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)" 
+			<menupopup
+				onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
 				oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
 				value="copy.publish"
 				build="false"
@@ -214,17 +214,17 @@
 		</toolbarbutton>
 
 
-		<toolbarbutton 
-			id="ODPExtension-toolbarbutton-odp-url-notes-copy-unreview" 
-			label="&ODPExtension.url.notes.copy.to.category.unreview;"  
-			tooltiptext="&ODPExtension.url.notes.copy.to.category.unreview;" 
-			type="menu" 
+		<toolbarbutton
+			id="ODPExtension-toolbarbutton-odp-url-notes-copy-unreview"
+			label="&ODPExtension.url.notes.copy.to.category.unreview;"
+			tooltiptext="&ODPExtension.url.notes.copy.to.category.unreview;"
+			type="menu"
 			hidden="true"
 			class="chromeclass-toolbar-additional"
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event)"
 		>
-			<menupopup 
-				onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)" 
+			<menupopup
+				onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
 				oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
 				value="copy.unreview"
 				build="false"
@@ -234,12 +234,12 @@
 				<menuseparator locked="true"/>
 			</menupopup>
 		</toolbarbutton>
-		
-		<toolbarbutton 
-			id="ODPExtension-toolbarbutton-odp-url-notes-notes" 
-			label="&ODPExtension.tab.url.notes;" 
-			tooltiptext="&ODPExtension.tab.url.notes;" 
-			type="menu" 
+
+		<toolbarbutton
+			id="ODPExtension-toolbarbutton-odp-url-notes-notes"
+			label="&ODPExtension.tab.url.notes;"
+			tooltiptext="&ODPExtension.tab.url.notes;"
+			type="menu"
 			hidden="true"
 			class="chromeclass-toolbar-additional"
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event)"

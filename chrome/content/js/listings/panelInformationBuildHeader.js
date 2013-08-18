@@ -56,8 +56,8 @@
 				}
 
 				if(
-					!this.preferenceGet('ui.informative.panel.url') && 
-					!this.preferenceGet('ui.informative.panel.description') && 
+					!this.preferenceGet('ui.informative.panel.url') &&
+					!this.preferenceGet('ui.informative.panel.description') &&
 					!this.preferenceGet('ui.informative.panel.title')
 				)
 					this.getElement('panel-header').setAttribute('hidden', true);

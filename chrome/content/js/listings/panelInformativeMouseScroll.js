@@ -1,7 +1,7 @@
 (function()
 {
 			//switch the selected site, categories, titles and urls by moving the mouse wheel
-			
+
 			this.panelInformativeRelatedWriteSelectedSite = function(aSelected)
 			{
 				for(var i=0;i<32;i++)
@@ -17,14 +17,14 @@
 			this.panelInformativeSwitchSelectedSite = function(aEvent)
 			{
 				ODPExtension.stopEvent(aEvent);//dom scroll fire for every element hovered
-				
+
 			//	ODPExtension.dump('panelInformativeSwitchSelectedSite:'+aEvent.originalTarget.tagName);
 				var delta = false;
-				if (aEvent.wheelDelta) 
+				if (aEvent.wheelDelta)
 					delta = aEvent.wheelDelta/120;
-				else if (aEvent.detail) 
+				else if (aEvent.detail)
 					delta = -aEvent.detail/3;
-					
+
 				if(delta)
 				{
 					if(delta > 0)
@@ -61,15 +61,15 @@
 				}
 			}
 
-			
+
 			this.panelInformativeSwitchSelectedRelated = function(aEvent)
 			{
 				var delta = false;
-				if (aEvent.wheelDelta) 
+				if (aEvent.wheelDelta)
 					delta = aEvent.wheelDelta/120;
-				else if (aEvent.detail) 
+				else if (aEvent.detail)
 					delta = -aEvent.detail/3;
-					
+
 				if(delta)
 				{
 					var options = ['panel-related-titles', 'panel-related-uris', 'panel-related-categories'];

@@ -4,11 +4,11 @@
 	//automatically creates a boolean preference of true to know if the user was alerted for this message in the past
 	this.notifyOnce = function(aString, anID)
 	{
-		if(!anID)	
+		if(!anID)
 			var aName = 'notifyOnceMessages.msgHash.'+this.sha256(aString);
 		else
 			var aName = 'notifyOnceMessages.msgHash.'+this.sha256(anID);
-			
+
 		if(!this.preferenceExists(aName, 'bool'))
 		{
 			var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
@@ -18,7 +18,7 @@
 			// do something with check.value;
 			if(check.value === true)
 			{
-				this.preferenceCreate(aName, true, 'bool');	
+				this.preferenceCreate(aName, true, 'bool');
 			}
 		}
 	}
@@ -101,7 +101,7 @@
 							this.theExtension.win().setTimeout(function(){theExtension.code('ODPExtension').notifyStatusBar(progressMsg);}, 0);//threat
 						}
 					}
-					
+
 				return this.sharedObjectGet(aConnection, object);
 		}
 	}

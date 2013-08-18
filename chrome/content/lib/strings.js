@@ -29,7 +29,7 @@
 			aString = aString.replace(/% +/g, '%');
 
 			var last = aString;
-			
+
 			try
 			{
 				aString = decodeURIComponent(aString);
@@ -49,7 +49,7 @@
 			}
 			if(aString==last)
 				break;
-			
+
 		}
 		delete last;
 		return aString;
@@ -90,22 +90,22 @@
 	{
 		return this.trim(
 						 this.string(aString)
-						 
+
 							.replace(/ +/g, ' ') //REGEXP 1
 							.replace(/(( *,+ *| *,+ *\.+|,+ *|,+|\.+ *,+)+)/g, ', ') //REGEXP 2
 							.replace(/((,* *\.+ *\.*)+)/g, '. ') //REGEXP 3
-							
+
 							.replace(/ +/g, ' ') //REGEXP 1
 							.replace(/(( *,+ *| *,+ *\.+|,+ *|,+|\.+ *,+)+)/g, ', ') //REGEXP 2
 							.replace(/((,* *\.+ *\.*)+)/g, '. ') //REGEXP 3
-							
+
 							.replace(/ +/g, ' ') //REGEXP 1
 							.replace(/(( *,+ *| *,+ *\.+|,+ *|,+|\.+ *,+)+)/g, ', ') //REGEXP 2
 							.replace(/((,* *\.+ *\.*)+)/g, '. ') //REGEXP 3
-							
+
 					).replace(/^\.* *,+ */, '').replace(/\.* *,+ *\.*$/, '.');
 	};
-	this.htmlEntityDecode = function(aString) 
+	this.htmlEntityDecode = function(aString)
 {
 	//ODPExtension.dump(typeof(aString))
 	if(aString.indexOf('&') != -1)
@@ -129,7 +129,7 @@
 	} else {
 		return aString;
 	}
-	
+
 };
 	//Decodes HTML special chars
 	this.htmlSpecialCharsDecode = function(aString)
@@ -141,7 +141,7 @@
 	{
 	  if(!aString)
 			return '';
-	  
+
 		return aString.split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;').split("'").join('&apos;');
 	};
 	//matchs a regular expresion
@@ -185,7 +185,7 @@
 			return false;
 
 		var spell = this.service('spell');
-		
+
 		if(!aDictionary)
 			spell.spellCheckEngine.dictionary = 'en-GB';
 		else
@@ -203,10 +203,10 @@
 	this.spellGetDictionaryList = function()
 	{
 		var a = {};
-		
+
 		var spell = this.service('spell').spellCheckEngine;
 			spell.getDictionaryList(a, {});
-		
+
 		return String(a.value).split(',');
 	};
 	//cast an object toString avoids null errors
@@ -232,7 +232,7 @@
 	{
 		var a = 0;
 		var pos = aString.indexOf(aStringToCount);
-		while(pos != -1) 
+		while(pos != -1)
 		{
 		   a++;
 		   pos = aString.indexOf(aStringToCount, pos+1);

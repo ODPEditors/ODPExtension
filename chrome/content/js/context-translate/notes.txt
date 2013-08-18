@@ -1,16 +1,16 @@
 SEMI DOCUMENTATION OF THIS FOLDER
 
-	NOTES 
-		
+	NOTES
+
 		none!
-		
-	FILES 
+
+	FILES
 
 		translateMenuUpdate.js
 
 			rebuilds the context menu translate base on user configuration
-	
+
 		translate.js
-		
+
 			opens the selected text, the selected link or if no selection we will ask the user
-			
+

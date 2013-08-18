@@ -1,12 +1,12 @@
 (function()
 {
-		
+
 		//sets debuging on/off for this JavaScript file
-			
+
 			var debugingThisFile = true;
 
 		//removes the referrer from private ODP domains
-		
+
 			this.privacyRemoveReferrer = function(aSubject)
 			{
 				//this.dump('privacyRemoveReferrer', debugingThisFile);
@@ -16,7 +16,7 @@
 						var aReferrerURI = this.decodeUTF8Recursive(this.string(aSubject.referrer.spec));
 
 					//for each private ODP domain
-					
+
 						for(var id in this.shared.privacy.noReferrer)
 						{
 							//if from this url we can't send any reffer

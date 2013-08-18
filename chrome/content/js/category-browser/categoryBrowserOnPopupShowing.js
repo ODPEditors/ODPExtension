@@ -55,9 +55,9 @@
 			{
 				this.getElement('category-browser-categories-clipboard').setAttribute('hidden', true);
 			}
-			
+
 		//categories for this session
-		
+
 			if(this.shared.categories.session.categories.length>0)
 			{
 				this.removeChilds(this.getElement('category-browser-session-categories'));
@@ -66,8 +66,8 @@
 			}
 			else
 				this.getElement('category-browser-session-categories').parentNode.setAttribute('disabled', true);
-				
-			
+
+
 	}
 	return null;
 

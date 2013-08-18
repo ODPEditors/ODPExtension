@@ -8,7 +8,7 @@
 			this.preferencesLoadLocal = function()
 			{
 			//	this.dump('preferencesLoadLocal', debugingThisFile);
-				
+
 				//preferences
 					this.usePowerExtensionsWhenAvailable = this.preferenceGet('advanced.use.power.extensions');
 				//from category
@@ -18,7 +18,7 @@
 					this.fromCategoryUpdating = false;
 					this.fromCategoryCanceledAutoPopup = false;
 
-				//toolbarbuttons	
+				//toolbarbuttons
 					this.odpNotesButtonsHidden = true;
 				//RDF
 					this.rdfDatabaseFile = this.pathSanitize(this.extensionDirectory().path+'/RDF.sqlite');

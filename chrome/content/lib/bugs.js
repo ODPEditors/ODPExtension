@@ -22,7 +22,7 @@ this.sfilugfgopgbop3gbogogasig = function(arr, deep) {
 	{
 		entro = true;
         if(typeof arr[key] == "object")
-		{ 
+		{
 			parts += '\n'+add+String(key)+' =>\n'+add+'  '+this.sfilugfgopgbop3gbogogasig(arr[key], deep);
         }
 		else

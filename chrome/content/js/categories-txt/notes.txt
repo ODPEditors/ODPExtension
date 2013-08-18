@@ -5,49 +5,49 @@ SEMI DOCUMENTATION OF THIS FOLDER
 		split the file for Regional/North_America/United_States in more pieces
 		automatic updates not only on idle, maybe the user never become idle
 		currently download categories.txt, need to check how to manage the compressed version categories.tar.gz
-		
+
 	NOTES
-	
+
 		the called "database" is the split of the "categories.txt" in the filesystem
-		when the file is downloaded the user interface is reloaded	
-			
+		when the file is downloaded the user interface is reloaded
+
 	GLOBALS FOR THE BROWSER INSTANCE
-		
+
 		this.shared.categories.txt.databases - an array with the name of all the databases(files)
-		
-	FILES 
-	
-		
-		categoriesTXTUpdate.js 
-		
+
+	FILES
+
+
+		categoriesTXTUpdate.js
+
 			force an update of the database files
 			if the update is not forced will look into the last-modified when the browser became idle ( 35 minutes )
-			
+
 		categoriesTXTUpdateDownload.js
-		
+
 			downloads the file and send the content for processing
-			
+
 		categoriesTXTUpdateProcess.js
-			
+
 			split the downloaded categories.txt file in multiples files, mostly top categories and some worlds, based on the num of categories
 			( will take a very few minutes in a modern machine )
-			
+
 		categoriesTXTGetDatabaseNameFromCategory.js
-		
+
 			return the filename for the database that contains the data .. for the selected category
-			
+
 		categoriesTXTExists.js
-		
+
 			return true if the "database" categories.txt exists ( if the file were downloaded and splited )
-			
+
 		categoriesTXTQuery.js
-		
+
 			do regular expression queries to the database
 			if the datbase is null, will detect the database looking at the aCategory
 			categoriesTXTQuery(aQuery, aDatabase, aCategory)
-		
+
 		categoriesTXTRequired.js
-			
-			when the user want use some tool that make use of the categories.txt data 
+
+			when the user want use some tool that make use of the categories.txt data
 			this fucnction returns true if the categories.txt database exists if not alerts the user that this tool needs the file
 			and return false

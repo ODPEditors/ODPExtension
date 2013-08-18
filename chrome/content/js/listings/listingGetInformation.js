@@ -14,8 +14,8 @@
 				  	return;
 				}
 				else if(
-						this.preferenceGet('advanced.urls.rdf') == '' || 
-						this.preferenceGet('advanced.urls.rdf').indexOf('http')  == -1 || 
+						this.preferenceGet('advanced.urls.rdf') == '' ||
+						this.preferenceGet('advanced.urls.rdf').indexOf('http')  == -1 ||
 						this.preferenceGet('advanced.urls.rdf').indexOf('{URL}')  == -1
 				)//there is a valiod RDF url?
 				{
@@ -24,13 +24,13 @@
 					this.extensionIconUpdateStatus();
 					return;
 				}
-				 
+
 				else if(this.isPrivateURL(aLocation))//private URI
 				{
 					this.listingInformation  = '';
 					this.getElement('panel').hidePopup();
 					this.extensionIconUpdateStatus();
-					return; 
+					return;
 				}
 				else if(this.preferenceGet('privacy.listing.when.click') && !aClick)//waiting for a click to load
 				{
@@ -44,12 +44,12 @@
 				else
 					aLocation = this.anonymizeForListingChecking(aLocation);//every url
 
-			
+
 				//update the icon status
 				this.listingInformationURL = this.decodeUTF8Recursive(aLocation);
 				this.listingInformation = 'loading';
 				this.extensionIconUpdateStatus();
-				
+
 				//check if this domain has little listing, if yes the results are cached by domain then don't do the request and show the cached data.
 				var hash = this.sha256(this.getDomainFromURL(aLocation));
 				var cachedFile = 'cached.request/listings.information/domain.few.listings/'+hash[0]+'/'+hash[1]+'/'+hash+'.txt';
@@ -61,16 +61,16 @@
 				{
 					//get the information
 					this.readURL(
-								this.preferenceGet('advanced.urls.rdf').replace('{URL}', this.encodeUTF8(this.removeSchema(aLocation))), 
+								this.preferenceGet('advanced.urls.rdf').replace('{URL}', this.encodeUTF8(this.removeSchema(aLocation))),
 								'listings.information/responses/',
 								null,
 								null,
-								function(){ ODPExtension.listingGetInformationLoaded(arguments[0],arguments[1]);}, 
-								aLocation 
+								function(){ ODPExtension.listingGetInformationLoaded(arguments[0],arguments[1]);},
+								aLocation
 							);//variable num of arguments
 				}
 			}
-			
+
 			this.listingGetInformationLoaded = function(aData, aLocation)
 			{
 				//check if the retreived data is for this focused tab
@@ -88,7 +88,7 @@
 					var focusedLocationNoWWW = this.removeWWW(this.focusedURL);
 					var focusedLocationDomain = this.focusedURLDomain;
 					var focusedLocationSubdomain = this.focusedURLSubdomain;
-										
+
 					//validate the response of the data server
 					aData = this.trim(aData);
 					if(aData=='')//if data is zero fail silenty
@@ -118,7 +118,7 @@
 						return;
 						//invalid response from data server
 					}
-					
+
 					//check if we need to cache this data
 					if(this.subStrCount(aData, '\n') < 30)
 					{
@@ -130,26 +130,26 @@
 
 					//parsing the site data
 					var siteData = this.trim(aData).split('\n');
-					
+
 				/*cache validation*/
-				
+
 					//check if the cached should be cleaned, when the godzuki data is updated
 					var generatedAt = siteData[0].replace(/.*([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]).*/, "$1");
-					
+
 					//if there "generated at" change then there is a new data, clean the cached data
 					if(this.preferenceGet('last.rdf.update') != generatedAt)
 					{
 						this.fileRemove('cached.request/');
 						this.preferenceSet('last.rdf.update', generatedAt);
 					}
-				
+
 				/* resutls comparation to see if the URI is listed*/
 					var listed_same_uri = -1;
 					var listed_domain_uri = -1;
 					var listed_other_uri = -1;
 					var aSelected = -1;
 					//this.dump(siteData);
-					
+
 					//normalizing
 					var aData = [], site;
 					//the first line is the meta data <!-- generated at -->
@@ -166,7 +166,7 @@
 						aData[counter].mediadate = (site[6] || '');
 					}
 					this.listingInformationData = aData;
-				//	this.dump(aData); 
+				//	this.dump(aData);
 					//looking for the most close url (wichi is already served by godzuki)
 					for( var i = 0; i < aData.length; i++ )
 					{
@@ -174,32 +174,32 @@
 						var siteURLNoWWW = this.removeWWW(siteURLWWW);
 
 						/*SITE INFO*/
-	
+
 						if(
-							   siteURLWWW == focusedLocationWWW || 
-							   siteURLNoWWW == focusedLocationNoWWW || 
-							   siteURLWWW == focusedLocationNoWWW || 
-							   siteURLNoWWW == focusedLocationWWW 
+							   siteURLWWW == focusedLocationWWW ||
+							   siteURLNoWWW == focusedLocationNoWWW ||
+							   siteURLWWW == focusedLocationNoWWW ||
+							   siteURLNoWWW == focusedLocationWWW
 						   )
 						{
 							listed_same_uri = i;
 							break;
 						}
 						else if(
-							   siteURLWWW == focusedLocationDomain || 
+							   siteURLWWW == focusedLocationDomain ||
 							   siteURLNoWWW == focusedLocationDomain ||
-							   siteURLWWW == focusedLocationDomain || 
-							   siteURLNoWWW == focusedLocationSubdomain 
+							   siteURLWWW == focusedLocationDomain ||
+							   siteURLNoWWW == focusedLocationSubdomain
 						)
 						{
 							listed_domain_uri = i;
 						}
-						else 
+						else
 						{
 							listed_other_uri = i;
 						}
 					}
-					
+
 					if(listed_same_uri > -1)
 					{
 						this.listingInformation = 'listed';
@@ -215,21 +215,21 @@
 						this.listingInformation = 'listed-other-uri';
 						aSelected = listed_other_uri;
 					}
-					
+
 					this.extensionIconUpdateStatus();
-					
+
 					this.getElement('panel-subcontainer').setAttribute('listed', this.listingInformation);//the border of the panel
 					this.getElement('panel-header-title').setAttribute('listed', this.listingInformation);//the color of the header
 					this.getElement('panel-move').setAttribute('listed', this.listingInformation);//the color of the move button
 					this.getElement('panel-header-title').setAttribute('type', aData[aSelected].type+'-'+aData[aSelected].cool);
 
 					this.panelInformationToggle(!this.preferenceGet('ui.informative.panel.closed'), false);
-					
+
 					if(this.preferenceGet('ui.informative.panel'))
 					{
 						this.panelInformationBuildHeader(aSelected);
 						this.panelInformationBuildRelated(aSelected);
-						
+
 						if(this.preferenceGet('ui.informative.panel'))//the user maybe unchecked all the visual options
 						{
 							if(this.getElement('panel').state != 'open')

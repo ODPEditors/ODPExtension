@@ -24,7 +24,7 @@
 					var aDoc =  this.documentGetFocused();
 
 				var anElement = this.getElementNamed(aName, aDoc);
-				
+
 				if(!anElement){}
 				else
 				{
@@ -40,7 +40,7 @@
 					var aDoc =  this.documentGetFocused();
 
 				var anElement = this.getElementNamed(aName, aDoc);
-				
+
 				if(!anElement){}
 				else
 				{

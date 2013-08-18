@@ -16,12 +16,12 @@
 					var aDoc =  this.documentGetFocused();
 
 				var anElement = this.getElementNamed('newtitle', aDoc);
-				
+
 				if(!anElement){}
 				else
 				{
 					var aString = this.fixPuntuation(this.removeNewLines(anElement.value)).toLowerCase();
-					
+
 					//apply format
 					if(aType=='The title')
 					{

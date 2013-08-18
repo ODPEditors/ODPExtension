@@ -85,8 +85,8 @@
 			this.preferences.stringsMultiline = [
 
 												 'category.abbreviation.find',//DONE
-												 'category.abbreviation.replace',//DONE
-												 'scratch.pad'//DONE
+												 'category.abbreviation.replace'//DONE
+
 												 ];
 			this.preferences.stringsMultilineSort = [
 

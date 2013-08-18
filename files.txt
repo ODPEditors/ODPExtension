@@ -177,7 +177,6 @@
  create mode 100644 chrome/content/js/privacy/isPrivateURL.js
  create mode 100644 chrome/content/js/privacy/notes.txt
  create mode 100644 chrome/content/js/privacy/privacyRemoveReferrer.js
- create mode 100644 chrome/content/js/scratch-pad/scratchPad.js
  create mode 100644 chrome/content/js/sisters-categories/notes.txt
  create mode 100644 chrome/content/js/sisters-categories/sistersCategoriesMenuUpdate.js
  create mode 100644 chrome/content/js/toolipanmoz/toolipanLinks.js
@@ -273,8 +272,6 @@
  create mode 100644 chrome/content/xul/navigator/navigator.xul
  create mode 100644 chrome/content/xul/navigator/notes.txt
  create mode 100644 chrome/content/xul/navigator/odp.ico
- create mode 100644 chrome/content/xul/navigator/sidebars/scratch-pad.css
- create mode 100644 chrome/content/xul/navigator/sidebars/scratch-pad.xul
  create mode 100644 chrome/content/xul/navigator/toolbars-and-toolbarbuttons/_toolbarbuttons.xul
  create mode 100644 chrome/content/xul/navigator/toolbars-and-toolbarbuttons/_toolbars.css
  create mode 100644 chrome/content/xul/navigator/toolbars-and-toolbarbuttons/_toolbars.xul
@@ -326,7 +323,6 @@
  create mode 100644 chrome/content/xul/preferences/images/uruguay.png
  create mode 100644 chrome/content/xul/preferences/preferences.css
  create mode 100644 chrome/content/xul/preferences/preferences.xul
- create mode 100644 chrome/content/xul/sidebar/scratch-pad.xul
  create mode 100644 chrome/locale/da/js.properties
  create mode 100644 chrome/locale/da/xul.dtd
  create mode 100644 chrome/locale/de/js.properties

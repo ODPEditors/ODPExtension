@@ -77,12 +77,6 @@
 
 						shared.privacy.odp.domains = [];
 
-					//scarcth pad
-
-						shared.scratch = {};
-						shared.scratch.history = [];
-						shared.scratch.counter = null;
-
 					//editors
 
 						shared.editors = {};

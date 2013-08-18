@@ -100,10 +100,6 @@
 
 		pref('extensions.ODPExtension.forms.css', true);
 
-	//scratch pad
-
-		pref('extensions.ODPExtension.scratch.pad', 'This is the "ODP scratch pad" \n\nHere you can save any text that will be maintained in sync between browser windows and after browser restart.\n\nSometimes may fail so don\'t trust it to much');
-
 //PRIVACY - DONE
 
 	pref('extensions.ODPExtension.privacy.queries.exclude.domains' , '*.block-all-subdomains-of-this-domain.org%0Ablock-this-domain.org');

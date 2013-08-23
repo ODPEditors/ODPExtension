@@ -19,16 +19,21 @@
 					if(aString == '')
 						aString = this.getSelectedLink();
 
-				//ask the user
+				//the focused url
 					if(aString == '')
-						aString = this.getSelectedTextOrPrompt(false);
+						aString = this.focusedURL;
 
-					if(aString != '')
+					if(aString != '' && aString.indexOf('http') !== 0)
 						this.tabOpenCheckForBehavior('http://translate.google.com/translate_t',
-													aEvent,
-													'translate',
-													'text='+this.encodeUTF8(aString.replace(/_/g, ' ').replace(/\//g, ' / ').replace(/World\//g, ' '))+'&langpair=auto|'+aEvent.originalTarget.getAttribute('value')+'&ie=UTF-8&oe=UTF-8'
-													);
+												aEvent,
+												'translate',
+												'text='+this.encodeUTF8(aString.replace(/_/g, ' ').replace(/\//g, ' / ').replace(/World\//g, ' '))+'&langpair=auto|'+aEvent.originalTarget.getAttribute('value')+'&ie=UTF-8&oe=UTF-8'
+						);
+					else if(aString.indexOf('http') === 0) //translate the page
+						this.tabOpenCheckForBehavior('http://translate.google.com/translate?hl=en&sl=auto&tl=en&u='+this.encodeUTF8(aString)+'&sandbox=0',
+												aEvent,
+												'translate'
+						);
 			}
 	return null;
 

@@ -73,7 +73,6 @@
 			this.preferences.strings = [
 
 										'version',//DONE
-										'last.db.backup',//DONE
 										'extension.directory',//DONE
 										'advanced.urls.rdf',//DONE
 										'advanced.urls.categories.txt',//DONE

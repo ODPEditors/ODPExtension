@@ -22,12 +22,6 @@
 					this.db = this.databaseGet('ODPExtension');
 					//tables creation if these no exists
 					this.categoryHistoryCreateTable();
-					//daily backups
-					if(this.preferenceGet('last.db.backup') != this.date())
-					{
-						this.preferenceSet('last.db.backup', this.date());
-						this.db.backup();
-					}
 					//look if we need to continue the process of importing history
 					//set time out because first we need to wait for browserLoad to setup the needed statements. But this is here because should run only in one browser.
 					setTimeout(function(){ODPExtension.categoryHistoryImportBrowsingHistoryBatch();}, 15000);

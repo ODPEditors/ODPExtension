@@ -1,7 +1,6 @@
 //EXTENSION
 
 	pref('extensions.development@dmoz.org.description', 'chrome://ODPExtension/locale/js.properties');
-	pref('extensions.ODPExtension.last.db.backup', '');
 	pref('extensions.ODPExtension.version', '3.130816.56');
 	pref('extensions.ODPExtension.extension.directory', '');
 

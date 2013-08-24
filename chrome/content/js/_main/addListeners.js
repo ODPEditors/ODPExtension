@@ -30,13 +30,6 @@
 										}
 								 });
 
-				//open the change log file on first run
-				this.addListener('firstRunForThisVesion',
-								 function()
-								 {
-									setTimeout(function(){ODPExtension.openURL('https://addons.mozilla.org/en-US/firefox/addons/versions/176740#version-3.130816.56', true, false, true);}, 5000);
-								 });
-
 				//changes some ui elements if the current focused document is a category
 				this.addListener('onLocationChange', function() { ODPExtension.setFocusedLocation(); });
 				//changes some ui elements if the current focused document is a category

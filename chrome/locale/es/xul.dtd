@@ -141,7 +141,6 @@
 
 <!ENTITY ODPExtension.advanced.use.private.odp.when.posible "Use private ODP URLs when posible, such http://editors.dmoz.org/Category/ instead of http://www.dmoz.org/Category/">
 <!ENTITY ODPExtension.advanced.use.power.extensions "Use power extensions when available">
-<!ENTITY ODPExtension.advanced.categories.txt.auto.update "Auto-update the local database categories.txt on idle if needed">
 
 <!ENTITY ODPExtension.extension.directory "Extension directory (Extension has total control over this folder)">
 <!ENTITY ODPExtension.extension.directory.change "Change extension directory">

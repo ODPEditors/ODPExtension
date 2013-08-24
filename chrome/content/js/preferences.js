@@ -120,8 +120,6 @@
 										//advanced - DONE
 											'advanced.use.private.odp.when.posible',
 											'advanced.use.power.extensions',
-											'advanced.categories.txt.auto.update',
-
 
 										//context menu - DONE
 											'ui.context.menu.word.reference',

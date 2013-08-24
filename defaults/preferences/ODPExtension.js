@@ -157,7 +157,6 @@
 
 	pref('extensions.ODPExtension.advanced.use.private.odp.when.posible', true);
 	pref('extensions.ODPExtension.advanced.use.power.extensions', true);
-	pref('extensions.ODPExtension.advanced.categories.txt.auto.update', true);
 	pref('extensions.ODPExtension.locked.advanced.local.category.finder.last.selected', 'Arts.txt');
 
 	pref('extensions.ODPExtension.single.key.command', false);

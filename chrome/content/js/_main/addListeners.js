@@ -36,14 +36,11 @@
 				this.addListener('onLocationChange', function() { ODPExtension.setFocusedCategory(); });
 				//updates the icon of the extension
 				this.addListener('onLocationChange', function() { ODPExtension.extensionIconUpdateStatus(); });
-				//1 - check for updates on the categories.txt file
-				//2 - vacuum the database for quickly usage
+				//1 - vacuum the database for quickly usage
 				//this should not take to much time
 				this.addListener('onIdle', function(){
 													 if(ODPExtension.isMinFirefox35)
 														ODPExtension.db.vacuum();
-													 if(ODPExtension.preferenceGet('advanced.categories.txt.auto.update'))
-													 	ODPExtension.categoriesTXTUpdate();
 													});
 
 				//referrer modification

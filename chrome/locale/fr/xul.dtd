@@ -138,7 +138,6 @@
 <!ENTITY ODPExtension.advanced.url.rdf "Listing verification URL">
 <!ENTITY ODPExtension.advanced.urls.domain.explorer "Site explorer URLs">
 
-<!ENTITY ODPExtension.advanced.use.private.odp.when.posible "Use private ODP URLs when posible, such http://editors.dmoz.org/Category/ instead of http://www.dmoz.org/Category/">
 <!ENTITY ODPExtension.advanced.use.power.extensions "Use power extensions when available">
 
 <!ENTITY ODPExtension.extension.directory "Extension directory (Extension has total control over this folder)">
@@ -197,7 +196,6 @@
 
 <!ENTITY ODPExtension.from.category.open "Ouvrir">
 <!ENTITY ODPExtension.from.category.find  "Find">
-<!ENTITY ODPExtension.from.category.open.public.page "Ouvrir la page publique">
 <!ENTITY ODPExtension.from.category.open.description "Ouvrir la description">
 <!ENTITY ODPExtension.from.category.open.faq "Ouvrir la FAQ">
 <!ENTITY ODPExtension.from.category.open.worldlinkerate.url  "Open worldlinkerate URL">

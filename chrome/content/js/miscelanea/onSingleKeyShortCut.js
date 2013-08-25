@@ -85,7 +85,7 @@
 				}
 				case 111 : //O - open
 				{
-					this.openURL(this.categoryGetURLPrivate(aCategory), inNewTab);break;
+					this.openURL(this.categoryGetURL(aCategory), inNewTab);break;
 				}
 				case 112 : //P - publish
 				{

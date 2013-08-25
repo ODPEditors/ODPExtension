@@ -20,7 +20,6 @@
 	  <content>
 			  <xul:menu action="cat_open" label="&ODPExtension.from.category.open;" style="font-weight: bold;">
 				<xul:menupopup>
-				  <xul:menuitem action="cat_open_public" label="&ODPExtension.from.category.open.public.page;"/>
 				  <xul:menuitem action="cat_open_desc" label="&ODPExtension.from.category.open.description;"/>
 				  <xul:menuitem action="cat_open_faq" label="&ODPExtension.from.category.open.faq;"/>
 				</xul:menupopup>

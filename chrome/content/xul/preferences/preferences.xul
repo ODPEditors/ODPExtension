@@ -333,8 +333,6 @@
 
 							<groupbox>
 								<caption  label="&ODPExtension.tab.advanced;"/>
-
-								<checkbox label="&ODPExtension.advanced.use.private.odp.when.posible;" id="advanced.use.private.odp.when.posible"/>
 								<checkbox label="&ODPExtension.advanced.use.power.extensions; [Tree Style Tab, Multiple Tab Handler, Split Browser]" id="advanced.use.power.extensions"/>
 
 							</groupbox>

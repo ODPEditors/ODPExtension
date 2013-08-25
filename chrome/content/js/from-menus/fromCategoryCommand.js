@@ -430,9 +430,7 @@
 
 				//open
 					if(aCommand=='cat_open')
-						this.openURL(this.categoryGetURLPrivate(aValue), true, false, inSelectedTab);
-					else if(aCommand=='cat_open_public')
-						this.openURL(this.categoryGetURLPublic(aValue), true, false, inSelectedTab);
+						this.openURL(this.categoryGetURL(aValue), true, false, inSelectedTab);
 					else if(aCommand=='cat_open_desc')
 						this.openURL(this.encodeURI('http://www.dmoz.org/desc/'+aValue), true, false, inSelectedTab);
 					else if(aCommand=='cat_open_faq')

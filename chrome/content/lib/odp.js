@@ -346,14 +346,8 @@
 		/* here all the trouble for dmoz2.0 */
 		return 'http://www.dmoz.org/editors/editcat/index?cat='+this.encodeUTF8(aCategory);
 	}
-	//returns the private URL from a category name
-	this.categoryGetURLPrivate = function(aCategory)
-	{
-		/* here all the trouble for dmoz2.0 */
-		return this.encodeURI('http://www.dmoz.org/'+aCategory+'/');
-	}
 	//returns the public URL from a category name
-	this.categoryGetURLPublic = function(aCategory)
+	this.categoryGetURL = function(aCategory)
 	{
 		/* here all the trouble for dmoz2.0 */
 		return this.encodeURI('http://www.dmoz.org/'+aCategory+'/');
@@ -483,15 +477,10 @@
 				}
 			}
 	}
-	//opens a tab with a Private ODP search
-	this.odpSearchGetURLPrivate = function(aString)
+	//opens a tab with a ODP search
+	this.odpSearchGetURL = function(aString)
 	{
 		return 'http://www.dmoz.org/search?ebuttons=1&q='+this.encodeUTF8(aString);
-	}
-	//opens a tab with a ODP search
-	this.odpSearchGetURLPublic = function(aString)
-	{
-		return 'http://www.dmoz.org/search?q='+this.encodeUTF8(aString);
 	}
 	//returns the private URL for editing a site
 	this.siteGetURLEdit = function(aURL, aCategory)

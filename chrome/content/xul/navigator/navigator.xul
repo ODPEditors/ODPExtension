@@ -181,8 +181,6 @@
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/local-category-finder/categoryFinderMenuListUpdate.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/local-category-finder/categoryFinderQuery.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/miscelanea/categoryAbbreviate.js"></script>
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/miscelanea/categoryGetURL.js"></script>
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/miscelanea/odpSearchGetURL.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/miscelanea/onSingleKeyShortCut.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/miscelanea/plantRob.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/miscelanea/tabOpenCheckForBehavior.js"></script>

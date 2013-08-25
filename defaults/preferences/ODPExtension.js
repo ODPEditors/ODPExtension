@@ -155,7 +155,6 @@
 	pref('extensions.ODPExtension.advanced.urls.categories.txt', 'http%3A%2F%2Frdf.dmoz.org%2Frdf%2Fcategories.txt');
 	pref('extensions.ODPExtension.locked.advanced.urls.categories.txt.last.update', 'Never');
 
-	pref('extensions.ODPExtension.advanced.use.private.odp.when.posible', true);
 	pref('extensions.ODPExtension.advanced.use.power.extensions', true);
 	pref('extensions.ODPExtension.locked.advanced.local.category.finder.last.selected', 'Arts.txt');
 

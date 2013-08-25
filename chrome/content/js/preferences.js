@@ -118,7 +118,6 @@
 											'privacy.private.browsing.on',
 
 										//advanced - DONE
-											'advanced.use.private.odp.when.posible',
 											'advanced.use.power.extensions',
 
 										//context menu - DONE

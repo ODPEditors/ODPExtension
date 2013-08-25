@@ -72,8 +72,6 @@
 						}
 					}
 				};
-				//respect the preference "advanced.use.private.odp.when.posible"
-				//only read private pages when these are private
 				Requester.open("GET", this.categoryGetURL(aCategory), true);
 				Requester.setRequestHeader("Cache-Control", "no-cache");
 				Requester.setRequestHeader("Pragma", "no-cache");

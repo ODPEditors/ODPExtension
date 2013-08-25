@@ -92,8 +92,7 @@
 					}
 					case 'checkHTTPStatus':
 					{
-						this.toolipanLinks();
-
+						this.linkChecker();
 						break;
 					}
 					case 'openPreferences':

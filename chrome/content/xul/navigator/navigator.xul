@@ -49,6 +49,7 @@
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/notifications.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/odp.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/odpCategoryParser.js"></script>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/redirectionAlert.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/screen.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/selected.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/services.js"></script>
@@ -181,6 +182,7 @@
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/local-category-finder/categoryFinderMenuListUpdate.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/local-category-finder/categoryFinderQuery.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/miscelanea/categoryAbbreviate.js"></script>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/miscelanea/linkChecker.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/miscelanea/onSingleKeyShortCut.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/miscelanea/plantRob.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/miscelanea/tabOpenCheckForBehavior.js"></script>
@@ -199,7 +201,6 @@
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/privacy/privacyRemoveReferrer.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/single-key-command/singleKeyCommand.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/sisters-categories/sistersCategoriesMenuUpdate.js"></script>
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/toolipanmoz/toolipanLinks.js"></script>
 
 <window id="main-window">
 

@@ -199,6 +199,7 @@
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/privacy/anonymizeForListingChecking.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/privacy/isPrivateURL.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/privacy/privacyRemoveReferrer.js"></script>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/single-key-command/singleKeyCommand.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/sisters-categories/sistersCategoriesMenuUpdate.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/toolipanmoz/toolipanLinks.js"></script>
 

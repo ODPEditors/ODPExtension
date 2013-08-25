@@ -117,59 +117,7 @@
 			//one keypress action
 					this.getBrowserElement("content").addEventListener('keypress', function(event)
 																					{
-																						if(
-																						    !event.originalTarget
-																						   || !event.originalTarget.tagName
-																						   || !event.originalTarget.ownerDocument
-																						   || event.originalTarget.ownerDocument != ODPExtension.documentGetFocused()
-																						   || !ODPExtension.preferenceGet('single.key.command')
-																						   || event.ctrlKey
-																						   || event.shiftKey
-																						   || event.altKey
-																						   || ODPExtension.preferenceBrowserGet('accessibility.typeaheadfind')
-																						){}
-																						else
-																						{
-
-																							if(event.originalTarget.tagName.toLowerCase() == 'html')
-																							{
-																								ODPExtension.fromCategoryUpdateMenu(event, 'from-category', true);
-
-																								//getting categories selected/focused
-																								var aCategories = [];
-																								if(ODPExtension.fromCategorySelectedCategories.length > 0)
-																									aCategories = ODPExtension.fromCategorySelectedCategories;
-																								else if(ODPExtension.fromCategorySelectedCategory != '')
-																									aCategories[0] = ODPExtension.fromCategorySelectedCategory;
-																								else if(ODPExtension.focusedCategory != '')
-																									aCategories[0] = ODPExtension.focusedCategory;
-																								//if there is categories go
-																								if(aCategories.length > 0)
-																									ODPExtension.onSingleKeyShortCut(event.charCode, aCategories);
-																								//every page
-																								if(event.charCode == 113 ) //Q - close tab
-																									ODPExtension.tabClose(ODPExtension.tabGetFocused());
-																								else if(event.charCode == 116 ) //T - open tab
-																									ODPExtension.tabOpen('about:blank', true);
-																								else if(event.charCode == 103 ) //G - google
-																								{
-																									var searchFor;
-																									if( (searchFor = ODPExtension.prompt(ODPExtension.getString('search.ellipsis')) ) != '' )
-																									{
-																										if(ODPExtension.focusedURLSubdomain != '')
-																											ODPExtension.openURL('http://www.google.com/search?q='+ODPExtension.encodeUTF8('site:'+ODPExtension.removeWWW(ODPExtension.focusedURLSubdomain))+'+'+ODPExtension.encodeUTF8(searchFor).replace(/%20/g, '+'), true,  null, true);
-																										else
-																											ODPExtension.openURL('http://www.google.com/search?q='+ODPExtension.encodeUTF8(searchFor).replace(/%20/g, '+'), true, null, true);
-																									}
-																								}
-																								else if(event.charCode == 241 ) //Ñ - español
-																								{
-																									ODPExtension.openURL(ODPExtension.encodeURI('http://www.dmoz.org/World/Español/'), inNewTab);
-																								}
-
-
-																							}
-																						}
+																						ODPExtension.singleKeyCommand(event);
 																					}, false);
 
 			//from category menu

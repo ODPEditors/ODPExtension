@@ -475,8 +475,7 @@
 
 			if(aURL.indexOf('http') === 0)
 			{
-				Requester.setRequestHeader("Cache-Control", "no-cache");
-				Requester.setRequestHeader("Pragma", "no-cache");
+				Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_BYPASS_CACHE;
 				if(anArrayHeaders)
 				{
 				  for(var id in anArrayHeaders)

@@ -73,8 +73,7 @@
 					}
 				};
 				Requester.open("GET", this.categoryGetURL(aCategory), true);
-				Requester.setRequestHeader("Cache-Control", "no-cache");
-				Requester.setRequestHeader("Pragma", "no-cache");
+				Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_BYPASS_CACHE;
 				Requester.send(null);
 		}
 		else

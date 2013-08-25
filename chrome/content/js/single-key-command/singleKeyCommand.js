@@ -4,12 +4,13 @@
 
 	this.singleKeyCommand = function(aEvent)
 	{
+		//this.dump( aEvent.originalTarget.tagName.toLowerCase());
 		if(
 		      !this.preferenceGet('single.key.command')
 		   || !aEvent.originalTarget
 		   || !aEvent.originalTarget.tagName
 		   || !aEvent.originalTarget.ownerDocument
-		   || aEvent.originalTarget.ownerDocument != this.documentGetFocused()
+		 // || aEvent.originalTarget.ownerDocument != this.documentGetFocused()
 		   || aEvent.ctrlKey
 		   || aEvent.shiftKey
 		   || aEvent.altKey

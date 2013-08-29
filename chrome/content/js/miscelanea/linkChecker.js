@@ -67,6 +67,10 @@
 
 			this.linkCheckerDone = function(aData, aURL, item)
 			{
+				var progress = this.progress('link.cheker');
+						progress.remove();
+						progress.progress();
+
 				if(!item)
 					return;
 				item.setAttribute('tooltiptext', ODPExtension.decodeUTF8(aURL+'\n'+aData.redirectionsLog));

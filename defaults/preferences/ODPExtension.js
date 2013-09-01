@@ -13,6 +13,7 @@
 //PREFERENCES
 
 	pref('extensions.ODPExtension.preferences.font.size', '13');
+	pref('extensions.ODPExtension.link.checker.threads', 5);
 
 
 //USER INTERFACE - DONE

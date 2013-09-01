@@ -203,7 +203,7 @@
 		if(!win){ }
 		else
 		{
-			if(win.frames.length  > 0)
+			if(win.frames && win.frames.length  > 0)
 			{
 				this.foreachFrameFrame(win, aFunction);
 				if(!win.document){}
@@ -227,6 +227,39 @@
 				continue;
 			aFunction(frames[i].document);
 			this.foreachFrameFrame(frames[i], aFunction);
+		}
+	}
+	//calls a function for each frame window in a window
+	this.foreachFrameWindow = function (aWindow, aFunction)
+	{
+		var win = aWindow;
+		if(!win){ }
+		else
+		{
+			if(win.frames.length  > 0)
+			{
+				this.foreachFrameFrameWindow(win, aFunction);
+				if(!win){}
+				else
+					aFunction(win);
+			}
+			else
+			{
+				if(!win){}
+				else
+					aFunction(win);
+			}
+		}
+	}
+	this.foreachFrameFrameWindow = function(frame, aFunction)
+	{
+		var frames = frame.frames;
+		for (var i = 0; i < frames.length; i++)
+		{
+			if(!frames[i])
+				continue;
+			aFunction(frames[i]);
+			this.foreachFrameFrameWindow(frames[i], aFunction);
 		}
 	}
 	//shortcut for document.getElementById

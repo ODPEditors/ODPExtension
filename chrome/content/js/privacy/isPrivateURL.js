@@ -75,10 +75,8 @@
 		//urls with the string log something and pass for passwords are considerated private
 		if(
 		   aURL.indexOf('logout') != -1 ||
-		   aURL.indexOf('logoff') != -1 ||
-		   aURL.indexOf('login') != -1 ||
-		   aURL.indexOf('pass') != -1
-		   )
+		   aURL.indexOf('logoff') != -1
+		)
 			return true;
 
 		//we are safe!

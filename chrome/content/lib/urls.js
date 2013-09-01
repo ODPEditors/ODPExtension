@@ -75,15 +75,17 @@
 			return aSubdomainOrDomainOrIP.replace(/.*\.([^\.]+\.[^\.]+)$/, "$1");
 	}
 	//returns the IP of a host name
-
-	this.getIPFromDomain = function(aDomain)
+	this.getIPFromDomain = function(aDomain, noCache)
 	{
 		var IP = '';
 		try
 		{
 			var DNS = Components.classes['@mozilla.org/network/dns-service;1'].getService(Components.interfaces.nsIDNSService);
+			if(!noCache)
+				var nsRecord = DNS.resolve(aDomain, false);
+			else
+				var nsRecord = DNS.resolve(aDomain, Components.interfaces.nsIDNSService.RESOLVE_BYPASS_CACHE);
 
-			var nsRecord = DNS.resolve(aDomain, false);
 			while (nsRecord.hasMore())
 			{
 				IP = nsRecord.getNextAddrAsString();
@@ -218,7 +220,7 @@
 	this.isPublicURL = function(aURL)
 	{
 		var schema = this.getSchema(aURL);
-		if(schema != 'http' && schema != 'https' && schema != 'ftp' && schema != 'feed' && schema != 'gopher')
+		if(schema != 'http' && schema != 'https' && schema != 'ftp' && schema != 'gopher')
 			return false;
 
 		var aDomain = this.getSubdomainFromURL(aURL);

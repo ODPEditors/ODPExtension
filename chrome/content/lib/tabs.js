@@ -53,6 +53,10 @@
 	{
 		return gBrowser.mTabs[gBrowser.getBrowserIndexForDocument(this.documentGetTop(aDoc))]
 	}
+	this.tabGetFromChromeDocument = function(aDoc)
+	{
+		return gBrowser.mTabs[gBrowser.getBrowserIndexForDocument(aDoc.top.document)]
+	}
 	//gets the current URI from aTab-REVIEW
 	this.tabGetLocation = function(aTab)
 	{

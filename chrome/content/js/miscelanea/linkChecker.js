@@ -8,8 +8,9 @@
 			{
 				var oRedirectionAlert = this.redirectionAlert();
 
-				var progress = this.progress('link.cheker');
+				var progress = this.progress('link.cheker.'+oRedirectionAlert.id);
 					progress.reset();
+					progress.progress();
 				//look at selected links
 				var items = this.getBrowserSelectionObjects('a');
 				if(items.length > 0)
@@ -56,49 +57,67 @@
 				else
 					item.innerHTML = item.getAttribute('original_text');
 
-				item.style.setProperty('border', '1px solid green', 'important');
-				item.style.setProperty('padding', '2px', 'important');
-
-				var progress = this.progress('link.cheker');
+				var progress = this.progress('link.cheker.'+oRedirectionAlert.id);
 					progress.add();
+					progress.progress();
 
-					oRedirectionAlert.check(item.href, function(aData, aURL){ ODPExtension.linkCheckerDone(aData, aURL, item); });
+					this.runThreaded('link.checker.'+oRedirectionAlert.id, this.preferenceGet('link.checker.threads')*2, function(onThreadDone){
+
+						item.style.setProperty('border', '1px solid green', 'important');
+						item.style.setProperty('padding', '2px', 'important');
+						item.style.removeProperty('background-color');
+						item.style.removeProperty('color');
+
+						oRedirectionAlert.check(item.href, function(aData, aURL){ ODPExtension.linkCheckerDone(aData, aURL, item, oRedirectionAlert); onThreadDone(); });
+					});
 			}
 
-			this.linkCheckerDone = function(aData, aURL, item)
+			this.linkCheckerDone = function(aData, aURL, item, oRedirectionAlert)
 			{
-				var progress = this.progress('link.cheker');
+				var progress = this.progress('link.cheker.'+oRedirectionAlert.id);
 						progress.remove();
 						progress.progress();
 
 				if(!item)
 					return;
-				item.setAttribute('tooltiptext', ODPExtension.decodeUTF8(aURL+'\n'+aData.redirectionsLog));
-				item.setAttribute('title',  ODPExtension.decodeUTF8(aURL+'\n'+aData.redirectionsLog));
 
-				if(aData.firstStatus=='200') {
-					item.style.setProperty('color', 'white', 'important');
-					item.style.setProperty('background-color', '#669933', 'important');
-				} else if(aData.firstStatus=='-1' || aData.latestStatus =='-1') {
+				var tooltiptext = ODPExtension.decodeUTF8((aData.urlRedirections.join('\n'))+'\n'+(aData.status.match || ''))
+
+				item.setAttribute('tooltiptext', tooltiptext.trim());
+				item.setAttribute('title', tooltiptext.trim());
+
+				if(aData.status.error && aData.status.delete) {
+					//red
 					item.style.setProperty('color', 'white', 'important');
 					item.style.setProperty('background-color', '#EB6666', 'important');
-				}
-				else if(
-						aData.firstStatus=='500' ||
-						aData.latestStatus=='500' ||
-						aData.firstStatus=='404' ||
-						aData.latestStatus=='404' ||
-						aData.firstStatus=='401' ||
-						aData.latestStatus=='401'
-				)
-				{
+				/*} else if(aData.status.error && aData.status.unreview) {
+					//yellow sharp
 					item.style.setProperty('background-color', '#FEFF7F', 'important');
 					item.style.setProperty('color', 'black', 'important');
+					*/
+				} else if(aData.status.error && aData.status.unreview) {
+					//purple
+					item.style.setProperty('color', 'white', 'important');
+					item.style.setProperty('background-color', '#6F6FFC', 'important');
+
+				} else if(aData.statuses[aData.statuses.length-1]=='200' && aData.status.error === false) {
+					//green
+					item.style.setProperty('color', 'white', 'important');
+					item.style.setProperty('background-color', '#669933', 'important');
+
 				} else {
+					//yellow light
 					item.style.setProperty('color', 'black', 'important');
 					item.style.setProperty('background-color', '#FFFFCC', 'important');
+
 				}
-				item.innerHTML = '['+aData.firstStatus+''+aData.statusLog+'] '+item.getAttribute('original_text');
+
+				//aData.html = '';
+				//aData.headers = '';
+				//ODPExtension.dump(JSON.stringify(aData));
+				item.innerHTML = '['+aData.statuses.join(', ')+' | '+aData.status.code+' | '+aData.status.errorString+'] '+item.getAttribute('original_text');
+				item.setAttribute('note', ''+aData.statuses.join(', ')+' | '+aData.status.code+' | '+aData.status.errorString);
+				item.setAttribute('code', aData.status.code);
 		}
 
 	return null;

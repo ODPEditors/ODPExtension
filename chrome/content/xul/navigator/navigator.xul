@@ -56,6 +56,7 @@
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/sharedMemory.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/strings.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/tabs.js"></script>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/threads.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/toolbars.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/urls.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/windows.js"></script>

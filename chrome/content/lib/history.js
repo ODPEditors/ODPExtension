@@ -57,6 +57,10 @@
 		}
 	}
 
+	this.removeURLFromBrowserHistory = function(aURL){
+		this.service('bh').removePages([this.newURI(aURL)], 1, false);
+	}
+
 	return null;
 
 }).apply(ODPExtension);

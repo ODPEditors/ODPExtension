@@ -87,6 +87,7 @@
 					{
 						this.running = 0;
 						this.done = 0;
+						this.progress();
 					}
 					object.progress = function()
 					{

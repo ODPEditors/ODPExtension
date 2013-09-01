@@ -33,6 +33,12 @@
                                					.getService(Components.interfaces.nsIGlobalHistory2);
 					break;
 				}
+				case 'bh':
+				{
+					this.services[aName] = Components.classes["@mozilla.org/browser/nav-history-service;1"]
+            															.getService(Components.interfaces.nsIBrowserHistory);
+					break;
+				}
 				case 'pref':
 				{
 					aName = aName+'.'+aSome;

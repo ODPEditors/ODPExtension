@@ -24,7 +24,5 @@ SEMI DOCUMENTATION OF THIS FOLDER
 
 	GLOBALS FOR INSTANCE
 
-		this.shared.category.abbreviation.user.find - an array of user abbreviations to find
-		this.shared.category.abbreviation.user.replace - an array of user abbreviations to replace
 		this.shared.category.abbreviation.languages.find- an array of  languages to find
 		this.shared.category.abbreviation.languages.replace- an array of  languages to replace

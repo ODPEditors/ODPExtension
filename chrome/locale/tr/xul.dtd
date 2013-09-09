@@ -170,13 +170,6 @@
 <!ENTITY ODPExtension.url.tools.link.check.status "HTTP durumunu kontrol et">
 <!ENTITY ODPExtension.url.tools.link.check.listing "Siteleri işaretle">
 
-
-<!ENTITY ODPExtension.tab.category.abbreviations "Kategori kısaltmaları">
-
-<!ENTITY ODPExtension.category.abbreviations.find "Find the following strings on categories">
-<!ENTITY ODPExtension.category.abbreviations.replace "Bununla değiştir">
-
-
 <!ENTITY ODPExtension.tab.tab.behavior "Tab Behavior">
 
 <!ENTITY ODPExtension.tab.open.in.sub.browser "Open in Sub Browser">

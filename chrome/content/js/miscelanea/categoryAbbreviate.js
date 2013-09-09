@@ -10,10 +10,6 @@
 			if(this.subStrCount(aCategory, '/') < 2)
 				return this.categoryTitle(aCategory);
 
-		//abbreviated by user
-			for(var id in this.shared.category.abbreviation.user.find)
-				aCategory = aCategory.split(this.shared.category.abbreviation.user.find[id]).join(this.shared.category.abbreviation.user.replace[id]);
-
 		//languages abbreviations
 			if(aCategory.indexOf('World') != -1)
 			{

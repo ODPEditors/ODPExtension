@@ -54,7 +54,6 @@
 						  <radio onclick="ODPExtension.getElement('tab-3').click();" pane="nada" label="&ODPExtension.tab.translate;" class="tabTranslate radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-6').click();" pane="nada" label="&ODPExtension.tab.url.tools;" class="tabURLTools radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-11').click();" pane="nada" label="&ODPExtension.tab.url.notes;" class="tabURLNotes radioButton"/>
-						  <radio onclick="ODPExtension.getElement('tab-8').click();" pane="nada" label="&ODPExtension.tab.category.abbreviations;" class="tabAbbreviations radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-10').click();" pane="nada" label="&ODPExtension.tab.category.browser;" class="tabCategoryBrowser radioButton"/>
 
 						  <radio onclick="ODPExtension.getElement('tab-4').click();" pane="nada" label="&ODPExtension.tab.advanced;" class="tabAdvanced radioButton"/>
@@ -62,7 +61,6 @@
 						  <radio onclick="ODPExtension.getElement('tab-5').click();" pane="nada" label="&ODPExtension.tab.license;" class="tabLicense radioButton"/>
 
 					</radiogroup>
-
 
 					<tabs  hidden="true" orient="vertical" >
 						<tab id="ODPExtension-tab-1" active="true"/>
@@ -72,7 +70,6 @@
 						<tab id="ODPExtension-tab-5"/>
 						<tab id="ODPExtension-tab-6"/>
 						<tab id="ODPExtension-tab-7"/>
-						<tab id="ODPExtension-tab-8"/>
 						<tab id="ODPExtension-tab-9"/>
 						<tab id="ODPExtension-tab-10"/>
 						<tab id="ODPExtension-tab-11"/>
@@ -488,22 +485,7 @@
 				</vbox>
 
 			</hbox></vbox></tabpanel>
-						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">
 
-		<hbox flex="1">
-			<hbox flex="1">
-				<groupbox flex="1">
-					<caption label="&ODPExtension.category.abbreviations.find;"/>
-					<textbox id="category.abbreviation.find" wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
-				</groupbox>
-			</hbox>
-			<hbox flex="1">
-				<groupbox flex="1">
-					<caption label="&ODPExtension.category.abbreviations.replace;"/>
-					<textbox id="category.abbreviation.replace" wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
-				</groupbox>
-			</hbox>
-		</hbox></vbox></tabpanel>
 						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">			<hbox>
 
 				<vbox  flex="1" >

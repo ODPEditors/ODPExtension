@@ -171,12 +171,6 @@
 <!ENTITY ODPExtension.url.tools.link.check.listing "Einträge hervorheben">
 
 
-<!ENTITY ODPExtension.tab.category.abbreviations "Kat-Abkürzungen">
-
-<!ENTITY ODPExtension.category.abbreviations.find "Find the following strings on categories">
-<!ENTITY ODPExtension.category.abbreviations.replace "Ersetzen mit">
-
-
 <!ENTITY ODPExtension.tab.tab.behavior "Tab Behavior">
 
 <!ENTITY ODPExtension.tab.open.in.sub.browser "Open in Sub Browser">

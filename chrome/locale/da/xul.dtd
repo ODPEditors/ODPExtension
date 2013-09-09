@@ -170,13 +170,6 @@
 <!ENTITY ODPExtension.url.tools.link.check.status "Tjek HTTP status">
 <!ENTITY ODPExtension.url.tools.link.check.listing "Fremhæv listningen">
 
-
-<!ENTITY ODPExtension.tab.category.abbreviations "Kategoriforkortelser">
-
-<!ENTITY ODPExtension.category.abbreviations.find "Find the following strings on categories">
-<!ENTITY ODPExtension.category.abbreviations.replace "Erstat med">
-
-
 <!ENTITY ODPExtension.tab.tab.behavior "Tab Behavior">
 
 <!ENTITY ODPExtension.tab.open.in.sub.browser "Open in Sub Browser">

@@ -170,12 +170,6 @@
 <!ENTITY ODPExtension.url.tools.link.check.status  "Check HTTP status">
 <!ENTITY ODPExtension.url.tools.link.check.listing "Highlight listings on document links">
 
-<!-- preferences window - tab category abbreviations -->
-<!ENTITY ODPExtension.tab.category.abbreviations "Category abbreviations">
-
-<!ENTITY ODPExtension.category.abbreviations.find "Find the following strings on categories">
-<!ENTITY ODPExtension.category.abbreviations.replace "and replace these with">
-
 <!-- preferences window - tab tab Behavior -->
 <!ENTITY ODPExtension.tab.tab.behavior "Tab Behavior">
 

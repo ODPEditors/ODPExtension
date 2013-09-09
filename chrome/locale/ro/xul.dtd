@@ -170,13 +170,6 @@
 <!ENTITY ODPExtension.url.tools.link.check.status  "Verifică statutul HTTP">
 <!ENTITY ODPExtension.url.tools.link.check.listing  "Evidenţiază înscrierile">
 
-
-<!ENTITY ODPExtension.tab.category.abbreviations "Abrevieri de categorie">
-
-<!ENTITY ODPExtension.category.abbreviations.find "Find the following strings on categories">
-<!ENTITY ODPExtension.category.abbreviations.replace "Înlocuieşte cu">
-
-
 <!ENTITY ODPExtension.tab.tab.behavior "Tab Behavior">
 
 <!ENTITY ODPExtension.tab.open.in.sub.browser "Open in Sub Browser">

@@ -5,8 +5,6 @@
 	{
 		if(!aCategory)
 			return '';
-		if(!this.preferenceGet('ui.abbreviate.category.names'))
-			return aCategory;
 
 		//do not abbreviate top categories
 			if(this.subStrCount(aCategory, '/') < 2)

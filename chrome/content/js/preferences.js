@@ -143,7 +143,6 @@
 											'ui.informative.panel.description',
 
 										//miscelanea - DONE
-											'ui.abbreviate.category.names',
 											'ui.from.category.auto',
 											'ui.from.category.selected.array.unique',//hidden pref
 											'ui.from.category.selected.array.sort',//hidden pref

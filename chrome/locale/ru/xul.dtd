@@ -93,7 +93,6 @@
 <!ENTITY ODPExtension.miscellaneous "Разное">
 
 <!ENTITY ODPExtension.ui.from.category.auto "Show command menu when a category is highlighted ( Recommended )">
-<!ENTITY ODPExtension.ui.abbreviate.category.names "Abbreviate category names">
 <!ENTITY ODPExtension.ui.forms.css "Pretty form styles">
 <!ENTITY ODPExtension.single.key.command "Single key command">
 

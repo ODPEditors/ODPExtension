@@ -53,11 +53,6 @@
 
 <!ENTITY ODPExtension.tab.ui "User Interface">
 
-<!ENTITY ODPExtension.ui.icon.position "Extension Icon Position">
-<!ENTITY ODPExtension.ui.icon.position.status.bar "Status Bar">
-<!ENTITY ODPExtension.ui.icon.position.location.bar "Location Bar">
-<!ENTITY ODPExtension.ui.icon.position.no.icon "No Icon">
-
 <!ENTITY ODPExtension.ui.context.menu "Menu contextuel">
 <!ENTITY ODPExtension.ui.context.menu.categories "Catégories">
 <!ENTITY ODPExtension.ui.context.menu.translate "Translate to">

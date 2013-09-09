@@ -72,15 +72,6 @@
 					<vbox flex="1">
 
 						<groupbox flex="1">
-							<caption label="&ODPExtension.ui.icon.position;"/>
-							<radiogroup flex="1">
-								<radio label="&ODPExtension.ui.icon.position.status.bar;" 		id="ui.icon.position.status.bar" class="image"   src="chrome://ODPExtension/content/xul/preferences/images/icon-position-status-bar.png" align="center" selected="true"/>
-								<radio label="&ODPExtension.ui.icon.position.location.bar;"  	id="ui.icon.position.location.bar" class="image" src="chrome://ODPExtension/content/xul/preferences/images/icon-position-location-bar.png" align="center"/>
-								<radio label="&ODPExtension.ui.icon.position.no.icon;"  		id="ui.icon.position.no.icon" class="image" align="center"/>
-							</radiogroup>
-						</groupbox>
-
-						<groupbox flex="1">
 
 							<caption label="&ODPExtension.miscellaneous;"/>
 
@@ -160,7 +151,7 @@
 			</hbox>
 	</vbox></tabpanel>
 						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">
-			<hbox flex="1">
+			<hbox>
 				<vbox flex="1">
 					<groupbox flex="1">
 						<caption label="&ODPExtension.privacy.queries.exclude.domains;"/>

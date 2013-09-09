@@ -652,27 +652,11 @@
 			ondblclick="ODPExtension.extensionIconClickDouble(event);"
 			context=""
 		/>
-	</hbox>
-
-	<statusbar id="status-bar">
-		<statusbarpanel
-			id="ODPExtension-status-bar"
-			class="statusbarpanel-menu-iconic"
-
-			tooltip="ODPExtension-extension-icon-tooltip"
-			onclick="ODPExtension.extensionIconClick(event);"
-			ondblclick="ODPExtension.extensionIconClickDouble(event);"
-
-			context=""
-		/>
 
 		<tooltip id="ODPExtension-extension-icon-tooltip" noautohide="true" orient="vertical" position="before_end" style="padding:2px;">
 			<vbox id="ODPExtension-extension-icon-tooltip-data"></vbox>
 		</tooltip>
-
-	</statusbar>
-
-
+	</hbox>
 
 <window id="main-window">
 

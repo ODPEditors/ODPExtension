@@ -40,9 +40,6 @@
 										 ];
 
 			this.preferences.radios = [
-										'ui.icon.position.no.icon', //DONE
-										'ui.icon.position.status.bar', //DONE
-										'ui.icon.position.location.bar', //DONE
 
 										'privacy.listing.method.url',//DONE
 										'privacy.listing.method.domain',//DONE

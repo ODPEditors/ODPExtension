@@ -17,12 +17,6 @@
 
 //USER INTERFACE - DONE
 
-	//ICON POSITION - DONE
-
-		pref('extensions.ODPExtension.ui.icon.position.status.bar', false);
-		pref('extensions.ODPExtension.ui.icon.position.no.icon', false);
-		pref('extensions.ODPExtension.ui.icon.position.location.bar', true);
-
 	//ICON CLICKS - DONE
 		//CLICK
 			pref('extensions.ODPExtension.event.click.icon.left.single', 'copyLocation');

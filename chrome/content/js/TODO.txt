@@ -27,12 +27,8 @@ A MEDIAS
 			CHeckear los permisos para linux en los archivos
 		treee style tab
 			abrir los resultados de las busquedas de categories.txt en el mismo arbol en tree style tab
-		icono
-			dar vuelta el conteio del context menu del icono de la extension si este esta en la url bar
 		BETA
 			CATEGORY DIFF
 			LINK AND RELCAT SUGGESTER
-			red no tan red en la extension
 			super unreview
 			world navigator
-			toolipan chain

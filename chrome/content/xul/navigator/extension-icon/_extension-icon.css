@@ -87,18 +87,3 @@
 {
 	visibility:visible !important;
 }
-
-/* status bar */
-
-#ODPExtension-status-bar > #ODPExtension-extension-icon
-{
-	padding-left: 0px !important;
-	padding-right: 0px !important;
-}
-#ODPExtension-status-bar
-{
-	padding-left: 1px !important;
-	padding-right: 1px !important;
-}
-
-

@@ -103,11 +103,7 @@
 					}
 					case 'openDContextMenu':
 					{
-						if(this.preferenceGet('ui.icon.position.status.bar'))
-							this.getElement('extension-icon-context').openPopup(this.getElement('status-bar'), 'before_end');
-						else
-							this.getElement('extension-icon-context').openPopup(this.getElement('extension-icon'), 'after_end');
-
+						this.getElement('extension-icon-context').openPopup(this.getElement('extension-icon'), 'after_end');
 						break;
 					}
 					case 'retrieveListings':

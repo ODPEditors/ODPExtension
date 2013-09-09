@@ -53,11 +53,6 @@
 <!-- preferences window - tab user interface -->
 <!ENTITY ODPExtension.tab.ui "User Interface">
 
-<!ENTITY ODPExtension.ui.icon.position "Extension Icon Position">
-<!ENTITY ODPExtension.ui.icon.position.status.bar "Status Bar">
-<!ENTITY ODPExtension.ui.icon.position.location.bar "Location Bar">
-<!ENTITY ODPExtension.ui.icon.position.no.icon "No Icon">
-
 <!ENTITY ODPExtension.ui.context.menu "Display in context menu">
 <!ENTITY ODPExtension.ui.context.menu.categories "Categories">
 <!ENTITY ODPExtension.ui.context.menu.translate "Translate to">

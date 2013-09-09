@@ -11,7 +11,7 @@ SEMI DOCUMENTATION OF THIS FOLDER
 
 		extensionIconUpdatePosition.js
 
-			change the position of the icon to the status bar or location bar
+			change the position of the icon to the most right
 
 		extensionIconUpdateStatus.js
 
@@ -19,5 +19,5 @@ SEMI DOCUMENTATION OF THIS FOLDER
 
 		extensionIconClickCommand.js
 
-			hanlde the command of the click in the icon based on user configuration
+			handle the command of the click in the icon based on user configuration
 

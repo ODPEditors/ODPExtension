@@ -5,12 +5,6 @@
 		//imports to the category browser history, all the categories that you have in your browser history
 		this.categoryHistoryImportBrowsingHistory = function()
 		{
-			if(!this.categoryHistoryImportBrowsingHistoryBatchInterval){}
-			else
-			{
-				this.alert('Looks like the category indexing ir already running, a category is inserted every two seconds and a half.. It will take a while… there is no need to the press the button again ;)');
-				return;
-			}
 			this.alert('Please wait a minute!');
 
 			var historyService = Components.classes["@mozilla.org/browser/nav-history-service;1"]
@@ -63,16 +57,12 @@
 			}
 			else
 			{
-				if(this.confirm(toImport.length+' sites from your history looks like valid categories. These will be inserted in your "Category History" database smoothly, maintaining you browser usable, only the category names and time of visit will be inserted, maybe is a large process and can take some time and many browser sessions, but you will not notice that and you will be able to close your browser without breaking the process. Also you will notified when the process has finished. Do you want to import these? It is recommended because the "radiation" puts your frequently used category on top of the menu.'))
+				if(this.confirm(toImport.length+' sites from your history looks like valid categories. These will be inserted in your "Category History" database, only the category names and time of visit will be inserted, to give relevance. Do you want to import these? It is recommended because puts your frequently used category on top of the menu.'))
 				{
-					var aData = '';
-					for(var id in toImport)
-					{
-						aData += toImport[id].cat+'//__separator_//'+toImport[id].uri+'//__separator_//'+toImport[id].date+'//__new_line_separator_//\n';
+					for(var id in toImport) {
+						this.categoryHistoryInsert(toImport[id].cat, toImport[id].uri, toImport[id].date);
 					}
-					this.fileWrite('temp.category.history.txt', aData);
-
-					this.categoryHistoryImportBrowsingHistoryBatch();
+					this.alert('Done. Give some minutes to the browser to insert these.');
 				}
 			}
 		}

@@ -12,7 +12,6 @@
 		/*ODPExtension global variables*/
 			this.debugingGlobal = false;//it output to the console all calls to dump no matter what debugingThisFile value is
 			this.extensionHasBeenLoaded = false;//this one is useful to notify to the XPCOMponents that the extension is "usable"
-			this.extensionVersion = '3.130816.56';//this one to catch first run
 
 			//new line caracter detection
 			var osVersion = String(Components.classes["@mozilla.org/xre/app-info;1"]
@@ -62,7 +61,6 @@
 				ODPExtension.dump('init', debugingThisFile);
 				window.removeEventListener("load", ODPExtension.init, false);//load is not more needed
 				ODPExtension.addListener('browserInstantiated', ODPExtension.registerTheListeners);
-				ODPExtension.addListener('browserLoad', function(){ODPExtension.checkForFirstRun()});
 				ODPExtension.initLoadListeners();
 			};
 		//register this extension to the "TheListeners" component
@@ -638,15 +636,7 @@
 			{
 				setTimeout(function(){ throw new Error('ODPExtension : ' + aMsg);}, 0);
 			};
-		//first run catch
-			this.checkForFirstRun = function()
-			{
-				if('preferenceExists' in this && this.preferenceExists('version', 'char') && this.extensionVersion != this.preferenceGet('version'))
-				{
-					this.preferenceSet('version', this.extensionVersion);
-					this.dispatchEvent('firstRunForThisVesion');
-				}
-			};
+
 		//registerExtension
 			this.registerExtension();
 

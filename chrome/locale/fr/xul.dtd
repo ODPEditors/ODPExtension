@@ -33,7 +33,6 @@
 
 <!ENTITY ODPExtension.sisters.categories "Sisters Categories">
 <!ENTITY ODPExtension.category.browser "Category Browser">
-<!ENTITY ODPExtension.tab.category.browser "Category Browser">
 <!ENTITY ODPExtension.category.navigator "Category Navigator">
 <!ENTITY ODPExtension.add.site.to.odp "Ajout à moitié">
 <!ENTITY ODPExtension.toolbars.toggle "Toggle Toolbars &amp; Toolbars Buttons">

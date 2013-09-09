@@ -54,8 +54,6 @@
 						  <radio onclick="ODPExtension.getElement('tab-3').click();" pane="nada" label="&ODPExtension.tab.translate;" class="tabTranslate radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-6').click();" pane="nada" label="&ODPExtension.tab.url.tools;" class="tabURLTools radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-11').click();" pane="nada" label="&ODPExtension.tab.url.notes;" class="tabURLNotes radioButton"/>
-						  <radio onclick="ODPExtension.getElement('tab-10').click();" pane="nada" label="&ODPExtension.tab.category.browser;" class="tabCategoryBrowser radioButton"/>
-
 						  <radio onclick="ODPExtension.getElement('tab-4').click();" pane="nada" label="&ODPExtension.tab.advanced;" class="tabAdvanced radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-12').click();" pane="nada" label="&ODPExtension.tab.help;" class="tabDocumentation radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-5').click();" pane="nada" label="&ODPExtension.tab.license;" class="tabLicense radioButton"/>
@@ -71,7 +69,6 @@
 						<tab id="ODPExtension-tab-6"/>
 						<tab id="ODPExtension-tab-7"/>
 						<tab id="ODPExtension-tab-9"/>
-						<tab id="ODPExtension-tab-10"/>
 						<tab id="ODPExtension-tab-11"/>
 						<tab id="ODPExtension-tab-12"/>
 					</tabs>
@@ -355,8 +352,10 @@
 									<button  label="&ODPExtension.extension.directory.change;" oncommand="var folder = ODPExtension.fileAskUserFolderSelect(); if(!folder){}else{ ODPExtension.getBrowserElement('extension.directory').value = folder.file.path}"/>
 								</hbox>
 							</groupbox>
-
-
+							<groupbox>
+								<caption label="&ODPExtension.category.browser;"/>
+								<button flex="1" label="Import categories from my browsing history to the &quot;Categories History&quot; database and give to them radiation(points) to get a better relevance on the &quot;Category Browser&quot; menu." oncommand="ODPExtensionOnWindow.categoryHistoryImportBrowsingHistory()"/>
+							</groupbox>
 					</vbox>
 
 			</hbox>
@@ -696,16 +695,8 @@
 
 
 			</hbox></vbox></tabpanel>
-						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">
-	<hbox flex="1">
-		<groupbox flex="1">
-			<caption label="&ODPExtension.tab.category.browser;"/>
-			<textbox id="category.browser" wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
-			<hbox>
-				<button flex="1" label="Import categories from my browsing history to the &quot;Categories History&quot; database and give to them radiation(points) to get a better relevance on the &quot;Category Browser&quot; menu." oncommand="ODPExtensionOnWindow.categoryHistoryImportBrowsingHistory()"/>
-			</hbox>
-		</groupbox>
-	</hbox></vbox></tabpanel>
+
+
 						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">
 			<hbox flex="1">
 				<vbox flex="1">

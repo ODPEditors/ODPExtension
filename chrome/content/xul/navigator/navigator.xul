@@ -297,7 +297,6 @@
 				<menuseparator id="ODPExtension-category-browser-categories-opened" locked="true"/>
 				<menuseparator id="ODPExtension-category-browser-categories-clipboard" locked="true"/>
 				<menuseparator id="ODPExtension-category-browser-categories-search" hidden="true" locked="true"/>
-				<menuseparator id="ODPExtension-category-browser-categories-locked" locked="true"/>
 				<menuseparator id="ODPExtension-category-browser-categories-history" locked="true"/>
 			</menupopup>
 

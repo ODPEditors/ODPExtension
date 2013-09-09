@@ -94,7 +94,6 @@
 
 													 'privacy.queries.exclude.domains',//DONE
 													 'privacy.queries.exclude.strings',//DONE
-													 'category.browser',
 
 													 'url.notes.update',
 													 'url.notes.unreview',

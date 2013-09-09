@@ -11,32 +11,9 @@
 
 			this.removeChilds(this.getElement('category-browser'));
 
-		//locked categories
-
-			var aTemp = this.preferenceGet('category.browser').split('\n');
-			var aCategories = [];
-			var aCategory = '';
-			for(var id in aTemp)
-			{
-				if((aCategory = this.categoryGetFromURL(aTemp[id])) != '')
-				{
-					aCategories[aCategories.length] = aCategory;
-				}
-			}
-			aCategories = this.arrayUnique(aCategories).sort(this.sortLocale).reverse();
-			if(aCategories.length > 0)
-			{
-				this.categoryBrowserAppendCategoriesAfter(aCategories, this.getElement('category-browser-categories-locked'));
-				this.getElement('category-browser-categories-locked').setAttribute('hidden', false);
-			}
-			else
-			{
-				this.getElement('category-browser-categories-locked').setAttribute('hidden', true);
-			}
-
 		//categories history
 
-			aCategories = [];
+			var aCategories = [];
 			var row;
 			var i=0;
 

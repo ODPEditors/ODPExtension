@@ -105,12 +105,6 @@
 						</groupbox>
 
 						<groupbox>
-							<caption label="&ODPExtension.category.edit.page;"/>
-								<checkbox label="&ODPExtension.category.edit.pages.highlight.greenbusts;" id="onload.highlight.greenbusted.sites" disabled="true"/>
-								<checkbox label="&ODPExtension.category.edit.pages.highlight.updates;" id="onload.highlight.update.sites" disabled="true"/>
-						</groupbox>
-
-						<groupbox>
 							<caption label="&ODPExtension.category.public.pages;"/>
 								<checkbox label="&ODPExtension.category.edit.pages.select.form;" id="onload.select.first.child.of.search.form" disabled="true"/>
 								<checkbox label="Highlight category differences" id="onload.show.category.differences" disabled="true"/>

@@ -363,8 +363,6 @@
 <!ENTITY ODPExtension.category.edit.page "Kategori redigerings side">
 <!ENTITY ODPExtension.category.public.pages "Offentlig side">
 <!ENTITY ODPExtension.navegador "Browser">
-<!ENTITY ODPExtension.category.edit.pages.highlight.greenbusts "Fremhæv grønthøstede">
-<!ENTITY ODPExtension.category.edit.pages.highlight.updates "Fremhæv opdateringer">
 <!ENTITY ODPExtension.category.edit.pages.select.form "Vælg automatisk kategorien på den offentlige søge form">
 <!ENTITY ODPExtension.navegador.abbreviate.tabs.titles "Forkort fane titler">
 <!ENTITY odpsite.str.odp.urls "ODP URL'er">

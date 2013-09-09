@@ -363,8 +363,6 @@
 <!ENTITY ODPExtension.category.edit.page "Pagina de editare a categoriei">
 <!ENTITY ODPExtension.category.public.pages "Pagina publică">
 <!ENTITY ODPExtension.navegador "Program de navigare web">
-<!ENTITY ODPExtension.category.edit.pages.highlight.greenbusts "Evidenţiază greenbust-urile">
-<!ENTITY ODPExtension.category.edit.pages.highlight.updates "Evidenţiază cererile de actualizare">
 <!ENTITY ODPExtension.category.edit.pages.select.form "Autoselectează categoria în formularul inclus în căutarea din interfaţa publică">
 <!ENTITY ODPExtension.navegador.abbreviate.tabs.titles "Abreviază titlul filei">
 <!ENTITY odpsite.str.odp.urls "Adresle URL ale ODP-ului">

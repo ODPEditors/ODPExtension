@@ -363,8 +363,6 @@
 <!ENTITY ODPExtension.category.edit.page "カテゴリ編集ページ">
 <!ENTITY ODPExtension.category.public.pages "公開ページ">
 <!ENTITY ODPExtension.navegador "ブラウザ">
-<!ENTITY ODPExtension.category.edit.pages.highlight.greenbusts "Highlight greenbusts">
-<!ENTITY ODPExtension.category.edit.pages.highlight.updates "Highlight updates">
 <!ENTITY ODPExtension.category.edit.pages.select.form "公開ページの検索フォームでカテゴリ内限定検索を自動的に選択する">
 <!ENTITY ODPExtension.navegador.abbreviate.tabs.titles "タブのタイトルを省略する">
 <!ENTITY odpsite.str.odp.urls "ODP URL">

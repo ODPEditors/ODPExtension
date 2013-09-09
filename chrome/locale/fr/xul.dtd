@@ -363,8 +363,6 @@
 <!ENTITY ODPExtension.category.edit.page "Page d'édition de la catégorie">
 <!ENTITY ODPExtension.category.public.pages "Page publique">
 <!ENTITY ODPExtension.navegador "Navigateur">
-<!ENTITY ODPExtension.category.edit.pages.highlight.greenbusts "Surligner les greenbusts">
-<!ENTITY ODPExtension.category.edit.pages.highlight.updates "Surligner les mises à jour">
 <!ENTITY ODPExtension.category.edit.pages.select.form "Sélectionner automatiquement la catégorie dans le formulaire de recherche public">
 <!ENTITY ODPExtension.navegador.abbreviate.tabs.titles "Donner une abbréviation au titre de l'onglet">
 <!ENTITY odpsite.str.odp.urls "URLs ODP">

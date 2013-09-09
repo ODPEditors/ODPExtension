@@ -363,8 +363,6 @@
 <!ENTITY ODPExtension.category.edit.page "Category edit page">
 <!ENTITY ODPExtension.category.public.pages "Public page">
 <!ENTITY ODPExtension.navegador "Tarayıcı">
-<!ENTITY ODPExtension.category.edit.pages.highlight.greenbusts "Highlight greenbusts">
-<!ENTITY ODPExtension.category.edit.pages.highlight.updates "Highlight updates">
 <!ENTITY ODPExtension.category.edit.pages.select.form "Auto-select the category on the public search form">
 <!ENTITY ODPExtension.navegador.abbreviate.tabs.titles "Abbreviate the tab's title">
 <!ENTITY odpsite.str.odp.urls "ODP Adresleri">

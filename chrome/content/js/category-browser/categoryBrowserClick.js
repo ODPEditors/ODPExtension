@@ -49,7 +49,8 @@
 				//this.dump('click!!+aEvent.button+ctrl');
 				this.categoryBrowserRemoveChilds[this.categoryBrowserRemoveChilds.length] = item;
 				item.setAttribute('hidden', true);
-
+				//remove the element from the database
+				this.categoryHistoryDelete(item.getAttribute('value'));
 				//this.dump('click!!+aEvent.button+ctrl:tagname'+item.tagName);
 				 //when a "menuitem" is clicked the popuphide it selfs and we here want the popup open
 				 if(this.tagName(item) == 'menuitem')

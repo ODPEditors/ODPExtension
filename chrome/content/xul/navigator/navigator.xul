@@ -131,6 +131,7 @@
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/category-browser/categoryBrowserQueryMenu.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/category-browser/categoryBrowserQueryTXT.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/category-history/categoryHistoryCreateTable.js"></script>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/category-history/categoryHistoryDelete.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/category-history/categoryHistoryImportBrowsingHistory.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/category-history/categoryHistoryInsert.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/category-history/categoryHistoryStatements.js"></script>

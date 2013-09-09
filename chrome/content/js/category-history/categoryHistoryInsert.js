@@ -18,7 +18,7 @@
 				if(aURL.indexOf('editors.dmoz.org') != -1 || aURL.indexOf('www.dmoz.org') != -1)
 				{
 					if(aURL.indexOf('editurl/add?url=') != -1)
-						radiation = 14;
+						radiation = 50;
 					else if(aURL.indexOf('editurl/edit?urlId=') != -1)
 						radiation = 5;
 					else if(
@@ -30,6 +30,8 @@
 						radiation = 120;
 					else if(aURL.indexOf('editunrev/listurl?cat=') != -1)
 						radiation = 15;
+					else if(aURL.indexOf('editunrev/') != -1)
+						radiation = 30;
 					else if(
 							aURL.indexOf('editcat/addrelation?cat=') != -1 ||
 							aURL.indexOf('editcat/editrelation?cat=') != -1 ||
@@ -46,7 +48,7 @@
 					else
 						radiation = 4;
 				}
-				else if(aURL.indexOf('categoryBrowserClick') != -1)
+				else if(aURL.indexOf('categoryBrowserClick') !== -1)
 					radiation = 250;
 				//I'm really evil
 				else if(aURL.indexOf('directory.google.com') != -1 || aURL.indexOf('google.com/Top') != -1)

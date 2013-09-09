@@ -43,7 +43,6 @@
 				if(category != '')
 				{
 					toImport[toImport.length] = {cat: category, uri:node.uri, date: this.date(node.time/1000)};
-					//this.categoryHistoryInsert(category, node.uri);
 				}
 			}
 

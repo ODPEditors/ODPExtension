@@ -15,11 +15,8 @@
 				{
 					this.focusedCategory = focusedCategory;
 
-					if(this.isMinFirefox35)
-					{
-						//saving the category to the table of categories history
-						this.categoryHistoryInsert(focusedCategory, this.focusedURL, this.date());
-					}
+					//saving the category to the table of categories history
+					this.categoryHistoryInsert(focusedCategory, this.focusedURL, this.date());
 
 					if(this.shared.categories.txt.exists)
 					{

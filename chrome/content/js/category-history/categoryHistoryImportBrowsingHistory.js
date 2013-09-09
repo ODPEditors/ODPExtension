@@ -5,12 +5,6 @@
 		//imports to the category browser history, all the categories that you have in your browser history
 		this.categoryHistoryImportBrowsingHistory = function()
 		{
-			if(!this.isMinFirefox35)
-			{
-				this.alert('This feature only works on Firefox 3.5 or newer. Sorry!');
-				return;
-			}
-
 			if(!this.categoryHistoryImportBrowsingHistoryBatchInterval){}
 			else
 			{

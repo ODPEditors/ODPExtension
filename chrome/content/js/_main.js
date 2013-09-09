@@ -13,19 +13,15 @@
 			//a new browser was instantiaded ( not window, many window can be from the same profile or browser instance)
 			this.browserInstantiated = function()
 			{
-			//	this.dump('browserInstantiated', debugingThisFile);
+				// this.dump('browserInstantiated', debugingThisFile);
 
-				this.isMinFirefox35 = this.isGecko('1.9.1.8')//if firefox 3.5
-				if(this.isMinFirefox35)
-				{
-					//db initialization
-					this.db = this.databaseGet('ODPExtension');
-					//tables creation if these no exists
-					this.categoryHistoryCreateTable();
-					//look if we need to continue the process of importing history
-					//set time out because first we need to wait for browserLoad to setup the needed statements. But this is here because should run only in one browser.
-					setTimeout(function(){ODPExtension.categoryHistoryImportBrowsingHistoryBatch();}, 15000);
-				}
+				//db initialization
+				this.db = this.databaseGet('ODPExtension');
+				//tables creation if these no exists
+				this.categoryHistoryCreateTable();
+				//look if we need to continue the process of importing history
+				//set time out because first we need to wait for browserLoad to setup the needed statements. But this is here because should run only in one browser.
+				setTimeout(function(){ODPExtension.categoryHistoryImportBrowsingHistoryBatch();}, 15000);
 			}
 
 			//a new window has been created, this will be executed only one time per window
@@ -33,14 +29,10 @@
 			{
 				//this.dump('ODPExtension', debugingThisFile);
 
-				this.isMinFirefox35 = this.isGecko('1.9.1.8')//if firefox 3.5
+				//db
+				this.db = this.databaseGet('ODPExtension');
+				this.categoryHistoryStatements();
 
-				if(this.isMinFirefox35)
-				{
-					//db
-					this.db = this.databaseGet('ODPExtension');
-					this.categoryHistoryStatements();
-				}
 				//initializing some vars..
 				this.focusedURL = '';
 				this.focusedURLDomain = '';

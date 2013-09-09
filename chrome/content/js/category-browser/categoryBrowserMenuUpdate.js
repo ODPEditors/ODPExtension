@@ -39,12 +39,10 @@
 			aCategories = [];
 			var row;
 			var i=0;
-			if(this.isMinFirefox35)
+
+			for(;row = this.db.fetchObjects(this.categoryHistoryGetMostVisitedLimit);i++)
 			{
-				for(;row = this.db.fetchObjects(this.categoryHistoryGetMostVisitedLimit);i++)
-				{
-					aCategories[i] = row.categories_history_category;
-				}
+				aCategories[i] = row.categories_history_category;
 			}
 
 			if(i>0)

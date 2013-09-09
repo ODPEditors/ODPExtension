@@ -2,7 +2,6 @@
 {
 		//sets the preferences for this extension
 
-
 			this.preferences.menuList = [
 
 										//EVENTS - ALL DONE

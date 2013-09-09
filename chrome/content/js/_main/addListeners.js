@@ -38,10 +38,7 @@
 				this.addListener('onLocationChange', function() { ODPExtension.extensionIconUpdateStatus(); });
 				//1 - vacuum the database for quickly usage
 				//this should not take to much time
-				this.addListener('onIdle', function(){
-													 if(ODPExtension.isMinFirefox35)
-														ODPExtension.db.vacuum();
-													});
+				this.addListener('onIdle', function(){ ODPExtension.db.vacuum(); });
 
 				//referrer modification
 				this.addListener('onModifyRequest', function(aSubject){ODPExtension.privacyRemoveReferrer(aSubject)});

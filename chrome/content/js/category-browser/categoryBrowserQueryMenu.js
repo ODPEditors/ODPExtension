@@ -47,7 +47,7 @@
 
 			//searching in the database if there is a few results
 				var foundDatabase = false;
-				if(this.isMinFirefox35 && foundChildNodes < 50)
+				if(foundChildNodes < 50)
 				{
 					//this.dump('categoryBrowserQueryMenu:database search ', true);
 					var aCategories = [];

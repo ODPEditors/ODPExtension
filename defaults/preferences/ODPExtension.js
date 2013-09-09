@@ -152,50 +152,34 @@
 	pref('extensions.ODPExtension.tab.behavior.translate.tab.new.tab', true);
 	pref('extensions.ODPExtension.tab.behavior.translate.tab.new.window', false);
 	pref('extensions.ODPExtension.tab.behavior.translate.tab.selected', true);
-	pref('extensions.ODPExtension.tab.behavior.translate.tab.sub.browser', true);
-	pref('extensions.ODPExtension.tab.behavior.translate.tab.sub.browser.position', 'L');
 
 	pref('extensions.ODPExtension.tab.behavior.informative.panel.tab.new.tab', true);
 	pref('extensions.ODPExtension.tab.behavior.informative.panel.tab.new.window', false);
 	pref('extensions.ODPExtension.tab.behavior.informative.panel.tab.selected', false);
-	pref('extensions.ODPExtension.tab.behavior.informative.panel.tab.sub.browser', false);
-	pref('extensions.ODPExtension.tab.behavior.informative.panel.tab.sub.browser.position', 'L');
 
 	pref('extensions.ODPExtension.tab.behavior.frame.from.menu.tab.new.tab', true);
 	pref('extensions.ODPExtension.tab.behavior.frame.from.menu.tab.new.window', false);
 	pref('extensions.ODPExtension.tab.behavior.frame.from.menu.tab.selected', true);
-	pref('extensions.ODPExtension.tab.behavior.frame.from.menu.tab.sub.browser', false);
-	pref('extensions.ODPExtension.tab.behavior.frame.from.menu.tab.sub.browser.position', 'L');
 
 	pref('extensions.ODPExtension.tab.behavior.frame.selected.tab.new.tab', true);
 	pref('extensions.ODPExtension.tab.behavior.frame.selected.tab.new.window', false);
 	pref('extensions.ODPExtension.tab.behavior.frame.selected.tab.selected', true);
-	pref('extensions.ODPExtension.tab.behavior.frame.selected.tab.sub.browser', false);
-	pref('extensions.ODPExtension.tab.behavior.frame.selected.tab.sub.browser.position', 'L');
 
 	pref('extensions.ODPExtension.tab.behavior.odp.search.tab.new.tab', true);
 	pref('extensions.ODPExtension.tab.behavior.odp.search.tab.new.window', false);
 	pref('extensions.ODPExtension.tab.behavior.odp.search.tab.selected', true);
-	pref('extensions.ODPExtension.tab.behavior.odp.search.tab.sub.browser', true);
-	pref('extensions.ODPExtension.tab.behavior.odp.search.tab.sub.browser.position', 'B');
 
 	pref('extensions.ODPExtension.tab.behavior.domain.site.tab.new.tab', true);
 	pref('extensions.ODPExtension.tab.behavior.domain.site.tab.new.window', false);
 	pref('extensions.ODPExtension.tab.behavior.domain.site.tab.selected', false);
-	pref('extensions.ODPExtension.tab.behavior.domain.site.tab.sub.browser', false);
-	pref('extensions.ODPExtension.tab.behavior.domain.site.tab.sub.browser.position', 'L');
 
 	pref('extensions.ODPExtension.tab.behavior.url.tools.tab.new.tab', true);
 	pref('extensions.ODPExtension.tab.behavior.url.tools.tab.new.window', false);
 	pref('extensions.ODPExtension.tab.behavior.url.tools.tab.selected', false);
-	pref('extensions.ODPExtension.tab.behavior.url.tools.tab.sub.browser', false);
-	pref('extensions.ODPExtension.tab.behavior.url.tools.tab.sub.browser.position', 'L');
 
 	pref('extensions.ODPExtension.tab.behavior.word.reference.tab.new.tab', false);
 	pref('extensions.ODPExtension.tab.behavior.word.reference.tab.new.window', false);
 	pref('extensions.ODPExtension.tab.behavior.word.reference.tab.selected', false);
-	pref('extensions.ODPExtension.tab.behavior.word.reference.tab.sub.browser', true);
-	pref('extensions.ODPExtension.tab.behavior.word.reference.tab.sub.browser.position', 'L');
 
 //languages display - ALL DONE
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ca', false);

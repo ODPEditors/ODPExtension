@@ -36,17 +36,6 @@
 											 'event.click.icon.right.double.shift',
 											 'event.click.icon.right.double.alt',
 
-										//TAB BEHAIOR - ALL DONE
-
-										 	'tab.behavior.translate.tab.sub.browser.position',
-										 	'tab.behavior.frame.from.menu.tab.sub.browser.position',
-										 	'tab.behavior.frame.selected.tab.sub.browser.position',
-										 	'tab.behavior.odp.search.tab.sub.browser.position',
-										 	'tab.behavior.url.tools.tab.sub.browser.position',
-											'tab.behavior.word.reference.tab.sub.browser.position',
-											'tab.behavior.domain.site.tab.sub.browser.position',
-											'tab.behavior.informative.panel.tab.sub.browser.position',
-
 											'preferences.font.size'
 										 ];
 
@@ -161,42 +150,34 @@
 											'tab.behavior.informative.panel.tab.new.tab',
 											'tab.behavior.informative.panel.tab.new.window',
 											'tab.behavior.informative.panel.tab.selected',
-											'tab.behavior.informative.panel.tab.sub.browser',
 											//translate
 											'tab.behavior.translate.tab.new.tab',
 											'tab.behavior.translate.tab.new.window',
 											'tab.behavior.translate.tab.selected',
-											'tab.behavior.translate.tab.sub.browser',
 											//frame from menu
 										 	'tab.behavior.frame.from.menu.tab.new.tab',
 										 	'tab.behavior.frame.from.menu.tab.new.window',
 										 	'tab.behavior.frame.from.menu.tab.selected',
-										 	'tab.behavior.frame.from.menu.tab.sub.browser',
 											//frame selected
 										 	'tab.behavior.frame.selected.tab.new.tab',
 										 	'tab.behavior.frame.selected.tab.new.window',
 										 	'tab.behavior.frame.selected.tab.selected',
-										 	'tab.behavior.frame.selected.tab.sub.browser',
 											//odp search
 										 	'tab.behavior.odp.search.tab.new.tab',
 										 	'tab.behavior.odp.search.tab.new.window',
 										 	'tab.behavior.odp.search.tab.selected',
-										 	'tab.behavior.odp.search.tab.sub.browser',
 											//url tools
 										 	'tab.behavior.url.tools.tab.new.tab',
 										 	'tab.behavior.url.tools.tab.new.window',
 										 	'tab.behavior.url.tools.tab.selected',
-										 	'tab.behavior.url.tools.tab.sub.browser',
 											//word reference
 										 	'tab.behavior.word.reference.tab.new.tab',
 										 	'tab.behavior.word.reference.tab.new.window',
 										 	'tab.behavior.word.reference.tab.selected',
-										 	'tab.behavior.word.reference.tab.sub.browser',
 											//domain site
 										 	'tab.behavior.domain.site.tab.new.tab',
 										 	'tab.behavior.domain.site.tab.new.window',
 										 	'tab.behavior.domain.site.tab.selected',
-										 	'tab.behavior.domain.site.tab.sub.browser',
 
 										//languages - ALL DONE
 											'ui.context.menu.translate',

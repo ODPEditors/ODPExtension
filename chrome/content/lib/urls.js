@@ -338,7 +338,7 @@
 	//opens a an URL that is already encoded example:http://www.dmoz.org/World/Espa%C3%B1ol/
 	//if allowed and selected: in a sub browser of split browser extension, at the desired position
 	//else in a normal tab, selected or not
-	this.openURL = function(aURL, inNewTab, inNewWindow, giveFocus, onSubBrowser, subBrowserPosition, aPostData, byPassSecure)
+	this.openURL = function(aURL, inNewTab, inNewWindow, giveFocus, aPostData, byPassSecure)
 	{
 		//security
 		if(this.isSecureURI(aURL) || byPassSecure)
@@ -357,52 +357,6 @@
 			}
 			else
 			{
-				//if the user allowed the usage of other add-ons and if is there
-				if(onSubBrowser && this.isThereSplitBrowser())
-				{
-						try{
-							//find the position of the split browser
-								var aPosition;
-								if(subBrowserPosition == 'L')
-									aPosition = SplitBrowser.POSITION_LEFT
-								else if(subBrowserPosition == 'R')
-									aPosition = SplitBrowser.POSITION_RIGHT
-								else if(subBrowserPosition == 'T')
-									aPosition = SplitBrowser.POSITION_TOP
-								else if(subBrowserPosition == 'B')
-									aPosition = SplitBrowser.POSITION_BOTTOM
-
-							//check if there subbrowser is already opened
-							if(!this.aSubBrowser || !this.aSubBrowser[subBrowserPosition] || !this.aSubBrowser[subBrowserPosition].browser)
-							{
-								if(!this.aSubBrowser)
-									this.aSubBrowser = [];
-
-								this.aSubBrowser[subBrowserPosition] = SplitBrowser.addSubBrowser('', SplitBrowser.activeBrowser, aPosition);
-								this.aSubBrowser[subBrowserPosition].browser.loadURIWithFlags(aURL, null, null, null, this.postData(aPostData) )
-							}
-							else
-							{
-								if(inNewTab)
-								{
-									var aTab = this.aSubBrowser[subBrowserPosition].browser.addTab(aURL, null, null, this.postData(aPostData));
-
-									if(giveFocus)
-									{
-										this.aSubBrowser[subBrowserPosition].browser.focus();
-										this.aSubBrowser[subBrowserPosition].browser.selectedTab = aTab;
-									}
-								}
-								else
-								{
-									this.aSubBrowser[subBrowserPosition].browser.loadURIWithFlags(aURL, null, null, null, this.postData(aPostData) )
-								}
-							}
-							return;
-
-						}catch(e){}
-				}
-				//if split browser is not there, or if is usage of the power extensions is disabled ,or if fails
 				// open a normal tab
 				if(inNewTab && this.documentFocusedGetLocation() != 'about:blank')
 					this.tabOpen(aURL, giveFocus, aPostData);

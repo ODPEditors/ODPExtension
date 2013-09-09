@@ -60,13 +60,6 @@ dialog
 	color: -moz-fieldtext;
 }
 
-.groupboxInvisible
-{
-	-moz-appearance: none !important;
-	padding:3px;
-	margin:2px;
-	border:0px;
-}
 .rowTitle
 {
 	min-width:90px;

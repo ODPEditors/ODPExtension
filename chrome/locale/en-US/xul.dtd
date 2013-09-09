@@ -172,11 +172,9 @@
 <!-- preferences window - tab tab Behavior -->
 <!ENTITY ODPExtension.tab.tab.behavior "Tab Behavior">
 
-<!ENTITY ODPExtension.tab.open.in.sub.browser "Open in Sub Browser">
 <!ENTITY ODPExtension.tab.open.in.new.window "Open in new window">
 <!ENTITY ODPExtension.tab.open.in.new.tab "Open in new Tab">
 <!ENTITY ODPExtension.tab.select.tab "Give Focus To Tab">
-<!ENTITY ODPExtension.tab.sub.browser.position "Sub browser position">
 
 <!ENTITY ODPExtension.left "Left">
 <!ENTITY ODPExtension.right "Right">

@@ -358,7 +358,7 @@
 			else
 			{
 				//if the user allowed the usage of other add-ons and if is there
-				if(onSubBrowser && this.isThereSplitBrowser() && this.usePowerExtensionsWhenAvailable)
+				if(onSubBrowser && this.isThereSplitBrowser())
 				{
 						try{
 							//find the position of the split browser

@@ -9,8 +9,6 @@
 			{
 			//	this.dump('preferencesLoadLocal', debugingThisFile);
 
-				//preferences
-					this.usePowerExtensionsWhenAvailable = this.preferenceGet('advanced.use.power.extensions');
 				//from category
 					this.fromCategoryTimeout = null;
 					this.fromCategorySelectedCategory = '';

@@ -115,9 +115,6 @@
 											'privacy.queries.exclude.https',
 											'privacy.private.browsing.on',
 
-										//advanced - DONE
-											'advanced.use.power.extensions',
-
 										//context menu - DONE
 											'ui.context.menu.word.reference',
 											'ui.context.menu.url.tools',
@@ -298,7 +295,7 @@
 
 			//called when the preferences observer notices a change in a preference, usually by about:config modification
 			//or when the user modified a preferences by some menuitem or something, BUT not by the preference window
-			this.addListener('onPreferenceSet', function(aName, aValue)// if(aName == 'advanced.use.power.extensions'){ }
+			this.addListener('onPreferenceSet', function(aName, aValue)
 														{
 																//dispatch to focused window (global)
 																ODPExtension.notifyFocused('preferencesLoadGlobal');

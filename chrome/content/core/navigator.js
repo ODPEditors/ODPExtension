@@ -13,7 +13,6 @@
 			this.debugingGlobal = false;//it output to the console all calls to dump no matter what debugingThisFile value is
 			this.extensionHasBeenLoaded = false;//this one is useful to notify to the XPCOMponents that the extension is "usable"
 			this.extensionVersion = '3.130816.56';//this one to catch first run
-			this.usePowerExtensionsWhenAvailable = true;//example multiple tab handler, tree style tab, split browser, undo tab, etc
 
 			//new line caracter detection
 			var osVersion = String(Components.classes["@mozilla.org/xre/app-info;1"]

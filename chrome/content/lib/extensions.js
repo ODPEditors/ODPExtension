@@ -52,7 +52,7 @@
 	//returns an array with the tabs selected with multiple tab handler
 	this.multipleTabHandlerSelectedTabs = function()
 	{
-		if(this.usePowerExtensionsWhenAvailable && this.isThereMultipleTabHandler())
+		if(this.isThereMultipleTabHandler())
 		{
 			try{return MultipleTabService.getSelectedTabs();}catch(e){ return [];/* don't let any API break your code*/}
 		}
@@ -64,7 +64,7 @@
 	//start to open tabs as childs of current tab
 	this.treeStyleTabInTreeOpenStart = function()
 	{
-		if(this.isThereTreeStyleTab() && this.usePowerExtensionsWhenAvailable)// open tabs as children of the current tab
+		if(this.isThereTreeStyleTab())// open tabs as children of the current tab
 		{
 			try{TreeStyleTabService.readyToOpenChildTab(gBrowser.selectedTab, true);}catch(e){}
 		}
@@ -72,7 +72,7 @@
 	//stop to open tabs as childs of current tab
 	this.treeStyleTabInTreeOpenStop = function()
 	{
-		if(this.isThereTreeStyleTab() && this.usePowerExtensionsWhenAvailable)
+		if(this.isThereTreeStyleTab())
 		{
 			try{TreeStyleTabService.stopToOpenChildTab(gBrowser.selectedTab);}catch(e){}
 		}

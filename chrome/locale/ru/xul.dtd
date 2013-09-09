@@ -136,8 +136,6 @@
 <!ENTITY ODPExtension.advanced.url.rdf "Listing verification URL">
 <!ENTITY ODPExtension.advanced.urls.domain.explorer "Site explorer URLs">
 
-<!ENTITY ODPExtension.advanced.use.power.extensions "Use power extensions when available">
-
 <!ENTITY ODPExtension.extension.directory "Extension directory (Extension has total control over this folder)">
 <!ENTITY ODPExtension.extension.directory.change "Change extension directory">
 

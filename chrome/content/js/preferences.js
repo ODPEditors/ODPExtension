@@ -127,10 +127,6 @@
 											'ui.from.category.selected.array.unique',//hidden pref
 											'ui.from.category.selected.array.sort',//hidden pref
 
-											'ui.forum.pages.custom.nicknames',
-											'ui.forum.pages.show.inactive',
-											'ui.forum.pages.show.newbies',
-
 										//url notes - DONE
 
 											'url.notes.form.submit',

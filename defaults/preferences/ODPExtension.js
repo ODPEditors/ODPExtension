@@ -85,10 +85,6 @@
 
 	//PAGES STYLES
 
-		pref('extensions.ODPExtension.ui.forum.pages.custom.nicknames', false);
-		pref('extensions.ODPExtension.ui.forum.pages.show.inactive', false);
-		pref('extensions.ODPExtension.ui.forum.pages.show.newbies', false);
-
 	//CSS editor pages
 
 		pref('extensions.ODPExtension.forms.css', true);

@@ -308,14 +308,6 @@
 <!ENTITY ODPExtension.forms.edit.url.paste.formatted "Indsæt formateret">
 <!ENTITY ODPExtension.forms.edit.url.formatter "Formaterings værktøj">
 
-
-
-<!ENTITY ODPExtension.forum.pages.show.inactive "Show inactive editors">
-<!ENTITY ODPExtension.forum.pages.custom.nicknames "Show custom nicknames">
-<!ENTITY ODPExtension.forum.pages.show.newbies "Show new editors as newbies">
-<!ENTITY ODPExtension.forum.pages "Editor Forum pages">
-
-
 <!ENTITY ODPExtension.rdf.parse.files "Build or update the SQLite database with the content of the RDF files">
 
 
@@ -346,7 +338,6 @@
 <!ENTITY ODPExtension.category.edit.page "Kategori redigerings side">
 <!ENTITY ODPExtension.category.public.pages "Offentlig side">
 <!ENTITY ODPExtension.navegador "Browser">
-<!ENTITY ODPExtension.category.edit.pages.select.form "Vælg automatisk kategorien på den offentlige søge form">
 <!ENTITY ODPExtension.navegador.abbreviate.tabs.titles "Forkort fane titler">
 <!ENTITY odpsite.str.odp.urls "ODP URL'er">
 <!ENTITY odpsite.str.field "Felt">

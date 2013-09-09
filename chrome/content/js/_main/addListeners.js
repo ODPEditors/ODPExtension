@@ -82,14 +82,7 @@
 					//show custom nicknames and innactive editors for forum pages
 					this.addListener('DOMContentLoadedNoFrames', function(aDoc)
 																	 {
-																		 if(
-																			ODPExtension.preferenceGet('ui.forum.pages.custom.nicknames') ||
-																			ODPExtension.preferenceGet('ui.forum.pages.show.newbies') ||
-																			ODPExtension.preferenceGet('ui.forum.pages.show.inactive')
-																		)
-																		 {
 																			ODPExtension.forumsSetStrings(aDoc);
-																		 }
 																	 }
 									);
 					//the user has opened the context menu, the menu of frames was builded,

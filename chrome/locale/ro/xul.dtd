@@ -308,14 +308,6 @@
 <!ENTITY ODPExtension.forms.edit.url.paste.formatted "Lipeşte cele formatate">
 <!ENTITY ODPExtension.forms.edit.url.formatter "Formatare">
 
-
-
-<!ENTITY ODPExtension.forum.pages.show.inactive "Show inactive editors">
-<!ENTITY ODPExtension.forum.pages.custom.nicknames "Show custom nicknames">
-<!ENTITY ODPExtension.forum.pages.show.newbies "Show new editors as newbies">
-<!ENTITY ODPExtension.forum.pages "Editor Forum pages">
-
-
 <!ENTITY ODPExtension.rdf.parse.files "Build or update the SQLite database with the content of the RDF files">
 
 
@@ -346,7 +338,6 @@
 <!ENTITY ODPExtension.category.edit.page "Pagina de editare a categoriei">
 <!ENTITY ODPExtension.category.public.pages "Pagina publică">
 <!ENTITY ODPExtension.navegador "Program de navigare web">
-<!ENTITY ODPExtension.category.edit.pages.select.form "Autoselectează categoria în formularul inclus în căutarea din interfaţa publică">
 <!ENTITY ODPExtension.navegador.abbreviate.tabs.titles "Abreviază titlul filei">
 <!ENTITY odpsite.str.odp.urls "Adresle URL ale ODP-ului">
 <!ENTITY odpsite.str.field "Secţiune">

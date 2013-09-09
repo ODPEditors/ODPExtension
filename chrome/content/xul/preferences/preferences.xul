@@ -84,20 +84,6 @@
 						</groupbox>
 
 						<groupbox>
-							<caption label="&ODPExtension.category.public.pages;"/>
-								<checkbox label="&ODPExtension.category.edit.pages.select.form;" id="onload.select.first.child.of.search.form" disabled="true"/>
-								<checkbox label="Highlight category differences" id="onload.show.category.differences" disabled="true"/>
-								<checkbox label="Show language navigator" id="onload.show.category.differences" disabled="true"/>
-						</groupbox>
-
-						<groupbox>
-							<caption label="&ODPExtension.forum.pages;"/>
-								<checkbox label="&ODPExtension.forum.pages.custom.nicknames;" id="ui.forum.pages.custom.nicknames"/>
-								<checkbox label="&ODPExtension.forum.pages.show.inactive;" id="ui.forum.pages.show.inactive"/>
-								<checkbox label="&ODPExtension.forum.pages.show.newbies;" id="ui.forum.pages.show.newbies"/>
-						</groupbox>
-
-						<groupbox>
 							<caption label="&ODPExtension.navegador;"/>
 								<checkbox label="&ODPExtension.navegador.abbreviate.tabs.titles;" id="abreviate.tab.title" disabled="true"/>
 						</groupbox>

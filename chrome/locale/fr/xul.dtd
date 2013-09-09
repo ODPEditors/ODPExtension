@@ -308,14 +308,6 @@
 <!ENTITY ODPExtension.forms.edit.url.paste.formatted "Copier avec le format">
 <!ENTITY ODPExtension.forms.edit.url.formatter "Formater">
 
-
-
-<!ENTITY ODPExtension.forum.pages.show.inactive "Show inactive editors">
-<!ENTITY ODPExtension.forum.pages.custom.nicknames "Show custom nicknames">
-<!ENTITY ODPExtension.forum.pages.show.newbies "Show new editors as newbies">
-<!ENTITY ODPExtension.forum.pages "Editor Forum pages">
-
-
 <!ENTITY ODPExtension.rdf.parse.files "Build or update the SQLite database with the content of the RDF files">
 
 
@@ -346,7 +338,6 @@
 <!ENTITY ODPExtension.category.edit.page "Page d'édition de la catégorie">
 <!ENTITY ODPExtension.category.public.pages "Page publique">
 <!ENTITY ODPExtension.navegador "Navigateur">
-<!ENTITY ODPExtension.category.edit.pages.select.form "Sélectionner automatiquement la catégorie dans le formulaire de recherche public">
 <!ENTITY ODPExtension.navegador.abbreviate.tabs.titles "Donner une abbréviation au titre de l'onglet">
 <!ENTITY odpsite.str.odp.urls "URLs ODP">
 <!ENTITY odpsite.str.field "Champ">

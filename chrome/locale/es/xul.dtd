@@ -310,14 +310,6 @@
 <!ENTITY ODPExtension.forms.edit.url.paste.formatted "Pegar formateado">
 <!ENTITY ODPExtension.forms.edit.url.formatter "Formateador">
 
-
-
-<!ENTITY ODPExtension.forum.pages.show.inactive "Show inactive editors">
-<!ENTITY ODPExtension.forum.pages.custom.nicknames "Mostrar nombres personalizados debajo del nombre del editor">
-<!ENTITY ODPExtension.forum.pages.show.newbies "Show new editors as newbies">
-<!ENTITY ODPExtension.forum.pages "Páginas del Foro de Editores">
-
-
 <!ENTITY ODPExtension.rdf.parse.files "Build or update the SQLite database with the content of the RDF files">
 
 
@@ -348,7 +340,6 @@
 <!ENTITY ODPExtension.category.edit.page "Página de edición de categoría">
 <!ENTITY ODPExtension.category.public.pages "Página pública">
 <!ENTITY ODPExtension.navegador "Navegador">
-<!ENTITY ODPExtension.category.edit.pages.select.form "Auto-seleccionar la categoría en el formulario de búsqueda">
 <!ENTITY ODPExtension.navegador.abbreviate.tabs.titles "Abreviar las categorías en los títulos de las pestañas">
 <!ENTITY odpsite.str.odp.urls "ODP URLs">
 <!ENTITY odpsite.str.field "Campo">

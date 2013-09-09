@@ -11,6 +11,15 @@
 	// @include       http://forums.dmoz.org/forum/viewtopic.php?p=*
 	// ==/UserScript==
 
+	/*
+		feature request by ottodv
+		show inactive user on forums as inactive
+	*/
+
+	/*
+		semi-feature request by kgendler
+		show new editors on forums as newbies
+	*/
 	this.forumsSetStrings = function(aDoc)
 	{
 		if(this.documentGetLocation(aDoc).indexOf('http://forums.dmoz.org/forum/viewtopic.php') === 0)
@@ -31,50 +40,28 @@
 				if (a[i].className == 'name')
 				{
 					var span = a[i];
-					var name = (span.getElementsByTagName('b'))[0].innerHTML;
+					var b = span.getElementsByTagName('b')[0];
+					var name = b.innerHTML;
 
 					if(span.hasAttribute('modified'))
 						continue;
-					if(this.preferenceGet('ui.forum.pages.custom.nicknames') && this.shared.editors.nicknames[name])
-					{
-						var privs = aDoc.createElement('span');
-							privs.innerHTML = "(" + this.shared.editors.nicknames[name] + ")";
-							privs.style.color="#777";
-							privs.style.fontSize="x-small";
-							span.parentNode.appendChild(privs);
-							span.setAttribute('modified', true);
-					}
+					span.setAttribute('modified', true);
 
-					if(this.preferenceGet('ui.forum.pages.show.newbies') && this.inArray(this.shared.editors.newbies, name))
-					{
-						var privs = aDoc.createElement('span');
-							if(span.hasAttribute('modified'))
-								privs.innerHTML = "<br>("+this.getString('forums.strings.newbie')+")";
-							else
-								privs.innerHTML = "("+this.getString('forums.strings.newbie')+")";
-							privs.style.color="#777";
-							privs.style.fontSize="x-small";
-							span.parentNode.appendChild(privs);
-							span.setAttribute('modified', true);
+					var privs = aDoc.createElement('span');
+
+					if(this.shared.editors.nicknames[name])
+						privs.innerHTML = this.shared.editors.nicknames[name].replace(/\t/g, '<br>');
+					else {
+						privs.innerHTML = "("+this.getString('forums.strings.inactive')+")";
+						b.style.color = "#777";
 					}
-					else if(this.preferenceGet('ui.forum.pages.show.inactive') && !this.inArray(this.shared.editors.active, name))
-					{
-						var privs = aDoc.createElement('span');
-							if(span.hasAttribute('modified'))
-								privs.innerHTML = "<br>("+this.getString('forums.strings.inactive')+")";
-							else
-								privs.innerHTML = "("+this.getString('forums.strings.inactive')+")";
-							privs.style.color="#777";
-							privs.style.fontSize="x-small";
-							span.parentNode.appendChild(privs);
-							span.setAttribute('modified', true);
-					}
+					privs.style.color="#777";
+					privs.style.fontSize="x-small";
+					span.parentNode.appendChild(privs);
 				}
 			}
 		}
 	}
-
-
 
 	return null;
 

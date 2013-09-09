@@ -80,9 +80,7 @@
 					//editors
 
 						shared.editors = {};
-						shared.editors.active = [];
 						shared.editors.nicknames = [];
-						shared.editors.newbies = [];
 
 					//building a reference
 						this.shared = this.sharedObjectGet('shared', shared);
@@ -100,12 +98,7 @@
 				}
 				else
 				{
-					if(this.preferenceGet('ui.forum.pages.custom.nicknames'))
-						this.forumsGetNicknames();
-					if(this.preferenceGet('ui.forum.pages.show.inactive'))
-						this.forumsGetActiveEditors();
-					if(this.preferenceGet('ui.forum.pages.show.newbies'))
-						this.forumsGetNewEditors();
+					this.forumsGetStrings();
 				}
 
 

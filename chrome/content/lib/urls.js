@@ -80,7 +80,7 @@
 		var IP = '';
 		try
 		{
-			var DNS = Components.classes['@mozilla.org/network/dns-service;1'].getService(Components.interfaces.nsIDNSService);
+			var DNS = this.service('dns');
 			if(!noCache)
 				var nsRecord = DNS.resolve(aDomain, false);
 			else
@@ -95,6 +95,22 @@
 
 		return IP;
 	}
+	this.getDNSFromURL = function(aDomain)
+	{
+		var aData = {ips:[],hosts:[]};
+		try
+		{
+			var nsRecord = this.service('dns').resolve(aDomain, Components.interfaces.nsIDNSService.RESOLVE_BYPASS_CACHE);
+			while (nsRecord.hasMore())
+			{
+				aData.ips.push(nsRecord.getNextAddrAsString());
+				aData.hosts.push(nsRecord.canonicalName);
+			}
+		}catch(e){}
+
+		return aData;
+	}
+
 	//gets the schema of a URL
 	this.getSchema = function(aURL)
 	{

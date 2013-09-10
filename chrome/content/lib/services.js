@@ -39,6 +39,13 @@
             															.getService(Components.interfaces.nsIBrowserHistory);
 					break;
 				}
+				case 'dns':
+				{
+					this.services[aName] = Components.classes['@mozilla.org/network/dns-service;1']
+																					.getService(Components.interfaces.nsIDNSService);
+
+					break;
+				}
 				case 'pref':
 				{
 					aName = aName+'.'+aSome;

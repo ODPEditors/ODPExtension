@@ -71,7 +71,7 @@
 
 					<vbox flex="1">
 
-						<groupbox flex="1">
+						<groupbox>
 
 							<caption label="&ODPExtension.miscellaneous;"/>
 
@@ -137,7 +137,7 @@
 			</hbox>
 	</vbox></tabpanel>
 						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">
-			<hbox>
+			<hbox flex="1">
 				<vbox flex="1">
 					<groupbox flex="1">
 						<caption label="&ODPExtension.privacy.queries.exclude.domains;"/>

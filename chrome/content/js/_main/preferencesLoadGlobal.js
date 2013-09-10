@@ -112,7 +112,7 @@
 						this.shared = this.sharedObjectGet('shared');
 				}
 
-				this.dispatchEvent('onPreferencesLoadGlobal');
+				this.dispatchEvent('preferencesLoadGlobal');
 
 				if(!this.preferenceGet('enabled'))
 				{

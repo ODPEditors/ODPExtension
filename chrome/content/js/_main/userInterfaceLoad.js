@@ -14,6 +14,8 @@
 
 				//context menu
 					this.tabContextMenu().appendChild(this.getElement('tab-context-from-category'));
+
+					this.dispatchEvent('userInterfaceLoad', this.preferenceGet('enabled'));
 			}
 
 	return null;

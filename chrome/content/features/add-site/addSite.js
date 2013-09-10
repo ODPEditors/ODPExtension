@@ -3,8 +3,8 @@
 
 	//builds the menuitems of the menu "add site to open directory" looking at the URL in the location bar.
 
-	this.addListener('onUserInterfaceUpdate', function(aEnabled){ ODPExtension.addSiteOnUserInterfaceUpdate(aEnabled); });
-	this.addListener('onToolbarsToggle', function(aClosed){ ODPExtension.addSiteOnToolbarsToggle(aClosed); });
+	this.addListener('userInterfaceUpdate', function(aEnabled){ ODPExtension.addSiteOnUserInterfaceUpdate(aEnabled); });
+	this.addListener('toolbarsToggle', function(aClosed){ ODPExtension.addSiteOnToolbarsToggle(aClosed); });
 
 	this.addSiteOnUserInterfaceUpdate = function(aEnabled){
 		if(aEnabled){

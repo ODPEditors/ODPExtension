@@ -167,7 +167,7 @@
 
 				}
 
-				this.dispatchEvent('onUserInterfaceUpdate', this.preferenceGet('enabled'));
+				this.dispatchEvent('userInterfaceUpdate', this.preferenceGet('enabled'));
 			}
 	return null;
 

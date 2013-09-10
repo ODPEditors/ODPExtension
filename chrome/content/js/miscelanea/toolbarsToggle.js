@@ -4,7 +4,7 @@
 	this.toolbarsToggle = function()
 	{
 
-		this.dispatchEvent('onToolbarsToggle', this.preferenceGet('toolbars.toggle'));
+		this.dispatchEvent('toolbarsToggle', this.preferenceGet('toolbars.toggle'));
 
 		if(this.preferenceGet('toolbars.toggle'))
 		{

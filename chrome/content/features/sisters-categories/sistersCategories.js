@@ -5,19 +5,19 @@
 
 	var debugingThisFile = false;//sets debuging on/off for this JavaScript file
 
-	this.addListener('browserLoad', function(){ODPExtension.sistersCategoriesOnBrowserLoad()});
+	this.addListener('userInterfaceLoad', function(){ODPExtension.sistersCategoriesOnUserInterfaceLoad()});
+	this.addListener('userInterfaceUpdate', function(aEnabled){ ODPExtension.sistersCategoriesOnUserInterfaceUpdate(aEnabled); });
 
-	this.addListener('onFocusedCategoryChange', function(aCategory){ ODPExtension.sistersCategoriesButtonUpdate(aCategory); });
+	this.addListener('focusedCategoryChange', function(aCategory){ ODPExtension.sistersCategoriesButtonUpdate(aCategory); });
 
-	this.addListener('onUserInterfaceUpdate', function(aEnabled){ ODPExtension.sistersCategoriesOnUserInterfaceUpdate(aEnabled); });
-	this.addListener('onToolbarsToggle', function(aClosed){ ODPExtension.sistersCategoriesOnToolbarsToggle(aClosed); });
+	this.addListener('toolbarsToggle', function(aClosed){ ODPExtension.sistersCategoriesOnToolbarsToggle(aClosed); });
 
-	this.addListener('onPreferencesLoadGlobal', function(){ ODPExtension.sistersCategoriesOnPreferencesLoadGlobal(); });
+	this.addListener('preferencesLoadGlobal', function(){ ODPExtension.sistersCategoriesOnPreferencesLoadGlobal(); });
 
 	var aButton;
 
-	this.sistersCategoriesOnBrowserLoad  = function(){
-		this.dump('sistersCategoriesOnBrowserLoad', debugingThisFile);
+	this.sistersCategoriesOnUserInterfaceLoad  = function(){
+		this.dump('sistersCategoriesOnUserInterfaceLoad', debugingThisFile);
 
 		aButton = this.getElement('toolbarbutton-sisters-categories');
 	}
@@ -82,16 +82,15 @@
 		{
 			this.dump('this.shared.categories.txt.exists', debugingThisFile);
 
-				if(aButton)
-				{
-					this.dump('aButton', debugingThisFile);
+			this.dump('aButton', debugingThisFile);
 
-					if(this.inArray(this.shared.categories.sisters.focused.no, aCategory))
-						aButton.setAttribute('nocategories', true);
-					else
-						aButton.setAttribute('nocategories', false);
-					this.getElement('toolbarbutton-sisters-categories-menupopup').setAttribute('value', aCategory);
-				}
+			if(this.inArray(this.shared.categories.sisters.focused.no, aCategory))
+				aButton.setAttribute('nocategories', true);
+			else
+				aButton.setAttribute('nocategories', false);
+
+			this.getElement('toolbarbutton-sisters-categories-menupopup').setAttribute('value', aCategory);
+
 		} else {
 			aButton.setAttribute('nocategories', true);
 		}
@@ -102,11 +101,9 @@
 		this.dump('sistersCategoriesOnToolbarsToggle', debugingThisFile);
 
 		if(aClosed) {
-			if(aButton)
-				this.toolbarOpenRemember(aButton);
+			this.toolbarOpenRemember(aButton);
 		} else {
-			if(aButton)
-				this.toolbarCloseRemember(aButton);
+			this.toolbarCloseRemember(aButton);
 		}
 
 	}
@@ -115,11 +112,9 @@
 		this.dump('sistersCategoriesOnUserInterfaceUpdate', debugingThisFile);
 
 		if(aEnabled && this.categoriesTXTExists()) {
-			if(aButton)
-				aButton.setAttribute('hidden', false);
+			aButton.setAttribute('hidden', false);
 		} else {
-			if(aButton)
-				aButton.setAttribute('hidden', true);
+			aButton.setAttribute('hidden', true);
 		}
 
 	}

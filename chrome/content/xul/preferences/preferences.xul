@@ -71,6 +71,24 @@
 
 					<vbox flex="1">
 
+						<groupbox >
+							<caption label="&ODPExtension.ui.context.menu;"/>
+								<hbox flex="1">
+									<vbox flex="1">
+										<checkbox label="&ODPExtension.ui.context.menu.translate;" id="ui.context.menu.translate"/>
+										<checkbox label="&ODPExtension.ui.context.menu.word.reference;" id="ui.context.menu.word.reference"/>
+										<checkbox label="&ODPExtension.ui.context.menu.url.tools;" id="ui.context.menu.url.tools"/>
+										<checkbox label="&ODPExtension.ui.context.menu.frame.selected;" id="ui.context.menu.frame.selected"/>
+										<checkbox label="&ODPExtension.ui.context.menu.frames;" id="ui.context.menu.frames"/>
+									</vbox>
+								</hbox>
+						</groupbox>
+
+						<groupbox>
+							<caption label="&ODPExtension.forum.pages;"/>
+								<checkbox label="&ODPExtension.forum.pages.custom.nicknames;" id="ui.forum.pages.custom.nicknames"/>
+						</groupbox>
+
 						<groupbox>
 
 							<caption label="&ODPExtension.miscellaneous;"/>
@@ -83,27 +101,11 @@
 
 						</groupbox>
 
-						<groupbox>
-							<caption label="&ODPExtension.navegador;"/>
-								<checkbox label="&ODPExtension.navegador.abbreviate.tabs.titles;" id="abreviate.tab.title" disabled="true"/>
-						</groupbox>
-
 					</vbox>
 
 					<vbox flex="1">
 
-						<groupbox flex="1">
-							<caption label="&ODPExtension.ui.context.menu;"/>
-								<hbox flex="1">
-									<vbox flex="1">
-										<checkbox label="&ODPExtension.ui.context.menu.translate;" id="ui.context.menu.translate"/>
-										<checkbox label="&ODPExtension.ui.context.menu.word.reference;" id="ui.context.menu.word.reference"/>
-										<checkbox label="&ODPExtension.ui.context.menu.url.tools;" id="ui.context.menu.url.tools"/>
-										<checkbox label="&ODPExtension.ui.context.menu.frame.selected;" id="ui.context.menu.frame.selected"/>
-										<checkbox label="&ODPExtension.ui.context.menu.frames;" id="ui.context.menu.frames"/>
-									</vbox>
-								</hbox>
-						</groupbox>
+
 
 						<groupbox flex="1">
 							<caption label="&ODPExtension.ui.from.context.menu;"/>

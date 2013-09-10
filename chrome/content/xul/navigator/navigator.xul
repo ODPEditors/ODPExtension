@@ -8,5 +8,6 @@
 <!-- insulated features -->
 <?xul-overlay href="chrome://ODPExtension/content/features/sisters-categories/sisterCategories.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/add-site/addSite.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/editor-forums/editorForums.xul"?>
 
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"></overlay>

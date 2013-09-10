@@ -100,7 +100,6 @@
 					//editors
 
 						shared.editors = {};
-						shared.editors.nicknames = [];
 
 					//building a reference
 						this.shared = this.sharedObjectGet('shared', shared);
@@ -113,16 +112,6 @@
 				}
 
 				this.dispatchEvent('preferencesLoadGlobal');
-
-				if(!this.preferenceGet('enabled'))
-				{
-
-				}
-				else
-				{
-					this.forumsGetStrings();
-				}
-
 
 				//privacy
 					//no referrer

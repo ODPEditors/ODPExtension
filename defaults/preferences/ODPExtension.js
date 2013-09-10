@@ -87,7 +87,8 @@
 
 	//CSS editor pages
 
-		pref('extensions.ODPExtension.forms.css', true);
+		pref('extensions.ODPExtension.forms.css', false);
+		pref('extensions.ODPExtension.ui.forum.pages.custom.nicknames', false);
 
 //PRIVACY - DONE
 

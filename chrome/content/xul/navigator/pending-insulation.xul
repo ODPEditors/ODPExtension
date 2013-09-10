@@ -158,8 +158,6 @@
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/context-url-tools/URLToolsMenuUpdate.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/context-url-tools/URLToolsOpen.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/context-word-reference/wordReference.js"></script>
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/editor-forums/forumsGetStrings.js"></script>
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/editor-forums/forumsSetStrings.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/extension-icon/extensionIconClick.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/extension-icon/extensionIconClickCommand.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/extension-icon/extensionIconUpdatePosition.js"></script>

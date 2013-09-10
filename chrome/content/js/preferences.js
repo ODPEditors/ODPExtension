@@ -113,6 +113,9 @@
 											'ui.context.menu.from.editor',
 											'ui.context.menu.from.editors',
 
+										//forums
+											'ui.forum.pages.custom.nicknames',
+
 										//informative panel - DONE
 											'ui.informative.panel',
 											'ui.informative.panel.closed',

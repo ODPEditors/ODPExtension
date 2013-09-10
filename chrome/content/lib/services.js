@@ -54,8 +54,6 @@
 						this.services[aName] = Components.classes["@mozilla.org/preferences-service;1"]
 													.getService(Components.interfaces.nsIPrefService).getBranch(aSome+'.');
 						this.services[aName].QueryInterface(Components.interfaces.nsIPrefBranch2);
-
-						return this.services[aName];
 					}
 					return this.services[aName];
 					break;

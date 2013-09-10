@@ -195,7 +195,6 @@
 
 				<groupbox flex="1" >
 					<caption label="&ODPExtension.ui.context.menu.translate.languages;"/>
-					<groupbox flex="1">
 						<hbox flex="1">
 							<vbox flex="1">
 								<checkbox id="ui.context.menu.translate.lang.display.af" label="Afrikaans"/>
@@ -259,7 +258,6 @@
 								<checkbox id="ui.context.menu.translate.lang.display.yi" label="Yiddish"/>
 							</vbox>
 						</hbox>
-					</groupbox>
 				</groupbox>
 
 

@@ -6,13 +6,3 @@
 	#ODPExtension-toolbarbutton-sisters-categories[nocategories="true"]{
 		list-style-image: url("images/sisters-categories-disabled.png");
 	}
-
-	#urlbar-icons > #ODPExtension-toolbarbutton-sisters-categories[collapsed="true"]
-	{
-		display:none !important;
-	}
-
-	#urlbar-icons > #ODPExtension-toolbarbutton-sisters-categories
-	{
-		visibility:visible !important;
-	}

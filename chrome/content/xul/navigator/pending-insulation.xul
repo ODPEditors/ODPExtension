@@ -114,7 +114,6 @@
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/_main/preferencesLoadLocal.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/_main/userInterfaceLoad.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/_main/userInterfaceUpdate.js"></script>
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/add-site/addSiteMenuUpdate.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/categories-txt/categoriesTXTExists.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/categories-txt/categoriesTXTGetDatabaseNameFromCategory.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/categories-txt/categoriesTXTQuery.js"></script>
@@ -652,12 +651,6 @@
 			ondblclick="ODPExtension.extensionIconClickDouble(event);"
 			context=""
 		/>
-		<image
-			id="ODPExtension-toolbarbutton-add-to-open-directory"
-			class="plain urlbar-icon"
-			tooltiptext="&ODPExtension.add.site.to.odp;"
-			onclick="ODPExtension.getElement('toolbarbutton-add-to-open-directory-menupopup').openPopup(this, 'after_end');"
-		/>
 
 		<!-- category browser launcher -->
 		<image
@@ -808,30 +801,6 @@
 		<menuseparator locked="true"/>
 	</menupopup>
 
-	<menupopup
-		id="ODPExtension-toolbarbutton-add-to-open-directory-menupopup"
-		onpopupshowing="this.removeAttribute('height');ODPExtension.addSiteMenuUpdate(this)"
-		oncommand="
-			if(event.originalTarget.hasAttribute('disabled'))
-			{
-				ODPExtension.stopEvent(event);
-			}
-			else if(!event.originalTarget.hasAttribute('disabled') &amp;&amp; event.originalTarget.hasAttribute('secondary') &amp;&amp; event.button==1)
-			{
-				ODPExtension.tabOpen(event.originalTarget.getAttribute('secondary'), true);
-			}
-			else
-			{
-				this.hidePopup();
-				ODPExtension.fromCategoryClickType = 'single';
-				ODPExtension.fromCategorySelectedCategory = '';
-				ODPExtension.fromCategorySelectedCategories = [];
-				ODPExtension.fromCategoryClick(event)
-			}
-		"
-		onclick="checkForMiddleClick(this, event)"
-		class="ODPExtension-crop"
-	/>
 	<menupopup
 		id="ODPExtension-toolbarbutton-odp-url-notes-copy-unreview-menupopup"
 		onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
@@ -1050,7 +1019,7 @@
 			iconsize="small"
 			id="ODPExtension-toolbar"
 			toolbarname="ODP Extension"
-			defaultset="ODPExtension-toolbarbutton-category-browser,ODPExtension-toolbarbutton-add-to-open-directory,ODPExtension-toolbarbutton-toggle,ODPExtension-toolbarbutton-odp-url-notes-update,ODPExtension-toolbarbutton-odp-url-notes-unreview,ODPExtension-toolbarbutton-odp-url-notes-delete,ODPExtension-toolbarbutton-odp-url-notes-move-publish,ODPExtension-toolbarbutton-odp-url-notes-move-unreview,ODPExtension-toolbarbutton-odp-url-notes-copy-publish,ODPExtension-toolbarbutton-odp-url-notes-copy-unreview,ODPExtension-toolbarbutton-odp-url-notes-notes"
+			defaultset="ODPExtension-toolbarbutton-category-browser,ODPExtension-toolbarbutton-toggle,ODPExtension-toolbarbutton-odp-url-notes-update,ODPExtension-toolbarbutton-odp-url-notes-unreview,ODPExtension-toolbarbutton-odp-url-notes-delete,ODPExtension-toolbarbutton-odp-url-notes-move-publish,ODPExtension-toolbarbutton-odp-url-notes-move-unreview,ODPExtension-toolbarbutton-odp-url-notes-copy-publish,ODPExtension-toolbarbutton-odp-url-notes-copy-unreview,ODPExtension-toolbarbutton-odp-url-notes-notes"
 		>
 			<spacer flex="1"/>
 			<toolbarbutton class="ODPExtension-toolbarbutton-close" tooltiptext="&ODPExtension.close;" oncommand="ODPExtension.toolbarClose(this.parentNode);"/>

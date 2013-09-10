@@ -11,8 +11,7 @@
 			//toolbars buttons
 			if(this.getElement('toolbarbutton-category-browser'))
 				this.toolbarOpenRemember(this.getElement('toolbarbutton-category-browser'));
-			if(this.getElement('toolbarbutton-add-to-open-directory'))
-				this.toolbarOpenRemember(this.getElement('toolbarbutton-add-to-open-directory'));
+
 			if(this.getElement('toolbarbutton-odp-url-notes-update'))
 				this.toolbarOpenRemember(this.getElement('toolbarbutton-odp-url-notes-update'));
 			if(this.getElement('toolbarbutton-odp-url-notes-unreview'))
@@ -45,8 +44,7 @@
 			//toolbars buttons
 			if(this.getElement('toolbarbutton-category-browser'))
 				this.toolbarCloseRemember(this.getElement('toolbarbutton-category-browser'));
-			if(this.getElement('toolbarbutton-add-to-open-directory'))
-				this.toolbarCloseRemember(this.getElement('toolbarbutton-add-to-open-directory'));
+
 			if(this.getElement('toolbarbutton-odp-url-notes-update'))
 				this.toolbarCloseRemember(this.getElement('toolbarbutton-odp-url-notes-update'));
 			if(this.getElement('toolbarbutton-odp-url-notes-unreview'))

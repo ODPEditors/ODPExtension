@@ -8,9 +8,11 @@
 	this.addListener('browserLoad', function(){ODPExtension.sistersCategoriesOnBrowserLoad()});
 
 	this.addListener('onFocusedCategoryChange', function(aCategory){ ODPExtension.sistersCategoriesButtonUpdate(aCategory); });
+
 	this.addListener('onUserInterfaceUpdate', function(aEnabled){ ODPExtension.sistersCategoriesOnUserInterfaceUpdate(aEnabled); });
-	this.addListener('onPreferencesLoadGlobal', function(){ ODPExtension.sistersCategoriesOnPreferencesLoadGlobal(); });
 	this.addListener('onToolbarsToggle', function(aClosed){ ODPExtension.sistersCategoriesOnToolbarsToggle(aClosed); });
+
+	this.addListener('onPreferencesLoadGlobal', function(){ ODPExtension.sistersCategoriesOnPreferencesLoadGlobal(); });
 
 	var aButton;
 

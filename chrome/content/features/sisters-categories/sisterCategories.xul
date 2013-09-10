@@ -14,7 +14,7 @@
 			id="ODPExtension-toolbarbutton-sisters-categories"
 			tooltiptext="&ODPExtension.sisters.categories;"
 			nocategories="true"
-			class="plain urlbar-icon"
+			class="plain urlbar-icon ODPExtension-toolbarbutton"
 			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
 		/>
 

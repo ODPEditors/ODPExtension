@@ -60,8 +60,6 @@
 						this.getElement('toolbarbutton-category-browser').setAttribute('hidden', true);
 					if(this.getElement('toolbarbutton-toggle'))
 						this.getElement('toolbarbutton-toggle').setAttribute('hidden', true);
-					if(this.getElement('toolbarbutton-add-to-open-directory'))
-						this.getElement('toolbarbutton-add-to-open-directory').setAttribute('hidden', true);
 					if(this.getElement('toolbarbutton-odp-url-notes-update'))
 						this.getElement('toolbarbutton-odp-url-notes-update').setAttribute('hidden', true);
 					if(this.getElement('toolbarbutton-odp-url-notes-unreview'))
@@ -160,8 +158,6 @@
 						this.getElement('toolbarbutton-category-browser').setAttribute('hidden', false);
 					if(this.getElement('toolbarbutton-toggle'))
 						this.getElement('toolbarbutton-toggle').setAttribute('hidden', false);
-					if(this.getElement('toolbarbutton-add-to-open-directory'))
-						this.getElement('toolbarbutton-add-to-open-directory').setAttribute('hidden', false);
 
 				//forms css
 					if(this.preferenceGet('forms.css'))

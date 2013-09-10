@@ -3,6 +3,30 @@
 
 	//builds the menuitems of the menu "add site to open directory" looking at the URL in the location bar.
 
+	this.addListener('onUserInterfaceUpdate', function(aEnabled){ ODPExtension.addSiteOnUserInterfaceUpdate(aEnabled); });
+	this.addListener('onToolbarsToggle', function(aClosed){ ODPExtension.addSiteOnToolbarsToggle(aClosed); });
+
+	this.addSiteOnUserInterfaceUpdate = function(aEnabled){
+		if(aEnabled){
+			if(this.getElement('toolbarbutton-add-to-open-directory'))
+				this.getElement('toolbarbutton-add-to-open-directory').setAttribute('hidden', false);
+		} else {
+			if(this.getElement('toolbarbutton-add-to-open-directory'))
+				this.getElement('toolbarbutton-add-to-open-directory').setAttribute('hidden', true);
+		}
+	}
+
+	this.addSiteOnToolbarsToggle = function(aClosed){
+		if(aClosed) {
+			if(this.getElement('toolbarbutton-add-to-open-directory'))
+				this.toolbarOpenRemember(this.getElement('toolbarbutton-add-to-open-directory'));
+		} else {
+			if(this.getElement('toolbarbutton-add-to-open-directory'))
+				this.toolbarCloseRemember(this.getElement('toolbarbutton-add-to-open-directory'));
+		}
+	}
+
+
 	this.addSiteMenuUpdate = function(currentPopup)
 	{
 		this.removeChilds(currentPopup);

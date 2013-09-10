@@ -6,6 +6,22 @@
 			border-color:transparent !important;
 			-moz-appearance: none;
 		}
+		.ODPExtension-toolbarbutton{
+			padding-left: 4px;
+			padding-right: 4px;
+		}
+		#urlbar-icons > .ODPExtension-toolbarbutton
+		{
+			visibility:visible !important;
+		}
+
+		/* simluate toolbarbutton for urlbar icons*/
+
+			#urlbar-icons > .ODPExtension-toolbarbutton[collapsed="true"]
+			{
+				display:none !important;
+			}
+
 
 	/*toolbar buttons */
 
@@ -19,9 +35,6 @@
 		/*category browser*/
 			#ODPExtension-toolbarbutton-category-browser{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/category-browser.png");}
 			toolbar[iconsize="small"] #ODPExtension-toolbarbutton-category-browser{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/category-browser.png");}
-		/*category browser*/
-			#ODPExtension-toolbarbutton-add-to-open-directory{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/add.png");}
-			toolbar[iconsize="small"] #ODPExtension-toolbarbutton-add-to-open-directory{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/add.png");}
 		/*odp url notes*/
 			/*update*/
 			#ODPExtension-toolbarbutton-odp-url-notes-update{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-update.png");}
@@ -75,7 +88,6 @@
 
 		/* urlbar icon always shown, regarless of browser status, this extension decided when to hide or show these*/
 
-			#urlbar-icons > #ODPExtension-toolbarbutton-add-to-open-directory,
 			#urlbar-icons > #ODPExtension-toolbarbutton-category-browser,
 			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-copy-publish,
 			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-copy-unreview,
@@ -92,7 +104,6 @@
 
 		/* simluate toolbarbutton for urlbar icons*/
 
-			#urlbar-icons > #ODPExtension-toolbarbutton-add-to-open-directory[collapsed="true"],
 			#urlbar-icons > #ODPExtension-toolbarbutton-category-browser[collapsed="true"],
 			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-copy-publish[collapsed="true"],
 			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-copy-unreview[collapsed="true"],

@@ -1,350 +1,267 @@
-<!ENTITY ODPExtension.odp.extension.project "ODP Extension Project">
-<!ENTITY ODPExtension.extension.description "Different editing experience">
-
-
-
-<!ENTITY ODPExtension.find "Bul">
-<!ENTITY ODPExtension.search.ellipsis "Arama">
-<!ENTITY ODPExtension.filter.this.menu.ellipsis "Filter this menu…">
-<!ENTITY ODPExtension.close "Kapat">
-<!ENTITY ODPExtension.last.update "Son Güncelleme">
-<!ENTITY ODPExtension.update.now "Update now">
-<!ENTITY ODPExtension.example "Example:">
-<!ENTITY ODPExtension.browse "Browse…">
-<!ENTITY ODPExtension.reset.menu "Reset menu">
-
-<!ENTITY ODPExtension.progress.download "Download progress">
-<!ENTITY ODPExtension.progress.process "Process progress">
-<!ENTITY ODPExtension.progress.saving "Saving progress">
-<!ENTITY ODPExtension.please.wait "Wait please be patient">
-
-
-<!ENTITY ODPExtension.enable.disable "Etkinleştir / Pasifleştir">
-<!ENTITY ODPExtension.preferences.ellipsis "Preferences…">
-<!ENTITY ODPExtension.places "Yerler">
-<!ENTITY ODPExtension.blogs "Blogs">
-
-
-<!ENTITY ODPExtension.local.category.finder.find.top "Find in Topical">
-<!ENTITY ODPExtension.local.category.finder.find.regional "Find in Regional">
-<!ENTITY ODPExtension.local.category.finder.find.world "Find in World">
-<!ENTITY ODPExtension.local.category.finder.find.all "Find in All">
-
-
-<!ENTITY ODPExtension.sisters.categories "Sisters Categories">
-<!ENTITY ODPExtension.category.browser "Category Browser">
-<!ENTITY ODPExtension.category.navigator "Category Navigator">
 <!ENTITY ODPExtension.add.site.to.odp "Add Site to Open Directory">
-<!ENTITY ODPExtension.toolbars.toggle "Toggle Toolbars &amp; Toolbars Buttons">
-
-
-
-<!ENTITY ODPExtension.preferences "Yapılandırma">
-
-<!ENTITY ODPExtension.preferences.apply "Uygula">
-<!ENTITY ODPExtension.preferences.save "Kabul Et">
-<!ENTITY ODPExtension.preferences.cancel "İptal">
-
-<!ENTITY ODPExtension.preferences.defaults "Varsayılan">
-<!ENTITY ODPExtension.preferences.import "İçeri al">
-<!ENTITY ODPExtension.preferences.export "Dışarı ver">
-<!ENTITY ODPExtension.preferences.font.size "Yazı Tipi Boyutu">
-
-
-<!ENTITY ODPExtension.tab.ui "User Interface">
-
-<!ENTITY ODPExtension.ui.context.menu "Sağ tıklama menüsü">
-<!ENTITY ODPExtension.ui.context.menu.categories "Kategoriler">
-<!ENTITY ODPExtension.ui.context.menu.translate "Translate to">
-
-<!ENTITY ODPExtension.ui.context.menu.frames "Çerçeveler">
-<!ENTITY ODPExtension.ui.context.menu.frame.selected "Open Selected Frame">
-<!ENTITY ODPExtension.ui.context.menu.frame "Open Frame &quot;{URL}&quot;">
-
-<!ENTITY ODPExtension.ui.context.menu.url.tools "URL Araçları">
-<!ENTITY ODPExtension.ui.context.menu.word.reference "Sözcük Kontrolü">
-
-<!ENTITY ODPExtension.ui.from.context.menu "'From' context menu">
-<!ENTITY ODPExtension.ui.context.menu.from.categories "From categories">
-<!ENTITY ODPExtension.ui.context.menu.from.category "From category &quot;{CATEGORY}&quot;">
-<!ENTITY ODPExtension.ui.context.menu.from.category.empty "From category">
-<!ENTITY ODPExtension.ui.context.menu.from.category.in.tab.context.menu "In tab context menu">
-<!ENTITY ODPExtension.ui.context.menu.from.editor.empty "From editor">
-<!ENTITY ODPExtension.ui.context.menu.from.editors.empty "From editors">
-<!ENTITY ODPExtension.ui.context.menu.from.editor "From editor &quot;{EDITOR}&quot;">
-<!ENTITY ODPExtension.ui.context.menu.from.editors "From editors &quot;{EDITORS}&quot;">
-
-<!ENTITY ODPExtension.ui.informative.panel "Bilgi kutusunu göster">
-<!ENTITY ODPExtension.ui.informative.panel.show.inside "Bilgi penceresinde göster">
-<!ENTITY ODPExtension.ui.informative.panel.show "Show the informative panel">
-<!ENTITY ODPExtension.ui.informative.panel.categories.titles.urls "Categories, titles and URLs">
-<!ENTITY ODPExtension.ui.informative.panel.categories.align.left "Categories align to left side">
-<!ENTITY ODPExtension.ui.informative.panel.description "Açıklama">
-<!ENTITY ODPExtension.ui.informative.panel.title "Başlık">
-<!ENTITY ODPExtension.ui.informative.panel.url "URL">
-<!ENTITY ODPExtension.ui.informative.panel.reset.position "Reset position of the panel">
-
-<!ENTITY ODPExtension.miscellaneous "Diğerleri">
-
-<!ENTITY ODPExtension.ui.from.category.auto "Show command menu when a category is highlighted ( Recommended )">
-<!ENTITY ODPExtension.ui.forms.css "Pretty form styles">
-<!ENTITY ODPExtension.single.key.command "Single key command">
-
-
-<!ENTITY ODPExtension.tab.translate "Çevir">
-
-<!ENTITY ODPExtension.ui.context.menu.translate.languages "Languages in the translate context menu">
-
-
-<!ENTITY ODPExtension.tab.icon.clicks "Icon Clicks">
-
+<!ENTITY ODPExtension.advanced.url.rdf "Listing verification URL">
+<!ENTITY ODPExtension.advanced.urls.domain.explorer "Site explorer URLs">
+<!ENTITY ODPExtension.advanced.urls.odp.private.no.referrer "ODP Private URLs (to avoid referrer)">
+<!ENTITY ODPExtension.advanced.urls.word.reference "Word Reference URLs">
+<!ENTITY ODPExtension.advanced.warning.button "I'll be careful, I promise!">
+<!ENTITY ODPExtension.advanced.warning.description "Robozilla &amp; friends, throwing fire from the mouth! Please be carefull!">
+<!ENTITY ODPExtension.advanced.warning.title "Here be dragons!">
+<!ENTITY ODPExtension.blogs "Blogs">
+<!ENTITY ODPExtension.bottom "Bottom">
+<!ENTITY ODPExtension.browse "Browse…">
+<!ENTITY ODPExtension.category.browser "Category Browser">
+<!ENTITY ODPExtension.category.edit.page "Category edit page">
+<!ENTITY ODPExtension.category.navigator "Category Navigator">
+<!ENTITY ODPExtension.category.public.pages "Public page">
+<!ENTITY ODPExtension.click.double "Double click">
 <!ENTITY ODPExtension.click.left "Left click">
 <!ENTITY ODPExtension.click.middle "Middle click">
 <!ENTITY ODPExtension.click.right "Right click">
 <!ENTITY ODPExtension.click.simple "Simple click">
-<!ENTITY ODPExtension.click.double "Double click">
-<!ENTITY ODPExtension.key.alt "Alt">
-<!ENTITY ODPExtension.key.ctrl "Control(Command)">
-<!ENTITY ODPExtension.key.shift "Shift">
-
-<!ENTITY ODPExtension.command.do.nothing "Do nothing">
+<!ENTITY ODPExtension.close "Kapat">
 <!ENTITY ODPExtension.command.copy.location "Copy category or location">
 <!ENTITY ODPExtension.command.copy.location.html "Copy category or location as link HTML format">
 <!ENTITY ODPExtension.command.copy.location.phpbb "Copy category or location as link phpBB format">
+<!ENTITY ODPExtension.command.do.nothing "Do nothing">
 <!ENTITY ODPExtension.command.domain.site.odp "Search for focused domain in ODP">
 <!ENTITY ODPExtension.command.domain.site.se "Search for focused domain in SE">
-<!ENTITY ODPExtension.command.highlight.listings "Highlight listings on document links">
-<!ENTITY ODPExtension.command.retrieve.listings "Display listing information for focused location">
-
-<!ENTITY ODPExtension.command.open.preferences "Open preferences">
-<!ENTITY ODPExtension.command.open.d.context.menu "Open &quot;d&quot; menu">
 <!ENTITY ODPExtension.command.extension.toggle "Extension Toggle">
-
-
-<!ENTITY ODPExtension.tab.advanced "Advanced">
-<!ENTITY ODPExtension.advanced.warning.title "Here be dragons!">
-<!ENTITY ODPExtension.advanced.warning.description "Robozilla &amp; friends, throwing fire from the mouth! Please be carefull!">
-<!ENTITY ODPExtension.advanced.warning.button "I'll be careful, I promise!">
-
-<!ENTITY ODPExtension.advanced.urls.word.reference "Word Reference URLs">
-<!ENTITY ODPExtension.advanced.urls.odp.private.no.referrer "ODP Private URLs (to avoid referrer)">
-<!ENTITY ODPExtension.advanced.url.rdf "Listing verification URL">
-<!ENTITY ODPExtension.advanced.urls.domain.explorer "Site explorer URLs">
-
+<!ENTITY ODPExtension.command.highlight.listings "Highlight listings on document links">
+<!ENTITY ODPExtension.command.open.d.context.menu "Open &quot;d&quot; menu">
+<!ENTITY ODPExtension.command.open.preferences "Open preferences">
+<!ENTITY ODPExtension.command.retrieve.listings "Display listing information for focused location">
+<!ENTITY ODPExtension.enable.disable "Etkinleştir / Pasifleştir">
+<!ENTITY ODPExtension.example "Example:">
+<!ENTITY ODPExtension.extension.description "Different editing experience">
 <!ENTITY ODPExtension.extension.directory "Extension directory (Extension has total control over this folder)">
 <!ENTITY ODPExtension.extension.directory.change "Change extension directory">
-
-<!ENTITY ODPExtension.local.category.finder "Local Category Finder">
-
-
-<!ENTITY ODPExtension.tab.license "Lisans">
-
-
-<!ENTITY ODPExtension.tab.help "Help!?">
-
-
-<!ENTITY ODPExtension.tab.privacy "Gizlilik">
-<!ENTITY ODPExtension.privacy.queries.exclude.domains "Aşağıdaki alan adları istisnadır">
-<!ENTITY ODPExtension.privacy.queries.exclude.strings "The URLs with the following strings are excluded">
-<!ENTITY ODPExtension.privacy.queries.exclude.ips "http://207.200.81.154/ gibi bütün IP'leri hariç tut. Not: Özel IP'ler her zaman bloke edilir">
-<!ENTITY ODPExtension.privacy.queries.exclude.https "Güvenli siteleri hariç tut, https:// protokolü">
-
-<!ENTITY ODPExtension.privacy.no.referrer "Don't send referrer from private ODP domains (will sent the visited URL, not an empty referrer)">
-<!ENTITY ODPExtension.privacy.private.browsing.on "Disable the extension when entering on private browsing mode">
-
-<!ENTITY ODPExtension.privacy.information "Small print">
-
-
-<!ENTITY ODPExtension.tab.url.tools "URL Tools">
-
-<!ENTITY ODPExtension.url.tools.available.variables "Available variables:">
-
-<!ENTITY ODPExtension.url.tools.link.check.status "HTTP durumunu kontrol et">
-<!ENTITY ODPExtension.url.tools.link.check.listing "Siteleri işaretle">
-
-<!ENTITY ODPExtension.tab.tab.behavior "Tab Behavior">
-
-<!ENTITY ODPExtension.tab.open.in.new.window "Open in new window">
-<!ENTITY ODPExtension.tab.open.in.new.tab "Open in new Tab">
-<!ENTITY ODPExtension.tab.select.tab "Give Focus To Tab">
-
-<!ENTITY ODPExtension.left "Left">
-<!ENTITY ODPExtension.right "Right">
-<!ENTITY ODPExtension.top "Top">
-<!ENTITY ODPExtension.bottom "Bottom">
-
-
-
-
-<!ENTITY ODPExtension.from.category.open  "Open">
-<!ENTITY ODPExtension.from.category.find  "Find">
-<!ENTITY ODPExtension.from.category.open.description  "Open description">
-<!ENTITY ODPExtension.from.category.open.faq  "Open FAQ">
-<!ENTITY ODPExtension.from.category.open.worldlinkerate.url  "Open worldlinkerate URL">
-<!ENTITY ODPExtension.from.category.copy  "Copy">
-<!ENTITY ODPExtension.from.category.copy.edit.url  "Copy edit URL">
-<!ENTITY ODPExtension.from.category.copy.worldlinkerate  "Copy worldlinkerate URL">
-<!ENTITY ODPExtension.from.category.copy.phpbb.link.with.anchor  "Copy phpBB link with anchor">
-<!ENTITY ODPExtension.from.category.copy.encoded  "Copy encoded">
-<!ENTITY ODPExtension.from.category.copy.selection  "Copy selection">
-<!ENTITY ODPExtension.from.category.copy.abbreviated  "Copy abbreviated">
-<!ENTITY ODPExtension.from.category.paste  "Paste">
-<!ENTITY ODPExtension.from.category.cut  "Cut">
-<!ENTITY ODPExtension.from.category.delete  "Delete">
-<!ENTITY ODPExtension.from.category.encode.decode  "Enc/Dec">
-<!ENTITY ODPExtension.from.category.encode.links.anchors  "Encode links anchors">
-<!ENTITY ODPExtension.from.category.decode.links.anchors  "Decode links anchors">
-<!ENTITY ODPExtension.from.category.edit  "Edit">
-<!ENTITY ODPExtension.from.category.edit.description  "Edit Description">
-<!ENTITY ODPExtension.from.category.edit.faq  "Edit FAQ">
-<!ENTITY ODPExtension.from.category.sort.priority  "Sort Priority">
-<!ENTITY ODPExtension.from.category.edit.links  "Edit @links">
-<!ENTITY ODPExtension.from.category.edit.related  "Edit Related">
-<!ENTITY ODPExtension.from.category.edit.altlangs  "Edit Altlangs">
-<!ENTITY ODPExtension.from.category.edit.usenet  "Edit Usenet">
-<!ENTITY ODPExtension.from.category.edit.mozilla  "Edit Mozilla">
-<!ENTITY ODPExtension.from.category.new.category  "New Category">
-<!ENTITY ODPExtension.from.category.unreview  "Unreview">
-<!ENTITY ODPExtension.from.category.power  "Power">
-<!ENTITY ODPExtension.from.category.power.sort.url  "Power sort URL">
-<!ENTITY ODPExtension.from.category.power.sort.title  "Power sort title">
-<!ENTITY ODPExtension.from.category.power.sort.ip  "Power sort IP">
-<!ENTITY ODPExtension.from.category.power.sort.email  "Power sort email">
-<!ENTITY ODPExtension.from.category.super  "Super">
-<!ENTITY ODPExtension.from.category.super.sort.url  "Super sort URL">
-<!ENTITY ODPExtension.from.category.super.sort.title  "Super sort title">
-<!ENTITY ODPExtension.from.category.super.sort.cat  "Super sort cat">
-<!ENTITY ODPExtension.from.category.super.sort.ip  "Super sort IP">
-<!ENTITY ODPExtension.from.category.super.sort.email  "Super sort email">
-<!ENTITY ODPExtension.from.category.updates  "Updates">
-<!ENTITY ODPExtension.from.category.errors  "Errors">
-<!ENTITY ODPExtension.from.category.greenbusts  "Greenbusts">
-<!ENTITY ODPExtension.from.category.logs  "Logs">
-<!ENTITY ODPExtension.from.category.cooling  "Cooling">
-<!ENTITY ODPExtension.from.category.new.editors  "New editors">
-<!ENTITY ODPExtension.from.category.new.editor.permissions  "New editor permissions">
-<!ENTITY ODPExtension.from.category.new.editor.permissions.recent  "New editor permissions ( recent )">
-<!ENTITY ODPExtension.from.category.new.categories  "New categories">
+<!ENTITY ODPExtension.filter.this.menu.ellipsis "Filter this menu…">
+<!ENTITY ODPExtension.find "Bul">
+<!ENTITY ODPExtension.forms.css "İnce tarz">
+<!ENTITY ODPExtension.forms.edit.url.description.lowercase "Açıklama harflerini küçült">
+<!ENTITY ODPExtension.forms.edit.url.fix.spaces "Ters bölüleri düzelt">
+<!ENTITY ODPExtension.forms.edit.url.formatter "Formatter">
+<!ENTITY ODPExtension.forms.edit.url.paste.formatted "Paste formatted">
+<!ENTITY ODPExtension.forum.pages "Editor Forum pages">
+<!ENTITY ODPExtension.forum.pages.custom.nicknames "Show custom nicknames">
 <!ENTITY ODPExtension.from.category.catmv  "Moved / Renamed categories">
+<!ENTITY ODPExtension.from.category.cooling  "Cooling">
+<!ENTITY ODPExtension.from.category.copy  "Copy">
+<!ENTITY ODPExtension.from.category.copy.abbreviated  "Copy abbreviated">
+<!ENTITY ODPExtension.from.category.copy.edit.url  "Copy edit URL">
+<!ENTITY ODPExtension.from.category.copy.encoded  "Copy encoded">
+<!ENTITY ODPExtension.from.category.copy.phpbb.link.with.anchor  "Copy phpBB link with anchor">
+<!ENTITY ODPExtension.from.category.copy.selection  "Copy selection">
+<!ENTITY ODPExtension.from.category.copy.worldlinkerate  "Copy worldlinkerate URL">
+<!ENTITY ODPExtension.from.category.cut  "Cut">
+<!ENTITY ODPExtension.from.category.decode.links.anchors  "Decode links anchors">
+<!ENTITY ODPExtension.from.category.delete  "Delete">
 <!ENTITY ODPExtension.from.category.deleted.categories "Deleted categories">
-
-<!ENTITY ODPExtension.from.category.terms  "Terms">
-<!ENTITY ODPExtension.from.category.last.edits  "Last edits">
-<!ENTITY ODPExtension.from.category.external.search  "External search">
-<!ENTITY ODPExtension.from.category.find.subcategory  "Find subcategory">
-<!ENTITY ODPExtension.from.category.find.subcategory.called  "Find subcategory called">
-<!ENTITY ODPExtension.from.category.display.subcategories  "Display subcategories">
 <!ENTITY ODPExtension.from.category.display.all.subcategories  "Display all subcategories">
 <!ENTITY ODPExtension.from.category.display.empty.categories  "Display empty categories">
-<!ENTITY ODPExtension.from.category.find.links.to.here  "Find @links to here">
-<!ENTITY ODPExtension.from.category.find.related.categories.to.here  "Find related categories to here">
-<!ENTITY ODPExtension.from.category.find.in.category.description  "Find in category description">
-<!ENTITY ODPExtension.from.category.find.in.site.title  "Find in site title">
-<!ENTITY ODPExtension.from.category.find.in.site.description  "Find in site description">
-<!ENTITY ODPExtension.from.category.find.in.site.url  "Find in site URL">
-<!ENTITY ODPExtension.from.category.find.editors.rdf  "Find editors RDF">
-<!ENTITY ODPExtension.from.category.find.editors.scan  "Find editors scan">
-<!ENTITY ODPExtension.from.category.tools  "Tools">
-
-
-<!ENTITY ODPExtension.from.category.find.all.links.from.here.or.from.any.subcategory "Find all @links from here or from any of its subcategories">
-<!ENTITY ODPExtension.from.category.find.all.links.to.here "Find all @links to here">
-<!ENTITY ODPExtension.from.category.find.all.links.to.here.or.to.any.subcategory "Find all @links to here or to any of its subcategories">
-
-<!ENTITY ODPExtension.from.category.find.all.related.from.here.or.from.any.subcategory "Find all related categories from here or from any of its subcategories">
-<!ENTITY ODPExtension.from.category.find.all.related.to.here "Find all related categories to here">
-<!ENTITY ODPExtension.from.category.find.all.related.to.here.or.to.any.subcategory "Find all related categories to here or to any of its subcategories">
-
+<!ENTITY ODPExtension.from.category.display.subcategories  "Display subcategories">
+<!ENTITY ODPExtension.from.category.edit  "Edit">
+<!ENTITY ODPExtension.from.category.edit.altlangs  "Edit Altlangs">
+<!ENTITY ODPExtension.from.category.edit.description  "Edit Description">
+<!ENTITY ODPExtension.from.category.edit.faq  "Edit FAQ">
+<!ENTITY ODPExtension.from.category.edit.links  "Edit @links">
+<!ENTITY ODPExtension.from.category.edit.mozilla  "Edit Mozilla">
+<!ENTITY ODPExtension.from.category.edit.related  "Edit Related">
+<!ENTITY ODPExtension.from.category.edit.usenet  "Edit Usenet">
+<!ENTITY ODPExtension.from.category.encode.decode  "Enc/Dec">
+<!ENTITY ODPExtension.from.category.encode.links.anchors  "Encode links anchors">
+<!ENTITY ODPExtension.from.category.errors  "Errors">
+<!ENTITY ODPExtension.from.category.external.search  "External search">
+<!ENTITY ODPExtension.from.category.find  "Find">
 <!ENTITY ODPExtension.from.category.find.all.altlangs.from.here.or.from.any.subcategory "Find all altlangs from here or from any of its subcategories">
 <!ENTITY ODPExtension.from.category.find.all.altlangs.to.here "Find all altlangs to here">
 <!ENTITY ODPExtension.from.category.find.all.altlangs.to.here.or.to.any.subcategory "Find all altlangs to here or to any of its subcategories">
+<!ENTITY ODPExtension.from.category.find.all.links.from.here.or.from.any.subcategory "Find all @links from here or from any of its subcategories">
+<!ENTITY ODPExtension.from.category.find.all.links.to.here "Find all @links to here">
+<!ENTITY ODPExtension.from.category.find.all.links.to.here.or.to.any.subcategory "Find all @links to here or to any of its subcategories">
+<!ENTITY ODPExtension.from.category.find.all.related.from.here.or.from.any.subcategory "Find all related categories from here or from any of its subcategories">
+<!ENTITY ODPExtension.from.category.find.all.related.to.here "Find all related categories to here">
+<!ENTITY ODPExtension.from.category.find.all.related.to.here.or.to.any.subcategory "Find all related categories to here or to any of its subcategories">
+<!ENTITY ODPExtension.from.category.find.editors.rdf  "Find editors RDF">
+<!ENTITY ODPExtension.from.category.find.editors.scan  "Find editors scan">
+<!ENTITY ODPExtension.from.category.find.in.category.description  "Find in category description">
+<!ENTITY ODPExtension.from.category.find.in.site.description  "Find in site description">
+<!ENTITY ODPExtension.from.category.find.in.site.title  "Find in site title">
+<!ENTITY ODPExtension.from.category.find.in.site.url  "Find in site URL">
+<!ENTITY ODPExtension.from.category.find.links.to.here  "Find @links to here">
+<!ENTITY ODPExtension.from.category.find.related.categories.to.here  "Find related categories to here">
+<!ENTITY ODPExtension.from.category.find.subcategory  "Find subcategory">
+<!ENTITY ODPExtension.from.category.find.subcategory.called  "Find subcategory called">
+<!ENTITY ODPExtension.from.category.greenbusts  "Greenbusts">
+<!ENTITY ODPExtension.from.category.last.edits  "Last edits">
+<!ENTITY ODPExtension.from.category.logs  "Logs">
 <!ENTITY ODPExtension.from.category.navigate "Navigate">
+<!ENTITY ODPExtension.from.category.new.categories  "New categories">
+<!ENTITY ODPExtension.from.category.new.category  "New Category">
+<!ENTITY ODPExtension.from.category.new.editor.permissions  "New editor permissions">
+<!ENTITY ODPExtension.from.category.new.editor.permissions.recent  "New editor permissions ( recent )">
+<!ENTITY ODPExtension.from.category.new.editors  "New editors">
+<!ENTITY ODPExtension.from.category.open  "Open">
+<!ENTITY ODPExtension.from.category.open.description  "Open description">
+<!ENTITY ODPExtension.from.category.open.faq  "Open FAQ">
+<!ENTITY ODPExtension.from.category.open.worldlinkerate.url  "Open worldlinkerate URL">
 <!ENTITY ODPExtension.from.category.parents "Parents">
-
-
-
-
-<!ENTITY ODPExtension.from.editor.feedback "Feedback">
-
-<!ENTITY ODPExtension.from.editor.edit.summary "Edit summary">
-<!ENTITY ODPExtension.from.editor.detailed.edits "Detailed edits">
-<!ENTITY ODPExtension.from.editor.requested.categories "Requested categories">
+<!ENTITY ODPExtension.from.category.paste  "Paste">
+<!ENTITY ODPExtension.from.category.power  "Power">
+<!ENTITY ODPExtension.from.category.power.sort.email  "Power sort email">
+<!ENTITY ODPExtension.from.category.power.sort.ip  "Power sort IP">
+<!ENTITY ODPExtension.from.category.power.sort.title  "Power sort title">
+<!ENTITY ODPExtension.from.category.power.sort.url  "Power sort URL">
+<!ENTITY ODPExtension.from.category.sort.priority  "Sort Priority">
+<!ENTITY ODPExtension.from.category.super  "Super">
+<!ENTITY ODPExtension.from.category.super.sort.cat  "Super sort cat">
+<!ENTITY ODPExtension.from.category.super.sort.email  "Super sort email">
+<!ENTITY ODPExtension.from.category.super.sort.ip  "Super sort IP">
+<!ENTITY ODPExtension.from.category.super.sort.title  "Super sort title">
+<!ENTITY ODPExtension.from.category.super.sort.url  "Super sort URL">
+<!ENTITY ODPExtension.from.category.terms  "Terms">
+<!ENTITY ODPExtension.from.category.tools  "Tools">
+<!ENTITY ODPExtension.from.category.unreview  "Unreview">
+<!ENTITY ODPExtension.from.category.updates  "Updates">
 <!ENTITY ODPExtension.from.editor.cooling.log "Cooling log">
-<!ENTITY ODPExtension.from.editor.new.categories  "New categories">
 <!ENTITY ODPExtension.from.editor.deleted.categories "Deleted categories">
-
+<!ENTITY ODPExtension.from.editor.detailed.edits "Detailed edits">
+<!ENTITY ODPExtension.from.editor.edit.summary "Edit summary">
+<!ENTITY ODPExtension.from.editor.feedback "Feedback">
+<!ENTITY ODPExtension.from.editor.log.new.editors "New editor log">
+<!ENTITY ODPExtension.from.editor.new.categories  "New categories">
 <!ENTITY ODPExtension.from.editor.profile.private "Editor side profile">
 <!ENTITY ODPExtension.from.editor.profile.public "Public profile">
-
-<!ENTITY ODPExtension.from.editor.log.new.editors "New editor log">
-
-
-
+<!ENTITY ODPExtension.from.editor.requested.categories "Requested categories">
+<!ENTITY ODPExtension.key.alt "Alt">
+<!ENTITY ODPExtension.key.ctrl "Control(Command)">
+<!ENTITY ODPExtension.key.shift "Shift">
+<!ENTITY ODPExtension.last.update "Son Güncelleme">
+<!ENTITY ODPExtension.left "Left">
+<!ENTITY ODPExtension.local.category.finder "Local Category Finder">
+<!ENTITY ODPExtension.local.category.finder.find.all "Find in All">
+<!ENTITY ODPExtension.local.category.finder.find.regional "Find in Regional">
+<!ENTITY ODPExtension.local.category.finder.find.top "Find in Topical">
+<!ENTITY ODPExtension.local.category.finder.find.world "Find in World">
+<!ENTITY ODPExtension.miscellaneous "Diğerleri">
+<!ENTITY ODPExtension.navegador "Tarayıcı">
+<!ENTITY ODPExtension.odp.extension.project "ODP Extension Project">
+<!ENTITY ODPExtension.places "Yerler">
+<!ENTITY ODPExtension.please.wait "Wait please be patient">
+<!ENTITY ODPExtension.preferences "Yapılandırma">
+<!ENTITY ODPExtension.preferences.apply "Uygula">
+<!ENTITY ODPExtension.preferences.cancel "İptal">
+<!ENTITY ODPExtension.preferences.defaults "Varsayılan">
+<!ENTITY ODPExtension.preferences.ellipsis "Preferences…">
+<!ENTITY ODPExtension.preferences.export "Dışarı ver">
+<!ENTITY ODPExtension.preferences.font.size "Yazı Tipi Boyutu">
+<!ENTITY ODPExtension.preferences.import "İçeri al">
+<!ENTITY ODPExtension.preferences.save "Kabul Et">
+<!ENTITY ODPExtension.privacy.information "Small print">
+<!ENTITY ODPExtension.privacy.no.referrer "Don't send referrer from private ODP domains (will sent the visited URL, not an empty referrer)">
+<!ENTITY ODPExtension.privacy.private.browsing.on "Disable the extension when entering on private browsing mode">
+<!ENTITY ODPExtension.privacy.queries.exclude.domains "Aşağıdaki alan adları istisnadır">
+<!ENTITY ODPExtension.privacy.queries.exclude.https "Güvenli siteleri hariç tut, https:// protokolü">
+<!ENTITY ODPExtension.privacy.queries.exclude.ips "http://207.200.81.154/ gibi bütün IP'leri hariç tut. Not: Özel IP'ler her zaman bloke edilir">
+<!ENTITY ODPExtension.privacy.queries.exclude.strings "The URLs with the following strings are excluded">
+<!ENTITY ODPExtension.progress.download "Download progress">
+<!ENTITY ODPExtension.progress.process "Process progress">
+<!ENTITY ODPExtension.progress.saving "Saving progress">
+<!ENTITY ODPExtension.rdf.parse.files "Build or update the SQLite database with the content of the RDF files">
+<!ENTITY ODPExtension.reset.menu "Reset menu">
+<!ENTITY ODPExtension.right "Right">
+<!ENTITY ODPExtension.search.ellipsis "Arama">
+<!ENTITY ODPExtension.single.key.command "Single key command">
+<!ENTITY ODPExtension.sisters.categories "Sisters Categories">
+<!ENTITY ODPExtension.tab.advanced "Advanced">
+<!ENTITY ODPExtension.tab.help "Help!?">
+<!ENTITY ODPExtension.tab.icon.clicks "Icon Clicks">
+<!ENTITY ODPExtension.tab.license "Lisans">
+<!ENTITY ODPExtension.tab.open.in.new.tab "Open in new Tab">
+<!ENTITY ODPExtension.tab.open.in.new.window "Open in new window">
+<!ENTITY ODPExtension.tab.privacy "Gizlilik">
+<!ENTITY ODPExtension.tab.select.tab "Give Focus To Tab">
+<!ENTITY ODPExtension.tab.tab.behavior "Tab Behavior">
+<!ENTITY ODPExtension.tab.translate "Çevir">
+<!ENTITY ODPExtension.tab.ui "User Interface">
 <!ENTITY ODPExtension.tab.url.notes "ODP Notları">
-
-<!ENTITY ODPExtension.url.notes.action.update "Güncelle">
-<!ENTITY ODPExtension.url.notes.action.unreview "İncelenmemiş">
+<!ENTITY ODPExtension.tab.url.tools "URL Tools">
+<!ENTITY ODPExtension.toolbars.toggle "Toggle Toolbars &amp; Toolbars Buttons">
+<!ENTITY ODPExtension.top "Top">
+<!ENTITY ODPExtension.ui.context.menu "Sağ tıklama menüsü">
+<!ENTITY ODPExtension.ui.context.menu.categories "Kategoriler">
+<!ENTITY ODPExtension.ui.context.menu.categories.one.per.line "Categories ( one per line )">
+<!ENTITY ODPExtension.ui.context.menu.frame "Open Frame &quot;{URL}&quot;">
+<!ENTITY ODPExtension.ui.context.menu.frame.selected "Open Selected Frame">
+<!ENTITY ODPExtension.ui.context.menu.frames "Çerçeveler">
+<!ENTITY ODPExtension.ui.context.menu.from.categories "From categories">
+<!ENTITY ODPExtension.ui.context.menu.from.category "From category &quot;{CATEGORY}&quot;">
+<!ENTITY ODPExtension.ui.context.menu.from.category.empty "From category">
+<!ENTITY ODPExtension.ui.context.menu.from.category.in.tab.context.menu "In tab context menu">
+<!ENTITY ODPExtension.ui.context.menu.from.editor "From editor &quot;{EDITOR}&quot;">
+<!ENTITY ODPExtension.ui.context.menu.from.editor.empty "From editor">
+<!ENTITY ODPExtension.ui.context.menu.from.editors "From editors &quot;{EDITORS}&quot;">
+<!ENTITY ODPExtension.ui.context.menu.from.editors.empty "From editors">
+<!ENTITY ODPExtension.ui.context.menu.translate "Translate to">
+<!ENTITY ODPExtension.ui.context.menu.translate.languages "Languages in the translate context menu">
+<!ENTITY ODPExtension.ui.context.menu.url.tools "URL Araçları">
+<!ENTITY ODPExtension.ui.context.menu.word.reference "Sözcük Kontrolü">
+<!ENTITY ODPExtension.ui.forms.css "Pretty form styles">
+<!ENTITY ODPExtension.ui.from.category.auto "Show command menu when a category is highlighted ( Recommended )">
+<!ENTITY ODPExtension.ui.from.context.menu "'From' context menu">
+<!ENTITY ODPExtension.ui.informative.panel "Bilgi kutusunu göster">
+<!ENTITY ODPExtension.ui.informative.panel.categories.align.left "Categories align to left side">
+<!ENTITY ODPExtension.ui.informative.panel.categories.titles.urls "Categories, titles and URLs">
+<!ENTITY ODPExtension.ui.informative.panel.description "Açıklama">
+<!ENTITY ODPExtension.ui.informative.panel.reset.position "Reset position of the panel">
+<!ENTITY ODPExtension.ui.informative.panel.show "Show the informative panel">
+<!ENTITY ODPExtension.ui.informative.panel.show.inside "Bilgi penceresinde göster">
+<!ENTITY ODPExtension.ui.informative.panel.title "Başlık">
+<!ENTITY ODPExtension.ui.informative.panel.url "URL">
+<!ENTITY ODPExtension.update.now "Update now">
+<!ENTITY ODPExtension.url.notes.action.copy "Copy">
 <!ENTITY ODPExtension.url.notes.action.delete "Sil">
 <!ENTITY ODPExtension.url.notes.action.move "Move">
-<!ENTITY ODPExtension.url.notes.action.copy "Copy">
-<!ENTITY ODPExtension.url.notes.new.note "Yeni not">
-<!ENTITY ODPExtension.url.notes.form.submit.confirm "Gönderdikten sonra onay iste">
+<!ENTITY ODPExtension.url.notes.action.unreview "İncelenmemiş">
+<!ENTITY ODPExtension.url.notes.action.update "Güncelle">
+<!ENTITY ODPExtension.url.notes.copy.to.category.publish "Copy site to public directory in category…">
+<!ENTITY ODPExtension.url.notes.copy.to.category.unreview "Copy site to unreview in category…">
 <!ENTITY ODPExtension.url.notes.form.next.site "Sonraki">
 <!ENTITY ODPExtension.url.notes.form.reset "Sıfırla">
 <!ENTITY ODPExtension.url.notes.form.submit "Formu gönder">
-<!ENTITY ODPExtension.url.notes.move.to.category.unreview "Move to unreview in category…">
+<!ENTITY ODPExtension.url.notes.form.submit.confirm "Gönderdikten sonra onay iste">
 <!ENTITY ODPExtension.url.notes.move.to.category.publish "Move to public directory in category…">
-<!ENTITY ODPExtension.url.notes.copy.to.category.unreview "Copy site to unreview in category…">
-<!ENTITY ODPExtension.url.notes.copy.to.category.publish "Copy site to public directory in category…">
-
-
-
-<!ENTITY ODPExtension.forms.css "İnce tarz">
-
-
-
-<!ENTITY ODPExtension.forms.edit.url.description.lowercase "Açıklama harflerini küçült">
-<!ENTITY ODPExtension.forms.edit.url.fix.spaces "Ters bölüleri düzelt">
-<!ENTITY ODPExtension.forms.edit.url.paste.formatted "Paste formatted">
-<!ENTITY ODPExtension.forms.edit.url.formatter "Formatter">
-
-<!ENTITY ODPExtension.rdf.parse.files "Build or update the SQLite database with the content of the RDF files">
-
-
-
-<!ENTITY odpsite.str.maybe.already.in "Listelenmiş">
-<!ENTITY odpsite.str.informative.popup "Informative pop-up">
-<!ENTITY odpsite.str.disable.listings.verification "Listeleme doğrulamasını devre dışı bırak">
-<!ENTITY odpsite.str.engine.used.to.get.info.about.the.site "Sitelerin listelendiğini öğrenmek için kullanılacak motor">
-<!ENTITY odpsite.str.select.all.opened.tabs "Tüm açık sekmeleri seç">
-<!ENTITY odpsite.str.if.it.is.valid "Geçerliyse">
-<!ENTITY odpsite.str.start.find.as.i.type "Adresi yazarken aramayı başlat. Not: Başlamak için alan adını ve bir bölü işaretini yazmış olmalısınız">
-<!ENTITY odpsite.str.switch.engine "Motoru değiştir">
-<!ENTITY odpsite.str.general "Genel">
-
-<!ENTITY odpsite.str.category.browser.menu "Category browser menu">
-<!ENTITY odpsite.str.locked.categories "Kilitli kategoriler">
-<!ENTITY odpsite.str.maximum.categories.in.menu "Maximum categories in menu">
-<!ENTITY odpsite.str.worldlinkerate.desc "Sends to unreview the following site to the selected categories">
-<!ENTITY ODPExtension.ui.context.menu.categories.one.per.line "Categories ( one per line )">
-<!ENTITY odpsite.str.click.on.this.box.if.this.is.a.uk.site "Click on this box if this is a UK site">
-<!ENTITY odpsite.str.sort.date.optional.only.for.media.references "Sort Date, optional, only for media references">
-<!ENTITY odpsite.str.what.type.of.link.is.this "Bu ne tür bir bağlaç?">
-<!ENTITY odpsite.str.urls "URL'ler">
-<!ENTITY odpsite.str.editors "Editörler">
-<!ENTITY odpsite.str.styling "Styling">
+<!ENTITY ODPExtension.url.notes.move.to.category.unreview "Move to unreview in category…">
+<!ENTITY ODPExtension.url.notes.new.note "Yeni not">
+<!ENTITY ODPExtension.url.tools.available.variables "Available variables:">
+<!ENTITY ODPExtension.url.tools.link.check.listing "Siteleri işaretle">
+<!ENTITY ODPExtension.url.tools.link.check.status "HTTP durumunu kontrol et">
 <!ENTITY odpsite.str.add.on.description "Different editing experience">
-<!ENTITY odpsite.str.dont.skip.test.and.bookmarks "Don't Skip Test &amp; Bookmarks">
-<!ENTITY ODPExtension.category.edit.page "Category edit page">
-<!ENTITY ODPExtension.category.public.pages "Public page">
-<!ENTITY ODPExtension.navegador "Tarayıcı">
-<!ENTITY ODPExtension.navegador.abbreviate.tabs.titles "Abbreviate the tab's title">
-<!ENTITY odpsite.str.odp.urls "ODP Adresleri">
-<!ENTITY odpsite.str.field "Alan">
-<!ENTITY odpsite.str.start "Başlat">
-<!ENTITY odpsite.str.starting.category "Starting category">
 <!ENTITY odpsite.str.append.search "Append search">
-<!ENTITY odpsite.str.usage "Kullanım">
+<!ENTITY odpsite.str.category.browser.menu "Category browser menu">
 <!ENTITY odpsite.str.clear.cached.data "Clear cached data">
 <!ENTITY odpsite.str.clear.current.database "Clear current database">
-
+<!ENTITY odpsite.str.click.on.this.box.if.this.is.a.uk.site "Click on this box if this is a UK site">
+<!ENTITY odpsite.str.disable.listings.verification "Listeleme doğrulamasını devre dışı bırak">
+<!ENTITY odpsite.str.dont.skip.test.and.bookmarks "Don't Skip Test &amp; Bookmarks">
+<!ENTITY odpsite.str.editors "Editörler">
+<!ENTITY odpsite.str.engine.used.to.get.info.about.the.site "Sitelerin listelendiğini öğrenmek için kullanılacak motor">
+<!ENTITY odpsite.str.field "Alan">
+<!ENTITY odpsite.str.general "Genel">
+<!ENTITY odpsite.str.if.it.is.valid "Geçerliyse">
+<!ENTITY odpsite.str.informative.popup "Informative pop-up">
+<!ENTITY odpsite.str.locked.categories "Kilitli kategoriler">
+<!ENTITY odpsite.str.maximum.categories.in.menu "Maximum categories in menu">
+<!ENTITY odpsite.str.maybe.already.in "Listelenmiş">
+<!ENTITY odpsite.str.odp.urls "ODP Adresleri">
+<!ENTITY odpsite.str.select.all.opened.tabs "Tüm açık sekmeleri seç">
+<!ENTITY odpsite.str.sort.date.optional.only.for.media.references "Sort Date, optional, only for media references">
+<!ENTITY odpsite.str.start "Başlat">
+<!ENTITY odpsite.str.start.find.as.i.type "Adresi yazarken aramayı başlat. Not: Başlamak için alan adını ve bir bölü işaretini yazmış olmalısınız">
+<!ENTITY odpsite.str.starting.category "Starting category">
+<!ENTITY odpsite.str.styling "Styling">
+<!ENTITY odpsite.str.switch.engine "Motoru değiştir">
+<!ENTITY odpsite.str.urls "URL'ler">
+<!ENTITY odpsite.str.usage "Kullanım">
+<!ENTITY odpsite.str.what.type.of.link.is.this "Bu ne tür bir bağlaç?">
+<!ENTITY odpsite.str.worldlinkerate.desc "Sends to unreview the following site to the selected categories">

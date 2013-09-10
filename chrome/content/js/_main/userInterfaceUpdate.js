@@ -10,7 +10,6 @@
 				//this.dump('userInterfaceUpdate', debugingThisFile);
 
 				this.extensionIconUpdatePosition();
-				//this.extensionIconUpdateStatus(); //this fires on location change
 				this.categoryBrowserMenuUpdate();
 
 				//odp notes
@@ -21,8 +20,6 @@
 				this.odpURLNotesToolbarbuttonsMenuReset('move-unreview');
 				this.odpURLNotesToolbarbuttonsMenuReset('copy-publish');
 				this.odpURLNotesToolbarbuttonsMenuReset('copy-unreview');
-
-				//this.listingGetInformation(this.focusedURL); //this fires on location change
 
 				if(this.preferenceGet('ui.informative.panel.categories.align.left'))
 				{
@@ -180,9 +177,6 @@
 						this.cssRemove('forms.css');
 
 				}
-
-				//this.setFocusedCategory(true);//to update the UI based on the categories txt data //this fires on location change
-
 			}
 	return null;
 

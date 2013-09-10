@@ -15,22 +15,13 @@
 				{
 					this.focusedCategory = focusedCategory;
 
+					this.dispatchEvent('onFocusedCategoryChange', focusedCategory);
+
 					//saving the category to the table of categories history
 					this.categoryHistoryInsert(focusedCategory, this.focusedURL, this.date());
 
 					if(this.shared.categories.txt.exists)
 					{
-						//toolbar buttons
-							//sisters categories
-							if(this.getElement('toolbarbutton-sisters-categories'))
-							{
-								if(this.inArray(this.shared.categories.sisters.focused.no, focusedCategory))
-									this.getElement('toolbarbutton-sisters-categories').setAttribute('nocategories', true);
-								else
-									this.getElement('toolbarbutton-sisters-categories').setAttribute('nocategories', false);
-								this.getElement('toolbarbutton-sisters-categories').firstChild.setAttribute('value', focusedCategory);
-							}
-
 						//toolbars
 							//category navigator
 									//update toolbar contents
@@ -44,13 +35,10 @@
 				{
 					this.focusedCategory = '';
 
+					this.dispatchEvent('onFocusedCategoryChange', focusedCategory);
+
 					if(this.shared.categories.txt.exists)
 					{
-						//toolbar buttons
-							//sisters categories
-							if(this.getElement('toolbarbutton-sisters-categories'))
-								this.getElement('toolbarbutton-sisters-categories').setAttribute('nocategories', true);
-
 						//toolbars
 							//category navigator
 							if(!this.getElement('toolbar-category-navigator').collapsed)

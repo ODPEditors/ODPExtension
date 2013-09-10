@@ -3,13 +3,14 @@
 	//hides or shows all the toolbars and toolbars buttons
 	this.toolbarsToggle = function()
 	{
+
+		this.dispatchEvent('onToolbarsToggle', this.preferenceGet('toolbars.toggle'));
+
 		if(this.preferenceGet('toolbars.toggle'))
 		{
 			//toolbars buttons
 			if(this.getElement('toolbarbutton-category-browser'))
 				this.toolbarOpenRemember(this.getElement('toolbarbutton-category-browser'));
-			if(this.getElement('toolbarbutton-sisters-categories'))
-				this.toolbarOpenRemember(this.getElement('toolbarbutton-sisters-categories'));
 			if(this.getElement('toolbarbutton-add-to-open-directory'))
 				this.toolbarOpenRemember(this.getElement('toolbarbutton-add-to-open-directory'));
 			if(this.getElement('toolbarbutton-odp-url-notes-update'))
@@ -44,8 +45,6 @@
 			//toolbars buttons
 			if(this.getElement('toolbarbutton-category-browser'))
 				this.toolbarCloseRemember(this.getElement('toolbarbutton-category-browser'));
-			if(this.getElement('toolbarbutton-sisters-categories'))
-				this.toolbarCloseRemember(this.getElement('toolbarbutton-sisters-categories'));
 			if(this.getElement('toolbarbutton-add-to-open-directory'))
 				this.toolbarCloseRemember(this.getElement('toolbarbutton-add-to-open-directory'));
 			if(this.getElement('toolbarbutton-odp-url-notes-update'))

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://ODPExtension/locale/xul.dtd">
+
+<?xml-stylesheet href="sisterCategories.css" type="text/css"?>
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/x-javascript" src="sistersCategories.js"></script>
+
+<hbox id="urlbar-icons">
+
+	<image
+			id="ODPExtension-toolbarbutton-sisters-categories"
+			tooltiptext="&ODPExtension.sisters.categories;"
+			nocategories="true"
+			class="plain urlbar-icon"
+			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+		/>
+
+</hbox>
+
+<window id="main-window">
+
+	<!-- don't use oncommand in this; will not work over menu tags -->
+	<menupopup
+		id="ODPExtension-toolbarbutton-sisters-categories-menupopup"
+		onpopupshowing="this.removeAttribute('height');ODPExtension.sistersCategoriesMenuUpdate(this, event)"
+		onmouseover="ODPExtension.categoryBrowserNavigate(event);"
+		onmouseout="ODPExtension.categoryBrowserNavigate(event);"
+
+		onmouseup="ODPExtension.stopEvent(event);ODPExtension.categoryBrowserClick(event)"
+
+		context="ODPExtension-from-category"
+		class="ODPExtension-category-filter"
+		crop="end"
+		ignorekeys="true"
+	/>
+
+</window>
+</overlay>

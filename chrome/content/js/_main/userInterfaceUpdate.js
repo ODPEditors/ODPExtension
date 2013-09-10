@@ -55,8 +55,7 @@
 					this.getElement('toolbar-local-category-finder').setAttribute('hidden', true);
 					this.getElement('toolbar-category-navigator').setAttribute('hidden', true);
 					//toolbarbuttons
-					if(this.getElement('toolbarbutton-sisters-categories'))
-						this.getElement('toolbarbutton-sisters-categories').setAttribute('hidden', true);
+
 					if(this.getElement('toolbarbutton-category-browser'))
 						this.getElement('toolbarbutton-category-browser').setAttribute('hidden', true);
 					if(this.getElement('toolbarbutton-toggle'))
@@ -140,9 +139,6 @@
 						//toolbars
 						this.getElement('toolbar-local-category-finder').setAttribute('hidden', false);
 						this.getElement('toolbar-category-navigator').setAttribute('hidden', false);
-						//toolbarbuttons
-						if(this.getElement('toolbarbutton-sisters-categories'))
-							this.getElement('toolbarbutton-sisters-categories').setAttribute('hidden', false);
 						//category browser menulist y search button
 						document.getAnonymousElementByAttribute(this.getElement('category-browser') , "anonid", "ODPExtension-category-browser-menulist-data-xbl").setAttribute('hidden', false);
 					}
@@ -153,9 +149,6 @@
 						//toolbars
 						this.getElement('toolbar-local-category-finder').setAttribute('hidden', true);
 						this.getElement('toolbar-category-navigator').setAttribute('hidden', true);
-						//toolbarbuttons
-						if(this.getElement('toolbarbutton-sisters-categories'))
-							this.getElement('toolbarbutton-sisters-categories').setAttribute('hidden', true);
 						//category browser menulist y search button
 						document.getAnonymousElementByAttribute(this.getElement('category-browser') , "anonid", "ODPExtension-category-browser-menulist-data-xbl").setAttribute('hidden', true);
 					}
@@ -177,6 +170,8 @@
 						this.cssRemove('forms.css');
 
 				}
+
+				this.dispatchEvent('onUserInterfaceUpdate', this.preferenceGet('enabled'));
 			}
 	return null;
 

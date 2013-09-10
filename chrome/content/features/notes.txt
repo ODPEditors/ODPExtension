@@ -1,0 +1,4 @@
+Having everything in a super big XUL file is insane, also there is very related pieces of code such js, css and xml in different places.
+Let's organize these in folders heres..
+
+Once "insulated" get all the features organized we can just move all the content to the parent folder.

@@ -10,7 +10,7 @@
 			this.odpURLNotesToolbarbuttonsMenuReset = function(aType)
 			{
 				if(this.getElement('toolbarbutton-odp-url-notes-'+aType))
-					this.getElement('toolbarbutton-odp-url-notes-'+aType).firstChild.setAttribute('build', 'false');
+					this.getElement('toolbarbutton-odp-url-notes-'+aType+'-menupopup').setAttribute('build', 'false');
 			}
 	return null;
 

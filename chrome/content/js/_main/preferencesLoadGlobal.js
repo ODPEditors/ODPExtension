@@ -47,9 +47,7 @@
 
 					//sisters categories
 						shared.categories.sisters = {};
-					//sisters categories, categories that doenst have a sister category
-						shared.categories.sisters.focused = {}
-						shared.categories.sisters.focused.no = []
+
 					//categories without subcategories and  sisters
 						shared.categories.sisters.no = [];
 
@@ -113,6 +111,8 @@
 					//getting the reference
 						this.shared = this.sharedObjectGet('shared');
 				}
+
+				this.dispatchEvent('onPreferencesLoadGlobal');
 
 				if(!this.preferenceGet('enabled'))
 				{

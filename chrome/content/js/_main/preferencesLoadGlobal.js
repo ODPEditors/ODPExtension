@@ -40,7 +40,6 @@
 						shared.categories.txt = {};
 						shared.categories.txt.lock = false;
 						shared.categories.txt.exists = false;
-					//
 
 					//session categories, categories that has been opened in this browser session
 						shared.categories.session = {};
@@ -70,12 +69,35 @@
 					//privacy - continue below
 						shared.privacy = {};
 						shared.privacy.odp = {};
-						shared.privacy.odp.subdomains = [
-														  'editors.dmoz.org',
-														  'forums.dmoz.org'
-													  ];
+						shared.privacy.odp.subdomains = [];
+						shared.privacy.odp.domains = [
+							'dmoz.org'
+							,'danielmclean.id.au'
+							,'dlugan.com'
+							,'jtlabs.net'
+							,'tubert.org'
+							,'pmoz.info'
+							,'mathmos.net'
+							,'rpfuller.com'
+							,'rpfuller.org'
+							,'godzuki.com.uy'
+						];
 
-						shared.privacy.odp.domains = [];
+						shared.privacy.odp.noReferrer = [
+							'dmoz.org/editors/'
+							,'forums.dmoz.org/'
+							,'research.dmoz.org/'
+							,'passport.dmoz.org/'
+							,'odp.danielmclean.id.au/'
+							,'odp.dlugan.com/'
+							,'odp.jtlabs.net/'
+							,'odp.tubert.org/'
+							,'pmoz.info/'
+							,'robert.mathmos.net/odp/'
+							,'rpfuller.com/'
+							,'rpfuller.org/'
+							,'godzuki.com.uy/mimizu/'
+						];
 
 					//editors
 
@@ -117,13 +139,15 @@
 
 					//privacy
 					this.shared.privacy.noReferrer = this.trim(this.preferenceGet('advanced.urls.odp.private.no.referrer')).split('\n');
+					for(var id in this.shared.privacy.odp.noReferrer)
+						this.shared.privacy.noReferrer.push('^[a-z]+\\:/+([^/]+)?\\.?'+(this.shared.privacy.odp.noReferrer[id].replace(/\./g, '\\.')))
+					this.shared.privacy.noReferrer = this.arrayUnique(this.shared.privacy.noReferrer)
+
 					this.shared.privacy.excluded = {};
 					this.shared.privacy.excluded.domains = this.trim(this.preferenceGet('privacy.queries.exclude.domains').replace(/\./g, '\\.').replace(/\*/g, '.*')).split('\n');
 					this.shared.privacy.excluded.strings = this.trim(this.preferenceGet('privacy.queries.exclude.strings')).split('\n');
 					for(var id in this.shared.privacy.excluded.strings)
-					{
 						this.shared.privacy.excluded.strings[id] = this.trim(this.shared.privacy.excluded.strings[id]).toLowerCase();
-					}
 
 			}
 

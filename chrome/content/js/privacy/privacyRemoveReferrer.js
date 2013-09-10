@@ -24,6 +24,7 @@
 							{
 								//not like the others this sets as refferer the URL that we will open
 								//this.dump('privacyRemoveReferrer:this.privacyRemoveReferrerURLs[id]'+this.shared.privacy.noReferrer[id], debugingThisFile);
+
 								//if is a redirection send as reffer the redirection
 								if(aSubject.URI && aSubject.URI.asciiSpec && aSubject.URI.asciiSpec != aSubject.originalURI.asciiSpec)
 									aSubject.setRequestHeader('Referer', aSubject.URI.asciiSpec, false);

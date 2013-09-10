@@ -13,6 +13,8 @@ A MEDIAS
 
 	plugins
 
+	linkchecker
+		detect frameset, detect absent of plugins and no content, detect when the page only has 1 link
 ----------------------------------------------------------------
 
 	WORLINKERATE URL

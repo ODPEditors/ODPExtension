@@ -9,6 +9,15 @@
 
 			this.editingFormURLExists = function(aDoc)
 			{
+				var aLocation = this.documentGetLocation(aDoc);
+				if(
+				   aLocation.indexOf('http://http://www.dmoz.org/editors/editunrev/editurl?') === 0||
+				   aLocation.indexOf('http://http://www.dmoz.org/editors/editurl/edit?') === 0||
+				   aLocation.indexOf('http://http://www.dmoz.org/editors/editurl/add?') === 0
+				) {}
+				else
+					return false;
+
 				var exist = 0;
 
 				if(!aDoc.forms || !aDoc.forms[1] || !aDoc.forms[1].elements)

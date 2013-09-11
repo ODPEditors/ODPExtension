@@ -92,9 +92,9 @@
 						var button = this.create('button');
 							button.setAttribute('label', anArrayButtons[id][0]);
 							if(!anArrayButtons[id][1])
-								button.setAttribute('oncommand', 'this.parentNode.parentNode.parentNode.hidePopup();');
+								button.setAttribute('oncommand', 'try{this.parentNode.parentNode.parentNode.hidePopup();}catch(e){}');
 							else
-								button.setAttribute('oncommand', '('+anArrayButtons[id][1].toString()+')(ODPExtension.formValues(this.parentNode.parentNode.parentNode));this.parentNode.parentNode.parentNode.hidePopup();');
+								button.setAttribute('oncommand', '('+anArrayButtons[id][1].toString()+')(ODPExtension.formValues(this.parentNode.parentNode.parentNode));try{this.parentNode.parentNode.parentNode.hidePopup();}catch(e){}');
 						if(!defaultButton)
 						{
 							defaultButton = true;

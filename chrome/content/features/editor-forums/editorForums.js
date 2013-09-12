@@ -96,12 +96,17 @@
 
 					var privs = aDoc.createElement('span');
 
-					if(this.shared.editors.nicknames[name])
-						privs.innerHTML = this.shared.editors.nicknames[name].replace(/\t/g, '<br>');
-					else {
+					if(typeof(this.shared.editors.nicknames[name]) == 'undefined'){
 						privs.innerHTML = "("+this.getString('forums.strings.inactive')+")";
 						b.style.color = "#777";
+					} else if(this.shared.editors.nicknames[name] != ''){
+						privs.innerHTML = this.shared.editors.nicknames[name].replace(/\t/g, '<br>');
+						if(this.shared.editors.nicknames[name].trim() == 'admin')
+							b.style.color='#000000';
+						else if(this.shared.editors.nicknames[name].trim() == 'staff')
+							b.style.color='#669933';
 					}
+
 					privs.style.color="#777";
 					privs.style.fontSize="x-small";
 					span.parentNode.appendChild(privs);

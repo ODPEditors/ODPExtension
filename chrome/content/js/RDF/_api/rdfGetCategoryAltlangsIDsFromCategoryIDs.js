@@ -10,19 +10,19 @@
 
 				try{aCategoryID = aCategoryID.join(',');}catch(e){/*stupid....*/}
 
-				var query = this.DBRDF.query([/*stupid...*/
-									'	SELECT '+
-									'		DISTINCT(categories_id),'+
-									'		categories_path'+
-									'	FROM '+
-									'		`PREFIX_categories`,'+
-									'		`PREFIX_altlang`'+
-									'	where '+
-									'		altlang_id_from in ( '+aCategoryID+' ) and '+
-									'		(`categories_id` = altlang_id_to)'+
-									'	order by'+
-									'		categories_id asc'
-									]);
+				var query = this.DBRDF.query(' \
+										SELECT \
+											DISTINCT(categories_id),\
+											categories_path \
+										FROM \
+											`PREFIX_categories`,\
+											`PREFIX_altlang` \
+										where \
+											altlang_id_from in ( '+aCategoryID+' ) and \
+											(`categories_id` = altlang_id_to) \
+										order by \
+											categories_id asc \
+									');
 
 				if(!anArrayResults)
 					anArrayResults = [];

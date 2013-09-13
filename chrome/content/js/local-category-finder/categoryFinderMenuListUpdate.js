@@ -10,11 +10,12 @@
 		var databases = this.shared.categories.txt.databases;
 
 	//THE TOPICAL CATEGORIES
+
 		for(var id in databases)
 		{
 			var database =  databases[id];
 
-			if(database != '' && database.indexOf('World') == -1 && database.indexOf('Regional') == -1)
+			if(database != '' && database.indexOf('World') == -1 && database.indexOf('Regional') == -1 && database.indexOf('Kids') == -1 && database.indexOf('Adult') == -1)
 			{
 				var item = this.create('menuitem');
 					item.setAttribute('database', database);
@@ -22,6 +23,17 @@
 				list.appendChild(item);
 			}
 		}
+
+	//KT
+
+		var item = this.create('menuseparator');
+			item.setAttribute('class', 'thin');
+		list.appendChild(item);
+
+		var item = this.create('menuitem');
+			item.setAttribute('database', 'Kids_and_Teens.txt');
+			item.setAttribute('label', 'Kids_and_Teens.txt'.replace('.txt', '').replace(/-/g, ' : ').replace(/_/g, ' '));
+		list.appendChild(item);
 
 	//ENGLISH REGIONAL
 		var item = this.create('menuseparator');
@@ -56,6 +68,17 @@
 				list.appendChild(item);
 			}
 		}
+
+		//Adult
+		var item = this.create('menuseparator');
+			item.setAttribute('class', 'thin');
+		list.appendChild(item);
+
+		var item = this.create('menuitem');
+			item.setAttribute('database', 'Adult.txt');
+			item.setAttribute('label', 'Adult'.replace('.txt', '').replace(/-/g, ' : ').replace(/_/g, ' '));
+		list.appendChild(item);
+
 
 	//re select last selected
 		var somethingFound = false;

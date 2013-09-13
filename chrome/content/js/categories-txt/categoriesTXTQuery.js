@@ -28,7 +28,7 @@
 			{
 				for(var id in databases)
 				{
-					if(aDatabase == 'top' && databases[id].indexOf('World') == -1 && databases[id].indexOf('Regional') == -1)
+					if(aDatabase == 'top' && databases[id].indexOf('World') == -1 && databases[id].indexOf('Regional') == -1 && databases[id].indexOf('Kids') == -1 && databases[id].indexOf('Adult') == -1)
 						database[database.length] = databases[id];
 					else if(aDatabase == 'regional' && databases[id].indexOf('Regional') === 0)
 						database[database.length] = databases[id];

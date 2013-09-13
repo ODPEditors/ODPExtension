@@ -141,7 +141,7 @@
 <!ENTITY ODPExtension.local.category.finder "Local Category Finder">
 <!ENTITY ODPExtension.local.category.finder.find.all "Find in All">
 <!ENTITY ODPExtension.local.category.finder.find.regional "Find in Regional">
-<!ENTITY ODPExtension.local.category.finder.find.top "Find in Topical">
+<!ENTITY ODPExtension.local.category.finder.find.top "Find in Top">
 <!ENTITY ODPExtension.local.category.finder.find.world "Find in World">
 <!ENTITY ODPExtension.miscellaneous "Miscellaneous">
 <!ENTITY ODPExtension.navegador "Browser">

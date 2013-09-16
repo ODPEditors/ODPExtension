@@ -16,8 +16,6 @@
 					this.fromCategoryUpdating = false;
 					this.fromCategoryCanceledAutoPopup = false;
 
-				//toolbarbuttons
-					this.odpNotesButtonsHidden = true;
 				//RDF
 					this.rdfDatabaseFile = this.pathSanitize(this.extensionDirectory().path+'/RDF.sqlite');
 				//head of temporal files

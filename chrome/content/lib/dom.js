@@ -496,6 +496,35 @@
 			return '';
 	}
 
+	this.domTree = function(element, object){
+    var object = {
+       t: element.tagName
+    };
+    var children = element.childNodes;
+    if (children.length) {
+      var b = 0;
+      for (var i=0;i<children.length;i++){
+      	if(children[i].nodeType == 1){
+      		if(!object.c)
+      			object.c = [];
+      		object.c[b++] = this.domTree(children[i], object.c) ;
+      	}
+      }
+    }
+    return object;
+	}
+
+	this.removeComments = function(element){
+	  for(var i=0;i<element.childNodes.length;i++) {
+	    var child = element.childNodes[i];
+	    if(child.nodeType === 8) {
+	      element.removeChild(child);
+	      i--;
+	    } else if(child.nodeType === 1) {
+	      this.removeComments(child);
+	    }
+	  }
+	}
 	return null;
 
 }).apply(ODPExtension);

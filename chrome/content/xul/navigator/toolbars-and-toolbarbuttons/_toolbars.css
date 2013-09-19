@@ -16,105 +16,40 @@
 		}
 
 		/* simluate toolbarbutton for urlbar icons*/
-
-			#urlbar-icons > .ODPExtension-toolbarbutton[collapsed="true"]
-			{
-				display:none !important;
+			#urlbar-icons > .ODPExtension-toolbarbutton[collapsed="true"]{
+				/*display:none !important;*/
 			}
 
-
 	/*toolbar buttons */
-
-		/*toggle button */
 			#ODPExtension-toolbarbutton-toggle{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/toggle.png");}
-			toolbar[iconsize="small"] #ODPExtension-toolbarbutton-toggle{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/toggle.png");}
 		/*close button */
 			.ODPExtension-toolbarbutton-close{list-style-image: url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/close.png");}
 
 
-		/*category browser*/
 			#ODPExtension-toolbarbutton-category-browser{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/category-browser.png");}
-			toolbar[iconsize="small"] #ODPExtension-toolbarbutton-category-browser{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/category-browser.png");}
 		/*odp url notes*/
-			/*update*/
 			#ODPExtension-toolbarbutton-odp-url-notes-update{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-update.png");}
-			toolbar[iconsize="small"] #ODPExtension-toolbarbutton-odp-url-notes-update{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-update.png");}
-			/*unreview*/
 			#ODPExtension-toolbarbutton-odp-url-notes-unreview{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-unreview.png");}
-			toolbar[iconsize="small"] #ODPExtension-toolbarbutton-odp-url-notes-unreview{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-unreview.png");}
-			/*delete*/
 			#ODPExtension-toolbarbutton-odp-url-notes-delete{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-delete.png");}
-			toolbar[iconsize="small"] #ODPExtension-toolbarbutton-odp-url-notes-delete{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-delete.png");}
-
-			/*copy publish*/
 			#ODPExtension-toolbarbutton-odp-url-notes-copy-publish{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-copy-publish.png");}
-			toolbar[iconsize="small"] #ODPExtension-toolbarbutton-odp-url-notes-copy-publish{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-copy-publish.png");}
-			/*copy unreview*/
 			#ODPExtension-toolbarbutton-odp-url-notes-copy-unreview{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-copy-unreview.png");}
-			toolbar[iconsize="small"] #ODPExtension-toolbarbutton-odp-url-notes-copy-unreview{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-copy-unreview.png");}
-			/*move-publish*/
 			#ODPExtension-toolbarbutton-odp-url-notes-move-publish{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-move-publish.png");}
-			toolbar[iconsize="small"] #ODPExtension-toolbarbutton-odp-url-notes-move-publish{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-move-publish.png");}
-			/*move-unreview*/
 			#ODPExtension-toolbarbutton-odp-url-notes-move-unreview{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-move-unreview.png");}
-			toolbar[iconsize="small"] #ODPExtension-toolbarbutton-odp-url-notes-move-unreview{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-move-unreview.png");}
-			/*notes*/
 			#ODPExtension-toolbarbutton-odp-url-notes-notes{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-notes.png");}
-			toolbar[iconsize="small"] #ODPExtension-toolbarbutton-odp-url-notes-notes{list-style-image:   url("chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/url-notes-notes.png");}
 
 		/*category navigator*/
-
-			#ODPExtension-toolbar-category-navigator-container
-			{
+			#ODPExtension-toolbar-category-navigator-container{
 				-moz-appearance:none;
 			}
-
-			#ODPExtension-toolbar-category-navigator-container > toolbarbutton > dropmarker
-			{
+			#ODPExtension-toolbar-category-navigator-container > toolbarbutton > dropmarker{
 				padding-left:7px !important;
 			}
 
 		/* crop very large/short menuitems. ( not so large and not so short) */
-
 			.ODPExtension-crop{max-width:100%;}
-
 			.ODPExtension-crop > menuitem{max-width:100%;}
 			.ODPExtension-crop > menuitem > menupopup{max-width:100%;}
 			.ODPExtension-crop > menuitem > menupopup > menuitem {max-width:100%;}
-
 			.ODPExtension-crop > menu{max-width:100%;}
 			.ODPExtension-crop > menu > menupopup{max-width:100%;}
 			.ODPExtension-crop > menu > menupopup > menuitem {max-width:100%;}
-
-		/* urlbar icon always shown, regarless of browser status, this extension decided when to hide or show these*/
-
-			#urlbar-icons > #ODPExtension-toolbarbutton-category-browser,
-			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-copy-publish,
-			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-copy-unreview,
-			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-delete,
-			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-move-publish,
-			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-move-unreview,
-			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-notes,
-			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-unreview,
-			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-update,
-			#urlbar-icons > #ODPExtension-toolbarbutton-toggle
-			{
-				visibility:visible !important;
-			}
-
-		/* simluate toolbarbutton for urlbar icons*/
-
-			#urlbar-icons > #ODPExtension-toolbarbutton-category-browser[collapsed="true"],
-			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-copy-publish[collapsed="true"],
-			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-copy-unreview[collapsed="true"],
-			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-delete[collapsed="true"],
-			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-move-publish[collapsed="true"],
-			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-move-unreview[collapsed="true"],
-			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-notes[collapsed="true"],
-			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-unreview[collapsed="true"],
-			#urlbar-icons > #ODPExtension-toolbarbutton-odp-url-notes-update[collapsed="true"]
-			{
-				display:none !important;
-			}
-
-

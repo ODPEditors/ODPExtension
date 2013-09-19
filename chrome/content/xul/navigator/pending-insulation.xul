@@ -34,6 +34,7 @@
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/browser.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/browsers.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/bugs.js"></script>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/cld-min.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/clipboard.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/css.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/database.js"></script>
@@ -653,7 +654,7 @@
 		<!-- category browser launcher -->
 		<image
 			id="ODPExtension-toolbarbutton-category-browser"
-			class="plain urlbar-icon"
+			class="plain urlbar-icon ODPExtension-toolbarbutton"
 			tooltiptext="&ODPExtension.category.browser;"
 			onclick="ODPExtension.fromCategorySelectedCategories = []; ODPExtension.fromCategorySelectedCategory = ''; ODPExtension.fromCategoryAction= '';ODPExtension.getElement('category-browser').hidePopup();ODPExtension.getElement('category-browser').openPopup();"
 		/>
@@ -663,56 +664,56 @@
 				id="ODPExtension-toolbarbutton-odp-url-notes-update"
 				tooltiptext="&ODPExtension.url.notes.action.update;"
 				hidden="true"
-				class="plain urlbar-icon"
+				class="plain urlbar-icon ODPExtension-toolbarbutton"
 				onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
 			/>
 			<image
 				id="ODPExtension-toolbarbutton-odp-url-notes-unreview"
 				tooltiptext="&ODPExtension.url.notes.action.unreview;"
 				hidden="true"
-				class="plain urlbar-icon"
+				class="plain urlbar-icon ODPExtension-toolbarbutton"
 				onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
 			/>
 			<image
 				id="ODPExtension-toolbarbutton-odp-url-notes-delete"
 				tooltiptext="&ODPExtension.url.notes.action.delete;"
 				hidden="true"
-				class="plain urlbar-icon"
+				class="plain urlbar-icon ODPExtension-toolbarbutton"
 				onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
 			/>
 			<image
 				id="ODPExtension-toolbarbutton-odp-url-notes-move-publish"
 				tooltiptext="&ODPExtension.url.notes.move.to.category.publish;"
 				hidden="true"
-				class="plain urlbar-icon"
+				class="plain urlbar-icon ODPExtension-toolbarbutton"
 				onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
 			/>
 			<image
 				id="ODPExtension-toolbarbutton-odp-url-notes-move-unreview"
 				tooltiptext="&ODPExtension.url.notes.move.to.category.unreview;"
 				hidden="true"
-				class="plain urlbar-icon"
+				class="plain urlbar-icon ODPExtension-toolbarbutton"
 				onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
 			/>
 			<image
 				id="ODPExtension-toolbarbutton-odp-url-notes-copy-publish"
 				tooltiptext="&ODPExtension.url.notes.copy.to.category.publish;"
 				hidden="true"
-				class="plain urlbar-icon"
+				class="plain urlbar-icon ODPExtension-toolbarbutton"
 				onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
 			/>
 			<image
 				id="ODPExtension-toolbarbutton-odp-url-notes-copy-unreview"
 				tooltiptext="&ODPExtension.url.notes.copy.to.category.unreview;"
 				hidden="true"
-				class="plain urlbar-icon"
+				class="plain urlbar-icon ODPExtension-toolbarbutton"
 				onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
 			/>
 			<image
 				id="ODPExtension-toolbarbutton-odp-url-notes-notes"
 				tooltiptext="&ODPExtension.tab.url.notes;"
 				hidden="true"
-				class="plain urlbar-icon"
+				class="plain urlbar-icon ODPExtension-toolbarbutton"
 				onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
 			/>
 	</hbox>

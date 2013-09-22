@@ -34,14 +34,7 @@
 				if(
 				   !item.href ||
 				   this.isGarbage(item.href) ||
-				   this.isPrivateURL(item.href) ||
-					item.href.indexOf('pmoz.info') != -1 ||
-					item.href.indexOf('.domaintools.com') != -1 ||
-					(this.focusedURLDomain.indexOf('google.') != -1 && item.href.indexOf('google.') != -1) ||
-					(this.focusedURLDomain.indexOf('yahoo.') != -1 && item.href.indexOf('yahoo.') != -1 ) ||
-					(this.focusedURLDomain.indexOf('bing.') != -1 && item.href.indexOf('.bing') != -1 ) ||
-					((this.focusedURLDomain.indexOf('live.') != -1 || this.focusedURLDomain.indexOf('msn.') != -1) && (item.href.indexOf('msn.') != -1 || item.href.indexOf('live.') != -1 || item.href.indexOf('msnscache.') != -1))	||
-					(this.focusedURLDomain.indexOf('google.') != -1 && (item.href.indexOf('cache:') != -1 || item.href.indexOf('related:') != -1 || item.href.indexOf('site:') != -1))
+				   this.cantLeakURL(item.href)
 				)
 					return;
 

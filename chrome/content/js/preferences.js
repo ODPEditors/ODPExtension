@@ -52,7 +52,8 @@
 			this.preferences.ints = [
 									 'ui.informative.panel.x',//DONE
 									 'ui.informative.panel.y',//DONE
-									 'link.checker.threads'
+									 'link.checker.threads',
+									 'link.checker.use.cache'
 									];
 
 			this.preferences.colors = [];

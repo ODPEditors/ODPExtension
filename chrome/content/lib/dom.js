@@ -203,19 +203,11 @@
 		if(!win){ }
 		else
 		{
-			if(win.frames && win.frames.length  > 0)
-			{
-				this.foreachFrameFrame(win, aFunction);
-				if(!win.document){}
-				else
-					aFunction(win.document);
-			}
+			if(!win.document){}
 			else
-			{
-				if(!win.document){}
-				else
-					aFunction(win.document);
-			}
+				aFunction(win.document);
+			if(win.frames && win.frames.length  > 0)
+				this.foreachFrameFrame(win, aFunction);
 		}
 	}
 	this.foreachFrameFrame = function(frame, aFunction)

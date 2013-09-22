@@ -7,7 +7,7 @@
 			this.setFocusedLocation = function()
 			{
 				this.focusedURL = this.focusedLocation();
-				this.focusedURLDomain = this.getDomainFromURL(this.focusedURL);
+				this.focusedDomain = this.getDomainFromURL(this.focusedURL);
 				this.focusedURLSubdomain = this.getSubdomainFromURL(this.focusedURL);
 			}
 

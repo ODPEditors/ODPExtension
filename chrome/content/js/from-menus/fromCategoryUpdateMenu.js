@@ -113,7 +113,7 @@
 								}
 							}
 						//check if the selected link (not links) ( the rigth clicked link ) are a valid category
-						var aCategoryLink = this.categoryGetFromURL(this.getSelectedLink());
+						var aCategoryLink = this.categoryGetFromURL(this.getSelectedLinkURL());
 
 						//check rigth clicked category on some menu, menuitem or toolbarbutton
 						if(document.popupNode)
@@ -231,7 +231,7 @@
 								}
 							}
 
-							if((aEditor = this.editorGetFromURL(this.getSelectedLink())) != '')
+							if((aEditor = this.editorGetFromURL(this.getSelectedLinkURL())) != '')
 							{
 								this.fromEditorSelectedEditor = aEditor;
 							}

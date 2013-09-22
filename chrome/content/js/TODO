@@ -4,17 +4,17 @@ A MEDIAS
 	vaciar toda global y local que cuando la extnesion pasa a enable otra vez se setean solas
 	probarla en linux, tested crash popup
 	agregar el parseo de contenido
-
 	ideas para tools de rdf
-
 		diferencias de categorias con dump anterior
 		diferencias en sitios con dump anterior
 		compare two or more categories taxonomies
-
 	plugins
-
 	linkchecker
-		detect frameset, detect absent of plugins and no content, detect when the page only has 1 link
+		detect absent of plugins and no content,
+		not found should thorw a correct error code.
+		disable video, audio
+		follow framsets?
+
 ----------------------------------------------------------------
 
 	WORLINKERATE URL

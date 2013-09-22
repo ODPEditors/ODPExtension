@@ -99,7 +99,9 @@
 						{
 							this.last = progressMsg;
 							var theExtension = this.theExtension;
-							this.theExtension.win().setTimeout(function(){theExtension.code('ODPExtension').notifyStatusBar(progressMsg);}, 0);//threat
+							this.theExtension.win().setTimeout(function(){
+								theExtension.code('ODPExtension').notifyStatusBar(progressMsg);
+							}, 0);//threat
 						}
 					}
 

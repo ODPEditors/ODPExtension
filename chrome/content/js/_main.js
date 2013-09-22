@@ -32,7 +32,7 @@
 
 				//initializing some vars..
 				this.focusedURL = '';
-				this.focusedURLDomain = '';
+				this.focusedDomain = '';
 				this.focusedURLSubdomain = '';
 
 				this.focusedCategory = '';

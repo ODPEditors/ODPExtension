@@ -17,7 +17,7 @@
 
 				//the linked url
 					if(aString == '')
-						aString = this.getSelectedLink();
+						aString = this.getSelectedLinkURL();
 
 				//the focused url
 					if(aString == '')

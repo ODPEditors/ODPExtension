@@ -25,7 +25,7 @@
 					return;
 				}
 
-				else if(this.isPrivateURL(aLocation))//private URI
+				else if(this.cantLeakURL(aLocation))//private URI
 				{
 					this.listingInformation  = '';
 					this.getElement('panel').hidePopup();
@@ -86,7 +86,7 @@
 					//if there is a need to remove the www
 					var focusedLocationWWW = this.decodeUTF8Recursive(this.removeSchema(this.shortURL(this.focusedURL).replace(/\/+$/, ''))).toLowerCase();
 					var focusedLocationNoWWW = this.removeWWW(this.focusedURL);
-					var focusedLocationDomain = this.focusedURLDomain;
+					var focusedLocationDomain = this.focusedDomain;
 					var focusedLocationSubdomain = this.focusedURLSubdomain;
 
 					//validate the response of the data server

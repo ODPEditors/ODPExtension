@@ -6,46 +6,30 @@
 
 			this.linkChecker = function()
 			{
-				var oRedirectionAlert = this.redirectionAlert();
+				var aResult = {};
+						aResult.domain = this.focusedDomain;
+						aResult.data = [];
 
-				var progress = this.progress('link.cheker.'+oRedirectionAlert.id);
+				var oRedirectionAlert = this.redirectionAlert();
+				var self = this;
+				var progress = this.progress('link.cheker.'+oRedirectionAlert.id, function(){ self.linkCheckerDoneGraph(aResult); });
 					progress.reset();
 					progress.progress();
+
 				//look at selected links
-				var items = this.getBrowserSelectionObjects('a');
-				if(items.length > 0)
-				{
+				var items = this.getLinksPreferSelected(this.tabGetFocused());
+				if(items.length > 0) 	{
 					for(var id in items)
-						this.linkCheckerItem(items[id], oRedirectionAlert);
+						this.linkCheckerItem(items[id], oRedirectionAlert, aResult);
 				}
-				//look at all the link in the page
-				else
-				{
-					this.foreachFrame(this.windowGetFromTab(this.tabGetFocused()), function(aDoc){ODPExtension.linkCheckerDoc(aDoc, oRedirectionAlert);})
-				}
-			}
-			//looking a the doc
-			this.linkCheckerDoc = function(aDoc, oRedirectionAlert)
-			{
-				var len_a =  aDoc.getElementsByTagName("a").length;
-				for(var i = 0; i < len_a; i++)
-					this.linkCheckerItem(aDoc.getElementsByTagName("a").item(i), oRedirectionAlert);
 			}
 			//general blacklisting..
-			this.linkCheckerItem = function(item, oRedirectionAlert)
+			this.linkCheckerItem = function(item, oRedirectionAlert, aResult)
 			{
 				if(
 					!item.href ||
 					this.isGarbage(item.href) ||
-					this.isPrivateURL(item.href) ||
-					item.href.indexOf('dmoz.') != -1 ||
-					item.href.indexOf('pmoz.') != -1 ||
-					item.href.indexOf('.domaintools.com') != -1 ||
-					(this.focusedURLDomain.indexOf('google.') != -1 && item.href.indexOf('google.') != -1) ||
-					(this.focusedURLDomain.indexOf('yahoo.') != -1 && item.href.indexOf('yahoo.') != -1 ) ||
-					(this.focusedURLDomain.indexOf('bing.') != -1 && item.href.indexOf('.bing') != -1 ) ||
-					((this.focusedURLDomain.indexOf('live.') != -1 || this.focusedURLDomain.indexOf('msn.') != -1) && (item.href.indexOf('msn.') != -1 || item.href.indexOf('live.') != -1 || item.href.indexOf('msnscache.') != -1))	||
-					(this.focusedURLDomain.indexOf('google.') != -1 && (item.href.indexOf('cache:') != -1 || item.href.indexOf('related:') != -1 || item.href.indexOf('site:') != -1))
+					!this.canFollowURL(item.href, this.focusedDomain)
 				)
 					return;
 
@@ -68,12 +52,14 @@
 						item.style.removeProperty('background-color');
 						item.style.removeProperty('color');
 
-						oRedirectionAlert.check(item.href, function(aData, aURL){ ODPExtension.linkCheckerDone(aData, aURL, item, oRedirectionAlert); onThreadDone(); });
+						oRedirectionAlert.check(item.href, function(aData, aURL){ ODPExtension.linkCheckerCheckDone(aData, aURL, item, oRedirectionAlert, aResult); onThreadDone(); });
 					});
 			}
 
-			this.linkCheckerDone = function(aData, aURL, item, oRedirectionAlert)
+			this.linkCheckerCheckDone = function(aData, aURL, item, oRedirectionAlert, aResult)
 			{
+				aResult.data[aResult.data.length] = aData;
+
 				var progress = this.progress('link.cheker.'+oRedirectionAlert.id);
 						progress.remove();
 						progress.progress();
@@ -83,10 +69,13 @@
 
 				var tooltiptext = ODPExtension.decodeUTF8((aData.urlRedirections.join('\n'))+'\n'+(aData.status.match || ''))
 
-				item.setAttribute('tooltiptext', tooltiptext.trim());
-				item.setAttribute('title', tooltiptext.trim());
+				item.setAttribute('title', tooltiptext.trim()+'\n'+aData.txt.substr(0, 255));
 
-				if(aData.status.error && aData.status.delete) {
+				if(aData.status.suspicious.length){
+					//orange
+					item.style.setProperty('color', 'white', 'important');
+					item.style.setProperty('background-color', 'orange', 'important');
+				} else if(aData.status.error && aData.status.delete) {
 					//red
 					item.style.setProperty('color', 'white', 'important');
 					item.style.setProperty('background-color', '#EB6666', 'important');
@@ -109,17 +98,51 @@
 					//yellow light
 					item.style.setProperty('color', 'black', 'important');
 					item.style.setProperty('background-color', '#FFFFCC', 'important');
-
 				}
 
-				//aData.html = '';
-				//aData.headers = '';
-				//ODPExtension.dump(JSON.stringify(aData));
-				item.innerHTML = '['+aData.statuses.join(', ')+' | '+aData.status.code+' | '+aData.status.errorString+'] '+item.getAttribute('original_text');
+				/*aData.html = '';
+				aData.headers = '';
+				ODPExtension.dump(JSON.stringify(aData));*/
+				item.innerHTML = '['
+													+aData.statuses.join(', ')
+													+' | '+aData.status.code
+													+' | '+aData.status.errorString
+													+' | '+aData.ip
+													+' | '+aData.language
+													+'] '+
+													item.getAttribute('original_text');
+
 				item.setAttribute('note', ''+aData.statuses.join(', ')+' | '+aData.status.code+' | '+aData.status.errorString);
-				item.setAttribute('code', aData.status.code);
+				item.setAttribute('error', aData.status.code);
+				item.setAttribute('newurl', aData.urlRedirections[aData.urlRedirections.length-1]);
+				if(aData.status.suspicious.length)
+					item.setAttribute('title', item.getAttribute('title')+'\n'+aData.status.suspicious.join('\n'));
 		}
 
+		this.linkCheckerDoneGraph = function(aResult){
+
+			aResult.domain = (aResult.domain || 'graph').toUpperCase();
+			var blackListGraphLink = ['google.com', 'twitter.com', 'wikipedia.org', 'facebook.com', 'youtube.com', 'aol.com', 'bing.com', 'gigablast.com', 'yahoo.com', 'adobe.com', 'blogger.com', 'blogspot.com', 'feedburner.com', 'yippy.com','ask.com', 'univision.com', 'creativecommons.org', 'w3.org']
+
+			//trace links
+			var links = [];
+			for(var id in aResult.data){
+				var site = aResult.data[id];
+  			if(blackListGraphLink.indexOf(site.domain) != -1)
+  				continue;
+  			links.push({source: aResult.domain, target: site.ip, type: "green"});
+  			links.push({source: site.ip, target: site.domain, type: "black"});
+  			for(var link in site.linksExternal){
+  				if(blackListGraphLink.indexOf(site.linksExternal[link].domain) == -1)
+  					links.push({source: site.domain, target: site.linksExternal[link].domain, type: "dotted"});
+  			}
+			}
+
+			//multiple links to same domain should be removed, to allow the graph count properly the weight
+			links = this.arrayUniqueObjects(links, function(o) { return o.source+'_'+o.target; } );
+
+			this.tabOpen('chrome://odpextensionxhtml/content/graph.html#'+JSON.stringify(links))
+		}
 	return null;
 
 }).apply(ODPExtension);

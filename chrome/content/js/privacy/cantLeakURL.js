@@ -1,10 +1,8 @@
 (function()
 {
 
-
 	//returns true if the URL is private based on user configuration
-
-	this.isPrivateURL = function(aURL)
+	this.cantLeakURL = function(aURL)
 	{
 		if(!this.isPublicURL(aURL))
 		{

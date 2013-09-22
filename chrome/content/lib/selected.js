@@ -14,7 +14,7 @@
 
 		return aSelection;
 	};
-	//returns the selection that the focused window is returning was an object with the node
+	//returns the selection that the focused window is returning as an object with the node
 	this.getBrowserSelectionObjects = function(tagName)
 	{
 		//inspired by linky
@@ -95,53 +95,72 @@
 		return aSelection;
 	};
 	//returns the href of the selected link
-	this.getSelectedLink = function()
+	this.getSelectedLinkURL = function()
 	{
-		if(this.isSeaMonkey())
-		{
-			if(gContextMenu && gContextMenu.link)
-				return this.string(gContextMenu.linkURL());
-			else
-				return '';
-		}
+		var link = this.getSelectedLinkItem()
+		if(!link)
+			return '';
 		else
-		{
-			if(gContextMenu && gContextMenu.linkURL)
-				return this.string(gContextMenu.linkURL);
-			else
-				return '';
-		}
+			return this.string(link.href);
 	};
-	//returns an array of the URLs of the selected links
-	this.getSelectedLinksURLs = function(forced)
+	//returns the A tags of the selected link
+	this.getSelectedLinkItem = function()
 	{
-		//inspired by extended copy menu, linky and some mutations
-		var aSelection = this.getBrowserSelection();
+		if(gContextMenu && gContextMenu.link)
+			return gContextMenu.link;
+		else
+			return null;
+	};
+	//returns an array of the A of the selected links
+	this.getSelectedLinksItems = function(forced)
+	{
 		var links = [];
-		if((aSelection == '' || aSelection == null) && forced)
-		{
-			aSelection = this.getFramesSelectionRecursive();
-		}
-		for(var i=0;i<aSelection.rangeCount;i++)
-		{
-			var objRange = aSelection.getRangeAt(i);
-
-			var objClone = objRange.cloneContents();
-
-			var objDiv = this.documentGetFocused().createElement('div');
-				objDiv.appendChild(objClone);
-			var lk = objDiv.getElementsByTagName('a');
-
-			for (var a=0;a<lk.length;a++)
-			{
-				if(lk[a].hasAttribute('href'))
-				{
-					links[links.length] = String(lk[a].href);
-				}
+		var lk = this.getBrowserSelectionObjects('a');
+		for (var a=0;a<lk.length;a++) {
+			if(lk[a].hasAttribute('href')) {
+				links[links.length] = lk[a];
 			}
 		}
 		return links;
 	};
+	//returns an array of the URLs of the selected links
+	this.getSelectedLinksURLs = function(forced)
+	{
+		var items = this.getSelectedLinksItems();
+		var links = []
+		for(var id in items){
+			if(items[id].hasAttribute('href'))
+				links[links.length] = String(items[id].href);
+		}
+		return links;
+	};
+
+	this.getAllLinksItems = function(aTab){
+		var links = []
+		this.foreachFrame(this.windowGetFromTab(aTab), function(aDoc){
+			var a =  aDoc.getElementsByTagName("a");
+			var length =  aDoc.getElementsByTagName("a").length;
+			for(var i = 0; i < length; i++){
+				if(a.item(i).href)
+					links[links.length] = a.item(i);
+			}
+		})
+		return links;
+	}
+
+	this.getLinksPreferSelected = function(aTab){
+		var links = [];
+		var link = this.getSelectedLinkItem();
+		if(!link){}
+		else
+			links[links.length] = link;
+		if(!links || !links.length)
+			links = this.getSelectedLinksItems();
+		if(!links || !links.length)
+			links = this.getAllLinksItems(aTab);
+		return links;
+	}
+
 	//gets the selected text of a document looking in focused elements (window, textinputs)
 	//if forced === true
 		//and if nothing is retreived will try to get some selection from frames and text inputs of the top document

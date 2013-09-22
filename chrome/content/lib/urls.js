@@ -156,6 +156,7 @@
 			case 'doubleclick.net':
 			case 'fbcdn.net':
 			case 'sharethis.com':
+			case 'scorecardresearch.com':
 
 				return true;
 			default:
@@ -169,11 +170,19 @@
 		{
 			case 'googleads.g.doubleclick.net':
 			case 'pagead2.googlesyndication.com':
+
+			case 'plus.google.com':
+			case 'apis.google.com':
 			case 'adwords.google.com':
 			case 'services.google.com':
+			case 'accounts.google.com':
+
+			case 'api.facebook.com':
+			case 'static.ak.facebook.com':
+			case 's-static.ak.facebook.com':
+
 			case 'advertising.microsoft.com':
 			case 'api.tweetmeme.com':
-			case 'api.facebook.com':
 			case 'mediacdn.disqus.com':
 				return true;
 			default:
@@ -187,9 +196,14 @@
 		   this.isGarbageSubdomain(this.getSubdomainFromURL(aURL)) ||
 		   this.isGarbageDomain(this.getDomainFromURL(aURL)) ||
 		   aURL.indexOf('http://www.google.com/url?') === 0 ||
+		   aURL.indexOf('https://www.google.com/url?') === 0 ||
 		   aURL.indexOf('tweetmeme.com/button') != -1 ||
+		   aURL.indexOf('youtube.com/embed') != -1 ||
 		   aURL.indexOf('facebook.com/plugins') != -1 ||
 		   aURL.indexOf('facebook.com/widgets') != -1 ||
+		   aURL.indexOf('ads.') != -1 ||
+		   aURL.indexOf('.ads') != -1 ||
+		   aURL.indexOf('.adver') != -1 ||
 		   aURL.indexOf('facebook.com/xd_') != -1 ||
 		   aURL.indexOf('addthis.com/static') != -1  ||
 		   aURL.indexOf('.twitter.com/widgets') != -1  ||
@@ -241,13 +255,10 @@
 
 		var aDomain = this.getSubdomainFromURL(aURL);
 
-		if(aDomain.indexOf('.') == -1)
-			return false;
-
 		if(this.isIPAddress(aDomain) && this.isIPAddressPrivate(aDomain))
 			return false
 
-		if(aDomain.indexOf('@') != -1 && aDomain.indexOf(':') != -1)
+		if(/^([a-z]|[0-9]|@|\:)+$/i.test(aDomain))
 			return false;
 
 		return true;

@@ -12,7 +12,7 @@ SEMI DOCUMENTATION OF THIS FOLDER
 			the referrer is the url that we will open
 			the referrer is not sent blank
 
-		isPrivateURL.js
+		cantLeakURL.js
 
 			returns true if the url is private ( for nono public usage ) based on user configuration
 

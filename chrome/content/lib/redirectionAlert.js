@@ -1,13 +1,13 @@
 (function()
 {
+		/*
+			This file comes from an idea from here http://forums.dmoz.org/forum/viewtopic.php?t=920940&start=0#1716101
+			The link checker was introduced here http://forums.dmoz.org/forum/viewtopic.php?t=920940&start=50#1758894
+		*/
 		//Problems:
 		 /*
 				CODES
 					assign a code for security errors, (such mixed content, expired certificates and the like)
-
-				la misma url checkeada dos veces
-
-				el timeout de los pdf por ejemplo..
 		 */
 
 			var debugingThisFile = true;
@@ -31,6 +31,9 @@
 						this.itemsDone=0;
 						var observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
 								observerService.addObserver(this, "http-on-examine-response", false);
+								observerService.addObserver(this, "http-on-examine-merged-response", false);
+								observerService.addObserver(this, "http-on-examine-cached-response", false);
+								observerService.addObserver(this, 'content-document-global-created', false);
 					},
 					unLoad:function()
 					{
@@ -43,7 +46,10 @@
 							return;
 
 						var observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
-							observerService.removeObserver(this, "http-on-examine-response", false);
+								observerService.removeObserver(this, "http-on-examine-response", false);
+								observerService.removeObserver(this, "http-on-examine-merged-response", false);
+								observerService.removeObserver(this, "http-on-examine-cached-response", false);
+								observerService.removeObserver(this, 'content-document-global-created', false);
 
 						delete(this.cache);
 						delete(this.cacheRedirects);
@@ -53,23 +59,38 @@
 					},
 					observe: function(aSubject, aTopic, aData)
 					{
-						if(aTopic == 'http-on-examine-response') {
+						if(aTopic == 'http-on-examine-response' || aTopic == 'http-on-examine-merged-response'  || aTopic == 'http-on-examine-cached-response' ) {
 							aSubject.QueryInterface(Components.interfaces.nsIHttpChannel);
 
 							// LISTEN for Tabs
-							//this piece allows to get the HTTP code of url that redirects via metarefresh or JS
+							// this piece allows to get the HTTP code of urls that redirects via metarefresh or JS
+							// allow to holds the urls of external content associated to a tab. !
 							try {
+
 								var notificationCallbacks = aSubject.notificationCallbacks ? aSubject.notificationCallbacks : aSubject.loadGroup.notificationCallbacks;
 								if (!notificationCallbacks){}
 								else{
+									this.cacheTabs[aSubject.URI.spec] = aSubject.responseStatus;
+
 									var domWin = notificationCallbacks.getInterface(Components.interfaces.nsIDOMWindow);
-									var tab = ODPExtension.tabGetFromChromeDocument(domWin);
-									this.cacheTabs[aSubject.originalURI.spec] = aSubject.responseStatus
+									var aTab = ODPExtension.tabGetFromChromeDocument(domWin);
+									if(aTab && aTab.hasAttribute('ODPExtension-originalURI')) {
+										var URI = aTab.getAttribute('ODPExtension-originalURI');
+										this.cache[URI].externalContent.push(aSubject.URI.spec);
+									}
 								}
 							} catch (e) { }
 
 							// LISTEN for XMLHttpRequest
 							this.onExamineResponse(aSubject);
+
+						} else if(aTopic == 'content-document-global-created'){
+			        if (aSubject instanceof Components.interfaces.nsIDOMWindow) {
+			        	var aTab = ODPExtension.tabGetFromChromeDocument(aSubject);
+			        	if(aTab && aTab.hasAttribute('ODPExtension-linkChecker')){
+			        		ODPExtension.disableTabFeatures(aSubject);
+			          }
+			        }
 						}
 					},
 					onExamineResponse: function (oHttp)
@@ -123,18 +144,30 @@
 						if(!this.cache[aURL])
 						{
 							this.cache[aURL] = {};
-							this.cache[aURL].stop= false;
+							var aData = this.cache[aURL];
+									aData.stop= false;
 
-							this.cache[aURL].statuses=[];
-							this.cache[aURL].headers='';
-							this.cache[aURL].html='';
-							this.cache[aURL].ip='';
-							this.cache[aURL].body='';
-							this.cache[aURL].htmlTitle='';
-							this.cache[aURL].urlRedirections=[];
-							this.cache[aURL].urlOriginal=aURL;
-							this.cache[aURL].urlLast=aURL;
-							this.cache[aURL].removeFromBrowserHistory = !ODPExtension.isVisitedURL(aURL);
+									aData.statuses=[];
+									aData.headers='';
+									aData.contentType='';
+
+									aData.urlRedirections=[];
+									aData.urlOriginal=aURL;
+									aData.urlLast=aURL;
+
+									aData.html='';
+									aData.txt='';
+									aData.hash='';
+
+									aData.ip='';
+
+									aData.htmlTitle='';
+									aData.externalContent=[];
+
+									aData.removeFromBrowserHistory = !ODPExtension.isVisitedURL(aURL);
+
+						} else {
+							var aData = this.cache[aURL];
 						}
 						var oRedirectionAlert = this;
 						var Requester = new XMLHttpRequest();
@@ -146,18 +179,17 @@
 								Requester.onload = function()
 								{
 									loaded = true;
-									oRedirectionAlert.cache[aURL].stop = true;
-									oRedirectionAlert.cache[aURL].headers = Requester.getAllResponseHeaders();
-									oRedirectionAlert.cache[aURL].html = Requester.responseText;
-									oRedirectionAlert.cache[aURL].body = Requester.responseText;
+									aData.stop = true;
+									aData.headers = Requester.getAllResponseHeaders();
+									aData.html = Requester.responseText;
 
 									//now get the response as UTF-8
 									ODPExtension.runThreaded('link.checker.utf8.html.content.'+oRedirectionAlert.id, ODPExtension.preferenceGet('link.checker.threads'), function(onThreadDone){
 
 										var aTab = ODPExtension.tabOpen('about:blank');
 												aTab.setAttribute('hidden', true);
-										var aDoc = 	ODPExtension.documentGetFromTab(aTab);
-																ODPExtension.disableTabFeatures(aTab);
+												aTab.setAttribute('ODPExtension-linkChecker', true);
+												aTab.setAttribute('ODPExtension-originalURI', aURL);
 										var newTabBrowser = ODPExtension.browserGetFromTab(aTab);
 
 										var timedout = 0;
@@ -167,32 +199,54 @@
 												timedout = 4;
 											} else {
 												timedout = 4;
+
 												var aDoc = 	ODPExtension.documentGetFromTab(aTab);
-																		ODPExtension.disableTabFeatures(aTab);
-												oRedirectionAlert.cache[aURL].html = new XMLSerializer().serializeToString(aDoc);
-												try{
-													oRedirectionAlert.cache[aURL].body = String(aDoc.body.innerHTML).trim();
-												} catch(e){
-													oRedirectionAlert.cache[aURL].body = oRedirectionAlert.cache[aURL].html;
+														aData.contentType = aDoc.contentType;
+
+												aData.html = new XMLSerializer().serializeToString(aDoc);
+
+												var stripTags = ['noscript', 'object', 'noframes', 'style', 'script', 'frameset', 'embed'];
+												var aDocCopy = aDoc.cloneNode(true);
+												for(var id in stripTags){
+													var tags = aDocCopy.getElementsByTagName(stripTags[id]);
+													var i = tags.length;
+													while (i--)
+														tags[i].parentNode.removeChild(tags[i]);
 												}
-												oRedirectionAlert.cache[aURL].htmlTitle = ODPExtension.documentGetTitle(aDoc);
-												oRedirectionAlert.cache[aURL].urlLast = ODPExtension.tabGetLocation(aTab);
-												if(oRedirectionAlert.cache[aURL].urlRedirections[oRedirectionAlert.cache[aURL].urlRedirections.length-1] != oRedirectionAlert.cache[aURL].urlLast){
-													oRedirectionAlert.cache[aURL].statuses.push('meta/js');
-													oRedirectionAlert.cache[aURL].urlRedirections.push(oRedirectionAlert.cache[aURL].urlLast);
-													if(!oRedirectionAlert.cacheTabs[oRedirectionAlert.cache[aURL].urlLast]){}
+												ODPExtension.removeComments(aDocCopy);
+
+												if(aDocCopy.body){
+													aData.hash = ODPExtension.md5(JSON.stringify(ODPExtension.domTree(aDocCopy.body)));
+													//aData.domTree = ODPExtension.domTree(aDocCopy.body);
+												}
+
+												try{
+													aDocCopy = new XMLSerializer().serializeToString(aDocCopy.body);
+												} catch(e){
+													aDocCopy = new XMLSerializer().serializeToString(aDocCopy);
+												}
+												aData.txt = ODPExtension.stripTags(aDocCopy, ' ').replace(/[\t| ]+/g, ' ').replace(/\n\s+/g, '\n').trim();
+												aData.language = ODPExtension.detectLanguage(aData.txt);
+
+												aData.htmlTitle = ODPExtension.documentGetTitle(aDoc);
+												aData.urlLast = ODPExtension.tabGetLocation(aTab);
+												if(aData.urlRedirections[aData.urlRedirections.length-1] != aData.urlLast){
+													aData.statuses.push('meta/js');
+													aData.urlRedirections.push(aData.urlLast);
+													if(!oRedirectionAlert.cacheTabs[aData.urlLast]){}
 													else
-														oRedirectionAlert.cache[aURL].statuses.push(oRedirectionAlert.cacheTabs[oRedirectionAlert.cache[aURL].urlLast]);
+														aData.statuses.push(oRedirectionAlert.cacheTabs[aData.urlLast]);
 												}
 											}
-											ODPExtension.urlFlag(oRedirectionAlert.cache[aURL]);
+
+											ODPExtension.urlFlag(aData, aDoc);
 
 											//because the linkcheck runs in a tab, it add stuff to the browser history that shouldn't be added
 											//http://forums.mozillazine.org/viewtopic.php?p=9070125#p9070125
-											if(oRedirectionAlert.cache[aURL].removeFromBrowserHistory)
+											if(aData.removeFromBrowserHistory)
 												ODPExtension.removeURLFromBrowserHistory(aURL);
 
-											aFunction(oRedirectionAlert.cache[aURL], aURL)
+											aFunction(aData, aURL)
 
 											try{	ODPExtension.tabClose(aTab); } catch(e){}
 
@@ -204,8 +258,6 @@
 										}
 										newTabBrowser.addEventListener("DOMContentLoaded", function(aEvent){
 											timedout = 3;
-											var aDoc = 	ODPExtension.documentGetFromTab(aTab);
-																	ODPExtension.disableTabFeatures(aTab);
 											setTimeout(function(){
 												if(timedout === 3) {
 													timedout = 2;
@@ -221,8 +273,12 @@
 										newTabBrowser.webNavigation.allowPlugins = false;
 										newTabBrowser.webNavigation.allowWindowControl = false;
 										newTabBrowser.webNavigation.allowSubframes = true;
+
 										//newTabBrowser.loadURI(aURL);
-										newTabBrowser.loadURIWithFlags(aURL, newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | newTabBrowser.webNavigation.LOAD_ANONYMOUS, null, null);
+										if(ODPExtension.preferenceGet('link.checker.use.cache') === 0)
+											newTabBrowser.loadURIWithFlags(aURL, newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | newTabBrowser.webNavigation.LOAD_ANONYMOUS, null, null);
+										else
+											newTabBrowser.loadURIWithFlags(aURL, newTabBrowser.webNavigation.LOAD_ANONYMOUS, null, null);
 
 										setTimeout(function(){ if(timedout === 0){ timedout = 1; onTabLoad(); } }, oRedirectionAlert.timeout);//give 60 seconds to load, else, just forget it.
 									});
@@ -247,29 +303,34 @@
 												oHttp.URI.spec = aURL;
 
 										//detects if I'm offline
-										if(
-										   	Components
-										   		.classes["@mozilla.org/network/io-service;1"]
-										   		.getService(Components.interfaces.nsIIOService)
-										   		.offline ||
-										   	false //ODPExtension.getIPFromDomain('www.google.com', true) === '' // this blocks the browser because is sync
-										){
-											oHttp.responseStatus = -1337
+
+										if(typeof(TIMEDOUT) != 'undefined' && TIMEDOUT === 'TIMEDOUT'){
+											oHttp.responseStatus = -5
 										} else {
-											try{
-												oHttp.responseStatus = ODPExtension.createTCPErrorFromFailedXHR(Requester);
-											} catch(e) {
-												try{ oHttp.responseStatus = Requester.status} catch(e){ oHttp.responseStatus = -1; }
+											if(
+											   	Components
+											   		.classes["@mozilla.org/network/io-service;1"]
+											   		.getService(Components.interfaces.nsIIOService)
+											   		.offline ||
+											   	false //ODPExtension.getIPFromDomain('www.google.com', true) === '' // this blocks the browser because is sync
+											){
+												oHttp.responseStatus = -1337
+											} else {
+												try{
+													oHttp.responseStatus = ODPExtension.createTCPErrorFromFailedXHR(Requester);
+												} catch(e) {
+													try{ oHttp.responseStatus = Requester.status} catch(e){ oHttp.responseStatus = -1; }
+												}
+												if(oHttp.responseStatus === 0)
+													oHttp.responseStatus = -1;
 											}
-											if(oHttp.responseStatus === 0)
-												oHttp.responseStatus = -1;
 										}
 
 										oRedirectionAlert.onExamineResponse(oHttp);
 
-										oRedirectionAlert.cache[aURL].stop = true;
-										ODPExtension.urlFlag(oRedirectionAlert.cache[aURL]);
-										aFunction(oRedirectionAlert.cache[aURL], aURL)
+										aData.stop = true;
+										ODPExtension.urlFlag(aData);
+										aFunction(aData, aURL)
 
 										oRedirectionAlert.itemsDone++;
 										if(oRedirectionAlert.itemsDone==oRedirectionAlert.itemsWorking)
@@ -277,13 +338,17 @@
 									}
 								};
 								Requester.open("GET", aURL, true);
-								Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_FLAGS_BYPASS_PROXY | Components.interfaces.nsIRequest.LOAD_BYPASS_CACHE | Components.interfaces.nsIRequest.LOAD_ANONYMOUS;
+								if(ODPExtension.preferenceGet('link.checker.use.cache') === 0)
+									Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_FLAGS_BYPASS_PROXY | Components.interfaces.nsIRequest.LOAD_BYPASS_CACHE | Components.interfaces.nsIRequest.LOAD_ANONYMOUS;
+								else
+									Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_ANONYMOUS;
+
 								if(tryAgain === 0)
 									Requester.setRequestHeader('Referer', aURL);
 								else
 									Requester.setRequestHeader('Referer', 'https://www.google.com/search?q='+ODPExtension.encodeUTF8(aURL));
 								Requester.send(null);
-								//in some situations, timeout is maybe ignored, but neither onload nor onerror nor onabort are called
+								//in some situations, timeout is maybe ignored, but neither onload, onerror nor onabort are called
 								setTimeout(function(){
 									//ODPExtension.dump(Requester.readyState);
 									if(!loaded){
@@ -405,23 +470,25 @@
 			  return errName;
 		}
 
-		this.disableTabFeatures = function(aTab){
-			var aWindow = ODPExtension.windowGetFromTab(aTab).wrappedJSObject;
+		this.disableTabFeatures = function(aWindow){
 			try{
-				aWindow.alert = aWindow.onbeforeunload = aWindow.prompt = aWindow.confirm = aWindow.focus = function(){};
+				aWindow.wrappedJSObject.alert = aWindow.wrappedJSObject.onbeforeunload = aWindow.wrappedJSObject.prompt = aWindow.wrappedJSObject.confirm = aWindow.wrappedJSObject.focus = function(){};
 			} catch(e){}
 		}
-		// comments of the error codes based or taken from http://www.dmoz.org/docs/en/errorcodes.html
-		this.urlFlag = function(aData){
 
-			aData.status = {}
+		// comments of the error codes based or taken from http://www.dmoz.org/docs/en/errorcodes.html
+		this.urlFlag = function(aData, aDoc){
+
+			aData.status = {};
 			aData.status.error = true;
 			aData.status.code = false;
 			aData.status.delete = false;
 			aData.status.unreview = false;
+			aData.status.suspicious = [];
 
-			aData.domain = ODPExtension.getSubdomainFromURL(aData.urlLast);
-			aData.ip = ODPExtension.getIPFromDomain(aData.domain);
+			aData.subdomain = this.getSubdomainFromURL(aData.urlLast);
+			aData.domain = this.getDomainFromURL(aData.urlLast);
+			aData.ip = this.getIPFromDomain(aData.subdomain);
 
 			//HTTP redirections to HTTPS are not perceived as a redirection, log it
 			if(aData.urlRedirections.length === 1 && aData.urlOriginal != aData.urlLast)
@@ -430,12 +497,28 @@
 			var lastStatus = aData.statuses[aData.statuses.length-1];
 
 			var urlMalformed = aData.urlLast.indexOf('https:///') != -1 || aData.urlLast.indexOf('http:///') != -1
-													|| aData.domain.indexOf(',') !== -1
-													|| aData.domain.indexOf('%') !== -1
+													|| aData.subdomain.indexOf(',') !== -1
+													|| aData.subdomain.indexOf('%') !== -1
 													|| !this.isPublicURL(aData.urlLast);
 
-			var aBody = aData.body.toLowerCase().trim();
+			//links
+			aData.linksInternal = []
+			aData.linksExternal = []
 
+			if(aDoc){
+				var a = aDoc.getElementsByTagName('a');
+				for(var i=0;i<a.length;i++){
+					var link = a[i];
+					if(link.href && link.href != '' && link.href.indexOf('http') === 0){
+						var aDomain = this.getDomainFromURL(link.href)
+						if(this.getDomainFromURL(aDomain) != aData.domain){
+							aData.linksExternal.push({url:link.href, anchor:link.innerHTML, domain:aDomain});
+						} else {
+							aData.linksInternal.push({url:link.href, anchor:link.innerHTML, domain:aDomain});
+						}
+					}
+				}
+			}
 			//-6 BAd URL
 			if(false
 			    || urlMalformed
@@ -549,13 +632,17 @@
 
 			//-8 	Empty Page
 			} else if(false
-			   || this.urlFlagSempty.indexOf(aBody) !== -1
+			   ||
+			   (
+			    this.urlFlagSempty.indexOf(aData.txt.toLowerCase()) !== -1
+			    && aData.linksInternal.length < 1
+			   )
 			) {
 				aData.status.code = -8;
 				aData.statuses.push(aData.status.code);
 				aData.status.errorString = 'Empty Page';
 				aData.status.unreview = true;
-				aData.status.match = aBody;
+				aData.status.match = aData.txt;
 
 			//-1338 	Redirect OK	The server redirects to another page but it's OK
 			} else if(
@@ -618,7 +705,7 @@
 				,'suspended'
 			]
 
-			var data = (aData.urlRedirections.join('\n')+'\n'+aData.headers+'\n'+aData.html).toLowerCase();
+			var data = (aData.urlRedirections.join('\n')+'\n'+aData.externalContent.join('\n')+'\n'+aData.headers+'\n'+aData.html).toLowerCase();
 			var breaky = false;
 			for(var name in array){
 				if(array[name] != '') {
@@ -635,7 +722,7 @@
 								aData.status.unreview = true;
 							aData.status.errorString = this['urlFlags'][array[name]]['errorString'];
 							aData.statuses.push(aData.status.code);
-							aData.status.match = string.toLowerCase();
+							aData.status.match = string;
 							breaky = true;
 							break;
 						}
@@ -644,7 +731,36 @@
 						break;
 				}
 			}
+
+			//suspicious
+			if(aData.contentType != '' && aData.contentType != 'text/html' && aData.contentType != 'application/pdf' && aData.contentType != 'application/xhtml+xml'){
+				aData.status.suspicious.push('Unknown content type: '+aData.contentType);
+				//ODPExtension.dump(aData);
+			}
+			if(aData.html.indexOf('FrameSet') != -1){
+				aData.status.suspicious.push('Document may has a FrameSet');
+			}
+
+/*
+			To many false positives
+			if(aData.html.indexOf('<title>'+aData.domain+'</title>') != -1){
+				aData.status.suspicious.push('Maybe parked');
+			}
+*/
+
+			//experimenting
+			if(aData.status.error === false){
+				if(aData.hash in this.badDocuments){
+					if(aData.urlOriginal != this.badDocuments[aData.hash]){
+						aData.extended = 'This same '+aData.urlOriginal+' document found on '+this.badDocuments[aData.hash];
+						this.dump(aData.extended);
+					}
+				}
+			}
+			this.badDocuments[aData.hash] = aData.urlOriginal;
 		}
+
+		this.badDocuments = [];
 
 		this.urlFlags = {
 			parked: {
@@ -737,6 +853,7 @@
 					,'This domain may be for sale'
 					,'This domain maybe for sale'
 					,'¡Esta pagina está a la venta!'
+					,'In case of trademark issues please contact the domain owner'
 				]
 			}
 
@@ -764,13 +881,7 @@
 					,"<title>Blogger: Sign in</title>"
 					,"<TITLE>Movistar.es - Error</TITLE>"
 					,"The authors have deleted this site"
-					,'/welcome.html\'>\nwelcome</a></li>' //< blogspot empty
-					,'/welcome.html\'>welcome</a></li>' //< blogspot empty
-					,'/welcome.html">\nwelcome</a></li>' //< blogspot empty
-					,'/welcome.html">welcome</a></li>' //< blogspot empty
 					,'msg-hidden">No hay ninguna entrada.</div>' //< blogspot empty
-					,'status-msg-hidden">No posts.</div>'//< blogspot empty
-					,'status-msg-hidden">\nNo posts.</div>'//< blogspot empty
 					,'<img src="/error/rcs/pxnada.gif" width="1" height="30">'
 					,'<title> No such site available </title>'
 					,'<title>Hometown Has Been Shutdown'
@@ -882,6 +993,7 @@
 					,'This is your first post. Edit or delete it'
 					,'To create a website, do one of the following'
 					,'You can access your hosting account control panel'
+					,'<h1>This domain name has been registered with '
 				]
 			}
 
@@ -905,6 +1017,7 @@
 					,'Database Error: Unable to connect'
 					,'Forbidden</title>'
 					,'header already sent.'
+					,'Microsoft OLE DB Provider for SQL Server'
 				]
 			}
 
@@ -934,6 +1047,10 @@
 					,'Site closed for maintenance'
 					,'This site is under construction'
 					,'underconstruction.networksolutions.com'
+					,'img/under_construction'
+					,'Estamos en obras en la página'
+					,'>En construcción<'
+					,'la pagina está en remodelación'
 				]
 			}
 
@@ -988,7 +1105,6 @@
 					,'.credonic.com'
 					,'/?fp='
 					,'/www.dotearth.com/servlet/DeRedirect'
-					,'<!-- nothing here -->'
 					,'<div class="relHdr">Related Searches</div>'
 					,'<frame name="pp"'
 					,'<frame src="http://domain.dot.tk/p/?d='
@@ -1027,8 +1143,8 @@
 
 		this.redirectionOK = function(oldURL, newURL){
 
-			oldURL = this.removeWWW(this.removeSchema(oldURL)).replace(/\/+$/, '')
-			newURL = this.removeWWW(this.removeSchema(newURL)).replace(/\/+$/, '')
+			oldURL = this.removeWWW(this.removeSchema(oldURL)).replace(/\/+$/, '').toLowerCase()
+			newURL = this.removeWWW(this.removeSchema(newURL)).replace(/\/+$/, '').toLowerCase();
 
 			if(oldURL == newURL){
 				return true;

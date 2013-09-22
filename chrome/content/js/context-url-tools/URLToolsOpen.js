@@ -34,8 +34,8 @@
 				//selected link
 					if(links.length < 1)
 					{
-						if(this.getSelectedLink() !='')
-							links[links.length] = this.getSelectedLink();
+						if(this.getSelectedLinkURL() !='')
+							links[links.length] = this.getSelectedLinkURL();
 					}
 
 				//selected text

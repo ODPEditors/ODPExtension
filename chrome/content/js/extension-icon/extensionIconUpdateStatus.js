@@ -18,7 +18,7 @@
 				{
 					var status = 'nada';
 
-					if(this.isPrivateURL(this.focusedURL))
+					if(this.cantLeakURL(this.focusedURL))
 					{
 						status = 'private';
 						label.setAttribute('value', this.getString('private.url'));

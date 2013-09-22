@@ -13,6 +13,20 @@
 		}
 		return tmp;
 	};
+	//removes duplicate values from an array
+	this.arrayUniqueObjects = function (anArray, aFunction)
+	{
+	  var unique = {};
+	  var tmp = [];
+	  anArray.forEach(function (x) {
+	    var key = aFunction(x);
+	    if (!(key in unique)) {
+	      tmp[tmp.length] = x;
+	      unique[key] = true;
+	    }
+	  });
+	  return tmp;
+	}
 	//checks if a value exists in an array
 	this.inArray = function (anArray, some)
 	{

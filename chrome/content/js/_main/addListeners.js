@@ -52,7 +52,10 @@
 
 			//odp URL notes
 					//updates show or hide the ODP URL Notes toolbarbuttons
-					this.addListener('onLocationChange', function() { ODPExtension.odpURLNotesToolbarbuttonsUpdate(ODPExtension.focusedURLSubdomain); });
+					this.addListener('onLocationChange', function() {
+						ODPExtension.odpURLNotesToolbarbuttonsUpdate(ODPExtension.focusedURLSubdomain);
+					});
+
 					//Apply note to selected sites //in multiple tab handler
 					if(this.getBrowserElement('multipletab-selection-menu'))
 					{

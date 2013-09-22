@@ -1,38 +1,31 @@
 @namespace url(http://www.w3.org/1999/xhtml);
-
-@-moz-document url("http://www.dmoz.org/editors/")
-{
-  #side
-  {
-	position: fixed;
-	right: 0;
-	top: 113px;
-  }
-}
-@-moz-document domain("www.dmoz.org")
-{
-	textarea[name="newaltlangs"]
-	{
-	  width:100% !important;
-	  min-width: 100% !important;
-	  white-space:nowrap !important;
-	  overflow:auto !important;
+@-moz-document url("http://www.dmoz.org/editors/") {
+	#side {
+		position: fixed;
+		right: 0;
+		top: 113px;
 	}
-
-	ul.language
-	{
-	  width:100% !important;
-	  margin:0px !important;
-	  padding:0px !important;
+}
+@-moz-document domain("www.dmoz.org") {
+	textarea[name="newaltlangs"] {
+		width:100% !important;
+		min-width: 100% !important;
+		white-space:nowrap !important;
+		overflow:auto !important;
+	}
+	ul.language {
+		width:100% !important;
+		margin:0px !important;
+		padding:0px !important;
 	}
 	ul.language li {
-	  display: block;
-	  float: left;
-	  font-size: 11px !important;
-	  margin: -1px !important;
-	  padding: 0 !important;
+		display: block;
+		float: left;
+		font-size: 11px !important;
+		margin: -1px !important;
+		padding: 0 !important;
 	}
 	hr {
-	  height:1px !important;
+		height:1px !important;
 	}
 }

@@ -12,19 +12,15 @@
 <!-- features -->
 <?xul-overlay href="chrome://ODPExtension/content/features/add-site/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/browser/@xul.xul"?>
-
 <?xul-overlay href="chrome://ODPExtension/content/features/categories-txt/@xul.xul"?>
-
 <?xul-overlay href="chrome://ODPExtension/content/features/category-browser/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/category-history/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/category-navigate/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/category-navigator/@xul.xul"?>
-
 <?xul-overlay href="chrome://ODPExtension/content/features/context-frames/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/context-translate/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/context-url-tools/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/context-word-reference/@xul.xul"?>
-
 <?xul-overlay href="chrome://ODPExtension/content/features/editing-url/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/editor-forums/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/extension-icon/@xul.xul"?>
@@ -41,8 +37,10 @@
 <?xul-overlay href="chrome://ODPExtension/content/core/@xul.xul"?>
 
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
 	<!-- js localized strings -->
-		<stringbundleset id="stringbundleset">
-			<stringbundle id="ODPExtension-localization" src="chrome://ODPExtension/locale/js.properties"/>
-		</stringbundleset>
+	<stringbundleset id="stringbundleset">
+		<stringbundle id="ODPExtension-localization" src="chrome://ODPExtension/locale/js.properties"/>
+	</stringbundleset>
+
 </overlay>

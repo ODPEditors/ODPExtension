@@ -1,14 +1,12 @@
-(function()
-{
-		//sets debuging on/off for this JavaScript file
+(function() {
+	//sets debuging on/off for this JavaScript file
 
-			var debugingThisFile = true;
+	var debugingThisFile = true;
 
-			this.rdfGetCategoryRelatedCategoriesFromCategoryID = function(aCategoryID)
-			{
-				this.rdfOpen();//opens a connection to the RDF SQLite database.
+	this.rdfGetCategoryRelatedCategoriesFromCategoryID = function(aCategoryID) {
+		this.rdfOpen(); //opens a connection to the RDF SQLite database.
 
-				var query = this.DBRDF.query(' \
+		var query = this.DBRDF.query(' \
 											 	SELECT \
 													* \
 												FROM \
@@ -20,18 +18,17 @@
 												order by \
 													related_id_to asc \
 											');
-					query.params('categories_id', aCategoryID);
+		query.params('categories_id', aCategoryID);
 
-				if(!anArrayResults)
-					var anArrayResults = [];
+		if (!anArrayResults)
+			var anArrayResults = [];
 
-				var row;
-				for(var i=0;row = this.DBRDF.fetchObjects(query);i++)
-				{
-					anArrayResults.push(row);
-				}
-				return anArrayResults;
-			}
+		var row;
+		for (var i = 0; row = this.DBRDF.fetchObjects(query); i++) {
+			anArrayResults.push(row);
+		}
+		return anArrayResults;
+	}
 	return null;
 
 }).apply(ODPExtension);

@@ -1,12 +1,9 @@
-
-.ODPExtension-menu-no-arrow > hbox
-{
+.ODPExtension-menu-no-arrow > hbox {
 	display:none !important;
 }
 .ODPExtension-from-category-xbl {
-    -moz-binding:  url('xbl/category.xml#from-category-xbl');
+	-moz-binding:  url('xbl/category.xml#from-category-xbl');
 }
-
 .ODPExtension-from-editor-xbl {
-    -moz-binding:  url('xbl/editor.xml#from-editor-xbl');
+	-moz-binding:  url('xbl/editor.xml#from-editor-xbl');
 }

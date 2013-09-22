@@ -1,13 +1,10 @@
-(function()
-{
+(function() {
 	//returns the height of a document
-	this.screenGetDocumentH = function(aDoc)
-	{
+	this.screenGetDocumentH = function(aDoc) {
 		return aDoc.height;
 	}
 	//returns the width of an document
-	this.screenGetDocumentW = function(aDoc)
-	{
+	this.screenGetDocumentW = function(aDoc) {
 		return aDoc.width;
 	}
 

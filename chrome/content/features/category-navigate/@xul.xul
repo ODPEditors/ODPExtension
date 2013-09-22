@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-
-<script type="application/x-javascript" src="build-submenu.js"></script>
-<script type="application/x-javascript" src="make-menu-popup-navegable.js"></script>
-<script type="application/x-javascript" src="navigate.js"></script>
-<script type="application/x-javascript" src="request-categories.js"></script>
-
-
-
-
-
+	<script src="build-submenu.js" type="application/x-javascript"/>
+	<script src="make-menu-popup-navegable.js" type="application/x-javascript"/>
+	<script src="navigate.js" type="application/x-javascript"/>
+	<script src="request-categories.js" type="application/x-javascript"/>
 </overlay>

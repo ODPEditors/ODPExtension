@@ -186,7 +186,7 @@
 <!ENTITY ODPExtension.tab.ui "User Interface">
 <!ENTITY ODPExtension.tab.url.notes "ODP noter">
 <!ENTITY ODPExtension.tab.url.tools "URL Tools">
-<!ENTITY ODPExtension.toolbars.toggle "Toggle Toolbars &amp; Toolbars Buttons">
+<!ENTITY ODPExtension.toolbars.toggle "Toggle Buttons">
 <!ENTITY ODPExtension.top "Top">
 <!ENTITY ODPExtension.ui.context.menu "Indholds menu">
 <!ENTITY ODPExtension.ui.context.menu.categories "Kategorier">

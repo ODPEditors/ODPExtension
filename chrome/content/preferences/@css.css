@@ -1,35 +1,26 @@
-
-
-
-label[class="text-link"]
-{
-margin-left:1px !important;
-margin-right:1px !important;
+label[class="text-link"] {
+	margin-left:1px !important;
+	margin-right:1px !important;
 }
-description
-{
+description {
 	margin-top:6px;
 }
-tab, tabbox, tabpanels, tabpanel, dialogheader
-{
+tab, tabbox, tabpanels, tabpanel, dialogheader {
 	-moz-appearance: none !important;
 	border:0px !important;
 	padding:0px !important;
 	margin:0px !important;
 }
-dialogheader
-{
+dialogheader {
 	padding:12px !important;
 }
-dialog
-{
+dialog {
 	padding:0px !important;
 	border:0px !important;
 	margin:0px !important;
 	padding-bottom:4px !important;
 }
-.radioButton
-{
+.radioButton {
 	padding:1px !important;
 	padding-top:8px !important;
 	padding-bottom:4px !important;
@@ -40,16 +31,13 @@ dialog
 	-moz-border-top-right-radius: 0px !important;
 	border-radius-bottomright: 0px !important;
 	border-radius-bottomleft:  0px !important;
-
 	border:0px !important;
 }
-.radiogroupWhite
-{
+.radiogroupWhite {
 	-moz-appearance: none !important;
 	width:100% !important;
 	padding-left:5px !important;
 	padding-right:5px !important;
-
 	border-bottom-width: 2px;
 	border-bottom-style: groove;
 	border-bottom-color: threedface;
@@ -58,56 +46,40 @@ dialog
 	background-color: -moz-field;
 	color: -moz-fieldtext;
 }
-
-.rowTitle
-{
+.rowTitle {
 	min-width:90px;
 }
-
-.invisible
-{
+.invisible {
 	-moz-appearance: none !important;
 	border:0px;
 }
-
-.tabUserInterface
-{
+.tabUserInterface {
 	list-style-image: url(img/ui.png);
 }
-.tabPrivacy
-{
+.tabPrivacy {
 	list-style-image: url(img/privacy.png);
 }
-.tabURLTools
-{
+.tabURLTools {
 	list-style-image: url(img/url-tools.png);
 }
-.tabURLNotes
-{
+.tabURLNotes {
 	list-style-image: url(img/url-notes.png);
 }
-.tabTranslate
-{
+.tabTranslate {
 	list-style-image: url(img/translate.png);
 }
-.tabAdvanced
-{
+.tabAdvanced {
 	list-style-image: url(img/advanced.png);
 }
-.tabLicense
-{
+.tabLicense {
 	list-style-image: url(img/gnu.png);
 }
-
-.tabIconClicks
-{
+.tabIconClicks {
 	list-style-image: url(img/clicks.png);
 }
-.tabBehavior
-{
+.tabBehavior {
 	list-style-image: url(img/piro.png);
 }
-.tabDocumentation
-{
+.tabDocumentation {
 	list-style-image: url(img/documentation.png);
 }

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-	xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 	<Description about="urn:mozilla:install-manifest">
-
 		<em:id>development@dmoz.org</em:id>
 		<em:name>ODP Extension</em:name>
 		<em:creator>tito (ed:development)</em:creator>
@@ -15,6 +12,7 @@
 		<em:homepageURL>http://forums.dmoz.org/forum/viewtopic.php?t=920940</em:homepageURL>
 		<em:iconURL>chrome://ODPExtension/content/icon/icon.png</em:iconURL>
 		<em:updateURL>https://dl.dropboxusercontent.com/u/9303546/ODP/EPT/ODPExtension/update.rdf</em:updateURL>
+
 		<em:translator>Deutsch - by benjiwiebe, liszt, cls</em:translator>
 		<em:translator>Русский - by vader</em:translator>
 		<em:translator>Română - by sovidiu</em:translator>
@@ -23,7 +21,6 @@
 		<em:translator>Türkçe - by maxcoder</em:translator>
 		<em:translator>Français - by astrozygote</em:translator>
 		<em:translator>English (Template), Español - by development</em:translator>
-
 		<em:contributor>bigmarlin</em:contributor>
 		<em:contributor>callimachus</em:contributor>
 		<em:contributor>chaos127</em:contributor>
@@ -53,23 +50,20 @@
 		<em:contributor>Tortoise *</em:contributor>
 
 		<!-- Firefox -->
-			<em:targetApplication>
-				<Description>
-					<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-					<em:minVersion>4.0</em:minVersion>
-					<em:maxVersion>30000000</em:maxVersion>
-				</Description>
-			</em:targetApplication>
-
+		<em:targetApplication>
+			<Description>
+				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+				<em:minVersion>4.0</em:minVersion>
+				<em:maxVersion>30000000</em:maxVersion>
+			</Description>
+		</em:targetApplication>
 		<!-- new SeaMonkey -->
-			<em:targetApplication>
-				<Description>
-					<em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
-					<em:minVersion>2.0</em:minVersion>
-					<em:maxVersion>30000000</em:maxVersion>
-				</Description>
-			</em:targetApplication>
-
-
+		<em:targetApplication>
+			<Description>
+				<em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
+				<em:minVersion>2.0</em:minVersion>
+				<em:maxVersion>30000000</em:maxVersion>
+			</Description>
+		</em:targetApplication>
 	</Description>
 </RDF>

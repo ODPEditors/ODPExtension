@@ -1,7 +1,5 @@
-
-.ODPExtension-filter-textbox
-{
- 	-moz-appearance: none !important;
+.ODPExtension-filter-textbox {
+	-moz-appearance: none !important;
 	background-color:white;
 	color:#333333;
 	width:300px;
@@ -11,24 +9,19 @@
 	padding-top:0px !important;
 	margin:2px !important;
 }
-.ODPExtension-filter-textbox:not([empty])
-{
+.ODPExtension-filter-textbox:not([empty]) {
 	color:black;
 }
-.ODPExtension-filter-textbox[status="404"]
-{
+.ODPExtension-filter-textbox[status="404"] {
 	background-color:#FF6666;
 	color:white;
 }
-
 .ODPExtension-category-filter {
-    -moz-binding:  url('xbl/category-filter.xml#category-filter');
+	-moz-binding:  url('xbl/category-filter.xml#category-filter');
 }
-
-
 .ODPExtension-category-browser {
-    -moz-binding:  url('xbl/category-browser.xml#category-browser');
+	-moz-binding:  url('xbl/category-browser.xml#category-browser');
 }
-
-
-#ODPExtension-toolbarbutton-category-browser{list-style-image:   url("img/category-browser.png");}
+#ODPExtension-toolbarbutton-category-browser {
+	list-style-image:   url("img/category-browser.png");
+}

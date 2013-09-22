@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-
-<script type="application/x-javascript" src="create-table.js"></script>
-<script type="application/x-javascript" src="delete.js"></script>
-<script type="application/x-javascript" src="import-categories-history.js"></script>
-<script type="application/x-javascript" src="insert.js"></script>
-<script type="application/x-javascript" src="statements.js"></script>
-
-
-
-
-
+	<script src="create-table.js" type="application/x-javascript"/>
+	<script src="delete.js" type="application/x-javascript"/>
+	<script src="import-categories-history.js" type="application/x-javascript"/>
+	<script src="insert.js" type="application/x-javascript"/>
+	<script src="statements.js" type="application/x-javascript"/>
 </overlay>

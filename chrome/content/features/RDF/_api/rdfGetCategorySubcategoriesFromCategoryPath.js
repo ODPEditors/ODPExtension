@@ -1,15 +1,13 @@
-(function()
-{
-		//sets debuging on/off for this JavaScript file
+(function() {
+	//sets debuging on/off for this JavaScript file
 
-			var debugingThisFile = true;
+	var debugingThisFile = true;
 
-			this.rdfGetCategorySubcategoriesFromCategoryPath = function(aCategory)
-			{
-				this.rdfOpen();//opens a connection to the RDF SQLite database.
+	this.rdfGetCategorySubcategoriesFromCategoryPath = function(aCategory) {
+		this.rdfOpen(); //opens a connection to the RDF SQLite database.
 
-				//sql query
-				var query = this.DBRDF.query(' \
+		//sql query
+		var query = this.DBRDF.query(' \
 											 	SELECT \
 													* \
 												FROM \
@@ -17,15 +15,14 @@
 												where \
 													`categories_id_parent` =  :categories_id_parent \
 											');
-					query.params('categories_id_parent', this.rdfGetCategoryFromCategoryPath(aCategory).categories_id);
+		query.params('categories_id_parent', this.rdfGetCategoryFromCategoryPath(aCategory).categories_id);
 
-				var row, rows = [];
-				for(var i=0;row = this.DBRDF.fetchObjects(query);i++)
-				{
-					rows[i] = row;
-				}
-				return rows;
-			}
+		var row, rows = [];
+		for (var i = 0; row = this.DBRDF.fetchObjects(query); i++) {
+			rows[i] = row;
+		}
+		return rows;
+	}
 	return null;
 
 }).apply(ODPExtension);

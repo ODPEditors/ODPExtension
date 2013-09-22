@@ -38,34 +38,30 @@ const CLASS_ID = Components.ID("{84bcc1e0-9c94-11df-981c-0800200c9a66}");
 const CLASS_NAME = "Setups some types of listeners/observers and notifies to the registered extensions of these events when needed";
 const CONTRACT_ID = "@particle.universe.tito/TheListeners;7";
 
-function TheListeners()
-{
+function TheListeners() {
 	this.wrappedJSObject = this;
 	this.init();
 }
-TheListeners.prototype =
-{
-	classID : CLASS_ID,
-	classDescription : CLASS_NAME,
-	contractID : CONTRACT_ID,
+TheListeners.prototype = {
+	classID: CLASS_ID,
+	classDescription: CLASS_NAME,
+	contractID: CONTRACT_ID,
 
-	debugingThisFile : false,
-	consoleService : Components.classes["@mozilla.org/consoleservice;1"].
-						getService(Components.interfaces.nsIConsoleService),
+	debugingThisFile: false,
+	consoleService: Components.classes["@mozilla.org/consoleservice;1"].
+	getService(Components.interfaces.nsIConsoleService),
 
-	listeneresAdded : false,
-	extensions : [],
-	extensionsToUninstallOrDisabled : [],
-	complexListeners : [],
-	extensionsWithComplexListeners : [],
+	listeneresAdded: false,
+	extensions: [],
+	extensionsToUninstallOrDisabled: [],
+	complexListeners: [],
+	extensionsWithComplexListeners: [],
 
-	observe: function(aSubject, aTopic, aData)
-	{
-			//listening em-action-requested
-			if(aTopic == 'em-action-requested')
-			{
-				//just save the state of the add-on
-				/*
+	observe: function(aSubject, aTopic, aData) {
+		//listening em-action-requested
+		if (aTopic == 'em-action-requested') {
+			//just save the state of the add-on
+			/*
 					item-installed 	A new extension has been installed.
 					item-upgraded 	A different version of an existing extension has been installed.
 					item-uninstalled 	An addon has been marked to be uninstalled.
@@ -73,261 +69,224 @@ TheListeners.prototype =
 					item-disabled 	An addon has been disabled.
 					item-cancel-action 	A previous action has been cancelled.
 				*/
-				aSubject.QueryInterface(Components.interfaces.nsIUpdateItem);
+			aSubject.QueryInterface(Components.interfaces.nsIUpdateItem);
 
-				if(aData == 'item-installed'){}
-				else if(aData == "item-upgraded"){}
-				else if(aData == "item-uninstalled")
-				{
-					this.extensionsToUninstallOrDisabled[aSubject.id] = true;
-				}
-				else if(aData == "item-enabled")
-				{
-					delete this.extensionsToUninstallOrDisabled[aSubject.id];
-				}
-				else if(aData == "item-disabled")
-				{
-					this.extensionsToUninstallOrDisabled[aSubject.id] = true;
-				}
-				else if(aData == "item-cancel-action")
-				{
-					delete this.extensionsToUninstallOrDisabled[aSubject.id];
-				}
+			if (aData == 'item-installed') {} else if (aData == "item-upgraded") {} else if (aData == "item-uninstalled") {
+				this.extensionsToUninstallOrDisabled[aSubject.id] = true;
+			} else if (aData == "item-enabled") {
+				delete this.extensionsToUninstallOrDisabled[aSubject.id];
+			} else if (aData == "item-disabled") {
+				this.extensionsToUninstallOrDisabled[aSubject.id] = true;
+			} else if (aData == "item-cancel-action") {
+				delete this.extensionsToUninstallOrDisabled[aSubject.id];
 			}
-			else
-			{
-				//some event maybe will be dispatched
-					var anEvent = false;
+		} else {
+			//some event maybe will be dispatched
+			var anEvent = false;
 
-					//quit application
-					if(aTopic == 'quit-application-requested')
-					{
-						anEvent = 'onApplicationQuit';
-						aSubject.QueryInterface(Components.interfaces.nsISupportsPRBool);
-					}
-					//idle
-					else if(aTopic == 'idle')
-					{
-						anEvent = 'onIdle';
-					}
-					//network online/offline
-					else if(aTopic == 'network:offline-status-changed')
-					{
-						if(aData == 'offline')
-							anEvent = 'onConnectionOffline';
-						else if(aData == 'online')
-							anEvent = 'onConnectionOnline';
-					}
-					//private browsing
-					else if(aTopic == 'private-browsing')
-					{
-						if(aData == 'enter')
-							anEvent = 'onPrivateBrowsingEnter';
-						else if(aData == 'exit')
-							anEvent = 'onPrivateBrowsingExit';
-					}
-					//http-on-modify-request
-					else if (aTopic == "http-on-modify-request")
-					{
-						aSubject.QueryInterface(Components.interfaces.nsIHttpChannel);
-						anEvent = 'onModifyRequest';
-					}
-
-				//dispatch the event
-					if(!anEvent){}
-					else
-					{
-
-						this.dispatchEventToExtensions(anEvent, aSubject);
-					}
+			//quit application
+			if (aTopic == 'quit-application-requested') {
+				anEvent = 'onApplicationQuit';
+				aSubject.QueryInterface(Components.interfaces.nsISupportsPRBool);
 			}
+			//idle
+			else if (aTopic == 'idle') {
+				anEvent = 'onIdle';
+			}
+			//network online/offline
+			else if (aTopic == 'network:offline-status-changed') {
+				if (aData == 'offline')
+					anEvent = 'onConnectionOffline';
+				else if (aData == 'online')
+					anEvent = 'onConnectionOnline';
+			}
+			//private browsing
+			else if (aTopic == 'private-browsing') {
+				if (aData == 'enter')
+					anEvent = 'onPrivateBrowsingEnter';
+				else if (aData == 'exit')
+					anEvent = 'onPrivateBrowsingExit';
+			}
+			//http-on-modify-request
+			else if (aTopic == "http-on-modify-request") {
+				aSubject.QueryInterface(Components.interfaces.nsIHttpChannel);
+				anEvent = 'onModifyRequest';
+			}
+
+			//dispatch the event
+			if (!anEvent) {} else {
+
+				this.dispatchEventToExtensions(anEvent, aSubject);
+			}
+		}
 	},
 	//dispatch the event to the registered extensions on the focused window
-	dispatchEventToExtensions: function(anEvent, aSubject)
-	{
+	dispatchEventToExtensions: function(anEvent, aSubject) {
 		//if there is some extension registered
-		if(this.extensions || this.extensionsWithComplexListeners[anEvent])
-		{
+		if (this.extensions || this.extensionsWithComplexListeners[anEvent]) {
 			//COMPLEX or simlpe event?
-				if(this.extensionsWithComplexListeners[anEvent])
-					var registeredExtensions = this.extensionsWithComplexListeners[anEvent];
-				else
-					var registeredExtensions = this.extensions;
+			if (this.extensionsWithComplexListeners[anEvent])
+				var registeredExtensions = this.extensionsWithComplexListeners[anEvent];
+			else
+				var registeredExtensions = this.extensions;
 
 			//dispatch event to registered extensions
-				for(var anExtension in registeredExtensions)
-				{
-						//try to use the most recent window
-						var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-									.getService(Components.interfaces.nsIWindowMediator);
-						var win = wm.getMostRecentWindow('navigator:browser');
+			for (var anExtension in registeredExtensions) {
+				//try to use the most recent window
+				var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+					.getService(Components.interfaces.nsIWindowMediator);
+				var win = wm.getMostRecentWindow('navigator:browser');
+
+				//waiting for the extension to load
+				if (win && (anExtension in win) && win[anExtension].extensionHasBeenLoaded) {
+					//this.dump('Calling to '+extension+'.dispatchEvent(\''+anEvent+'\', aSubject);');
+					//try{ to not break other extension that use this XPCOM }
+					try {
+						win[anExtension].dispatchEvent(anEvent, aSubject);
+					} catch (e) {}
+
+					//calling to onExtensionUninstall if needed
+					if (anEvent == 'onApplicationQuit' && this.extensionsToUninstallOrDisabled[this.extensions[anExtension]]) {
+						//this.dump('Calling to '+extension+'.dispatchEvent(\'onExtensionUninstall\', aSubject);');
+						//try{ to not break other extension that use this XPCOM }
+						try {
+							win[anExtension].dispatchEvent('onExtensionUninstall', aSubject);
+						} catch (e) {}
+					}
+				} else {
+					//dispatch the event to the extension on the focused window if fails try in the other window
+					var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+						.getService(Components.interfaces.nsIWindowMediator);
+					var enumerator = wm.getEnumerator('navigator:browser');
+
+					while (enumerator.hasMoreElements()) {
+						var win = enumerator.getNext(); // win is [Object ChromeWindow] (just like window), do something with it
 
 						//waiting for the extension to load
-						if(win && (anExtension in win) && win[anExtension].extensionHasBeenLoaded)
-						{
+						if (win && (anExtension in win) && win[anExtension].extensionHasBeenLoaded) {
 							//this.dump('Calling to '+extension+'.dispatchEvent(\''+anEvent+'\', aSubject);');
 							//try{ to not break other extension that use this XPCOM }
-							try{win[anExtension].dispatchEvent(anEvent, aSubject);}catch(e){}
+							try {
+								win[anExtension].dispatchEvent(anEvent, aSubject);
+							} catch (e) {}
 
 							//calling to onExtensionUninstall if needed
-							if(anEvent == 'onApplicationQuit' && this.extensionsToUninstallOrDisabled[this.extensions[anExtension]])
-							{
+							if (anEvent == 'onApplicationQuit' && this.extensionsToUninstallOrDisabled[this.extensions[anExtension]]) {
 								//this.dump('Calling to '+extension+'.dispatchEvent(\'onExtensionUninstall\', aSubject);');
 								//try{ to not break other extension that use this XPCOM }
-								try{win[anExtension].dispatchEvent('onExtensionUninstall', aSubject);}catch(e){}
+								try {
+									win[anExtension].dispatchEvent('onExtensionUninstall', aSubject);
+								} catch (e) {}
 							}
-						}
-						else
-						{
-							//dispatch the event to the extension on the focused window if fails try in the other window
-							var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-										.getService(Components.interfaces.nsIWindowMediator);
-							var enumerator = wm.getEnumerator('navigator:browser');
-
-							while(enumerator.hasMoreElements())
-							{
-								var win = enumerator.getNext();// win is [Object ChromeWindow] (just like window), do something with it
-
-								//waiting for the extension to load
-								if(win && (anExtension in win) && win[anExtension].extensionHasBeenLoaded)
-								{
-									//this.dump('Calling to '+extension+'.dispatchEvent(\''+anEvent+'\', aSubject);');
-									//try{ to not break other extension that use this XPCOM }
-									try{win[anExtension].dispatchEvent(anEvent, aSubject);}catch(e){}
-
-									//calling to onExtensionUninstall if needed
-									if(anEvent == 'onApplicationQuit' && this.extensionsToUninstallOrDisabled[this.extensions[anExtension]])
-									{
-										//this.dump('Calling to '+extension+'.dispatchEvent(\'onExtensionUninstall\', aSubject);');
-										//try{ to not break other extension that use this XPCOM }
-										try{win[anExtension].dispatchEvent('onExtensionUninstall', aSubject);}catch(e){}
-									}
-									break;
-								}
-							}
-						}
-				}
-		}
-	},
-	addComplexListener : function(aListener, anExtension)
-	{
-		//adding the listener  just one time
-			//this.dump('addComplexListener');
-			if(!this.complexListeners[aListener])//add this listener just one time
-			{
-				this.complexListeners[aListener] = true;
-
-				var observerService = Components.classes["@mozilla.org/observer-service;1"]
-											.getService(Components.interfaces.nsIObserverService);
-				if(aListener == 'onModifyRequest')
-				{
-					//this.dump('really addComplexListener');
-					/* useful for modify headers */
-					//http-on-modify-request
-						observerService.addObserver(this, "http-on-modify-request", false);
-				}
-			}
-		//registering the extension for this listener
-			//if the qeue of extensions not exists..
-			if(!this.extensionsWithComplexListeners[aListener])
-				this.extensionsWithComplexListeners[aListener] = [];
-			//add the extension
-			this.extensionsWithComplexListeners[aListener][anExtension] = true;
-	},
-	removeComplexListener : function(aListener, anExtension)
-	{
-			//this.dump('removeComplexListener');
-		//remove the extension
-			delete this.extensionsWithComplexListeners[aListener][anExtension];
-
-		//checking if the var is really empty
-			var empty = true;
-			for(var id in this.extensionsWithComplexListeners[aListener])
-			{
-				empty = false;
-				break;
-			}
-
-			if(empty)
-			{
-				//no extensions are listeninig this listener then remove the listener if it was addded
-					if(this.complexListeners[aListener])
-					{
-						//this.dump('really removeComplexListener!');
-						this.complexListeners[aListener] = false;
-
-						var observerService = Components.classes["@mozilla.org/observer-service;1"]
-													.getService(Components.interfaces.nsIObserverService);
-						if(aListener == 'onModifyRequest')
-						{
-							/* useful for modify headers */
-							//http-on-modify-request
-								observerService.removeObserver(this, "http-on-modify-request", false);
+							break;
 						}
 					}
+				}
 			}
+		}
 	},
-	init : function()
-	{
-		if(!this.listeneresAdded)
+	addComplexListener: function(aListener, anExtension) {
+		//adding the listener  just one time
+		//this.dump('addComplexListener');
+		if (!this.complexListeners[aListener]) //add this listener just one time
 		{
-			this.listeneresAdded = true;
+			this.complexListeners[aListener] = true;
+
+			var observerService = Components.classes["@mozilla.org/observer-service;1"]
+				.getService(Components.interfaces.nsIObserverService);
+			if (aListener == 'onModifyRequest') {
+				//this.dump('really addComplexListener');
+				/* useful for modify headers */
+				//http-on-modify-request
+				observerService.addObserver(this, "http-on-modify-request", false);
+			}
+		}
+		//registering the extension for this listener
+		//if the qeue of extensions not exists..
+		if (!this.extensionsWithComplexListeners[aListener])
+			this.extensionsWithComplexListeners[aListener] = [];
+		//add the extension
+		this.extensionsWithComplexListeners[aListener][anExtension] = true;
+	},
+	removeComplexListener: function(aListener, anExtension) {
+		//this.dump('removeComplexListener');
+		//remove the extension
+		delete this.extensionsWithComplexListeners[aListener][anExtension];
+
+		//checking if the var is really empty
+		var empty = true;
+		for (var id in this.extensionsWithComplexListeners[aListener]) {
+			empty = false;
+			break;
+		}
+
+		if (empty) {
+			//no extensions are listeninig this listener then remove the listener if it was addded
+			if (this.complexListeners[aListener]) {
+				//this.dump('really removeComplexListener!');
+				this.complexListeners[aListener] = false;
 
 				var observerService = Components.classes["@mozilla.org/observer-service;1"]
-										.getService(Components.interfaces.nsIObserverService);
+					.getService(Components.interfaces.nsIObserverService);
+				if (aListener == 'onModifyRequest') {
+					/* useful for modify headers */
+					//http-on-modify-request
+					observerService.removeObserver(this, "http-on-modify-request", false);
+				}
+			}
+		}
+	},
+	init: function() {
+		if (!this.listeneresAdded) {
+			this.listeneresAdded = true;
 
-		/* useful for ask to clean user data on uninstalled or disabled extension*/
+			var observerService = Components.classes["@mozilla.org/observer-service;1"]
+				.getService(Components.interfaces.nsIObserverService);
+
+			/* useful for ask to clean user data on uninstalled or disabled extension*/
 			//quit-application-requested
-					observerService.addObserver(this, 'quit-application-requested', false);
+			observerService.addObserver(this, 'quit-application-requested', false);
 			//em-action-requested
-					observerService.addObserver(this, "em-action-requested", false);
+			observerService.addObserver(this, "em-action-requested", false);
 
-		/* useful for vacuum databases */
+			/* useful for vacuum databases */
 			//idle
-					var idleService = Components.classes["@mozilla.org/widget/idleservice;1"]
-												.getService(Components.interfaces.nsIIdleService)
-									idleService.addIdleObserver(this, 60*35);//60 seconds * 35 = 35 minutes
+			var idleService = Components.classes["@mozilla.org/widget/idleservice;1"]
+				.getService(Components.interfaces.nsIIdleService)
+			idleService.addIdleObserver(this, 60 * 35); //60 seconds * 35 = 35 minutes
 
-		/* useful for extension that depends of online data */
+			/* useful for extension that depends of online data */
 			//network:offline-status-changed
-					observerService.addObserver(this, "network:offline-status-changed", false);
+			observerService.addObserver(this, "network:offline-status-changed", false);
 
-		/* useful for extensions that collects things from webpages or send requests to servers */
+			/* useful for extensions that collects things from webpages or send requests to servers */
 			//private-browsing
-					observerService.addObserver(this, "private-browsing", false);
+			observerService.addObserver(this, "private-browsing", false);
 
 		}
 	},
-	registerExtension : function(anExtension, anIDExtension)
-	{
+	registerExtension: function(anExtension, anIDExtension) {
 		this.extensions[anExtension] = anIDExtension;
 	},
 	//output to the console messages
-	dump : function(something)
-	{
-		if(this.debugingThisFile)
-		{
-			if(typeof(something) == 'string' || typeof(something) == 'number')
-				this.consoleService.logStringMessage('XPCOM:TheListeners:'+something);
-			else if(typeof(something) == 'undefined' )
+	dump: function(something) {
+		if (this.debugingThisFile) {
+			if (typeof(something) == 'string' || typeof(something) == 'number')
+				this.consoleService.logStringMessage('XPCOM:TheListeners:' + something);
+			else if (typeof(something) == 'undefined')
 				this.consoleService.logStringMessage('XPCOM:TheListeners:undefined');
-			else if(something == null)
+			else if (something == null)
 				this.consoleService.logStringMessage('XPCOM:TheListeners:null');
 			else
-				this.consoleService.logStringMessage('XPCOM:TheListeners:'+something.toSource());
+				this.consoleService.logStringMessage('XPCOM:TheListeners:' + something.toSource());
 		}
 	},
 
-  QueryInterface: function(aIID)
-  {
-    if (
-		!aIID.equals(nsITheListeners)
-		&& !aIID.equals(nsISupports)
-		&& !aIID.equals(nsIObserver)
-		)
-      throw Components.results.NS_ERROR_NO_INTERFACE;
-    return this;
-  }
+	QueryInterface: function(aIID) {
+		if (!aIID.equals(nsITheListeners) && !aIID.equals(nsISupports) && !aIID.equals(nsIObserver))
+			throw Components.results.NS_ERROR_NO_INTERFACE;
+		return this;
+	}
 };
 
 /***********************************************************
@@ -341,46 +300,43 @@ myTheListeners = Components.classes["@dietrich.ganx4.com/TheListeners;6"].
 
 ***********************************************************/
 var TheListenersFactory = {
-  createInstance: function (aOuter, aIID)
-  {
-    if (aOuter != null)
-      throw Components.results.NS_ERROR_NO_AGGREGATION;
-    return (new TheListeners()).QueryInterface(aIID);
-  }
+	createInstance: function(aOuter, aIID) {
+		if (aOuter != null)
+			throw Components.results.NS_ERROR_NO_AGGREGATION;
+		return (new TheListeners()).QueryInterface(aIID);
+	}
 };
 
 /***********************************************************
 module definition (xpcom registration)
 ***********************************************************/
-var TheListenersModule =
-{
-  registerSelf: function(aCompMgr, aFileSpec, aLocation, aType)
-  {
-    aCompMgr = aCompMgr.
-        QueryInterface(Components.interfaces.nsIComponentRegistrar);
-    aCompMgr.registerFactoryLocation(CLASS_ID, CLASS_NAME,
-        CONTRACT_ID, aFileSpec, aLocation, aType);
-  },
+var TheListenersModule = {
+	registerSelf: function(aCompMgr, aFileSpec, aLocation, aType) {
+		aCompMgr = aCompMgr.
+		QueryInterface(Components.interfaces.nsIComponentRegistrar);
+		aCompMgr.registerFactoryLocation(CLASS_ID, CLASS_NAME,
+			CONTRACT_ID, aFileSpec, aLocation, aType);
+	},
 
-  unregisterSelf: function(aCompMgr, aLocation, aType)
-  {
-    aCompMgr = aCompMgr.
-        QueryInterface(Components.interfaces.nsIComponentRegistrar);
-    aCompMgr.unregisterFactoryLocation(CLASS_ID, aLocation);
-  },
+	unregisterSelf: function(aCompMgr, aLocation, aType) {
+		aCompMgr = aCompMgr.
+		QueryInterface(Components.interfaces.nsIComponentRegistrar);
+		aCompMgr.unregisterFactoryLocation(CLASS_ID, aLocation);
+	},
 
-  getClassObject: function(aCompMgr, aCID, aIID)
-  {
-    if (!aIID.equals(Components.interfaces.nsIFactory))
-      throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
+	getClassObject: function(aCompMgr, aCID, aIID) {
+		if (!aIID.equals(Components.interfaces.nsIFactory))
+			throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
 
-    if (aCID.equals(CLASS_ID))
-      return TheListenersFactory;
+		if (aCID.equals(CLASS_ID))
+			return TheListenersFactory;
 
-    throw Components.results.NS_ERROR_NO_INTERFACE;
-  },
+		throw Components.results.NS_ERROR_NO_INTERFACE;
+	},
 
-  canUnload: function(aCompMgr) { return true; }
+	canUnload: function(aCompMgr) {
+		return true;
+	}
 };
 
 /***********************************************************
@@ -390,25 +346,21 @@ When the application registers the component, this function
 is called.
 ***********************************************************/
 //http://forums.mozillazine.org/viewtopic.php?f=19&t=1957409
-try
-{
-  Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
-}
-catch(e) { }
+try {
+	Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
+} catch (e) {}
 
 /**
-* XPCOMUtils.generateNSGetFactory was introduced in Mozilla 2 (Firefox 4).
-* XPCOMUtils.generateNSGetModule is for Mozilla 1.9.1 (Firefox 3.5).
-*/
+ * XPCOMUtils.generateNSGetFactory was introduced in Mozilla 2 (Firefox 4).
+ * XPCOMUtils.generateNSGetModule is for Mozilla 1.9.1 (Firefox 3.5).
+ */
 
 if ("undefined" == typeof XPCOMUtils) // Firefox <= 2.0
 {
-  function NSGetModule(aComMgr, aFileSpec)
-  {
-    return TheListeners;
-  }
-}
-else if (XPCOMUtils.generateNSGetFactory)
-  var NSGetFactory = XPCOMUtils.generateNSGetFactory([TheListeners]);
+	function NSGetModule(aComMgr, aFileSpec) {
+		return TheListeners;
+	}
+} else if (XPCOMUtils.generateNSGetFactory)
+	var NSGetFactory = XPCOMUtils.generateNSGetFactory([TheListeners]);
 else
-  var NSGetModule = XPCOMUtils.generateNSGetModule([TheListeners]);
+	var NSGetModule = XPCOMUtils.generateNSGetModule([TheListeners]);

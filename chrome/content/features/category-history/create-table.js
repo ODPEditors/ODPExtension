@@ -1,13 +1,11 @@
-(function()
-{
-		var debugingThisFile = false;//sets debuging on/off for this JavaScript file
+(function() {
+	var debugingThisFile = false; //sets debuging on/off for this JavaScript file
 
-		//holds the history of unique categories visited
-		//counts the hits and add points to these categories to try to get something similar but very far from to the Frecency algorithm
-		this.categoryHistoryCreateTable = function()
-		{
-			//create tables
-				this.db.create('\
+	//holds the history of unique categories visited
+	//counts the hits and add points to these categories to try to get something similar but very far from to the Frecency algorithm
+	this.categoryHistoryCreateTable = function() {
+		//create tables
+		this.db.create('\
 								CREATE TABLE IF NOT EXISTS \
 									`categories_history` \
 								( \
@@ -19,7 +17,7 @@
 									`categories_history_deleted` INTEGER NOT NULL  DEFAULT 0 \
 								) \
 						');
-		}
+	}
 	return null;
 
 }).apply(ODPExtension);

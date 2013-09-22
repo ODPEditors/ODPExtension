@@ -1,17 +1,15 @@
-(function()
-{
-		//sets debuging on/off for this JavaScript file
+(function() {
+	//sets debuging on/off for this JavaScript file
 
-			var debugingThisFile = true;
+	var debugingThisFile = true;
 
-			this.rdfFindAltlangsCategoriesWithoutIncomingWithOutgoing = function(aCategory)
-			{
-				this.rdfOpen();//opens a connection to the RDF SQLite database.
+	this.rdfFindAltlangsCategoriesWithoutIncomingWithOutgoing = function(aCategory) {
+		this.rdfOpen(); //opens a connection to the RDF SQLite database.
 
-				var aMsg = 'Categories without incoming but with outgoing alternative languages on "{CATEGORY}" and on its subcategories ({RESULTS})';//informative msg and title of document
+		var aMsg = 'Categories without incoming but with outgoing alternative languages on "{CATEGORY}" and on its subcategories ({RESULTS})'; //informative msg and title of document
 
-				//sql query
-				var query = this.DBRDF.query(' \
+		//sql query
+		var query = this.DBRDF.query(' \
 											 	SELECT \
 													* \
 												FROM \
@@ -36,51 +34,46 @@
 												order by \
 													categories_id asc \
 											');
-					query.params('categories_path', aCategory+'*');
+		query.params('categories_path', aCategory + '*');
 
-				var row, rows = [], aData = '';
-				for(var results = 0;row = this.DBRDF.fetchObjects(query);results++)
-				{
-					aData += '<a onclick="flip('+row.categories_id+', this)" opened="false"></a>';
-					aData += row.categories_path;
-					aData += this.__NEW_LINE__;
-					aData += '<div id="'+row.categories_id+'" style="display:none" level="1">';
-					aData += this.__NEW_LINE__;
-						aData += '<font color="red">';
-						var altlangs = this.rdfGetCategoryAltlangsIDsFromCategoryIDs(row.categories_id);
-						for(var id in altlangs)
-						{
-							aData += '\t';
-							aData += this.rdfGetCategoryFromCategoryID(altlangs[id]).categories_path;
-							aData += this.__NEW_LINE__;
-						}
-						aData += '</font>';
-						aData += this.__NEW_LINE__;
-					aData += '</div>';
-				}
-				if(results>0)
-				{
-					aData = '<div><a href="javascript:expand(1)" opened="false">Expand all</a> - <a href="javascript:collapse(1)" opened="true">Collapse all</a>'+this.__NEW_LINE__+this.__NEW_LINE__+'</div>'+aData;
-				}
-
-				//sets msg
-				aMsg = aMsg.replace('{CATEGORY}', aCategory).replace('{RESULTS}', results);
-
-				//display results
-				if(results>0)
-					this.tabOpen(this.fileCreateTemporal(
-															'RDF.html',
-															aMsg,
-															'<div class="header">'+aMsg+'</div>'+
-															'<pre style="background-color:white !important;padding:2px;">'
-																+aData+
-															'</pre>'
-														 )
-								 , true);
-				else
-					this.notifyTab(aMsg, 8);
-			  this.rdfClose();
+		var row, rows = [],
+			aData = '';
+		for (var results = 0; row = this.DBRDF.fetchObjects(query); results++) {
+			aData += '<a onclick="flip(' + row.categories_id + ', this)" opened="false"></a>';
+			aData += row.categories_path;
+			aData += this.__NEW_LINE__;
+			aData += '<div id="' + row.categories_id + '" style="display:none" level="1">';
+			aData += this.__NEW_LINE__;
+			aData += '<font color="red">';
+			var altlangs = this.rdfGetCategoryAltlangsIDsFromCategoryIDs(row.categories_id);
+			for (var id in altlangs) {
+				aData += '\t';
+				aData += this.rdfGetCategoryFromCategoryID(altlangs[id]).categories_path;
+				aData += this.__NEW_LINE__;
 			}
+			aData += '</font>';
+			aData += this.__NEW_LINE__;
+			aData += '</div>';
+		}
+		if (results > 0) {
+			aData = '<div><a href="javascript:expand(1)" opened="false">Expand all</a> - <a href="javascript:collapse(1)" opened="true">Collapse all</a>' + this.__NEW_LINE__ + this.__NEW_LINE__ + '</div>' + aData;
+		}
+
+		//sets msg
+		aMsg = aMsg.replace('{CATEGORY}', aCategory).replace('{RESULTS}', results);
+
+		//display results
+		if (results > 0)
+			this.tabOpen(this.fileCreateTemporal(
+				'RDF.html',
+				aMsg,
+				'<div class="header">' + aMsg + '</div>' +
+				'<pre style="background-color:white !important;padding:2px;">' + aData +
+				'</pre>'), true);
+		else
+			this.notifyTab(aMsg, 8);
+		this.rdfClose();
+	}
 	return null;
 
 }).apply(ODPExtension);

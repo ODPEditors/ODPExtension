@@ -1,22 +1,20 @@
-(function()
-{
+(function() {
 
-			var debugingThisFile = true;
+	var debugingThisFile = true;
 
-		//setups some elements
+	//setups some elements
 
-			this.userInterfaceLoad = function()
-			{
-				//this.dump('userInterfaceLoad', debugingThisFile);
+	this.userInterfaceLoad = function() {
+		//this.dump('userInterfaceLoad', debugingThisFile);
 
-				//setting local category finder to autocomplete based on browser detection
-					this.setAutocomplete(this.getElement('local-category-finder-textbox'));
+		//setting local category finder to autocomplete based on browser detection
+		this.setAutocomplete(this.getElement('local-category-finder-textbox'));
 
-				//context menu
-					this.tabContextMenu().appendChild(this.getElement('tab-context-from-category'));
+		//context menu
+		this.tabContextMenu().appendChild(this.getElement('tab-context-from-category'));
 
-					this.dispatchEvent('userInterfaceLoad', this.preferenceGet('enabled'));
-			}
+		this.dispatchEvent('userInterfaceLoad', this.preferenceGet('enabled'));
+	}
 
 	return null;
 

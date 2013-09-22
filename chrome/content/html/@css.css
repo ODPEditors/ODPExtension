@@ -1,14 +1,10 @@
 /* CSS Document */
-
-body
-{
+body {
 	padding:0px;
 	margin:0px;
 	margin:8px;
 }
-
-.header
-{
+.header {
 	background-color:#669933;
 	color:white;
 	font-family:arial;
@@ -16,9 +12,7 @@ body
 	padding:18px;
 	margin-bottom:8px;
 }
-
-*[opened="false"]
-{
+*[opened="false"] {
 	background:url("img/collapsed.png") center left no-repeat !important;
 	cursor:pointer !important;
 	min-height:9px !important;
@@ -26,8 +20,7 @@ body
 	min-width:9px !important;
 	padding-left:13px;
 }
-*[opened="true"]
-{
+*[opened="true"] {
 	background:url("img/expanded.png") center left no-repeat !important;
 	cursor:pointer !important;
 	min-height:9px !important;
@@ -35,31 +28,24 @@ body
 	min-width:9px !important;
 	padding-left:13px;
 }
-
-.informative
-{
+.informative {
 	background-color:#FF9933;
 	color:white;
-
 	font-family:arial;
 	font-weight:bold;
 	font-size:13px;
-
 	padding:5px;
 	padding-left:8px;
 	padding-right:8px;
 	margin:9px;
 	margin-left:0px;
 	margin-top:4px;
-
 	border-radius: 4px;
 	-khtml-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	-ms-border-radius: 4px;
-
 	display:inline-block;
 }
-.informative a
-{
+.informative a {
 	color:white;
 }

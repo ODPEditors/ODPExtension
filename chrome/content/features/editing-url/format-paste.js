@@ -1,28 +1,26 @@
-(function()
-{
+(function() {
 
-		//sets debuging on/off for this JavaScript file
+	//sets debuging on/off for this JavaScript file
 
-			var debugingThisFile = true;
+	var debugingThisFile = true;
 
-		//paste and formats a string in the "edit URL"
+	//paste and formats a string in the "edit URL"
 
-			this.editingFormURLFormatPaste = function()
-			{
-				var aString = this.ucFirst(this.trim(this.editingFormURLCleanChars( this.getClipboard().toLowerCase() )));
+	this.editingFormURLFormatPaste = function() {
+		var aString = this.ucFirst(this.trim(this.editingFormURLCleanChars(this.getClipboard().toLowerCase())));
 
-					//fix sentence uppercase
-					aString = aString.split('. ');
-					for(var id in aString)
-						aString[id] = this.ucFirst(aString[id]);
-					aString = aString.join('. ');
+		//fix sentence uppercase
+		aString = aString.split('. ');
+		for (var id in aString)
+			aString[id] = this.ucFirst(aString[id]);
+		aString = aString.join('. ');
 
-				this.copyToClipboard(aString);
+		this.copyToClipboard(aString);
 
-				goDoCommand('cmd_paste');
+		goDoCommand('cmd_paste');
 
-				this.editingFormURLFormatFixSpaces();
-			}
+		this.editingFormURLFormatFixSpaces();
+	}
 	return null;
 
 }).apply(ODPExtension);

@@ -1,52 +1,44 @@
-(function()
-{
+(function() {
 
-		//sets debuging on/off for this JavaScript file
+	//sets debuging on/off for this JavaScript file
 
-			var debugingThisFile = true;
+	var debugingThisFile = true;
 
-		//fixes the puntuation in the description and title
+	//fixes the puntuation in the description and title
 
-			this.editingFormURLFormatFixSpaces = function()
-			{
-				this.editingFormURLFormatFixSpacesElement('newdesc');
-				this.editingFormURLFormatFixSpacesElement('newtitle');
-				this.editingFormURLFormatFixSpacesElementCharter('CATDESC');
-				this.editingFormURLFormatFixSpacesElementCharter('CATCHARTERsummary');
-				this.editingFormURLFormatFixSpacesElementCharter('CATCHARTER');
-			}
-			this.editingFormURLFormatFixSpacesElement = function(aName)
-			{
-				//if the rigth clicked document is framed..
-				if(gContextMenu && gContextMenu.inFrame)
-					var aDoc =  gContextMenu.target.ownerDocument;
-				else
-					var aDoc =  this.documentGetFocused();
+	this.editingFormURLFormatFixSpaces = function() {
+		this.editingFormURLFormatFixSpacesElement('newdesc');
+		this.editingFormURLFormatFixSpacesElement('newtitle');
+		this.editingFormURLFormatFixSpacesElementCharter('CATDESC');
+		this.editingFormURLFormatFixSpacesElementCharter('CATCHARTERsummary');
+		this.editingFormURLFormatFixSpacesElementCharter('CATCHARTER');
+	}
+	this.editingFormURLFormatFixSpacesElement = function(aName) {
+		//if the rigth clicked document is framed..
+		if (gContextMenu && gContextMenu.inFrame)
+			var aDoc = gContextMenu.target.ownerDocument;
+		else
+			var aDoc = this.documentGetFocused();
 
-				var anElement = this.getElementNamed(aName, aDoc);
+		var anElement = this.getElementNamed(aName, aDoc);
 
-				if(!anElement){}
-				else
-				{
-					anElement.value = this.fixPuntuation(this.removeNewLines(anElement.value));
-				}
-			}
-			this.editingFormURLFormatFixSpacesElementCharter = function(aName)
-			{
-				//if the rigth clicked document is framed..
-				if(gContextMenu && gContextMenu.inFrame)
-					var aDoc =  gContextMenu.target.ownerDocument;
-				else
-					var aDoc =  this.documentGetFocused();
+		if (!anElement) {} else {
+			anElement.value = this.fixPuntuation(this.removeNewLines(anElement.value));
+		}
+	}
+	this.editingFormURLFormatFixSpacesElementCharter = function(aName) {
+		//if the rigth clicked document is framed..
+		if (gContextMenu && gContextMenu.inFrame)
+			var aDoc = gContextMenu.target.ownerDocument;
+		else
+			var aDoc = this.documentGetFocused();
 
-				var anElement = this.getElementNamed(aName, aDoc);
+		var anElement = this.getElementNamed(aName, aDoc);
 
-				if(!anElement){}
-				else
-				{
-					anElement.value = this.fixPuntuation(anElement.value);
-				}
-			}
+		if (!anElement) {} else {
+			anElement.value = this.fixPuntuation(anElement.value);
+		}
+	}
 	return null;
 
 }).apply(ODPExtension);

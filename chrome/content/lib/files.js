@@ -1,251 +1,211 @@
-(function()
-{
+(function() {
 	//returns the directory for this extension
-	this.extensionDirectory = function()
-	{
+	this.extensionDirectory = function() {
 		//if the user has chose an invalid profile folder
 		//or the user never selected a profile folder
 		//then use the default profile folder
-		if(
-			!this.preferenceExists('extension.directory', 'char')
-			 ||
-			 (
-			    this.preferenceExists('extension.directory', 'char') &&
-			   (
-				   this.preferenceGet('extension.directory') == ''  ||
-				   this.preferenceGet('extension.directory') == 'false'  ||
-				   this.preferenceGet('extension.directory') == 'null'  ||
-				   this.preferenceGet('extension.directory') == '/'  ||
-				   this.preferenceGet('extension.directory') == 'undefined'
-			   )
-			  )
-		   )
-		{
+		if (!this.preferenceExists('extension.directory', 'char') ||
+			(
+			this.preferenceExists('extension.directory', 'char') &&
+			(
+			this.preferenceGet('extension.directory') == '' ||
+			this.preferenceGet('extension.directory') == 'false' ||
+			this.preferenceGet('extension.directory') == 'null' ||
+			this.preferenceGet('extension.directory') == '/' ||
+			this.preferenceGet('extension.directory') == 'undefined'))) {
 			var extensionDirectory = Components.classes["@mozilla.org/file/directory_service;1"]
-								.getService(Components.interfaces.nsIProperties)
-								.get("ProfD", Components.interfaces.nsIFile);
+				.getService(Components.interfaces.nsIProperties)
+				.get("ProfD", Components.interfaces.nsIFile);
 
 			//security - works always in a folder with the name of this extension
 			extensionDirectory.append('ODPExtension');
 
-			if( !extensionDirectory.exists() || !extensionDirectory.isDirectory() )   // if it doesn't exist, create
-				extensionDirectory.create(Components.interfaces.nsIFile.DIRECTORY_TYPE,  parseInt("0755", 8));
+			if (!extensionDirectory.exists() || !extensionDirectory.isDirectory()) // if it doesn't exist, create
+				extensionDirectory.create(Components.interfaces.nsIFile.DIRECTORY_TYPE, parseInt("0755", 8));
 
-			if(this.preferenceExists('extension.directory', 'char'))
+			if (this.preferenceExists('extension.directory', 'char'))
 				this.preferenceSet('extension.directory', extensionDirectory.path);
 
 			return extensionDirectory;
-		}
-		else
-		{
+		} else {
 			//else use the directory selected by the user
 			var file = Components.classes["@mozilla.org/file/local;1"].
-								createInstance(Components.interfaces.nsILocalFile);
+			createInstance(Components.interfaces.nsILocalFile);
 
-			var path =  this.pathSanitize(this.preferenceGet('extension.directory'));
+			var path = this.pathSanitize(this.preferenceGet('extension.directory'));
 
 			//security check use always a directory with the name of ODPExtension
-			if(path.toLowerCase().indexOf('ODPExtension'.toLowerCase())!=-1)
-				{}
-			else
-				path =  this.pathSanitize(this.preferenceGet('extension.directory')+'/ODPExtension/');
+			if (path.toLowerCase().indexOf('ODPExtension'.toLowerCase()) != -1) {} else
+				path = this.pathSanitize(this.preferenceGet('extension.directory') + '/ODPExtension/');
 
 			//correct the directory
 			this.preferenceSet('extension.directory', path);
 
 			file.initWithPath(path)
 
-			if(!file.exists() || !file.isDirectory())// if it doesn't exist, create
-				file.create(Components.interfaces.nsIFile.DIRECTORY_TYPE,  parseInt("0755", 8));
+			if (!file.exists() || !file.isDirectory()) // if it doesn't exist, create
+				file.create(Components.interfaces.nsIFile.DIRECTORY_TYPE, parseInt("0755", 8));
 
 			return file;
 		}
 	}
 	//asks the user to open a file
-	this.fileAskUserFileOpen = function(aFileName, anExtension)
-	{
-		if(!aFileName)
+	this.fileAskUserFileOpen = function(aFileName, anExtension) {
+		if (!aFileName)
 			aFileName = '';
 		var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(Components.interfaces.nsIFilePicker);
 
 		fp.init(window, "ODP Extension", fp.modeOpen);
 		fp.defaultExtension = anExtension;
 		fp.defaultString = aFileName;
-		fp.appendFilter('*.'+anExtension, '*.'+anExtension);
+		fp.appendFilter('*.' + anExtension, '*.' + anExtension);
 
-		if(fp.show() != fp.returnCancel)
-		{
+		if (fp.show() != fp.returnCancel) {
 			return fp;
-		}
-		else
-		{
+		} else {
 			return null;
 		}
 	}
 	//asks the user to save a file
-	this.fileAskUserFileSave = function(aFileName, anExtension)
-	{
+	this.fileAskUserFileSave = function(aFileName, anExtension) {
 		var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(Components.interfaces.nsIFilePicker);
 
 		fp.init(window, "ODP Extension", fp.modeSave);
 		fp.defaultExtension = anExtension;
-		fp.defaultString = aFileName+'.'+anExtension;
-		fp.appendFilter('*.'+anExtension, '*.'+anExtension);
+		fp.defaultString = aFileName + '.' + anExtension;
+		fp.appendFilter('*.' + anExtension, '*.' + anExtension);
 
-		if(fp.show() != fp.returnCancel)
-		{
+		if (fp.show() != fp.returnCancel) {
 			return fp;
-		}
-		else
-		{
+		} else {
 			return null;
 		}
 	}
 	//asks for a location of a folder
-	this.fileAskUserFolderSelect = function(aMsg)
-	{
+	this.fileAskUserFolderSelect = function(aMsg) {
 		var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(Components.interfaces.nsIFilePicker);
 
-		if(!aMsg)
+		if (!aMsg)
 			fp.init(window, "ODP Extension", fp.modeGetFolder);
 		else
-			fp.init(window, "ODP Extension : "+aMsg, fp.modeGetFolder);
+			fp.init(window, "ODP Extension : " + aMsg, fp.modeGetFolder);
 
-		if(fp.show() != fp.returnCancel)
-		{
+		if (fp.show() != fp.returnCancel) {
 			return fp;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
 	//copy a file to a desired location
-	this.fileCopy = function(sourceFile, destinationFile)
-	{
-		try
-		{
+	this.fileCopy = function(sourceFile, destinationFile) {
+		try {
 			sourceFile = this.pathSanitize(sourceFile);
 			destinationFile = this.pathSanitize(destinationFile);
 			//remove the target file if exists
 			this.fileRemove(destinationFile, true);
 
 			var aDestination = Components.classes["@mozilla.org/file/local;1"]
-							.createInstance(Components.interfaces.nsILocalFile);
-				aDestination.initWithPath(destinationFile);
+				.createInstance(Components.interfaces.nsILocalFile);
+			aDestination.initWithPath(destinationFile);
 
 			var aFile = Components.classes["@mozilla.org/file/local;1"]
-							.createInstance(Components.interfaces.nsILocalFile);
-				aFile.initWithPath(sourceFile);
+				.createInstance(Components.interfaces.nsILocalFile);
+			aFile.initWithPath(sourceFile);
 
 			aFile.copyTo(aDestination.parent, aDestination.leafName);
-		}
-		catch(e)
-		{
-			this.error('Can\'t copy the file "'+sourceFile+'" to "'+destinationFile+'"\nBrowser says: '+e);
+		} catch (e) {
+			this.error('Can\'t copy the file "' + sourceFile + '" to "' + destinationFile + '"\nBrowser says: ' + e);
 		}
 	}
 	//creates a temporal file and returns the url of that file-REVIEW
-	this.fileCreateTemporal = function(aName, aTitle, aData)
-	{
+	this.fileCreateTemporal = function(aName, aTitle, aData) {
 		//WTF!!!!!!!!!!!!!!!!!!!!?
 
 		var file = Components.classes["@mozilla.org/file/directory_service;1"]
-						 .getService(Components.interfaces.nsIProperties)
-						 .get("TmpD", Components.interfaces.nsIFile);
+			.getService(Components.interfaces.nsIProperties)
+			.get("TmpD", Components.interfaces.nsIFile);
 		//security - works always in a folder with with the name of this extension
 		file.append('ODPExtension');
-		if( !file.exists() || !file.isDirectory() )   // if it doesn't exist, create
+		if (!file.exists() || !file.isDirectory()) // if it doesn't exist, create
 		{
-			file.create(Components.interfaces.nsIFile.DIRECTORY_TYPE,  parseInt("0755", 8));
+			file.create(Components.interfaces.nsIFile.DIRECTORY_TYPE, parseInt("0755", 8));
 		}
 		file.append(aName);
-		file.createUnique(Components.interfaces.nsIFile.NORMAL_FILE_TYPE,  parseInt("0644", 8));
+		file.createUnique(Components.interfaces.nsIFile.NORMAL_FILE_TYPE, parseInt("0644", 8));
 
 		var WriteStream = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Components.interfaces.nsIFileOutputStream);
 		// use 0x02 | 0x10 to open file for appending.
-		WriteStream.init(file, 0x02 | 0x08 | 0x20,  parseInt("0644", 8), 0); // write, create, truncate
+		WriteStream.init(file, 0x02 | 0x08 | 0x20, parseInt("0644", 8), 0); // write, create, truncate
 
 		var why_not_a_simple_fopen_fwrite = Components.classes["@mozilla.org/intl/converter-output-stream;1"].createInstance(Components.interfaces.nsIConverterOutputStream);
 
 		why_not_a_simple_fopen_fwrite.init(WriteStream, "utf-8", 0, 0xFFFD); // U+FFFD = replacement character
-		if(aData.indexOf('<!DOCTYPE') != -1 || aName.indexOf('.html') == -1){}
-		else
-		{
+		if (aData.indexOf('<!DOCTYPE') != -1 || aName.indexOf('.html') == -1) {} else {
 			var head = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head>';
-			if(!this.fileCreateTemporalHead){}
-			else
+			if (!this.fileCreateTemporalHead) {} else
 				head += this.fileCreateTemporalHead;
 
-			aData = head+'<meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>'+ this.htmlSpecialCharsEncode(aTitle)+'</title></head><body>'+aData+'</body></html>';
+			aData = head + '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' + this.htmlSpecialCharsEncode(aTitle) + '</title></head><body>' + aData + '</body></html>';
 		}
 		why_not_a_simple_fopen_fwrite.writeString(aData);
 		why_not_a_simple_fopen_fwrite.close();
 		WriteStream.close();
 
-		var path =  file.path;
+		var path = file.path;
 
 		return path;
 	}
-	this.fileDame = function(aFilePath)
-	{
+	this.fileDame = function(aFilePath) {
 		var aFile = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
-			aFile.initWithPath(this.pathSanitize(aFilePath));
-			return aFile;
+		aFile.initWithPath(this.pathSanitize(aFilePath));
+		return aFile;
 	}
 	//returns the dirname of a file
-	this.fileDirname = function(aFilePath)
-	{
+	this.fileDirname = function(aFilePath) {
 		aFilePath = this.pathSanitize(aFilePath);
 
 		var aDestination = Components.classes["@mozilla.org/file/local;1"]
-						.createInstance(Components.interfaces.nsILocalFile);
-			aDestination.initWithPath(aFilePath);
+			.createInstance(Components.interfaces.nsILocalFile);
+		aDestination.initWithPath(aFilePath);
 
-		var dirname =  aDestination.parent.path;
+		var dirname = aDestination.parent.path;
 		return dirname;
 	}
 	//returns true if a file exists
-	this.fileExists = function(aFilePath)
-	{
-		try
-		{
-			aFilePath = this.pathSanitize(this.extensionDirectory().path+'/'+aFilePath);
+	this.fileExists = function(aFilePath) {
+		try {
+			aFilePath = this.pathSanitize(this.extensionDirectory().path + '/' + aFilePath);
 
 			var aFile = Components.classes["@mozilla.org/file/local;1"]
-							.createInstance(Components.interfaces.nsILocalFile);
-				aFile.initWithPath(aFilePath);
+				.createInstance(Components.interfaces.nsILocalFile);
+			aFile.initWithPath(aFilePath);
 
-				if(aFile.exists())
-					return true;
-				else
-					return false;
-		}
-		catch(e)
-		{
-			this.error('Can\'t check if file exists "'+aFilePath+'"\nBrowser says: '+e);
+			if (aFile.exists())
+				return true;
+			else
+				return false;
+		} catch (e) {
+			this.error('Can\'t check if file exists "' + aFilePath + '"\nBrowser says: ' + e);
 			return false;
 		}
 	}
 	//returns the content of a file
-	this.fileRead = function(aFilePath, useInsecure)
-	{
-		try
-		{
+	this.fileRead = function(aFilePath, useInsecure) {
+		try {
 			var aFile = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
-				if(!useInsecure)
-					aFile.initWithPath(this.pathSanitize(this.extensionDirectory().path+'/'+aFilePath));
-				else
-					aFile.initWithPath(this.pathSanitize(aFilePath));
+			if (!useInsecure)
+				aFile.initWithPath(this.pathSanitize(this.extensionDirectory().path + '/' + aFilePath));
+			else
+				aFile.initWithPath(this.pathSanitize(aFilePath));
 
 			var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
-				converter.charset = "UTF-8"; /* The character encoding you want, using UTF-8 here */
+			converter.charset = "UTF-8"; /* The character encoding you want, using UTF-8 here */
 
-			var is = Components.classes["@mozilla.org/network/file-input-stream;1"].createInstance( Components.interfaces.nsIFileInputStream );
-				is.init(aFile, 0x01,  parseInt("0444", 8), 0);
+			var is = Components.classes["@mozilla.org/network/file-input-stream;1"].createInstance(Components.interfaces.nsIFileInputStream);
+			is.init(aFile, 0x01, parseInt("0444", 8), 0);
 
 			var sis = Components.classes["@mozilla.org/scriptableinputstream;1"].createInstance(Components.interfaces.nsIScriptableInputStream);
-				sis.init(is);
+			sis.init(is);
 
 			var aData = converter.ConvertToUnicode(sis.read(sis.available()));
 
@@ -253,55 +213,43 @@
 			sis.close();
 
 			return aData;
-		}
-		catch(e)
-		{
-			this.error('Can\'t read the file "'+aFilePath+'"\nBrowser says: '+e);
+		} catch (e) {
+			this.error('Can\'t read the file "' + aFilePath + '"\nBrowser says: ' + e);
 			return false;
 		}
 	}
 	//removes a file from the file system
-	this.fileRemove = function(aFileOrDirectory, isSecure)
-	{
-			if(isSecure)
-				aFileOrDirectory = this.pathSanitize(aFileOrDirectory);
-			else
-			{
-				if(!aFileOrDirectory)
-					aFileOrDirectory = '/';
-				aFileOrDirectory = this.pathSanitize(this.extensionDirectory().path+'/'+aFileOrDirectory);
-			}
+	this.fileRemove = function(aFileOrDirectory, isSecure) {
+		if (isSecure)
+			aFileOrDirectory = this.pathSanitize(aFileOrDirectory);
+		else {
+			if (!aFileOrDirectory)
+				aFileOrDirectory = '/';
+			aFileOrDirectory = this.pathSanitize(this.extensionDirectory().path + '/' + aFileOrDirectory);
+		}
 
 
 		var aFile = Components.classes["@mozilla.org/file/local;1"]
-						.createInstance(Components.interfaces.nsILocalFile);
-				aFile.initWithPath(aFileOrDirectory);
+			.createInstance(Components.interfaces.nsILocalFile);
+		aFile.initWithPath(aFileOrDirectory);
 
 		//security check - be sure to delete a file from this extension
-		if(aFile.exists() && (String(aFile.path).toLowerCase().indexOf('ODPExtension'.toLowerCase()) != -1 || isSecure))
-		{
-			try
-			{
-			  //this.dump('Deleting:'+aFile.path, true);
-			  aFile.remove(true)
+		if (aFile.exists() && (String(aFile.path).toLowerCase().indexOf('ODPExtension'.toLowerCase()) != -1 || isSecure)) {
+			try {
+				//this.dump('Deleting:'+aFile.path, true);
+				aFile.remove(true)
+			} catch (e) {
+				this.error('Can\'t remove the file or directory:"' + aFileOrDirectory + '"\nBrowser says: ' + e);
 			}
-			catch(e)
-			{
-				this.error('Can\'t remove the file or directory:"'+aFileOrDirectory+'"\nBrowser says: '+e);
-			}
-		}
-		else if(aFile.exists())
-		{
-			this.error("This add-on don't enjoys deleting files outside of your extension's profile directory. \nThe file : "+aFile.path);
+		} else if (aFile.exists()) {
+			this.error("This add-on don't enjoys deleting files outside of your extension's profile directory. \nThe file : " + aFile.path);
 		}
 	}
 	//writes content to a file, delete the file if exists
-	this.fileWrite= function(aFilePath, aData)
-	{
-		try
-		{
+	this.fileWrite = function(aFilePath, aData) {
+		try {
 			//only write files to this extension directory
-			aFilePath = this.pathSanitize(this.extensionDirectory().path+'/'+aFilePath);
+			aFilePath = this.pathSanitize(this.extensionDirectory().path + '/' + aFilePath);
 
 			//remove the file if exists
 			this.fileRemove(aFilePath);
@@ -309,10 +257,10 @@
 			//create the directory if not exists
 			this.folderCreate(this.fileDirname(aFilePath));
 
-		//write the content to the file
+			//write the content to the file
 			var aFile = Components.classes["@mozilla.org/file/local;1"]
-							.createInstance(Components.interfaces.nsILocalFile);
-				aFile.initWithPath(aFilePath);
+				.createInstance(Components.interfaces.nsILocalFile);
+			aFile.initWithPath(aFilePath);
 
 			var WriteStream = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Components.interfaces.nsIFileOutputStream);
 			// use 0x02 | 0x10 to open file for appending.
@@ -329,81 +277,69 @@
 			var path = aFile.path;
 
 			return path;
-		}
-		catch(e)
-		{
-		}
-		this.error('Can\'t write to the file "'+aFilePath+'"\nBrowser says: '+e);
+		} catch (e) {}
+		this.error('Can\'t write to the file "' + aFilePath + '"\nBrowser says: ' + e);
 		return null;
 	}
 	//creates a folder if not exists
-	this.folderCreate = function(aFolderPath)
-	{
-		try
-		{
+	this.folderCreate = function(aFolderPath) {
+		try {
 			aFolderPath = this.pathSanitize(aFolderPath);
 
 			var aFolder = Components.classes["@mozilla.org/file/local;1"]
-											.createInstance(Components.interfaces.nsILocalFile);
-				aFolder.initWithPath(aFolderPath);
+				.createInstance(Components.interfaces.nsILocalFile);
+			aFolder.initWithPath(aFolderPath);
 
-			if( !aFolder.exists() || !aFolder.isDirectory() )   // if it doesn't exist, create
+			if (!aFolder.exists() || !aFolder.isDirectory()) // if it doesn't exist, create
 			{
-				aFolder.create(Components.interfaces.nsIFile.DIRECTORY_TYPE,  parseInt("0755", 8));
+				aFolder.create(Components.interfaces.nsIFile.DIRECTORY_TYPE, parseInt("0755", 8));
 			}
-		}
-		catch(e)
-		{
-			this.error('Can\'t create the folder :"'+aFolderPath+'"\nBrowser says: '+e);
+		} catch (e) {
+			this.error('Can\'t create the folder :"' + aFolderPath + '"\nBrowser says: ' + e);
 		}
 	}
 	//returns an array with the of all the files in a folder
-	this.folderListContent = function(aFolderPath)
-	{
-		aFolderPath = this.pathSanitize(this.extensionDirectory().path+'/'+aFolderPath);
+	this.folderListContent = function(aFolderPath) {
+		aFolderPath = this.pathSanitize(this.extensionDirectory().path + '/' + aFolderPath);
 
 		this.folderCreate(aFolderPath);
 
 		var aDirectory = Components.classes["@mozilla.org/file/local;1"].
-							createInstance(Components.interfaces.nsILocalFile);
+		createInstance(Components.interfaces.nsILocalFile);
 
-			aDirectory.initWithPath(aFolderPath);
+		aDirectory.initWithPath(aFolderPath);
 
-		var folderContent = [], entry, dirList = [], aName, entries = aDirectory.directoryEntries;
+		var folderContent = [],
+			entry, dirList = [],
+			aName, entries = aDirectory.directoryEntries;
 
-		while(entries.hasMoreElements())
-		{
+		while (entries.hasMoreElements()) {
 			entry = entries.getNext();
-					entry.QueryInterface(Components.interfaces.nsIFile);
+			entry.QueryInterface(Components.interfaces.nsIFile);
 
 			aName = this.string(entry.path).replace(/\\/g, '/').split('/').pop();
-			if(aName=='')
+			if (aName == '')
 				continue;
 			folderContent[folderContent.length] = aName;
 		}
-		return folderContent.sort(this.sortLocale);//this.sortLocale(
+		return folderContent.sort(this.sortLocale); //this.sortLocale(
 	}
-	this.folderOpen = function(aFilePath)
-	{
-			var aFile = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
-				aFile.initWithPath(this.pathSanitize(aFilePath));
-		try
-		{
+	this.folderOpen = function(aFilePath) {
+		var aFile = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+		aFile.initWithPath(this.pathSanitize(aFilePath));
+		try {
 			aFile.reveal();
-		}
-		catch (e)
-		{
+		} catch (e) {
 			var aURI = Components.classes["@mozilla.org/network/io-service;1"]
-						.getService(Components.interfaces.nsIIOService)
-						.newFileURI(aFilePath);
+				.getService(Components.interfaces.nsIIOService)
+				.newFileURI(aFilePath);
 			this.openURI(aURI);
 		}
 	}
 	//return a good file path for this system, also fix when a profile changes the OS
-	this.pathSanitize= function(aFilePath)
-	{
+	this.pathSanitize = function(aFilePath) {
 		//aFilePath = aFilePath.split('\\').join('/').split('/').join(this.__DIRECTORY_SEPARATOR__);
-		aFilePath = aFilePath.split('\\').join('/').split('/').join(this.__DIRECTORY_SEPARATOR__).split(this.__DIRECTORY_SEPARATOR__+this.__DIRECTORY_SEPARATOR__).join(this.__DIRECTORY_SEPARATOR__);
+		aFilePath = aFilePath.split('\\').join('/').split('/').join(this.__DIRECTORY_SEPARATOR__).split(this.__DIRECTORY_SEPARATOR__ + this.__DIRECTORY_SEPARATOR__).join(this.__DIRECTORY_SEPARATOR__);
 		//ODPExtension.dump(aFilePath);
 		return aFilePath;
 	}

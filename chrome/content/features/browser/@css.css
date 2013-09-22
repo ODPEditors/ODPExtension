@@ -1,39 +1,46 @@
-#sidebar, tooltip
-{
+#sidebar, tooltip {
 	max-width:none !important;
 }
-
-
 /*full toolbars with description margin fix */
-	.ODPExtension-description
-	{
-		border-color:transparent !important;
-		-moz-appearance: none;
-	}
-	.ODPExtension-toolbarbutton{
-		padding-left: 4px;
-		padding-right: 4px;
-	}
-	#urlbar-icons > .ODPExtension-toolbarbutton
-	{
-		visibility:visible !important;
-	}
-
-	/* simluate toolbarbutton for urlbar icons*/
-		#urlbar-icons > .ODPExtension-toolbarbutton[collapsed="true"]{
-			/*display:none !important;*/
-		}
-
-
-		/* crop very large/short menuitems. ( not so large and not so short) */
-			.ODPExtension-crop{max-width:100%;}
-			.ODPExtension-crop > menuitem{max-width:100%;}
-			.ODPExtension-crop > menuitem > menupopup{max-width:100%;}
-			.ODPExtension-crop > menuitem > menupopup > menuitem {max-width:100%;}
-			.ODPExtension-crop > menu{max-width:100%;}
-			.ODPExtension-crop > menu > menupopup{max-width:100%;}
-			.ODPExtension-crop > menu > menupopup > menuitem {max-width:100%;}
-
-
-				/*close button */
-					.ODPExtension-toolbarbutton-close{list-style-image: url("img/close.png");}
+.ODPExtension-description {
+	border-color:transparent !important;
+	-moz-appearance: none;
+}
+.ODPExtension-toolbarbutton {
+	padding-left: 4px;
+	padding-right: 4px;
+}
+#urlbar-icons > .ODPExtension-toolbarbutton {
+	visibility:visible !important;
+}
+/* simluate toolbarbutton for urlbar icons*/
+#urlbar-icons > .ODPExtension-toolbarbutton[collapsed="true"] {
+	/*display:none !important;
+*/
+}
+/* crop very large/short menuitems. ( not so large and not so short) */
+.ODPExtension-crop {
+	max-width:100%;
+}
+.ODPExtension-crop > menuitem {
+	max-width:100%;
+}
+.ODPExtension-crop > menuitem > menupopup {
+	max-width:100%;
+}
+.ODPExtension-crop > menuitem > menupopup > menuitem {
+	max-width:100%;
+}
+.ODPExtension-crop > menu {
+	max-width:100%;
+}
+.ODPExtension-crop > menu > menupopup {
+	max-width:100%;
+}
+.ODPExtension-crop > menu > menupopup > menuitem {
+	max-width:100%;
+}
+/*close button */
+.ODPExtension-toolbarbutton-close {
+	list-style-image: url("img/close.png");
+}

@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-
-<script type="application/x-javascript" src="anonymize.js"></script>
-<script type="application/x-javascript" src="can-follow-url.js"></script>
-<script type="application/x-javascript" src="cant-leak-url.js"></script>
-<script type="application/x-javascript" src="privacy-remove-referrer.js"></script>
-
-
-
-
-
+	<script src="anonymize.js" type="application/x-javascript"/>
+	<script src="can-follow-url.js" type="application/x-javascript"/>
+	<script src="cant-leak-url.js" type="application/x-javascript"/>
+	<script src="privacy-remove-referrer.js" type="application/x-javascript"/>
 </overlay>

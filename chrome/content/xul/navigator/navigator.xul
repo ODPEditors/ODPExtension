@@ -6,8 +6,8 @@
 <?xul-overlay href="chrome://ODPExtension/content/xul/navigator/pending-insulation.xul"?>
 
 <!-- insulated features -->
-<?xul-overlay href="chrome://ODPExtension/content/features/sisters-categories/sisterCategories.xul"?>
-<?xul-overlay href="chrome://ODPExtension/content/features/add-site/addSite.xul"?>
-<?xul-overlay href="chrome://ODPExtension/content/features/editor-forums/editorForums.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/sister-categories/sister-categories.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/add-site/add-site.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/editor-forums/editor-forums.xul"?>
 
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"></overlay>

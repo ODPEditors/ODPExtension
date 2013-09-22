@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://ODPExtension/locale/xul.dtd">
+
+<?xml-stylesheet href="@css.css" type="text/css"?>
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/x-javascript" src="menu-update.js"></script>
+<script type="application/x-javascript" src="toggle.js"></script>
+<script type="application/x-javascript" src="ui-update.js"></script>
+
+<hbox id="urlbar-icons">
+
+	<image
+		id="ODPExtension-toolbarbutton-add-to-open-directory"
+		class="plain urlbar-icon ODPExtension-toolbarbutton"
+		tooltiptext="&ODPExtension.add.site.to.odp;"
+		onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+	/>
+
+</hbox>
+
+<window id="main-window">
+
+	<menupopup
+		id="ODPExtension-toolbarbutton-add-to-open-directory-menupopup"
+		onpopupshowing="this.removeAttribute('height');ODPExtension.addSiteMenuUpdate(this)"
+		oncommand="
+			if(event.originalTarget.hasAttribute('disabled'))
+			{
+				ODPExtension.stopEvent(event);
+			}
+			else if(!event.originalTarget.hasAttribute('disabled') &amp;&amp; event.originalTarget.hasAttribute('secondary') &amp;&amp; event.button==1)
+			{
+				ODPExtension.tabOpen(event.originalTarget.getAttribute('secondary'), true);
+			}
+			else
+			{
+				this.hidePopup();
+				ODPExtension.fromCategoryClickType = 'single';
+				ODPExtension.fromCategorySelectedCategory = '';
+				ODPExtension.fromCategorySelectedCategories = [];
+				ODPExtension.fromCategoryClick(event)
+			}
+		"
+		onclick="checkForMiddleClick(this, event)"
+		class="ODPExtension-crop"
+	/>
+
+</window>
+</overlay>

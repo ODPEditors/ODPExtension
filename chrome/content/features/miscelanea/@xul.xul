@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/x-javascript" src="category-abbreviate.js"></script>
+<script type="application/x-javascript" src="link-checker.js"></script>
+<script type="application/x-javascript" src="plantrob.js"></script>
+<script type="application/x-javascript" src="tab-open-check-for-behavior.js"></script>
+<script type="application/x-javascript" src="toolbars-toggle.js"></script>
+<script type="application/x-javascript" src="worldlinkerate-in-tabs-link.js"></script>
+
+</overlay>

@@ -11,7 +11,7 @@
 			return '';
 	}
 	//gets the current focused location by looking at the value of the URLBar, if is not valid will look into the location of the document
-	this.focusedLocationBar = function()
+	this.focusedLocationBarURL = function()
 	{
 		var aLocation = '';
 
@@ -266,7 +266,7 @@
 	//returns true if the URI is safe to use
 	this.isSecureURI = function(aURI)
 	{
-		var aURI = this.string(aURI).toLowerCase();
+		aURI = this.string(aURI).toLowerCase();
 
 		if(
 			   aURI.indexOf('http://') === 0 ||

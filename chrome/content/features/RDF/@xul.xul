@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+	<script type="application/x-javascript" src="_api/rdfGetCategoryAltlangsIDsFromCategoryIDs.js"></script>
+	<script type="application/x-javascript" src="_api/rdfGetCategoryAltlangsIDsToCategoryIDs.js"></script>
+	<script type="application/x-javascript" src="_api/rdfGetCategoryFromCategoryID.js"></script>
+	<script type="application/x-javascript" src="_api/rdfGetCategoryFromCategoryPath.js"></script>
+	<script type="application/x-javascript" src="_api/rdfGetCategoryRelatedCategoriesFromCategoryPath.js"></script>
+	<script type="application/x-javascript" src="_api/rdfGetCategorySubcategoriesFromCategoryPath.js"></script>
+	<script type="application/x-javascript" src="_api/rdfGetCategorySubcategoriesRecursiveFromCategoryPath.js"></script>
+	<script type="application/x-javascript" src="altlangs/rdfFindAltlangsCategoriesWithoutIncoming.js"></script>
+	<script type="application/x-javascript" src="altlangs/rdfFindAltlangsCategoriesWithoutIncomingWithOutgoing.js"></script>
+	<script type="application/x-javascript" src="altlangs/rdfFindAltlangsCategoriesWithoutOutgoing.js"></script>
+	<script type="application/x-javascript" src="altlangs/rdfFindAltlangsCategoriesWithoutOutgoingWithIncoming.js"></script>
+	<script type="application/x-javascript" src="altlangs/rdfFindAltlangsFromHere.js"></script>
+	<script type="application/x-javascript" src="altlangs/rdfFindAltlangsFromHereFromAny.js"></script>
+	<script type="application/x-javascript" src="altlangs/rdfFindAltlangsGame.js"></script>
+	<script type="application/x-javascript" src="altlangs/rdfFindAltlangsNonReciprocal.js"></script>
+	<script type="application/x-javascript" src="altlangs/rdfFindAltlangsToHere.js"></script>
+	<script type="application/x-javascript" src="altlangs/rdfFindAltlangsToHereToAny.js"></script>
+	<script type="application/x-javascript" src="altlangs/rdfFindDescriptionsBrokenLinks.js"></script>
+	<script type="application/x-javascript" src="categories/rdfCategorySpellCheck.js"></script>
+	<script type="application/x-javascript" src="categories/rdfFindCategoryDescription.js"></script>
+	<script type="application/x-javascript" src="categories/rdfFindCategoryDescriptionEmpty.js"></script>
+	<script type="application/x-javascript" src="categories/rdfFindCategoryDescriptionRecursive.js"></script>
+	<script type="application/x-javascript" src="categories/rdfFindCategoryDescriptionSearch.js"></script>
+	<script type="application/x-javascript" src="categories/rdfFindCategorySubcategories.js"></script>
+	<script type="application/x-javascript" src="categories/rdfFindCategorySubcategoriesRecursive.js"></script>
+	<script type="application/x-javascript" src="categories/rdfFindCategorySubcategoriesWithInvalidName.js"></script>
+	<script type="application/x-javascript" src="categories/rdfFindCategorySubcategoriesWithName.js"></script>
+	<script type="application/x-javascript" src="categories/rdfFindCategorySubcategoriesWithNameExact.js"></script>
+	<script type="application/x-javascript" src="categories/rdfFindCategorySubcategoriesWithPath.js"></script>
+	<script type="application/x-javascript" src="categories/rdfFindEditorsFromHere.js"></script>
+	<script type="application/x-javascript" src="categories/rdfFindEditorsFromHereFromAny.js"></script>
+	<script type="application/x-javascript" src="links/rdfFindLinksFromHere.js"></script>
+	<script type="application/x-javascript" src="links/rdfFindLinksFromHereFromAny.js"></script>
+	<script type="application/x-javascript" src="links/rdfFindLinksFromHereFromAnyWithInvalidName.js"></script>
+	<script type="application/x-javascript" src="links/rdfFindLinksToHere.js"></script>
+	<script type="application/x-javascript" src="links/rdfFindLinksToHereToAny.js"></script>
+	<script type="application/x-javascript" src="links/rdfFindLinksToHereToAnyWithInvalidName.js"></script>
+	<script type="application/x-javascript" src="related/rdfFindRelatedFromHere.js"></script>
+	<script type="application/x-javascript" src="related/rdfFindRelatedFromHereFromAny.js"></script>
+	<script type="application/x-javascript" src="related/rdfFindRelatedToDifferentLanguage.js"></script>
+	<script type="application/x-javascript" src="related/rdfFindRelatedToHere.js"></script>
+	<script type="application/x-javascript" src="related/rdfFindRelatedToHereToAny.js"></script>
+
+	<script type="application/x-javascript" src="rdfFind.js"></script>
+	<script type="application/x-javascript" src="rdfParser.js"></script>
+
+	<script type="application/x-javascript" src="rdfDatabase.js"></script>
+</overlay>

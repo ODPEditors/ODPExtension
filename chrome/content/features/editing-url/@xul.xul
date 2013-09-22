@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE overlay SYSTEM "chrome://ODPExtension/locale/xul.dtd">
+
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/x-javascript" src="clean-chars.js"></script>
+<script type="application/x-javascript" src="exists.js"></script>
+<script type="application/x-javascript" src="format-description.js"></script>
+<script type="application/x-javascript" src="format-fix-spaces.js"></script>
+<script type="application/x-javascript" src="format-lowercase.js"></script>
+<script type="application/x-javascript" src="format-paste.js"></script>
+<script type="application/x-javascript" src="format-title.js"></script>
+<script type="application/x-javascript" src="menu-update.js"></script>
+
+
+
+
+<popup id="contentAreaContextMenu">
+	<menu
+		id="ODPExtension-context-editing-form-url-formater"
+		insertafter="context-openlinkintab"
+		hidden="true"
+		label="&ODPExtension.forms.edit.url.formatter;"
+	>
+		<menupopup>
+			<menuitem label="&ODPExtension.forms.edit.url.fix.spaces;" oncommand="ODPExtension.editingFormURLFormatFixSpaces();"/>
+			<menuitem label="&ODPExtension.forms.edit.url.description.lowercase;" oncommand="ODPExtension.editingFormURLFormatLowerCase('newdesc');"/>
+			<menuseparator/>
+			<menuitem label="&ODPExtension.forms.edit.url.paste.formatted;" oncommand="ODPExtension.editingFormURLFormatPaste();"/>
+			<menuseparator/>
+			<menuitem label="|#*-\n  => ," oncommand="ODPExtension.editingFormURLFormatDescription();"/>
+			<menuseparator/>
+			<menuitem label="The title" oncommand="ODPExtension.editingFormURLFormatTitle('The title');"/>
+			<menuitem label="The Title" oncommand="ODPExtension.editingFormURLFormatTitle('The Title');"/>
+			<menuitem label="THE TITLE" oncommand="ODPExtension.editingFormURLFormatTitle('THE TITLE');"/>
+			<menuitem label="Title, The" oncommand="ODPExtension.editingFormURLFormatTitle('Title, The');"/>
+		</menupopup>
+	</menu>
+
+</popup>
+
+</overlay>

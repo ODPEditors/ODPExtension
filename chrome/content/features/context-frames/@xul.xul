@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://ODPExtension/locale/xul.dtd">
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/x-javascript" src="menu-update.js"></script>
+<script type="application/x-javascript" src="open.js"></script>
+<script type="application/x-javascript" src="selected-update.js"></script>
+
+
+
+
+<popup id="contentAreaContextMenu">
+
+	<menuitem hidden="true" id="ODPExtension-context-frame" original_label="&ODPExtension.ui.context.menu.frame;" oncommand="ODPExtension.frameOpenSelected(event);" onclick="checkForMiddleClick(this, event)"/>
+
+	<menu hidden="true" id="ODPExtension-context-frames-menu" label="&ODPExtension.ui.context.menu.frames;">
+		<menupopup id="ODPExtension-context-frames-menupopup" oncommand="ODPExtension.frameOpen(event)" onclick="checkForMiddleClick(this, event)"/>
+	</menu>
+
+</popup>
+
+</overlay>

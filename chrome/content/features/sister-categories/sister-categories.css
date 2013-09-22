@@ -1,8 +1,0 @@
-@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
-
-	#ODPExtension-toolbarbutton-sisters-categories[nocategories="false"]{
-		list-style-image: url("images/sister-categories.png");
-	}
-	#ODPExtension-toolbarbutton-sisters-categories[nocategories="true"]{
-		list-style-image: url("images/sister-categories-disabled.png");
-	}

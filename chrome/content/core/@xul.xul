@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+	<script type="application/x-javascript" src="@main.js"></script>
+	<script type="application/x-javascript" src="add-listeners.js"></script>
+	<script type="application/x-javascript" src="set-focused-category.js"></script>
+	<script type="application/x-javascript" src="set-focused-location.js"></script>
+	<script type="application/x-javascript" src="preferences-load-global.js"></script>
+	<script type="application/x-javascript" src="preferences-load-local.js"></script>
+	<script type="application/x-javascript" src="ui-load.js"></script>
+	<script type="application/x-javascript" src="ui-update.js"></script>
+	<script type="application/x-javascript" src="preferences.js"></script>
+</overlay>

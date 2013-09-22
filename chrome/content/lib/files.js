@@ -29,7 +29,7 @@
 			extensionDirectory.append('ODPExtension');
 
 			if( !extensionDirectory.exists() || !extensionDirectory.isDirectory() )   // if it doesn't exist, create
-				extensionDirectory.create(Components.interfaces.nsIFile.DIRECTORY_TYPE, 0755);
+				extensionDirectory.create(Components.interfaces.nsIFile.DIRECTORY_TYPE,  parseInt("0755", 8));
 
 			if(this.preferenceExists('extension.directory', 'char'))
 				this.preferenceSet('extension.directory', extensionDirectory.path);
@@ -56,7 +56,7 @@
 			file.initWithPath(path)
 
 			if(!file.exists() || !file.isDirectory())// if it doesn't exist, create
-				file.create(Components.interfaces.nsIFile.DIRECTORY_TYPE, 0755);
+				file.create(Components.interfaces.nsIFile.DIRECTORY_TYPE,  parseInt("0755", 8));
 
 			return file;
 		}
@@ -157,14 +157,14 @@
 		file.append('ODPExtension');
 		if( !file.exists() || !file.isDirectory() )   // if it doesn't exist, create
 		{
-			file.create(Components.interfaces.nsIFile.DIRECTORY_TYPE, 0755);
+			file.create(Components.interfaces.nsIFile.DIRECTORY_TYPE,  parseInt("0755", 8));
 		}
 		file.append(aName);
-		file.createUnique(Components.interfaces.nsIFile.NORMAL_FILE_TYPE, 0644);
+		file.createUnique(Components.interfaces.nsIFile.NORMAL_FILE_TYPE,  parseInt("0644", 8));
 
 		var WriteStream = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Components.interfaces.nsIFileOutputStream);
 		// use 0x02 | 0x10 to open file for appending.
-		WriteStream.init(file, 0x02 | 0x08 | 0x20, 0644, 0); // write, create, truncate
+		WriteStream.init(file, 0x02 | 0x08 | 0x20,  parseInt("0644", 8), 0); // write, create, truncate
 
 		var why_not_a_simple_fopen_fwrite = Components.classes["@mozilla.org/intl/converter-output-stream;1"].createInstance(Components.interfaces.nsIConverterOutputStream);
 
@@ -242,7 +242,7 @@
 				converter.charset = "UTF-8"; /* The character encoding you want, using UTF-8 here */
 
 			var is = Components.classes["@mozilla.org/network/file-input-stream;1"].createInstance( Components.interfaces.nsIFileInputStream );
-				is.init(aFile, 0x01, 0444, 0);
+				is.init(aFile, 0x01,  parseInt("0444", 8), 0);
 
 			var sis = Components.classes["@mozilla.org/scriptableinputstream;1"].createInstance(Components.interfaces.nsIScriptableInputStream);
 				sis.init(is);
@@ -316,8 +316,8 @@
 
 			var WriteStream = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Components.interfaces.nsIFileOutputStream);
 			// use 0x02 | 0x10 to open file for appending.
-			//WriteStream.init(aFile, 0x02 | 0x08 | 0x20, 0644, 0); // write, create, truncatefile,
-			WriteStream.init(aFile, 0x02 | 0x08 | 0x20, 0666, 0); // write, create, truncatefile,
+			//WriteStream.init(aFile, 0x02 | 0x08 | 0x20,  parseInt("0644", 8), 0); // write, create, truncatefile,
+			WriteStream.init(aFile, 0x02 | 0x08 | 0x20, parseInt("0666", 8), 0); // write, create, truncatefile,
 
 			var why_not_a_simple_fopen_fwrite = Components.classes["@mozilla.org/intl/converter-output-stream;1"].createInstance(Components.interfaces.nsIConverterOutputStream);
 
@@ -332,8 +332,9 @@
 		}
 		catch(e)
 		{
-			this.error('Can\'t write to the file "'+aFilePath+'"\nBrowser says: '+e);
 		}
+		this.error('Can\'t write to the file "'+aFilePath+'"\nBrowser says: '+e);
+		return null;
 	}
 	//creates a folder if not exists
 	this.folderCreate = function(aFolderPath)
@@ -348,7 +349,7 @@
 
 			if( !aFolder.exists() || !aFolder.isDirectory() )   // if it doesn't exist, create
 			{
-				aFolder.create(Components.interfaces.nsIFile.DIRECTORY_TYPE, 0755);
+				aFolder.create(Components.interfaces.nsIFile.DIRECTORY_TYPE,  parseInt("0755", 8));
 			}
 		}
 		catch(e)

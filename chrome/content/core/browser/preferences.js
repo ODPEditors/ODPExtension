@@ -449,8 +449,9 @@
 				}
 				catch(e)
 				{
-					return '';
 				}
+					return '';
+
 			};
 		//returns the value of the referenced preference
 			this.preferenceGet = function(aName)
@@ -517,6 +518,7 @@
 					pref[aName] = this.decodeUTF8(aValue);
 					return true;
 				}
+				return false;
 			}
 		//open the preferences window, also bring focus if unfocused and is already opened
 			this.preferencesOpen = function()
@@ -526,7 +528,7 @@
 				if(this.preferencesWindow && !this.preferencesWindow.closed)
 					this.preferencesWindow.focus();
 				else
-					this.preferencesWindow = window.open("chrome://ODPExtension/content/xul/preferences/preferences.xul", "ODPExtension-preferences", "centerscreen,chrome,resizable");
+					this.preferencesWindow = window.open("chrome://ODPExtension/content/preferences/@xul.xul", "ODPExtension-preferences", "centerscreen,chrome,resizable");
 			}
 
 		//set to defaults the preferences
@@ -654,9 +656,3 @@
 		return null;
 
 	}).apply(ODPExtension);
-	/*
-
- force import functions from the compiler.
-  this.sortLocale(
-
-	*/

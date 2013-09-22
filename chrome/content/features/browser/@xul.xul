@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-stylesheet href="@css.css" type="text/css"?>
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+	<window id="main-window">
+		<tooltip id="ODPExtension-from-categories-tooltip" noautohide="true" orient="vertical" position="before_end" style="padding:2px;margin:100px;">
+			<vbox id="ODPExtension-from-categories-tooltip-data"></vbox>
+		</tooltip>
+		<tooltip id="ODPExtension-from-editors-tooltip" noautohide="true" orient="vertical" position="before_end" style="padding:2px;margin:100px;">
+			<vbox id="ODPExtension-from-editors-tooltip-data"></vbox>
+		</tooltip>
+		<tooltip id="ODPExtension-extension-icon-tooltip" noautohide="true" orient="vertical" position="before_end" style="padding:2px;">
+			<vbox id="ODPExtension-extension-icon-tooltip-data"></vbox>
+		</tooltip>
+
+	</window>
+
+	<popup id="contentAreaContextMenu">
+
+		<menuseparator hidden="true" id="ODPExtension-context-separator" />
+
+	</popup>
+</overlay>

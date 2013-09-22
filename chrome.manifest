@@ -1,10 +1,7 @@
-
 content	ODPExtension	chrome/content/
 
-overlay	chrome://browser/content/browser.xul chrome://ODPExtension/content/xul/navigator/navigator.xul
-overlay	chrome://navigator/content/navigator.xul chrome://ODPExtension/content/xul/navigator/navigator.xul
-
-style chrome://global/content/customizeToolbar.xul chrome://ODPExtension/content/xul/navigator/toolbars-and-toolbarbuttons/_toolbars.css
+overlay	chrome://browser/content/browser.xul chrome://ODPExtension/content/navigator.xul
+overlay	chrome://navigator/content/navigator.xul chrome://ODPExtension/content/navigator.xul
 
 locale	ODPExtension	da	chrome/locale/da/
 locale	ODPExtension	de	chrome/locale/de/
@@ -31,4 +28,3 @@ category profile-after-change TheExtension @particle.universe.tito/TheExtension;
 component {84bcc1e0-9c94-11df-981c-0800200c9a66} components/theListeners.js
 contract @particle.universe.tito/TheListeners;7 {84bcc1e0-9c94-11df-981c-0800200c9a66}
 category profile-after-change TheListeners @particle.universe.tito/TheListeners;7
-content	ODPExtensionxHTML	chrome/content/xhtml/	contentaccessible=yes

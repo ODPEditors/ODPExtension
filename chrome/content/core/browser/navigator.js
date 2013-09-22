@@ -596,7 +596,6 @@
 			{
 				this.dump('destroy', debugingThisFile);
 				ODPExtension = null;
-				delete(ODPExtension);
 				this.dump('exit', debugingThisFile);
 				if(debugingThisFile)
 					alert('ODPExtension completed the shutdown. Time to look the error console if there is any errors. Looks like the window will be closed');

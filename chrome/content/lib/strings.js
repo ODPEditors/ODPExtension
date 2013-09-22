@@ -36,14 +36,12 @@
 			}
 			catch(e)
 			{
-				delete e;
 				try
 				{
 					aString = decodeURI(aString);
 				}
 				catch(e)
 				{
-					delete e, last;
 					return aString;
 				}
 			}
@@ -51,7 +49,6 @@
 				break;
 
 		}
-		delete last;
 		return aString;
 	};
 	//encodes a URI - Example: converts this http://www.dmoz.org/World/Español/ to  http://www.dmoz.org/World/Espa%C3%B1ol/
@@ -149,7 +146,6 @@
 	{
 	  if(aREGEXP=='')
 	  {
-		delete aString, aREGEXP;
 		return false;
 	  }
 	  try
@@ -158,18 +154,15 @@
 		  if(aREGEXP.test(aString))
 		  //if(aString.match(aREGEXP, 'i'))//this leaks mem
 		  {
-			delete aString, aREGEXP;
 			return true;
 		  }
 		  else
 		  {
-			delete aString, aREGEXP;
 			return false;
 		  }
 	  }
 	  catch(e)
 	  {
-		delete aString, aREGEXP, e;
 		return false;
 	  }
 	};

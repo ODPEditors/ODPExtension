@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-stylesheet href="@css.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://ODPExtension/locale/xul.dtd">
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/x-javascript" src="click.js"></script>
+<script type="application/x-javascript" src="command.js"></script>
+<script type="application/x-javascript" src="hide-context-menus.js"></script>
+<script type="application/x-javascript" src="onhidden.js"></script>
+<script type="application/x-javascript" src="update-menu.js"></script>
+
+<popup id="contentAreaContextMenu">
+
+	<menu hidden="true" id="ODPExtension-context-from-category" original_label="&ODPExtension.ui.context.menu.from.category;" label="&ODPExtension.ui.context.menu.from.category;">
+		<menupopup
+			class="ODPExtension-from-category-xbl ODPExtension-crop"
+			onmouseover="ODPExtension.fromCategoryClickType = 'single';ODPExtension.categoryBrowserNavigate(event);"
+			onmouseout="ODPExtension.categoryBrowserNavigate(event);"
+			onmouseup="ODPExtension.stopEvent(event);if(event.originalTarget.hasAttribute('disabled')){ ODPExtension.stopEvent(event);}else if(event.originalTarget.hasAttribute('action')){ODPExtension.fromCategoryClick(event)}else if(event.originalTarget.hasAttribute('value')){ODPExtension.categoryBrowserClick(event);}"
+			ondblclick="ODPExtension.stopEvent(event)"
+		/>
+	</menu>
+
+	<menu hidden="true" id="ODPExtension-context-from-categories" tooltip="ODPExtension-from-categories-tooltip" label="&ODPExtension.ui.context.menu.from.categories;">
+		<menupopup
+			class="ODPExtension-from-category-xbl ODPExtension-crop"
+		 	tooltip="ODPExtension-from-categories-tooltip"
+			onmouseover="ODPExtension.fromCategoryClickType = 'multiple';ODPExtension.categoryBrowserNavigate(event);"
+			onmouseout="ODPExtension.categoryBrowserNavigate(event);"
+			onmouseup="ODPExtension.stopEvent(event);if(event.originalTarget.hasAttribute('disabled')){ ODPExtension.stopEvent(event);}else if(event.originalTarget.hasAttribute('action')){ODPExtension.fromCategoryClick(event)}else if(event.originalTarget.hasAttribute('value')){ODPExtension.categoryBrowserClick(event);}"
+			ondblclick="ODPExtension.stopEvent(event)"
+		/>
+	</menu>
+
+	<menu hidden="true" id="ODPExtension-context-from-editor" original_label="&ODPExtension.ui.context.menu.from.editor;" label="&ODPExtension.ui.context.menu.from.editor;">
+		<menupopup
+			class="ODPExtension-from-editor-xbl"
+			onmouseover="ODPExtension.fromCategoryClickType = 'single';"
+			onmouseup="ODPExtension.stopEvent(event);if(event.originalTarget.hasAttribute('disabled')){ ODPExtension.stopEvent(event);}else if(event.originalTarget.hasAttribute('action')){ODPExtension.fromCategoryClick(event)}"
+			ondblclick="ODPExtension.stopEvent(event)"
+		/>
+	</menu>
+
+	<menu hidden="true" id="ODPExtension-context-from-editors" tooltip="ODPExtension-from-editors-tooltip" original_label="&ODPExtension.ui.context.menu.from.editors;" label="&ODPExtension.ui.context.menu.from.editors;">
+		<menupopup
+			class="ODPExtension-from-editor-xbl"
+			tooltip="ODPExtension-from-editors-tooltip"
+			onmouseover="ODPExtension.fromCategoryClickType = 'multiple';"
+			onmouseup="ODPExtension.stopEvent(event);if(event.originalTarget.hasAttribute('disabled')){ ODPExtension.stopEvent(event);}else if(event.originalTarget.hasAttribute('action')){ODPExtension.fromCategoryClick(event)}"
+			ondblclick="ODPExtension.stopEvent(event)"
+		/>
+	</menu>
+
+</popup>
+
+
+<window id="main-window">
+
+	<menupopup
+		id="ODPExtension-from-category"
+		class="ODPExtension-from-category-xbl ODPExtension-crop"
+		onpopuphiding="ODPExtension.fromCategoryOnHidden();"
+		onmouseover="ODPExtension.categoryBrowserNavigate(event);"
+		onmouseout="ODPExtension.categoryBrowserNavigate(event);"
+		onpopupshowing="if( event.currentTarget != event.originalTarget || !document.popupNode){}else{ODPExtension.fromCategoryUpdateMenu(event, 'from-category');}"
+		onmouseup="ODPExtension.stopEvent(event);if(event.originalTarget.hasAttribute('disabled')){ ODPExtension.stopEvent(event);}else if(event.originalTarget.hasAttribute('action')){ODPExtension.fromCategoryClick(event)}else if(event.originalTarget.hasAttribute('value')){ODPExtension.categoryBrowserClick(event);}"
+		ondblclick="ODPExtension.stopEvent(event)"
+		ignorekeys="true"
+		tooltip="ODPExtension-from-categories-tooltip"
+	/>
+
+	<menupopup>
+		<menu
+			id="ODPExtension-tab-context-from-category"
+			hidden="true"
+			original_label="&ODPExtension.ui.context.menu.from.category;"
+			label="&ODPExtension.ui.context.menu.from.category;"
+		>
+			<menupopup
+				class="ODPExtension-from-category-xbl ODPExtension-crop"
+				onmouseover="ODPExtension.fromCategoryClickType = 'single';ODPExtension.categoryBrowserNavigate(event);"
+				onmouseout="ODPExtension.categoryBrowserNavigate(event);"
+				onmouseup="ODPExtension.stopEvent(event);if(event.originalTarget.hasAttribute('disabled')){ ODPExtension.stopEvent(event);}else if(event.originalTarget.hasAttribute('action')){ODPExtension.fromCategoryClick(event)}else if(event.originalTarget.hasAttribute('value')){ODPExtension.categoryBrowserClick(event);}"
+				ondblclick="ODPExtension.stopEvent(event)"
+			/>
+		</menu>
+
+	</menupopup>
+
+
+	<menupopup id="multipletab-selection-menu">
+
+		<menu
+			id="ODPExtension-tab-context-multiple-from-category"
+			hidden="true"
+			label="&ODPExtension.ui.context.menu.from.categories;"
+			original_label_single="&ODPExtension.ui.context.menu.from.category;"
+			original_label_multiple="&ODPExtension.ui.context.menu.from.categories;"
+			tooltip="ODPExtension-from-categories-tooltip"
+		>
+			<menupopup
+				class="ODPExtension-from-category-xbl ODPExtension-crop"
+				tooltip="ODPExtension-from-categories-tooltip"
+				onmouseover="ODPExtension.fromCategoryClickType = 'multiple';ODPExtension.categoryBrowserNavigate(event);"
+				onmouseout="ODPExtension.categoryBrowserNavigate(event);"
+				onmouseup="ODPExtension.stopEvent(event);if(event.originalTarget.hasAttribute('disabled')){ ODPExtension.stopEvent(event);}else if(event.originalTarget.hasAttribute('action')){ODPExtension.fromCategoryClick(event)}else if(event.originalTarget.hasAttribute('value')){ODPExtension.categoryBrowserClick(event);}"
+				ondblclick="ODPExtension.stopEvent(event)"
+			/>
+		</menu>
+	</menupopup>
+
+</window>
+
+</overlay>

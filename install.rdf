@@ -11,7 +11,7 @@
 		<em:version>4.130922.60</em:version>
 		<em:description>Different editing experience</em:description>
 
-		<em:optionsURL>chrome://ODPExtension/content/xul/preferences/preferences.xul</em:optionsURL>
+		<em:optionsURL>chrome://ODPExtension/content/preferences/@xul.xul</em:optionsURL>
 		<em:homepageURL>http://forums.dmoz.org/forum/viewtopic.php?t=920940</em:homepageURL>
 		<em:iconURL>chrome://ODPExtension/content/icon/icon.png</em:iconURL>
 		<em:updateURL>https://dl.dropboxusercontent.com/u/9303546/ODP/EPT/ODPExtension/update.rdf</em:updateURL>

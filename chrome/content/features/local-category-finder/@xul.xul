@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://ODPExtension/locale/xul.dtd">
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/x-javascript" src="menulist-update.js"></script>
+<script type="application/x-javascript" src="query.js"></script>
+
+
+
+
+
+<toolbox id="navigator-toolbox">
+
+	<!-- local category finder toolbar -->
+
+		<toolbar
+			class="chromeclass-toolbar"
+			context="toolbar-context-menu"
+			customizable="false"
+			inherits="collapsed,hidden"
+			mode="full"
+			id="ODPExtension-toolbar-local-category-finder"
+			toolbarname="ODP &ODPExtension.local.category.finder;"
+		>
+			<hbox flex="1">
+				<toolbarbutton class="ODPExtension-description" label="&ODPExtension.local.category.finder;"/>
+				<menulist id="ODPExtension-local-category-finder-database">
+					<menupopup  id="ODPExtension-local-category-finder-database-list">
+						<menuitem locked="true" database="top" style="font-weight:bold;" label="&ODPExtension.local.category.finder.find.top;"/>
+						<menuitem locked="true" database="regional" style="font-weight:bold;" label="&ODPExtension.local.category.finder.find.regional;"/>
+						<menuitem locked="true" database="world" style="font-weight:bold;" label="&ODPExtension.local.category.finder.find.world;"/>
+						<menuitem locked="true" database="all" style="font-weight:bold;" label="&ODPExtension.local.category.finder.find.all;"/>
+						<menuseparator locked="true"/>
+					</menupopup>
+				</menulist>
+				<button
+					label="&ODPExtension.find;"
+					oncommand="ODPExtension.categoryFinderQuery(ODPExtension.getElement('local-category-finder-textbox').value, ODPExtension.getElement('local-category-finder-database').selectedItem.getAttribute('database'));ODPExtension.saveAutocomplete(ODPExtension.getElement('local-category-finder-textbox'))"
+				/>
+				<textbox
+					emptytext="&ODPExtension.search.ellipsis;"
+					value=""
+					flex="1"
+					id="ODPExtension-local-category-finder-textbox"
+					onkeypress="
+							if(event.keyCode == event.DOM_VK_RETURN)
+							{
+								if(!this.popupOpen)
+								{
+									ODPExtension.categoryFinderQuery(ODPExtension.getElement('local-category-finder-textbox').value, ODPExtension.getElement('local-category-finder-database').selectedItem.getAttribute('database'));
+									ODPExtension.saveAutocomplete(ODPExtension.getElement('local-category-finder-textbox'))
+								}
+							}
+					"
+				/>
+			</hbox>
+			<toolbarbutton class="ODPExtension-toolbarbutton-close" tooltiptext="&ODPExtension.close;" oncommand="ODPExtension.toolbarClose(this.parentNode);"/>
+		</toolbar>
+
+
+</toolbox>
+
+</overlay>

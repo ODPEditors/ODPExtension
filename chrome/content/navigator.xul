@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- browser core -->
+<?xul-overlay href="chrome://ODPExtension/content/core/browser/@xul.xul"?>
+
+<!-- lib -->
+<?xul-overlay href="chrome://ODPExtension/content/lib/@xul.xul"?>
+
+<!-- external libs -->
+<?xul-overlay href="chrome://ODPExtension/content/lib-external/@xul.xul"?>
+
+<!-- features -->
+<?xul-overlay href="chrome://ODPExtension/content/features/add-site/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/browser/@xul.xul"?>
+
+<?xul-overlay href="chrome://ODPExtension/content/features/categories-txt/@xul.xul"?>
+
+<?xul-overlay href="chrome://ODPExtension/content/features/category-browser/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/category-history/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/category-navigate/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/category-navigator/@xul.xul"?>
+
+<?xul-overlay href="chrome://ODPExtension/content/features/context-frames/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/context-translate/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/context-url-tools/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/context-word-reference/@xul.xul"?>
+
+<?xul-overlay href="chrome://ODPExtension/content/features/editing-url/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/editor-forums/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/extension-icon/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/from-menus/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/informative-panel/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/local-category-finder/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/miscelanea/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/odp-notes/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/privacy/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/single-key-command/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/sister-categories/@xul.xul"?>
+
+<!-- extension core -->
+<?xul-overlay href="chrome://ODPExtension/content/core/@xul.xul"?>
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<!-- js localized strings -->
+		<stringbundleset id="stringbundleset">
+			<stringbundle id="ODPExtension-localization" src="chrome://ODPExtension/locale/js.properties"/>
+		</stringbundleset>
+</overlay>

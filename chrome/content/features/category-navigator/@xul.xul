@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?xml-stylesheet href="@css.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://ODPExtension/locale/xul.dtd">
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/x-javascript" src="toolbar-update.js"></script>
+<script type="application/x-javascript" src="toolbarbutton-ancestors-categories-update.js"></script>
+<script type="application/x-javascript" src="toolbarbutton-childs-categories-update.js"></script>
+<script type="application/x-javascript" src="toolbarbutton-update.js"></script>
+
+<toolbox id="navigator-toolbox">
+
+	<!-- category navigator toolbar -->
+
+		<toolbar
+			class="chromeclass-toolbar"
+			context="toolbar-context-menu"
+			customizable="false"
+			inherits="collapsed,hidden"
+			mode="full"
+			id="ODPExtension-toolbar-category-navigator"
+			toolbarname="ODP &ODPExtension.category.navigator;"
+		>
+			<hbox id="ODPExtension-toolbar-category-navigator-container" flex="1"></hbox>
+			<toolbarbutton class="ODPExtension-toolbarbutton-close" tooltiptext="&ODPExtension.close;" oncommand="ODPExtension.toolbarClose(this.parentNode);"/>
+		</toolbar>
+
+</toolbox>
+
+
+
+</overlay>

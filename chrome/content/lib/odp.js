@@ -470,12 +470,8 @@
 					return true;
 					break;
 				}
-				default :
-				{
-					return false;
-					break;
-				}
 			}
+			return false;
 	}
 	//opens a tab with a ODP search
 	this.odpSearchGetURL = function(aString)

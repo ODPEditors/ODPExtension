@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE overlay SYSTEM "chrome://ODPExtension/locale/xul.dtd">
+
+<?xml-stylesheet href="@css.css" type="text/css"?>
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/x-javascript" src="apply.js"></script>
+<script type="application/x-javascript" src="click.js"></script>
+<script type="application/x-javascript" src="toolbarbuttons-menu-reset.js"></script>
+<script type="application/x-javascript" src="toolbarbuttons-menu-update.js"></script>
+<script type="application/x-javascript" src="toolbarbuttons-options.js"></script>
+<script type="application/x-javascript" src="toolbarbuttons-update-multiple-tab-handler.js"></script>
+<script type="application/x-javascript" src="toolbarbuttons-update.js"></script>
+
+
+
+<hbox id="urlbar-icons">
+
+	<!-- odp url notes -->
+		<image
+			id="ODPExtension-toolbarbutton-odp-url-notes-update"
+			tooltiptext="&ODPExtension.url.notes.action.update;"
+			hidden="true"
+			class="plain urlbar-icon ODPExtension-toolbarbutton"
+			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+		/>
+		<image
+			id="ODPExtension-toolbarbutton-odp-url-notes-unreview"
+			tooltiptext="&ODPExtension.url.notes.action.unreview;"
+			hidden="true"
+			class="plain urlbar-icon ODPExtension-toolbarbutton"
+			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+		/>
+		<image
+			id="ODPExtension-toolbarbutton-odp-url-notes-delete"
+			tooltiptext="&ODPExtension.url.notes.action.delete;"
+			hidden="true"
+			class="plain urlbar-icon ODPExtension-toolbarbutton"
+			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+		/>
+		<image
+			id="ODPExtension-toolbarbutton-odp-url-notes-move-publish"
+			tooltiptext="&ODPExtension.url.notes.move.to.category.publish;"
+			hidden="true"
+			class="plain urlbar-icon ODPExtension-toolbarbutton"
+			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+		/>
+		<image
+			id="ODPExtension-toolbarbutton-odp-url-notes-move-unreview"
+			tooltiptext="&ODPExtension.url.notes.move.to.category.unreview;"
+			hidden="true"
+			class="plain urlbar-icon ODPExtension-toolbarbutton"
+			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+		/>
+		<image
+			id="ODPExtension-toolbarbutton-odp-url-notes-copy-publish"
+			tooltiptext="&ODPExtension.url.notes.copy.to.category.publish;"
+			hidden="true"
+			class="plain urlbar-icon ODPExtension-toolbarbutton"
+			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+		/>
+		<image
+			id="ODPExtension-toolbarbutton-odp-url-notes-copy-unreview"
+			tooltiptext="&ODPExtension.url.notes.copy.to.category.unreview;"
+			hidden="true"
+			class="plain urlbar-icon ODPExtension-toolbarbutton"
+			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+		/>
+		<image
+			id="ODPExtension-toolbarbutton-odp-url-notes-notes"
+			tooltiptext="&ODPExtension.tab.url.notes;"
+			hidden="true"
+			class="plain urlbar-icon ODPExtension-toolbarbutton"
+			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+		/>
+</hbox>
+
+
+<window id="main-window">
+
+
+	<menupopup
+		id="ODPExtension-toolbarbutton-odp-url-notes-update-menupopup"
+		onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
+		oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
+		value="update"
+		build="false"
+		class="ODPExtension-crop"
+	>
+		<menuitem locked="true" new="true" label="&ODPExtension.url.notes.new.note;" class="menuitem-iconic" image="chrome://ODPExtension/content/features/context-url-tools/img/blank.png"/>
+		<menuseparator locked="true"/>
+	</menupopup>
+	<menupopup
+		id="ODPExtension-toolbarbutton-odp-url-notes-unreview-menupopup"
+		onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
+		oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
+		value="unreview"
+		build="false"
+		class="ODPExtension-crop"
+	>
+		<menuitem locked="true" new="true" label="&ODPExtension.url.notes.new.note;" class="menuitem-iconic" image="chrome://ODPExtension/content/features/context-url-tools/img/blank.png"/>
+		<menuseparator locked="true"/>
+	</menupopup>
+	<menupopup
+		id="ODPExtension-toolbarbutton-odp-url-notes-delete-menupopup"
+		onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
+		oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
+		value="delete"
+		build="false"
+		class="ODPExtension-crop"
+	>
+		<menuitem locked="true" new="true" label="&ODPExtension.url.notes.new.note;" class="menuitem-iconic" image="chrome://ODPExtension/content/features/context-url-tools/img/blank.png"/>
+		<menuseparator locked="true"/>
+	</menupopup>
+	<menupopup
+		id="ODPExtension-toolbarbutton-odp-url-notes-move-publish-menupopup"
+		onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
+		oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
+		value="move.publish"
+		build="false"
+		class="ODPExtension-crop"
+	>
+		<menuitem locked="true" new="true" label="&ODPExtension.url.notes.new.note;" class="menuitem-iconic" image="chrome://ODPExtension/content/features/context-url-tools/img/blank.png"/>
+		<menuseparator locked="true"/>
+	</menupopup>
+	<menupopup
+		id="ODPExtension-toolbarbutton-odp-url-notes-move-unreview-menupopup"
+		onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
+		oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
+		value="move.unreview"
+		build="false"
+		class="ODPExtension-crop"
+	>
+		<menuitem locked="true" new="true" label="&ODPExtension.url.notes.new.note;" class="menuitem-iconic" image="chrome://ODPExtension/content/features/context-url-tools/img/blank.png"/>
+		<menuseparator locked="true"/>
+	</menupopup>
+	<menupopup
+		id="ODPExtension-toolbarbutton-odp-url-notes-copy-publish-menupopup"
+		onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
+		oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
+		value="copy.publish"
+		build="false"
+		class="ODPExtension-crop"
+	>
+		<menuitem locked="true" new="true" label="&ODPExtension.url.notes.new.note;" class="menuitem-iconic" image="chrome://ODPExtension/content/features/context-url-tools/img/blank.png"/>
+		<menuseparator locked="true"/>
+	</menupopup>
+
+	<menupopup
+		id="ODPExtension-toolbarbutton-odp-url-notes-copy-unreview-menupopup"
+		onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
+		oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
+		value="copy.unreview"
+		build="false"
+		class="ODPExtension-crop"
+	>
+		<menuitem locked="true" new="true" label="&ODPExtension.url.notes.new.note;" class="menuitem-iconic" image="chrome://ODPExtension/content/features/context-url-tools/img/blank.png"/>
+		<menuseparator locked="true"/>
+	</menupopup>
+
+	<menupopup
+		id="ODPExtension-toolbarbutton-odp-url-notes-notes-menupopup"
+		onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsOptionsUpdate()">
+		<menuitem label="&ODPExtension.url.notes.form.reset;" oncommand="ODPExtension.odpURLNotesApply(null, 'reset', '', ODPExtension.documentGetFocused());"/>
+		<menuitem label="&ODPExtension.url.notes.form.next.site;" oncommand="ODPExtension.odpURLNotesApply(null, 'next', '', ODPExtension.documentGetFocused());"/>
+		<menuseparator/>
+		<menuitem id="ODPExtension-toolbarbutton-odp-url-notes-form-submit" value="url.notes.form.submit" label="&ODPExtension.url.notes.form.submit;" type="checkbox" oncommand="ODPExtension.odpURLNotesToolbarbuttonsOptionsChange(this);"/>
+		<menuitem id="ODPExtension-toolbarbutton-odp-url-notes-form-submit-confirm" value="url.notes.form.submit.confirm" label="&ODPExtension.url.notes.form.submit.confirm;" type="checkbox" oncommand="ODPExtension.odpURLNotesToolbarbuttonsOptionsChange(this);"/>
+		<menuseparator/>
+		<menuitem label="&ODPExtension.preferences;"  oncommand="ODPExtension.preferencesOpen();"/>
+	</menupopup>
+
+</window>
+</overlay>

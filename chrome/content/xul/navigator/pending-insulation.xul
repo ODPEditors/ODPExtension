@@ -22,11 +22,11 @@
 	</stringbundleset>
 
 <!-- controller -->
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/core/navigator.js"></script>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/core/browser/navigator.js"></script>
 <!-- options -->
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/core/preferences.js"></script>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/core/browser/preferences.js"></script>
 <!-- jsStrings -->
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/core/jsStrings.js"></script>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/core/browser/jsStrings.js"></script>
 
 <!-- js lib -->
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/lib/algorithms.js"></script>
@@ -107,14 +107,7 @@
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/RDF/related/rdfFindRelatedToDifferentLanguage.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/RDF/related/rdfFindRelatedToHere.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/RDF/related/rdfFindRelatedToHereToAny.js"></script>
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/_main.js"></script>
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/_main/addListeners.js"></script>
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/_main/onLocationChange/setFocusedCategory.js"></script>
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/_main/onLocationChange/setFocusedLocation.js"></script>
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/_main/preferencesLoadGlobal.js"></script>
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/_main/preferencesLoadLocal.js"></script>
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/_main/userInterfaceLoad.js"></script>
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/_main/userInterfaceUpdate.js"></script>
+
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/categories-txt/categoriesTXTExists.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/categories-txt/categoriesTXTGetDatabaseNameFromCategory.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/categories-txt/categoriesTXTQuery.js"></script>
@@ -191,13 +184,21 @@
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/odp-url-notes/odpURLNotesToolbarbuttonsOptions.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/odp-url-notes/odpURLNotesToolbarbuttonsUpdate.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/odp-url-notes/odpURLNotesToolbarbuttonsUpdateMultipleTabHandler.js"></script>
-	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/preferences.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/privacy/anonymizeForListingChecking.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/privacy/cantLeakURL.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/privacy/canFollowURL.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/privacy/privacyRemoveReferrer.js"></script>
 	<script type="application/x-javascript" src="chrome://ODPExtension/content/js/single-key-command/singleKeyCommand.js"></script>
 
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/core/_main.js"></script>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/core/addListeners.js"></script>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/core/setFocusedCategory.js"></script>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/core/setFocusedLocation.js"></script>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/core/preferencesLoadGlobal.js"></script>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/core/preferencesLoadLocal.js"></script>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/core/userInterfaceLoad.js"></script>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/core/userInterfaceUpdate.js"></script>
+	<script type="application/x-javascript" src="chrome://ODPExtension/content/core/preferences.js"></script>
 
 <window id="main-window">
 

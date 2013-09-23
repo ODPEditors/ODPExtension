@@ -58,7 +58,7 @@
 		//odp URL notes
 		//updates show or hide the ODP URL Notes toolbarbuttons
 		this.addListener('onLocationChange', function() {
-			ODPExtension.odpURLNotesToolbarbuttonsUpdate(ODPExtension.focusedURLSubdomain);
+			ODPExtension.odpURLNotesToolbarbuttonsUpdate(ODPExtension.focusedSubdomain);
 		});
 
 		//Apply note to selected sites //in multiple tab handler
@@ -74,11 +74,11 @@
 		//formater menu
 		//show or hide the formater context menu
 		this.addListener('contextMenuShowing', function() {
-			ODPExtension.editingFormURLMenuUpdate(ODPExtension.focusedURLSubdomain);
+			ODPExtension.editingFormURLMenuUpdate(ODPExtension.focusedSubdomain);
 		});
 		//updates show or hide the formater context menu when switching tabs (if the context menu is opened)
 		this.addListener('onLocationChange', function() {
-			if (ODPExtension.contentAreaContextMenu().state == 'open') ODPExtension.editingFormURLMenuUpdate(ODPExtension.focusedURLSubdomain);
+			if (ODPExtension.contentAreaContextMenu().state == 'open') ODPExtension.editingFormURLMenuUpdate(ODPExtension.focusedSubdomain);
 		});
 
 		//frames menu

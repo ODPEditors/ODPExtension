@@ -34,7 +34,7 @@
 		//initializing some vars..
 		this.focusedURL = '';
 		this.focusedDomain = '';
-		this.focusedURLSubdomain = '';
+		this.focusedSubdomain = '';
 
 		this.focusedCategory = '';
 		this.fromCategoryAction = '';

@@ -74,7 +74,7 @@
 			var focusedLocationWWW = this.decodeUTF8Recursive(this.removeSchema(this.shortURL(this.focusedURL).replace(/\/+$/, ''))).toLowerCase();
 			var focusedLocationNoWWW = this.removeWWW(this.focusedURL);
 			var focusedLocationDomain = this.focusedDomain;
-			var focusedLocationSubdomain = this.focusedURLSubdomain;
+			var focusedLocationSubdomain = this.focusedSubdomain;
 
 			//validate the response of the data server
 			aData = this.trim(aData);

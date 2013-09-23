@@ -35,8 +35,8 @@
 					if (!searchFor)
 						searchFor = this.prompt(this.getString('search.ellipsis'))
 					if (searchFor != '') {
-						if (this.focusedURLSubdomain != '')
-							this.openURL('http://www.google.com/search?q=' + this.encodeUTF8('site:' + this.removeWWW(this.focusedURLSubdomain)) + '+' + this.encodeUTF8(searchFor).replace(/%20/g, '+'), true, null, true);
+						if (this.focusedSubdomain != '')
+							this.openURL('http://www.google.com/search?q=' + this.encodeUTF8('site:' + this.removeWWW(this.focusedSubdomain)) + '+' + this.encodeUTF8(searchFor).replace(/%20/g, '+'), true, null, true);
 						else
 							this.openURL('http://www.google.com/search?q=' + this.encodeUTF8(searchFor).replace(/%20/g, '+'), true, null, true);
 					}

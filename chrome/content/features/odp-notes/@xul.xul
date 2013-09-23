@@ -10,6 +10,7 @@
 <script type="application/x-javascript" src="toolbarbuttons-menu-reset.js"></script>
 <script type="application/x-javascript" src="toolbarbuttons-menu-update.js"></script>
 <script type="application/x-javascript" src="toolbarbuttons-options.js"></script>
+<script type="application/x-javascript" src="toolbarbuttons-toggle.js"></script>
 <script type="application/x-javascript" src="toolbarbuttons-update-multiple-tab-handler.js"></script>
 <script type="application/x-javascript" src="toolbarbuttons-update.js"></script>
 

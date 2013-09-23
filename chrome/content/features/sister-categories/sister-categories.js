@@ -3,6 +3,7 @@
 	//finds all the categories at the same level
 
 	var debugingThisFile = false; //sets debuging on/off for this JavaScript file
+	var aButton;
 
 	this.addListener('userInterfaceLoad', function() {
 		ODPExtension.sistersCategoriesOnUserInterfaceLoad()
@@ -16,14 +17,17 @@
 	});
 
 	this.addListener('toolbarsToggle', function(aClosed) {
-		ODPExtension.sistersCategoriesOnToolbarsToggle(aClosed);
+		if (aClosed) {
+			ODPExtension.toolbarOpenRemember(aButton);
+		} else {
+			ODPExtension.toolbarCloseRemember(aButton);
+		}
 	});
 
 	this.addListener('preferencesLoadGlobal', function() {
 		ODPExtension.sistersCategoriesOnPreferencesLoadGlobal();
 	});
 
-	var aButton;
 
 	this.sistersCategoriesOnUserInterfaceLoad = function() {
 		this.dump('sistersCategoriesOnUserInterfaceLoad', debugingThisFile);
@@ -96,17 +100,6 @@
 
 		} else {
 			aButton.setAttribute('nocategories', true);
-		}
-
-	}
-
-	this.sistersCategoriesOnToolbarsToggle = function(aClosed) {
-		this.dump('sistersCategoriesOnToolbarsToggle', debugingThisFile);
-
-		if (aClosed) {
-			this.toolbarOpenRemember(aButton);
-		} else {
-			this.toolbarCloseRemember(aButton);
 		}
 
 	}

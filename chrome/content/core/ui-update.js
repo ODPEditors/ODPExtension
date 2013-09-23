@@ -48,8 +48,7 @@
 			this.getElement('toolbar-category-navigator').setAttribute('hidden', true);
 			//toolbarbuttons
 
-			if (this.getElement('toolbarbutton-category-browser'))
-				this.getElement('toolbarbutton-category-browser').setAttribute('hidden', true);
+			this.getElement('toolbarbutton-category-browser').setAttribute('hidden', true);
 			if (this.getElement('toolbarbutton-odp-url-notes-update'))
 				this.getElement('toolbarbutton-odp-url-notes-update').setAttribute('hidden', true);
 			if (this.getElement('toolbarbutton-odp-url-notes-unreview'))
@@ -135,8 +134,7 @@
 			}
 
 			//toolbarbuttons
-			if (this.getElement('toolbarbutton-category-browser'))
-				this.getElement('toolbarbutton-category-browser').setAttribute('hidden', false);
+			this.getElement('toolbarbutton-category-browser').setAttribute('hidden', false);
 
 			//forms css
 			if (this.preferenceGet('forms.css'))

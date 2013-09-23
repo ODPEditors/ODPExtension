@@ -7,7 +7,7 @@
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 <script type="application/x-javascript" src="menu-update.js"></script>
-<script type="application/x-javascript" src="toggle.js"></script>
+<script type="application/x-javascript" src="toolbarbutton-toggle.js"></script>
 <script type="application/x-javascript" src="ui-update.js"></script>
 
 <hbox id="urlbar-icons">

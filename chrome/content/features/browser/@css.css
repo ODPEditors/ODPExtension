@@ -15,8 +15,7 @@
 }
 /* simluate toolbarbutton for urlbar icons*/
 #urlbar-icons > .ODPExtension-toolbarbutton[collapsed="true"] {
-	/*display:none !important;
-*/
+	display:none !important;
 }
 /* crop very large/short menuitems. ( not so large and not so short) */
 .ODPExtension-crop {

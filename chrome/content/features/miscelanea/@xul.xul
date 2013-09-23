@@ -4,6 +4,5 @@
 	<script src="link-checker.js" type="application/x-javascript"/>
 	<script src="plantrob.js" type="application/x-javascript"/>
 	<script src="tab-open-check-for-behavior.js" type="application/x-javascript"/>
-	<script src="toolbars-toggle.js" type="application/x-javascript"/>
 	<script src="worldlinkerate-in-tabs-link.js" type="application/x-javascript"/>
 </overlay>

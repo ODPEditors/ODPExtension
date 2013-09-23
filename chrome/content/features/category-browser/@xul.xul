@@ -13,6 +13,7 @@
 <script type="application/x-javascript" src="onpopupshowing.js"></script>
 <script type="application/x-javascript" src="query-menu.js"></script>
 <script type="application/x-javascript" src="query-txt.js"></script>
+<script type="application/x-javascript" src="toolbarbutton-toggle.js"></script>
 
 <hbox id="urlbar-icons">
 

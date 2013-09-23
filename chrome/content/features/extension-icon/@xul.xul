@@ -8,6 +8,7 @@
 
 <script type="application/x-javascript" src="click-command.js"></script>
 <script type="application/x-javascript" src="click.js"></script>
+<script type="application/x-javascript" src="toolbars-toggle.js"></script>
 <script type="application/x-javascript" src="update-position.js"></script>
 <script type="application/x-javascript" src="update-status.js"></script>
 

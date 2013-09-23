@@ -248,6 +248,20 @@ var ODPExtension = {};
 		}
 	}
 
+	//this is just cool. dispatch an event of this 'core'
+	this.dispatchGlobalEvent = function() {
+		this.dump('dispatchGlobalEvent', debugingThisFile);
+
+		var aListener = arguments[0];
+		var windows = this.windowsGet();
+		for (var id in windows) {
+			//this.dump('dispatchGlobalEvent:window:'+id, debugingThisFile);
+			windows[id]['ODPExtension'].dispatchEvent(aListener,
+				arguments[1], arguments[2], arguments[3], arguments[4], arguments[5],
+				arguments[6], arguments[7], arguments[8], arguments[9], arguments[10]);
+		}
+	}
+
 	//notifies to other instances of this extension that aFunction needs to be called
 	this.notifyOtherInstances = function() {
 		this.dump('notifyOtherInstances', debugingThisFile);

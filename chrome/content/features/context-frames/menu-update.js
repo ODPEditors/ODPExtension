@@ -10,21 +10,20 @@
 		var menu = this.getElement('context-frames-menu');
 		var menupopup = this.getElement('context-frames-menupopup');
 
-		this.framesURLs = [];
+		var framesURLs = [];
 
 		this.foreachFrame(this.windowGetFromTab(this.tabGetFocused()), function(aDoc) {
-			ODPExtension.frameMenuGetURL(aDoc);
+			framesURLs[framesURLs.length] = ODPExtension.documentGetLocation(aDoc);
 		})
 
-		this.framesURLs = this.arrayUnique(this.framesURLs);
+		framesURLs = this.arrayUnique(framesURLs);
 
 		this.removeChilds(menupopup);
 
 		var menuIsEmpty = true;
-		for (var id in this.framesURLs) {
-			var aURL = this.framesURLs[id];
-
-			if (aURL != '' && aURL != this.focusedURL && this.isPublicURL(aURL) && !this.isGarbageURL(aURL)) {
+		for (var id in framesURLs) {
+			var aURL = framesURLs[id];
+			if (aURL != '' && aURL != this.focusedURL && this.isPublicURL(aURL)) {
 				var add = this.create("menuitem");
 				add.setAttribute("label", this.decodeUTF8Recursive(aURL));
 				add.setAttribute("value", aURL);
@@ -32,18 +31,12 @@
 				menuIsEmpty = false;
 			}
 		}
-
-		this.framesURLs = [];
-
 		if (menuIsEmpty)
 			menu.setAttribute('hidden', true);
 		else
 			menu.setAttribute('hidden', false);
 	}
 
-	this.frameMenuGetURL = function(aDoc) {
-		this.framesURLs[this.framesURLs.length] = this.documentGetLocation(aDoc);
-	}
 	return null;
 
 }).apply(ODPExtension);

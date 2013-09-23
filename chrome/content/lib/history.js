@@ -15,20 +15,27 @@
 				faviconURI = false;
 			}
 		}
-		if (faviconURI) {
+		if (faviconURI) {} else {
 			try {
 				var dataURL = this.service('fs').getFaviconDataAsDataURL(faviconURI);
 				if (dataURL) {
 					if (dataURL == '')
-						return 'chrome://ODPExtension/content/lib/history/faviconGetFromURL/icon.png';
+						return this._faviconGetFromURL(aURL);
 					else
 						return dataURL;
 				}
 			} catch (e) {
-				return 'chrome://ODPExtension/content/lib/history/faviconGetFromURL/icon.png';
+				return this._faviconGetFromURL(aURL);
 			}
 		}
-		return 'chrome://ODPExtension/content/lib/history/faviconGetFromURL/icon.png';
+		return faviconURI;
+	}
+	this._faviconGetFromURL = function(aURL){
+		aURL = this.anonymize(aURL);
+		if(this.cantLeakURL(aURL))
+			return 'chrome://ODPExtension/content/lib/history/faviconGetFromURL/icon.png';
+		else
+			return 'https://plus.google.com/_/favicon?domain='+this.encodeUTF8(aURL);
 	}
 	this.isVisitedURL = function(aURL) {
 		try {

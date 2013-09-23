@@ -7,7 +7,7 @@
 	//this function removes lots of thing that maybe are private
 	//but remove too things that not make sense to sent to the listings server
 
-	this.anonymizeForListingChecking = function(aURL) {
+	this.anonymize = function(aURL) {
 		var aDomain = this.getDomainFromURL(aURL);
 		var aSubdomain = this.removeWWW(this.getSubdomainFromURL(aURL));
 

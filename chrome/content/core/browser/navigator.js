@@ -542,6 +542,13 @@ var ODPExtension = {};
 			throw new Error('ODPExtension : ' + aMsg);
 		}, 0);
 	};
+	//restarts the browser
+	this.restart = function()
+	{
+		Components.classes["@mozilla.org/toolkit/app-startup;1"]
+					.getService(Components.interfaces.nsIAppStartup)
+					.quit(Components.interfaces.nsIAppStartup.eRestart | Components.interfaces.nsIAppStartup.eAttemptQuit);
+	}
 
 	//registerExtension
 	this.registerExtension();

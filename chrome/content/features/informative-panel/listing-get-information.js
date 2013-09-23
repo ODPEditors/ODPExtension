@@ -32,9 +32,9 @@
 			this.extensionIconUpdateStatus();
 			return
 		} else if (this.preferenceGet('privacy.listing.method.domain'))
-			aLocation = this.anonymizeForListingChecking(this.getSubdomainFromURL(aLocation)); //only subdomain
+			aLocation = this.anonymize(this.getSubdomainFromURL(aLocation)); //only subdomain
 		else
-			aLocation = this.anonymizeForListingChecking(aLocation); //every url
+			aLocation = this.anonymize(aLocation); //every url
 
 
 		//update the icon status
@@ -63,9 +63,9 @@
 	this.listingGetInformationLoaded = function(aData, aLocation) {
 		//check if the retreived data is for this focused tab
 		var shouldLoad = false;
-		if (this.preferenceGet('privacy.listing.method.domain') && aLocation == this.anonymizeForListingChecking(this.getSubdomainFromURL(this.focusedURL)))
+		if (this.preferenceGet('privacy.listing.method.domain') && aLocation == this.anonymize(this.getSubdomainFromURL(this.focusedURL)))
 			shouldLoad = true;
-		else if (aLocation == this.anonymizeForListingChecking(this.focusedURL))
+		else if (aLocation == this.anonymize(this.focusedURL))
 			shouldLoad = true;
 
 		//if the request come from the focused location, rebuild the popup

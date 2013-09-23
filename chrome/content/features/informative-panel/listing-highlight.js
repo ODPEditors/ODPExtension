@@ -32,7 +32,7 @@
 			this.cantLeakURL(item.href))
 			return;
 
-		var tooltiptext = this.decodeUTF8Recursive(this.anonymizeForListingChecking(item.href));
+		var tooltiptext = this.decodeUTF8Recursive(this.anonymize(item.href));
 		item.setAttribute('tooltiptext', tooltiptext);
 		item.setAttribute('title', tooltiptext);
 		item.style.setProperty('border', '1px solid green', 'important');
@@ -42,7 +42,7 @@
 		progress.add();
 
 		this.readURL(
-			this.preferenceGet('advanced.urls.rdf').replace('{URL}', this.encodeUTF8(this.removeSchema(this.anonymizeForListingChecking(item.href)))),
+			this.preferenceGet('advanced.urls.rdf').replace('{URL}', this.encodeUTF8(this.removeSchema(this.anonymize(item.href)))),
 			'listings.information/responses/',
 			null,
 			null, function() {

@@ -19,52 +19,47 @@
 			var pieces = [];
 
 			aTemp = this.removeSession(aURL);
-			if (!this.inArray(pieces, aTemp) || this.subStrCount(aTemp, '/') < 2)
-				pieces[pieces.length] = this.shortURL(aTemp);
+			pieces[pieces.length] = this.shortURL(aTemp);
 
 			aTemp = this.removeVariables(aURL);
-			if (!this.inArray(pieces, aTemp) || this.subStrCount(aTemp, '/') < 2)
-				pieces[pieces.length] = this.shortURL(aTemp);
-
+			pieces[pieces.length] = this.shortURL(aTemp);
 
 			aTemp = this.removeSensitiveDataFromURL(aURL);
-			if (!this.inArray(pieces, aTemp) || this.subStrCount(aTemp, '/') < 2)
-				pieces[pieces.length] = this.shortURL(aTemp);
+			pieces[pieces.length] = this.shortURL(aTemp);
 
 			aTemp = this.removeFileName(aURL);
-			if (!this.inArray(pieces, aTemp) || this.subStrCount(aTemp, '/') < 2)
-				pieces[pieces.length] = aTemp;
+			pieces[pieces.length] = aTemp;
 
 			aTemp = this.removeFileName(this.removeFileName(aURL));
-			if (!this.inArray(pieces, aTemp) || this.subStrCount(aTemp, '/') < 2)
-				pieces[pieces.length] = aTemp;
+			pieces[pieces.length] = aTemp;
 
 			aTemp = this.removeFileName(this.removeFileName(this.removeFileName(aURL)));
-			if (!this.inArray(pieces, aTemp) || this.subStrCount(aTemp, '/') < 2)
-				pieces[pieces.length] = aTemp;
+			pieces[pieces.length] = aTemp;
 
 			aTemp = this.removeFromTheFirstFolder(aURL);
-			if (!this.inArray(pieces, aTemp) || this.subStrCount(aTemp, '/') < 2)
-				pieces[pieces.length] = aTemp;
+			pieces[pieces.length] = aTemp;
 
-			aTemp = this.getSchema(aURL) + '://' + this.getSubdomainFromURL(aURL) + '/';
-			if (!this.inArray(pieces, aTemp))
-				pieces[pieces.length] = aTemp;
+			if (this.isVisitedURL(this.getSchema(aURL) + '://www.' + this.getSubdomainFromURL(aURL) + '/'))
+				aTemp = this.getSchema(aURL) + '://www.' + this.getSubdomainFromURL(aURL) + '/';
+			else if (this.isVisitedURL('https://www.' + this.getSubdomainFromURL(aURL) + '/'))
+				aTemp = 'https://www.' + this.getSubdomainFromURL(aURL) + '/';
+			else if (this.isVisitedURL('http://www.' + this.getSubdomainFromURL(aURL) + '/'))
+				aTemp = 'http://www.' + this.getSubdomainFromURL(aURL) + '/';
+			else
+				aTemp = this.getSchema(aURL) + '://' + this.getSubdomainFromURL(aURL) + '/';
+			pieces[pieces.length] = aTemp;
 
-			if (this.getDomainFromURL(aURL) != this.removeWWW(this.getSubdomainFromURL(aURL))) //I should not suggest to remove the www.
-			{
-				if (this.isVisitedURL(this.getSchema(aURL) + '://www.' + this.getDomainFromURL(aURL) + '/'))
-					aTemp = this.getSchema(aURL) + '://www.' + this.getDomainFromURL(aURL) + '/';
-				else
-					aTemp = this.getSchema(aURL) + '://' + this.getDomainFromURL(aURL) + '/';
-
-				if (!this.inArray(pieces, aTemp))
-					pieces[pieces.length] = aTemp;
-			} else if (this.isVisitedURL(this.getSchema(aURL) + '://www.' + this.getDomainFromURL(aURL) + '/')) {
+			if (this.isVisitedURL(this.getSchema(aURL) + '://www.' + this.getDomainFromURL(aURL) + '/'))
 				aTemp = this.getSchema(aURL) + '://www.' + this.getDomainFromURL(aURL) + '/';
-				if (!this.inArray(pieces, aTemp))
-					pieces[pieces.length] = aTemp;
-			}
+			else if (this.isVisitedURL('https://www.' + this.getDomainFromURL(aURL) + '/'))
+				aTemp = 'https://www.' + this.getDomainFromURL(aURL) + '/';
+			else if (this.isVisitedURL('http://www.' + this.getDomainFromURL(aURL) + '/'))
+				aTemp = 'http://www.' + this.getDomainFromURL(aURL) + '/';
+			//do not suggest to remove the www. from domains that contains it.
+			else if (this.removeWWW(this.getSubdomainFromURL(aURL)) != this.getDomainFromURL(aURL))
+				aTemp = this.getSchema(aURL) + '://' + this.getDomainFromURL(aURL) + '/';
+
+			pieces[pieces.length] = aTemp;
 
 			pieces = this.arrayUnique(pieces);
 

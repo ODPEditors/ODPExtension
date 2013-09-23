@@ -37,7 +37,6 @@
 <!ENTITY ODPExtension.extension.directory.change "Change extension directory">
 <!ENTITY ODPExtension.filter.this.menu.ellipsis "Filter this menu…">
 <!ENTITY ODPExtension.find "Encontrar">
-<!ENTITY ODPExtension.forms.css "Formularios compactos">
 <!ENTITY ODPExtension.forms.edit.url.description.lowercase "A minúsculas descripción">
 <!ENTITY ODPExtension.forms.edit.url.fix.spaces "Solucionar espacios">
 <!ENTITY ODPExtension.forms.edit.url.formatter "Formateador">
@@ -207,7 +206,6 @@
 <!ENTITY ODPExtension.ui.context.menu.translate.languages "Languages in the translate context menu">
 <!ENTITY ODPExtension.ui.context.menu.url.tools "Herramientas de URL">
 <!ENTITY ODPExtension.ui.context.menu.word.reference "Consultar Palabra">
-<!ENTITY ODPExtension.ui.forms.css "Pretty form styles">
 <!ENTITY ODPExtension.ui.from.category.auto "Show command menu when a category is highlighted ( Recommended )">
 <!ENTITY ODPExtension.ui.from.context.menu "'From' context menu">
 <!ENTITY ODPExtension.ui.informative.panel "Mostrar pop-up informativo">

@@ -66,10 +66,6 @@
 			if (this.getElement('toolbarbutton-odp-url-notes-copy-unreview'))
 				this.getElement('toolbarbutton-odp-url-notes-copy-unreview').setAttribute('hidden', true);
 
-
-			//forms css
-			this.cssRemove('forms.css');
-
 		} else {
 			//context menu
 
@@ -135,12 +131,6 @@
 
 			//toolbarbuttons
 			this.getElement('toolbarbutton-category-browser').setAttribute('hidden', false);
-
-			//forms css
-			if (this.preferenceGet('forms.css'))
-				this.cssAppend('forms.css', 'chrome://odpextension/content/features/browser/dmoz.org.css');
-			else
-				this.cssRemove('forms.css');
 
 		}
 

@@ -132,10 +132,6 @@
 		'url.notes.form.submit',
 		'url.notes.form.submit.confirm',
 
-		//forms css
-
-		'forms.css',
-
 		//tab behavior - DONE
 
 		//informative.panel

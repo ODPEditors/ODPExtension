@@ -37,7 +37,6 @@
 <!ENTITY ODPExtension.extension.directory.change "Change extension directory">
 <!ENTITY ODPExtension.filter.this.menu.ellipsis "Filter this menu…">
 <!ENTITY ODPExtension.find "Bul">
-<!ENTITY ODPExtension.forms.css "İnce tarz">
 <!ENTITY ODPExtension.forms.edit.url.description.lowercase "Açıklama harflerini küçült">
 <!ENTITY ODPExtension.forms.edit.url.fix.spaces "Ters bölüleri düzelt">
 <!ENTITY ODPExtension.forms.edit.url.formatter "Formatter">
@@ -206,7 +205,6 @@
 <!ENTITY ODPExtension.ui.context.menu.translate.languages "Languages in the translate context menu">
 <!ENTITY ODPExtension.ui.context.menu.url.tools "URL Araçları">
 <!ENTITY ODPExtension.ui.context.menu.word.reference "Sözcük Kontrolü">
-<!ENTITY ODPExtension.ui.forms.css "Pretty form styles">
 <!ENTITY ODPExtension.ui.from.category.auto "Show command menu when a category is highlighted ( Recommended )">
 <!ENTITY ODPExtension.ui.from.context.menu "'From' context menu">
 <!ENTITY ODPExtension.ui.informative.panel "Bilgi kutusunu göster">

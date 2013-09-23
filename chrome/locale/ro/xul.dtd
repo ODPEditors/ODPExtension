@@ -37,7 +37,6 @@
 <!ENTITY ODPExtension.extension.directory.change "Change extension directory">
 <!ENTITY ODPExtension.filter.this.menu.ellipsis "Filter this menu…">
 <!ENTITY ODPExtension.find "Găseşte">
-<!ENTITY ODPExtension.forms.css "Formular mic">
 <!ENTITY ODPExtension.forms.edit.url.description.lowercase "Spre descrierea scrisă cursiv">
 <!ENTITY ODPExtension.forms.edit.url.fix.spaces "Repară backspace-urile">
 <!ENTITY ODPExtension.forms.edit.url.formatter "Formatare">
@@ -206,7 +205,6 @@
 <!ENTITY ODPExtension.ui.context.menu.translate.languages "Languages in the translate context menu">
 <!ENTITY ODPExtension.ui.context.menu.url.tools "Instrumente pentru adresa URL">
 <!ENTITY ODPExtension.ui.context.menu.word.reference "Verificare a cuvintelor">
-<!ENTITY ODPExtension.ui.forms.css "Pretty form styles">
 <!ENTITY ODPExtension.ui.from.category.auto "Show command menu when a category is highlighted ( Recommended )">
 <!ENTITY ODPExtension.ui.from.context.menu "'From' context menu">
 <!ENTITY ODPExtension.ui.informative.panel "Afişează un popup cu informaţii">

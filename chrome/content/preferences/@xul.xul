@@ -95,7 +95,6 @@
 
 							<vbox flex="1">
 								<checkbox label="&ODPExtension.ui.from.category.auto;" id="ui.from.category.auto"/>
-								<checkbox label="&ODPExtension.ui.forms.css;" id="forms.css"/>
 								<checkbox label="&ODPExtension.single.key.command;" id="single.key.command"/>
 							</vbox>
 

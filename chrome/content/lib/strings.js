@@ -111,19 +111,19 @@
 		return aString.split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;').split("'").join('&apos;');
 	};
 	//matchs a regular expresion
+	this.matchCompiled = [];
+
 	this.match = function(aString, aREGEXP) {
 		if (aREGEXP == '') {
 			return false;
 		}
 		try {
-			aREGEXP = new RegExp(aREGEXP, 'i');
-			if (aREGEXP.test(aString))
-			//if(aString.match(aREGEXP, 'i'))//this leaks mem
-			{
+			if (!this.matchCompiled[aREGEXP])
+				this.matchCompiled[aREGEXP] = new RegExp(aREGEXP, 'i');
+			if (this.matchCompiled[aREGEXP].test(aString))
 				return true;
-			} else {
+			else
 				return false;
-			}
 		} catch (e) {
 			return false;
 		}

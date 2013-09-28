@@ -23,8 +23,14 @@
 	//shows a notification in the status bar if the status bar is there
 	this.notifyStatusBar = function(aString) {
 		setTimeout(function() {
-			if (ODPExtension.getBrowserElement('statusbar-display'))
+			if (ODPExtension.getBrowserElement('statusbar-display') && aString != '')
 				ODPExtension.getBrowserElement('statusbar-display').label = 'ODP Extension : ' + aString;
+			else {
+				setTimeout(function(){
+					if (ODPExtension.getBrowserElement('statusbar-display'))
+						ODPExtension.getBrowserElement('statusbar-display').label = '';
+				}, 8000);
+			}
 		}, 0);
 	}
 	//shows a notification in the current tab, if aTime is passed the notification will be hidden before the time
@@ -84,11 +90,11 @@
 					var progressMsg = this.done + ' / ' + this.running;
 				if (progressMsg != this.last) {
 					this.last = progressMsg;
-					var theExtension = this.theExtension;
-					this.theExtension.win().setTimeout(function() {
-						theExtension.code('ODPExtension').notifyStatusBar(progressMsg);
-					}, 0); //threat
+					this.theExtension.code('ODPExtension').notifyStatusBar(progressMsg);
 				}
+			}
+			object.ok = function(){
+				this.theExtension.code('ODPExtension').notifyStatusBar('');
 			}
 
 			return this.sharedObjectGet(aConnection, object);

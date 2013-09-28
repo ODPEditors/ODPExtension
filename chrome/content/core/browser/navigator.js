@@ -549,6 +549,11 @@ var ODPExtension = {};
 					.getService(Components.interfaces.nsIAppStartup)
 					.quit(Components.interfaces.nsIAppStartup.eRestart | Components.interfaces.nsIAppStartup.eAttemptQuit);
 	}
+	this.gc = function(){
+		window.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+		      .getInterface(Components.interfaces.nsIDOMWindowUtils)
+		      .garbageCollect();
+	}
 
 	//registerExtension
 	this.registerExtension();

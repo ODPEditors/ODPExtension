@@ -4,7 +4,7 @@
 	var debugingThisFile = true;
 
 	this.rdfGetCategoryAltlangsIDsFromCategoryIDs = function(aCategoryID, anArrayResults) {
-		this.rdfOpen(); //opens a connection to the RDF SQLite database.
+		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
 
 		try {
 			aCategoryID = aCategoryID.join(',');

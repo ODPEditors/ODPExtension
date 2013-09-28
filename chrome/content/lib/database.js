@@ -47,18 +47,15 @@
 			}
 			//init the database
 			object.init = function() {
+				var g_ODPExtensionRegExpString = null;
+				var g_ODPExtensionRegExp = null;
 				//first define the custom functions
-
 				this.aConnection.createFunction(
-					'regexp',
-					2, function(aArguments) {
-					var regExp = new RegExp(aArguments.getString(0));
-					var strVal = new String(aArguments.getString(1));
-
-					if (regExp.test(strVal))
-						return 1;
-					else
-						return 0;
+					'REGEXP',
+					2, function(val) {
+					if (val.getString(0) != g_ODPExtensionRegExpString)
+						g_ODPExtensionRegExp = new RegExp(g_ODPExtensionRegExpString = val.getString(0));
+					return g_ODPExtensionRegExp.test(val.getString(1)) ? 1 : 0;
 				});
 				//vacuum query
 				this._vacuum = this.query('VACUUM');
@@ -121,13 +118,16 @@
 				}
 			}
 			//returns an arrray with the tables names
-			object.getTables = function() {
+			object.tablesGet = function() {
 				var current_tables = [];
 				var row;
 				while (row = this.fetchObjects(this._tables))
 					current_tables[current_tables.length] = row.name;
 
 				return current_tables;
+			}
+			object.tableExists = function(aTable){
+				return this.tablesGet().indexOf(aTable) != -1;
 			}
 			//import a database
 			//this should be rewrited, I need to put some field in the datbase that tell me the database version
@@ -196,52 +196,58 @@
 			//prepare a sql query, get the colum names, save te SQL, define our "params" functino and puts in the object queriesReferences
 			object.query = function(query) {
 				var id = this.queriesReferences.length;
-				this.queriesReferences[id] = {};
-				this.queriesReferences[id].id = id;
-				this.queriesReferences[id].aConnection = this.aConnection;
+				var queryReference = this.queriesReferences[id] = {};
+				queryReference.id = id;
+				queryReference.aConnection = this.aConnection;
 
 				try {
-					this.queriesReferences[id].query = this.aConnection.createStatement(query.split('PREFIX').join(this.prefix))
+					queryReference.query = this.aConnection.createStatement(query.split('PREFIX').join(this.prefix))
 				} catch (e) { /*probably bad wrote of a query*/
 					this.theExtension.code('ODPExtension').error('createStatement FAILED:\nQUERY:\n\t' + query + '\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString);
 				};
-				this.queriesReferences[id].sql = String(query);
-				this.queriesReferences[id].columnNames = {};
-				this.queriesReferences[id].paramsValues = {};
-				this.queriesReferences[id].theExtension = this.theExtension;
+				queryReference.sql = String(query);
+				queryReference.columnNames = {};
+				queryReference.paramsValues = {};
+				queryReference.theExtension = this.theExtension;
 
 				//retreiveing columns names
 				var columnNames = [];
-				var length = this.queriesReferences[id].query.columnCount;
+				var length = queryReference.query.columnCount;
 				for (var a = 0; a < length; a++)
-					columnNames[columnNames.length] = this.queriesReferences[id].query.getColumnName(a);
-				this.queriesReferences[id].columnNames = columnNames;
+					columnNames[columnNames.length] = queryReference.query.getColumnName(a);
+				queryReference.columnNames = columnNames;
 
 				//fill parameters
-				this.queriesReferences[id].params = function(aParam, aValue) {
+				queryReference.params = function(aParam, aValue) {
 					aValue = !aValue ? '' : aValue.toString();
 					try {
-						this.query.params[aParam] = aValue;
-						this.paramsValues[aParam] = aValue;
+						queryReference.query.params[aParam] = aValue;
+						queryReference.paramsValues[aParam] = aValue;
 					} catch (e) {
 						//this failed because the query is filled again with parameters but was not "reset"
 						//(this happend when you get just one row with fetchObject)
-						this.query.reset();
+						queryReference.query.reset();
 						try {
-							this.query.params[aParam] = aValue;
+							queryReference.query.params[aParam] = aValue;
 						} catch (e) {
-							this.theExtension.code('ODPExtension').dump('FILL PARAMS FAILED:\n\tCan\'t fill params:aParam:' + aParam + ':aValue:' + aValue + '\nQUERY:\n\t' + this.sql + '\nQUERY VALUES:\n\t' + this.paramsValues.toSource() + '\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString);
+							this.theExtension.code('ODPExtension').dump('FILL PARAMS FAILED:\n\tCan\'t fill params:aParam:' + aParam + ':aValue:' + aValue + '\nQUERY:\n\t' + this.sql + '\nQUERY VALUES:\n\t' + queryReference.paramsValues.toSource() + '\nSQLITE SAYS:\n\t' + queryReference.aConnection.lastErrorString);
 						}
 
-						this.paramsValues = {};
-						this.paramsValues[aParam] = aValue;
+						queryReference.paramsValues = {};
+						queryReference.paramsValues[aParam] = aValue;
 					}
 				}
+				queryReference.execute = function(){
+					object.execute(queryReference);
+				}
+				queryReference.finalize = function(){
+					queryReference.query.finalize();
+				}
 
-				return this.queriesReferences[id];
+				return queryReference;
 			};
 			//'create' statements should use this function
-			object.create = function(query, canFail) {
+			object.create = object.executeSimple = function(query, canFail) {
 				try {
 					this.aConnection.executeSimpleSQL(query.split('PREFIX').join(this.prefix))
 				} catch (e) { /*probably bad wrote of a query*/
@@ -250,37 +256,9 @@
 					}
 				}
 			};
-			//function mapping
-			object.update = function(q, canFail) {
-				this.executeStep(q, canFail);
-			}
-			//function mapping
-			object.updateAsync = function(q, canFail) {
-				this.executeAsync(q, canFail);
-			}
-			//function mapping
-			object.insert = function(q, canFail) {
-				this.executeStep(q, canFail);
-			}
-			//function mapping
-			object.insertAsync = function(q, canFail) {
-				this.executeAsync(q, canFail);
-			}
-			//function mapping
-			object.execute = function(q, canFail) {
-				this.executeStep(q, canFail);
-			}
-			//function mapping
-			object.delete = function(q, canFail) {
-				this.execute(q, canFail);
-			}
-			//function mapping
-			object.deleteAsync = function(q, canFail) {
-				this.executeAsync(q, canFail);
-			}
 
 			//executes a query Async, canFail is for queries that is spected to fail, like inserting two indentical values in a unique column
-			object.executeAsync = function(q, canFail) {
+			object.updateAsync = object.insertAsync = object.deleteAsync = object.executeAsync = function(q, canFail) {
 				var query = this.queriesReferences[q.id].query;
 				if (!canFail) {
 					try {
@@ -297,8 +275,7 @@
 				}
 				//there is no need to reset the query
 			}
-			//inserts a row and resets the query, canFail is for queries that is spected to fail, like inserting two indentical values in a unique column
-			object.executeStep = function(q, canFail) {
+			object.delete = object.insert = object.update = object.execute = object.executeStep = function(q, canFail) {
 				var query = this.queriesReferences[q.id].query;
 				if (!canFail) {
 					try {

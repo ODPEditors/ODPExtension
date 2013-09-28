@@ -4,7 +4,7 @@
 	var debugingThisFile = true;
 
 	this.rdfFindEditorsFromHereFromAny = function(aCategory) {
-		this.rdfOpen(); //opens a connection to the RDF SQLite database.
+		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
 
 		var aMsg = 'Editors found on "{CATEGORY}" and on any of its subcategories ({RESULTS})'; //informative msg and title of document
 

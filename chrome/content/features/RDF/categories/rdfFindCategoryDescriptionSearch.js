@@ -4,7 +4,7 @@
 	var debugingThisFile = true;
 
 	this.rdfFindCategoryDescriptionSearch = function(aCategory, aQuery) {
-		this.rdfOpen(); //opens a connection to the RDF SQLite database.
+		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
 
 		var aMsg = 'Looking for "{QUERY}" on category "{CATEGORY}" and on any of its subcategories ({RESULTS})'; //informative msg and title of document
 

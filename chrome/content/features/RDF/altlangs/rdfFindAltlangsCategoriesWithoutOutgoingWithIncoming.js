@@ -4,7 +4,7 @@
 	var debugingThisFile = true;
 
 	this.rdfFindAltlangsCategoriesWithoutOutgoingWithIncoming = function(aCategory) {
-		this.rdfOpen(); //opens a connection to the RDF SQLite database.
+		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
 
 		var aMsg = 'Categories without outgoing but with incoming alternative languages on "{CATEGORY}" and on its subcategories ({RESULTS})'; //informative msg and title of document
 

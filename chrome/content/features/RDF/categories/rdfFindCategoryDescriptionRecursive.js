@@ -4,7 +4,7 @@
 	var debugingThisFile = true;
 
 	this.rdfFindCategoryDescriptionRecursive = function(aCategory) {
-		this.rdfOpen(); //opens a connection to the RDF SQLite database.
+		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
 
 		var aMsg = 'Description of category "{CATEGORY}" and of its subcategories ({RESULTS})'; //informative msg and title of document
 

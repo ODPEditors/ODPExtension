@@ -5,11 +5,11 @@
 
 	//opens a connection to the RDF SQLite database
 
-	this.rdfOpen = function() {
+	this.rdfDatabaseOpen = function() {
 		if (!this.DBRDF) {
 			this.DBRDF = this.databaseGet('RDF');
 			//getting the last and previous RDF database
-			var tables = this.DBRDF.getTables();
+			var tables = this.DBRDF.tablesGet();
 			var prefix = [];
 			for (var id in tables) {
 				if (/[0-9]{8}/.test(tables[id])) {
@@ -22,9 +22,10 @@
 			this.rdfPreviousData = prefix.pop();
 
 			this.DBRDF.setPrefix(this.rdfCurrentData);
-			this.DBRDF.create('PRAGMA temp_store = 2');
-			this.DBRDF.create('PRAGMA journal_mode = memory');
+			this.DBRDF.executeSimple('PRAGMA temp_store = 2');
+			this.DBRDF.executeSimple('PRAGMA journal_mode = memory');
 		}
+		return this.DBRDF;
 	}
 	this.rdfClose = function() {
 		this.DBRDF.close();

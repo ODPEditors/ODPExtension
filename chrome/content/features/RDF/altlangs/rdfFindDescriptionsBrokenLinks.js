@@ -4,7 +4,7 @@
 	var debugingThisFile = true;
 
 	this.rdfFindDescriptionsBrokenLinks = function(aCategory) {
-		this.rdfOpen(); //opens a connection to the RDF SQLite database.
+		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
 
 		var aMsg = 'Categories with broken or external links in descriptions [{CATEGORY}] ({RESULTS}) '; //informative msg and title of document
 

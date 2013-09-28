@@ -4,7 +4,7 @@
 	var debugingThisFile = true;
 
 	this.rdfCategorySpellCheck = function(aCategory, aLang) {
-		this.rdfOpen(); //opens a connection to the RDF SQLite database.
+		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
 
 		var aMsg = 'Spelling errors on categories names of "{CATEGORY}" including its subcategories ({RESULTS})'; //informative msg and title of document
 

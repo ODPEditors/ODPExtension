@@ -4,7 +4,7 @@
 	var debugingThisFile = true;
 
 	this.rdfFindAltlangsToHereToAny = function(aCategory) {
-		this.rdfOpen(); //opens a connection to the RDF SQLite database.
+		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
 
 		var aMsg = 'Alternative languages to "{CATEGORY}" and to any of its subcategories ({RESULTS})'; //informative msg and title of document
 

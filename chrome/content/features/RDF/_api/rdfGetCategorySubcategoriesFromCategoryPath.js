@@ -4,7 +4,7 @@
 	var debugingThisFile = true;
 
 	this.rdfGetCategorySubcategoriesFromCategoryPath = function(aCategory) {
-		this.rdfOpen(); //opens a connection to the RDF SQLite database.
+		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
 
 		//sql query
 		var query = this.DBRDF.query(' \

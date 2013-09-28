@@ -4,7 +4,7 @@
 	var debugingThisFile = true;
 
 	this.rdfFindAltlangsGame = function(aCategory) {
-		this.rdfOpen(); //opens a connection to the RDF SQLite database.
+		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
 
 		var id = 0;
 

@@ -4,7 +4,7 @@
 	var debugingThisFile = true;
 
 	this.rdfFindLinksToHereToAnyWithInvalidName = function(aCategory) {
-		this.rdfOpen(); //opens a connection to the RDF SQLite database.
+		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
 
 		var aMsg = '@links with a " " or with a double "_" or "-" in the name to the category "{CATEGORY}" or to any of its subcategories ({RESULTS})'; //informative msg and title of document
 

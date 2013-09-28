@@ -4,7 +4,7 @@
 	var debugingThisFile = true;
 
 	this.rdfFindCategorySubcategoriesWithPath = function(aCategory, aQuery) {
-		this.rdfOpen(); //opens a connection to the RDF SQLite database.
+		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
 
 		var aMsg = 'Subcategories of "{CATEGORY}" with search "{QUERY}" ({RESULTS})'; //informative msg and title of document
 

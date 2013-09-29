@@ -150,6 +150,7 @@
 
 				ODPExtension.gc();
 
+				ODPExtension.notifyFocused('preferencesLoadGlobal');
 				ODPExtension.notifyInstances('userInterfaceUpdate');
 			}
 		}

@@ -1,24 +1,20 @@
 (function() {
 
 	//do a search in the categories.txt database
-	this.categoryBrowserQueryTXT = function(aNode, aQuery, aDatabase) {
-		//this.dump('categoryBrowserQueryTXT:aQuery:'+aQuery, true);
-		//saving last selected
-		this.preferenceSet('locked.advanced.local.category.finder.last.selected', aDatabase);
+	this.categoryBrowserQueryTXT = function(aNode, aQuery, aWhere) {
 
-		if (!aQuery || aQuery == '')
+		if (!aQuery || aQuery == '' || !aWhere || aWhere == '')
 			return;
 
 		//avoids the same search to be appended to the menu twice
-		if (!this.categoryBrowserCategories[aNode.getAttribute('id') + '-' + aQuery + '-' + aDatabase]) {} else
+		if (!this.categoryBrowserCategories[aNode.getAttribute('id') + '-' + aQuery + '-' + aWhere]) {} else
 			return;
-		this.categoryBrowserCategories[aNode.getAttribute('id') + '-' + aQuery + '-' + aDatabase] = true;
+		this.categoryBrowserCategories[aNode.getAttribute('id') + '-' + aQuery + '-' + aWhere] = true;
 
 		aQuery = this.trim(aQuery).replace(/_/g, ' ');
 
-		var aResult = this.categoriesTXTQuery(aQuery, aDatabase, null, true);
-		var menus = [],
-			aNodes, menu, menupopup, item, database;
+		var aResult = this.categoriesTXTQuery(aQuery, aWhere, true);
+		var menus = [], aNodes, menu, menupopup, item, database;
 		//SHOWING RESULTS
 		if (aResult.count > 0) {
 			//group the results by database
@@ -33,16 +29,19 @@
 				if (!menus[database]) {
 					menu = this.create('menu');
 					//menu.setAttribute('locked', true);
-					//menu.setAttribute('label', this.categoryAbbreviate(database));
 					//menu.setAttribute('value', database);
+					menu.setAttribute('done', true);
 					menupopup = this.create('menupopup');
 					menu.appendChild(menupopup);
 					menus[database] = menu;
 				}
 				item = this.create('menuitem');
 				item.setAttribute('value', aResult.categories[id]);
-				item.setAttribute('label', this.categoryAbbreviate(aResult.categories[id]) + '/');
+				item.setAttribute('label', this.categoryAbbreviate(aResult.categories[id]));
 				item.setAttribute('done', 'true');
+				if(this.categoryIsRTL(aResult.categories[id])){
+				   item.setAttribute('dir', 'rtl');
+				}
 
 				menus[database].firstChild.appendChild(item);
 			}
@@ -55,9 +54,7 @@
 				if (count > 60) //too many items for the menu
 					break;
 			}
-			var separator = this.create('menuseparator');
-			//	separator.setAttribute('locked', true);
-			this.moveNodeBelow(separator, aNode);
+
 		} else {
 			aNode.setAttribute('hidden', true);
 			this.notifyTab(this.getString('no.results').replace('{QUERY}', aQuery), 8);

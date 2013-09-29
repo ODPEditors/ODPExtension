@@ -1,55 +1,70 @@
 <?xml version="1.0"?>
-
 <!DOCTYPE bindings [
 <!ENTITY % ODPExtension SYSTEM "chrome://ODPExtension/locale/xul.dtd">
 %ODPExtension;
 ]>
-
 <bindings xmlns="http://www.mozilla.org/xbl"
           xmlns:html="http://www.w3.org/1999/xhtml"
           xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
           xmlns:xbl="http://www.mozilla.org/xbl">
-
-	<!--
-		I can't believe, this was so easy to be true!
-		BTW, I have missed the point of XBL, and I finnally doing some not good implementations. bad me.
-		In category-filter.xml ( my second xbl ) will try to be a good one.
-	-->
-
 	<binding
 		id="category-browser"
 		extends="chrome://global/content/bindings/popup.xml#popup"
-		>
-
+	>
 	  <content>
 		<xul:hbox context="">
 			<xul:textbox
-				style="width:170px;"
-				class="ODPExtension-filter-textbox"
-				anonid="ODPExtension-category-browser-textbox-data-xbl"
-				emptytext="&ODPExtension.search.ellipsis;"
-				onmouseover="this.focus();ODPExtension.hideChildrensPopupsOpened(this.parentNode.parentNode);this.nextSibling.firstChild.nextSibling.firstChild.hidePopup();this.focus();"
-				type="search"
-				timeout="500"
-				flex="1"
-				oncommand="if(this.hasAttribute('stop')){this.removeAttribute('stop');}else{ODPExtension.categoryBrowserQueryMenu(this.parentNode.parentNode, this.value, this);}"
-				onkeydown="if(event.keyCode == 27){ if(this.value=='')this.parentNode.parentNode.hidePopup();ODPExtension.categoryBrowserQueryMenu(this.parentNode.parentNode, '', this);} else if(event.keyCode == 13){this.setAttribute('stop', true);ODPExtension.categoryBrowserQueryMenu(this.parentNode.parentNode, this.value, this);}"
+				style="width:170px;" class="ODPExtension-filter-textbox" anonid="ODPExtension-category-browser-textbox-data-xbl"
+				emptytext="&ODPExtension.search.ellipsis;"  type="search" timeout="500" flex="1"
+				onmouseover=""
+				oncommand="
+					if(this.hasAttribute('stop')) {
+						this.removeAttribute('stop');
+					} else {
+						ODPExtension.categoryBrowserQueryMenu(this.parentNode.parentNode, this.value, this);
+					}"
+				onkeydown="
+					if(event.keyCode == 27){
+						if(this.value=='')
+							this.parentNode.parentNode.hidePopup();
+						ODPExtension.categoryBrowserQueryMenu(this.parentNode.parentNode, '', this);
+					} else if(event.keyCode == 13) {
+						this.setAttribute('stop', true);
+						ODPExtension.categoryBrowserQueryMenu(this.parentNode.parentNode, this.value, this);
+					}"
 			/>
 			<xul:hbox flex="1" hidden="true" anonid="ODPExtension-category-browser-menulist-data-xbl">
-				<xul:button label="&ODPExtension.find;" onmouseover="this.nextSibling.firstChild.hidePopup();" oncommand="ODPExtension.categoryBrowserQueryTXT(ODPExtension.getBrowserElement(this.parentNode.parentNode.parentNode.getAttribute('resultsbelow')), this.parentNode.parentNode.firstChild.value, this.nextSibling.selectedItem.getAttribute('database'))"/>
-				<xul:menulist style="max-width:180px;" allowevents="false" oncommand="var ODPExtensionPopup = this.parentNode.parentNode.parentNode;setTimeout(function(){ODPExtensionPopup.openPopup();}, 0)">
-					<xul:menupopup anonid="ODPExtension-local-category-finder-database-list-xbl" onmousedown="if(event.originalTarget.hasAttribute('database')){this.parentNode.selectedItem = event.originalTarget;this.hidePopup();var ODPExtensionPopup = this.parentNode.parentNode.parentNode.parentNode;setTimeout(function(){ODPExtensionPopup.openPopup();}, 0);this.parentNode.parentNode.parentNode.firstChild.focus();}">
-						<xul:menuitem locked="true" database="top" style="font-weight:bold;" label="&ODPExtension.local.category.finder.find.top;"/>
-						<xul:menuitem locked="true" database="regional" style="font-weight:bold;" label="&ODPExtension.local.category.finder.find.regional;"/>
-						<xul:menuitem locked="true" database="world" style="font-weight:bold;" label="&ODPExtension.local.category.finder.find.world;"/>
-						<xul:menuitem locked="true" database="all" style="font-weight:bold;" label="&ODPExtension.local.category.finder.find.all;"/>
-						<xul:menuseparator locked="true"/>
-					</xul:menupopup>
-				</xul:menulist>
+				<xul:button label="&ODPExtension.find;"
+					oncommand="
+						ODPExtension.categoryBrowserQueryTXT(
+							ODPExtension.getBrowserElement(this.parentNode.parentNode.parentNode.getAttribute('resultsbelow')),
+							this.parentNode.parentNode.firstChild.value,
+							this.nextSibling.value
+						)"
+				/>
+				<xul:textbox
+					anonid="ODPExtension-category-browser-textbox-data-where-xbl"
+					emptytext="Restrict to branch.."
+					onmouseover=""
+					flex="1"
+					oncommand="
+						if(this.hasAttribute('stop'))
+							this.removeAttribute('stop');
+						else
+							ODPExtension.categoryBrowserQueryMenu(this.parentNode.parentNode, this.value, this);"
+					onkeydown="
+						if(event.keyCode == 27){
+							if(this.value=='')
+								this.parentNode.parentNode.hidePopup();
+							ODPExtension.categoryBrowserQueryMenu(this.parentNode.parentNode, '', this);
+						} else if(event.keyCode == 13) {
+							this.setAttribute('stop', true);
+							ODPExtension.categoryBrowserQueryMenu(this.parentNode.parentNode, this.value, this);
+						}"
+				/>
 			</xul:hbox>
 		</xul:hbox>
-		<children includes="menupopup"/>
-	 	<children/>
+		<children includes="menupopup"/><children/>
 	  </content>
 
 	</binding>

@@ -1,6 +1,0 @@
-#ODPExtension-toolbarbutton-sisters-categories[nocategories="false"] {
-	list-style-image: url("img/sister-categories.png");
-}
-#ODPExtension-toolbarbutton-sisters-categories[nocategories="true"] {
-	list-style-image: url("img/sister-categories-disabled.png");
-}

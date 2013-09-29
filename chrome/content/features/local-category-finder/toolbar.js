@@ -7,6 +7,11 @@
 		}
 	});
 
+	this.addListener('userInterfaceLoad', function(aEnabled) {
+		//setting local category finder to autocomplete based on browser detection
+		ODPExtension.setAutocomplete(ODPExtension.getElement('local-category-finder-textbox'));
+		ODPExtension.setAutocomplete(ODPExtension.getElement('local-category-finder-textbox-where'));
+	});
 	return null;
 
 }).apply(ODPExtension);

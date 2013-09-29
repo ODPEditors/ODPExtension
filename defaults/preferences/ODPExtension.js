@@ -130,10 +130,7 @@
 	pref('extensions.ODPExtension.advanced.urls.rdf', '');
 	pref('extensions.ODPExtension.last.rdf.update', 'Never');
 	pref('extensions.ODPExtension.advanced.urls.domain.explorer', 'http%3A%2F%2Fsiteexplorer.search.yahoo.com%2Fsearch%3Fp%3D%7BSCHEMA%7D%7BWWW_DOMAIN%7D%0Ahttp%3A%2F%2Fwww.bing.com%2Fsearch%3Fq%3Dsite%253A%7BWWW_DOMAIN%7D%0Ahttp%3A%2F%2Fwww.google.com%2Fsearch%3Fsafe%3Doff%26q%3Dsite%253A%7BWWW_DOMAIN%7D');
-	pref('extensions.ODPExtension.advanced.urls.categories.txt', 'http%3A%2F%2Frdf.dmoz.org%2Frdf%2Fcategories.txt');
-	pref('extensions.ODPExtension.locked.advanced.urls.categories.txt.last.update', 'Never');
-
-	pref('extensions.ODPExtension.locked.advanced.local.category.finder.last.selected', 'Arts.txt');
+	pref('extensions.ODPExtension.locked.categories.txt.last.update', 'Never');
 
 	pref('extensions.ODPExtension.single.key.command', false);
 

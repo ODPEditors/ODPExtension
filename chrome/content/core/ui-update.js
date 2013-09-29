@@ -106,13 +106,8 @@
 				this.getElement('context-separator').setAttribute('hidden', true);
 
 			//tools based on categoriesTXT data
-
 			if (this.categoriesTXTExists()) {
 				this.shared.categories.txt.exists = true;
-				this.shared.categories.txt.databases = this.folderListContent('categories.txt/');
-
-				this.categoryFinderMenuListUpdate(this.getElement('local-category-finder-database-list'));
-				this.categoryFinderMenuListUpdate(document.getAnonymousElementByAttribute(this.getElement('category-browser'), "anonid", "ODPExtension-local-category-finder-database-list-xbl"));
 
 				//toolbars
 				this.getElement('toolbar-local-category-finder').setAttribute('hidden', false);
@@ -121,7 +116,6 @@
 				document.getAnonymousElementByAttribute(this.getElement('category-browser'), "anonid", "ODPExtension-category-browser-menulist-data-xbl").setAttribute('hidden', false);
 			} else {
 				this.shared.categories.txt.exists = false;
-				this.shared.categories.txt.databases = [];
 				//toolbars
 				this.getElement('toolbar-local-category-finder').setAttribute('hidden', true);
 				this.getElement('toolbar-category-navigator').setAttribute('hidden', true);

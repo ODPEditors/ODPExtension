@@ -6,7 +6,6 @@
 	<script src="set-focused-location.js" type="application/x-javascript"/>
 	<script src="preferences-load-global.js" type="application/x-javascript"/>
 	<script src="preferences-load-local.js" type="application/x-javascript"/>
-	<script src="ui-load.js" type="application/x-javascript"/>
 	<script src="ui-update.js" type="application/x-javascript"/>
 	<script src="preferences.js" type="application/x-javascript"/>
 </overlay>

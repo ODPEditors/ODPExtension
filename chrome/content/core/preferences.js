@@ -59,9 +59,7 @@
 	this.preferences.strings = [
 		'extension.directory', //DONE
 		'advanced.urls.rdf', //DONE
-		'advanced.urls.categories.txt', //DONE
-		'locked.advanced.urls.categories.txt.last.update', //DONE
-		'locked.advanced.local.category.finder.last.selected', //DONE
+		'locked.categories.txt.last.update', //DONE
 		'last.rdf.update', //DONE
 		'url.tools.urls' //DONE
 	];

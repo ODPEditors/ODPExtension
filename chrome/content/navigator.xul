@@ -32,7 +32,7 @@
 <?xul-overlay href="chrome://ODPExtension/content/features/privacy/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/RDF/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/single-key-command/@xul.xul"?>
-<?xul-overlay href="chrome://ODPExtension/content/features/sister-categories/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/sisters-ancestors-childrens-categories/@xul.xul"?>
 
 <!-- extension core -->
 <?xul-overlay href="chrome://ODPExtension/content/core/@xul.xul"?>

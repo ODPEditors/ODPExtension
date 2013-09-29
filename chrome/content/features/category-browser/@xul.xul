@@ -23,7 +23,8 @@
 		id="ODPExtension-toolbarbutton-category-browser"
 		class="plain urlbar-icon ODPExtension-toolbarbutton"
 		tooltiptext="&ODPExtension.category.browser;"
-		onclick="ODPExtension.fromCategorySelectedCategories = []; ODPExtension.fromCategorySelectedCategory = ''; ODPExtension.fromCategoryAction= '';ODPExtension.getElement('category-browser').hidePopup();ODPExtension.getElement('category-browser').openPopup();"
+		context=""
+		onclick="if(event.button==0){ ODPExtension.fromCategorySelectedCategories = []; ODPExtension.fromCategorySelectedCategory = ''; ODPExtension.fromCategoryAction= '';ODPExtension.getElement('category-browser').hidePopup();ODPExtension.getElement('category-browser').openPopup();}"
 	/>
 
 </hbox>

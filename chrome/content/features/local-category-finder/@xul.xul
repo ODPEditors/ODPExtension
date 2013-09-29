@@ -4,13 +4,8 @@
 
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-<script type="application/x-javascript" src="menulist-update.js"></script>
 <script type="application/x-javascript" src="query.js"></script>
-<script type="application/x-javascript" src="toolbar-toggle.js"></script>
-
-
-
-
+<script type="application/x-javascript" src="toolbar.js"></script>
 
 <toolbox id="navigator-toolbox">
 
@@ -27,34 +22,23 @@
 		>
 			<hbox flex="1">
 				<toolbarbutton class="ODPExtension-description" label="&ODPExtension.local.category.finder;"/>
-				<menulist id="ODPExtension-local-category-finder-database">
-					<menupopup  id="ODPExtension-local-category-finder-database-list">
-						<menuitem locked="true" database="top" style="font-weight:bold;" label="&ODPExtension.local.category.finder.find.top;"/>
-						<menuitem locked="true" database="regional" style="font-weight:bold;" label="&ODPExtension.local.category.finder.find.regional;"/>
-						<menuitem locked="true" database="world" style="font-weight:bold;" label="&ODPExtension.local.category.finder.find.world;"/>
-						<menuitem locked="true" database="all" style="font-weight:bold;" label="&ODPExtension.local.category.finder.find.all;"/>
-						<menuseparator locked="true"/>
-					</menupopup>
-				</menulist>
+				<textbox
+					emptytext="Restrict search to branch.. e.g. World/Español/"
+					value=""
+					flex="1"
+					id="ODPExtension-local-category-finder-textbox-where"
+					onkeypress="ODPExtension.categoryFinderQueryToolbarKeyPress(event)"
+				/>
 				<button
 					label="&ODPExtension.find;"
-					oncommand="ODPExtension.categoryFinderQuery(ODPExtension.getElement('local-category-finder-textbox').value, ODPExtension.getElement('local-category-finder-database').selectedItem.getAttribute('database'));ODPExtension.saveAutocomplete(ODPExtension.getElement('local-category-finder-textbox'))"
+					oncommand="ODPExtension.categoryFinderQueryToolbarGo(event)"
 				/>
 				<textbox
 					emptytext="&ODPExtension.search.ellipsis;"
 					value=""
-					flex="1"
+					flex="3"
 					id="ODPExtension-local-category-finder-textbox"
-					onkeypress="
-							if(event.keyCode == event.DOM_VK_RETURN)
-							{
-								if(!this.popupOpen)
-								{
-									ODPExtension.categoryFinderQuery(ODPExtension.getElement('local-category-finder-textbox').value, ODPExtension.getElement('local-category-finder-database').selectedItem.getAttribute('database'));
-									ODPExtension.saveAutocomplete(ODPExtension.getElement('local-category-finder-textbox'))
-								}
-							}
-					"
+					onkeypress="ODPExtension.categoryFinderQueryToolbarKeyPress(event)"
 				/>
 			</hbox>
 			<toolbarbutton class="ODPExtension-toolbarbutton-close" tooltiptext="&ODPExtension.close;" oncommand="ODPExtension.toolbarClose(this.parentNode);"/>

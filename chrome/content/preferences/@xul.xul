@@ -301,9 +301,8 @@
 
 								<caption label="&ODPExtension.local.category.finder;"/>
 								<hbox flex="1">
-									<textbox flex="1" id="advanced.urls.categories.txt" style="padding:1px;"/>
 									<description value="&ODPExtension.last.update;"/>
-									<description id="locked.advanced.urls.categories.txt.last.update"/>
+									<description id="locked.categories.txt.last.update"/>
 									<button label="&ODPExtension.update.now;" oncommand="ODPExtension.preferencesSave();ODPExtensionOnWindow.categoriesTXTUpdate(true)"/>
 								</hbox>
 

@@ -7,12 +7,8 @@
 
 		var aCategory = item.getAttribute('value');
 
-		//private categories will read private odp urls
-		//public categoires will read public odp urls
-		//will avoid to read public pages if the categories txt database exists
-		//also... if the category is exactly world or regional make a request is much better for the performance of the browser
-		//also bookmarks is not in the categories txt database
-		if (!this.shared.categories.txt.exists || aCategory.indexOf('Test') === 0 || aCategory.indexOf('Bookmarks') === 0 || aCategory === 'World' || aCategory === 'Regional') {
+		//if the categories.txt does not exists, or if it is Test or bookmarks.
+		if (!this.shared.categories.txt.exists || aCategory.indexOf('Test') === 0 || aCategory.indexOf('Bookmarks') === 0) {
 			var Requester = new XMLHttpRequest();
 			Requester.onload = function(aEvent) {
 				if (
@@ -33,13 +29,21 @@
 			Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_BYPASS_CACHE;
 			Requester.send(null);
 		} else {
-			var aResult = this.categoriesTXTQuery('^' + aCategory + '/[^/]+$', null, aCategory);
-
-			if (aResult.count == 0) {
-				item.setAttribute('label', item.getAttribute('label') + '/');
-			} else {
-				ODPExtension.categoryBrowserNavigateBuildSubMenu(item, aResult.categories);
+			//if categories.txt exists, then try it, if the category is not Test or bookmarks.
+			var anArrayResults = []
+			if (this.shared.categories.txt.exists &&  aCategory.indexOf('Test') !== 0 && aCategory.indexOf('Bookmarks') !== 0){
+				var aConnection = this.rdfDatabaseOpen();
+				var query = aConnection.query('select category from categories_txt where parent = (select id from categories_txt where category = :category)');
+					query.params('category', aCategory+'/');
+				var row;
+				for (var i = 0; row = aConnection.fetchObjects(query); i++) {
+					anArrayResults.push(row.category.replace(/\/$/, ''));
+				}
 			}
+			if (anArrayResults.length === 0)
+				item.setAttribute('label', item.getAttribute('label') + '/');
+			 else
+				ODPExtension.categoryBrowserNavigateBuildSubMenu(item, anArrayResults);
 		}
 	}
 

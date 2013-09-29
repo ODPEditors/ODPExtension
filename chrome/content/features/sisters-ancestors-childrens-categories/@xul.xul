@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://ODPExtension/locale/xul.dtd">
+
+<?xml-stylesheet href="@css.css" type="text/css"?>
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/x-javascript" src="ancestors-categories.js"></script>
+<script type="application/x-javascript" src="childs-categories.js"></script>
+<script type="application/x-javascript" src="sisters-categories.js"></script>
+
+<hbox id="urlbar-icons">
+
+	<image
+			id="ODPExtension-toolbarbutton-sisters-categories"
+			tooltiptext="Show categories with same name at the same level in the tree"
+			class="plain urlbar-icon ODPExtension-toolbarbutton"
+			context=""
+			onclick="if(event.button==0)ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+		/>
+
+	<image
+			id="ODPExtension-toolbarbutton-ancestors-categories"
+			tooltiptext="Show all parent categories with the same name"
+			class="plain urlbar-icon ODPExtension-toolbarbutton"
+			context=""
+			onclick="if(event.button==0)ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+		/>
+
+	<image
+			id="ODPExtension-toolbarbutton-childs-categories"
+			tooltiptext="Show all child categories with the same name"
+			class="plain urlbar-icon ODPExtension-toolbarbutton"
+			context=""
+			onclick="if(event.button==0)ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+		/>
+
+</hbox>
+
+<window id="main-window">
+
+	<!-- don't use oncommand in this; will not work over menu tags -->
+	<menupopup
+		id="ODPExtension-toolbarbutton-sisters-categories-menupopup"
+		onpopupshowing="this.removeAttribute('height');ODPExtension.sistersCategoriesMenuUpdate(this, event)"
+		onmouseover="ODPExtension.categoryBrowserNavigate(event);"
+		onmouseout="ODPExtension.categoryBrowserNavigate(event);"
+		onmouseup="ODPExtension.stopEvent(event);ODPExtension.categoryBrowserClick(event)"
+		context="ODPExtension-from-category"
+		class="ODPExtension-category-filter"
+		crop="end"
+		ignorekeys="true"
+	/>
+
+	<menupopup
+		id="ODPExtension-toolbarbutton-ancestors-categories-menupopup"
+		onpopupshowing="this.removeAttribute('height');ODPExtension.ancestorsCategoriesMenuUpdate(this, event)"
+		onmouseover="ODPExtension.categoryBrowserNavigate(event);"
+		onmouseout="ODPExtension.categoryBrowserNavigate(event);"
+		onmouseup="ODPExtension.stopEvent(event);ODPExtension.categoryBrowserClick(event)"
+		context="ODPExtension-from-category"
+		class="ODPExtension-category-filter"
+		crop="end"
+		ignorekeys="true"
+	/>
+
+	<menupopup
+		id="ODPExtension-toolbarbutton-childs-categories-menupopup"
+		onpopupshowing="this.removeAttribute('height');ODPExtension.childCategoriesMenuUpdate(this, event)"
+		onmouseover="ODPExtension.categoryBrowserNavigate(event);"
+		onmouseout="ODPExtension.categoryBrowserNavigate(event);"
+		onmouseup="ODPExtension.stopEvent(event);ODPExtension.categoryBrowserClick(event)"
+		context="ODPExtension-from-category"
+		class="ODPExtension-category-filter"
+		crop="end"
+		ignorekeys="true"
+	/>
+
+</window>
+</overlay>

@@ -7,8 +7,10 @@
 		menu.setAttribute('value', item.getAttribute('value'));
 		menu.setAttribute('done', 'true');
 
+
 		var menupopup = this.create('menupopup');
 		menupopup.setAttribute('ignorekeys', true);
+
 
 		//alphabar menu if any
 		var menuAlphabar = this.create('menu');
@@ -19,6 +21,12 @@
 		var menupopupAlphabar = this.create('menupopup');
 		menupopupAlphabar.setAttribute('ignorekeys', true);
 
+		if(this.categoryIsRTL(item.getAttribute('value'))){
+		   menu.setAttribute('dir', 'rtl');
+		   menupopup.setAttribute('dir', 'rtl');
+		   menupopupAlphabar.setAttribute('dir', 'rtl');
+		}
+
 		var aCategoryLastChildName;
 		//adding the categories
 		for (var id in aCategories) {
@@ -26,7 +34,8 @@
 			var add = this.create("menuitem");
 			add.setAttribute("label", this.categoryAbbreviate(aCategoryLastChildName));
 			add.setAttribute("value", aCategories[id]);
-
+			if(this.categoryIsRTL(aCategories[id]))
+			   add.setAttribute('dir', 'rtl');
 			if (aCategoryLastChildName.length == 1)
 				menupopupAlphabar.appendChild(add);
 			else
@@ -35,7 +44,7 @@
 		//if there is an Alphabar put the alphabar in a submenu
 		if (menupopupAlphabar.childNodes.length > 0) {
 			//but if there is only an alphabar or there is less than 5 elements
-			//not put the alphabar in a submenu
+			//do not put the alphabar in a submenu
 			if (menupopup.childNodes.length === 0 || menupopupAlphabar.childNodes.length < 5) {
 				while (menupopupAlphabar.firstChild) {
 					menupopup.appendChild(menupopupAlphabar.firstChild);
@@ -66,6 +75,8 @@
 				path += aNodes[id] + '/';
 				var add = this.create('menuitem');
 				add.setAttribute('value', path.replace(/\/$/, ''));
+				if(this.categoryIsRTL(path.replace(/\/$/, '')))
+				   add.setAttribute('dir', 'rtl');
 				add.setAttribute('label', this.categoryAbbreviate(path).replace(/\/$/, ''));
 				menupopupParents.appendChild(add);
 			}

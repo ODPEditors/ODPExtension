@@ -38,7 +38,6 @@
 				//this.dump('categoryBrowserQueryMenu:database search ', true);
 				var aCategories = [];
 				var row;
-
 				for (var i = 0; row = this.db.fetchObjects(this.categoryHistoryGetHistory); i++) {
 					if (this.searchEngineSearch(aQuery, row.categories_history_category.replace(/_/g, ' ').replace(/-/g, ' '))) {
 						foundDatabase = true;

@@ -7,8 +7,6 @@
 
 <script type="application/x-javascript" src="toolbar-toggle.js"></script>
 <script type="application/x-javascript" src="toolbar-update.js"></script>
-<script type="application/x-javascript" src="toolbarbutton-ancestors-categories-update.js"></script>
-<script type="application/x-javascript" src="toolbarbutton-childs-categories-update.js"></script>
 <script type="application/x-javascript" src="toolbarbutton-update.js"></script>
 
 <toolbox id="navigator-toolbox">

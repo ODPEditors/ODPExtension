@@ -306,6 +306,21 @@
 		else
 			return false;
 	}
+	//returns true if the category is for a RTL language
+	this.categoryIsRTL = function(aCategory) {
+		if (
+		    aCategory.indexOf('World/Arabic') != -1 ||
+		    aCategory.indexOf('World/Persian') != -1 ||
+		    aCategory.indexOf('World/Hebrew') != -1 ||
+
+		    aCategory.indexOf('International/Arabic') != -1 ||
+		    aCategory.indexOf('International/Persian') != -1 ||
+		    aCategory.indexOf('International/Hebrew') != -1
+		)
+			return true;
+		else
+			return false;
+	}
 	//returns true if the has badly characters, Note: should receive categories
 	this.categoryIsBadEncoded = function(aCategory) {
 		return (aCategory.indexOf('%') != -1);

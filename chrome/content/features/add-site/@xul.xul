@@ -16,7 +16,8 @@
 		id="ODPExtension-toolbarbutton-add-to-open-directory"
 		class="plain urlbar-icon ODPExtension-toolbarbutton"
 		tooltiptext="&ODPExtension.add.site.to.odp;"
-		onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+		context=""
+		onclick="if(event.button==0) ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
 	/>
 
 </hbox>

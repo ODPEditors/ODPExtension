@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<script src="exists.js" type="application/x-javascript"/>
-	<script src="get-database-name-from-category.js" type="application/x-javascript"/>
 	<script src="query.js" type="application/x-javascript"/>
 	<script src="required.js" type="application/x-javascript"/>
-	<script src="update-download.js" type="application/x-javascript"/>
 	<script src="update-process.js" type="application/x-javascript"/>
 	<script src="update.js" type="application/x-javascript"/>
 </overlay>

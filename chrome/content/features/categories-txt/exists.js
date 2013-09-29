@@ -2,7 +2,7 @@
 
 	//returns true if the categories.txt database exists
 	this.categoriesTXTExists = function() {
-		return (this.folderListContent('categories.txt/').length > 2);
+		return this.rdfDatabaseOpen().tableExists('categories_txt');
 	}
 
 	return null;

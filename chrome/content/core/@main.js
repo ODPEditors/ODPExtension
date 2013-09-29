@@ -55,7 +55,8 @@
 		this.preferencesLoadLocal(); //local for every window of this browser instance
 		//UI
 
-		this.userInterfaceLoad(); //loads to memory references to elements and setup some basic UI
+		//loads to memory references to elements and setup some basic UI
+		this.dispatchEvent('userInterfaceLoad', this.preferenceGet('enabled'));
 		this.userInterfaceUpdate(); //updates the interface based on user preferences
 
 		//extension loaded ¡yay! start the listeners! wait the extension maybe is disabled, check the listeners

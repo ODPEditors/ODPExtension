@@ -10,7 +10,7 @@
 									`categories_history` \
 								( \
 									`categories_history_id` INTEGER PRIMARY KEY ASC NOT NULL , \
-									`categories_history_category` VARCHAR UNIQUE  NOT NULL , \
+									`categories_history_category` TEXT UNIQUE  NOT NULL , \
 									`categories_history_date` DATETIME NOT NULL DEFAULT CURRENT_DATE, \
 									`categories_history_hits` INTEGER NOT NULL  DEFAULT 0, \
 									`categories_history_radiation` INTEGER NOT NULL  DEFAULT 0, \

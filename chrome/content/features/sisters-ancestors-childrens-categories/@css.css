@@ -1,0 +1,20 @@
+#ODPExtension-toolbarbutton-sisters-categories {
+	list-style-image: url("img/sisters-categories.png");
+}
+#ODPExtension-toolbarbutton-sisters-categories[disabled] {
+	list-style-image: url("img/sisters-categories-disabled.png");
+}
+
+#ODPExtension-toolbarbutton-ancestors-categories {
+	list-style-image: url("img/ancestors-categories.png");
+}
+#ODPExtension-toolbarbutton-ancestors-categories[disabled] {
+	list-style-image: url("img/ancestors-categories-disabled.png");
+}
+
+#ODPExtension-toolbarbutton-childs-categories {
+	list-style-image: url("img/childs-categories.png");
+}
+#ODPExtension-toolbarbutton-childs-categories[disabled] {
+	list-style-image: url("img/childs-categories-disabled.png");
+}

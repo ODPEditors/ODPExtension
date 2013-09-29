@@ -4,7 +4,7 @@
 	//inserts categories in the category history database, also asigns radiation(points) in an attemp to add some type of nice sorting
 	//here I'm just playing
 	this.categoryHistoryInsert = function(aCategory, aURL, aDate) {
-		if (this.categoryIsBadEncoded(aCategory))
+		if (this.categoryIsBadEncoded(aCategory) || aCategory == '')
 			return;
 		//this.dump('categoryHistoryInsert', debugingThisFile);
 		//this must be improved .. also modified when the new beta dmoz go live

@@ -39,25 +39,28 @@
 			aTemp = this.removeFromTheFirstFolder(aURL);
 			pieces[pieces.length] = aTemp;
 
-			if (this.isVisitedURL(this.getSchema(aURL) + '://www.' + this.getSubdomainFromURL(aURL) + '/'))
-				aTemp = this.getSchema(aURL) + '://www.' + this.getSubdomainFromURL(aURL) + '/';
-			else if (this.isVisitedURL('https://www.' + this.getSubdomainFromURL(aURL) + '/'))
-				aTemp = 'https://www.' + this.getSubdomainFromURL(aURL) + '/';
-			else if (this.isVisitedURL('http://www.' + this.getSubdomainFromURL(aURL) + '/'))
-				aTemp = 'http://www.' + this.getSubdomainFromURL(aURL) + '/';
+			var aSubdomain = this.getSubdomainFromURL(aURL);
+			var aDomain = this.getDomainFromURL(aURL);
+
+			if (this.isVisitedURL(this.getSchema(aURL) + '://www.' + aSubdomain + '/'))
+				aTemp = this.getSchema(aURL) + '://www.' + aSubdomain + '/';
+			else if (this.isVisitedURL('https://www.' + aSubdomain + '/'))
+				aTemp = 'https://www.' + aSubdomain + '/';
+			else if (this.isVisitedURL('http://www.' + aSubdomain + '/'))
+				aTemp = 'http://www.' + aSubdomain + '/';
 			else
-				aTemp = this.getSchema(aURL) + '://' + this.getSubdomainFromURL(aURL) + '/';
+				aTemp = this.getSchema(aURL) + '://' + aSubdomain + '/';
 			pieces[pieces.length] = aTemp;
 
-			if (this.isVisitedURL(this.getSchema(aURL) + '://www.' + this.getDomainFromURL(aURL) + '/'))
-				aTemp = this.getSchema(aURL) + '://www.' + this.getDomainFromURL(aURL) + '/';
-			else if (this.isVisitedURL('https://www.' + this.getDomainFromURL(aURL) + '/'))
-				aTemp = 'https://www.' + this.getDomainFromURL(aURL) + '/';
-			else if (this.isVisitedURL('http://www.' + this.getDomainFromURL(aURL) + '/'))
-				aTemp = 'http://www.' + this.getDomainFromURL(aURL) + '/';
+			if (this.isVisitedURL(this.getSchema(aURL) + '://www.' + aDomain + '/'))
+				aTemp = this.getSchema(aURL) + '://www.' + aDomain + '/';
+			else if (this.isVisitedURL('https://www.' + aDomain + '/'))
+				aTemp = 'https://www.' + aDomain + '/';
+			else if (this.isVisitedURL('http://www.' + aDomain + '/'))
+				aTemp = 'http://www.' + aDomain + '/';
 			//do not suggest to remove the www. from domains that contains it.
-			else if (this.removeWWW(this.getSubdomainFromURL(aURL)) != this.getDomainFromURL(aURL))
-				aTemp = this.getSchema(aURL) + '://' + this.getDomainFromURL(aURL) + '/';
+			else if (this.removeWWW(aSubdomain) != aDomain)
+				aTemp = this.getSchema(aURL) + '://' + aDomain + '/';
 
 			pieces[pieces.length] = aTemp;
 
@@ -73,6 +76,7 @@
 			currentPopup.appendChild(add);
 
 			currentPopup.appendChild(this.create('menuseparator'));
+
 			for (var id in pieces) {
 				if (pieces[id] != aURL) {
 					var add = this.create('menuitem');

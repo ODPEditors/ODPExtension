@@ -83,7 +83,7 @@
 
 	<menupopup
 		id="ODPExtension-toolbarbutton-odp-url-notes-update-menupopup"
-		onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
+		onpopupshowing="ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
 		oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
 		value="update"
 		build="false"
@@ -94,7 +94,7 @@
 	</menupopup>
 	<menupopup
 		id="ODPExtension-toolbarbutton-odp-url-notes-unreview-menupopup"
-		onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
+		onpopupshowing="ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
 		oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
 		value="unreview"
 		build="false"
@@ -105,7 +105,7 @@
 	</menupopup>
 	<menupopup
 		id="ODPExtension-toolbarbutton-odp-url-notes-delete-menupopup"
-		onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
+		onpopupshowing="ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
 		oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
 		value="delete"
 		build="false"
@@ -116,7 +116,7 @@
 	</menupopup>
 	<menupopup
 		id="ODPExtension-toolbarbutton-odp-url-notes-move-publish-menupopup"
-		onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
+		onpopupshowing="ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
 		oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
 		value="move.publish"
 		build="false"
@@ -127,7 +127,7 @@
 	</menupopup>
 	<menupopup
 		id="ODPExtension-toolbarbutton-odp-url-notes-move-unreview-menupopup"
-		onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
+		onpopupshowing="ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
 		oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
 		value="move.unreview"
 		build="false"
@@ -138,7 +138,7 @@
 	</menupopup>
 	<menupopup
 		id="ODPExtension-toolbarbutton-odp-url-notes-copy-publish-menupopup"
-		onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
+		onpopupshowing="ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
 		oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
 		value="copy.publish"
 		build="false"
@@ -150,7 +150,7 @@
 
 	<menupopup
 		id="ODPExtension-toolbarbutton-odp-url-notes-copy-unreview-menupopup"
-		onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
+		onpopupshowing="ODPExtension.odpURLNotesToolbarbuttonsMenuUpdate(this, event)"
 		oncommand="this.hidePopup();ODPExtension.odpURLNotesClick(event)"
 		value="copy.unreview"
 		build="false"
@@ -162,7 +162,7 @@
 
 	<menupopup
 		id="ODPExtension-toolbarbutton-odp-url-notes-notes-menupopup"
-		onpopupshowing="this.removeAttribute('height');ODPExtension.odpURLNotesToolbarbuttonsOptionsUpdate()">
+		onpopupshowing="ODPExtension.odpURLNotesToolbarbuttonsOptionsUpdate()">
 		<menuitem label="&ODPExtension.url.notes.form.reset;" oncommand="ODPExtension.odpURLNotesApply(null, 'reset', '', ODPExtension.documentGetFocused());"/>
 		<menuitem label="&ODPExtension.url.notes.form.next.site;" oncommand="ODPExtension.odpURLNotesApply(null, 'next', '', ODPExtension.documentGetFocused());"/>
 		<menuseparator/>

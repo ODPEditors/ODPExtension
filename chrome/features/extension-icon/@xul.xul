@@ -32,7 +32,7 @@
 			id="ODPExtension-extension-icon-context"
 			position="before_end"
 
-			onpopupshowing="this.removeAttribute('height');"
+			onpopupshowing=""
 			onclick="
 				if(event.originalTarget.hasAttribute('url') &amp;&amp; event.originalTarget.getAttribute('url') != '')
 				{

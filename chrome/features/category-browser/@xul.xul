@@ -35,7 +35,7 @@
 			<menupopup
 				id="ODPExtension-category-browser"
 				onpopuphidden="ODPExtension.categoryBrowserOnPopupHidden(event);"
-				onpopupshowing="this.removeAttribute('height');ODPExtension.categoryBrowserOnPopupShowing(event);"
+				onpopupshowing="ODPExtension.categoryBrowserOnPopupShowing(event);"
 				onmouseover="ODPExtension.categoryBrowserNavigate(event);"
 				onmouseout="ODPExtension.categoryBrowserNavigate(event);"
 				onmouseup="ODPExtension.stopEvent(event);ODPExtension.categoryBrowserClick(event)"

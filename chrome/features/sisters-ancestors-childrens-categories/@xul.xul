@@ -43,7 +43,7 @@
 	<!-- don't use oncommand in this; will not work over menu tags -->
 	<menupopup
 		id="ODPExtension-toolbarbutton-sisters-categories-menupopup"
-		onpopupshowing="this.removeAttribute('height');ODPExtension.sistersCategoriesMenuUpdate(this, event)"
+		onpopupshowing="ODPExtension.sistersCategoriesMenuUpdate(this, event)"
 		onmouseover="ODPExtension.categoryBrowserNavigate(event);"
 		onmouseout="ODPExtension.categoryBrowserNavigate(event);"
 		onmouseup="ODPExtension.stopEvent(event);ODPExtension.categoryBrowserClick(event)"
@@ -55,7 +55,7 @@
 
 	<menupopup
 		id="ODPExtension-toolbarbutton-ancestors-categories-menupopup"
-		onpopupshowing="this.removeAttribute('height');ODPExtension.ancestorsCategoriesMenuUpdate(this, event)"
+		onpopupshowing="ODPExtension.ancestorsCategoriesMenuUpdate(this, event)"
 		onmouseover="ODPExtension.categoryBrowserNavigate(event);"
 		onmouseout="ODPExtension.categoryBrowserNavigate(event);"
 		onmouseup="ODPExtension.stopEvent(event);ODPExtension.categoryBrowserClick(event)"
@@ -67,7 +67,7 @@
 
 	<menupopup
 		id="ODPExtension-toolbarbutton-childs-categories-menupopup"
-		onpopupshowing="this.removeAttribute('height');ODPExtension.childCategoriesMenuUpdate(this, event)"
+		onpopupshowing="ODPExtension.childCategoriesMenuUpdate(this, event)"
 		onmouseover="ODPExtension.categoryBrowserNavigate(event);"
 		onmouseout="ODPExtension.categoryBrowserNavigate(event);"
 		onmouseup="ODPExtension.stopEvent(event);ODPExtension.categoryBrowserClick(event)"

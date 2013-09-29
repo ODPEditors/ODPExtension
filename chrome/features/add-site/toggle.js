@@ -1,4 +1,5 @@
 (function() {
+
 	this.addListener('toolbarsToggle', function(aClosed) {
 		if (aClosed) {
 			ODPExtension.toolbarOpenRemember(ODPExtension.getElement('toolbarbutton-add-to-open-directory'));

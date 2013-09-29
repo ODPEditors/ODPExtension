@@ -1,5 +1,10 @@
 (function() {
 
+	//referrer modification
+	this.addListener('onModifyRequest', function(aSubject) {
+		ODPExtension.privacyRemoveReferrer(aSubject)
+	});
+
 	//sets debuging on/off for this JavaScript file
 
 	var debugingThisFile = true;

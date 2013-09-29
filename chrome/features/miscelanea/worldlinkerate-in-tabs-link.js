@@ -1,5 +1,11 @@
 (function() {
-	// JavaScript Document
+
+	//worldlinkerate in tabs
+	this.addListener('DOMContentLoadedNoFrames', function(aDoc) {
+		ODPExtension.worldlinkerateInTabsLink(aDoc);
+	});
+
+
 	//opens a tab looking at the user preferences
 	this.worldlinkerateInTabsLink = function(aDoc) {
 		var aURL = this.documentGetLocation(aDoc);

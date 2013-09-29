@@ -41,10 +41,7 @@
 			ODPExtension.categoriesTXTUpdate();
 		});
 
-		//referrer modification
-		this.addListener('onModifyRequest', function(aSubject) {
-			ODPExtension.privacyRemoveReferrer(aSubject)
-		});
+
 
 		//informative popup
 		//updates the content when switching tabs
@@ -52,10 +49,7 @@
 			ODPExtension.listingGetInformation(ODPExtension.focusedURL);
 		});
 
-		//worldlinkerate in tabs
-		this.addListener('DOMContentLoadedNoFrames', function(aDoc) {
-			ODPExtension.worldlinkerateInTabsLink(aDoc);
-		});
+
 
 		//odp URL notes
 		//updates show or hide the ODP URL Notes toolbarbuttons

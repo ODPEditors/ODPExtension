@@ -33,8 +33,9 @@
 				onkeydown="if(event.keyCode == 27){ if(this.value=='')this.parentNode.parentNode.hidePopup();}if(event.keyCode == 27 || event.keyCode == 13){ ODPExtension.filterNodeBasedOnAttribute(this.parentNode.parentNode, this, 'value');}"
 			/>
 		</xul:hbox>
-		<children includes="menupopup"/>
-	 	<children/>
+		<xul:arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
+			<children includes="menupopup"/><children/>
+		</xul:arrowscrollbox>
 	  </content>
 
 	</binding>

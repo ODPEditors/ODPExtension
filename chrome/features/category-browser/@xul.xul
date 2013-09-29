@@ -45,11 +45,9 @@
 				crop="end"
 				ignorekeys="true"
 				resultsbelow="ODPExtension-category-browser-categories-search"
-				left="0"
-				top="0"
 			>
 				<menuseparator locked="true"/>
-				<menuitem locked="true" label="&ODPExtension.reset.menu;" onmouseup="ODPExtension.categoryBrowserMenuUpdate();setTimeout(function(){ODPExtension.getElement('category-browser').openPopup();},0);"/>
+				<menuitem locked="true" label="&ODPExtension.reset.menu;" onmouseup="ODPExtension.categoryBrowserMenuUpdate();/*setTimeout(function(){ODPExtension.getElement('category-browser').openPopup();},0);*/"/>
 				<menuseparator locked="true"/>
 				<menu locked="true" protected="true" label="Top">
 					<menupopup>

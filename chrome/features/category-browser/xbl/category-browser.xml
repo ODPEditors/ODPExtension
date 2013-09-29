@@ -4,9 +4,9 @@
 %ODPExtension;
 ]>
 <bindings xmlns="http://www.mozilla.org/xbl"
-          xmlns:html="http://www.w3.org/1999/xhtml"
-          xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-          xmlns:xbl="http://www.mozilla.org/xbl">
+		  xmlns:html="http://www.w3.org/1999/xhtml"
+		  xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+		  xmlns:xbl="http://www.mozilla.org/xbl">
 	<binding
 		id="category-browser"
 		extends="chrome://global/content/bindings/popup.xml#popup"
@@ -64,7 +64,10 @@
 				/>
 			</xul:hbox>
 		</xul:hbox>
-		<children includes="menupopup"/><children/>
+		<xul:arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
+			<children includes="menupopup"/><children/>
+		</xul:arrowscrollbox>
+
 	  </content>
 
 	</binding>

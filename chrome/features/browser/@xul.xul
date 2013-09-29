@@ -2,10 +2,10 @@
 <?xml-stylesheet href="@css.css" type="text/css"?>
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<window id="main-window">
-		<tooltip id="ODPExtension-from-categories-tooltip" noautohide="true" orient="vertical" position="before_end" style="padding:2px;margin:100px;">
+		<tooltip id="ODPExtension-from-categories-tooltip" noautohide="true" orient="vertical" position="before_end" style="padding:2px;margin:50px;">
 			<vbox id="ODPExtension-from-categories-tooltip-data"/>
 		</tooltip>
-		<tooltip id="ODPExtension-from-editors-tooltip" noautohide="true" orient="vertical" position="before_end" style="padding:2px;margin:100px;">
+		<tooltip id="ODPExtension-from-editors-tooltip" noautohide="true" orient="vertical" position="before_end" style="padding:2px;margin:50px;">
 			<vbox id="ODPExtension-from-editors-tooltip-data"/>
 		</tooltip>
 		<tooltip id="ODPExtension-extension-icon-tooltip" noautohide="true" orient="vertical" position="before_end" style="padding:2px;">

@@ -85,6 +85,7 @@
 						<menuitem value="World/Español" label="Español"/>
 						<menuitem value="World/Esperanto" label="Esperanto"/>
 						<menuitem value="World/Français" label="Français"/>
+						<menuitem value="World/Galego" label="Galego"/>
 						<menuitem value="World/Greek" label="Greek"/>
 						<menuitem value="World/Hrvatski" label="Hrvatski"/>
 						<menuitem value="World/Italiano" label="Italiano"/>
@@ -111,12 +112,12 @@
 						<menuseparator/>
 						<menuitem value="World" label="World"/>
 						<menuseparator/>
-						<menuitem value="Adult" label="Adult"/>
-						<menuseparator/>
 						<menuitem value="Test" label="Test"/>
 						<menuitem value="Bookmarks" label="Bookmarks"/>
 						<menuseparator/>
 						<menuitem value="Netscape" label="Netscape"/>
+						<menuseparator/>
+						<menuitem value="Adult" label="Adult"/>
 					</menupopup>
 				</menu>
 				<menu protected="true" locked="true" label="This browsing session categories">

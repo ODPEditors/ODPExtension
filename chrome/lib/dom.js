@@ -132,11 +132,6 @@
 					childNodes[i].setAttribute('hidden', true);
 			}
 		}
-		if (found)
-			aTextbox.removeAttribute('status');
-		else
-			aTextbox.setAttribute('status', '404');
-
 	}
 	//focus an Element, if the tab for the element is hidden will be focused too
 	this.focusElement = function(anElement) {

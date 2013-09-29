@@ -16,7 +16,7 @@
 <hbox id="urlbar-icons">
 	<image
 		id="ODPExtension-extension-icon"
-		class="plain urlbar-icon"
+		class="plain urlbar-icon ODPExtension-toolbarbutton"
 		status="nada"
 		tooltip="ODPExtension-extension-icon-tooltip"
 		onclick="ODPExtension.extensionIconClick(event);"

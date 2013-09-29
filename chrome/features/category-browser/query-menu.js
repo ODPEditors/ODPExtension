@@ -6,7 +6,6 @@
 		//re-showing the elements
 		aQuery = this.trim(aQuery).replace(/_/g, ' ');
 		if (aQuery == '') {
-			aTextbox.removeAttribute('status');
 			for (var i = 0; i < aNode.childNodes.length; i++) {
 				if (aNode.childNodes[i].hasAttribute('anonid'))
 					continue;
@@ -59,9 +58,6 @@
 
 			if (foundChildNodes < 1) {
 				this.notifyTab(this.getString('no.results').replace('{QUERY}', aQuery), 8);
-				aTextbox.setAttribute('status', '404');
-			} else {
-				aTextbox.removeAttribute('status');
 			}
 		}
 	}

@@ -1,83 +1,51 @@
-#ODPExtension-extension-icon,
-#ODPExtension-extension-icon > .button-box,
-#ODPExtension-extension-icon:hover:active > .button-box {
-	padding: 0px !important;
-	margin: 0px !important;
-	border: 0px !important;
-	background-color: transparent !important;
-	-moz-appearance: none !important;
-}
-#ODPExtension-extension-icon > .button-box > .button-menu-dropmarker {
-	display: none;
-}
-#ODPExtension-extension-icon[open="true"],
-#ODPExtension-extension-icon:hover:active {
-}
 #ODPExtension-extension-icon {
-	-moz-appearance: none;
-	-moz-user-focus: none;
-	min-width: 0px;
-	padding: 0 2px !important;
-	background-color: transparent !important;
 	list-style-image: url("img/nada.png");
 }
-/*nada*/
 #ODPExtension-extension-icon[status="nada"] {
 	list-style-image: url("img/nada.png");
 }
 #ODPExtension-extension-icon[status="nada-frameset"] {
 	list-style-image: url("img/nada-frameset.png");
 }
-/*private*/
 #ODPExtension-extension-icon[status="private"] {
 	list-style-image: url("img/nada-private.png");
 }
 #ODPExtension-extension-icon[status="private-frameset"] {
 	list-style-image: url("img/nada-private.png");
 }
-/*disabled*/
 #ODPExtension-extension-icon[status="disabled"] {
 	list-style-image: url("img/disabled.png");
 }
 #ODPExtension-extension-icon[status="disabled-frameset"] {
 	list-style-image: url("img/disabled.png");
 }
-/*error*/
 #ODPExtension-extension-icon[status="error"] {
 	list-style-image: url("img/error.png");
 }
 #ODPExtension-extension-icon[status="error-frameset"] {
 	list-style-image: url("img/error.png");
 }
-/*listed*/
 #ODPExtension-extension-icon[status="listed"] {
 	list-style-image: url("img/listed.png");
 }
 #ODPExtension-extension-icon[status="listed-frameset"] {
 	list-style-image: url("img/listed-frameset.png");
 }
-/*listed domain*/
 #ODPExtension-extension-icon[status="listed-domain-uri"] {
 	list-style-image: url("img/listed-domain-uri.png");
 }
 #ODPExtension-extension-icon[status="listed-domain-uri-frameset"] {
 	list-style-image: url("img/listed-domain-uri-frameset.png");
 }
-/*listed other uri*/
 #ODPExtension-extension-icon[status="listed-other-uri"] {
 	list-style-image: url("img/listed-other-uri.png");
 }
 #ODPExtension-extension-icon[status="listed-other-uri-frameset"] {
 	list-style-image: url("img/listed-other-uri-frameset.png");
 }
-/*loading*/
 #ODPExtension-extension-icon[status="loading"] {
 	list-style-image: url("img/loading.png");
 }
 #ODPExtension-extension-icon[status="loading-frameset"] {
 	list-style-image: url("img/loading.png");
-}
-/* urlbar-icons */
-#urlbar-icons > #ODPExtension-extension-icon {
-	visibility:visible !important;
 }

@@ -18,15 +18,15 @@
 				continue;
 			results++;
 			aData += subCategories[i].categories_path;
-			aData += this.__NEW_LINE__;
+			aData += this.__LINE__;
 			aData += '<pre wrap="true">';
 			aData += this.searchEngineSearchHigh(aQuery, subCategories[i].categories_description);
-			aData += this.__NEW_LINE__;
+			aData += this.__LINE__;
 			aData += '<a href="data:text/html;charset=utf-8,';
 			aData += this.encodeUTF8(subCategories[i].categories_description);
 			aData += '">view as html</a>';
 			aData += '</pre>';
-			aData += this.__NEW_LINE__;
+			aData += this.__LINE__;
 
 		}
 

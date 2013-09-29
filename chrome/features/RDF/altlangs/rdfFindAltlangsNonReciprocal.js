@@ -78,7 +78,7 @@
 
 							item += this.rdfGetCategoryFromCategoryID(altlangsMix[id2]).categories_path;
 							item += '</font>';
-							item += this.__NEW_LINE__;
+							item += this.__LINE__;
 						}
 
 						/*	aData +=	'<form style="float:left;" action="http://www.dmoz.org/editors/editcat/editrelation?cat='+this.encodeUTF8(this.rdfGetCategoryFromCategoryID(altlangsMix[id]).categories_path)+'&type=altlang" method="post" target="_blank">'+
@@ -93,7 +93,7 @@
 											  '<input type="submit" name="submit" value="Update" style="display:none;" id="'+altlangsMix[id]+'"/>'+
 											'</form>';*/
 						aData += '<div id="' + results + '_' + altlangsMix[id] + '" style="display:none" level="1">';
-						aData += this.__NEW_LINE__;
+						aData += this.__LINE__;
 						aData += item;
 						aData += '</div>';
 
@@ -111,7 +111,7 @@
 		}
 		if (results > 0) {
 			aData = aData.replace(/<li>$/, '');
-			aData = '<div><a href="javascript:expand(1)" opened="false">Expand all</a> - <a href="javascript:collapse(1)" opened="true">Collapse all</a>' + this.__NEW_LINE__ + this.__NEW_LINE__ + '</div>' + aData;
+			aData = '<div><a href="javascript:expand(1)" opened="false">Expand all</a> - <a href="javascript:collapse(1)" opened="true">Collapse all</a>' + this.__LINE__ + this.__LINE__ + '</div>' + aData;
 		}
 
 		//sets msg

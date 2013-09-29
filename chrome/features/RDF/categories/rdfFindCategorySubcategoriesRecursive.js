@@ -15,7 +15,7 @@
 		var aData = '';
 		for (var results = 0, i = 0; i < subCategories.length; i++, results++) {
 			aData += subCategories[i].categories_path;
-			aData += this.__NEW_LINE__;
+			aData += this.__LINE__;
 		}
 
 		//sets msg

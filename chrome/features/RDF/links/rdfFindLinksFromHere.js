@@ -39,7 +39,7 @@
 			aData += row.link_name;
 			aData += '<b style="color:green;font-size:16px;">@</b>';
 			aData += row.categories_path;
-			aData += this.__NEW_LINE__;
+			aData += this.__LINE__;
 		}
 		//sets msg
 		aMsg = aMsg.replace('{CATEGORY}', aCategory).replace('{RESULTS}', results);

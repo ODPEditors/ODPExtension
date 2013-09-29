@@ -16,7 +16,7 @@
 		for (var results = 0, i = 0; i < subCategories.length; i++) {
 			if (this.trim(subCategories[i].categories_description) == '') {
 				aData += subCategories[i].categories_path;
-				aData += this.__NEW_LINE__;
+				aData += this.__LINE__;
 				results++;
 			}
 		}

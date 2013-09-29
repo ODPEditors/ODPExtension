@@ -36,7 +36,7 @@
 			aData = '';
 		for (var results = 0; row = this.DBRDF.fetchObjects(query); results++) {
 			aData += row.categories_path;
-			aData += this.__NEW_LINE__;
+			aData += this.__LINE__;
 		}
 
 		//sets msg

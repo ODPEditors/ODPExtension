@@ -19,7 +19,7 @@
 				continue;
 			results++
 			aData += subCategories[i].categories_path;
-			aData += this.__NEW_LINE__;
+			aData += this.__LINE__;
 		}
 
 		//sets msg

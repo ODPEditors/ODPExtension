@@ -41,22 +41,22 @@
 		for (var results = 0; row = this.DBRDF.fetchObjects(query); results++) {
 			aData += '<a onclick="flip(' + row.categories_id + ', this)" opened="false"></a>';
 			aData += row.categories_path;
-			aData += this.__NEW_LINE__;
+			aData += this.__LINE__;
 			aData += '<div id="' + row.categories_id + '" style="display:none" level="1">';
-			aData += this.__NEW_LINE__;
+			aData += this.__LINE__;
 			aData += '<font color="red">';
 			var altlangs = this.rdfGetCategoryAltlangsIDsFromCategoryIDs(row.categories_id);
 			for (var id in altlangs) {
 				aData += '\t';
 				aData += this.rdfGetCategoryFromCategoryID(altlangs[id]).categories_path;
-				aData += this.__NEW_LINE__;
+				aData += this.__LINE__;
 			}
 			aData += '</font>';
-			aData += this.__NEW_LINE__;
+			aData += this.__LINE__;
 			aData += '</div>';
 		}
 		if (results > 0) {
-			aData = '<div><a href="javascript:expand(1)" opened="false">Expand all</a> - <a href="javascript:collapse(1)" opened="true">Collapse all</a>' + this.__NEW_LINE__ + this.__NEW_LINE__ + '</div>' + aData;
+			aData = '<div><a href="javascript:expand(1)" opened="false">Expand all</a> - <a href="javascript:collapse(1)" opened="true">Collapse all</a>' + this.__LINE__ + this.__LINE__ + '</div>' + aData;
 		}
 
 		//sets msg

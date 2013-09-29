@@ -17,15 +17,15 @@
 
 			var aData = '';
 			aData += aCategory.categories_path;
-			aData += this.__NEW_LINE__;
+			aData += this.__LINE__;
 			aData += '<pre wrap="true">';
 			aData += this.htmlSpecialCharsEncode(aCategory.categories_description);
-			aData += this.__NEW_LINE__;
+			aData += this.__LINE__;
 			aData += '<a href="data:text/html;charset=utf-8,';
 			aData += this.encodeUTF8(aCategory.categories_description);
 			aData += '">view as html</a>';
 			aData += '</pre>';
-			aData += this.__NEW_LINE__;
+			aData += this.__LINE__;
 		}
 		//sets msg
 		aMsg = aMsg.replace('{CATEGORY}', aCategory.categories_path).replace('{RESULTS}', results);

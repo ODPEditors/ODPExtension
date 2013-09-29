@@ -45,14 +45,14 @@
 			if (last != tmp) {
 				results++
 				last = tmp;
-				aData += this.__NEW_LINE__;
+				aData += this.__LINE__;
 				aData += this.rdfGetCategoryFromCategoryID(last).categories_path;
-				aData += this.__NEW_LINE__;
-				aData += this.__NEW_LINE__;
+				aData += this.__LINE__;
+				aData += this.__LINE__;
 			}
 			aData += '\t';
 			aData += row.categories_path;
-			aData += this.__NEW_LINE__;
+			aData += this.__LINE__;
 		}
 
 		//sets msg

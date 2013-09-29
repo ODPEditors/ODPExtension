@@ -40,18 +40,18 @@
 			if (last != tmp) {
 				results++
 				last = tmp;
-				aData += this.__NEW_LINE__;
+				aData += this.__LINE__;
 				aData += '<a href="';
 				aData += this.editorGetURLPublic(row.editor_editor);
 				aData += '">';
 				aData += row.editor_editor;
 				aData += '</a>';
-				aData += this.__NEW_LINE__;
-				aData += this.__NEW_LINE__;
+				aData += this.__LINE__;
+				aData += this.__LINE__;
 			}
 			aData += '\t';
 			aData += this.rdfGetCategoryFromCategoryID(row.categories_id).categories_path;
-			aData += this.__NEW_LINE__;
+			aData += this.__LINE__;
 		}
 
 		//sets msg

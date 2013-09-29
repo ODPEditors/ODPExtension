@@ -32,7 +32,7 @@
 				continue;
 			aData += subCategories[i].categories_path;
 			aData += '<input type="text"  spellcheck="true" value="' + this.htmlSpecialCharsEncode(this.trim(spell)) + '"/>';
-			aData += this.__NEW_LINE__;
+			aData += this.__LINE__;
 		}
 
 		//sets msg

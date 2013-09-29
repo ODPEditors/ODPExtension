@@ -27,6 +27,7 @@ var ODPExtension = {};
 		this.__NEW_LINE__ = '\n';
 		this.__DIRECTORY_SEPARATOR__ = '/';
 	}
+	this.__LINE__ = '\n';
 
 	/*this function local variables*/
 	var debugingThisFile = false; //sets debuging on/off for this JavaScript file

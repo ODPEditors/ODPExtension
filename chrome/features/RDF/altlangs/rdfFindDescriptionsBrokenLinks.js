@@ -54,15 +54,15 @@
 						}
 						aData[subtop].count++;
 						aData[subtop].str += '[<a href="http://www.dmoz.org/editors/editcat/desc?cat=' + this.encodeUTF8(row.categories_path) + '">edit</a>] ' + row.categories_path;
-						aData[subtop].str += this.__NEW_LINE__;
-						aData[subtop].str += this.__NEW_LINE__;
+						aData[subtop].str += this.__LINE__;
+						aData[subtop].str += this.__LINE__;
 					}
 					aData[subtop].str += "\t" + this.htmlSpecialCharsEncode(links[id].getAttribute('href'));
-					aData[subtop].str += this.__NEW_LINE__;
+					aData[subtop].str += this.__LINE__;
 				}
 			}
 			if (found)
-				aData[subtop].str += this.__NEW_LINE__;
+				aData[subtop].str += this.__LINE__;
 			//aData += row.categories_description;
 		}
 

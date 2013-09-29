@@ -641,35 +641,16 @@
 			//add three pixels is for when the user clicked multiples time like triple click to select a line of text
 			//maybe the user clciked more than 3 times and that will active the first action of the menu
 			//this popup should be nice, not evil!
-			/*
-							code before the new XBL
-							try
-							{
-								this.getElement('from-category').openPopupAtScreen(aEvent.screenX+25, aEvent.screenY-40, false);
-							}
-							catch(e)
-							{
-								this.getBrowserElement('main-window').appendChild(this.getElement('from-category'));
-								try
-								{
-									this.getElement('from-category').openPopupAtScreen(aEvent.screenX+25, aEvent.screenY-40, false);
-								}
-								catch(e)// try again!!
-								{
-									this.getBrowserElement('main-window').appendChild(this.getElement('from-category'));
-									try
-									{*/
-			this.getElement('from-category').openPopupAtScreen(aEvent.screenX + 25, aEvent.screenY - 40, false);
+			if(this.contentAreaContextMenu().state != 'open' || aEvent.type == 'dblclick'){
+				setTimeout(function(){
+					ODPExtension.contentAreaContextMenu().hidePopup();
+					ODPExtension.getElement('from-category').openPopupAtScreen(aEvent.screenX + 25, aEvent.screenY - 40, false);
+				}, 0);
+
+			}
 			//when the popups open, listen key press so the popup is hidden
 			window.addEventListener('keypress', ODPExtension.fromCategoryCloseMenu, false);
-			//	}, 2000);
-			/*}
-									catch(e)
-									{
-										// OK!
-									}
-								}
-							}*/
+
 		}
 		this.fromCategoryUpdating = false;
 	}

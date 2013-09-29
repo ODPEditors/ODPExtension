@@ -139,6 +139,7 @@
 		this.addListener('contextMenuShowing', function(event) {
 			// this will update the label of the "from category" menu on context menu
 			ODPExtension.fromCategoryUpdateMenu(event, 'context-from-category');
+			ODPExtension.getElement('from-category').hidePopup();
 		});
 		//in tabs
 		this.addListener('tabContextMenuShowing', function(event) {

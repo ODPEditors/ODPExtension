@@ -4,18 +4,11 @@
 	this.fromCategoryHideContextMenus = function() {
 		try {
 			//hidding context
-			if (gContextMenu)
-				gContextMenu.shouldDisplay = false;
+		//	if (gContextMenu)
+		//		gContextMenu.shouldDisplay = false;
 
-			/*
-						var aEvent = {};
-							aEvent.target =  this.contentAreaContextMenu();
-
-						var fn = new Function("event", this.contentAreaContextMenu().getAttribute("onpopuphiding"));
-						fn.call(this.contentAreaContextMenu(), aEvent);
-*/
-			this.contentAreaContextMenu().hidePopup();
-			this.contentAreaContextMenu().setAttribute('hidden', true);
+		//	this.contentAreaContextMenu().hidePopup();
+		//	this.contentAreaContextMenu().setAttribute('hidden', true);
 		} catch (e) {
 
 		}
@@ -36,7 +29,7 @@
 			if (ODPExtension.getBrowserElement('multipletab-selection-menu'))
 				ODPExtension.getBrowserElement('multipletab-selection-menu').setAttribute('hidden', false);
 
-		}, 200);
+		}, 0);
 	}
 
 	return null;

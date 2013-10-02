@@ -1,6 +1,10 @@
 (function() {
 	var debugingThisFile = false; //sets debuging on/off for this JavaScript file
 
+	this.addListener('onIdle', function() {
+		ODPExtension.db.vacuum();
+	});
+
 	this.categoryHistoryStatements = function() {
 		this.insertCategoryHistory = this.db.query('INSERT INTO `categories_history` ( `categories_history_category` ) VALUES (:categories_history_category) ');
 		this.deleteCategoryHistory = this.db.query('DELETE FROM `categories_history` WHERE `categories_history_category` = :categories_history_category');

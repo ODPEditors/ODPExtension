@@ -3,6 +3,12 @@
 
 	var debugingThisFile = true;
 
+	//informative popup
+	//updates the content when switching tabs
+	this.addListener('onLocationChange', function() {
+		ODPExtension.listingGetInformation(ODPExtension.focusedURL);
+	});
+
 	this.listingGetInformation = function(aLocation, aClick) {
 		if (this.preferenceGet('privacy.listing.method.none') || !this.preferenceGet('enabled')) //listing check disabled
 		{

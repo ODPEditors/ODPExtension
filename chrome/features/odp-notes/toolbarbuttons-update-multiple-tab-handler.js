@@ -4,6 +4,18 @@
 
 	var debugingThisFile = true;
 
+	this.addListener('userInterfaceLoad', function() {
+		//Apply note to selected sites //in multiple tab handler
+		if (ODPExtension.getBrowserElement('multipletab-selection-menu')) {
+			ODPExtension.getBrowserElement('multipletab-selection-menu').addEventListener("popupshowing", function(event) {
+				if (event.originalTarget == event.currentTarget) {
+					// this will cache the documents selected with MTH to next apply a ODP Note
+					ODPExtension.odpURLNotesToolbarbuttonsUpdateMultipleTabHandler(event);
+				}
+			}, false);
+		}
+	});
+
 	//sets "Apply URL notes to selected tabs" When using mutiple tab handler
 
 	this.odpURLNotesToolbarbuttonsUpdateMultipleTabHandler = function(aEvent) {

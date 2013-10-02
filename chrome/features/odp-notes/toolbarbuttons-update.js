@@ -4,6 +4,11 @@
 
 	var debugingThisFile = true;
 
+	//updates show or hide the ODP URL Notes toolbarbuttons
+	this.addListener('onLocationChange', function() {
+		ODPExtension.odpURLNotesToolbarbuttonsUpdate(ODPExtension.focusedSubdomain);
+	});
+
 	//hides or shows the toolbatbuttons (update,unreview,delete,options) when the user hits the edit url form
 
 	this.odpURLNotesToolbarbuttonsUpdate = function(aSubdomain) {

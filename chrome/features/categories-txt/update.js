@@ -1,5 +1,9 @@
 (function() {
 
+	this.addListener('onIdle', function() {
+		ODPExtension.categoriesTXTUpdate();
+	});
+
 	//handle the update of the categories.txt database if needed
 	this.categoriesTXTUpdate = function(forceUpdate) {
 		//lock this function, this will avoid problems with the unintentional "double click" on the update button

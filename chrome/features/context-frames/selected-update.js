@@ -4,6 +4,11 @@
 
 	var debugingThisFile = true;
 
+	this.addListener('contextMenuShowing', function(event) {
+		if (ODPExtension.preferenceGet('ui.context.menu.frame.selected'))
+			ODPExtension.frameSelectedUpdate();
+	});
+
 	//updates the selected frame menuitem by looking in the "clicked" frame
 
 	this.frameSelectedUpdate = function() {

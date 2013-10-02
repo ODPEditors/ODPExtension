@@ -1,4 +1,11 @@
 (function() {
+
+	this.addListener('userInterfaceLoad', function() {
+		/*informative panel*/
+		ODPExtension.getElement('panel-header').addEventListener('DOMMouseScroll', ODPExtension.panelInformativeSwitchSelectedSite, false);
+		ODPExtension.getElement('panel-related').addEventListener('DOMMouseScroll', ODPExtension.panelInformativeSwitchSelectedRelated, false);
+	});
+
 	//switch the selected site, categories, titles and urls by moving the mouse wheel
 
 	this.panelInformativeRelatedWriteSelectedSite = function(aSelected) {

@@ -4,6 +4,17 @@
 
 	var debugingThisFile = true;
 
+	//show or hide the formater context menu
+	this.addListener('contextMenuShowing', function() {
+		ODPExtension.editingFormURLMenuUpdate(ODPExtension.focusedSubdomain);
+	});
+
+	//updates show or hide the formater context menu when switching tabs (if the context menu is opened)
+	this.addListener('onLocationChange', function() {
+		if (ODPExtension.contentAreaContextMenu().state == 'open')
+			ODPExtension.editingFormURLMenuUpdate(ODPExtension.focusedSubdomain);
+	});
+
 	//hides or shows the "formater" content menu if the focused domain is editors.dmoz.org and if the "edit URL" form exists
 
 	this.editingFormURLMenuUpdate = function(aSubdomain) {

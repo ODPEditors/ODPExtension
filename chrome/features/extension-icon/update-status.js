@@ -1,5 +1,10 @@
 (function() {
 
+	//updates the icon of the extension
+	this.addListener('onLocationChange', function() {
+		ODPExtension.extensionIconUpdateStatus();
+	});
+
 	//update the status of the icon
 
 	this.extensionIconUpdateStatus = function() {

@@ -1,4 +1,61 @@
 (function() {
+
+	this.addListener('userInterfaceLoad', function(){
+		//from category menu
+		//opens the "from" category menu on page rigth dblclick
+		ODPExtension.getBrowserElement("content").addEventListener("dblclick", function(event) {
+			if (event.button == 2) {
+				ODPExtension.fromCategoryUpdateMenu(event, 'from-category')
+			}
+		}, false);
+		//the set timeout is there to avoid multiples clicks
+		ODPExtension.getBrowserElement("content").addEventListener("mouseup", function(event) {
+			if (event.button == 0) {
+				clearTimeout(ODPExtension.fromCategoryTimeout);
+				ODPExtension.fromCategoryTimeout = setTimeout(function() {
+					ODPExtension.fromCategoryUpdateMenu(event, 'from-category');
+				}, 200);
+			} else if (event.button == 2 && ODPExtension.tagName(event.originalTarget) == 'select') {
+				setTimeout(function() {
+					ODPExtension.fromCategoryUpdateMenu(event, 'from-category');
+				}, 50);
+			}
+		}, false);
+	});
+
+	//in content area context menu
+	this.addListener('contextMenuShowing', function(event) {
+		// this will update the label of the "from category" menu on context menu
+		ODPExtension.fromCategoryUpdateMenu(event, 'context-from-category');
+		ODPExtension.getElement('from-category').hidePopup();
+	});
+	//in tabs
+	this.addListener('tabContextMenuShowing', function(event) {
+		// this will update the label of the "from category" menu on context menu
+		ODPExtension.fromCategoryUpdateMenu(event, 'tab-context-from-category');
+	});
+
+	this.addListener('userInterfaceLoad', function(){
+		//in multiple tab handler
+		if (ODPExtension.getBrowserElement('multipletab-selection-menu')) {
+			ODPExtension.getBrowserElement('multipletab-selection-menu').addEventListener("popupshowing", function(event) {
+				if (event.originalTarget == event.currentTarget) {
+					// this will update the label of the "from category" menu on context menu
+					ODPExtension.fromCategoryUpdateMenu(event, 'tab-context-multiple-from-category');
+				}
+			}, false);
+		}
+		//in extension icon
+		ODPExtension.getElement('extension-icon-context').addEventListener("popupshowing", function(event) {
+			if (event.originalTarget == event.currentTarget) {
+				// this will update the label of the "from category" menu on context menu
+				ODPExtension.fromCategoryUpdateMenu(event, 'extension-icon-from-category');
+			}
+		}, false);
+	});
+
+
+
 	//this is to complex to follow
 	//1 - check changes on the UI of the from category menu
 	//		if there is a textbox should show copy, delete and paste if apropiated
@@ -113,7 +170,7 @@
 		} else
 			var aCategoryPopup = '';
 
-		//check a SELECT with a category value - firefox 3.6 will not show up the context menu, then my context menu will not so disturbing!
+		//check a SELECT with a category value - firefox 3.6 will not show up the context menu, then my context menu will not be so disturbing!
 		if (this.tagName(aEvent.originalTarget) == 'select') {
 			var aCategorySelectHTML = this.categoryGetFromURL(this.trim(aEvent.originalTarget.options[aEvent.originalTarget.selectedIndex].value));
 			if (aCategorySelectHTML == '')
@@ -126,6 +183,8 @@
 			var aCategoryTabContextMenu = this.categoryGetFromURL(this.tabContextMenuLocation());
 		else
 			var aCategoryTabContextMenu = '';
+
+		//this.dump(aCategoryTabContextMenu);
 
 		//check link with category attribute
 		//this.dump(fromWhere);
@@ -482,7 +541,6 @@
 
 		//tab context menu
 		else if (fromWhere == 'tab-context-from-category') {
-			//this.dump('tab :'+aEvent.type);
 
 			this.fromCategoryClickType = 'single';
 

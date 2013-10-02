@@ -85,11 +85,6 @@
 						</groupbox>
 
 						<groupbox>
-							<caption label="&ODPExtension.forum.pages;"/>
-								<checkbox label="&ODPExtension.forum.pages.custom.nicknames;" id="ui.forum.pages.custom.nicknames"/>
-						</groupbox>
-
-						<groupbox>
 
 							<caption label="&ODPExtension.miscellaneous;"/>
 

@@ -22,7 +22,6 @@
 <?xul-overlay href="chrome://ODPExtension/content/features/context-url-tools/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/context-word-reference/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/editing-url/@xul.xul"?>
-<?xul-overlay href="chrome://ODPExtension/content/features/editor-forums/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/extension-icon/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/from-menus/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/informative-panel/@xul.xul"?>

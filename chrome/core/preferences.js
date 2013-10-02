@@ -87,7 +87,6 @@
 		'enabled',
 		'last.enabled',
 		'toolbars.toggle',
-		'single.key.command',
 
 		//privacy - DONE
 		'privacy.no.referrer',

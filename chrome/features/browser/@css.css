@@ -6,6 +6,10 @@
 	border-color: transparent !important;
 	-moz-appearance: none;
 }
+.ODPExtension-description:active {
+	padding: inherit;
+	margin: inherit;
+}
 .ODPExtension-toolbarbutton {
 	padding-left: 2px;
 	padding-right: 2px;
@@ -18,26 +22,23 @@
 	display: none !important;
 }
 /* crop very large/short menuitems. ( not so large and not so short) */
-.ODPExtension-crop {
+.ODPExtension-crop,
+.ODPExtension-crop > menuitem ,
+.ODPExtension-crop > menuitem > menupopup ,
+.ODPExtension-crop > menuitem > menupopup > menuitem ,
+.ODPExtension-crop > menu ,
+.ODPExtension-crop > menu > menupopup ,
+.ODPExtension-crop > menu > menupopup > menuitem ,
+.ODPExtension-crop > menupopup ,
+.ODPExtension-crop > menupopup > menuitem {
 	max-width: 100%;
 }
-.ODPExtension-crop > menuitem {
-	max-width: 100%;
-}
-.ODPExtension-crop > menuitem > menupopup {
-	max-width: 100%;
-}
-.ODPExtension-crop > menuitem > menupopup > menuitem {
-	max-width: 100%;
-}
-.ODPExtension-crop > menu {
-	max-width: 100%;
-}
-.ODPExtension-crop > menu > menupopup {
-	max-width: 100%;
-}
-.ODPExtension-crop > menu > menupopup > menuitem {
-	max-width: 100%;
+
+menu[direction="rtl"],
+menuitem[direction="rtl"],
+menupopup[direction="rtl"]{
+	direction: rtl;
+	unicode-bidi:embed;
 }
 /*close button */
 .ODPExtension-toolbarbutton-close {

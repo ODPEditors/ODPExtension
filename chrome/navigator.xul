@@ -3,6 +3,9 @@
 <!-- browser core -->
 <?xul-overlay href="chrome://ODPExtension/content/core/browser/@xul.xul"?>
 
+<!-- extension core -->
+<?xul-overlay href="chrome://ODPExtension/content/core/@xul.xul"?>
+
 <!-- lib -->
 <?xul-overlay href="chrome://ODPExtension/content/lib/@xul.xul"?>
 
@@ -31,9 +34,6 @@
 <?xul-overlay href="chrome://ODPExtension/content/features/privacy/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/RDF/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/sisters-ancestors-childrens-categories/@xul.xul"?>
-
-<!-- extension core -->
-<?xul-overlay href="chrome://ODPExtension/content/core/@xul.xul"?>
 
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 

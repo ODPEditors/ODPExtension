@@ -2,7 +2,7 @@
 
 	//sets debuging on/off for this JavaScript file
 
-	var debugingThisFile = false; //sets debuging on/off for this JavaScript file
+	var debugingThisFile = true; //sets debuging on/off for this JavaScript file
 
 	//Extension initialization
 	//when the browser load...
@@ -13,19 +13,20 @@
 		ODPExtension.ODPExtension()
 	});
 
-	//a new browser was instantiaded ( not window, many window can be from the same profile or browser instance)
+	//a new browser was instantiaded ( not window, many windows can be from the same profile or browser instance)
 	this.browserInstantiated = function() {
-		// this.dump('browserInstantiated', debugingThisFile);
+		this.dump('browserInstantiated', debugingThisFile);
 
 		//db initialization
 		this.db = this.databaseGet('ODPExtension');
+
 		//tables creation if these no exists
 		this.categoryHistoryCreateTable();
 	}
 
 	//a new window has been created, this will be executed only one time per window
 	this.ODPExtension = function() {
-		//this.dump('ODPExtension', debugingThisFile);
+		this.dump('ODPExtension', debugingThisFile);
 
 		//db
 		this.db = this.databaseGet('ODPExtension');

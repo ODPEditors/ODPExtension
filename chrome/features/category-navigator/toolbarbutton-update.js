@@ -5,7 +5,7 @@
 	//this is useful to update the content of the toolbars when these are shown
 	//but still can't update the content if the user open the toolbar from other menuitem like View -> Toolbar -> My toolbar. arr!!! toolbar collapse event?
 
-	this.addListener('userInterfaceLoad', function(){
+	this.addListener('userInterfaceLoad', function(aEnabled){
 		if (ODPExtension.getBrowserElement('toolbar-context-menu')){
 			ODPExtension.getBrowserElement('toolbar-context-menu').addEventListener('popuphidden', function() {
 				ODPExtension.categoryNavigatorToolbarUpdate(ODPExtension.categoryGetFocused())

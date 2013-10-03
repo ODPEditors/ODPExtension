@@ -4,7 +4,7 @@
 		var debugingThisFile = false; //sets debuging on/off for this JavaScript file
 		var aButton;
 
-		this.addListener('userInterfaceLoad', function() {
+		this.addListener('userInterfaceLoad', function(aEnabled) {
 			ODPExtension.childCategoriesOnUserInterfaceLoad()
 		});
 		this.addListener('userInterfaceUpdate', function(aEnabled) {

@@ -1,6 +1,6 @@
 (function() {
 
-	this.addListener('userInterfaceLoad', function(){
+	this.addListener('userInterfaceLoad', function(aEnabled){
 		//from category menu
 		//opens the "from" category menu on page rigth dblclick
 		ODPExtension.getBrowserElement("content").addEventListener("dblclick", function(event) {
@@ -35,7 +35,7 @@
 		ODPExtension.fromCategoryUpdateMenu(event, 'tab-context-from-category');
 	});
 
-	this.addListener('userInterfaceLoad', function(){
+	this.addListener('userInterfaceLoad', function(aEnabled){
 		//in multiple tab handler
 		if (ODPExtension.getBrowserElement('multipletab-selection-menu')) {
 			ODPExtension.getBrowserElement('multipletab-selection-menu').addEventListener("popupshowing", function(event) {

@@ -16,6 +16,8 @@
 
 		//head of temporal files
 		this.fileCreateTemporalHead = '<link rel="stylesheet" type="text/css" href="chrome://ODPExtension/content/html/@css.css"/>';
+
+		this.dispatchEvent('preferencesLoadLocal');
 	}
 
 	return null;

@@ -236,9 +236,9 @@
 		ODPExtension.notifyFocused('preferencesLoadGlobal');
 
 		//dispatch to all the windows (local)
-		ODPExtension.notifyInstances('preferencesLoadLocal');
-		ODPExtension.notifyInstances('dispatchOnLocationChange', true);
-		ODPExtension.notifyInstances('userInterfaceUpdate');
+		ODPExtension.dispatchGlobalEvent('preferencesLoadLocal');
+		ODPExtension.dispatchGlobalEvent('onLocationChange', true);
+		ODPExtension.dispatchGlobalEvent('userInterfaceUpdate', ODPExtension.preferenceGet('enabled'))
 	});
 
 	//called when the preferences were saved to the shared object "pref" and to setBoolPref, setIntPref..
@@ -248,9 +248,9 @@
 		ODPExtension.notifyFocused('preferencesLoadGlobal');
 
 		//dispatch to all the windows (local)
-		ODPExtension.notifyInstances('preferencesLoadLocal');
-		ODPExtension.notifyInstances('dispatchOnLocationChange', true);
-		ODPExtension.notifyInstances('userInterfaceUpdate');
+		ODPExtension.dispatchGlobalEvent('preferencesLoadLocal');
+		ODPExtension.dispatchGlobalEvent('onLocationChange', true);
+		ODPExtension.dispatchGlobalEvent('userInterfaceUpdate', ODPExtension.preferenceGet('enabled'))
 	});
 
 	//called when the preferences observer notices a change in a preference, usually by about:config modification
@@ -260,9 +260,9 @@
 		ODPExtension.notifyFocused('preferencesLoadGlobal');
 
 		//dispatch to all the windows (local)
-		ODPExtension.notifyInstances('preferencesLoadLocal');
-		ODPExtension.notifyInstances('dispatchOnLocationChange', true);
-		ODPExtension.notifyInstances('userInterfaceUpdate');
+		ODPExtension.dispatchGlobalEvent('preferencesLoadLocal');
+		ODPExtension.dispatchGlobalEvent('onLocationChange', true);
+		ODPExtension.dispatchGlobalEvent('userInterfaceUpdate', ODPExtension.preferenceGet('enabled'))
 
 		if (aName == 'enabled')
 			ODPExtension.notifyInstances('checkListeners');
@@ -274,9 +274,9 @@
 		ODPExtension.notifyFocused('preferencesLoadGlobal');
 
 		//dispatch to all the windows (local)
-		ODPExtension.notifyInstances('preferencesLoadLocal');
-		ODPExtension.notifyInstances('dispatchOnLocationChange', true);
-		ODPExtension.notifyInstances('userInterfaceUpdate');
+		ODPExtension.dispatchGlobalEvent('preferencesLoadLocal');
+		ODPExtension.dispatchGlobalEvent('onLocationChange', true);
+		ODPExtension.dispatchGlobalEvent('userInterfaceUpdate', ODPExtension.preferenceGet('enabled'))
 	});
 
 	return null;

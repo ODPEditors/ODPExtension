@@ -151,7 +151,7 @@
 				ODPExtension.gc();
 
 				ODPExtension.notifyFocused('preferencesLoadGlobal');
-				ODPExtension.notifyInstances('userInterfaceUpdate');
+				ODPExtension.dispatchGlobalEvent('userInterfaceUpdate', ODPExtension.preferenceGet('enabled'))
 			}
 		}
 

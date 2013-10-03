@@ -31,12 +31,14 @@
 	var preferencesManagerComponent = Components.classes['@particle.universe.tito/PreferencesManager;7']
 		.getService().wrappedJSObject;
 
+	//this is the very first listener called by the extension
 	this.addListener('browserInstantiated', function() {
 		ODPExtension.preferencesInit()
-	}); //this is the very first listener called by the extension
+	});
+	//this is the second listener called by the extension
 	this.addListener('browserLoad', function() {
 		ODPExtension.preferencesBrowserLoad()
-	}); //this is the second listener called by the extension
+	});
 
 	//called just when a new instance of firefox is created (no window, many windows can be from one instance)
 	this.preferencesInit = function() {

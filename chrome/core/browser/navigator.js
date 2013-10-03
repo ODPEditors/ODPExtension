@@ -30,7 +30,7 @@ var ODPExtension = {};
 	this.__LINE__ = '\n';
 
 	/*this function local variables*/
-	var debugingThisFile = false; //sets debuging on/off for this JavaScript file
+	var debugingThisFile = true; //sets debuging on/off for this JavaScript file
 	//console
 	var consoleService = Components.classes["@mozilla.org/consoleservice;1"].
 	getService(Components.interfaces.nsIConsoleService);
@@ -234,12 +234,13 @@ var ODPExtension = {};
 	};
 	//this is just cool. dispatch an event of this 'core'
 	this.dispatchEvent = function() {
-		this.dump('dispatchEvent', debugingThisFile);
+		//this.dump('dispatchEvent:'+arguments[0], debugingThisFile);
 
 		var aListener = arguments[0];
 		if (listeners[aListener]) {
 			for (var id in listeners[aListener]) {
-				this.dump('dispatchEvent:' + aListener + ':' + listeners[aListener][id], debugingThisFile);
+				if(aListener != 'onModifyRequest')//spams the console
+					this.dump('dispatchEvent:' + aListener + ':' + listeners[aListener][id], debugingThisFile);
 
 				//I never use too many arguments
 				listeners[aListener][id](
@@ -251,7 +252,7 @@ var ODPExtension = {};
 
 	//this is just cool. dispatch an event of this 'core'
 	this.dispatchGlobalEvent = function() {
-		this.dump('dispatchGlobalEvent', debugingThisFile);
+		this.dump('dispatchGlobalEvent:'+arguments[0], debugingThisFile);
 
 		var aListener = arguments[0];
 		var windows = this.windowsGet();

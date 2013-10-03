@@ -4,7 +4,7 @@
 
 	var debugingThisFile = true;
 
-	this.addListener('userInterfaceLoad', function() {
+	this.addListener('userInterfaceLoad', function(aEnabled) {
 		//Apply note to selected sites //in multiple tab handler
 		if (ODPExtension.getBrowserElement('multipletab-selection-menu')) {
 			ODPExtension.getBrowserElement('multipletab-selection-menu').addEventListener("popupshowing", function(event) {

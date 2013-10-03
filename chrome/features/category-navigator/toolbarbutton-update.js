@@ -11,7 +11,7 @@
 				ODPExtension.categoryNavigatorToolbarUpdate(ODPExtension.categoryGetFocused())
 			}, false);
 		}
-	}
+	});
 
 
 	//finds all the subcategories and the categories at the same level "sisters"

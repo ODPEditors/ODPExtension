@@ -132,8 +132,6 @@
 	pref('extensions.ODPExtension.advanced.urls.domain.explorer', 'http%3A%2F%2Fsiteexplorer.search.yahoo.com%2Fsearch%3Fp%3D%7BSCHEMA%7D%7BWWW_DOMAIN%7D%0Ahttp%3A%2F%2Fwww.bing.com%2Fsearch%3Fq%3Dsite%253A%7BWWW_DOMAIN%7D%0Ahttp%3A%2F%2Fwww.google.com%2Fsearch%3Fsafe%3Doff%26q%3Dsite%253A%7BWWW_DOMAIN%7D');
 	pref('extensions.ODPExtension.locked.categories.txt.last.update', 'Never');
 
-	pref('extensions.ODPExtension.single.key.command', false);
-
 
 //TAB BEHAVIOR - done
 

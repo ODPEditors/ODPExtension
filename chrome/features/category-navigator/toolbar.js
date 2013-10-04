@@ -59,6 +59,7 @@
 				toolbarbutton.setAttribute('label', this.categoryTitle(aCategoryNodes[id]));
 				toolbarbutton.setAttribute('context', 'ODPExtension-from-category');
 				toolbarbutton.setAttribute('onclick', 'if(event.button==1 && event.originalTarget == this)ODPExtension.categoryBrowserClick(event)'); //only allows middle click on the toobalbutton to open the category in a new tab, that's all
+				toolbarbutton.setAttribute('onmouseover', 'ODPExtension.toolbarbuttonOpen(this, event)'); //only allows middle click on the toobalbutton to open the category in a new tab, that's all
 				toolbarbutton.setAttribute('value', path.replace(/\/$/, ''));
 				if (this.categoryIsRTL(path)){
 					toolbarbutton.setAttribute('direction', 'rtl');

@@ -1,6 +1,7 @@
 (function() {
 
 	this.addSiteMenuUpdate = function(currentPopup) {
+
 		this.removeChilds(currentPopup);
 
 		var aURL = this.focusedLocationBarURL();
@@ -18,25 +19,28 @@
 			var aTemp = '';
 			var pieces = [];
 
-			aTemp = this.removeSession(aURL);
+			aTemp = this.removeHash(aURL);
 			pieces[pieces.length] = this.shortURL(aTemp);
 
-			aTemp = this.removeVariables(aURL);
+			aTemp = this.removeSession(this.removeHash(aURL));
 			pieces[pieces.length] = this.shortURL(aTemp);
 
-			aTemp = this.removeSensitiveDataFromURL(aURL);
+			aTemp = this.removeVariables(this.removeHash(aURL));
 			pieces[pieces.length] = this.shortURL(aTemp);
 
-			aTemp = this.removeFileName(aURL);
+			aTemp = this.removeSensitiveDataFromURL(this.removeHash(aURL));
+			pieces[pieces.length] = this.shortURL(aTemp);
+
+			aTemp = this.removeFileName(this.removeHash(aURL));
 			pieces[pieces.length] = aTemp;
 
-			aTemp = this.removeFileName(this.removeFileName(aURL));
+			aTemp = this.removeFileName(this.removeFileName(this.removeHash(aURL)));
 			pieces[pieces.length] = aTemp;
 
-			aTemp = this.removeFileName(this.removeFileName(this.removeFileName(aURL)));
+			aTemp = this.removeFileName(this.removeFileName(this.removeFileName(this.removeHash(aURL))));
 			pieces[pieces.length] = aTemp;
 
-			aTemp = this.removeFromTheFirstFolder(aURL);
+			aTemp = this.removeFromTheFirstFolder(this.removeHash(aURL));
 			pieces[pieces.length] = aTemp;
 
 			var aSubdomain = this.getSubdomainFromURL(aURL);
@@ -78,7 +82,7 @@
 			currentPopup.appendChild(this.create('menuseparator'));
 
 			for (var id in pieces) {
-				if (pieces[id] != aURL) {
+				if (pieces[id] != this.shortURL(aURL)) {
 					var add = this.create('menuitem');
 					add.setAttribute('label', this.decodeUTF8Recursive(pieces[id]));
 					add.setAttribute('tooltiptext', this.decodeUTF8Recursive(pieces[id]));

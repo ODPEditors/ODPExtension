@@ -1,5 +1,12 @@
 (function() {
 
+	this.addListener('preferencesLoadGlobal', function() {
+
+		if (ODPExtension.categoriesTXTExists())
+			ODPExtension.shared.categories.txt.exists = true;
+
+	});
+
 	//returns true if the categories.txt database exists
 	this.categoriesTXTExists = function() {
 		return this.rdfDatabaseOpen().tableExists('categories_txt');

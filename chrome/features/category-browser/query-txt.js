@@ -14,7 +14,8 @@
 		aQuery = this.trim(aQuery).replace(/_/g, ' ');
 
 		var aResult = this.categoriesTXTQuery(aQuery, aWhere, true);
-		var menus = [], aNodes, menu, menupopup, item, database;
+		var menus = [],
+			aNodes, menu, menupopup, item, database;
 		//SHOWING RESULTS
 		if (aResult.count > 0) {
 			//group the results by database
@@ -29,9 +30,9 @@
 				if (!menus[database]) {
 					menu = this.create('menu');
 					//menu.setAttribute('locked', true);
-					//menu.setAttribute('value', database);
 					menu.setAttribute('done', true);
 					menupopup = this.create('menupopup');
+					menupopup.setAttribute('class', 'ODPExtension-crop');
 					menu.appendChild(menupopup);
 					menus[database] = menu;
 				}
@@ -39,9 +40,8 @@
 				item.setAttribute('value', aResult.categories[id]);
 				item.setAttribute('label', this.categoryAbbreviate(aResult.categories[id]));
 				item.setAttribute('done', 'true');
-				if(this.categoryIsRTL(aResult.categories[id])){
-				   item.setAttribute('dir', 'rtl');
-				}
+				if (this.categoryIsRTL(aResult.categories[id]))
+					item.setAttribute('direction', 'rtl');
 
 				menus[database].firstChild.appendChild(item);
 			}
@@ -51,7 +51,7 @@
 				count++;
 				menus[id].setAttribute('label', this.getString('category.browser.search.in').replace('{QUERY}', aQuery).replace('{CAT}', this.categoryAbbreviate(id)).replace('{NUM_RESULTS}', menus[id].firstChild.childNodes.length));
 				this.moveNodeBelow(menus[id], aNode);
-				if (count > 60) //too many items for the menu
+				if (count > 200) //too many items for the menu
 					break;
 			}
 

@@ -5,7 +5,7 @@
 	this.categoryBrowserNavigateMakeMenuPopupNavegable = function(aMenupopup) {
 		//category browser attributes
 		aMenupopup.setAttribute('ignorekeys', true);
-		aMenupopup.setAttribute('class', 'ODPExtension-category-filter'); //by setting this a textbox filter will appear on the menu - which is XBL
+		aMenupopup.setAttribute('class', 'ODPExtension-category-filter ODPExtension-crop'); //by setting this a textbox filter will appear on the menu - which is XBL
 		aMenupopup.setAttribute('onmouseover', 'ODPExtension.categoryBrowserNavigate(event);');
 		aMenupopup.setAttribute('onmouseout', 'ODPExtension.categoryBrowserNavigate(event);');
 		//aMenupopup.setAttribute('onclick', 'ODPExtension.stopEvent(event);ODPExtension.categoryBrowserClick(event)');/*dont use oncommand it will the menus no clickeables*/

@@ -11,7 +11,7 @@
 	var strings = []; //holds all the strings by the extension
 
 	//it loads the bundle when the browser fully loaded
-	this.addListener('browserLoad', function() {
+	this.addListener('beforeBrowserLoad', function() {
 		ODPExtension.initJSStrings();
 	});
 

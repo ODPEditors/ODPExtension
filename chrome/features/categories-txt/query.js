@@ -12,7 +12,7 @@
 
 			var aConnection = this.rdfDatabaseOpen();
 			var query = aConnection.query('select * from categories_txt where category GLOB :category');
-				query.params('category', aWhere.replace(/\/$/, '') + '*');
+			query.params('category', aWhere.replace(/\/$/, '') + '*');
 
 			if (!aSearchEngineSearch) {
 				aQuery = this.trim(aQuery).replace(/ /g, '_').replace(/\/*\$$/g, '/$');

@@ -1,5 +1,17 @@
 (function() {
 
+	this.addListener('preferencesLoadGlobal', function() {
+
+		//session categories, categories that has been opened in this browser session
+		ODPExtension.shared.categories.session = {};
+		ODPExtension.shared.categories.session.categories = [];
+	});
+
+	this.addListener('focusedCategoryChange', function(aCategory) {
+		if (aCategory != '' && !ODPExtension.inArray(ODPExtension.shared.categories.session.categories, aCategory))
+			ODPExtension.shared.categories.session.categories[ODPExtension.shared.categories.session.categories.length] = aCategory;
+	});
+
 	//when the category browser popup is going to showing we look into the categoires that the user has opened and in the clipboard
 	this.categoryBrowserOnPopupShowing = function(aEvent) {
 		if (aEvent.originalTarget != aEvent.currentTarget)

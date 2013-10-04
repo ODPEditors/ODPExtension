@@ -36,7 +36,7 @@
 		ODPExtension.preferencesInit()
 	});
 	//this is the second listener called by the extension
-	this.addListener('browserLoad', function() {
+	this.addListener('beforeBrowserLoad', function() {
 		ODPExtension.preferencesBrowserLoad()
 	});
 

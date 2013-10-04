@@ -1,6 +1,3 @@
-/*#ODPExtension-toolbar-category-navigator-container {
-	-moz-appearance: none;
-}*/
 #ODPExtension-toolbar-category-navigator-container > toolbarbutton > dropmarker {
-	padding-left: 8px !important;
+	padding: 5px !important;
 }

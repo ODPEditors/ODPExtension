@@ -253,7 +253,7 @@ TheListeners.prototype = {
 			//idle
 			var idleService = Components.classes["@mozilla.org/widget/idleservice;1"]
 				.getService(Components.interfaces.nsIIdleService)
-			idleService.addIdleObserver(this, 60 * 35); //60 seconds * 35 = 35 minutes
+			idleService.addIdleObserver(this, 60 * 15); //60 seconds * 35 = 35 minutes
 
 			/* useful for extension that depends of online data */
 			//network:offline-status-changed

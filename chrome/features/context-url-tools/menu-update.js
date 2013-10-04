@@ -5,6 +5,9 @@
 	var debugingThisFile = false;
 
 	//updates the URL Tool menu
+	this.addListener('userInterfaceUpdate', function() {
+		ODPExtension.URLToolsMenuUpdate();
+	});
 
 	this.URLToolsMenuUpdate = function() {
 		var menu = this.getElement('context-url-tools-menu');

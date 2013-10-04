@@ -30,7 +30,7 @@ var ODPExtension = {};
 	this.__LINE__ = '\n';
 
 	/*this function local variables*/
-	var debugingThisFile = true; //sets debuging on/off for this JavaScript file
+	var debugingThisFile = false; //sets debuging on/off for this JavaScript file
 	//console
 	var consoleService = Components.classes["@mozilla.org/consoleservice;1"].
 	getService(Components.interfaces.nsIConsoleService);
@@ -122,12 +122,29 @@ var ODPExtension = {};
 				}
 			}
 		}
+
+		//before the browser load listener
+		if (listeners['beforeBrowserLoad']) {
+			for (var id in listeners['beforeBrowserLoad']) {
+				this.dump('initLoadListeners:beforeBrowserLoad:' + listeners['beforeBrowserLoad'][id], debugingThisFile);
+				listeners['beforeBrowserLoad'][id]();
+			}
+		}
+
 		//browser load
 		//called when a new window of the browser is created
 		if (listeners['browserLoad']) {
 			for (var id in listeners['browserLoad']) {
 				this.dump('initLoadListeners:browserLoad:' + listeners['browserLoad'][id], debugingThisFile);
 				listeners['browserLoad'][id]();
+			}
+		}
+
+		//after the browser load listener
+		if (listeners['afterBrowserLoad']) {
+			for (var id in listeners['afterBrowserLoad']) {
+				this.dump('initLoadListeners:afterBrowserLoad:' + listeners['afterBrowserLoad'][id], debugingThisFile);
+				listeners['afterBrowserLoad'][id]();
 			}
 		}
 
@@ -239,7 +256,7 @@ var ODPExtension = {};
 		var aListener = arguments[0];
 		if (listeners[aListener]) {
 			for (var id in listeners[aListener]) {
-				if(aListener != 'onModifyRequest')//spams the console
+				if (aListener != 'onModifyRequest') //spams the console
 					this.dump('dispatchEvent:' + aListener + ':' + listeners[aListener][id], debugingThisFile);
 
 				//I never use too many arguments
@@ -252,7 +269,7 @@ var ODPExtension = {};
 
 	//this is just cool. dispatch an event of this 'core'
 	this.dispatchGlobalEvent = function() {
-		this.dump('dispatchGlobalEvent:'+arguments[0], debugingThisFile);
+		this.dump('dispatchGlobalEvent:' + arguments[0], debugingThisFile);
 
 		var aListener = arguments[0];
 		var windows = this.windowsGet();
@@ -415,6 +432,7 @@ var ODPExtension = {};
 	}
 	//fires the listener popupshowing for the contentAreaContextMenu
 	this.dispatchContentAreaContextMenuShowing = function(event) {
+		//this.stack('asd');
 		if (event.originalTarget == event.currentTarget) {
 			ODPExtension.dump('dispatchContentAreaContextMenuShowing', debugingThisFile);
 
@@ -506,10 +524,10 @@ var ODPExtension = {};
 	//sets to null this add-on
 	this.destroy = function() {
 		this.dump('destroy', debugingThisFile);
-		ODPExtension = null;
 		this.dump('exit', debugingThisFile);
 		if (debugingThisFile)
-			alert('ODPExtension completed the shutdown. Time to look the error console if there is any errors. Looks like the window will be closed');
+			ODPExtension.alert('ODPExtension completed the shutdown on this window. Time to look the error console if there is any errors. Looks like the window will be closed');
+		ODPExtension = window.ODPExtension = null;
 	}
 	//output to the console messages
 	this.dump = function(something, debugingThisFile, aTitle) {
@@ -544,17 +562,31 @@ var ODPExtension = {};
 			throw new Error('ODPExtension : ' + aMsg);
 		}, 0);
 	};
+	//output to the console the stack
+	this.stack = function(aMsg) {
+		var stack = new Error().stack
+		aMsg = new Error('ODPExtension : ' + aMsg) + "\n\n" + stack;
+		throw aMsg;
+	};
 	//restarts the browser
-	this.restart = function()
-	{
+	this.restart = function() {
 		Components.classes["@mozilla.org/toolkit/app-startup;1"]
-					.getService(Components.interfaces.nsIAppStartup)
-					.quit(Components.interfaces.nsIAppStartup.eRestart | Components.interfaces.nsIAppStartup.eAttemptQuit);
+			.getService(Components.interfaces.nsIAppStartup)
+			.quit(Components.interfaces.nsIAppStartup.eRestart | Components.interfaces.nsIAppStartup.eAttemptQuit);
 	}
-	this.gc = function(){
-		window.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
-		      .getInterface(Components.interfaces.nsIDOMWindowUtils)
-		      .garbageCollect();
+	this.gc = function() {
+		for (var i = 0; i < 2; i++) {
+
+			Components.utils.forceGC();
+
+			window.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+				.getInterface(Components.interfaces.nsIDOMWindowUtils)
+				.garbageCollect();
+
+			window.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+				.getInterface(Components.interfaces.nsIDOMWindowUtils)
+				.cycleCollect();
+		}
 	}
 
 	//registerExtension

@@ -8,9 +8,6 @@
 <script type="application/x-javascript" src="open.js"></script>
 <script type="application/x-javascript" src="selected-update.js"></script>
 
-
-
-
 <popup id="contentAreaContextMenu">
 
 	<menuitem hidden="true" id="ODPExtension-context-frame" original_label="&ODPExtension.ui.context.menu.frame;" oncommand="ODPExtension.frameOpenSelected(event);" onclick="checkForMiddleClick(this, event)"/>

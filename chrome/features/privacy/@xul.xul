@@ -3,6 +3,7 @@
 	<script src="anonymize.js" type="application/x-javascript"/>
 	<script src="can-follow-url.js" type="application/x-javascript"/>
 	<script src="cant-leak-url.js" type="application/x-javascript"/>
-	<script src="privacy-remove-referrer.js" type="application/x-javascript"/>
+	<script src="domains.js" type="application/x-javascript"/>
 	<script src="private-browsing.js" type="application/x-javascript"/>
+	<script src="remove-referrer.js" type="application/x-javascript"/>
 </overlay>

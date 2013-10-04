@@ -647,6 +647,10 @@
 		return aURL;
 	}
 
+	this.removeHash = function(aURL) {
+		return aURL.replace(/#.*$/i, '');
+	}
+
 	return null;
 
 }).apply(ODPExtension);

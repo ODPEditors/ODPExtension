@@ -13,12 +13,10 @@
 <script type="application/x-javascript" src="onpopupshowing.js"></script>
 <script type="application/x-javascript" src="query-menu.js"></script>
 <script type="application/x-javascript" src="query-txt.js"></script>
-<script type="application/x-javascript" src="toolbarbutton-toggle.js"></script>
+<script type="application/x-javascript" src="toolbarbutton.js"></script>
 
 <hbox id="urlbar-icons">
 
-
-	<!-- category browser launcher -->
 	<image
 		id="ODPExtension-toolbarbutton-category-browser"
 		class="plain urlbar-icon ODPExtension-toolbarbutton"
@@ -28,7 +26,6 @@
 	/>
 
 </hbox>
-
 
 <window id="main-window">
 
@@ -41,7 +38,7 @@
 				onmouseup="ODPExtension.stopEvent(event);ODPExtension.categoryBrowserClick(event)"
 				ondblclick="ODPExtension.stopEvent(event)"
 				context="ODPExtension-from-category"
-				class="ODPExtension-category-browser"
+				class="ODPExtension-category-browser ODPExtension-crop"
 				crop="end"
 				ignorekeys="true"
 				resultsbelow="ODPExtension-category-browser-categories-search"

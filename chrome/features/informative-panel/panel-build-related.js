@@ -1,5 +1,20 @@
 (function() {
 
+
+	this.addListener('userInterfaceUpdate', function() {
+
+		if (ODPExtension.preferenceGet('ui.informative.panel.categories.align.left')) {
+			ODPExtension.getElement('panel-related-categories').setAttribute('data-align', 'left');
+			var categoryCrop = 'end';
+		} else {
+			ODPExtension.getElement('panel-related-categories').setAttribute('data-align', 'right');
+			var categoryCrop = 'start';
+		}
+		for (var i = 0; i < ODPExtension.getElement('panel-related-categories').childNodes.length; i++) {
+			ODPExtension.getElement('panel-related-categories').childNodes[i].setAttribute('crop', categoryCrop);
+		}
+
+	});
 	//builds the related content of the informative panel ( other listed uris with information about categories and titles )
 	this.panelInformationBuildRelated = function(aSelected) {
 		if (!this.preferenceGet('ui.informative.panel.categories.titles.urls')) {

@@ -1,6 +1,11 @@
 (function() {
 	var debugingThisFile = false; //sets debuging on/off for this JavaScript file
 
+	this.addListener('focusedCategoryChange', function(aCategory) {
+		//saving the category to the table of categories history
+		ODPExtension.categoryHistoryInsert(aCategory, ODPExtension.focusedURL, ODPExtension.date());
+	});
+
 	//inserts categories in the category history database, also asigns radiation(points) in an attemp to add some type of nice sorting
 	//here I'm just playing
 	this.categoryHistoryInsert = function(aCategory, aURL, aDate) {

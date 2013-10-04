@@ -2,12 +2,16 @@
 
 	var debugingThisFile = true;
 
-
-	this.setFocusedLocation = function() {
-		this.focusedURL = this.focusedLocation();
-		this.focusedDomain = this.getDomainFromURL(this.focusedURL);
-		this.focusedSubdomain = this.getSubdomainFromURL(this.focusedURL);
-	}
+	this.addListener('beforeBrowserLoad', function() {
+		ODPExtension.focusedURL = '';
+		ODPExtension.focusedDomain = '';
+		ODPExtension.focusedSubdomain = '';
+	});
+	this.addListener('onLocationChange', function() {
+		ODPExtension.focusedURL = ODPExtension.focusedLocation();
+		ODPExtension.focusedDomain = ODPExtension.getDomainFromURL(ODPExtension.focusedURL);
+		ODPExtension.focusedSubdomain = ODPExtension.getSubdomainFromURL(ODPExtension.focusedURL);
+	});
 
 	return null;
 

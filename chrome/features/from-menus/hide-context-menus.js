@@ -4,11 +4,11 @@
 	this.fromCategoryHideContextMenus = function() {
 		try {
 			//hidding context
-		//	if (gContextMenu)
-		//		gContextMenu.shouldDisplay = false;
+			//	if (gContextMenu)
+			//		gContextMenu.shouldDisplay = false;
 
-		//	this.contentAreaContextMenu().hidePopup();
-		//	this.contentAreaContextMenu().setAttribute('hidden', true);
+			//	this.contentAreaContextMenu().hidePopup();
+			//	this.contentAreaContextMenu().setAttribute('hidden', true);
 		} catch (e) {
 
 		}

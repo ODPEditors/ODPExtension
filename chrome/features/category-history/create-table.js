@@ -1,9 +1,15 @@
 (function() {
 	var debugingThisFile = false; //sets debuging on/off for this JavaScript file
 
+	this.addListener('preferencesLoadGlobal', function() {
+		//tables creation if these no exists
+		ODPExtension.categoryHistoryCreateTable();
+	});
+
 	//holds the history of unique categories visited
 	//counts the hits and add points to these categories to try to get something similar but very far from to the Frecency algorithm
 	this.categoryHistoryCreateTable = function() {
+
 		//create tables
 		this.db.create('\
 								CREATE TABLE IF NOT EXISTS \

@@ -13,6 +13,6 @@
 		</tooltip>
 	</window>
 	<popup id="contentAreaContextMenu">
-		<menuseparator hidden="true" id="ODPExtension-context-separator"/>
+		<menuseparator id="ODPExtension-context-separator"/>
 	</popup>
 </overlay>

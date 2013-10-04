@@ -1,6 +1,6 @@
 (function() {
 
-	this.addListener('userInterfaceLoad', function(aEnabled){
+	this.addListener('userInterfaceLoad', function(aEnabled) {
 		//from category menu
 		//opens the "from" category menu on page rigth dblclick
 		ODPExtension.getBrowserElement("content").addEventListener("dblclick", function(event) {
@@ -8,11 +8,12 @@
 				ODPExtension.fromCategoryUpdateMenu(event, 'from-category')
 			}
 		}, false);
+		var fromCategoryTimeout;
 		//the set timeout is there to avoid multiples clicks
 		ODPExtension.getBrowserElement("content").addEventListener("mouseup", function(event) {
 			if (event.button == 0) {
-				clearTimeout(ODPExtension.fromCategoryTimeout);
-				ODPExtension.fromCategoryTimeout = setTimeout(function() {
+				clearTimeout(fromCategoryTimeout);
+				fromCategoryTimeout = setTimeout(function() {
 					ODPExtension.fromCategoryUpdateMenu(event, 'from-category');
 				}, 200);
 			} else if (event.button == 2 && ODPExtension.tagName(event.originalTarget) == 'select') {
@@ -23,19 +24,7 @@
 		}, false);
 	});
 
-	//in content area context menu
-	this.addListener('contextMenuShowing', function(event) {
-		// this will update the label of the "from category" menu on context menu
-		ODPExtension.fromCategoryUpdateMenu(event, 'context-from-category');
-		ODPExtension.getElement('from-category').hidePopup();
-	});
-	//in tabs
-	this.addListener('tabContextMenuShowing', function(event) {
-		// this will update the label of the "from category" menu on context menu
-		ODPExtension.fromCategoryUpdateMenu(event, 'tab-context-from-category');
-	});
-
-	this.addListener('userInterfaceLoad', function(aEnabled){
+	this.addListener('userInterfaceLoad', function(aEnabled) {
 		//in multiple tab handler
 		if (ODPExtension.getBrowserElement('multipletab-selection-menu')) {
 			ODPExtension.getBrowserElement('multipletab-selection-menu').addEventListener("popupshowing", function(event) {
@@ -54,6 +43,27 @@
 		}, false);
 	});
 
+	//in content area context menu
+	this.addListener('contextMenuShowing', function(event) {
+		// this will update the label of the "from category" menu on context menu
+		ODPExtension.fromCategoryUpdateMenu(event, 'context-from-category');
+		ODPExtension.getElement('from-category').hidePopup();
+	});
+	//in tabs
+	this.addListener('tabContextMenuShowing', function(event) {
+		// this will update the label of the "from category" menu on context menu
+		ODPExtension.fromCategoryUpdateMenu(event, 'tab-context-from-category');
+	});
+
+
+	this.addListener('userInterfaceUpdate', function(aEnabled) {
+
+		ODPExtension.getElement('context-from-category').setAttribute('hidden', !aEnabled);
+		ODPExtension.getElement('context-from-categories').setAttribute('hidden', !aEnabled);
+		ODPExtension.getElement('context-from-editor').setAttribute('hidden', !aEnabled);
+		ODPExtension.getElement('context-from-editors').setAttribute('hidden', !aEnabled);
+
+	});
 
 
 	//this is to complex to follow
@@ -65,6 +75,7 @@
 	//	 	XUL:  menu, menuitem, toolbarbutton, tab context menu, multiples tabs selected with "multiple tab handler" extension
 	//		HTML: selected text on page or input or framed doc, selected links on page, selected link on page, rigth clicked "SELECT" html tag, focused category
 	//3 - this manage from where the from category menu is called and which category/categories are selected
+	var fromCategoryUpdating = false;
 	this.fromCategoryUpdateMenu = function(aEvent, fromWhere, cancelAutoPopup) {
 		//when the autopopup is openede because of the right double click
 		//we should prevent to the popup appears again if the new event is mouseup, because that mouse up is for hidding the popup, not for open again the popup
@@ -79,7 +90,7 @@
 		(
 			aEvent.type == 'mouseup' ||
 			aEvent.type == 'dblclick')) ||
-			this.fromCategoryUpdating //or this function is already running
+			fromCategoryUpdating //or this function is already running
 		) &&
 			aEvent.type != 'dblclick' //allow processing if doble rigth click
 		) {
@@ -97,7 +108,7 @@
 
 		//retreiving the data
 
-		this.fromCategoryUpdating = true;
+		fromCategoryUpdating = true;
 		this.fromCategoryLastEvent = aEvent.type;
 		//categories
 		this.fromCategorySelectedCategory = '';
@@ -401,7 +412,7 @@
 					this.fromCategorySelectedCategory = aCategoryTabContextMenu; //rigth clicked category in not focused tab
 					this.fromCategoryClickType = 'single';
 				} else {
-					this.fromCategoryUpdating = false;
+					fromCategoryUpdating = false;
 					return;
 				}
 			} else {
@@ -699,8 +710,8 @@
 			//add three pixels is for when the user clicked multiples time like triple click to select a line of text
 			//maybe the user clciked more than 3 times and that will active the first action of the menu
 			//this popup should be nice, not evil!
-			if(this.contentAreaContextMenu().state != 'open' || aEvent.type == 'dblclick'){
-				setTimeout(function(){
+			if (this.contentAreaContextMenu().state != 'open' || aEvent.type == 'dblclick') {
+				setTimeout(function() {
 					ODPExtension.contentAreaContextMenu().hidePopup();
 					ODPExtension.getElement('from-category').openPopupAtScreen(aEvent.screenX + 25, aEvent.screenY - 40, false);
 				}, 0);
@@ -710,7 +721,7 @@
 			window.addEventListener('keypress', ODPExtension.fromCategoryCloseMenu, false);
 
 		}
-		this.fromCategoryUpdating = false;
+		fromCategoryUpdating = false;
 	}
 	this.fromCategoryCloseMenu = function() {
 		ODPExtension.getElement('from-category').hidePopup();

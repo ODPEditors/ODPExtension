@@ -4,6 +4,10 @@
 
 	var debugingThisFile = true;
 
+	this.addListener('userInterfaceUpdate', function(aEnable) {
+		ODPExtension.getElement('word-reference').setAttribute('hidden', !aEnable);
+
+	});
 	//open a tab or panel for the selected word
 
 	this.wordReference = function(aEvent) {

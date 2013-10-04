@@ -3,6 +3,9 @@
 
 	var debugingThisFile = true;
 
+	this.addListener('userInterfaceUpdate', function(aEnabled) {
+		ODPExtension.translateMenuUpdate();
+	});
 	//hides or shows the selected languages in the translate context menu, also sets the sort priority of these languages
 
 	this.translateMenuUpdate = function() {

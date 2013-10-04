@@ -26,7 +26,7 @@
 			if (ODPExtension.getBrowserElement('statusbar-display') && aString != '')
 				ODPExtension.getBrowserElement('statusbar-display').label = 'ODP Extension : ' + aString;
 			else {
-				setTimeout(function(){
+				setTimeout(function() {
 					if (ODPExtension.getBrowserElement('statusbar-display'))
 						ODPExtension.getBrowserElement('statusbar-display').label = '';
 				}, 8000);
@@ -93,7 +93,7 @@
 					this.theExtension.code('ODPExtension').notifyStatusBar(progressMsg);
 				}
 			}
-			object.ok = function(){
+			object.ok = function() {
 				this.theExtension.code('ODPExtension').notifyStatusBar('');
 			}
 

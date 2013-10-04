@@ -5,10 +5,14 @@
 	var aButton;
 
 	this.addListener('userInterfaceLoad', function(aEnabled) {
-		ODPExtension.ancestorsCategoriesOnUserInterfaceLoad()
+		aButton = ODPExtension.getElement('toolbarbutton-ancestors-categories');
 	});
 	this.addListener('userInterfaceUpdate', function(aEnabled) {
-		ODPExtension.ancestorsCategoriesOnUserInterfaceUpdate(aEnabled);
+		if (aEnabled && ODPExtension.shared.categories.txt.exists) {
+			aButton.setAttribute('hidden', false);
+		} else {
+			aButton.setAttribute('hidden', true);
+		}
 	});
 
 	this.addListener('focusedCategoryChange', function(aCategory) {
@@ -24,11 +28,6 @@
 	});
 
 
-	this.ancestorsCategoriesOnUserInterfaceLoad = function() {
-		this.dump('ancestorsCategoriesOnUserInterfaceLoad', debugingThisFile);
-
-		aButton = this.getElement('toolbarbutton-ancestors-categories');
-	}
 	this.ancestorsCategoriesMenuUpdate = function(currentPopup, aEvent) {
 		//only popupshowing for the original target
 		if (aEvent.currentTarget != aEvent.originalTarget) //check if this menu was build
@@ -50,20 +49,20 @@
 
 		var aConnection = this.rdfDatabaseOpen();
 		var query = aConnection.query('select * from categories_txt where category GLOB :category and name = :name and depth < :depth');
-			query.params('category', aCategoryNodes[0] + '/*');
-			query.params('name', aCategoryNodes[aCategoryNodes.length-1]);
-			query.params('depth', this.subStrCount(aCategory+'/', '/'));
+		query.params('category', aCategoryNodes[0] + '/*');
+		query.params('name', aCategoryNodes[aCategoryNodes.length - 1]);
+		query.params('depth', this.subStrCount(aCategory + '/', '/'));
 
-			var row;
-			for (var i = 0; row = aConnection.fetchObjects(query); i++) {
-				if (row.category != aCategory+'/') {
-					var add = this.create("menuitem");
-						add.setAttribute("label", this.categoryAbbreviate(row.category.replace(/\/$/, '')));
-						add.setAttribute("value", row.category.replace(/\/$/, ''));
-					currentPopup.appendChild(add);
-					somethingFound = true;
-				}
+		var row;
+		for (var i = 0; row = aConnection.fetchObjects(query); i++) {
+			if (row.category != aCategory + '/') {
+				var add = this.create("menuitem");
+				add.setAttribute("label", this.categoryAbbreviate(row.category.replace(/\/$/, '')));
+				add.setAttribute("value", row.category.replace(/\/$/, ''));
+				currentPopup.appendChild(add);
+				somethingFound = true;
 			}
+		}
 
 		//disabling the toolbarbutton because there is no results
 		if (!somethingFound) {
@@ -87,16 +86,6 @@
 
 		} else {
 			aButton.setAttribute('disabled', true);
-		}
-	}
-
-	this.ancestorsCategoriesOnUserInterfaceUpdate = function(aEnabled) {
-		this.dump('ancestorsCategoriesOnUserInterfaceUpdate', debugingThisFile);
-
-		if (aEnabled && this.shared.categories.txt.exists) {
-			aButton.setAttribute('hidden', false);
-		} else {
-			aButton.setAttribute('hidden', true);
 		}
 	}
 

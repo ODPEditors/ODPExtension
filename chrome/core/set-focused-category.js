@@ -2,30 +2,18 @@
 
 	var debugingThisFile = true;
 
-	//checks if the focused tab has a valid category and acomodate the UI for that category
-	this.setFocusedCategory = function() {
-		var focusedCategory = this.categoryGetFocused();
+	this.addListener('beforeBrowserLoad', function() {
+		ODPExtension.focusedCategory = '';
+	});
+	this.addListener('onLocationChange', function() {
+		var focusedCategory = ODPExtension.categoryGetFocused();
 
-		if (focusedCategory != this.focusedCategory) {
-			this.focusedCategory = focusedCategory;
+		if (focusedCategory != ODPExtension.focusedCategory) {
+			ODPExtension.focusedCategory = focusedCategory;
 
-			this.dispatchEvent('focusedCategoryChange', focusedCategory);
-
-			//saving the category to the table of categories history
-			this.categoryHistoryInsert(focusedCategory, this.focusedURL, this.date());
-
-			if (this.shared.categories.txt.exists) {
-				//toolbars
-				//category navigator
-				//update toolbar contents
-				if (!this.getElement('toolbar-category-navigator').collapsed)
-					this.categoryNavigatorToolbarUpdate(focusedCategory);
-			}
-			if (focusedCategory != '' && !this.inArray(this.shared.categories.session.categories, focusedCategory))
-				this.shared.categories.session.categories[this.shared.categories.session.categories.length] = focusedCategory;
+			ODPExtension.dispatchEvent('focusedCategoryChange', focusedCategory);
 		}
-
-	}
+	});
 
 	return null;
 

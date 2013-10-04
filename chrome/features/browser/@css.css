@@ -33,12 +33,11 @@
 .ODPExtension-crop > menupopup > menuitem {
 	max-width: 100%;
 }
-
 menu[direction="rtl"],
 menuitem[direction="rtl"],
-menupopup[direction="rtl"]{
+menupopup[direction="rtl"] {
 	direction: rtl;
-	unicode-bidi:embed;
+	unicode-bidi: embed;
 }
 /*close button */
 .ODPExtension-toolbarbutton-close {

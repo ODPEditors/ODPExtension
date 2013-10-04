@@ -19,13 +19,13 @@
 		var entro = false;
 		for (var key in arr) {
 			entro = true;
-			try{
+			try {
 				if (typeof arr[key] == "object") {
 					parts += '\n' + add + String(key) + ' =>\n' + add + '  ' + this.sfilugfgopgbop3gbogogasig(arr[key], deep);
 				} else {
 					parts += '\n' + add + String(key) + ' =>\n' + add + '  ' + JSON.stringify(arr[key]);
 				}
-			}catch(e){}
+			} catch (e) {}
 		}
 		if (!entro)
 			return add + JSON.stringify(arr);

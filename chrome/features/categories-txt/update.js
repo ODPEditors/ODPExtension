@@ -12,38 +12,38 @@
 
 			//take a look into the "date" of the file, to see if we need an update
 			var Requester = new XMLHttpRequest();
-				Requester.onerror = function() {
+			Requester.onerror = function() {
+				ODPExtension.shared.categories.txt.lock = false;
+			};
+			Requester.onload = function() {
+				//if fails don't do nothing
+				if (Requester.status != '200') {
 					ODPExtension.shared.categories.txt.lock = false;
-				};
-				Requester.onload = function() {
-					//if fails don't do nothing
-					if (Requester.status != '200') {
-						ODPExtension.shared.categories.txt.lock = false;
-					} else {
-						var aDate = '';
-						var aData = Requester.responseText.split('\n');
-						for(var id in aData){
-							if(aData[id].indexOf('categories.txt.gz') != -1){
-								aData = aData[id].trim().replace(/\s+/g, ' ').split(' ');
-								aData.reverse();
-								aData = aData[2];
-								if(aData != '')
-									aDate = ODPExtension.serverDateLocale(aData);
-								break;
-							}
+				} else {
+					var aDate = '';
+					var aData = Requester.responseText.split('\n');
+					for (var id in aData) {
+						if (aData[id].indexOf('categories.txt.gz') != -1) {
+							aData = aData[id].trim().replace(/\s+/g, ' ').split(' ');
+							aData.reverse();
+							aData = aData[2];
+							if (aData != '')
+								aDate = ODPExtension.serverDateLocale(aData);
+							break;
 						}
-						if(aDate == '')
-							aDate = ODPExtension.sqlDateLocale(ODPExtension.date());
-						//yay an update!
-						if (forceUpdate || ( aDate != ODPExtension.preferenceGet('locked.categories.txt.last.update')))
-							ODPExtension.categoriesTXTUpdateLoad(aDate);
-						else
-							ODPExtension.shared.categories.txt.lock = false;
 					}
-				};
-				Requester.open("GET", 'http://rdf.dmoz.org/rdf/', true);
-				Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_BYPASS_CACHE;
-				Requester.send(null);
+					if (aDate == '')
+						aDate = ODPExtension.sqlDateLocale(ODPExtension.date());
+					//yay an update!
+					if (forceUpdate || (aDate != ODPExtension.preferenceGet('locked.categories.txt.last.update')))
+						ODPExtension.categoriesTXTUpdateLoad(aDate);
+					else
+						ODPExtension.shared.categories.txt.lock = false;
+				}
+			};
+			Requester.open("GET", 'http://rdf.dmoz.org/rdf/', true);
+			Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_BYPASS_CACHE;
+			Requester.send(null);
 		}
 	}
 	//the progress meter

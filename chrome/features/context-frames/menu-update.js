@@ -4,6 +4,11 @@
 
 	var debugingThisFile = true;
 
+	this.addListener('userInterfaceUpdate', function(aEnabled) {
+		ODPExtension.getElement('context-frames-menu').setAttribute('hidden', !aEnabled || !ODPExtension.preferenceGet('ui.context.menu.frames'));
+		ODPExtension.getElement('context-frame').setAttribute('hidden', !aEnabled || !ODPExtension.preferenceGet('ui.context.menu.frame.selected'));
+	});
+
 	//build, show or hide the frames context menu and selected context menu
 	this.addListener('contextMenuShowing', function(event) {
 		if (ODPExtension.preferenceGet('ui.context.menu.frames'))
@@ -52,6 +57,7 @@
 			if (aURL != '' && aURL != this.focusedURL && this.isPublicURL(aURL)) {
 				var add = this.create("menuitem");
 				add.setAttribute("label", this.decodeUTF8Recursive(aURL));
+				add.setAttribute('tooltiptext', this.decodeUTF8Recursive(aURL));
 				add.setAttribute("value", aURL);
 				menupopup.appendChild(add);
 				menuIsEmpty = false;

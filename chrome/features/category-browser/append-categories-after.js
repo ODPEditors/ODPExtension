@@ -13,6 +13,8 @@
 				add.setAttribute("value", aCategories[id]);
 				if (aTemporalNode)
 					add.setAttribute("temporal", true);
+				if (this.categoryIsRTL(aCategories[id]))
+					add.setAttribute('direction', 'rtl');
 				this.moveNodeBelow(add, aPreviousNode);
 			}
 		}

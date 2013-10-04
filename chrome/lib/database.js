@@ -126,7 +126,7 @@
 
 				return current_tables;
 			}
-			object.tableExists = function(aTable){
+			object.tableExists = function(aTable) {
 				return this.tablesGet().indexOf(aTable) != -1;
 			}
 			//import a database
@@ -237,10 +237,10 @@
 						queryReference.paramsValues[aParam] = aValue;
 					}
 				}
-				queryReference.execute = function(){
+				queryReference.execute = function() {
 					object.execute(queryReference);
 				}
-				queryReference.finalize = function(){
+				queryReference.finalize = function() {
 					queryReference.query.finalize();
 				}
 
@@ -305,7 +305,9 @@
 			//return rows of a query -while(row = fetch()) do something with row
 			object.fetchObjects = function(q, resetQuery) {
 				//gettin query reference
+
 				var query = this.queriesReferences[q.id].query;
+
 				var columnNames = this.queriesReferences[q.id].columnNames;
 				//getting result values
 				query.executeStep();

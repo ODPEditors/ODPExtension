@@ -37,7 +37,7 @@
 				'<pre style="background-color:white !important;padding:2px;">' + aResult.categories.join('\n') +
 				'</pre>'), true);
 		else
-			this.notifyTab(this.getString('no.results').replace('{QUERY}', aQuery)+' in "'+aWhere+'"', 8);
+			this.notifyTab(this.getString('no.results').replace('{QUERY}', aQuery) + ' in "' + aWhere + '"', 8);
 	}
 
 	return null;

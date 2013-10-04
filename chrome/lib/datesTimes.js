@@ -71,27 +71,25 @@
 		}
 	}
 	// returns sql date as javascript object
-	this.sqlDate = function(aDate)
-	 {
+	this.sqlDate = function(aDate) {
 		//function parses mysql datetime string and returns javascript Date object
 		//input has to be in this format: 2007-06-05 15:26:02
-		if(aDate.length == 10)
-			aDate = aDate+' 00:00:00';
+		if (aDate.length == 10)
+			aDate = aDate + ' 00:00:00';
 
-		var parts=aDate.replace(/^([0-9]{2,4})-([0-1][0-9])-([0-3][0-9]) (?:([0-2][0-9]):([0-5][0-9]):([0-5][0-9]))?$/,"$1 $2 $3 $4 $5 $6").split(' ');
-		return new Date(parts[0],parts[1]-1,parts[2],parts[3],parts[4],parts[5]);
-	  }
-	  // returns sql date as javascript string localized
-	  this.sqlDateLocale = function(aDate)
-	  {
-	  	return this.sqlDate(aDate).toLocaleString();
-	  }
-	  this.serverDate = function(aDate){
-	  	return new Date(Date.parse(aDate.replace(/-/g, ' ')));
-	  }
-	  this.serverDateLocale = function(aDate){
-	  	return this.serverDate(aDate).toLocaleString();
-	  }
+		var parts = aDate.replace(/^([0-9]{2,4})-([0-1][0-9])-([0-3][0-9]) (?:([0-2][0-9]):([0-5][0-9]):([0-5][0-9]))?$/, "$1 $2 $3 $4 $5 $6").split(' ');
+		return new Date(parts[0], parts[1] - 1, parts[2], parts[3], parts[4], parts[5]);
+	}
+	// returns sql date as javascript string localized
+	this.sqlDateLocale = function(aDate) {
+		return this.sqlDate(aDate).toLocaleString();
+	}
+	this.serverDate = function(aDate) {
+		return new Date(Date.parse(aDate.replace(/-/g, ' ')));
+	}
+	this.serverDateLocale = function(aDate) {
+		return this.serverDate(aDate).toLocaleString();
+	}
 	return null;
 
 }).apply(ODPExtension);

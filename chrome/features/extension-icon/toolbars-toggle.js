@@ -4,8 +4,6 @@
 
 		this.dispatchGlobalEvent('toolbarsToggle', this.preferenceGet('toolbars.toggle'));
 
-		this.categoryNavigatorToolbarUpdate(this.categoryGetFocused());
-
 		this.preferenceSet('toolbars.toggle', !this.preferenceGet('toolbars.toggle'));
 	}
 	return null;

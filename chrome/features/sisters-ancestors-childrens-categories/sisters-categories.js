@@ -6,10 +6,15 @@
 	var aButton;
 
 	this.addListener('userInterfaceLoad', function(aEnabled) {
-		ODPExtension.sistersCategoriesOnUserInterfaceLoad()
+		aButton = ODPExtension.getElement('toolbarbutton-sisters-categories');
 	});
+
 	this.addListener('userInterfaceUpdate', function(aEnabled) {
-		ODPExtension.sistersCategoriesOnUserInterfaceUpdate(aEnabled);
+		if (aEnabled && ODPExtension.shared.categories.txt.exists) {
+			aButton.setAttribute('hidden', false);
+		} else {
+			aButton.setAttribute('hidden', true);
+		}
 	});
 
 	this.addListener('focusedCategoryChange', function(aCategory) {
@@ -24,12 +29,6 @@
 		}
 	});
 
-
-	this.sistersCategoriesOnUserInterfaceLoad = function() {
-		this.dump('sistersCategoriesOnUserInterfaceLoad', debugingThisFile);
-
-		aButton = this.getElement('toolbarbutton-sisters-categories');
-	}
 	this.sistersCategoriesMenuUpdate = function(currentPopup, aEvent) {
 		this.dump('sistersCategoriesMenuUpdate', debugingThisFile);
 		//only popupshowing for the original target
@@ -50,32 +49,32 @@
 
 		//find all the categories at the same level with same name ^Regional/Asia/[^/]+/[^/]+/...[^/]+/Arts$
 
-		for(var i=1;i<aCategoryNodes.length-1;i++){
+		for (var i = 1; i < aCategoryNodes.length - 1; i++) {
 			aCategoryNodes[i] = '[^/]+';
 		}
-		var aQuery = '^'+aCategoryNodes.join('/')+'$';
+		var aQuery = '^' + aCategoryNodes.join('/') + '$';
 
 		var somethingFound = false;
 
 		var aConnection = this.rdfDatabaseOpen();
 		var query = aConnection.query('select * from categories_txt where category GLOB :category and name = :name');
-			query.params('category', aCategoryNodes[0] + '/*');
-			query.params('name', aCategoryNodes[aCategoryNodes.length-1]);
+		query.params('category', aCategoryNodes[0] + '/*');
+		query.params('name', aCategoryNodes[aCategoryNodes.length - 1]);
 
-			aQuery = this.trim(aQuery).replace(/ /g, '_').replace(/\/*\$$/, '/\$');
+		aQuery = this.trim(aQuery).replace(/ /g, '_').replace(/\/*\$$/, '/\$');
 
-			var row;
-			for (var i = 0; row = aConnection.fetchObjects(query); i++) {
-				if (this.match(row.category, aQuery)) {
-					if (row.category != aCategory+'/') {
-						var add = this.create("menuitem");
-							add.setAttribute("label", this.categoryAbbreviate(row.category.replace(/\/$/, '')));
-							add.setAttribute("value", row.category.replace(/\/$/, ''));
-						currentPopup.appendChild(add);
-						somethingFound = true;
-					}
+		var row;
+		for (var i = 0; row = aConnection.fetchObjects(query); i++) {
+			if (this.match(row.category, aQuery)) {
+				if (row.category != aCategory + '/') {
+					var add = this.create("menuitem");
+					add.setAttribute("label", this.categoryAbbreviate(row.category.replace(/\/$/, '')));
+					add.setAttribute("value", row.category.replace(/\/$/, ''));
+					currentPopup.appendChild(add);
+					somethingFound = true;
 				}
 			}
+		}
 
 		if (!somethingFound) {
 			this.stopEvent(aEvent); //this is to avoid the menupopup to be openen when no results found!
@@ -101,15 +100,6 @@
 		}
 	}
 
-	this.sistersCategoriesOnUserInterfaceUpdate = function(aEnabled) {
-		this.dump('sistersCategoriesOnUserInterfaceUpdate', debugingThisFile);
-
-		if (aEnabled && this.shared.categories.txt.exists) {
-			aButton.setAttribute('hidden', false);
-		} else {
-			aButton.setAttribute('hidden', true);
-		}
-	}
 
 	return null;
 

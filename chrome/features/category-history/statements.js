@@ -5,6 +5,10 @@
 		ODPExtension.db.vacuum();
 	});
 
+	this.addListener('preferencesLoadGlobal', function() {
+		ODPExtension.categoryHistoryStatements();
+	});
+
 	this.categoryHistoryStatements = function() {
 		this.insertCategoryHistory = this.db.query('INSERT INTO `categories_history` ( `categories_history_category` ) VALUES (:categories_history_category) ');
 		this.deleteCategoryHistory = this.db.query('DELETE FROM `categories_history` WHERE `categories_history_category` = :categories_history_category');

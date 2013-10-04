@@ -1,5 +1,26 @@
 (function() {
 
+	this.addListener('preferencesLoadGlobal', function() {
+
+		ODPExtension.shared.privacy.odp.noReferrer = [
+				'dmoz.org/editors/', 'forums.dmoz.org/', 'research.dmoz.org/', 'passport.dmoz.org/', 'odp.danielmclean.id.au/', 'odp.dlugan.com/', 'odp.jtlabs.net/', 'odp.tubert.org/', 'pmoz.info/', 'robert.mathmos.net/odp/', 'rpfuller.com/', 'rpfuller.org/', 'godzuki.com.uy/mimizu/'
+		];
+		//privacy
+		ODPExtension.shared.privacy.noReferrer = ODPExtension.trim(ODPExtension.preferenceGet('advanced.urls.odp.private.no.referrer')).split('\n');
+		for (var id in ODPExtension.shared.privacy.odp.noReferrer)
+			ODPExtension.shared.privacy.noReferrer.push('^[a-z]+\\:/+([^/]+)?\\.?' + (ODPExtension.shared.privacy.odp.noReferrer[id].replace(/\./g, '\\.')))
+		ODPExtension.shared.privacy.noReferrer = ODPExtension.arrayUnique(ODPExtension.shared.privacy.noReferrer);
+
+	});
+
+	this.addListener('userInterfaceUpdate', function() {
+		//no referrer
+		if (ODPExtension.preferenceGet('privacy.no.referrer'))
+			ODPExtension.startComplexListener('onModifyRequest');
+		else
+			ODPExtension.stopComplexListener('onModifyRequest');
+	});
+
 	//referrer modification
 	this.addListener('onModifyRequest', function(aSubject) {
 		ODPExtension.privacyRemoveReferrer(aSubject)

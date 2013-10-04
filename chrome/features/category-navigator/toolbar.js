@@ -1,5 +1,38 @@
 (function() {
 
+
+	this.addListener('userInterfaceLoad', function(aEnabled) {
+		//detecting when one of the toolbars are selected to collapse or not
+		//this is useful to update the content of the toolbars when these are shown
+		//but still can't update the content if the user open the toolbar from other menuitem like View -> Toolbar -> My toolbar. arr!!! toolbar collapse event?
+		if (ODPExtension.getBrowserElement('toolbar-context-menu')) {
+			ODPExtension.getBrowserElement('toolbar-context-menu').addEventListener('popuphidden', function() {
+				ODPExtension.categoryNavigatorToolbarUpdate(ODPExtension.categoryGetFocused())
+			}, false);
+		}
+		ODPExtension.categoryNavigatorToolbarUpdate(ODPExtension.categoryGetFocused());
+	});
+
+	this.addListener('userInterfaceUpdate', function(aEnabled) {
+		ODPExtension.getElement('toolbar-category-navigator').setAttribute('hidden', !aEnabled || !ODPExtension.shared.categories.txt.exists);
+	});
+
+	this.addListener('focusedCategoryChange', function(aCategory) {
+		if (ODPExtension.shared.categories.txt.exists) {
+			if (!ODPExtension.getElement('toolbar-category-navigator').collapsed)
+				ODPExtension.categoryNavigatorToolbarUpdate(aCategory);
+		}
+	});
+
+	this.addListener('toolbarsToggle', function(aClosed) {
+		if (aClosed) {
+			ODPExtension.toolbarOpenRemember(ODPExtension.getElement('toolbar-category-navigator'));
+		} else {
+			ODPExtension.toolbarCloseRemember(ODPExtension.getElement('toolbar-category-navigator'));
+		}
+		ODPExtension.categoryNavigatorToolbarUpdate(ODPExtension.categoryGetFocused());
+	});
+
 	//this is the functino that builds the category navigator( or ODP breadcrumb )
 	//for each category node will show a toolbar button
 	//has some tricks.
@@ -13,7 +46,7 @@
 		var aCategoryNodes = aCategory.split('/');
 		var path = '';
 		if (aCategory != '') {
-			for (var id = 0;id<aCategoryNodes.length;id++) {
+			for (var id = 0; id < aCategoryNodes.length; id++) {
 				path += aCategoryNodes[id] + '/';
 
 				var toolbarbutton = this.create('toolbarbutton');

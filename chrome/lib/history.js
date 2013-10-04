@@ -30,12 +30,12 @@
 		}
 		return faviconURI;
 	}
-	this._faviconGetFromURL = function(aURL){
+	this._faviconGetFromURL = function(aURL) {
 		aURL = this.anonymize(aURL);
-		if(this.cantLeakURL(aURL))
+		if (this.cantLeakURL(aURL))
 			return 'chrome://ODPExtension/content/lib/history/faviconGetFromURL/icon.png';
 		else
-			return 'https://plus.google.com/_/favicon?domain='+this.encodeUTF8(aURL);
+			return 'https://plus.google.com/_/favicon?domain=' + this.encodeUTF8(aURL);
 	}
 	this.isVisitedURL = function(aURL) {
 		try {

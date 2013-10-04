@@ -21,10 +21,10 @@
 		var menupopupAlphabar = this.create('menupopup');
 		menupopupAlphabar.setAttribute('ignorekeys', true);
 
-		if(this.categoryIsRTL(item.getAttribute('value'))){
-		   menu.setAttribute('dir', 'rtl');
-		   menupopup.setAttribute('dir', 'rtl');
-		   menupopupAlphabar.setAttribute('dir', 'rtl');
+		if (this.categoryIsRTL(item.getAttribute('value'))) {
+			menu.setAttribute('direction', 'rtl');
+			menupopup.setAttribute('direction', 'rtl');
+			menupopupAlphabar.setAttribute('direction', 'rtl');
 		}
 
 		var aCategoryLastChildName;
@@ -34,8 +34,8 @@
 			var add = this.create("menuitem");
 			add.setAttribute("label", this.categoryAbbreviate(aCategoryLastChildName));
 			add.setAttribute("value", aCategories[id]);
-			if(this.categoryIsRTL(aCategories[id]))
-			   add.setAttribute('dir', 'rtl');
+			if (this.categoryIsRTL(aCategories[id]))
+				add.setAttribute('direction', 'rtl');
 			if (aCategoryLastChildName.length == 1)
 				menupopupAlphabar.appendChild(add);
 			else
@@ -75,8 +75,8 @@
 				path += aNodes[id] + '/';
 				var add = this.create('menuitem');
 				add.setAttribute('value', path.replace(/\/$/, ''));
-				if(this.categoryIsRTL(path.replace(/\/$/, '')))
-				   add.setAttribute('dir', 'rtl');
+				if (this.categoryIsRTL(path.replace(/\/$/, '')))
+					add.setAttribute('direction', 'rtl');
 				add.setAttribute('label', this.categoryAbbreviate(path).replace(/\/$/, ''));
 				menupopupParents.appendChild(add);
 			}

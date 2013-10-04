@@ -5,9 +5,8 @@
 
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-<script type="application/x-javascript" src="toolbar-toggle.js"></script>
-<script type="application/x-javascript" src="toolbar-update.js"></script>
-<script type="application/x-javascript" src="toolbarbutton-update.js"></script>
+<script type="application/x-javascript" src="toolbar.js"></script>
+<script type="application/x-javascript" src="toolbarbutton.js"></script>
 
 <toolbox id="navigator-toolbox">
 

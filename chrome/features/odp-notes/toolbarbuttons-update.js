@@ -15,24 +15,28 @@
 		//when the location change we empty the cache of documents selected with multiple tab handler
 		this.odpURLNotesMultipleTabHandlerSelectedDocuments = [];
 
-		if (aSubdomain == 'www.dmoz.org' && this.editingFormURLExists(this.documentGetFocused())) {
+		if (aSubdomain == 'www.dmoz.org' && this.editingFormURLExists(this.documentGetFocused()) && this.preferenceGet('enabled')) {
 			this.getElement('toolbarbutton-odp-url-notes-update').removeAttribute('hidden');
 			this.getElement('toolbarbutton-odp-url-notes-unreview').removeAttribute('hidden');
 			this.getElement('toolbarbutton-odp-url-notes-delete').removeAttribute('hidden');
-			this.getElement('toolbarbutton-odp-url-notes-notes').removeAttribute('hidden');
+
 			this.getElement('toolbarbutton-odp-url-notes-move-publish').removeAttribute('hidden');
 			this.getElement('toolbarbutton-odp-url-notes-move-unreview').removeAttribute('hidden');
 			this.getElement('toolbarbutton-odp-url-notes-copy-publish').removeAttribute('hidden');
 			this.getElement('toolbarbutton-odp-url-notes-copy-unreview').removeAttribute('hidden');
+
+			this.getElement('toolbarbutton-odp-url-notes-notes').removeAttribute('hidden');
 		} else {
 			this.getElement('toolbarbutton-odp-url-notes-update').setAttribute('hidden', true);
 			this.getElement('toolbarbutton-odp-url-notes-unreview').setAttribute('hidden', true);
 			this.getElement('toolbarbutton-odp-url-notes-delete').setAttribute('hidden', true);
-			this.getElement('toolbarbutton-odp-url-notes-notes').setAttribute('hidden', true);
+
 			this.getElement('toolbarbutton-odp-url-notes-move-publish').setAttribute('hidden', true);
 			this.getElement('toolbarbutton-odp-url-notes-move-unreview').setAttribute('hidden', true);
 			this.getElement('toolbarbutton-odp-url-notes-copy-publish').setAttribute('hidden', true);
 			this.getElement('toolbarbutton-odp-url-notes-copy-unreview').setAttribute('hidden', true);
+
+			this.getElement('toolbarbutton-odp-url-notes-notes').setAttribute('hidden', true);
 		}
 	}
 	return null;

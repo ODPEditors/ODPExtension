@@ -1,5 +1,8 @@
 (function() {
 
+	this.addListener('userInterfaceLoad', function() {
+		ODPExtension.categoryBrowserMenuUpdate();
+	});
 	//empties and recreate the category browser menu appending the categories that the user has "locked"
 	this.categoryBrowserMenuUpdate = function() {
 		//this.dump('categoryBrowserMenuUpdate', true);

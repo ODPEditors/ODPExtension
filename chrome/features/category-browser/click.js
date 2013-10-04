@@ -47,8 +47,8 @@
 				//this.dump('click!!+aEvent.button+ctrl:tagname'+item.tagName);
 				//when a "menuitem" is clicked the popuphide it selfs and we here want the popup open
 				if (this.tagName(item) == 'menuitem') {
-					aEvent.currentTarget.hidePopup();
-					aEvent.currentTarget.showPopup();
+					/*aEvent.currentTarget.hidePopup();
+					aEvent.currentTarget.showPopup();*/
 				} else {
 					//this.dump('click!!+aEvent.button+ctrl:tagname'+item.tagName);
 				}

@@ -278,9 +278,9 @@
 			anElement.parentNode.removeChild(anElement);
 	}
 	this.saveAutocomplete = function(aTextbox) {
-		try{
+		try {
 			Components.classes["@mozilla.org/satchel/form-history;1"].getService(Components.interfaces.nsIFormHistory2).addEntry(aTextbox.getAttribute('autocompletesearchparam'), aTextbox.value);
-		}catch(e){}
+		} catch (e) {}
 	}
 	//this selects nodes ala "jquery" using querySelectorAll on any HTML string.
 	this.select = function(aQuery, anHTML, anURI) {

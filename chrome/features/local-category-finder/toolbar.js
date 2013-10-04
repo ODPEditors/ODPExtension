@@ -12,6 +12,14 @@
 		ODPExtension.setAutocomplete(ODPExtension.getElement('local-category-finder-textbox'));
 		ODPExtension.setAutocomplete(ODPExtension.getElement('local-category-finder-textbox-where'));
 	});
+
+
+	this.addListener('userInterfaceUpdate', function(aEnabled) {
+		ODPExtension.getElement('toolbar-local-category-finder').setAttribute('hidden', !aEnabled || !ODPExtension.shared.categories.txt.exists);
+	});
+
+
+
 	return null;
 
 }).apply(ODPExtension);

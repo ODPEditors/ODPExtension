@@ -43,6 +43,11 @@
 
 		this.removeChilds(container);
 
+		if (this.categoryIsRTL(aCategory))
+			container.setAttribute('style', 'direction:rtl');
+		else
+			container.setAttribute('style', 'direction:ltr');
+
 		var aCategoryNodes = aCategory.split('/');
 		var path = '';
 		if (aCategory != '') {
@@ -55,6 +60,11 @@
 				toolbarbutton.setAttribute('context', 'ODPExtension-from-category');
 				toolbarbutton.setAttribute('onclick', 'if(event.button==1 && event.originalTarget == this)ODPExtension.categoryBrowserClick(event)'); //only allows middle click on the toobalbutton to open the category in a new tab, that's all
 				toolbarbutton.setAttribute('value', path.replace(/\/$/, ''));
+				if (this.categoryIsRTL(path)){
+					toolbarbutton.setAttribute('direction', 'rtl');
+				} else{
+					toolbarbutton.setAttribute('direction', 'ltr');
+				}
 
 				var popup = this.create('menupopup');
 				popup.setAttribute('value', path);

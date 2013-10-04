@@ -74,7 +74,7 @@
 				path += aNodes[id] + '/';
 				var add = this.create('menuitem');
 				add.setAttribute('value', path.replace(/\/$/, ''));
-				if (this.categoryIsRTL(path.replace(/\/$/, '')))
+				if (this.categoryIsRTL(path))
 					add.setAttribute('direction', 'rtl');
 				add.setAttribute('label', this.categoryAbbreviate(path).replace(/\/$/, ''));
 				menupopupParents.appendChild(add);
@@ -89,10 +89,12 @@
 
 		var focused = item && item.hasAttribute('isFocused')
 		if (item && item.parentNode) {
-			if (item.hasAttribute('id')) {
+			if (item.hasAttribute('id'))
 				menu.setAttribute('id', item.getAttribute('id'));
+			if(item.hasAttribute('style'))
 				menu.setAttribute('style', item.getAttribute('style'));
-			}
+			if(item.hasAttribute('direction'))
+				menu.setAttribute('direction', item.getAttribute('direction'));
 			if (item.hasAttribute('temporal'))
 				menu.setAttribute('temporal', item.getAttribute('temporal'));
 
@@ -103,7 +105,7 @@
 			}
 			if (focused) {
 
-				for (var i = 0; i < menu.parentNode.childNodes.length; i++) {
+				for (var i = 0; menu.parentNode && i < menu.parentNode.childNodes.length; i++) {
 					if (menu.parentNode.childNodes[i].tagName == 'menu') {
 						menu.parentNode.childNodes[i].firstChild.hidePopup();
 					}

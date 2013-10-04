@@ -88,18 +88,36 @@
 				currentPopup.appendChild(this.create('menuseparator'));
 			}
 
+			//alphabar menu if any
+			var menuAlphabar = this.create('menu');
+			menuAlphabar.setAttribute('label', 'Alphabar');
+			menuAlphabar.setAttribute('done', 'true');
+			var menupopupAlphabar = this.create('menupopup');
+			menupopupAlphabar.setAttribute('ignorekeys', true);
+
+			if (this.categoryIsRTL(aCategory))
+				menupopupAlphabar.setAttribute('direction', 'rtl');
+
 			//adding the subcategories not top
 			for (var i = 0; i < anArrayResults.length; i++) {
 				if (anArrayResults[i] != '') {
 					//this.dump(subcategories.categories[i]);
+					var aCategoryLastChildName = this.categoryTitleLastChild(anArrayResults[i])
 					var add = this.create("menuitem");
-					add.setAttribute("label", this.categoryAbbreviate(this.categoryTitleLastChild(anArrayResults[i])));
+					add.setAttribute("label", aCategoryLastChildName);
 					add.setAttribute("value", anArrayResults[i].replace(/\/$/, ''));
-					currentPopup.appendChild(add);
+					if (aCategoryLastChildName.length == 1)
+						menupopupAlphabar.appendChild(add);
+					else
+						currentPopup.appendChild(add);
 					somethingFound = true;
 				}
 			}
-
+			if (menupopupAlphabar.childNodes.length > 0) {
+				currentPopup.appendChild(this.create('menuseparator'));
+				menuAlphabar.appendChild(menupopupAlphabar);
+				currentPopup.appendChild(menuAlphabar);
+			}
 
 			//find all the categories at the same level "sisters", restricted to the current category
 			//example(the useful example) Regional/Africa/[^/]+/Arts_and_Entertainment/

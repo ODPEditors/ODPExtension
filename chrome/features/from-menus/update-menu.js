@@ -644,12 +644,16 @@
 				this.removeChilds(this.getElement('from-categories-tooltip-data'));
 				var label = this.create('label');
 				label.setAttribute('value', this.categoryAbbreviate(this.fromCategorySelectedCategory));
+				if (this.categoryIsRTL(this.fromCategorySelectedCategory))
+					label.setAttribute('direction', 'rtl');
 				this.getElement('from-categories-tooltip-data').appendChild(label);
 			} else {
 				this.removeChilds(this.getElement('from-categories-tooltip-data'));
 				for (var id in this.fromCategorySelectedCategories) {
 					var label = this.create('label');
 					label.setAttribute('value', this.categoryAbbreviate(this.fromCategorySelectedCategories[id]));
+					if (this.categoryIsRTL(this.fromCategorySelectedCategories[id]))
+						label.setAttribute('direction', 'rtl');
 					this.getElement('from-categories-tooltip-data').appendChild(label);
 				}
 			}
@@ -689,6 +693,8 @@
 					var add = this.create('menuitem');
 					add.setAttribute('value', path.replace(/\/$/, ''));
 					add.setAttribute('label', this.categoryAbbreviate(path).replace(/\/$/, ''));
+					if (this.categoryIsRTL(path))
+						add.setAttribute('direction', 'rtl');
 					menupopup.appendChild(add);
 				}
 				parents.appendChild(menupopup);

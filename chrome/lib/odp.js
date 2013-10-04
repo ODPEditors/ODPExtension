@@ -313,7 +313,7 @@
 			aCategory.indexOf('World/Persian') != -1 ||
 			aCategory.indexOf('World/Hebrew') != -1 ||
 
-		aCategory.indexOf('International/Arabic') != -1 ||
+			aCategory.indexOf('International/Arabic') != -1 ||
 			aCategory.indexOf('International/Persian') != -1 ||
 			aCategory.indexOf('International/Hebrew') != -1)
 			return true;

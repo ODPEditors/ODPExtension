@@ -35,12 +35,15 @@
 }
 menu[direction="rtl"],
 menuitem[direction="rtl"],
-menupopup[direction="rtl"] {
+toolbarbutton[direction="rtl"],
+menupopup[direction="rtl"],
+label[direction="rtl"] {
 	direction: rtl;
 	unicode-bidi: embed;
 }
 menu[direction="ltr"],
 menuitem[direction="ltr"],
+toolbarbutton[direction="ltr"],
 menupopup[direction="ltr"] {
 	direction: ltr;
 	unicode-bidi: embed;

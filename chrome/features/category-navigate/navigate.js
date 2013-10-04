@@ -32,10 +32,7 @@
 					item.removeAttribute('retrieving');
 				}
 			}
-			/*else if((tagName == 'menu'  || tagName == 'xul:menu' ) && (item.hasAttribute('isFocused')) )
-			{
-				//item.firstChild.openPopup(item, 'end_before');
-			}*/
+
 		}
 		return true;
 	}

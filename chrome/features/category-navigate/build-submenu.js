@@ -7,10 +7,8 @@
 		menu.setAttribute('value', item.getAttribute('value'));
 		menu.setAttribute('done', 'true');
 
-
 		var menupopup = this.create('menupopup');
 		menupopup.setAttribute('ignorekeys', true);
-
 
 		//alphabar menu if any
 		var menuAlphabar = this.create('menu');
@@ -62,6 +60,7 @@
 			var menuParents = this.create('menu');
 			menuParents.setAttribute('label', 'Parents');
 			menuParents.setAttribute('style', 'font-weight:bold;');
+			menuParents.setAttribute('direction', 'ltr');
 			menuParents.setAttribute('done', 'true');
 
 			var menupopupParents = this.create('menupopup');
@@ -87,38 +86,33 @@
 
 
 		//appending the menus
-		if (item && item.hasAttribute('isFocused')) {
-			if (item && item.parentNode) {
-				if (item.hasAttribute('id')) {
-					menu.setAttribute('id', item.getAttribute('id'));
-					menu.setAttribute('style', item.getAttribute('style'));
-				}
-				if (item.hasAttribute('temporal'))
-					menu.setAttribute('temporal', item.getAttribute('temporal'));
 
-				try {
-					item.parentNode.replaceChild(menu, item);
-				} catch (e) {
-					item.appendChild(menupopup);
+		var focused = item && item.hasAttribute('isFocused')
+		if (item && item.parentNode) {
+			if (item.hasAttribute('id')) {
+				menu.setAttribute('id', item.getAttribute('id'));
+				menu.setAttribute('style', item.getAttribute('style'));
+			}
+			if (item.hasAttribute('temporal'))
+				menu.setAttribute('temporal', item.getAttribute('temporal'));
+
+			try {
+				item.parentNode.replaceChild(menu, item);
+			} catch (e) {
+				item.appendChild(menupopup);
+			}
+			if (focused) {
+
+				for (var i = 0; i < menu.parentNode.childNodes.length; i++) {
+					if (menu.parentNode.childNodes[i].tagName == 'menu') {
+						menu.parentNode.childNodes[i].firstChild.hidePopup();
+					}
 				}
 				menupopup.openPopup(menu, 'end_before');
-			}
-		} else {
-			if (item && item.parentNode) {
-				if (item.hasAttribute('id')) {
-					menu.setAttribute('id', item.getAttribute('id'));
-					menu.setAttribute('style', item.getAttribute('style'));
-				}
-				if (item.hasAttribute('temporal'))
-					menu.setAttribute('temporal', item.getAttribute('temporal'));
 
-				try {
-					item.parentNode.replaceChild(menu, item);
-				} catch (e) {
-					item.appendChild(menupopup);
-				}
 			}
 		}
+
 	}
 	return null;
 

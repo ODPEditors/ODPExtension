@@ -4,7 +4,7 @@
 	this.categoryHistoryDelete = function(aCategory) {
 		//delete a category from the history database
 		this.deleteCategoryHistory.params('categories_history_category', aCategory);
-		this.db.updateAsync(this.deleteCategoryHistory);
+		this.categoriesHistoryDatabaseOpen().updateAsync(this.deleteCategoryHistory);
 	}
 	return null;
 

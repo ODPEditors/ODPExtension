@@ -8,7 +8,7 @@
 
 	//inserts categories in the category history database, also asigns radiation(points) in an attemp to add some type of nice sorting
 	//here I'm just playing
-	this.categoryHistoryInsert = function(aCategory, aURL, aDate) {
+	this.categoryHistoryInsert = function(aCategory, aURL, aDate, noAsync) {
 		if (this.categoryIsBadEncoded(aCategory) || aCategory == '')
 			return;
 		//this.dump('categoryHistoryInsert', debugingThisFile);
@@ -53,14 +53,23 @@
 		else if (aURL.indexOf('directory.google.com') != -1 || aURL.indexOf('google.com/Top') != -1)
 			radiation = 0;
 
+		var db = this.categoriesHistoryDatabaseOpen();
 		//insert async of unique categories
 		this.insertCategoryHistory.params('categories_history_category', aCategory);
-		this.db.insertAsync(this.insertCategoryHistory, true);
+		if(!noAsync)
+			db.insertAsync(this.insertCategoryHistory, true);
+		else
+			db.insert(this.insertCategoryHistory, true);
+
 		//update async of counts points and date
 		this.updateCategoryHistory.params('categories_history_category', aCategory);
 		this.updateCategoryHistory.params('categories_history_date', aDate);
 		this.updateCategoryHistory.params('categories_history_radiation', radiation);
-		this.db.updateAsync(this.updateCategoryHistory);
+		if(!noAsync)
+			db.updateAsync(this.updateCategoryHistory);
+		else
+			db.update(this.updateCategoryHistory);
+
 	}
 	return null;
 

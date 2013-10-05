@@ -63,9 +63,6 @@
 		//correction of the extension directory
 		this.extensionDirectory();
 
-		//db initialization
-		this.db = this.databaseGet('ODPExtension');
-
 		this.dispatchEvent('preferencesLoadGlobal');
 	}
 

@@ -2,7 +2,7 @@
 	var debugingThisFile = false; //sets debuging on/off for this JavaScript file
 
 	this.addListener('onIdle', function() {
-		ODPExtension.db.vacuum();
+		ODPExtension.categoriesHistoryDatabaseOpen().vacuum();
 	});
 
 	this.addListener('preferencesLoadGlobal', function() {
@@ -10,9 +10,10 @@
 	});
 
 	this.categoryHistoryStatements = function() {
-		this.insertCategoryHistory = this.db.query('INSERT INTO `categories_history` ( `categories_history_category` ) VALUES (:categories_history_category) ');
-		this.deleteCategoryHistory = this.db.query('DELETE FROM `categories_history` WHERE `categories_history_category` = :categories_history_category');
-		this.updateCategoryHistory = this.db.query(' \
+		var db = this.categoriesHistoryDatabaseOpen();
+		this.insertCategoryHistory = db.query('INSERT INTO `categories_history` ( `categories_history_category` ) VALUES (:categories_history_category) ');
+		this.deleteCategoryHistory = db.query('DELETE FROM `categories_history` WHERE `categories_history_category` = :categories_history_category');
+		this.updateCategoryHistory = db.query(' \
 															UPDATE \
 																`categories_history` \
 															SET \
@@ -22,7 +23,7 @@
 															WHERE \
 																`categories_history_category`= :categories_history_category \
 														');
-		this.categoryHistoryGetMostVisitedLimit = this.db.query(' \
+		this.categoryHistoryGetMostVisitedLimit = db.query(' \
 																		SELECT \
 																			`categories_history_category` \
 																		FROM \
@@ -31,7 +32,7 @@
 																			`categories_history_radiation` DESC, \
 																			`categories_history_category` DESC LIMIT 50 \
 																	');
-		this.categoryHistoryGetHistory = this.db.query(' \
+		this.categoryHistoryGetHistory = db.query(' \
 																 		SELECT \
 																			`categories_history_category` \
 																		FROM \

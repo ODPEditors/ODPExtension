@@ -32,7 +32,7 @@
 			//if categories.txt exists, then try it, if the category is not Test or bookmarks.
 			var anArrayResults = []
 			if (this.shared.categories.txt.exists && aCategory.indexOf('Test') !== 0 && aCategory.indexOf('Bookmarks') !== 0) {
-				var aConnection = this.rdfDatabaseOpen();
+				var aConnection = this.categoriesTXTDatabaseOpen();
 				var query = aConnection.query('select category from categories_txt where parent = (select id from categories_txt where category = :category)');
 				query.params('category', aCategory + '/');
 				var row;

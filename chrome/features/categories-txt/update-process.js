@@ -14,9 +14,6 @@
 
 		var stringCategories = this.getString('categories');
 
-		//old folder
-		this.fileRemove('categories.txt/');
-
 		var aData = '';
 		var ids = [];
 		var currentID = 1;
@@ -29,10 +26,8 @@
 
 		var subStrCount = this.subStrCount;
 		//timer.start('open database');
-		var aConnection = this.rdfDatabaseOpen();
+		var aConnection = this.categoriesTXTDatabaseOpen();
 		//	aConnection = storageService.openSpecialDatabase('memory');//for tests, faster
-		aConnection.executeSimple('PRAGMA temp_store = 2');
-		aConnection.executeSimple('PRAGMA journal_mode = memory');
 		aConnection.executeSimple('drop table if exists `categories_txt`');
 		aConnection.executeSimple('	CREATE TABLE IF NOT EXISTS `categories_txt` ( `id` INTEGER PRIMARY KEY ASC  NOT NULL, `parent` INTEGER  NOT NULL, `category` TEXT NOT NULL, `name` TEXT  NOT NULL, `depth` INTEGER  NOT NULL)');
 		var insertCategory = aConnection.aConnection.createStatement('INSERT INTO `categories_txt` ( `id`,`parent`,`category`,`name`,`depth`) VALUES ( :id,:parent, :category, :name, :depth )')
@@ -149,6 +144,9 @@
 				progress.running = Math.floor((new Date() - timer.timers['all']['start']) / 1000) + ' secs'
 				progress.progress();
 				progress.ok();
+
+				ODPExtension.categoriesTXTDatabaseClose();
+				ODPExtension.categoriesTXTDatabaseOpen();
 
 				ODPExtension.gc();
 

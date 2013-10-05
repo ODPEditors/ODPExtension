@@ -56,7 +56,7 @@
 
 		var somethingFound = false;
 
-		var aConnection = this.rdfDatabaseOpen();
+		var aConnection = this.categoriesTXTDatabaseOpen();
 		var query = aConnection.query('select * from categories_txt where category GLOB :category and name = :name');
 		query.params('category', aCategoryNodes[0] + '/*');
 		query.params('name', aCategoryNodes[aCategoryNodes.length - 1]);

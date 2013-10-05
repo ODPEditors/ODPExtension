@@ -42,7 +42,6 @@
 		else
 			aLocation = this.anonymize(aLocation); //every url
 
-
 		//update the icon status
 		this.listingInformationURL = this.decodeUTF8Recursive(aLocation);
 		this.listingInformation = 'loading';

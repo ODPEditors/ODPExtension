@@ -116,7 +116,6 @@
 				'</pre>'), true);
 		else
 			this.notifyTab(aMsg, 8);
-		this.rdfClose();
 	}
 	return null;
 

@@ -59,7 +59,7 @@
 			//this.dump(currentPopup);
 
 			//first finds all the subcategories
-			var aConnection = this.rdfDatabaseOpen();
+			var aConnection = this.categoriesTXTDatabaseOpen();
 			var query = aConnection.query('select category from categories_txt where parent = (select id from categories_txt where category = :category)');
 			query.params('category', aCategory + '/');
 			var row, anArrayResults = [];

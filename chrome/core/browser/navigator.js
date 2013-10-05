@@ -30,7 +30,7 @@ var ODPExtension = {};
 	this.__LINE__ = '\n';
 
 	/*this function local variables*/
-	var debugingThisFile = false; //sets debuging on/off for this JavaScript file
+	var debugingThisFile = true; //sets debuging on/off for this JavaScript file
 	//console
 	var consoleService = Components.classes["@mozilla.org/consoleservice;1"].
 	getService(Components.interfaces.nsIConsoleService);
@@ -145,6 +145,21 @@ var ODPExtension = {};
 			for (var id in listeners['afterBrowserLoad']) {
 				this.dump('initLoadListeners:afterBrowserLoad:' + listeners['afterBrowserLoad'][id], debugingThisFile);
 				listeners['afterBrowserLoad'][id]();
+			}
+		}
+
+		//on first run
+		if (listeners['onFirstRun']) {
+
+			if (!this.preferenceExists('first.run', 'bool') || !this.preferenceGet('first.run')) {
+				ODPExtension.preferenceCreate('first.run', true, 'bool');
+
+				for (var id in listeners['onFirstRun']) {
+					this.dump('initLoadListeners:onFirstRun:' + listeners['onFirstRun'][id], debugingThisFile);
+					setTimeout(function() {
+						listeners['onFirstRun'][id]();
+					}, 2000);
+				}
 			}
 		}
 

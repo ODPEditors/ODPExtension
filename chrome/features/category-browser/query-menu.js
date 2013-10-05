@@ -37,7 +37,8 @@
 				//this.dump('categoryBrowserQueryMenu:database search ', true);
 				var aCategories = [];
 				var row;
-				for (var i = 0; row = this.db.fetchObjects(this.categoryHistoryGetHistory); i++) {
+				var db = this.categoriesHistoryDatabaseOpen();
+				for (var i = 0; row = db.fetchObjects(this.categoryHistoryGetHistory); i++) {
 					if (this.searchEngineSearch(aQuery, row.categories_history_category.replace(/_/g, ' ').replace(/-/g, ' '))) {
 						foundDatabase = true;
 						aCategories[aCategories.length] = row.categories_history_category;
@@ -46,7 +47,7 @@
 							break;
 					}
 				}
-				this.db.reset(this.categoryHistoryGetHistory);
+				db.reset(this.categoryHistoryGetHistory);
 			}
 			if (foundDatabase) {
 				//this.categoryBrowserAppendCategoriesAfter(aCategories.reverse(), this.getElement('category-browser-categories-history'));

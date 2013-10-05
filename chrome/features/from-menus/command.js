@@ -303,7 +303,7 @@
 
 		//one time notices
 
-		if (aCommand.indexOf('rdf_') === 0 && !this.fileExists('RDF.sqlite')) {
+		if (aCommand.indexOf('rdf_') === 0 && !this.fileExists('ODPRDF.sqlite')) {
 			if (this.confirm(this.getString('rdf.there.is.no.database.based.on.rdf.data'))) {
 				this.rdfParser();
 			}

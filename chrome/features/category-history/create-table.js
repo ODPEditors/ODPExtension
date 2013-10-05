@@ -11,7 +11,7 @@
 	this.categoryHistoryCreateTable = function() {
 
 		//create tables
-		this.db.create('\
+		this.categoriesHistoryDatabaseOpen().create('\
 								CREATE TABLE IF NOT EXISTS \
 									`categories_history` \
 								( \

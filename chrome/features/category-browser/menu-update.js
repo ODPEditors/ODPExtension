@@ -17,8 +17,8 @@
 		var aCategories = [];
 		var row;
 		var i = 0;
-
-		for (; row = this.db.fetchObjects(this.categoryHistoryGetMostVisitedLimit); i++) {
+		var db = this.categoriesHistoryDatabaseOpen();
+		for (; row = db.fetchObjects(this.categoryHistoryGetMostVisitedLimit); i++) {
 			aCategories[i] = row.categories_history_category;
 		}
 

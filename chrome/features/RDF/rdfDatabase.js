@@ -7,7 +7,7 @@
 
 	this.rdfDatabaseOpen = function() {
 		if (!this.DBRDF) {
-			this.DBRDF = this.databaseGet('RDF');
+			this.DBRDF = this.databaseGet('ODPRDF');
 			//getting the last and previous RDF database
 			var tables = this.DBRDF.tablesGet();
 			var prefix = [];
@@ -24,6 +24,7 @@
 			this.DBRDF.setPrefix(this.rdfCurrentData);
 			this.DBRDF.executeSimple('PRAGMA temp_store = 2');
 			this.DBRDF.executeSimple('PRAGMA journal_mode = memory');
+			//this.DBRDF.executeSimple('PRAGMA synchronous = 0');  does not free mem.
 		}
 		return this.DBRDF;
 	}

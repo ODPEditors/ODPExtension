@@ -10,7 +10,7 @@
 
 		if (!this.categoriesTXTRequired()) {} else {
 
-			var aConnection = this.rdfDatabaseOpen();
+			var aConnection = this.categoriesTXTDatabaseOpen();
 			var query = aConnection.query('select * from categories_txt where category GLOB :category');
 			query.params('category', aWhere.replace(/\/$/, '') + '*');
 

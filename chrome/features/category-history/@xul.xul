@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<script src="create-table.js" type="application/x-javascript"/>
+	<script src="database.js" type="application/x-javascript"/>
 	<script src="delete.js" type="application/x-javascript"/>
 	<script src="import-categories-history.js" type="application/x-javascript"/>
 	<script src="insert.js" type="application/x-javascript"/>

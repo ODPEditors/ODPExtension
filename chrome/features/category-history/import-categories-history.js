@@ -3,7 +3,6 @@
 
 	//imports to the category browser history, all the categories that you have in your browser history
 	this.categoryHistoryImportCategoriesHistory = function() {
-		this.alert('Please wait a minute!');
 
 		var historyService = Components.classes["@mozilla.org/browser/nav-history-service;1"]
 			.getService(Components.interfaces.nsINavHistoryService);
@@ -50,15 +49,18 @@
 		// see : https://developer.mozilla.org/en/nsINavHistoryContainerResultNode
 		cont.containerOpen = false;
 
-		if (toImport.length < 1) {
-			this.alert('You don\'t have any site from the Open Directory Project in the browsing history!');
-		} else {
-			if (this.confirm(toImport.length + ' sites from your history looks like valid categories. These will be inserted in your "Category History" database, only the category names and time of visit will be inserted, to give relevance. Do you want to import these? It is recommended because puts your frequently used category on top of the menu.')) {
-				for (var id in toImport) {
-					this.categoryHistoryInsert(toImport[id].cat, toImport[id].uri, toImport[id].date);
-				}
-				this.alert('Done. Give some minutes to the browser to insert these.');
+		if (toImport.length < 1) {} else {
+			var db = this.categoriesHistoryDatabaseOpen();
+			db.begin();
+
+			this.categoryHistoryStatements();
+			for (var id in toImport) {
+				this.categoryHistoryInsert(toImport[id].cat, toImport[id].uri, toImport[id].date, true);
 			}
+			db.commit();
+			db.vacuum();
+
+			ODPExtension.gc();
 		}
 	}
 	return null;

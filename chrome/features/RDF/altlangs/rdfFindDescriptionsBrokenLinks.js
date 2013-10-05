@@ -13,7 +13,7 @@
 											 	SELECT \
 													categories_path \
 												FROM \
-													`PREFIX_categories` 																		');
+													`categories` 																		');
 
 		var categories = [];
 		for (var results = 0; row = this.DBRDF.fetchObjects(query); results++) {
@@ -25,7 +25,7 @@
 											 	SELECT \
 													* \
 												FROM \
-													`PREFIX_categories` \
+													`categories` \
 											where categories_description like "%href%" \
 												order by \
 													categories_id asc \

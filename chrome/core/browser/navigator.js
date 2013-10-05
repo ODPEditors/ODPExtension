@@ -30,7 +30,7 @@ var ODPExtension = {};
 	this.__LINE__ = '\n';
 
 	/*this function local variables*/
-	var debugingThisFile = true; //sets debuging on/off for this JavaScript file
+	var debugingThisFile = false; //sets debuging on/off for this JavaScript file
 	//console
 	var consoleService = Components.classes["@mozilla.org/consoleservice;1"].
 	getService(Components.interfaces.nsIConsoleService);

@@ -251,7 +251,7 @@
 		//RDF Tools
 		//parsing
 		else if (aCommand == 'command_rdf_parse_files') {
-			this.rdfParser();
+			this.rdfParserStart();
 			return;
 		} else if (aCommand == 'command_rdf_find_string_on_node') {
 			this.rdfFind(searchFor);
@@ -303,9 +303,9 @@
 
 		//one time notices
 
-		if (aCommand.indexOf('rdf_') === 0 && !this.fileExists('ODPRDF.sqlite')) {
+		if (aCommand.indexOf('rdf_') === 0 && !this.fileExists('RDF.sqlite')) {
 			if (this.confirm(this.getString('rdf.there.is.no.database.based.on.rdf.data'))) {
-				this.rdfParser();
+				this.rdfParserStart();
 			}
 			return;
 		}

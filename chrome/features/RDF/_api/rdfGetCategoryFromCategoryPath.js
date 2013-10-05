@@ -11,7 +11,7 @@
 											 	SELECT \
 													* \
 												FROM \
-													`PREFIX_categories` \
+													`categories` \
 												where \
 													`categories_path` = :categories_path \
 											');

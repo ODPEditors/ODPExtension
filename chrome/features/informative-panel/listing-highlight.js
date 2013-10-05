@@ -40,6 +40,7 @@
 
 		var progress = this.progress('listings.highlight');
 		progress.add();
+		progress.progress();
 
 		this.readURL(
 			this.preferenceGet('advanced.urls.rdf').replace('{URL}', this.encodeUTF8(this.removeSchema(this.anonymize(item.href)))),
@@ -59,6 +60,7 @@
 		//progress
 		var progress = this.progress('listings.highlight');
 		progress.remove();
+		progress.progress();
 
 		//vars
 		var responseURL = '',

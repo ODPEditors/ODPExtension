@@ -10,8 +10,8 @@
 											 	SELECT \
 													* \
 												FROM \
-													`PREFIX_categories`, \
-													`PREFIX_related` \
+													`categories`, \
+													`related` \
 												where \
 													`related_id_from` = :categories_id and \
 													`categories_id` = `related_id_to` \

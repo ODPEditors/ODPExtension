@@ -5,18 +5,20 @@
 
 	//opens a connection to the RDF SQLite database
 
+	var database = false;
+
 	this.categoriesHistoryDatabaseOpen = function() {
-		if (!this.categoriesHistory) {
-			this.categoriesHistory = this.databaseGet('ODPExtension');
-			this.categoriesHistory.executeSimple('PRAGMA temp_store = 2');
-			this.categoriesHistory.executeSimple('PRAGMA journal_mode = memory');
-			//this.categoriesHistory.executeSimple('PRAGMA synchronous = 0');  does not free mem.
+		if (!database) {
+			database = this.databaseGet('ODPExtension');
+			database.executeSimple('PRAGMA temp_store = 2');
+			database.executeSimple('PRAGMA journal_mode = memory');
+			//database.executeSimple('PRAGMA synchronous = 0');  does not free mem.
 		}
-		return this.categoriesHistory;
+		return database;
 	}
 	this.categoriesHistoryDatabaseClose = function() {
-		this.categoriesHistory.close();
-		this.categoriesHistory = false;
+		database.close();
+		database = false;
 	}
 	return null;
 

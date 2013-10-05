@@ -21,17 +21,21 @@
 		}
 	}
 	//shows a notification in the status bar if the status bar is there
+	var notifyStatusBarTimeout = false;
+	var notifyStatusBarElement = false;
 	this.notifyStatusBar = function(aString) {
-		setTimeout(function() {
-			if (ODPExtension.getBrowserElement('statusbar-display') && aString != '')
-				ODPExtension.getBrowserElement('statusbar-display').label = 'ODP Extension : ' + aString;
-			else {
-				setTimeout(function() {
-					if (ODPExtension.getBrowserElement('statusbar-display'))
-						ODPExtension.getBrowserElement('statusbar-display').label = '';
-				}, 8000);
-			}
-		}, 0);
+		clearTimeout(notifyStatusBarTimeout);
+		if(!notifyStatusBarElement)
+			notifyStatusBarElement = this.getBrowserElement('statusbar-display');
+
+		if (notifyStatusBarElement && aString != '')
+			notifyStatusBarElement.label = 'ODP Extension : ' + aString;
+		else {
+			notifyStatusBarTimeout = setTimeout(function() {
+				if (notifyStatusBarElement)
+					notifyStatusBarElement.label = '';
+			}, 8000);
+		}
 	}
 	//shows a notification in the current tab, if aTime is passed the notification will be hidden before the time
 	this.notifyTab = function(aString, aTime) {
@@ -58,10 +62,6 @@
 			return this.sharedObjectGet(aConnection);
 		} else {
 			var object = {};
-			//reference to extension code
-			object.theExtension = Components.classes['@particle.universe.tito/TheExtension;3']
-				.getService().wrappedJSObject;
-
 			object.message = '';
 			object.running = 0;
 			object.done = 0;
@@ -74,7 +74,6 @@
 			}
 			object.remove = function() {
 				this.done++;
-				this.progress();
 				if (this.done == this.running && !! this.onComplete)
 					this.onComplete();
 			}
@@ -90,11 +89,12 @@
 					var progressMsg = this.done + ' / ' + this.running;
 				if (progressMsg != this.last) {
 					this.last = progressMsg;
-					this.theExtension.code('ODPExtension').notifyStatusBar(progressMsg);
+					ODPExtension.notifyStatusBar(progressMsg);
 				}
+				object.ok();
 			}
 			object.ok = function() {
-				this.theExtension.code('ODPExtension').notifyStatusBar('');
+				ODPExtension.notifyStatusBar('');
 			}
 
 			return this.sharedObjectGet(aConnection, object);

@@ -15,8 +15,8 @@
 											DISTINCT(categories_id),\
 											categories_path \
 										FROM \
-											`PREFIX_categories`,\
-											`PREFIX_altlang` \
+											`categories`,\
+											`altlang` \
 										where \
 											altlang_id_from in ( ' + aCategoryID + ' ) and \
 											(`categories_id` = altlang_id_to) \

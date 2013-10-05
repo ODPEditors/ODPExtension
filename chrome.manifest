@@ -13,10 +13,6 @@ locale	ODPExtension	ro	chrome/locale/ro/
 locale	ODPExtension	ru	chrome/locale/ru/
 locale	ODPExtension	tr	chrome/locale/tr/
 
-component {4505e350-9cbd-11df-981c-0800200c9a66} components/odpParser.js
-contract @particle.universe.tito/ODPParser;2 {4505e350-9cbd-11df-981c-0800200c9a66}
-category profile-after-change ODPParser @particle.universe.tito/ODPParser;2
-
 component {aa5d0540-9c94-11df-981c-0800200c9a66} components/preferencesManager.js
 contract @particle.universe.tito/PreferencesManager;7 {aa5d0540-9c94-11df-981c-0800200c9a66}
 category profile-after-change PreferencesManager @particle.universe.tito/PreferencesManager;7

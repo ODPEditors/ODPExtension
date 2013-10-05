@@ -13,7 +13,7 @@
 											 	SELECT \
 													* \
 												FROM \
-													`PREFIX_categories` \
+													`categories` \
 												where \
 													`categories_path` GLOB  :categories_path and \
 													`categories_id` not in \
@@ -21,7 +21,7 @@
 													 	select \
 															`altlang_id_to` \
 														from \
-															`PREFIX_altlang` \
+															`altlang` \
 													) \
 												order by \
 													categories_id asc \

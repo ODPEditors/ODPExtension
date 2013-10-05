@@ -169,13 +169,14 @@
 			return aString.toString();
 	};
 	//stripTags from a string
+	var stripTagsRegExp = /<[^>]*>/g;
 	this.stripTags = function(aString, aReplacement) {
 		if (!aString)
 			return '';
 		if (!aReplacement)
-			return aString.replace(/<[^>]*>/g, '');
+			return aString.replace(stripTagsRegExp, '');
 		else
-			return aString.replace(/<[^>]*>/g, aReplacement);
+			return aString.replace(stripTagsRegExp, aReplacement);
 	};
 	//Count the number of substring occurrences
 	this.subStrCount = function(aString, aStringToCount) {
@@ -188,10 +189,12 @@
 		return a;
 	};
 	//trims a string
+	var trimStart = /^\s+/;
+	var trimEnd = /\s+$/
 	this.trim = function(aString) {
 		if (!aString)
 			return '';
-		return aString.replace(/^\s+/, '').replace(/\s+$/, '');
+		return aString.replace(trimStart, '').replace(trimEnd, '');
 	};
 	//returns the string with the first char in uppercase
 	this.ucFirst = function(aString) {

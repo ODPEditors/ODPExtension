@@ -11,6 +11,7 @@
 		progress.done = '0%';
 		progress.running = '';
 		progress.message = this.getString('local.category.finder') + ' : ' + this.getString('progress.download'); //%
+		progress.progress();
 
 		var stringCategories = this.getString('categories');
 
@@ -23,6 +24,8 @@
 		var unicodeConverter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
 		unicodeConverter.charset = "UTF-8";
 		unicodeConverter = unicodeConverter.ConvertToUnicode;
+
+		var binInputStream = Components.classes["@mozilla.org/binaryinputstream;1"].createInstance(Components.interfaces.nsIBinaryInputStream);
 
 		var subStrCount = this.subStrCount;
 		//timer.start('open database');
@@ -48,8 +51,6 @@
 				progress.running = Math.floor((new Date() - timer.timers['all']['start']) / 1000) + ' secs'
 				progress.progress();
 
-				var binInputStream = Components.classes["@mozilla.org/binaryinputstream;1"]
-					.createInstance(Components.interfaces.nsIBinaryInputStream);
 				binInputStream.setInputStream(aInputStream);
 				aData += binInputStream.readBytes(binInputStream.available());
 				binInputStream.close();
@@ -120,15 +121,17 @@
 				progress.progress();
 
 				//timer.start('creating index');
-				aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `parent` ON `categories_txt` (`parent`) ');
-				aConnection.executeSimple('	CREATE UNIQUE INDEX IF NOT EXISTS `category` ON `categories_txt` (`category`) ');
-				aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `name` ON `categories_txt` (`name`) ');
-				aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `depth` ON `categories_txt` (`depth`) ');
+				aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `categories_txt_parent` ON `categories_txt` (`parent`) ');
+				aConnection.executeSimple('	CREATE UNIQUE INDEX IF NOT EXISTS `categories_txt_category` ON `categories_txt` (`category`) ');
+				aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `categories_txt_name` ON `categories_txt` (`name`) ');
+				aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `categories_txt_depth` ON `categories_txt` (`depth`) ');
 				//timer.stop('creating index');
 
 				//timer.start('commiting');
 				aConnection.commit();
 				//timer.stop('commiting');
+
+				aConnection.vacuum();
 
 				timer.stop('all');
 				//timer.display();
@@ -143,7 +146,6 @@
 
 				progress.running = Math.floor((new Date() - timer.timers['all']['start']) / 1000) + ' secs'
 				progress.progress();
-				progress.ok();
 
 				ODPExtension.categoriesTXTDatabaseClose();
 				ODPExtension.categoriesTXTDatabaseOpen();

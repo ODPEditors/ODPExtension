@@ -13,15 +13,15 @@
 											 	SELECT \
 													* \
 												FROM \
-													`PREFIX_categories`, \
-													`PREFIX_altlang` \
+													`categories`, \
+													`altlang` \
 												where \
 													`altlang_id_to` IN \
 													( \
 													 	SELECT \
 															categories_id \
 														FROM \
-															`PREFIX_categories` \
+															`categories` \
 														WHERE \
 															`categories_path` = :categories_path \
 													 ) AND \

@@ -16,7 +16,7 @@
 													*, \
 													(LENGTH(categories_path) - LENGTH(REPLACE(categories_path, \'/\', \'\'))) AS cnt \
 												FROM \
-													`PREFIX_categories` \
+													`categories` \
 												where \
 													`categories_path` GLOB  \'World/*\' and \
 													`categories_id` not in \
@@ -24,7 +24,7 @@
 												 	select \
 														`altlang_id_to` \
 													from \
-														`PREFIX_altlang` \
+														`altlang` \
 												) \
 												and \
 												`categories_id`  in \
@@ -32,7 +32,7 @@
 												 	select \
 														`altlang_id_from` \
 													from \
-														`PREFIX_altlang` \
+														`altlang` \
 												) \
 												order by \
 																								cnt asc \
@@ -48,7 +48,7 @@
 													*, \
 													(LENGTH(categories_path) - LENGTH(REPLACE(categories_path, \'/\', \'\'))) AS cnt \
 												FROM \
-													`PREFIX_categories` \
+													`categories` \
 												where \
 													`categories_path` GLOB  \'World/*\' and \
 													`categories_id` not in \
@@ -56,7 +56,7 @@
 												 	select \
 														`altlang_id_to` \
 													from \
-														`PREFIX_altlang` \
+														`altlang` \
 												) \
 												and cnt &gt; 2 and cnt &lt; 7 \
 												and \
@@ -75,7 +75,7 @@
 													*, \
 													(LENGTH(categories_path) - LENGTH(REPLACE(categories_path, \'/\', \'\'))) AS cnt \
 												FROM \
-													`PREFIX_categories` \
+													`categories` \
 												where \
 													`categories_path` GLOB  \'World/*\' and \
 													`categories_id` not in \
@@ -83,7 +83,7 @@
 												 	select \
 														`altlang_id_from` \
 													from \
-														`PREFIX_altlang` \
+														`altlang` \
 												) \
 												and cnt &gt; 2 and cnt &lt; 7 \
 												and \

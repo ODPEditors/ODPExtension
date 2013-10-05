@@ -13,15 +13,15 @@
 											 	SELECT \
 													* \
 												FROM \
-													`PREFIX_categories`, \
-													`PREFIX_link` \
+													`categories`, \
+													`link` \
 												where \
 													`link_id_from` IN \
 													( \
 													 	SELECT \
 															categories_id \
 														FROM \
-															`PREFIX_categories` \
+															`categories` \
 														WHERE \
 															`categories_path` GLOB  :categories_path \
 													 ) \

@@ -36,7 +36,6 @@
 			}
 			//holds references to the queries with some custom propierties
 			object.queriesReferences = [];
-			object.prefix = '';
 			//object mapping
 			//transactions
 			object.begin = function() {
@@ -66,16 +65,13 @@
 					try {
 						this.reset(this.queriesReferences[id]);
 						this.queriesReferences[id].query.finalize();
-						this.queriesReferences[id].query = this.aConnection.createStatement(this.queriesReferences[id].sql.split('PREFIX').join(this.prefix))
+						this.queriesReferences[id].query = this.aConnection.createStatement(this.queriesReferences[id].sql)
 						//this.theExtension.code('ODPExtension').dump('state'+this.queriesReferences[id].query.state);
 					} catch (e) { /*probably bad wrote of a query*/
 						this.theExtension.code('ODPExtension').error('init:re-createStatement FAILED:\nQUERY:\n\t' + this.queriesReferences[id].sql + '\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString);
 					};
 				}
 
-			}
-			object.setPrefix = function(aPrefix) {
-				this.prefix = aPrefix;
 			}
 			object.vacuum = function() {
 				this.execute(this._vacuum);
@@ -201,7 +197,7 @@
 				queryReference.aConnection = this.aConnection;
 
 				try {
-					queryReference.query = this.aConnection.createStatement(query.split('PREFIX').join(this.prefix))
+					queryReference.query = this.aConnection.createStatement(query)
 				} catch (e) { /*probably bad wrote of a query*/
 					this.theExtension.code('ODPExtension').error('createStatement FAILED:\nQUERY:\n\t' + query + '\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString);
 				};
@@ -249,7 +245,7 @@
 			//'create' statements should use this function
 			object.create = object.executeSimple = function(query, canFail) {
 				try {
-					this.aConnection.executeSimpleSQL(query.split('PREFIX').join(this.prefix))
+					this.aConnection.executeSimpleSQL(query)
 				} catch (e) { /*probably bad wrote of a query*/
 					if (!canFail) {
 						this.theExtension.code('ODPExtension').error('executeSimpleSQL FAILED:\nQUERY:\n\t' + query + '\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString);

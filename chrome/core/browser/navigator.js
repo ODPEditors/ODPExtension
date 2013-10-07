@@ -209,7 +209,7 @@ var ODPExtension = {};
 					throw Components.results.NS_NOINTERFACE;
 				},
 				onLocationChange: function(aProgress, aRequest, aURI) {
-					//	ODPExtension.dump('onLocationChange:onLocationChange', debugingThisFile);
+					//ODPExtension.dump('onLocationChange:onLocationChange', true);
 					ODPExtension.dispatchOnLocationChange(false);
 				},
 				onStateChange: function(aWebProgress, aRequest, aFlag, aStatus) {},
@@ -591,7 +591,7 @@ var ODPExtension = {};
 	this.error = function(aMsg) {
 		var stack = new Error().stack
 		setTimeout(function() {
-			throw new Error('ODPExtension : ' + aMsg)+ "\n\n" + stack;
+			throw new Error('ODPExtension : ' + aMsg) + "\n\n" + stack;
 		}, 0);
 	};
 	//output to the console the stack

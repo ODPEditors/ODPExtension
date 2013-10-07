@@ -216,7 +216,7 @@
 
 				//fill parameters
 				queryReference.params = function(aParam, aValue) {
-					aValue = !aValue ? '' : aValue.toString();
+					aValue = (!aValue || aValue == '*') ? '' : aValue.toString();
 
 					try {
 

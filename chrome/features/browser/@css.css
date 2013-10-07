@@ -11,8 +11,7 @@
 	margin: inherit;
 }
 .ODPExtension-toolbarbutton {
-	padding-left: 2px;
-	padding-right: 2px;
+	padding-left: 4px;
 }
 #urlbar-icons > .ODPExtension-toolbarbutton {
 	visibility: visible !important;

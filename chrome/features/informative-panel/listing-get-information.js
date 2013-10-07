@@ -10,7 +10,6 @@
 	});
 
 	var db, query_domain_count, query_domain_select, query_slice;
-
 	this.addListener('databaseReady', function() {
 
 		db = ODPExtension.rdfDatabaseOpen();
@@ -28,13 +27,31 @@
 			                       \
 			                       	/* 1 exaclty this url */ \
 								  \
-										select *, min(sorting) as dale from(SELECT  \
-											1 ' + select + '   \
+										select *, min(sorting) as dale from( \
+									SELECT  \
+											0 ' + select + '   \
 										FROM  \
 											 hosts h, uris u, categories c \
 										where  \
 											' + where_subdomain + ' and \
 											 u.path = :path \
+									/* this subdomain, this domain limit 2 */ \
+									UNION \
+										select * from(SELECT  \
+											1 ' + select + '   \
+										FROM  \
+											 hosts h, uris u, categories c \
+										where  \
+											' + where_subdomain + ' and \
+											 u.path = "" limit 2 ) \
+									UNION \
+										select * from(SELECT  \
+											1 ' + select + '   \
+										FROM  \
+											 hosts h, uris u, categories c \
+										where  \
+											' + where_domain + ' and \
+											 u.path = "" limit 2 ) \
 			                       	/* 2 url LIKE url% - all under this url */ \
 									UNION \
 										SELECT  \
@@ -147,7 +164,7 @@
 											 hosts h, uris u, categories c \
 										where  \
 											' + where_domain + ' \
-									group by site_id  order by sorting asc LIMIT 300 \
+									group by site_id  order by sorting asc LIMIT 200 \
 									) group by site_id  order by dale asc LIMIT 30 \
 									/* 13 - url = urlFullDomain or url = urlFullDomain/ - exaclty this domain */ \
 							 \
@@ -197,7 +214,7 @@
 		aLocationID.path_parent_folder = this.removeFileName2(aLocationID.path_no_file_name)
 		aLocationID.path_first_folder = this.removeFromTheFirstFolder2(aLocationID.path_parent_folder)
 
-		ODPExtension.dump('query:'+aLocation);
+		//ODPExtension.dump('query:'+aLocation);
 
 		//check if the domain has few listings
 		query_domain_count.params('domain', aLocationID.domain);

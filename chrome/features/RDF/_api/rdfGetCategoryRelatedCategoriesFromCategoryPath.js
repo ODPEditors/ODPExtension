@@ -2,30 +2,35 @@
 	//sets debuging on/off for this JavaScript file
 
 	var debugingThisFile = true;
+	var db, query;
+	this.addListener('databaseReady', function() {
 
+		db = ODPExtension.rdfDatabaseOpen();
+		if (db.exists){
+			query = db.query(' \
+												 	SELECT \
+														* \
+													FROM \
+														`categories` c , \
+														`related` r \
+													where \
+														r.`from` = :categories_id and \
+														c.`id` = r.`to` \
+													order by \
+														r.`to` asc \
+												');
+		}
+	});
 	this.rdfGetCategoryRelatedCategoriesFromCategoryID = function(aCategoryID) {
-		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
 
-		var query = this.DBRDF.query(' \
-											 	SELECT \
-													* \
-												FROM \
-													`categories`, \
-													`related` \
-												where \
-													`related_id_from` = :categories_id and \
-													`categories_id` = `related_id_to` \
-												order by \
-													related_id_to asc \
-											');
 		query.params('categories_id', aCategoryID);
 
 		if (!anArrayResults)
 			var anArrayResults = [];
 
 		var row;
-		for (var i = 0; row = this.DBRDF.fetchObjects(query); i++) {
-			anArrayResults.push(row);
+		for (var i = 0; row = db.fetchObjects(query); i++) {
+			anArrayResults[anArrayResults.length] = row;
 		}
 		return anArrayResults;
 	}

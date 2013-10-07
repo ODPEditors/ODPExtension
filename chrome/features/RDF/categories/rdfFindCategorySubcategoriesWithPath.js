@@ -4,7 +4,7 @@
 	var debugingThisFile = true;
 
 	this.rdfFindCategorySubcategoriesWithPath = function(aCategory, aQuery) {
-		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
+
 
 		var aMsg = 'Subcategories of "{CATEGORY}" with search "{QUERY}" ({RESULTS})'; //informative msg and title of document
 
@@ -15,10 +15,10 @@
 		var aData = '';
 		aQuery = aQuery.replace(/[\.|_]/g, ' ')
 		for (var results = 0, i = 0; i < subCategories.length; i++) {
-			if (!this.searchEngineSearch(aQuery, subCategories[i].categories_path.replace(/[\.|,|-|_]/g, ' ')))
+			if (!this.searchEngineSearch(aQuery, subCategories[i].category.replace(/[\.|,|-|_]/g, ' ')))
 				continue;
 			results++
-			aData += subCategories[i].categories_path;
+			aData += subCategories[i].category;
 			aData += this.__LINE__;
 		}
 

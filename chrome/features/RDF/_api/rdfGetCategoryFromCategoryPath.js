@@ -2,23 +2,26 @@
 	//sets debuging on/off for this JavaScript file
 
 	var debugingThisFile = true;
+	var db, query;
+	this.addListener('databaseReady', function() {
 
+		db = ODPExtension.rdfDatabaseOpen();
+		if (db.exists){
+			query = db.query('\
+												 	SELECT \
+														* \
+													FROM \
+														`categories` c  \
+													where \
+														c.`category` = :category \
+												');
+		}
+	});
 	this.rdfGetCategoryFromCategoryPath = function(aCategory) {
-		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
-
-		//sql query
-		var query = this.DBRDF.query('\
-											 	SELECT \
-													* \
-												FROM \
-													`categories` \
-												where \
-													`categories_path` = :categories_path \
-											');
-		query.params('categories_path', aCategory);
+		query.params('category', aCategory);
 
 		//searching
-		return this.DBRDF.fetchObject(query);
+		return db.fetchObject(query);
 	}
 	return null;
 

@@ -4,7 +4,7 @@
 	var debugingThisFile = true;
 
 	this.rdfFindCategorySubcategoriesWithNameExact = function(aCategory, aQuery) {
-		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
+
 
 		var aMsg = 'Subcategories of "{CATEGORY}" with exact name "{QUERY}" ({RESULTS})'; //informative msg and title of document
 
@@ -14,10 +14,10 @@
 		//searching
 		var aData = '';
 		for (var results = 0, i = 0; i < subCategories.length; i++) {
-			if (subCategories[i].categories_category != aQuery)
+			if (subCategories[i].name != aQuery)
 				continue;
 			results++
-			aData += subCategories[i].categories_path;
+			aData += subCategories[i].category;
 			aData += this.__LINE__;
 		}
 

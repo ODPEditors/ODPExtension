@@ -15,6 +15,7 @@
 	<script src="altlangs/rdfFindAltlangsFromHereFromAny.js" type="application/x-javascript"/>
 	<script src="altlangs/rdfFindAltlangsGame.js" type="application/x-javascript"/>
 	<script src="altlangs/rdfFindAltlangsNonReciprocal.js" type="application/x-javascript"/>
+	<script src="altlangs/rdfFindAltlangsNonReciprocalCategory.js" type="application/x-javascript"/>
 	<script src="altlangs/rdfFindAltlangsToHere.js" type="application/x-javascript"/>
 	<script src="altlangs/rdfFindAltlangsToHereToAny.js" type="application/x-javascript"/>
 	<script src="altlangs/rdfFindDescriptionsBrokenLinks.js" type="application/x-javascript"/>

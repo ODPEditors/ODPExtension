@@ -2,99 +2,107 @@
 	//sets debuging on/off for this JavaScript file
 
 	var debugingThisFile = true;
+	var db, query_1, query_2, query_3;
+	this.addListener('databaseReady', function() {
 
+		db = ODPExtension.rdfDatabaseOpen();
+		if (db.exists){
+			//sql query
+			query_1 = db.query(' \
+												 	SELECT \
+														*, \
+														(LENGTH(c.category) - LENGTH(REPLACE(c.category, \'/\', \'\'))) AS cnt \
+													FROM \
+														`categories` c  \
+													where \
+														c.`category` GLOB  \'World/*\' and \
+														c.`id` not in \
+													( \
+													 	select \
+															a.`to` \
+														from \
+															`altlang` a \
+													) \
+													and \
+													c.`id`  in \
+													( \
+													 	select \
+															a.`from` \
+														from \
+															`altlang` a \
+													) \
+													order by \
+																									cnt asc \
+												');
+			//sql query
+			query_2 = db.query(' \
+												 	SELECT \
+														*, \
+														(LENGTH(c.category) - LENGTH(REPLACE(c.category, \'/\', \'\'))) AS cnt \
+													FROM \
+														`categories` c  \
+													where \
+														c.`category` GLOB  \'World/*\' and \
+														c.`id` not in \
+													( \
+													 	select \
+															a.`to` \
+														from \
+															`altlang` a \
+													) \
+													and cnt > 2 and cnt < 7 \
+													and \
+													LENGTH(c.`name`) > 1 \
+													order by \
+														cnt asc \
+												');
+			//sql query
+			query_3 = db.query(' \
+												 	SELECT \
+														*, \
+														(LENGTH(c.category) - LENGTH(REPLACE(c.category, \'/\', \'\'))) AS cnt \
+													FROM \
+														`categories` c  \
+													where \
+														c.`category` GLOB  \'World/*\' and \
+														c.`id` not in \
+													( \
+													 	select \
+															a.`from` \
+														from \
+															`altlang` a \
+													) \
+													and cnt > 2 and cnt < 7 \
+													and \
+													LENGTH(c.`name`) > 1 \
+													order by \
+														cnt asc, \
+														c.`category` asc \
+												');
+		}
+	});
 	this.rdfFindAltlangsGame = function(aCategory) {
-		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
 
 		var id = 0;
 
 		var categories = [];
 
-		//sql query
-		var query = this.DBRDF.query(' \
-											 	SELECT \
-													*, \
-													(LENGTH(categories_path) - LENGTH(REPLACE(categories_path, \'/\', \'\'))) AS cnt \
-												FROM \
-													`categories` \
-												where \
-													`categories_path` GLOB  \'World/*\' and \
-													`categories_id` not in \
-												( \
-												 	select \
-														`altlang_id_to` \
-													from \
-														`altlang` \
-												) \
-												and \
-												`categories_id`  in \
-												( \
-												 	select \
-														`altlang_id_from` \
-													from \
-														`altlang` \
-												) \
-												order by \
-																								cnt asc \
-											');
 
-		for (var results = 0; row = this.DBRDF.fetchObjects(query); results++) {
-			categories.push(row.categories_path)
+
+		for (var results = 0; row = db.fetchObjects(query_1); results++) {
+			categories[categories.length] = row.category
 		}
 
-		//sql query
-		var query = this.DBRDF.query(' \
-											 	SELECT \
-													*, \
-													(LENGTH(categories_path) - LENGTH(REPLACE(categories_path, \'/\', \'\'))) AS cnt \
-												FROM \
-													`categories` \
-												where \
-													`categories_path` GLOB  \'World/*\' and \
-													`categories_id` not in \
-												( \
-												 	select \
-														`altlang_id_to` \
-													from \
-														`altlang` \
-												) \
-												and cnt &gt; 2 and cnt &lt; 7 \
-												and \
-												LENGTH(categories_category) &gt; 1 \
-												order by \
-													cnt asc \
-											');
 
-		for (var results = 0; row = this.DBRDF.fetchObjects(query); results++) {
-			categories.push(row.categories_path)
+
+		for (var results = 0; row = db.fetchObjects(query_2); results++) {
+			categories[categories.length] = row.category
 		}
 
-		//sql query
-		var query = this.DBRDF.query(' \
-											 	SELECT \
-													*, \
-													(LENGTH(categories_path) - LENGTH(REPLACE(categories_path, \'/\', \'\'))) AS cnt \
-												FROM \
-													`categories` \
-												where \
-													`categories_path` GLOB  \'World/*\' and \
-													`categories_id` not in \
-												( \
-												 	select \
-														`altlang_id_from` \
-													from \
-														`altlang` \
-												) \
-												and cnt &gt; 2 and cnt &lt; 7 \
-												and \
-												LENGTH(categories_category) &gt; 1 \
-												order by \
-													cnt asc, \
-													categories_path asc \
-											');
 
-		for (var results = 0; row = this.DBRDF.fetchObjects(query); results++) {
-			categories.push(row.categories_path)
+
+		for (var results = 0; row = db.fetchObjects(query_3); results++) {
+			categories[categories.length] = row.category
 		}
 
 		categories = this.arrayUnique(categories);

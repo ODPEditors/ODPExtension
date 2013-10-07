@@ -4,7 +4,7 @@
 	var debugingThisFile = true;
 
 	this.rdfFindCategoryDescriptionEmpty = function(aCategory) {
-		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
+
 
 		var aMsg = 'Categories without description on "{CATEGORY}" and on its subcategories ({RESULTS})'; //informative msg and title of document
 
@@ -14,8 +14,8 @@
 		//searching
 		var aData = '';
 		for (var results = 0, i = 0; i < subCategories.length; i++) {
-			if (this.trim(subCategories[i].categories_description) == '') {
-				aData += subCategories[i].categories_path;
+			if (subCategories[i].description.trim() == '') {
+				aData += subCategories[i].category;
 				aData += this.__LINE__;
 				results++;
 			}

@@ -2,52 +2,57 @@
 	//sets debuging on/off for this JavaScript file
 
 	var debugingThisFile = true;
+	var db, query;
+	this.addListener('databaseReady', function() {
 
+		db = ODPExtension.rdfDatabaseOpen();
+		if (db.exists){
+			//sql query
+			query = db.query(' \
+												 	SELECT \
+														c.`category`, a.`to` as a_to  \
+													FROM \
+														`categories` c , \
+														`altlang` a \
+													where \
+														a.`to` IN \
+														( \
+														 	SELECT \
+																c.`id` \
+															FROM \
+																`categories` c  \
+															WHERE \
+																c.`category` GLOB  :category \
+														 ) AND \
+														c.`id` = a.`from` \
+													order by \
+														a.`to` asc, \
+														a.`from` asc \
+												');
+		}
+	});
 	this.rdfFindAltlangsToHereToAny = function(aCategory) {
-		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
 
 		var aMsg = 'Alternative languages to "{CATEGORY}" and to any of its subcategories ({RESULTS})'; //informative msg and title of document
 
-		//sql query
-		var query = this.DBRDF.query(' \
-											 	SELECT \
-													* \
-												FROM \
-													`categories`, \
-													`altlang` \
-												where \
-													`altlang_id_to` IN \
-													( \
-													 	SELECT \
-															categories_id \
-														FROM \
-															`categories` \
-														WHERE \
-															`categories_path` GLOB  :categories_path \
-													 ) AND \
-													`categories_id` = `altlang_id_from` \
-												order by \
-													`altlang_id_to` asc, \
-													`altlang_id_from` asc \
-											');
-		query.params('categories_path', aCategory + '*');
+		query.params('category', aCategory + '*');
 
 		//searching
 		var row, rows = [],
 			aData = '',
 			last, tmp;
-		for (var results = 0; row = this.DBRDF.fetchObjects(query);) {
-			tmp = row.altlang_id_to
+		for (var results = 0; row = db.fetchObjects(query);) {
+			tmp = row.a_to
 			if (last != tmp) {
 				results++
 				last = tmp;
 				aData += this.__LINE__;
-				aData += this.rdfGetCategoryFromCategoryID(last).categories_path;
+				aData += this.rdfGetCategoryFromCategoryID(last).category;
 				aData += this.__LINE__;
 				aData += this.__LINE__;
 			}
 			aData += '\t';
-			aData += row.categories_path;
+			aData += row.category;
 			aData += this.__LINE__;
 		}
 

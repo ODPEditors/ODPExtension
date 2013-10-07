@@ -3,33 +3,40 @@
 
 	var debugingThisFile = true;
 
+	var db, query;
+	this.addListener('databaseReady', function() {
+
+		db = ODPExtension.rdfDatabaseOpen();
+		if (db.exists){
+
+		}
+	});
 	this.rdfGetCategoryAltlangsIDsFromCategoryIDs = function(aCategoryID, anArrayResults) {
-		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
 
 		try {
 			aCategoryID = aCategoryID.join(',');
-		} catch (e) { /*stupid....*/ }
+		} catch (e) {  }
 
-		var query = this.DBRDF.query(' \
+		query = db.query(' \
 										SELECT \
-											DISTINCT(categories_id),\
-											categories_path \
+											DISTINCT(c.id),\
+											c.category \
 										FROM \
-											`categories`,\
-											`altlang` \
+											`categories` c ,\
+											`altlang` a \
 										where \
-											altlang_id_from in ( ' + aCategoryID + ' ) and \
-											(`categories_id` = altlang_id_to) \
+											a.`from` in  ( '+aCategoryID+' ) and \
+											(c.`id` = a.`to`) \
 										order by \
-											categories_id asc \
+											c.`category` asc \
 									');
 
 		if (!anArrayResults)
 			anArrayResults = [];
 
 		var row;
-		for (var i = 0; row = this.DBRDF.fetchObjects(query); i++) {
-			anArrayResults.push(row.categories_id);
+		for (var i = 0; row = db.fetchObjects(query); i++) {
+			anArrayResults[anArrayResults.length] = row.id;
 		}
 		return anArrayResults;
 	}

@@ -4,7 +4,7 @@
 	var debugingThisFile = true;
 
 	this.rdfFindCategoryDescriptionRecursive = function(aCategory) {
-		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
+
 
 		var aMsg = 'Description of category "{CATEGORY}" and of its subcategories ({RESULTS})'; //informative msg and title of document
 
@@ -14,15 +14,15 @@
 		//searching
 		var aData = '';
 		for (var results = 0, i = 0; i < subCategories.length; i++) {
-			if (subCategories[i].categories_description != '') {
+			if (subCategories[i].description != '') {
 				results++;
-				aData += subCategories[i].categories_path;
+				aData += subCategories[i].category;
 				aData += this.__LINE__;
 				aData += '<pre wrap="true">';
-				aData += this.htmlSpecialCharsEncode(subCategories[i].categories_description);
+				aData += this.htmlSpecialCharsEncode(subCategories[i].description);
 				aData += this.__LINE__;
 				aData += '<a href="data:text/html;charset=utf-8,';
-				aData += this.encodeUTF8(subCategories[i].categories_description);
+				aData += this.encodeUTF8(subCategories[i].description);
 				aData += '">view as html</a>';
 				aData += '</pre>';
 				aData += this.__LINE__;

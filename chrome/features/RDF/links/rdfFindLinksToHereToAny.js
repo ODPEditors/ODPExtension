@@ -2,54 +2,60 @@
 	//sets debuging on/off for this JavaScript file
 
 	var debugingThisFile = true;
+	var db, query;
+	this.addListener('databaseReady', function() {
 
+		db = ODPExtension.rdfDatabaseOpen();
+		if (db.exists){
+			//sql query
+			query = db.query(' \
+												 	SELECT \
+														l.`name`, l.`to`, c.`category` \
+													FROM \
+														`categories` c , \
+														`link` l \
+													where \
+														l.`to` IN \
+														( \
+														 	SELECT \
+																c.`id` \
+															FROM \
+																`categories` c  \
+															WHERE \
+																c.`category` GLOB  :category \
+														 ) AND \
+														c.`id` = l.`from` \
+													order by \
+														l.`to` asc, \
+														l.`from` asc \
+												');
+		}
+	});
 	this.rdfFindLinksToHereToAny = function(aCategory) {
-		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
 
 		var aMsg = '@links to "{CATEGORY}" or to any of its subcategories ({RESULTS})'; //informative msg and title of document
 
-		//sql query
-		var query = this.DBRDF.query(' \
-											 	SELECT \
-													* \
-												FROM \
-													`categories`, \
-													`link` \
-												where \
-													`link_id_to` IN \
-													( \
-													 	SELECT \
-															categories_id \
-														FROM \
-															`categories` \
-														WHERE \
-															`categories_path` GLOB  :categories_path \
-													 ) AND \
-													`categories_id` = `link_id_from` \
-												order by \
-													`link_id_to` asc, \
-													`link_id_from` asc \
-											');
-		query.params('categories_path', aCategory + '*');
+
+		query.params('category', aCategory + '*');
 
 		//searching
 		var row, rows = [],
 			aData = '',
 			last, tmp;
-		for (var results = 0; row = this.DBRDF.fetchObjects(query);) {
-			tmp = row.link_id_to
+		for (var results = 0; row = db.fetchObjects(query);) {
+			tmp = row.to
 			if (last != tmp) {
 				results++
 				last = tmp;
 				aData += this.__LINE__;
-				aData += this.rdfGetCategoryFromCategoryID(last).categories_path;
+				aData += this.rdfGetCategoryFromCategoryID(last).category;
 				aData += this.__LINE__;
 				aData += this.__LINE__;
 			}
 			aData += '\t';
-			aData += row.categories_path;
+			aData += row.category;
 			aData += '<b style="color:green;font-size:16px;">@</b>';
-			aData += row.link_name;
+			aData += row.name;
 			aData += this.__LINE__;
 		}
 

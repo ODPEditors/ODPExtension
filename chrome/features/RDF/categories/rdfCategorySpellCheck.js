@@ -4,7 +4,7 @@
 	var debugingThisFile = true;
 
 	this.rdfCategorySpellCheck = function(aCategory, aLang) {
-		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
+
 
 		var aMsg = 'Spelling errors on categories names of "{CATEGORY}" including its subcategories ({RESULTS})'; //informative msg and title of document
 
@@ -14,14 +14,14 @@
 		//searching
 		var aData = '';
 		for (var results = 0, i = 0; i < subCategories.length; i++) {
-			var aString = subCategories[i].categories_category.replace(/[\.|,|-|_]/g, ' ').split(' ');
+			var aString = subCategories[i].name.replace(/[\.|,|-|_]/g, ' ').split(' ');
 			var spell = '';
 			var found = false;
 			for (var id in aString) {
 				if (this.spellError(aString[id], aLang)) {
 					spell += aString[id];
 					spell += ' ';
-					subCategories[i].categories_path = subCategories[i].categories_path.split(aString[id]).join('<b>' + aString[id] + '</b>');
+					subCategories[i].category = subCategories[i].category.split(aString[id]).join('<b>' + aString[id] + '</b>');
 					if (!found) {
 						found = true;
 						results++;
@@ -30,7 +30,7 @@
 			}
 			if (!found)
 				continue;
-			aData += subCategories[i].categories_path;
+			aData += subCategories[i].category;
 			aData += '<input type="text"  spellcheck="true" value="' + this.htmlSpecialCharsEncode(this.trim(spell)) + '"/>';
 			aData += this.__LINE__;
 		}

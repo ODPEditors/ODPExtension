@@ -2,53 +2,60 @@
 	//sets debuging on/off for this JavaScript file
 
 	var debugingThisFile = true;
+	var db, query;
+	this.addListener('databaseReady', function() {
 
+		db = ODPExtension.rdfDatabaseOpen();
+		if (db.exists){
+
+			//sql query
+			query = db.query(' \
+												 	SELECT \
+												 		c.`id`, c.`category` \
+													FROM \
+														`categories` c  \
+													where \
+														c.`category` GLOB  :category and \
+														c.`id` not in \
+														( \
+														 	select \
+																a.`from` \
+															from \
+																`altlang` a \
+														) \
+														and \
+														c.`id` in \
+														( \
+														 	select \
+																a.`to` \
+															from \
+																`altlang` a \
+														) \
+													order by \
+														c.`category` asc \
+												');
+		}
+	});
 	this.rdfFindAltlangsCategoriesWithoutOutgoingWithIncoming = function(aCategory) {
-		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
+
 
 		var aMsg = 'Categories without outgoing but with incoming alternative languages on "{CATEGORY}" and on its subcategories ({RESULTS})'; //informative msg and title of document
 
-		//sql query
-		var query = this.DBRDF.query(' \
-											 	SELECT \
-													* \
-												FROM \
-													`categories` \
-												where \
-													`categories_path` GLOB  :categories_path and \
-													`categories_id` not in \
-													( \
-													 	select \
-															`altlang_id_from` \
-														from \
-															`altlang` \
-													) \
-													and \
-													`categories_id` in \
-													( \
-													 	select \
-															`altlang_id_to` \
-														from \
-															`altlang` \
-													) \
-												order by \
-													categories_id asc \
-											');
-		query.params('categories_path', aCategory + '*');
+		query.params('category', aCategory + '*');
 
 
 		var row, rows = [],
 			aData = '';
-		for (var results = 0; row = this.DBRDF.fetchObjects(query); results++) {
-			aData += '<a onclick="flip(' + row.categories_id + ', this)" opened="false"></a>';
-			aData += row.categories_path;
+		for (var results = 0; row = db.fetchObjects(query); results++) {
+			aData += '<a onclick="flip(' + row.id + ', this)" opened="false"></a>';
+			aData += row.category;
 			aData += this.__LINE__;
-			aData += '<div id="' + row.categories_id + '" style="display:none" level="1">';
+			aData += '<div id="' + row.id + '" style="display:none" level="1">';
 			aData += this.__LINE__;
 			aData += '\t<font color="red">';
-			var altlangs = this.rdfGetCategoryAltlangsIDsToCategoryIDs(row.categories_id);
+			var altlangs = this.rdfGetCategoryAltlangsIDsToCategoryIDs(row.id);
 			for (var id in altlangs) {
-				aData += this.rdfGetCategoryFromCategoryID(altlangs[id]).categories_path;
+				aData += this.rdfGetCategoryFromCategoryID(altlangs[id]).category;
 				aData += this.__LINE__;
 			}
 			aData += '</font>';

@@ -2,37 +2,42 @@
 	//sets debuging on/off for this JavaScript file
 
 	var debugingThisFile = true;
+	var db, query;
+	this.addListener('databaseReady', function() {
 
+		db = ODPExtension.rdfDatabaseOpen();
+		if (db.exists){
+			//sql query
+			query = db.query(' \
+												 	SELECT \
+														* \
+													FROM \
+														`categories` c  \
+													where \
+														c.`category` GLOB :category \
+														AND \
+														( \
+															regexp(\'--\', c.`name`) or \
+															regexp(\' \', c.`name`) or \
+															regexp(\'__\', c.`name`)
+														) \
+													order by \
+														c.`category` asc \
+												');
+		}
+	});
 	this.rdfFindCategorySubcategoriesWithInvalidName = function(aCategory) {
-		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
+
 
 		var aMsg = 'Categories with a " " or with a double "_" or "-" in the category "{CATEGORY}" or on any of its subcategories ({RESULTS})'; //informative msg and title of document
 
-		//sql query
-		var query = this.DBRDF.query(' \
-											 	SELECT \
-													* \
-												FROM \
-													`categories` \
-												where \
-													`categories_path` GLOB :categories_path \
-													AND \
-													( \
-														regexp(\'--\', categories_category) or \
-														regexp(\' \', categories_category) or \
-														regexp(\'__\', categories_category) \
-													) \
-												order by \
-													categories_id asc \
-											');
-
-		query.params('categories_path', aCategory + '*');
+		query.params('category', aCategory + '*');
 
 		//searching
 		var row, rows = [],
 			aData = '';
-		for (var results = 0; row = this.DBRDF.fetchObjects(query); results++) {
-			aData += row.categories_path;
+		for (var results = 0; row = db.fetchObjects(query); results++) {
+			aData += row.category;
 			aData += this.__LINE__;
 		}
 

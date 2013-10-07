@@ -4,7 +4,7 @@
 	var debugingThisFile = true;
 
 	this.rdfFindCategoryDescription = function(aCategory) {
-		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
+
 
 		var aMsg = 'Description of "{CATEGORY}" ({RESULTS})'; //informative msg and title of document
 
@@ -12,23 +12,23 @@
 		var aCategory = this.rdfGetCategoryFromCategoryPath(aCategory)
 		var results = 0;
 		//searching
-		if (aCategory.categories_description != '') {
+		if (aCategory.description != '') {
 			results++;
 
 			var aData = '';
-			aData += aCategory.categories_path;
+			aData += aCategory.category;
 			aData += this.__LINE__;
 			aData += '<pre wrap="true">';
-			aData += this.htmlSpecialCharsEncode(aCategory.categories_description);
+			aData += this.htmlSpecialCharsEncode(aCategory.description);
 			aData += this.__LINE__;
 			aData += '<a href="data:text/html;charset=utf-8,';
-			aData += this.encodeUTF8(aCategory.categories_description);
+			aData += this.encodeUTF8(aCategory.description);
 			aData += '">view as html</a>';
 			aData += '</pre>';
 			aData += this.__LINE__;
 		}
 		//sets msg
-		aMsg = aMsg.replace('{CATEGORY}', aCategory.categories_path).replace('{RESULTS}', results);
+		aMsg = aMsg.replace('{CATEGORY}', aCategory.category).replace('{RESULTS}', results);
 
 		//display results
 		if (results > 0)

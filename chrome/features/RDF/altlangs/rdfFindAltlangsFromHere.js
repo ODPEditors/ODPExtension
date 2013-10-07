@@ -2,40 +2,47 @@
 	//sets debuging on/off for this JavaScript file
 
 	var debugingThisFile = true;
+	var db, query;
+	this.addListener('databaseReady', function() {
 
+		db = ODPExtension.rdfDatabaseOpen();
+		if (db.exists){
+			//sql query
+
+			query = db.query(' \
+												 	SELECT \
+														c.`category` \
+													FROM \
+														`categories` c , \
+														`altlang` a \
+													where \
+														a.`from` IN \
+														( \
+														 	SELECT \
+																c.`id` \
+															FROM \
+																`categories` c  \
+															WHERE \
+																c.`category` = :category \
+														 ) AND \
+														c.`id` = a.`to` \
+													order by \
+														a.`to` asc \
+												');
+		}
+	});
 	this.rdfFindAltlangsFromHere = function(aCategory) {
-		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
+
 		var aMsg = 'Alternative languages from "{CATEGORY}" ({RESULTS})'; //informative msg and title of document
 
-		//sql query
 
-		var query = this.DBRDF.query(' \
-											 	SELECT \
-													* \
-												FROM \
-													`categories`, \
-													`altlang` \
-												where \
-													`altlang_id_from` IN \
-													( \
-													 	SELECT \
-															categories_id \
-														FROM \
-															`categories` \
-														WHERE \
-															`categories_path` = :categories_path \
-													 ) AND \
-													`categories_id` = `altlang_id_to` \
-												order by \
-													altlang_id_to asc \
-											');
-		query.params('categories_path', aCategory);
+		query.params('category', aCategory);
 
 		//searching
 		var row, rows = [],
 			aData = '';
-		for (var results = 0; row = this.DBRDF.fetchObjects(query); results++) {
-			aData += row.categories_path;
+		for (var results = 0; row = db.fetchObjects(query); results++) {
+			aData += row.category;
 			aData += this.__LINE__;
 		}
 

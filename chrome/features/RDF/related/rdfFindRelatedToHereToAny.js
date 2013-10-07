@@ -2,52 +2,57 @@
 	//sets debuging on/off for this JavaScript file
 
 	var debugingThisFile = true;
+	var db, query;
+	this.addListener('databaseReady', function() {
 
+		db = ODPExtension.rdfDatabaseOpen();
+		if (db.exists){
+			//sql query
+			query = db.query(' \
+												 	SELECT \
+														c.`category`, r.`to` \
+													FROM \
+														`categories` c , \
+														`related` r \
+													where \
+														r.`to` IN \
+														( \
+														 	SELECT \
+																c.`id` \
+															FROM \
+																`categories` c  \
+															WHERE \
+																c.`category` GLOB  :category \
+														 ) AND \
+														c.`id` = r.`from` \
+													order by \
+														r.`to` asc, \
+														r.`from` asc \
+												');
+		}
+	});
 	this.rdfFindRelatedToHereToAny = function(aCategory) {
-		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
 
 		var aMsg = 'Related categories to "{CATEGORY}" or to any of its subcategories ({RESULTS})'; //informative msg and title of document
 
-		//sql query
-		var query = this.DBRDF.query(' \
-											 	SELECT \
-													* \
-												FROM \
-													`categories`, \
-													`related` \
-												where \
-													`related_id_to` IN \
-													( \
-													 	SELECT \
-															categories_id \
-														FROM \
-															`categories` \
-														WHERE \
-															`categories_path` GLOB  :categories_path \
-													 ) AND \
-													`categories_id` = `related_id_from` \
-												order by \
-													related_id_to asc, \
-													related_id_from asc \
-											');
-		query.params('categories_path', aCategory + '*');
+		query.params('category', aCategory + '*');
 
 		//searching
 		var row, rows = [],
 			aData = '',
 			last, tmp;
-		for (var results = 0; row = this.DBRDF.fetchObjects(query);) {
-			tmp = row.related_id_to
+		for (var results = 0; row = db.fetchObjects(query);) {
+			tmp = row.to
 			if (last != tmp) {
 				results++
 				last = tmp;
 				aData += this.__LINE__;
-				aData += this.rdfGetCategoryFromCategoryID(last).categories_path;
+				aData += this.rdfGetCategoryFromCategoryID(last).category;
 				aData += this.__LINE__;
 				aData += this.__LINE__;
 			}
 			aData += '\t';
-			aData += row.categories_path;
+			aData += row.category;
 			aData += this.__LINE__;
 		}
 

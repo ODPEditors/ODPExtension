@@ -2,40 +2,45 @@
 	//sets debuging on/off for this JavaScript file
 
 	var debugingThisFile = true;
+	var db, query;
+	this.addListener('databaseReady', function() {
 
+		db = ODPExtension.rdfDatabaseOpen();
+		if (db.exists){
+			//sql query
+			query = db.query(' \
+												 	SELECT \
+														c.`category` \
+													FROM \
+														`categories` c , \
+														`related` r \
+													where \
+														r.`to` IN \
+														( \
+														 	SELECT \
+																c.`id` \
+															FROM \
+																`categories` c  \
+															WHERE \
+																c.`category` = :category \
+														 ) AND \
+														c.`id` = r.`from` \
+													order by \
+														r.`from` asc \
+												');
+		}
+	});
 	this.rdfFindRelatedToHere = function(aCategory) {
-		this.rdfDatabaseOpen(); //opens a connection to the RDF SQLite database.
 
 		var aMsg = 'Related categories to "{CATEGORY}" ({RESULTS})'; //informative msg and title of document
 
-		//sql query
-		var query = this.DBRDF.query(' \
-											 	SELECT \
-													* \
-												FROM \
-													`categories`, \
-													`related` \
-												where \
-													`related_id_to` IN \
-													( \
-													 	SELECT \
-															categories_id \
-														FROM \
-															`categories` \
-														WHERE \
-															`categories_path` = :categories_path \
-													 ) AND \
-													`categories_id` = `related_id_from` \
-												order by \
-													related_id_from asc \
-											');
-		query.params('categories_path', aCategory);
+		query.params('category', aCategory);
 
 		//searching
 		var row, rows = [],
 			aData = '';
-		for (var results = 0; row = this.DBRDF.fetchObjects(query); results++) {
-			aData += row.categories_path;
+		for (var results = 0; row = db.fetchObjects(query); results++) {
+			aData += row.category;
 			aData += this.__LINE__;
 		}
 

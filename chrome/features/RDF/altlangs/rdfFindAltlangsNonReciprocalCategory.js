@@ -3,11 +3,11 @@
 
 	var debugingThisFile = true;
 
-	this.rdfFindAltlangsNonReciprocal = function(aCategory) {
+	this.rdfFindAltlangsNonReciprocalCategory = function(aCategory) {
 
 		var aMsg = 'Non reciprocal alternative languages on "{CATEGORY}" and on its subcategories ({RESULTS})'; //informative msg and title of document
 
-		var subs = this.rdfGetCategorySubcategoriesRecursiveFromCategoryPath(aCategory);
+		var subs = [this.rdfGetCategoryFromCategoryPath(aCategory)];
 		var aData = '<li>';
 		var results = 0;
 		//for each subcategory of aCategory we check if all the altlangs are reciprocal.

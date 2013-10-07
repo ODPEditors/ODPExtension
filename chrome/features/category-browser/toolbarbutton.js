@@ -13,7 +13,7 @@
 		document.getAnonymousElementByAttribute(
 			ODPExtension.getElement('category-browser'),
 			"anonid",
-			"ODPExtension-category-browser-menulist-data-xbl").setAttribute('hidden', !ODPExtension.shared.categories.txt.exists);
+			"ODPExtension-category-browser-menulist-data-xbl").setAttribute('hidden', !ODPExtension.categoriesTXTExists());
 	});
 	return null;
 

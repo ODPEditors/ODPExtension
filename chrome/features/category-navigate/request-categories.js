@@ -1,5 +1,10 @@
 (function() {
-
+	var db, query;
+	this.addListener('databaseReady', function() {
+			db = ODPExtension.categoriesTXTDatabaseOpen();
+			if(db.exists)
+				query = db.query('select category from categories_txt where parent = (select id from categories_txt where category = :category)');
+	});
 	//obtains the categories for contruct the navegables menus
 	this.categoryBrowserNavigateRequestCategories = function(item) {
 		item.setAttribute('done', true);
@@ -8,7 +13,7 @@
 		var aCategory = item.getAttribute('value');
 
 		//if the categories.txt does not exists, or if it is Test or bookmarks.
-		if (!this.shared.categories.txt.exists || aCategory.indexOf('Test') === 0 || aCategory.indexOf('Bookmarks') === 0) {
+		if (!db.exists || aCategory.indexOf('Test') === 0 || aCategory.indexOf('Bookmarks') === 0) {
 			var Requester = new XMLHttpRequest();
 			Requester.onload = function(aEvent) {
 				if (
@@ -31,12 +36,10 @@
 		} else {
 			//if categories.txt exists, then try it, if the category is not Test or bookmarks.
 			var anArrayResults = []
-			if (this.shared.categories.txt.exists && aCategory.indexOf('Test') !== 0 && aCategory.indexOf('Bookmarks') !== 0) {
-				var aConnection = this.categoriesTXTDatabaseOpen();
-				var query = aConnection.query('select category from categories_txt where parent = (select id from categories_txt where category = :category)');
+			if (db.exists && aCategory.indexOf('Test') !== 0 && aCategory.indexOf('Bookmarks') !== 0) {
 				query.params('category', aCategory + '/');
 				var row;
-				for (var i = 0; row = aConnection.fetchObjects(query); i++) {
+				for (var i = 0; row = db.fetchObjects(query); i++) {
 					anArrayResults.push(row.category.replace(/\/$/, ''));
 				}
 			}

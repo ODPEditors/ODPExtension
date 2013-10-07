@@ -55,7 +55,8 @@
 					<xul:menuseparator/>
 					-->
 					<xul:menuitem disabled="true" label="RDF" style="font-weight:bold;"/>
-					<xul:menuitem action="rdf_find_altlangs_non_reciprocal" label="Find categories with non reciprocal alternative languages"/>
+					<xul:menuitem action="rdf_find_altlangs_non_reciprocal_category" label="Find categories with non reciprocal alternative languages"/>
+					<xul:menuitem action="rdf_find_altlangs_non_reciprocal" label="Find categories with non reciprocal alternative languages (recursive, slow)"/>
 					<xul:menuseparator/>
 					<xul:menuitem action="rdf_find_altlangs_from_here" label="Find alternative languages from here"/>
 					<xul:menuitem action="rdf_find_altlangs_to_here" label="Find alternative languages to here"/>
@@ -110,13 +111,14 @@
 			  <xul:menuitem action="edit_cat_pricat" label="&ODPExtension.from.category.sort.priority;"/>
 			  <xul:menu action="edit_cat_desc" label="&ODPExtension.from.category.edit.description;">
 				<xul:menupopup>
-					<xul:menuitem disabled="true" label="Web" style="font-weight:bold;"/>
-				 	<xul:menuitem action="search_in_cat_description" label="&ODPExtension.from.category.find.in.category.description;"/>
-					<xul:menuitem action="command_editor_produced_tool_Cat_Descriptor" label="Cat Descriptor"/>
-					<xul:menuseparator/>
+					<!--xul:menuitem disabled="true" label="Web" style="font-weight:bold;"/-->
+				 	<!--xul:menuitem action="search_in_cat_description" label="&ODPExtension.from.category.find.in.category.description;"/-->
+					<!--xul:menuitem action="command_editor_produced_tool_Cat_Descriptor" label="Cat Descriptor"/-->
+					<!--xul:menuseparator/-->
 					<xul:menuitem disabled="true" label="RDF" style="font-weight:bold;"/>
 					<xul:menuitem action="rdf_find_category_description_search" label="Search for a string in the categories description…"/>
-					<xul:menuitem action="rdf_find_category_description_empty" label="Display categories without description"/>
+					<xul:menuitem action="rdf_find_category_description_empty" label="Display categories with no description"/>
+					<xul:menuitem action="rdf_find_category_with_broken_links_description" label="Display categories with broken links in description"/>
 					<xul:menuseparator/>
 					<xul:menuitem action="rdf_find_category_description" label="Display category description"/>
 					<xul:menuitem action="rdf_find_category_description_recursive" label="Display categories description (recursive)"/>
@@ -203,7 +205,12 @@
 			  <xul:menuseparator/>
 			  <xul:menu label="Editors">
 				<xul:menupopup>
+					<xul:menuitem disabled="true" label="RDF" style="font-weight:bold;"/>
+					<xul:menuitem action="rdf_find_editors_from_here_or_from_any" label="Find for editors on subcategories"/>
+					<xul:menuitem action="rdf_find_editors_from_here" label="Find for editors on a category"/>
+					<xul:menuseparator/>
 					<xul:menuitem disabled="true" label="Web" style="font-weight:bold;"/>
+					<!--
 					<xul:menuitem action="find_in_cat_editors_rdf" label="Notice : &ODPExtension.from.category.find.editors.rdf;"/>
 					<xul:menuitem action="find_in_cat_editors_scan" label="Notice : &ODPExtension.from.category.find.editors.scan;"/>
 					<xul:menuseparator/>
@@ -211,11 +218,8 @@
 					<xul:menuseparator/>
 					<xul:menuitem action="command_editor_produced_tool_Birthdays" label="Birthdays"/>
 					<xul:menuseparator/>
+				-->
 					<xul:menuitem action="command_editor_produced_tool_Flash" label="Flash"/>
-					<xul:menuseparator/>
-					<xul:menuitem disabled="true" label="RDF" style="font-weight:bold;"/>
-					<xul:menuitem action="rdf_find_editors_from_here_or_from_any" label="Find for editors on subcategories"/>
-					<xul:menuitem action="rdf_find_editors_from_here" label="Find for editors on a category"/>
 				</xul:menupopup>
 			  </xul:menu>
 			  <xul:menu action="find_dmoz" label="Sites">

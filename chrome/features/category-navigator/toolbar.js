@@ -14,11 +14,11 @@
 	});
 
 	this.addListener('userInterfaceUpdate', function(aEnabled) {
-		ODPExtension.getElement('toolbar-category-navigator').setAttribute('hidden', !aEnabled || !ODPExtension.shared.categories.txt.exists);
+		ODPExtension.getElement('toolbar-category-navigator').setAttribute('hidden', !aEnabled || !ODPExtension.categoriesTXTExists());
 	});
 
 	this.addListener('focusedCategoryChange', function(aCategory) {
-		if (ODPExtension.shared.categories.txt.exists) {
+		if (ODPExtension.categoriesTXTExists()) {
 			if (!ODPExtension.getElement('toolbar-category-navigator').collapsed)
 				ODPExtension.categoryNavigatorToolbarUpdate(aCategory);
 		}

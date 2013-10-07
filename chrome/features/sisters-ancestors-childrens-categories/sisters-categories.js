@@ -10,7 +10,7 @@
 	});
 
 	this.addListener('userInterfaceUpdate', function(aEnabled) {
-		if (aEnabled && ODPExtension.shared.categories.txt.exists) {
+		if (aEnabled && ODPExtension.categoriesTXTExists()) {
 			aButton.setAttribute('hidden', false);
 		} else {
 			aButton.setAttribute('hidden', true);
@@ -29,6 +29,13 @@
 		}
 	});
 
+	var db, query;
+	this.addListener('databaseReady', function() {
+		db = ODPExtension.categoriesTXTDatabaseOpen();
+		if(db.exists){
+			query = db.query('select * from categories_txt where category GLOB :category and name = :name');
+		}
+	});
 	this.sistersCategoriesMenuUpdate = function(currentPopup, aEvent) {
 		this.dump('sistersCategoriesMenuUpdate', debugingThisFile);
 		//only popupshowing for the original target
@@ -56,15 +63,13 @@
 
 		var somethingFound = false;
 
-		var aConnection = this.categoriesTXTDatabaseOpen();
-		var query = aConnection.query('select * from categories_txt where category GLOB :category and name = :name');
 		query.params('category', aCategoryNodes[0] + '/*');
 		query.params('name', aCategoryNodes[aCategoryNodes.length - 1]);
 
 		aQuery = this.trim(aQuery).replace(/ /g, '_').replace(/\/*\$$/, '/\$');
 
 		var row;
-		for (var i = 0; row = aConnection.fetchObjects(query); i++) {
+		for (var i = 0; row = db.fetchObjects(query); i++) {
 			if (this.match(row.category, aQuery)) {
 				if (row.category != aCategory + '/') {
 					var add = this.create("menuitem");
@@ -87,10 +92,7 @@
 		this.dump('sistersCategoriesButtonUpdate', debugingThisFile);
 		this.dump(aCategory, debugingThisFile);
 
-		if (this.shared.categories.txt.exists && aCategory != '') {
-			this.dump('this.shared.categories.txt.exists', debugingThisFile);
-
-			this.dump('aButton', debugingThisFile);
+		if (ODPExtension.categoriesTXTExists() && aCategory != '') {
 			aButton.removeAttribute('disabled');
 
 			this.getElement('toolbarbutton-sisters-categories-menupopup').setAttribute('value', aCategory);

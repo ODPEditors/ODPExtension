@@ -19,7 +19,7 @@
 					var aCategory = item.getAttribute('value');
 					//if the overed category is test or bookmarks, wait a little more to see if the user has mouseout the menuitem
 					//test and bookmarks check this will avoid innecesary requests to the editor servers
-					if (!this.shared.categories.txt.exists || aCategory.indexOf('Test') === 0 || aCategory.indexOf('Bookmarks') === 0)
+					if (!this.categoriesTXTExists() || aCategory.indexOf('Test') === 0 || aCategory.indexOf('Bookmarks') === 0)
 						item.interval = setTimeout(function() {
 							ODPExtension.categoryBrowserNavigateRequestCategories(item);
 						}, 300);

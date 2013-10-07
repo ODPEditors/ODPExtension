@@ -28,6 +28,7 @@
 <?xul-overlay href="chrome://ODPExtension/content/features/extension-icon/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/from-menus/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/informative-panel/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/link-checker/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/local-category-finder/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/miscelanea/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/odp-notes/@xul.xul"?>

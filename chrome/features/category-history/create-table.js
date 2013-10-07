@@ -1,7 +1,7 @@
 (function() {
 	var debugingThisFile = false; //sets debuging on/off for this JavaScript file
 
-	this.addListener('preferencesLoadGlobal', function() {
+	this.addListener('databaseCreate', function() {
 		//tables creation if these no exists
 		ODPExtension.categoryHistoryCreateTable();
 	});
@@ -23,6 +23,8 @@
 									`categories_history_deleted` INTEGER NOT NULL  DEFAULT 0 \
 								) \
 						');
+		this.categoriesHistoryDatabaseClose()
+		this.categoriesHistoryDatabaseOpen()
 	}
 	return null;
 

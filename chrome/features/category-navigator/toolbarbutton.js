@@ -1,5 +1,13 @@
 (function() {
 
+	var db, query_subcategories, query_sisters;
+	this.addListener('databaseReady', function() {
+		db = ODPExtension.categoriesTXTDatabaseOpen();
+		if(db.exists){
+			query_subcategories = db.query('select category from categories_txt where parent = (select id from categories_txt where category = :category)');
+			query_sisters = db.query('select * from categories_txt where category GLOB :category and name = :name');
+		}
+	});
 
 	//finds all the subcategories and the categories at the same level "sisters"
 	this.categoryNavigatorToolbarbuttonUpdate = function(currentPopup, aEvent) {
@@ -59,11 +67,9 @@
 			//this.dump(currentPopup);
 
 			//first finds all the subcategories
-			var aConnection = this.categoriesTXTDatabaseOpen();
-			var query = aConnection.query('select category from categories_txt where parent = (select id from categories_txt where category = :category)');
-			query.params('category', aCategory + '/');
+			query_subcategories.params('category', aCategory + '/');
 			var row, anArrayResults = [];
-			for (var i = 0; row = aConnection.fetchObjects(query); i++) {
+			for (var i = 0; row = db.fetchObjects(query_subcategories); i++) {
 				anArrayResults[anArrayResults.length] = row.category.replace(/\/$/, '');
 			}
 
@@ -127,14 +133,13 @@
 			}
 			var aQuery = '^' + aCategoryNodes.join('/') + '$';
 
-			var query = aConnection.query('select * from categories_txt where category GLOB :category and name = :name');
-			query.params('category', aCategoryNodes[0] + '/*');
-			query.params('name', aCategoryNodes[aCategoryNodes.length - 1]);
+			query_sisters.params('category', aCategoryNodes[0] + '/*');
+			query_sisters.params('name', aCategoryNodes[aCategoryNodes.length - 1]);
 
 			aQuery = this.trim(aQuery).replace(/ /g, '_').replace(/\/*\$$/, '/\$');
 
 			var row, addedSeparator = false;
-			for (var i = 0; row = aConnection.fetchObjects(query); i++) {
+			for (var i = 0; row = db.fetchObjects(query_sisters); i++) {
 				if (this.match(row.category, aQuery)) {
 					if (row.category != aCategory + '/') {
 						if (!addedSeparator) {

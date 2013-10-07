@@ -20,6 +20,7 @@
 			//init the connection
 			object.aDatabase = aDatabase;
 			object.aPath = aPath;
+			object.exists = false;
 			//inits the connection
 			object.initConnection = function() {
 				//gets the working directory
@@ -199,7 +200,7 @@
 				try {
 					queryReference.query = this.aConnection.createStatement(query)
 				} catch (e) { /*probably bad wrote of a query*/
-					this.theExtension.code('ODPExtension').error('createStatement FAILED:\nQUERY:\n\t' + query + '\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString);
+					this.theExtension.code('ODPExtension').error('createStatement FAILED:\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString + 'QUERY:\n\t' + query + '\n');
 				};
 				queryReference.sql = String(query);
 				queryReference.columnNames = {};
@@ -216,15 +217,20 @@
 				//fill parameters
 				queryReference.params = function(aParam, aValue) {
 					aValue = !aValue ? '' : aValue.toString();
+
 					try {
+
 						queryReference.query.params[aParam] = aValue;
 						queryReference.paramsValues[aParam] = aValue;
+
 					} catch (e) {
 						//this failed because the query is filled again with parameters but was not "reset"
 						//(this happend when you get just one row with fetchObject)
 						queryReference.query.reset();
 						try {
 							queryReference.query.params[aParam] = aValue;
+							queryReference.paramsValues[aParam] = aValue;
+
 						} catch (e) {
 							this.theExtension.code('ODPExtension').dump('FILL PARAMS FAILED:\n\tCan\'t fill params:aParam:' + aParam + ':aValue:' + aValue + '\nQUERY:\n\t' + this.sql + '\nQUERY VALUES:\n\t' + queryReference.paramsValues.toSource() + '\nSQLITE SAYS:\n\t' + queryReference.aConnection.lastErrorString);
 						}
@@ -234,7 +240,7 @@
 					}
 				}
 				queryReference.execute = function(aFunction) {
-					if(!aFunction)
+					if (!aFunction)
 						object.execute(queryReference);
 					else
 						object.executeCallback(queryReference, aFunction);

@@ -131,6 +131,22 @@ var ODPExtension = {};
 			}
 		}
 
+		//before the browser load listener
+		if (listeners['databaseCreate']) {
+			for (var id in listeners['databaseCreate']) {
+				this.dump('initLoadListeners:databaseCreate:' + listeners['databaseCreate'][id], debugingThisFile);
+				listeners['databaseCreate'][id]();
+			}
+		}
+
+		//before the browser load listener
+		if (listeners['databaseReady']) {
+			for (var id in listeners['databaseReady']) {
+				this.dump('initLoadListeners:databaseReady:' + listeners['databaseReady'][id], debugingThisFile);
+				listeners['databaseReady'][id]();
+			}
+		}
+
 		//browser load
 		//called when a new window of the browser is created
 		if (listeners['browserLoad']) {
@@ -573,8 +589,9 @@ var ODPExtension = {};
 	};
 	//output to the console an error
 	this.error = function(aMsg) {
+		var stack = new Error().stack
 		setTimeout(function() {
-			throw new Error('ODPExtension : ' + aMsg);
+			throw new Error('ODPExtension : ' + aMsg)+ "\n\n" + stack;
 		}, 0);
 	};
 	//output to the console the stack

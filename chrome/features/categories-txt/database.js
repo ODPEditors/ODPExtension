@@ -3,7 +3,7 @@
 
 	var debugingThisFile = true;
 
-	//opens a connection to the RDF SQLite database
+	//opens a connection to the SQLite database
 
 	var database = false;
 
@@ -13,12 +13,15 @@
 			database.executeSimple('PRAGMA temp_store = 2');
 			database.executeSimple('PRAGMA journal_mode = memory');
 			//database.executeSimple('PRAGMA synchronous = 0'); does not free mem.
+			database.exists = database.tableExists('categories_txt');
 		}
 		return database;
 	}
 	this.categoriesTXTDatabaseClose = function() {
-		database.close();
-		database = false;
+		if (database) {
+			database.close();
+			database = false;
+		}
 	}
 	return null;
 

@@ -5,7 +5,7 @@
 		ODPExtension.categoriesHistoryDatabaseOpen().vacuum();
 	});
 
-	this.addListener('preferencesLoadGlobal', function() {
+	this.addListener('databaseReady', function() {
 		ODPExtension.categoryHistoryStatements();
 	});
 

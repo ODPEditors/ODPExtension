@@ -8,7 +8,7 @@
 		aButton = ODPExtension.getElement('toolbarbutton-ancestors-categories');
 	});
 	this.addListener('userInterfaceUpdate', function(aEnabled) {
-		if (aEnabled && ODPExtension.shared.categories.txt.exists) {
+		if (aEnabled && ODPExtension.categoriesTXTExists()) {
 			aButton.setAttribute('hidden', false);
 		} else {
 			aButton.setAttribute('hidden', true);
@@ -27,6 +27,13 @@
 		}
 	});
 
+	var db, query;
+	this.addListener('databaseReady', function() {
+		db = ODPExtension.categoriesTXTDatabaseOpen();
+		if(db.exists){
+			query = db.query('select * from categories_txt where category GLOB :category and name = :name and depth < :depth');
+		}
+	});
 
 	this.ancestorsCategoriesMenuUpdate = function(currentPopup, aEvent) {
 		//only popupshowing for the original target
@@ -47,14 +54,12 @@
 
 		var somethingFound = false;
 
-		var aConnection = this.categoriesTXTDatabaseOpen();
-		var query = aConnection.query('select * from categories_txt where category GLOB :category and name = :name and depth < :depth');
 		query.params('category', aCategoryNodes[0] + '/*');
 		query.params('name', aCategoryNodes[aCategoryNodes.length - 1]);
 		query.params('depth', this.subStrCount(aCategory + '/', '/'));
 
 		var row;
-		for (var i = 0; row = aConnection.fetchObjects(query); i++) {
+		for (var i = 0; row = db.fetchObjects(query); i++) {
 			if (row.category != aCategory + '/') {
 				var add = this.create("menuitem");
 				add.setAttribute("label", this.categoryAbbreviate(row.category.replace(/\/$/, '')));
@@ -76,10 +81,7 @@
 		this.dump('ancestorsCategoriesButtonUpdate', debugingThisFile);
 		this.dump(aCategory, debugingThisFile);
 
-		if (this.shared.categories.txt.exists && aCategory != '') {
-			this.dump('this.shared.categories.txt.exists', debugingThisFile);
-
-			this.dump('aButton', debugingThisFile);
+		if (ODPExtension.categoriesTXTExists() && aCategory != '') {
 			aButton.removeAttribute('disabled');
 
 			this.getElement('toolbarbutton-ancestors-categories-menupopup').setAttribute('value', aCategory);

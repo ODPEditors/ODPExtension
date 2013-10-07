@@ -9,152 +9,161 @@
 		ODPExtension.listingGetInformation(ODPExtension.focusedURL);
 	});
 
-	var panel, db, query_domain_count, query_domain_select, query_slice, sort = 0;
+	var db, query_domain_count, query_domain_select, query_slice;
+
+	this.addListener('databaseReady', function() {
+
+		db = ODPExtension.rdfDatabaseOpen();
+		if (db.exists){
+
+			var select = ' as sorting, u.id as site_id, u.uri as uri, u.title as title, u.description as description, u.mediadate as mediadate, u.pdf as pdf, u.atom as atom, u.rss as rss, u.cool as cool, c.category as category, c.description as category_description ';
+
+			var where_subdomain = ' h.host = :subdomain and h.id = u.subdomain_id and u.category_id = c.id ';
+			var where_domain = ' h.host = :domain and h.id = u.domain_id and  u.category_id = c.id ';
+
+			query_domain_count = db.query(' select count(*) from uris u, hosts h where h.host = :domain and h.id = u.domain_id');
+			query_domain_select = db.query(' select 1 ' + select + ' from  hosts h, uris u, categories c where ' + where_domain);
+
+			query_slice = db.query(' \
+			                       \
+			                       	/* 1 exaclty this url */ \
+								  \
+										select *, min(sorting) as dale from(SELECT  \
+											1 ' + select + '   \
+										FROM  \
+											 hosts h, uris u, categories c \
+										where  \
+											' + where_subdomain + ' and \
+											 u.path = :path \
+			                       	/* 2 url LIKE url% - all under this url */ \
+									UNION \
+										SELECT  \
+											2 ' + select + '   \
+										FROM  \
+											 hosts h, uris u, categories c \
+										where  \
+											' + where_subdomain + ' and \
+											u.path GLOB :path_glob \
+			                       	/* 3 - path no hash, url LIKE urlWithOutVars% - all under this url with the file name with out the hash */ \
+									UNION \
+										SELECT  \
+											3 ' + select + '   \
+										FROM  \
+											 hosts h, uris u, categories c \
+										where  \
+											' + where_subdomain + ' and \
+											u.path GLOB :path_no_hash \
+			                       	/* 3.1 - path url LIKE urlWithOutVars% - all under this url with the file name with out the vars */ \
+									UNION \
+										SELECT  \
+											3 ' + select + '   \
+										FROM  \
+											 hosts h, uris u, categories c \
+										where  \
+											' + where_subdomain + ' and \
+											u.path GLOB :path_no_vars \
+									/* 4 - url LIKE urlWithOutFileName% - all under the first folder from right to left */ \
+									UNION \
+										SELECT  \
+											4 ' + select + '   \
+										FROM  \
+											 hosts h, uris u, categories c \
+										where  \
+											' + where_subdomain + ' and \
+											u.path GLOB :path_no_file_name \
+									\
+									/* 5 - url LIKE urlToTheFirstFolder% - all under the first folder from left to right */ \
+									UNION \
+										SELECT  \
+											 5 ' + select + '   \
+										FROM  \
+											 hosts h, uris u, categories c \
+										where  \
+											' + where_subdomain + ' and \
+											u.path GLOB :path_parent_folder \
+									\
+									/* 5.2 first folder - url LIKE urlToTheFirstFolder% - all under the first folder from left to right */ \
+									UNION \
+										SELECT  \
+											6 ' + select + '   \
+										FROM  \
+											 hosts h, uris u, categories c \
+										where  \
+											' + where_subdomain + ' and \
+											u.path GLOB :path_first_folder \
+									\
+									/* 6 - url = urlDomain or url = urlDomain/ - exactly this current subdomain/domain */ \
+									UNION \
+										SELECT  \
+											7 ' + select + '   \
+										FROM  \
+											 hosts h, uris u, categories c \
+										where  \
+											' + where_subdomain + ' and u.path = "" \
+									\
+									/* 7 - url LIKE urlDomain/% - all under this current subdomain/domain */ \
+									UNION \
+										SELECT  \
+											8 ' + select + '   \
+										FROM  \
+											 hosts h, uris u, categories c \
+										where  \
+											' + where_subdomain + ' \
+									\
+					/* 8 - url LIKE %.urlDomain or url LIKE %.urlDomain - exaclty subdomains of this current domain/subdomain \
+									UNION \
+										SELECT  \
+											9 ' + select + '   \
+										FROM  \
+											 hosts h, uris u, categories c \
+										where  \
+											' + where_domain + ' and u.path = "" \
+									\
+					*/ \
+									/* 9 - url LIKE %.urlDomain/% - listings of the subdomains of this domain/subdomain */ \
+									/* 10 - url LIKE %.urlFullDomain or url LIKE %.urlFullDomain/ - exactly subdomains of this domain */ \
+									UNION \
+										SELECT  \
+											10 ' + select + '   \
+										FROM  \
+											 hosts h, uris u, categories c \
+										where  \
+											' + where_domain + ' and h.id != u.subdomain_id and path = "" \
+									\
+									/* 11 - url LIKE %.urlFullDomain/% - listings of the subdomains of this domain */ \
+									UNION \
+										SELECT  \
+											11 ' + select + '   \
+										FROM  \
+											 hosts h, uris u, categories c \
+										where  \
+											' + where_domain + ' and h.id != u.subdomain_id \
+									\
+									/* 12 - url LIKE urlFullDomain/% - listings of this domain */ \
+									UNION \
+										SELECT  \
+											12 ' + select + '   \
+										FROM  \
+											 hosts h, uris u, categories c \
+										where  \
+											' + where_domain + ' \
+									group by site_id  order by sorting asc LIMIT 300 \
+									) group by site_id  order by dale asc LIMIT 30 \
+									/* 13 - url = urlFullDomain or url = urlFullDomain/ - exaclty this domain */ \
+							 \
+						   ');
+		}
+
+	});
+
+	var panel;
 	this.addListener('userInterfaceLoad', function() {
 		panel = ODPExtension.getElement('panel');
-		db = ODPExtension.databaseGet('RDF');
-
-		var select = ' as sorting, u.id as site_id, u.uri as uri, u.title as title, u.description as description, u.mediadate as mediadate, u.pdf as pdf, u.atom as atom, u.rss as rss, u.cool as cool, c.category as category, c.description as category_description ';
-
-		var where_subdomain = ' h.host = :subdomain and h.id = u.subdomain_id and u.category_id = c.id ';
-		var where_domain = ' h.host = :domain and h.id = u.domain_id and  u.category_id = c.id ';
-
-		query_domain_count = db.query(' select count(*) from uris u, hosts h where h.host = :domain and h.id = u.domain_id');
-		query_domain_select = db.query(' select 1 ' + select + ' from  hosts h, uris u, categories c where ' + where_domain);
-
-		query_slice = db.query(' \
-		                       \
-		                       	/* 1 exaclty this url */ \
-							  \
-									select *, min(sorting) as dale from(SELECT  \
-										1 ' + select + '   \
-									FROM  \
-										 hosts h, uris u, categories c \
-									where  \
-										' + where_subdomain + ' and \
-										 u.path = :path \
-		                       	/* 2 url LIKE url% - all under this url */ \
-								UNION \
-									SELECT  \
-										2 ' + select + '   \
-									FROM  \
-										 hosts h, uris u, categories c \
-									where  \
-										' + where_subdomain + ' and \
-										u.path GLOB :path_glob \
-		                       	/* 3 - path no hash, url LIKE urlWithOutVars% - all under this url with the file name with out the hash */ \
-								UNION \
-									SELECT  \
-										3 ' + select + '   \
-									FROM  \
-										 hosts h, uris u, categories c \
-									where  \
-										' + where_subdomain + ' and \
-										u.path GLOB :path_no_hash \
-		                       	/* 3.1 - path url LIKE urlWithOutVars% - all under this url with the file name with out the vars */ \
-								UNION \
-									SELECT  \
-										3 ' + select + '   \
-									FROM  \
-										 hosts h, uris u, categories c \
-									where  \
-										' + where_subdomain + ' and \
-										u.path GLOB :path_no_vars \
-								/* 4 - url LIKE urlWithOutFileName% - all under the first folder from right to left */ \
-								UNION \
-									SELECT  \
-										4 ' + select + '   \
-									FROM  \
-										 hosts h, uris u, categories c \
-									where  \
-										' + where_subdomain + ' and \
-										u.path GLOB :path_no_file_name \
-								\
-								/* 5 - url LIKE urlToTheFirstFolder% - all under the first folder from left to right */ \
-								UNION \
-									SELECT  \
-										 5 ' + select + '   \
-									FROM  \
-										 hosts h, uris u, categories c \
-									where  \
-										' + where_subdomain + ' and \
-										u.path GLOB :path_parent_folder \
-								\
-								/* 5.2 first folder - url LIKE urlToTheFirstFolder% - all under the first folder from left to right */ \
-								UNION \
-									SELECT  \
-										6 ' + select + '   \
-									FROM  \
-										 hosts h, uris u, categories c \
-									where  \
-										' + where_subdomain + ' and \
-										u.path GLOB :path_first_folder \
-								\
-								/* 6 - url = urlDomain or url = urlDomain/ - exactly this current subdomain/domain */ \
-								UNION \
-									SELECT  \
-										7 ' + select + '   \
-									FROM  \
-										 hosts h, uris u, categories c \
-									where  \
-										' + where_subdomain + ' and u.path = "" \
-								\
-								/* 7 - url LIKE urlDomain/% - all under this current subdomain/domain */ \
-								UNION \
-									SELECT  \
-										8 ' + select + '   \
-									FROM  \
-										 hosts h, uris u, categories c \
-									where  \
-										' + where_subdomain + ' \
-								\
-				/* 8 - url LIKE %.urlDomain or url LIKE %.urlDomain - exaclty subdomains of this current domain/subdomain \
-								UNION \
-									SELECT  \
-										9 ' + select + '   \
-									FROM  \
-										 hosts h, uris u, categories c \
-									where  \
-										' + where_domain + ' and u.path = "" \
-								\
-				*/ \
-								/* 9 - url LIKE %.urlDomain/% - listings of the subdomains of this domain/subdomain */ \
-								/* 10 - url LIKE %.urlFullDomain or url LIKE %.urlFullDomain/ - exactly subdomains of this domain */ \
-								UNION \
-									SELECT  \
-										10 ' + select + '   \
-									FROM  \
-										 hosts h, uris u, categories c \
-									where  \
-										' + where_domain + ' and h.id != u.subdomain_id and path = "" \
-								\
-								/* 11 - url LIKE %.urlFullDomain/% - listings of the subdomains of this domain */ \
-								UNION \
-									SELECT  \
-										11 ' + select + '   \
-									FROM  \
-										 hosts h, uris u, categories c \
-									where  \
-										' + where_domain + ' and h.id != u.subdomain_id \
-								\
-								/* 12 - url LIKE urlFullDomain/% - listings of this domain */ \
-								UNION \
-									SELECT  \
-										12 ' + select + '   \
-									FROM  \
-										 hosts h, uris u, categories c \
-									where  \
-										' + where_domain + ' \
-								group by site_id  order by sorting asc LIMIT 300 \
-								) group by site_id  order by dale asc LIMIT 30 \
-								/* 13 - url = urlFullDomain or url = urlFullDomain/ - exaclty this domain */ \
-						 \
-					   ');
 	});
 
 	this.listingGetInformation = function(aLocation) {
 
-		if (!this.preferenceGet('ui.informative.panel') || !this.preferenceGet('enabled')) {
+		if (!this.preferenceGet('ui.informative.panel') || !this.preferenceGet('enabled') || !db.exists) {
 			//listing check disabled
 			this.listingInformation = '';
 			panel.setAttribute('hidden', true);

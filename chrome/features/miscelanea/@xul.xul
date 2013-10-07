@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<script src="category-abbreviate.js" type="application/x-javascript"/>
-	<script src="link-checker.js" type="application/x-javascript"/>
 	<script src="plantrob.js" type="application/x-javascript"/>
 	<script src="tab-open-check-for-behavior.js" type="application/x-javascript"/>
 	<script src="worldlinkerate-in-tabs-link.js" type="application/x-javascript"/>

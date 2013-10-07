@@ -15,7 +15,7 @@
 
 
 	this.addListener('userInterfaceUpdate', function(aEnabled) {
-		ODPExtension.getElement('toolbar-local-category-finder').setAttribute('hidden', !aEnabled || !ODPExtension.shared.categories.txt.exists);
+		ODPExtension.getElement('toolbar-local-category-finder').setAttribute('hidden', !aEnabled || !ODPExtension.categoriesTXTExists());
 	});
 
 

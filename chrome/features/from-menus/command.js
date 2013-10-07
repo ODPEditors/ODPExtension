@@ -303,7 +303,7 @@
 
 		//one time notices
 
-		if (aCommand.indexOf('rdf_') === 0 && !this.fileExists('RDF.sqlite')) {
+		if (aCommand.indexOf('rdf_') === 0 && !this.rdfDatabaseOpen().exists) {
 			if (this.confirm(this.getString('rdf.there.is.no.database.based.on.rdf.data'))) {
 				this.rdfParserStart();
 			}
@@ -452,6 +452,8 @@
 				this.rdfFindAltlangsCategoriesWithoutOutgoingWithIncoming(aValue + '/');
 			else if (aCommand == 'rdf_find_altlangs_non_reciprocal')
 				this.rdfFindAltlangsNonReciprocal(aValue + '/');
+			else if (aCommand == 'rdf_find_altlangs_non_reciprocal_category')
+				this.rdfFindAltlangsNonReciprocalCategory(aValue + '/');
 
 			//dmclean's linkfinder port
 			else if (aCommand == 'rdf_find_altlangs_to_here')
@@ -524,6 +526,8 @@
 
 			else if (aCommand == 'rdf_find_category_description_empty')
 				this.rdfFindCategoryDescriptionEmpty(aValue + '/');
+			else if (aCommand == 'rdf_find_category_with_broken_links_description')
+				this.rdfFindDescriptionsBrokenLinks(aValue + '/');
 			else if (aCommand == 'rdf_find_category_description_search')
 				this.rdfFindCategoryDescriptionSearch(aValue + '/', searchFor);
 			//custom

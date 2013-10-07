@@ -148,8 +148,6 @@
 
 				ODPExtension.shared.categories.txt.lock = false;
 
-				ODPExtension.notifyTab(ODPExtension.getString('categories.txt.has.been.updated').replace('{DATE}', ODPExtension.preferenceGet('locked.categories.txt.last.update')) + ' ' + Math.floor((new Date() - timer.timers['all']['start']) / 1000) + ' secs');
-
 				progress.running = Math.floor((new Date() - timer.timers['all']['start']) / 1000) + ' secs'
 				progress.progress();
 
@@ -158,8 +156,10 @@
 
 				ODPExtension.gc();
 
-				ODPExtension.notifyFocused('preferencesLoadGlobal');
+				ODPExtension.dispatchGlobalEvent('databaseReady');
 				ODPExtension.dispatchGlobalEvent('userInterfaceUpdate', ODPExtension.preferenceGet('enabled'))
+
+				ODPExtension.notifyTab(ODPExtension.getString('categories.txt.has.been.updated').replace('{DATE}', ODPExtension.preferenceGet('locked.categories.txt.last.update')) + ' ' + Math.floor((new Date() - timer.timers['all']['start']) / 1000) + ' secs');
 			}
 		}
 

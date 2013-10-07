@@ -50,6 +50,15 @@ related : the list of categories and other uris related to the focused site. Sit
 	border-left: #666666 solid 3px;
 	border-bottom: #666666 solid 2px;
 }
+#ODPExtension-panel-subcontainer[listed="listed"] > #ODPExtension-panel-header {
+	border-bottom-color: #669933;
+}
+#ODPExtension-panel-subcontainer[listed="listed-domain-uri"] > #ODPExtension-panel-header{
+	border-bottom-color: #626CAF;
+}
+#ODPExtension-panel-subcontainer[listed="listed-other-uri"] > #ODPExtension-panel-header{
+	border-bottom-color: #666666;
+}
 /* the header or focused site : title, description, uri*/
 /*container*/
 #ODPExtension-panel-header {

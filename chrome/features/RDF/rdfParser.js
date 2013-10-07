@@ -21,7 +21,6 @@
 		var hosts = [];
 		var currentCatID = 1;
 		var currentHostID = 1;
-		var insertingHosts = false;
 
 		var unicodeConverter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
 		unicodeConverter.charset = "UTF-8";
@@ -368,12 +367,15 @@
 
 					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `related_to` ON `related` (`to`) ');
 					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `related_from` ON `related` (`from`) ');
+					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `related_from_to` ON `related` (`from`, `to`) ');
 
 					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `altlang_to` ON `altlang` (`to`) ');
 					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `altlang_from` ON `altlang` (`from`) ');
+					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `altlang_from_to` ON `altlang` (`from`, `to`) ');
 
 					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `link_to` ON `link` (`to`) ');
 					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `link_from` ON `link` (`from`) ');
+					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `link_from_to` ON `link` (`from`, `to`) ');
 					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `link_name` ON `link` (`name`) ');
 					aConnection.commit();
 					ODPExtension.dump('Database index created...');
@@ -473,14 +475,21 @@
 						aSite.subdomain_id = ODPExtension.removeWWW(aSite.subdomain_id);
 						aSite.path = ODPExtension.decodeUTF8Recursive(ODPExtension.removeSubdomain(aSite.uri)).toLowerCase();*/
 
-						if (!hosts[aSite.subdomain])
+						if (!hosts[aSite.subdomain]){
 							hosts[aSite.subdomain] = currentHostID++;
+							insertHost.params['id'] = hosts[aSite.subdomain];
+							insertHost.params['host'] = aSite.subdomain;
+							insertHost.execute();
+						}
 						aSite.subdomain = hosts[aSite.subdomain];
 
-						if (!hosts[aSite.domain])
+						if (!hosts[aSite.domain]){
 							hosts[aSite.domain] = currentHostID++;
+							insertHost.params['id'] = hosts[aSite.domain];
+							insertHost.params['host'] = aSite.domain;
+							insertHost.execute();
+						}
 						aSite.domain = hosts[aSite.domain];
-
 
 						aSite.rss = 0;
 						aSite.pdf = 0;
@@ -576,72 +585,30 @@
 				var url = contentU8.shift()
 				if (!url || url == '') {
 
+					ids = null;
+					hosts = null;
+					ODPExtension.gc();
+
 					ODPExtension.dump('Commiting start...');
 					aConnection.commit();
 					ODPExtension.dump('Commiting end...');
 
 					ODPExtension.dump('Finalizing statements...');
 					insertURI.finalize();
+					insertHost.finalize();
 					insertCategory.finalize();
 					ODPExtension.dump('Statements finalized...');
 
-					ids = null;
-					ODPExtension.gc();
-
 					progress.progress();
 
-					ODPExtension.rdfParserDownload('http://rdf.dmoz.org/rdf/kt-structure.rdf.u8.gz', new StreamListenerHostsRDF());
-
-
-				} else {
-					ODPExtension.dump('Processing ' + url + '...');
-					progress.message = 'Processing ' + url;
-					ODPExtension.rdfParserDownload(url, new StreamListenerContentRDF());
-				}
-
-			}
-		}
-
-		//hack, run the insert of hosts in a thread. :D!
-
-		function StreamListenerHostsRDF() {
-			return this;
-		}
-		StreamListenerHostsRDF.prototype = {
-
-			onStartRequest: function(aRequester, aContext) {
-
-			},
-			onDataAvailable: function(aRequester, aContext, aInputStream, aOffset, aCount) {
-				if (insertingHosts === false) {
-					insertingHosts = true;
-
-					ODPExtension.dump('Inserting hosts...');
-					aConnection.begin();
-					for (var id in hosts) {
-						insertHost.params['id'] = hosts[id];
-						insertHost.params['host'] = id;
-						insertHost.execute();
-						if (hosts[id] % 250000 === 0) {
-							aConnection.commit();
-							aConnection.begin();
-						}
-					}
-					hosts = null;
 					ODPExtension.gc();
-
-					aConnection.commit();
-
-					insertHost.finalize();
-
-					ODPExtension.gc();
-					ODPExtension.dump('Hosts inserted..');
-
 
 					ODPExtension.dump('Creating database index...');
 					aConnection.begin();
 					aConnection.executeSimple('	CREATE UNIQUE INDEX IF NOT EXISTS `hosts_host` ON `hosts` (`host`) ');
 					aConnection.commit();
+
+					ODPExtension.gc();
 
 					aConnection.begin();
 					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `uris_subdomain_id` ON `uris` (`subdomain_id`) ');
@@ -651,15 +618,26 @@
 					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `uris_path_subdomain` ON `uris` (`path`,`subdomain_id`) ');
 					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `uris_subdomain_domain` ON `uris` (`subdomain_id`,`domain_id`) ');
 					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `uris_subdomain_domain_path` ON `uris` (`subdomain_id`,`domain_id`,`path`) ');
-					//aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `uris_schemaWWW` ON `uris` (`schemaWWW`) ');
 					aConnection.commit();
 					ODPExtension.dump('Database index created...');
 
+					ODPExtension.rdfDatabaseClose();
+					ODPExtension.rdfDatabaseOpen();
+
 					ODPExtension.gc();
+
+					ODPExtension.dispatchGlobalEvent('databaseReady');
+					ODPExtension.dispatchGlobalEvent('userInterfaceUpdate', ODPExtension.preferenceGet('enabled'))
+
 					ODPExtension.rdfParserComplete();
+
+				} else {
+					ODPExtension.dump('Processing ' + url + '...');
+					progress.message = 'Processing ' + url;
+					ODPExtension.rdfParserDownload(url, new StreamListenerContentRDF());
 				}
-			},
-			onStopRequest: function(aRequester, aContext, aStatusCode) {}
+
+			}
 		}
 
 		progress.message = 'Processing http://rdf.dmoz.org/rdf/categories.txt.gz';
@@ -675,8 +653,7 @@
 		aChannel.asyncOpen(aConverter, null);
 	}
 	this.rdfParserComplete = function() {
-		this.notifyTabs(
-			this.getString('rdf.processing.completed').replace('{END}', (new Date().toLocaleString()))
+		this.notifyTab(this.getString('rdf.processing.completed').replace('{END}', (new Date().toLocaleString()))
 			.replace('{START}', this.rdfParserStarted));
 		this.windowGetAttention(); //flash the window in the taskbar
 	}

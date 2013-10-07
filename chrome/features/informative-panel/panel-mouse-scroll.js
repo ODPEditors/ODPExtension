@@ -1,7 +1,6 @@
 (function() {
 
 	this.addListener('userInterfaceLoad', function(aEnabled) {
-		/*informative panel*/
 		ODPExtension.getElement('panel-header').addEventListener('DOMMouseScroll', ODPExtension.panelInformativeSwitchSelectedSite, false);
 		ODPExtension.getElement('panel-related').addEventListener('DOMMouseScroll', ODPExtension.panelInformativeSwitchSelectedRelated, false);
 	});

@@ -156,32 +156,9 @@
 					<checkbox label="&ODPExtension.privacy.queries.exclude.https;" id="privacy.queries.exclude.https"/>
 					<checkbox label="&ODPExtension.privacy.no.referrer;" id="privacy.no.referrer"/>
 					<checkbox label="&ODPExtension.privacy.private.browsing.on;" id="privacy.private.browsing.on"/>
-				</groupbox>
-				<vbox flex="1">
-					<hbox>
-						<groupbox flex="1">
-							<caption label="Listing verification preferred method"/>
-							<radiogroup flex="1">
-								<radio label="Find the most close URL"  			id="privacy.listing.method.url"/>
-								<radio label="Look at the subdomain"  				id="privacy.listing.method.domain"/>
-								<radio label="Disable listing verification" 		id="privacy.listing.method.none"/>
-							</radiogroup>
-						</groupbox>
-						<groupbox flex="1">
-							<caption label="Verify listings when"/>
-							<radiogroup flex="1">
-								<radio label="The focused location change"  		id="privacy.listing.when.location"/>
-								<hbox>
-								<radio label="I click the extension icon" 			id="privacy.listing.when.click"/><label onclick="ODPExtension.getElement('tab-7').click();" class="text-link" value="(customize)"/>
-								</hbox>
-							</radiogroup>
-						</groupbox>
-					</hbox>
-					<groupbox>
 						<caption label="&ODPExtension.advanced.url.rdf;"/>
 						<textbox flex="1" id="advanced.urls.rdf" style="padding:1px;"/>
-					</groupbox>
-				</vbox>
+				</groupbox>
 			</hbox>
 			</vbox></tabpanel>
 

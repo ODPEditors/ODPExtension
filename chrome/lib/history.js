@@ -10,7 +10,7 @@
 
 		if (faviconURI) {} else {
 			try {
-				faviconURI = this.service('fs').getFaviconForPage(this.getSchema(aURL) + '://' + this.getSubdomainFromURL(aURL) + '/');
+				faviconURI = this.service('fs').getFaviconForPage(this.getSchema(aURL) + '' + this.getSubdomainFromURL(aURL) + '/');
 			} catch (e) {
 				faviconURI = false;
 			}

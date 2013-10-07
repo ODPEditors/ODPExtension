@@ -12,6 +12,7 @@ related : the list of categories and other uris related to the focused site. Sit
 	border: 0px !important;
 	word-wrap: break-word !important;
 	background-color: transparent !important;
+	position: fixed !important;
 }
 /*the container of the data and UI of the popup*/
 #ODPExtension-panel-container {
@@ -35,6 +36,7 @@ related : the list of categories and other uris related to the focused site. Sit
 	border-bottom: #666666 solid 2px;
 	border-right: #666666 solid 1px;
 	border-radius: 1px 14px;
+	width: 350px;
 }
 #ODPExtension-panel-subcontainer[listed="listed"] {
 	border-left: #669933 solid 3px;
@@ -54,6 +56,7 @@ related : the list of categories and other uris related to the focused site. Sit
 	padding: 3px;
 	padding-top: 0px;
 	padding-bottom: 1px;
+	border-bottom: 1px solid  #333;
 /* should be perfect :P*/
 }
 /*title*/
@@ -64,6 +67,7 @@ related : the list of categories and other uris related to the focused site. Sit
 	cursor: pointer !important;
 	color: #000000;
 	font-weight: bold;
+	font-size: 12px;
 }
 #ODPExtension-panel-header-title[listed="listed"] {
 	color: #006600;
@@ -75,32 +79,32 @@ related : the list of categories and other uris related to the focused site. Sit
 	color: #666666;
 }
 /* the type of the site*/
-#ODPExtension-panel-header-title[type="RSS-"] {
+#ODPExtension-panel-header-title[type="RSS-0"] {
 	background: url('img/rss.png') top left no-repeat;
 	padding-left: 14px;
 }
-#ODPExtension-panel-header-title[type="Atom-"] {
+#ODPExtension-panel-header-title[type="Atom-0"] {
 	background: url('img/atom.png') top left no-repeat;
 	padding-left: 15px;
 }
-#ODPExtension-panel-header-title[type="PDF-"] {
+#ODPExtension-panel-header-title[type="PDF-0"] {
 	background: url('img/pdf.png') top left no-repeat;
 	padding-left: 15px;
 }
 /*cool or not*/
-#ODPExtension-panel-header-title[type="RSS-Y"] {
+#ODPExtension-panel-header-title[type="RSS-1"] {
 	background: url('img/rss-cool.png') top left no-repeat;
 	padding-left: 28px;
 }
-#ODPExtension-panel-header-title[type="Atom-Y"] {
+#ODPExtension-panel-header-title[type="Atom-1"] {
 	background: url('img/atom-cool.png') top left no-repeat;
 	padding-left: 28px;
 }
-#ODPExtension-panel-header-title[type="PDF-Y"] {
+#ODPExtension-panel-header-title[type="PDF-1"] {
 	background: url('img/pdf-cool.png') top left no-repeat;
 	padding-left: 28px;
 }
-#ODPExtension-panel-header-title[type="-Y"] {
+#ODPExtension-panel-header-title[type="-1"] {
 	background: url('img/cool.png') top left no-repeat;
 	padding-left: 15px;
 }
@@ -111,6 +115,7 @@ related : the list of categories and other uris related to the focused site. Sit
 	margin: 0px;
 	cursor: pointer !important;
 	color: #333333;
+	font-size: 12px;
 }
 /*uri*/
 #ODPExtension-panel-header-uri {
@@ -118,7 +123,7 @@ related : the list of categories and other uris related to the focused site. Sit
 	padding: 0px;
 	margin: 0px;
 	cursor: pointer !important;
-	color: #000000;
+	color: black;
 }
 /* the related or "the other listed uris"*/
 /*container*/
@@ -131,6 +136,8 @@ related : the list of categories and other uris related to the focused site. Sit
 	padding: 0px;
 	padding-left: 3px;
 	padding-right: 3px;
+	padding-bottom: 1px;
+	padding-top: 1px;
 	margin: 0px;
 	border: 0px;
 	cursor: pointer !important;
@@ -143,46 +150,46 @@ related : the list of categories and other uris related to the focused site. Sit
 	text-align: left;
 }
 /* the type of the site*/
-#ODPExtension-panel-related-titles > description[type="RSS-"],
-#ODPExtension-panel-related-uris > description[type="RSS-"],
-#ODPExtension-panel-related-categories > description[type="RSS-"] {
+#ODPExtension-panel-related-titles > description[type="RSS-0"],
+#ODPExtension-panel-related-uris > description[type="RSS-0"],
+#ODPExtension-panel-related-categories > description[type="RSS-0"] {
 	background: url('img/rss-margin.png') top left no-repeat;
 	padding-left: 17px;
 }
-#ODPExtension-panel-related-titles > description[type="Atom-"],
-#ODPExtension-panel-related-uris > description[type="Atom-"],
-#ODPExtension-panel-related-categories > description[type="Atom-"] {
+#ODPExtension-panel-related-titles > description[type="Atom-0"],
+#ODPExtension-panel-related-uris > description[type="Atom-0"],
+#ODPExtension-panel-related-categories > description[type="Atom-0"] {
 	background: url('img/atom-margin.png') top left no-repeat;
 	padding-left: 18px;
 }
-#ODPExtension-panel-related-titles > description[type="PDF-"],
-#ODPExtension-panel-related-uris > description[type="PDF-"],
-#ODPExtension-panel-related-categories > description[type="PDF-"] {
+#ODPExtension-panel-related-titles > description[type="PDF-0"],
+#ODPExtension-panel-related-uris > description[type="PDF-0"],
+#ODPExtension-panel-related-categories > description[type="PDF-0"] {
 	background: url('img/pdf-margin.png') top left no-repeat;
 	padding-left: 18px;
 }
 /*cool or not*/
-#ODPExtension-panel-related-titles > description[type="RSS-Y"],
-#ODPExtension-panel-related-uris > description[type="RSS-Y"],
-#ODPExtension-panel-related-categories > description[type="RSS-Y"] {
+#ODPExtension-panel-related-titles > description[type="RSS-1"],
+#ODPExtension-panel-related-uris > description[type="RSS-1"],
+#ODPExtension-panel-related-categories > description[type="RSS-1"] {
 	background: url('img/rss-cool-margin.png') top left no-repeat;
 	padding-left: 31px;
 }
-#ODPExtension-panel-related-titles > description[type="Atom-Y"],
-#ODPExtension-panel-related-uris > description[type="Atom-Y"],
-#ODPExtension-panel-related-categories > description[type="Atom-Y"] {
+#ODPExtension-panel-related-titles > description[type="Atom-1"],
+#ODPExtension-panel-related-uris > description[type="Atom-1"],
+#ODPExtension-panel-related-categories > description[type="Atom-1"] {
 	background: url('img/atom-cool-margin.png') top left no-repeat;
 	padding-left: 31px;
 }
-#ODPExtension-panel-related-titles > description[type="PDF-Y"],
-#ODPExtension-panel-related-uris > description[type="PDF-Y"],
-#ODPExtension-panel-related-categories > description[type="PDF-Y"] {
+#ODPExtension-panel-related-titles > description[type="PDF-1"],
+#ODPExtension-panel-related-uris > description[type="PDF-1"],
+#ODPExtension-panel-related-categories > description[type="PDF-1"] {
 	background: url('img/pdf-cool-margin.png') top left no-repeat;
 	padding-left: 31px;
 }
-#ODPExtension-panel-related-titles > description[type="-Y"],
-#ODPExtension-panel-related-uris > description[type="-Y"],
-#ODPExtension-panel-related-categories > description[type="-Y"] {
+#ODPExtension-panel-related-titles > description[type="-1"],
+#ODPExtension-panel-related-uris > description[type="-1"],
+#ODPExtension-panel-related-categories > description[type="-1"] {
 	background: url('img/cool-margin.png') top left no-repeat;
 	padding-left: 18px;
 }
@@ -191,38 +198,27 @@ related : the list of categories and other uris related to the focused site. Sit
 #ODPExtension-panel-related-categories > description:hover {
 	background-color: Highlight !important;
 	color: HighlightText;
-	border-bottom-left-radius: 11px;
-	border-top-right-radius: 13px;
+	overflow: hidden;
 }
 #ODPExtension-panel-related-titles > description[selected="true"],
 #ODPExtension-panel-related-uris > description[selected="true"],
 #ODPExtension-panel-related-categories > description[selected="true"] {
 	font-weight: bold;
 	background-color: #f2f2f2;
-	border-bottom-left-radius: 11px;
-	border-top-right-radius: 13px;
 }
-/*
-#ODPExtension-panel-related-titles > description:last-child,
-#ODPExtension-panel-related-uris > description:last-child,
-#ODPExtension-panel-related-categories > description:last-child {
-	border-radius-bottomleft: 14px;
-}
-*/
+
+
+
 /* the move panel button and hide show popup */
 #ODPExtension-panel-move {
+	-moz-appearance: none !important;
 	list-style-image: url("img/buttons.png") !important;
 	-moz-image-region: rect(16px 32px 32px 16px);
 	margin: 0px !important;
 	border: 0px !important;
-	/*-moz-box-pack: center !important;
-*/
-	/*display: block !important;
-*/
-	padding: 2px !important;
+	padding: 5px !important;
 	cursor: pointer !important;
-	-moz-box-flex: 0 !important;
-	overflow: hidden !important;
+	margin-top: -2px;
 }
 #ODPExtension-panel-move[status="opened"] {
 	-moz-image-region: rect(16px 16px 32px 0px);

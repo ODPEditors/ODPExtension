@@ -4,14 +4,14 @@
 
 	var debugingThisFile = true; //sets debuging on/off for this JavaScript file
 
-	this.addListener('onFirstRun', function(){
+	this.addListener('onFirstRun', function() {
 
 		ODPExtension.alert('First run! Welcome to ODPExtension :), We will run 3 basic steps for the first run, five minutes, please be patient.');
 
 		ODPExtension.alert('Step 1: Deleting old data from previous versions... (if any)');
 		var oldData = ODPExtension.folderListContent('')
-		for(var id in oldData){
-			if(oldData[id] != 'ODPExtension.sqlite' && oldData[id] != 'CategoriesTXT.sqlite')
+		for (var id in oldData) {
+			if (oldData[id] != 'ODPExtension.sqlite' && oldData[id] != 'CategoriesTXT.sqlite')
 				ODPExtension.fileRemove(oldData[id]);
 		}
 

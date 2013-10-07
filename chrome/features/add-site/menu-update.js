@@ -6,7 +6,7 @@
 
 		var aURL = this.focusedLocationBarURL();
 
-		if (aURL == '') {
+		if (aURL == '' || !this.isPublicURL(aURL)) {
 			var add = this.create('menuitem');
 			add.setAttribute('label', 'about:blank');
 			add.setAttribute('tooltiptext', 'about:blank');
@@ -46,25 +46,25 @@
 			var aSubdomain = this.getSubdomainFromURL(aURL);
 			var aDomain = this.getDomainFromURL(aURL);
 
-			if (this.isVisitedURL(this.getSchema(aURL) + '://www.' + aSubdomain + '/'))
-				aTemp = this.getSchema(aURL) + '://www.' + aSubdomain + '/';
+			if (this.isVisitedURL(this.getSchema(aURL) + 'www.' + aSubdomain + '/'))
+				aTemp = this.getSchema(aURL) + 'www.' + aSubdomain + '/';
 			else if (this.isVisitedURL('https://www.' + aSubdomain + '/'))
 				aTemp = 'https://www.' + aSubdomain + '/';
 			else if (this.isVisitedURL('http://www.' + aSubdomain + '/'))
 				aTemp = 'http://www.' + aSubdomain + '/';
 			else
-				aTemp = this.getSchema(aURL) + '://' + aSubdomain + '/';
+				aTemp = this.getSchema(aURL) + '' + aSubdomain + '/';
 			pieces[pieces.length] = aTemp;
 
-			if (this.isVisitedURL(this.getSchema(aURL) + '://www.' + aDomain + '/'))
-				aTemp = this.getSchema(aURL) + '://www.' + aDomain + '/';
+			if (this.isVisitedURL(this.getSchema(aURL) + 'www.' + aDomain + '/'))
+				aTemp = this.getSchema(aURL) + 'www.' + aDomain + '/';
 			else if (this.isVisitedURL('https://www.' + aDomain + '/'))
 				aTemp = 'https://www.' + aDomain + '/';
 			else if (this.isVisitedURL('http://www.' + aDomain + '/'))
 				aTemp = 'http://www.' + aDomain + '/';
 			//do not suggest to remove the www. from domains that contains it.
 			else if (this.removeWWW(aSubdomain) != aDomain)
-				aTemp = this.getSchema(aURL) + '://' + aDomain + '/';
+				aTemp = this.getSchema(aURL) + '' + aDomain + '/';
 
 			pieces[pieces.length] = aTemp;
 

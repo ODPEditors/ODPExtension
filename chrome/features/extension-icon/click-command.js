@@ -102,12 +102,6 @@
 					this.getElement('extension-icon-context').openPopup(this.getElement('extension-icon'), 'after_end');
 					break;
 				}
-			case 'retrieveListings':
-				{
-					this.listingGetInformation(this.focusedURL, true);
-
-					break;
-				}
 			case 'extensionToggle':
 				{
 					this.extensionToggle();

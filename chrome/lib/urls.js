@@ -3,7 +3,7 @@
 	this.focusedLocation = function() {
 		var aLocation = this.documentFocusedGetLocation();
 
-		if (aLocation != '' && this.isPublicURL(aLocation))
+		if (aLocation != '')
 			return aLocation;
 		else
 			return '';
@@ -33,17 +33,21 @@
 			}
 		}
 
-		if (aLocation != '' && this.isPublicURL(aLocation))
+		if (aLocation != '')
 			return aLocation;
 		else
 			aLocation = this.documentFocusedGetLocation();
 
-		if (aLocation != '' && this.isPublicURL(aLocation))
+		if (aLocation != '')
 			return aLocation;
 		else
 			return '';
 	}
 	//gets the domain from an URL
+	var getDomainFromURLRegExp = /(com|net|org|edu|gov|gub|mil|int|arpa|aero|biz|coop|info|museum|name|co|ac|ne|asia|jobs|mobi|pro|tel|travel)\.(ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bl|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mf|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)$/i;
+	var getDomainFromURLRegExp1 = /.*\.([^\.]+\.[^\.]+\.[^\.]+)$/;
+	var getDomainFromURLRegExp2 = /.*\.([^\.]+\.[^\.]+)$/;
+
 	this.getDomainFromURL = function(aURL) {
 		if (!aURL)
 			return '';
@@ -51,17 +55,15 @@
 		var aSubdomainOrDomainOrIP = this.removeWWW(this.getSubdomainFromURL(aURL));
 		if (this.isIPAddress(aSubdomainOrDomainOrIP))
 			return aSubdomainOrDomainOrIP;
-		var puntos = this.subStrCount(aSubdomainOrDomainOrIP, '.');
-		if (puntos == 1)
+		var nodes = this.subStrCount(aSubdomainOrDomainOrIP, '.');
+		if (nodes == 1)
 			return aSubdomainOrDomainOrIP;
-		else if (puntos == 2 &&
-			/(com|net|org|edu|gov|gub|mil|int|arpa|aero|biz|coop|info|museum|name|co|ac|ne|asia|jobs|mobi|pro|tel|travel)\.(ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bl|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mf|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)$/i.test(aSubdomainOrDomainOrIP))
+		else if (nodes == 2 && getDomainFromURLRegExp.test(aSubdomainOrDomainOrIP))
 			return aSubdomainOrDomainOrIP;
-		else if (puntos >= 3 &&
-			/(com|net|org|edu|gov|gub|mil|int|arpa|aero|biz|coop|info|museum|name|co|ac|ne|asia|jobs|mobi|pro|tel|travel)\.(ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bl|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mf|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)$/i.test(aSubdomainOrDomainOrIP))
-			return aSubdomainOrDomainOrIP.replace(/.*\.([^\.]+\.[^\.]+\.[^\.]+)$/, "$1");
+		else if (nodes >= 3 && getDomainFromURLRegExp.test(aSubdomainOrDomainOrIP))
+			return aSubdomainOrDomainOrIP.replace(getDomainFromURLRegExp1, "$1");
 		else
-			return aSubdomainOrDomainOrIP.replace(/.*\.([^\.]+\.[^\.]+)$/, "$1");
+			return aSubdomainOrDomainOrIP.replace(getDomainFromURLRegExp2, "$1");
 	}
 	//returns the IP of a host name
 	this.getIPFromDomain = function(aDomain, noCache) {
@@ -97,20 +99,23 @@
 		return aData;
 	}
 
+
 	//gets the schema of a URL
+	var getSchemaRegExp = /^([^\:]+):.*$/;
 	this.getSchema = function(aURL) {
 		if (!aURL)
 			return '';
-		return aURL.replace(/^([^\:]+):.*$/, "$1").toLowerCase();
+		return aURL.replace(getSchemaRegExp, "$1").toLowerCase() + '://';
 	}
 	//gets the subdomain from an URL
+	var getSubdomainFromURLRegExp = /^[^\:]+\:\/+([^(\/|\?)]+)[\/|\?]?.*$/;
 	this.getSubdomainFromURL = function(aURL) {
 		if (!aURL)
 			return '';
 		//checks if contains the final /, if not it is added
-		if (aURL.indexOf('://') != -1 && this.subStrCount(aURL, '/') == 2)
-			aURL = aURL + '/';
-		return this.removePort(aURL.replace(/^(.+?):\/+(.+?)\/.*$/, "$2")).toLowerCase();
+		/*		if (aURL.indexOf('://') != -1 && this.subStrCount(aURL, '/') == 2)
+			aURL = aURL + '/';*/
+		return this.removePort(aURL.replace(getSubdomainFromURLRegExp, "$1")).toLowerCase();
 	}
 	//shots a url for showing in a label
 	this.getURLForLabel = function(aURL) {
@@ -192,8 +197,9 @@
 			return false;
 	}
 	//return true if the domain name is a ip address
+	var isIPAddressRegExp = /^([0-9]|\.)+$/;
 	this.isIPAddress = function(aDomain) {
-		if (/^([0-9]|\.)+$/.test(aDomain))
+		if (isIPAddressRegExp.test(aDomain))
 			return true;
 		else
 			return false;
@@ -221,9 +227,10 @@
 		return false;
 	}
 	//returns true if the URL is public accesible (maybe)
+	var isPublicURLRegExp = /^([a-z]|[0-9]|@|\:)+$/i;
 	this.isPublicURL = function(aURL) {
 		var schema = this.getSchema(aURL);
-		if (schema != 'http' && schema != 'https' && schema != 'ftp' && schema != 'gopher')
+		if (schema != 'http://' && schema != 'https://' && schema != 'ftp://' && schema != 'gopher://')
 			return false;
 
 		var aDomain = this.getSubdomainFromURL(aURL);
@@ -231,7 +238,7 @@
 		if (this.isIPAddress(aDomain) && this.isIPAddressPrivate(aDomain))
 			return false
 
-		if (/^([a-z]|[0-9]|@|\:)+$/i.test(aDomain))
+		if (isPublicURLRegExp.test(aDomain))
 			return false;
 
 		return true;
@@ -445,6 +452,9 @@
 		else
 			return url2;
 	}
+	this.removeFileName2 = function(aURL) {
+		return this.removeVariables(aURL).replace(/\/+$/, '').replace(/\/[^\/]+$/, '/');
+	}
 	this.removeFromTheFirstFolder = function(aURL) {
 		aURL = this.removeVariables(aURL);
 
@@ -453,20 +463,24 @@
 		else
 			return aURL;
 	}
+	this.removeFromTheFirstFolder2 = function(aURL) {
+		return aURL.replace(/^([^\/]+)\/?.*$/, "$1");
+	}
 	//remove the port number from a domain name
+	var removePortRegExp = /\:[0-9]*$/;
 	this.removePort = function(aDomain) {
 		if (!aDomain)
 			return '';
-		return aDomain.replace(/\:[0-9]*$/, ''); //the * is for "local" domains like file:////c:/
+		return aDomain.replace(removePortRegExp, ''); //the * is for "local" domains like file:////c:/
 	}
 	//removes the schema of an URL
+	var removeSchemaRegExp = /^[^\:]+\:\/+/i;
 	this.removeSchema = function(aURL) {
 		if (!aURL)
 			return '';
-		var schema = aURL.replace(/^([^\:]*):.*$/, "$1");
-		var rX = new RegExp('^' + schema + '\:\/+', 'i');
-		return aURL.replace(rX, '');
+		return aURL.replace(removeSchemaRegExp, '');
 	}
+
 	this.removeSensitiveDataFromURL = function(aURL) {
 		var aDomain = this.getDomainFromURL(aURL);
 		var aSubdomain = this.removeWWW(this.getSubdomainFromURL(aURL));
@@ -613,11 +627,11 @@
 		return aURL;
 	}
 	//removes the http://www.domain/ from an url
+	var removeSubdomainRegExp = /^[^\:]+\:\/+[^(\/|\?|\#)]+\/?(\??.*)$/;
 	this.removeSubdomain = function(aURI) {
 		if (!aURI)
 			return '';
-
-		return aURI.replace(/^(.+?):\/+(.+?)\/(.*)$/, "$3");
+		return aURI.replace(removeSubdomainRegExp, "$1");
 	}
 	this.removeVariables = function(aURL) {
 		return aURL.replace(/^([^\?]+).*$/, '$1');
@@ -627,14 +641,106 @@
 		http://www-142.ibm.com/software/products/uy/es/category/SWF00
 		http://es-es.www.mozilla.org/
 	*/
+	var removeWWWRegExp1 = /^([a-z]|[0-9]|-)+\.www?-?[0-9]*\./i;
+	var removeWWWRegExp2 = /^www?[a-z]?-?[0-9]*\./i;
+
 	this.removeWWW = function(aDomain) {
 		if (!aDomain)
 			return '';
-		var withoutAZ09WWW = aDomain.replace(/^([a-z]|[0-9]|-)+\.www?-?([0-9]+)?\./i, '');
-		if (aDomain != withoutAZ09WWW)
-			return withoutAZ09WWW;
+		var temp = aDomain.replace(removeWWWRegExp1, '');
+		if (aDomain != temp)
+			return temp;
 		else
-			return aDomain.replace(/^www?-?([0-9]+)?\./i, '');
+			return aDomain.replace(removeWWWRegExp2, '');
+	}
+	var getWWWRegExp1 = /^(([a-z]|[0-9]|-)+\.www?-?[0-9]*\.).*/i;
+	var getWWWRegExp2 = /^(www?[a-z]?-?[0-9]*\.).*/i;
+	this.getWWW = function(aDomain) {
+		if (!aDomain)
+			return '';
+		var temp = aDomain.replace(removeWWWRegExp1, '');
+		if (aDomain != temp) {
+			return aDomain.replace(getWWWRegExp1, '$1');
+		} else {
+			temp = aDomain.replace(getWWWRegExp2, '$1');
+			if (aDomain != temp)
+				return temp;
+			else
+				return '';
+		}
+	}
+	var decodeUTF8RecursiveRegExp = /% +/g;
+	this.getURLID = function(aURL) {
+
+		var id = {}
+		id.uri = aURL;
+		id.subdomain = aURL.replace(getSubdomainFromURLRegExp, "$1").replace(removePortRegExp, '').toLowerCase();
+		id.schemaWWW = '';
+
+		var temp;
+		var aSubdomainOrDomainOrIP = id.subdomain;
+		if (isIPAddressRegExp.test(aSubdomainOrDomainOrIP)) {
+			id.domain = aSubdomainOrDomainOrIP;
+		} else {
+			temp = aSubdomainOrDomainOrIP.replace(removeWWWRegExp1, '');
+			if (aSubdomainOrDomainOrIP != temp)
+				aSubdomainOrDomainOrIP = temp;
+			else
+				aSubdomainOrDomainOrIP = aSubdomainOrDomainOrIP.replace(removeWWWRegExp2, '');
+
+			temp = 0;
+			var pos = aSubdomainOrDomainOrIP.indexOf('.');
+			while (pos != -1) {
+				temp++;
+				pos = aSubdomainOrDomainOrIP.indexOf('.', pos + 1);
+			}
+
+			if (temp == 1)
+				id.domain = aSubdomainOrDomainOrIP;
+			else if (temp == 2 && getDomainFromURLRegExp.test(aSubdomainOrDomainOrIP))
+				id.domain = aSubdomainOrDomainOrIP;
+			else if (temp >= 3 && getDomainFromURLRegExp.test(aSubdomainOrDomainOrIP))
+				id.domain = aSubdomainOrDomainOrIP.replace(getDomainFromURLRegExp1, "$1");
+			else
+				id.domain = aSubdomainOrDomainOrIP.replace(getDomainFromURLRegExp2, "$1");
+
+			if (id.subdomain != id.domain) {
+				temp = id.subdomain.replace(removeWWWRegExp1, '');
+				if (id.subdomain != temp) {
+					id.schemaWWW = id.subdomain.replace(getWWWRegExp1, '$1');
+				} else {
+					temp = id.subdomain.replace(getWWWRegExp2, '$1');
+					if (id.subdomain != temp)
+						id.schemaWWW = temp;
+					else
+						id.schemaWWW = '';
+				}
+				id.subdomain = aSubdomainOrDomainOrIP;
+			}
+		}
+
+		id.schemaWWW = aURL.replace(getSchemaRegExp, "$1").toLowerCase() + '://' + id.schemaWWW;
+
+		aURL = aURL.replace(removeSubdomainRegExp, "$1").toLowerCase();
+
+		while (aURL.indexOf('%') != -1) {
+			aURL = aURL.replace(decodeUTF8RecursiveRegExp, '%');
+			temp = aURL;
+			try {
+				aURL = decodeURIComponent(aURL);
+			} catch (e) {
+				try {
+					aURL = decodeURI(aURL);
+				} catch (e) {
+					break;
+				}
+			}
+			if (aURL == temp)
+				break;
+		}
+		id.path = aURL;
+
+		return id;
 	}
 	//returns aURL in short mode, example http://domain.org/index.html will throw http://domain.org
 

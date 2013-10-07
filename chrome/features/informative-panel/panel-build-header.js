@@ -3,43 +3,46 @@
 
 	var debugingThisFile = true;
 
+	var header, title, description, uri;
+	this.addListener('userInterfaceLoad', function() {
+		header = ODPExtension.getElement('panel-header');
+		title = ODPExtension.getElement('panel-header-title');
+		description = ODPExtension.getElement('panel-header-description');
+		uri = ODPExtension.getElement('panel-header-uri');
+	});
 	this.panelInformationBuildHeader = function(aSelected) {
-		var site = this.listingInformationData[aSelected];
+		var aSite = this.listingInformationData[aSelected];
 
-		var urlPretty = this.decodeUTF8Recursive(site.url);
+		var urlPretty = this.decodeUTF8Recursive(aSite.uri);
 
-		var panelSite = this.getElement('panel-header');
-		panelSite.setAttribute('category', site.category);
-		panelSite.setAttribute('url', site.url);
-		panelSite.setAttribute("tooltiptext", 'EDIT:' + this.removeSchema(urlPretty));
-		panelSite.setAttribute("panel-header-selected", aSelected);
+		//panel
+		header.setAttribute('category', aSite.category);
+		header.setAttribute('url', aSite.uri);
+		header.setAttribute("tooltiptext", 'EDIT:' + urlPretty);
+		header.setAttribute("panel-header-selected", aSelected);
 
-		//titulo
-		var title = this.getElement('panel-header-title');
+		//title
 		if (this.preferenceGet('ui.informative.panel.title')) {
+			title.replaceChild(document.createTextNode((aSite.mediadate != '' ? '(' + aSite.mediadate + ') ' : '') + aSite.title), title.firstChild);
+			title.setAttribute('type', aSite.type + '-' + aSite.cool);
 			title.setAttribute('hidden', false);
-			title.replaceChild(document.createTextNode((site.mediadate != '' ? '(' + site.mediadate + ') ' : '') + site.title), title.firstChild);
-			title.setAttribute('type', site.type + '-' + site.cool);
 		} else {
 			title.setAttribute('hidden', true);
 		}
 
 		//description
-		var description = this.getElement('panel-header-description');
 		if (this.preferenceGet('ui.informative.panel.description')) {
+			description.replaceChild(document.createTextNode(aSite.description), description.firstChild);
 			description.setAttribute('hidden', false);
-			description.replaceChild(document.createTextNode(site.description), description.firstChild);
 		} else {
 			description.setAttribute('hidden', true);
 		}
 
 		//uri
-		var uri = this.getElement('panel-header-uri');
 		if (this.preferenceGet('ui.informative.panel.url')) {
-			uri.setAttribute('hidden', false);
 			uri.setAttribute("value", urlPretty);
 			uri.setAttribute("tooltiptext", this.removeSchema(urlPretty));
-			uri.setAttribute("crop", 'end');
+			uri.setAttribute('hidden', false);
 		} else {
 			uri.setAttribute('hidden', true);
 		}

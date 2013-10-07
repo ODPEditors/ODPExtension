@@ -72,7 +72,7 @@
 		if (urlTool.indexOf('{SCHEMA') != -1) {
 			var aSchema = this.getSchema(aURL);
 			if (aSchema != '') {
-				urlTool = this.URLToolsApplyItem('SCHEMA', aSchema + '://', urlTool);
+				urlTool = this.URLToolsApplyItem('SCHEMA', aSchema + '', urlTool);
 			}
 			urlTool = this.URLToolsApplyItem('SCHEMA', '', urlTool);
 		}

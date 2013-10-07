@@ -5,15 +5,20 @@
 		ODPExtension.extensionIconUpdateStatus();
 	});
 
+	var tooltip, extensionIcon;
+	this.addListener('userInterfaceLoad', function() {
+		tooltip = ODPExtension.getElement('extension-icon-tooltip-data');
+		extensionIcon = ODPExtension.getElement('extension-icon');
+	});
+
 	//update the status of the icon
 
 	this.extensionIconUpdateStatus = function() {
-		var tooltip = this.getElement('extension-icon-tooltip-data');
 		this.removeChilds(tooltip);
 		var label = this.create('label');
 
 		if (!this.preferenceGet('enabled')) {
-			this.getElement('extension-icon').setAttribute('status', 'disabled');
+			extensionIcon.setAttribute('status', 'disabled');
 			label.setAttribute('value', this.getString('disabled'));
 		} else {
 			var status = 'nada';
@@ -45,7 +50,7 @@
 				tooltip.appendChild(labelFrameSet);
 			}
 
-			this.getElement('extension-icon').setAttribute('status', status);
+			extensionIcon.setAttribute('status', status);
 		}
 		tooltip.appendChild(label);
 	}

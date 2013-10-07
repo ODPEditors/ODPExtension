@@ -13,18 +13,13 @@
 <script type="application/x-javascript" src="panel-mouse-scroll.js"></script>
 <script type="application/x-javascript" src="panel-toggle.js"></script>
 
-
-
-
 <window id="main-window">
 
-	<panel
+	<hbox
 		id="ODPExtension-panel"
 		level="top"
-		noautohide="true"
-		noautofocus="true"
 		width="350"
-		position="end_after"
+		minwidth="350"
 	>
 		<hbox maxwidth="350" id="ODPExtension-panel-container">
 
@@ -43,8 +38,6 @@
 								</vbox>
 								<description id="ODPExtension-panel-header-uri" onclick="ODPExtension.tabOpenCheckForBehavior(this.parentNode.getAttribute('url'), event, 'informative.panel')" crop="end"><n/></description>
 							</vbox>
-
-						<!-- most eficient for the browser seems to be the code rendered, WRONG, I SHOULD REWRITE THIS POPUP -->
 
 							<vbox id="ODPExtension-panel-related"
 								panel-related-selected="0"
@@ -167,12 +160,11 @@
 						/>
 					</hbox>
 
-
 				</vbox>
 
 		</hbox>
 
-	</panel>
+	</hbox>
 
  </window>
 

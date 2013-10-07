@@ -18,7 +18,10 @@
 		var aData = '';
 		var aTopic = '';
 		var ids = [];
-		var currentID = 1;
+		var hosts = [];
+		var currentCatID = 1;
+		var currentHostID = 1;
+		var insertingHosts = false;
 
 		var unicodeConverter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
 		unicodeConverter.charset = "UTF-8";
@@ -28,9 +31,8 @@
 
 		var subStrCount = this.subStrCount;
 		var stripTags = this.stripTags;
-		var htmlSpecialCharsDecode = function(aString) { //.split('\\"').join('"'); WTF!?
-			return aString.split('&lt;').join('<').split('&gt;').join('>').split('&quot;').join('"').split('&apos;').join("'").split('&amp;').join('&').split('\\"').join('"');
-		};
+		var htmlSpecialCharsDecode = this.htmlSpecialCharsDecode;
+		var getURLID = this.getURLID;
 
 		var resourceValueRegExp = /.+\:resource="([^"]*)".+/;
 		var resourceIndexRegExp = /.+\:resource="([^\:]*)\:([^"]*)".+/;
@@ -44,38 +46,57 @@
 		}
 
 		var structureU8 = [
-			'http://rdf.dmoz.org/rdf/ad-structure.rdf.u8.gz',
-			'http://rdf.dmoz.org/rdf/kt-structure.rdf.u8.gz',
-			'http://rdf.dmoz.org/rdf/structure.rdf.u8.gz'
+			'http://rdf.dmoz.org/rdf/ad-structure.rdf.u8.gz'
+			, 'http://rdf.dmoz.org/rdf/kt-structure.rdf.u8.gz'
+			, 'http://rdf.dmoz.org/rdf/structure.rdf.u8.gz'
+		]
+		var contentU8 = [
+			'http://rdf.dmoz.org/rdf/ad-content.rdf.u8.gz'
+			, 'http://rdf.dmoz.org/rdf/kt-content.rdf.u8.gz'
+			, 'http://rdf.dmoz.org/rdf/content.rdf.u8.gz'
 		]
 		var aConnection = this.rdfDatabaseOpen();
 
 		this.dump('Cleaning database tables...');
-		aConnection.executeSimple('DROP TABLE IF EXISTS `categories`');
-		aConnection.executeSimple('DROP TABLE IF EXISTS `editors`');
-		aConnection.executeSimple('DROP TABLE IF EXISTS `related`');
-		aConnection.executeSimple('DROP TABLE IF EXISTS `altlang`');
-		aConnection.executeSimple('DROP TABLE IF EXISTS `link`');
-		aConnection.executeSimple('DROP TABLE IF EXISTS `newsgroup`');
-		aConnection.executeSimple('DROP TABLE IF EXISTS `uris`');
+		aConnection.begin();
+		try {
+			aConnection.aConnection.executeSimpleSQL('DROP TABLE IF EXISTS `categories`');
+			aConnection.aConnection.executeSimpleSQL('DROP TABLE IF EXISTS `editors`');
+			aConnection.aConnection.executeSimpleSQL('DROP TABLE IF EXISTS `related`');
+			aConnection.aConnection.executeSimpleSQL('DROP TABLE IF EXISTS `altlang`');
+			aConnection.aConnection.executeSimpleSQL('DROP TABLE IF EXISTS `link`');
+			aConnection.aConnection.executeSimpleSQL('DROP TABLE IF EXISTS `newsgroup`');
+			aConnection.aConnection.executeSimpleSQL('DROP TABLE IF EXISTS `hosts`');
+			aConnection.aConnection.executeSimpleSQL('DROP TABLE IF EXISTS `uris`');
+		} catch (e) {
+			this.rdfDatabaseClose();
+			ODPExtension.fileRemove('RDF.sqlite');
+			aConnection = this.rdfDatabaseOpen();
+			aConnection.begin();
+		}
+		aConnection.commit();
 		aConnection.vacuum();
 		this.dump('Database tables cleaned...');
 
 		this.dump('Creating database tables and statements...');
-		aConnection.executeSimple('	CREATE TABLE `categories` 	( `id` INTEGER PRIMARY KEY NOT NULL, `parent` INTEGER  NOT NULL, `catid` INTEGER NOT NULL, `depth` INTEGER NOT NULL, `category` TEXT NOT NULL, `category_reversed` TEXT NOT NULL, `name` TEXT  NOT NULL, `last_update` DATETIME  NOT NULL, `description` TEXT NOT NULL)');
-		aConnection.executeSimple('	CREATE TABLE `editors`		( `id` INTEGER PRIMARY KEY NOT NULL, `editor` TEXT  NOT NULL, `category_id` INTEGER  NOT NULL)');
-		aConnection.executeSimple('	CREATE TABLE `related`		( `id` INTEGER PRIMARY KEY NOT NULL, `to` INTEGER  NOT NULL, `from` INTEGER  NOT NULL)');
-		aConnection.executeSimple('	CREATE TABLE `altlang` 		( `id` INTEGER PRIMARY KEY NOT NULL, `to` INTEGER  NOT NULL, `from` INTEGER  NOT NULL)');
-		aConnection.executeSimple('	CREATE TABLE `link`    		( `id` INTEGER PRIMARY KEY NOT NULL, `to` INTEGER  NOT NULL, `from` INTEGER  NOT NULL, `name` TEXT NOT NULL, `position` INTEGER  NOT NULL)');
-		aConnection.executeSimple('	CREATE TABLE `newsgroup`	( `id` INTEGER PRIMARY KEY NOT NULL, `newsgroup` TEXT  NOT NULL, `category_id` INTEGER  NOT NULL )');
-		aConnection.executeSimple('	CREATE TABLE `uris`			( `id` INTEGER PRIMARY KEY NOT NULL, `newsgroup` TEXT  NOT NULL, `category_id` INTEGER  NOT NULL )');
+		aConnection.begin();
+		aConnection.executeSimple('	CREATE TABLE `categories` 	( `id` INTEGER PRIMARY KEY NOT NULL, `parent` INTEGER NOT NULL, `catid` INTEGER NOT NULL, `depth` INTEGER NOT NULL, `category` TEXT NOT NULL, `category_reversed` TEXT NOT NULL, `name` TEXT NOT NULL, `last_update` DATETIME NOT NULL, `description` TEXT NOT NULL)');
+		aConnection.executeSimple('	CREATE TABLE `editors`		( `id` INTEGER PRIMARY KEY NOT NULL, `editor` TEXT NOT NULL, `category_id` INTEGER NOT NULL)');
+		aConnection.executeSimple('	CREATE TABLE `related`		( `id` INTEGER PRIMARY KEY NOT NULL, `to` INTEGER NOT NULL, `from` INTEGER NOT NULL)');
+		aConnection.executeSimple('	CREATE TABLE `altlang` 		( `id` INTEGER PRIMARY KEY NOT NULL, `to` INTEGER NOT NULL, `from` INTEGER NOT NULL)');
+		aConnection.executeSimple('	CREATE TABLE `link` 		( `id` INTEGER PRIMARY KEY NOT NULL, `to` INTEGER NOT NULL, `from` INTEGER NOT NULL, `name` TEXT NOT NULL, `position` INTEGER NOT NULL)');
+		aConnection.executeSimple('	CREATE TABLE `newsgroup`	( `id` INTEGER PRIMARY KEY NOT NULL, `newsgroup` TEXT NOT NULL, `category_id` INTEGER NOT NULL )');
+		aConnection.executeSimple('	CREATE TABLE `hosts`	( `id` INTEGER PRIMARY KEY NOT NULL, `host` TEXT NOT NULL)');
+		aConnection.executeSimple('	CREATE TABLE `uris`			( `id` INTEGER PRIMARY KEY NOT NULL, `schemaWWW` TEXT NOT NULL, `subdomain_id` INTEGER NOT NULL, `domain_id` INTEGER NOT NULL, `uri` TEXT NOT NULL, `path` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `mediadate` DATE NOT NULL, `pdf` INTEGER NOT NULL, `atom` INTEGER NOT NULL, `rss` INTEGER NOT NULL, `cool` INTEGER NOT NULL, `category_id` INTEGER NOT NULL)');
 
-		var insertCategory = aConnection.aConnection.createStatement('INSERT INTO `categories` ( `id`, `parent`, `catid`,`depth`, `category`,`category_reversed`,  `name` , `last_update` , `description` ) VALUES (  :id, :parent ,   :catid, :depth, :category,  :category_reversed,   :name, :last_update ,   :description )')
-		var insertEditor = aConnection.aConnection.createStatement('INSERT INTO `editors` ( `editor`, `category_id` ) VALUES (  :editor, :category_id )')
-		var insertRelated = aConnection.aConnection.createStatement('INSERT INTO `related` ( `to`, `from` ) VALUES (  :to, :from )')
-		var insertAltlang = aConnection.aConnection.createStatement('INSERT INTO `altlang` ( `to`, `from` ) VALUES (  :to, :from )')
-		var insertLink = aConnection.aConnection.createStatement('INSERT INTO `link` ( `to`, `from` , `name`, `position`  ) VALUES (  :to, :from, :name, :position )')
-		var insertNewsgroup = aConnection.aConnection.createStatement('INSERT INTO `newsgroup` ( `newsgroup`, `category_id`) VALUES (  :newsgroup, :category_id )')
+		var insertCategory = aConnection.aConnection.createStatement('INSERT INTO `categories` ( `id`, `parent`, `catid`,`depth`, `category`,`category_reversed`, `name` , `last_update` , `description` ) VALUES ( :id, :parent , :catid, :depth, :category, :category_reversed, :name, :last_update , :description )')
+		var insertEditor = aConnection.aConnection.createStatement('INSERT INTO `editors` ( `editor`, `category_id` ) VALUES ( :editor, :category_id )')
+		var insertRelated = aConnection.aConnection.createStatement('INSERT INTO `related` ( `to`, `from` ) VALUES ( :to, :from )')
+		var insertAltlang = aConnection.aConnection.createStatement('INSERT INTO `altlang` ( `to`, `from` ) VALUES ( :to, :from )')
+		var insertLink = aConnection.aConnection.createStatement('INSERT INTO `link` ( `to`, `from` , `name`, `position` ) VALUES ( :to, :from, :name, :position )')
+		var insertNewsgroup = aConnection.aConnection.createStatement('INSERT INTO `newsgroup` ( `newsgroup`, `category_id`) VALUES ( :newsgroup, :category_id )')
+		var insertHost = aConnection.aConnection.createStatement('INSERT INTO `hosts` ( `id`, `host`) VALUES ( :id, :host )')
+		var insertURI = aConnection.aConnection.createStatement('INSERT INTO `uris` ( `schemaWWW`, `subdomain_id`, `domain_id`, `uri`, `path`, `title`, `description`, `mediadate`, `pdf`, `atom`, `rss`, `cool`, `category_id`) VALUES (:schemaWWW, :subdomain_id, :domain_id, :uri, :path, :title, :description, :mediadate, :pdf, :atom, :rss, :cool, :category_id )')
 		this.dump('Database tables and statements created...');
 
 		function StreamListenerCategoriesTXT() {
@@ -102,12 +123,13 @@
 					if (!ids[category]) {
 						parent = category.split('/'), leaf = parent.pop(), parent = parent.join('/');
 						if (!ids[parent])
-							ids[parent] = currentID++;
-						ids[category] = currentID++;
+							ids[parent] = currentCatID++;
+						ids[category] = currentCatID++;
 						progress.add();
 					}
 				}
-				progress.progress();
+				if (progress.done % 100 === 0)
+					progress.progress();
 			},
 
 			onStopRequest: function(aRequester, aContext, aStatusCode) {
@@ -121,16 +143,20 @@
 					if (!ids[category]) {
 						parent = category.split('/'), leaf = parent.pop(), parent = parent.join('/');
 						if (!ids[parent])
-							ids[parent] = currentID++;
-						ids[category] = currentID++;
+							ids[parent] = currentCatID++;
+						ids[category] = currentCatID++;
 						progress.add();
 					}
 				}
 				ODPExtension.gc();
 				progress.progress();
 				ODPExtension.dump('Categories IDs set...');
+				aConnection.commit();
 				aConnection.begin();
-				ODPExtension.rdfParserDownload(structureU8.shift(), new StreamListenerStructureRDF());
+				var url = structureU8.shift()
+				progress.message = 'Processing ' + url;
+				ODPExtension.dump('Processing ' + url);
+				ODPExtension.rdfParserDownload(url, new StreamListenerStructureRDF());
 			}
 		}
 
@@ -150,7 +176,8 @@
 
 				if (aData.indexOf('</Topic') != -1)
 					this.onLoadTopic();
-				progress.progress();
+				if (progress.done % 100 === 0)
+					progress.progress();
 			},
 			//ie: a link to Test/Wold/Lunfardo/
 			onMissingCategory: function(aCategories) {
@@ -162,7 +189,7 @@
 					path = aCategory.replace(/\/$/, '');
 					if (!ids[path]) {
 						parent = path.split('/'), leaf = parent.pop(), parent = parent.join('/');
-						ids[path] = currentID++;
+						ids[path] = currentCatID++;
 						//saving
 						insertCategory.params['id'] = ids[path];
 						insertCategory.params['parent'] = ids[parent];
@@ -237,11 +264,9 @@
 									insertCategory.execute();
 								} catch (e) {
 									ODPExtension.dump('---------');
-									ODPExtension.dump(e.message);
-									ODPExtension.dump(aCategory);
 									ODPExtension.dump(aConnection.aConnection.lastErrorString);
 									ODPExtension.dump(aTopic);
-									ODPExtension.dump('---------');
+									ODPExtension.dump(aCategory);
 								}
 								for (var a = 0; a < aCategory.editors.length; a++) {
 									insertEditor.params['editor'] = aCategory.editors[a];
@@ -302,18 +327,6 @@
 								else
 									tmp.position = 2;
 								aCategory.link[aCategory.link.length] = tmp;
-							} else {
-								if (
-									value.indexOf('<Target') === 0 ||
-									value.indexOf('</Alias') === 0 ||
-									value.indexOf('<Alias') === 0 ||
-									value.indexOf('<narrow') === 0 ||
-									value.indexOf('<narrow') === 0 ||
-									value.indexOf('<d:Title') === 0 ||
-									value.indexOf('<letterbar') === 0) {} else {
-									ODPExtension.dump('WTF 1');
-									ODPExtension.dump(value);
-								}
 							}
 						}
 					}
@@ -331,8 +344,12 @@
 
 				var url = structureU8.shift()
 				if (!url || url == '') {
+
+					ODPExtension.dump('Commiting start...');
+					aConnection.commit();
+					ODPExtension.dump('Commiting end...');
+
 					ODPExtension.dump('Finalizing statements...');
-					insertCategory.finalize();
 					insertEditor.finalize();
 					insertRelated.finalize();
 					insertAltlang.finalize();
@@ -340,11 +357,7 @@
 					insertNewsgroup.finalize();
 					ODPExtension.dump('Statements finalized...');
 
-					ODPExtension.dump('Commiting start...');
-					aConnection.commit();
-					ODPExtension.dump('Commiting end...');
-
-				ODPExtension.gc();
+					ODPExtension.gc();
 
 					ODPExtension.dump('Creating database index...');
 					aConnection.begin();
@@ -365,23 +378,291 @@
 					aConnection.commit();
 					ODPExtension.dump('Database index created...');
 
-					aConnection.vacuum();
+					//ids = null;
+					ODPExtension.gc();
+
+					progress.done = 0;
+					progress.running = '5000000~'
+					progress.progress();
+
+					aConnection.begin();
+					var url = contentU8.shift()
+					progress.message = 'Processing ' + url;
+					ODPExtension.dump('Processing ' + url + '...');
+					ODPExtension.rdfParserDownload(url, new StreamListenerContentRDF());
+
+				} else {
+					ODPExtension.dump('Processing ' + url + '...');
+					progress.message = 'Processing ' + url;
+					ODPExtension.rdfParserDownload(url, new StreamListenerStructureRDF());
+				}
+			}
+		}
+
+
+		function StreamListenerContentRDF() {
+			return this;
+		}
+		StreamListenerContentRDF.prototype = {
+
+			onStartRequest: function(aRequester, aContext) {
+				//timer.start('downloading');
+
+			},
+			onDataAvailable: function(aRequester, aContext, aInputStream, aOffset, aCount) {
+
+				binInputStream.setInputStream(aInputStream);
+				aData += binInputStream.readBytes(binInputStream.available());
+				binInputStream.close();
+
+				if (aData.indexOf('</ExternalPage') != -1)
+					this.onLoadSite();
+				if (progress.done % 1000 === 0)
+					progress.progress();
+			},
+			//ie: a link to Test/Wold/Lunfardo/
+			onMissingCategory: function(aCategories) {
+				ODPExtension.dump('problematic category:' + aCategories);
+				aCategories = aCategories.split('/');
+				var aCategory = '',
+					path = '';
+				for (var id in aCategories) {
+					aCategory += aCategories[id] + '/'
+					path = aCategory.replace(/\/$/, '');
+					if (!ids[path]) {
+						parent = path.split('/'), leaf = parent.pop(), parent = parent.join('/');
+						ids[path] = currentCatID++;
+						//saving
+						insertCategory.params['id'] = ids[path];
+						insertCategory.params['parent'] = ids[parent];
+						insertCategory.params['catid'] = 0;
+						insertCategory.params['category'] = aCategory;
+						insertCategory.params['category_reversed'] = aCategory.split('').reverse().join('');
+						insertCategory.params['name'] = leaf;
+						insertCategory.params['depth'] = subStrCount(path, '/') + 1;
+						insertCategory.params['last_update'] = '0000-00-00 00:00:00';
+						insertCategory.params['description'] = '';
+						insertCategory.execute();
+					}
+				}
+				return ids[path];
+			},
+			onLoadSite: function(last) {
+
+				var data = aData.trimLeft().split('\n');
+				if (!last)
+					aData = data.pop();
+				data = (aTopic + unicodeConverter(data.join('\n'))).split('\n')
+				aTopic = '';
+				var params = insertURI.params,
+					insert = insertURI;
+				for (var i = 0, total = data.length; i < total; i++) {
+
+					value = data[i].trim();
+					aTopic += value;
+					aTopic += "\n";
+
+					if (value.indexOf('<ExternalPage') === 0) {
+
+						var aSite = getURLID(htmlSpecialCharsDecode(value.split('about="')[1].slice(0, -2)));
+
+
+						/*						aSite.subdomain_id = ODPExtension.getSubdomainFromURL(aSite.uri);
+						aSite.domain_id = ODPExtension.getDomainFromURL(aSite.uri);
+						aSite.schemaWWW = ODPExtension.getSchema(aSite.uri) + ODPExtension.getWWW(aSite.subdomain_id);
+						aSite.subdomain_id = ODPExtension.removeWWW(aSite.subdomain_id);
+						aSite.path = ODPExtension.decodeUTF8Recursive(ODPExtension.removeSubdomain(aSite.uri)).toLowerCase();*/
+
+						if (!hosts[aSite.subdomain])
+							hosts[aSite.subdomain] = currentHostID++;
+						aSite.subdomain = hosts[aSite.subdomain];
+
+						if (!hosts[aSite.domain])
+							hosts[aSite.domain] = currentHostID++;
+						aSite.domain = hosts[aSite.domain];
+
+
+						aSite.rss = 0;
+						aSite.pdf = 0;
+						aSite.atom = 0;
+
+						aSite.cool = 0;
+
+						aSite.mediadate = '';
+
+						aSite.title = '';
+						aSite.description = '';
+
+						aSite.category_id = 0;
+
+						i++;
+
+						for (; i < total; i++) {
+							value = data[i].trim();
+							aTopic += value;
+							aTopic += "\n";
+
+							if (value.indexOf('</ExternalPage') === 0) {
+								progress.remove();
+								if (progress.done % 100000 == 0) {
+									aConnection.commit();
+									aConnection.begin();
+								}
+
+								try {
+									//saving
+									params['schemaWWW'] = aSite.schemaWWW;
+									params['subdomain_id'] = aSite.subdomain;
+									params['domain_id'] = aSite.domain;
+									params['uri'] = aSite.uri;
+									params['path'] = aSite.path
+
+									params['title'] = aSite.title;
+									params['description'] = aSite.description;
+
+									params['mediadate'] = aSite.mediadate;
+
+									params['pdf'] = aSite.pdf;
+									params['atom'] = aSite.atom;
+									params['rss'] = aSite.rss;
+
+									params['cool'] = aSite.cool;
+
+									params['category_id'] = aSite.category_id;
+
+									insert.execute();
+								} catch (e) {
+									ODPExtension.dump('---------');
+									ODPExtension.dump(aConnection.aConnection.lastErrorString);
+									ODPExtension.dump(aSite);
+									ODPExtension.dump(aTopic);
+								}
+								aTopic = '';
+								aSite = {};
+								break;
+							} else if (value.indexOf('<d:Description') === 0)
+								aSite.description = htmlSpecialCharsDecode(stripTags(value));
+							else if (value.indexOf('<d:Title') === 0)
+								aSite.title = htmlSpecialCharsDecode(stripTags(value));
+							else if (value.indexOf('<topic>') === 0)
+								aSite.category_id = ids[categorySanitize(stripTags(value))] || this.onMissingCategory(categorySanitize(stripTags(value)));
+							else if (value.indexOf('<mediadate') === 0)
+								aSite.mediadate = stripTags(value).slice(0, 10);
+							else if (value.indexOf('<priority') === 0)
+								aSite.cool = 1;
+							else if (value.indexOf('<type') === 0) {
+								value = value.toLowerCase()
+								if (value.indexOf('rss') != -1)
+									aSite.rss = 1;
+								else if (value.indexOf('pdf') != -1)
+									aSite.pdf = 1;
+								else if (value.indexOf('atom') != -1)
+									aSite.atom = 1;
+							}
+						}
+					}
+				}
+			},
+
+			onStopRequest: function(aRequester, aContext, aStatusCode) {
+				progress.progress();
+
+				this.onLoadSite(true);
+				aData = '';
+				aTopic = '';
+
+				ODPExtension.gc();
+
+				var url = contentU8.shift()
+				if (!url || url == '') {
+
+					ODPExtension.dump('Commiting start...');
+					aConnection.commit();
+					ODPExtension.dump('Commiting end...');
+
+					ODPExtension.dump('Finalizing statements...');
+					insertURI.finalize();
+					insertCategory.finalize();
+					ODPExtension.dump('Statements finalized...');
 
 					ids = null;
 					ODPExtension.gc();
 
 					progress.progress();
 
-					ODPExtension.rdfParserComplete();
+					ODPExtension.rdfParserDownload('http://rdf.dmoz.org/rdf/kt-structure.rdf.u8.gz', new StreamListenerHostsRDF());
+
 
 				} else {
 					ODPExtension.dump('Processing ' + url + '...');
-					ODPExtension.rdfParserDownload(url, new StreamListenerStructureRDF());
+					progress.message = 'Processing ' + url;
+					ODPExtension.rdfParserDownload(url, new StreamListenerContentRDF());
 				}
 
 			}
 		}
 
+		//hack, run the insert of hosts in a thread. :D!
+
+		function StreamListenerHostsRDF() {
+			return this;
+		}
+		StreamListenerHostsRDF.prototype = {
+
+			onStartRequest: function(aRequester, aContext) {
+
+			},
+			onDataAvailable: function(aRequester, aContext, aInputStream, aOffset, aCount) {
+				if (insertingHosts === false) {
+					insertingHosts = true;
+
+					ODPExtension.dump('Inserting hosts...');
+					aConnection.begin();
+					for (var id in hosts) {
+						insertHost.params['id'] = hosts[id];
+						insertHost.params['host'] = id;
+						insertHost.execute();
+						if (hosts[id] % 250000 === 0) {
+							aConnection.commit();
+							aConnection.begin();
+						}
+					}
+					hosts = null;
+					ODPExtension.gc();
+
+					aConnection.commit();
+
+					insertHost.finalize();
+
+					ODPExtension.gc();
+					ODPExtension.dump('Hosts inserted..');
+
+
+					ODPExtension.dump('Creating database index...');
+					aConnection.begin();
+					aConnection.executeSimple('	CREATE UNIQUE INDEX IF NOT EXISTS `hosts_host` ON `hosts` (`host`) ');
+					aConnection.commit();
+
+					aConnection.begin();
+					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `uris_subdomain_id` ON `uris` (`subdomain_id`) ');
+					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `uris_domain_id` ON `uris` (`domain_id`) ');
+					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `uris_path` ON `uris` (`path`) ');
+					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `uris_path_domain` ON `uris` (`path`,`domain_id`) ');
+					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `uris_path_subdomain` ON `uris` (`path`,`subdomain_id`) ');
+					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `uris_subdomain_domain` ON `uris` (`subdomain_id`,`domain_id`) ');
+					aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `uris_subdomain_domain_path` ON `uris` (`subdomain_id`,`domain_id`,`path`) ');
+					//aConnection.executeSimple('	CREATE INDEX IF NOT EXISTS `uris_schemaWWW` ON `uris` (`schemaWWW`) ');
+					aConnection.commit();
+					ODPExtension.dump('Database index created...');
+
+					ODPExtension.gc();
+					ODPExtension.rdfParserComplete();
+				}
+			},
+			onStopRequest: function(aRequester, aContext, aStatusCode) {}
+		}
+
+		progress.message = 'Processing http://rdf.dmoz.org/rdf/categories.txt.gz';
 		this.rdfParserDownload('http://rdf.dmoz.org/rdf/categories.txt.gz', new StreamListenerCategoriesTXT());
 	}
 
@@ -431,8 +712,7 @@
 		this.dump('Table id set...');
 		return true;
 	}
-	this.rdfParserFind = function(aFile, aQuery)
-	{
+	this.rdfParserFind = function(aFile, aQuery) {
 		this.rdfParserSetTable(aFile);
 
 		if (!this.fileOpen(aFile)) {

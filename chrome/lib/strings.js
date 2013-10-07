@@ -14,10 +14,11 @@
 		}
 	};
 	//decodes all chars encoded in a string
+	var decodeUTF8RecursiveRegExp = /% +/g;
 	this.decodeUTF8Recursive = function(aString) //recursion was optimized
 	{
 		while (aString.indexOf('%') != -1) {
-			aString = aString.replace(/% +/g, '%');
+			aString = aString.replace(decodeUTF8RecursiveRegExp, '%');
 
 			var last = aString;
 
@@ -32,7 +33,6 @@
 			}
 			if (aString == last)
 				break;
-
 		}
 		return aString;
 	};
@@ -101,13 +101,15 @@
 	};
 	//Decodes HTML special chars
 	this.htmlSpecialCharsDecode = function(aString) {
-		return aString.split('&lt;').join('<').split('&gt;').join('>').split('&quot;').join('"').split('&apos;').join("'").split('&amp;').join('&');
+		if(aString.indexOf('&') != -1)
+			return aString.split('&lt;').join('<').split('&gt;').join('>').split('&quot;').join('"').split('&apos;').join("'").split('&amp;').join('&');
+		else
+			return aString;
 	};
 	//Encodes HTML special chars
 	this.htmlSpecialCharsEncode = function(aString) {
 		if (!aString)
 			return '';
-
 		return aString.split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;').split("'").join('&apos;');
 	};
 	//matchs a regular expresion

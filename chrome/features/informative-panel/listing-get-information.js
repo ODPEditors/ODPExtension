@@ -9,154 +9,245 @@
 		ODPExtension.listingGetInformation(ODPExtension.focusedURL);
 	});
 
-	this.listingGetInformation = function(aLocation, aClick) {
-		if (this.preferenceGet('privacy.listing.method.none') || !this.preferenceGet('enabled')) //listing check disabled
-		{
+	var panel, db, query_domain_count, query_domain_select, query_slice, sort = 0;
+	this.addListener('userInterfaceLoad', function() {
+		panel = ODPExtension.getElement('panel');
+		db = ODPExtension.databaseGet('RDF');
+
+		var select = ' as sorting, u.id as site_id, u.uri as uri, u.title as title, u.description as description, u.mediadate as mediadate, u.pdf as pdf, u.atom as atom, u.rss as rss, u.cool as cool, c.category as category, c.description as category_description ';
+
+		var where_subdomain = ' h.host = :subdomain and h.id = u.subdomain_id and u.category_id = c.id ';
+		var where_domain = ' h.host = :domain and h.id = u.domain_id and  u.category_id = c.id ';
+
+		query_domain_count = db.query(' select count(*) from uris u, hosts h where h.host = :domain and h.id = u.domain_id');
+		query_domain_select = db.query(' select 1 ' + select + ' from  hosts h, uris u, categories c where ' + where_domain);
+
+		query_slice = db.query(' \
+		                       \
+		                       	/* 1 exaclty this url */ \
+							  \
+									select *, min(sorting) as dale from(SELECT  \
+										1 ' + select + '   \
+									FROM  \
+										 hosts h, uris u, categories c \
+									where  \
+										' + where_subdomain + ' and \
+										 u.path = :path \
+		                       	/* 2 url LIKE url% - all under this url */ \
+								UNION \
+									SELECT  \
+										2 ' + select + '   \
+									FROM  \
+										 hosts h, uris u, categories c \
+									where  \
+										' + where_subdomain + ' and \
+										u.path GLOB :path_glob \
+		                       	/* 3 - path no hash, url LIKE urlWithOutVars% - all under this url with the file name with out the hash */ \
+								UNION \
+									SELECT  \
+										3 ' + select + '   \
+									FROM  \
+										 hosts h, uris u, categories c \
+									where  \
+										' + where_subdomain + ' and \
+										u.path GLOB :path_no_hash \
+		                       	/* 3.1 - path url LIKE urlWithOutVars% - all under this url with the file name with out the vars */ \
+								UNION \
+									SELECT  \
+										3 ' + select + '   \
+									FROM  \
+										 hosts h, uris u, categories c \
+									where  \
+										' + where_subdomain + ' and \
+										u.path GLOB :path_no_vars \
+								/* 4 - url LIKE urlWithOutFileName% - all under the first folder from right to left */ \
+								UNION \
+									SELECT  \
+										4 ' + select + '   \
+									FROM  \
+										 hosts h, uris u, categories c \
+									where  \
+										' + where_subdomain + ' and \
+										u.path GLOB :path_no_file_name \
+								\
+								/* 5 - url LIKE urlToTheFirstFolder% - all under the first folder from left to right */ \
+								UNION \
+									SELECT  \
+										 5 ' + select + '   \
+									FROM  \
+										 hosts h, uris u, categories c \
+									where  \
+										' + where_subdomain + ' and \
+										u.path GLOB :path_parent_folder \
+								\
+								/* 5.2 first folder - url LIKE urlToTheFirstFolder% - all under the first folder from left to right */ \
+								UNION \
+									SELECT  \
+										6 ' + select + '   \
+									FROM  \
+										 hosts h, uris u, categories c \
+									where  \
+										' + where_subdomain + ' and \
+										u.path GLOB :path_first_folder \
+								\
+								/* 6 - url = urlDomain or url = urlDomain/ - exactly this current subdomain/domain */ \
+								UNION \
+									SELECT  \
+										7 ' + select + '   \
+									FROM  \
+										 hosts h, uris u, categories c \
+									where  \
+										' + where_subdomain + ' and u.path = "" \
+								\
+								/* 7 - url LIKE urlDomain/% - all under this current subdomain/domain */ \
+								UNION \
+									SELECT  \
+										8 ' + select + '   \
+									FROM  \
+										 hosts h, uris u, categories c \
+									where  \
+										' + where_subdomain + ' \
+								\
+				/* 8 - url LIKE %.urlDomain or url LIKE %.urlDomain - exaclty subdomains of this current domain/subdomain \
+								UNION \
+									SELECT  \
+										9 ' + select + '   \
+									FROM  \
+										 hosts h, uris u, categories c \
+									where  \
+										' + where_domain + ' and u.path = "" \
+								\
+				*/ \
+								/* 9 - url LIKE %.urlDomain/% - listings of the subdomains of this domain/subdomain */ \
+								/* 10 - url LIKE %.urlFullDomain or url LIKE %.urlFullDomain/ - exactly subdomains of this domain */ \
+								UNION \
+									SELECT  \
+										10 ' + select + '   \
+									FROM  \
+										 hosts h, uris u, categories c \
+									where  \
+										' + where_domain + ' and h.id != u.subdomain_id and path = "" \
+								\
+								/* 11 - url LIKE %.urlFullDomain/% - listings of the subdomains of this domain */ \
+								UNION \
+									SELECT  \
+										11 ' + select + '   \
+									FROM  \
+										 hosts h, uris u, categories c \
+									where  \
+										' + where_domain + ' and h.id != u.subdomain_id \
+								\
+								/* 12 - url LIKE urlFullDomain/% - listings of this domain */ \
+								UNION \
+									SELECT  \
+										12 ' + select + '   \
+									FROM  \
+										 hosts h, uris u, categories c \
+									where  \
+										' + where_domain + ' \
+								group by site_id  order by sorting asc LIMIT 300 \
+								) group by site_id  order by dale asc LIMIT 30 \
+								/* 13 - url = urlFullDomain or url = urlFullDomain/ - exaclty this domain */ \
+						 \
+					   ');
+	});
+
+	this.listingGetInformation = function(aLocation) {
+
+		if (!this.preferenceGet('ui.informative.panel') || !this.preferenceGet('enabled')) {
+			//listing check disabled
 			this.listingInformation = '';
-			this.getElement('panel').hidePopup();
+			panel.setAttribute('hidden', true);
 			this.extensionIconUpdateStatus();
 			return;
-		} else if (
-			this.preferenceGet('advanced.urls.rdf') == '' ||
-			this.preferenceGet('advanced.urls.rdf').indexOf('http') == -1 ||
-			this.preferenceGet('advanced.urls.rdf').indexOf('{URL}') == -1) //there is a valiod RDF url?
-		{
+		} else if (!db.tableExists('uris')) {
 			this.listingInformation = 'error';
-			this.getElement('panel').hidePopup();
+			panel.setAttribute('hidden', true);
 			this.extensionIconUpdateStatus();
 			return;
-		} else if (this.cantLeakURL(aLocation)) //private URI
-		{
+		}
+		/*else if (this.cantLeakURL(aLocation)) { //currently the data is local
+			//private URI
 			this.listingInformation = '';
-			this.getElement('panel').hidePopup();
+			panel.setAttribute('hidden', true);
 			this.extensionIconUpdateStatus();
 			return;
-		} else if (this.preferenceGet('privacy.listing.when.click') && !aClick) //waiting for a click to load
-		{
-			this.listingInformation = '';
-			this.getElement('panel').hidePopup();
-			this.extensionIconUpdateStatus();
-			return
-		} else if (this.preferenceGet('privacy.listing.method.domain'))
-			aLocation = this.anonymize(this.getSubdomainFromURL(aLocation)); //only subdomain
-		else
-			aLocation = this.anonymize(aLocation); //every url
+		}*/
 
 		//update the icon status
 		this.listingInformationURL = this.decodeUTF8Recursive(aLocation);
 		this.listingInformation = 'loading';
 		this.extensionIconUpdateStatus();
 
-		//check if this domain has little listing, if yes the results are cached by domain then don't do the request and show the cached data.
-		var hash = this.sha256(this.getDomainFromURL(aLocation));
-		var cachedFile = 'cached.request/listings.information/domain.few.listings/' + hash[0] + '/' + hash[1] + '/' + hash + '.txt';
-		if (this.fileExists(cachedFile)) {
-			this.listingGetInformationLoaded(this.fileRead(cachedFile), aLocation);
-		} else {
-			//get the information
-			this.readURL(
-				this.preferenceGet('advanced.urls.rdf').replace('{URL}', this.encodeUTF8(this.removeSchema(aLocation))),
-				'listings.information/responses/',
-				null,
-				null, function() {
-				ODPExtension.listingGetInformationLoaded(arguments[0], arguments[1]);
-			},
-				aLocation); //variable num of arguments
-		}
+		//get the data
+		var aLocationID = this.getURLID(aLocation);
+		aLocationID.path = this.shortURL(aLocationID.path)
+		aLocationID.path_no_hash = this.removeHash(aLocationID.path)
+		aLocationID.path_no_vars = this.removeVariables(aLocationID.path_no_hash)
+		aLocationID.path_no_file_name = this.removeFileName2(aLocationID.path_no_vars)
+		aLocationID.path_parent_folder = this.removeFileName2(aLocationID.path_no_file_name)
+		aLocationID.path_first_folder = this.removeFromTheFirstFolder2(aLocationID.path_parent_folder)
+
+		//ODPExtension.dump(aLocationID);
+
+		//check if the domain has few listings
+		query_domain_count.params('domain', aLocationID.domain);
+		query_domain_count.execute(function(aData) {
+			if (aData[0]['count(*)'] < 30) {
+				query_domain_select.params('domain', aLocationID.domain);
+				query_domain_select.execute(function(aData) {
+					ODPExtension.listingGetInformationLoaded(aData, aLocation, aLocationID);
+				});
+			} else {
+				query_slice.params('domain', aLocationID.domain);
+				query_slice.params('subdomain', aLocationID.subdomain);
+				query_slice.params('path', aLocationID.path);
+				query_slice.params('path_glob', aLocationID.path + '*');
+				query_slice.params('path_no_hash', aLocationID.path_no_hash + '*');
+				query_slice.params('path_no_vars', aLocationID.path_no_vars + '*');
+				query_slice.params('path_no_file_name', aLocationID.path_no_file_name + '*');
+				query_slice.params('path_parent_folder', aLocationID.path_parent_folder + '*');
+				query_slice.params('path_first_folder', aLocationID.path_first_folder + '*');
+				query_slice.execute(function(aData) {
+					ODPExtension.listingGetInformationLoaded(aData, aLocation, aLocationID);
+				});
+			}
+		});
 	}
 
-	this.listingGetInformationLoaded = function(aData, aLocation) {
+	this.listingGetInformationLoaded = function(aData, aLocation, aLocationID) {
 		//check if the retreived data is for this focused tab
-		var shouldLoad = false;
-		if (this.preferenceGet('privacy.listing.method.domain') && aLocation == this.anonymize(this.getSubdomainFromURL(this.focusedURL)))
-			shouldLoad = true;
-		else if (aLocation == this.anonymize(this.focusedURL))
-			shouldLoad = true;
+		if (aLocation == this.focusedURL && this.preferenceGet('enabled')) {
 
-		//if the request come from the focused location, rebuild the popup
-		if (shouldLoad) {
+			//validate the response
+			if (aData.length == 0) {
+				this.listingInformation = 'nada';
+				this.extensionIconUpdateStatus();
+				panel.setAttribute('hidden', true);
+				return;
+			} else {
+				this.listingInformation = 'loading';
+				this.extensionIconUpdateStatus();
+			}
+
 			//if there is a need to remove the www
 			var focusedLocationWWW = this.decodeUTF8Recursive(this.removeSchema(this.shortURL(this.focusedURL).replace(/\/+$/, ''))).toLowerCase();
 			var focusedLocationNoWWW = this.removeWWW(this.focusedURL);
 			var focusedLocationDomain = this.focusedDomain;
 			var focusedLocationSubdomain = this.focusedSubdomain;
 
-			//validate the response of the data server
-			aData = this.trim(aData);
-			if (aData == '') //if data is zero fail silenty
-			{
-				this.listingInformation = 'nada';
-				this.extensionIconUpdateStatus();
-				this.getElement('panel').hidePopup();
-				return;
-			} else if (aData.split('\n')[1].indexOf('NO listings') === 0) {
-				this.listingInformation = 'nada';
-				this.extensionIconUpdateStatus();
-				this.getElement('panel').hidePopup();
-				return;
-			} else if (aData.indexOf('<!-- Generated at') === 0) {
-				this.listingInformation = 'loading';
-				this.extensionIconUpdateStatus();
-			} else {
-				this.listingInformation = 'error';
-				this.extensionIconUpdateStatus();
-				this.getElement('panel').hidePopup();
-				return;
-				//invalid response from data server
-			}
-
-			//check if we need to cache this data
-			if (this.subStrCount(aData, '\n') < 30) {
-				var hash = this.sha256(this.getDomainFromURL(aLocation));
-				var cachedFile = 'cached.request/listings.information/domain.few.listings/' + hash[0] + '/' + hash[1] + '/' + hash + '.txt';
-				if (!this.fileExists(cachedFile))
-					this.fileWrite(cachedFile, aData);
-			}
-
-			//parsing the site data
-			var siteData = this.trim(aData).split('\n');
-
-			/*cache validation*/
-
-			//check if the cached should be cleaned, when the godzuki data is updated
-			var generatedAt = siteData[0].replace(/.*([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]).*/, "$1");
-
-			//if there "generated at" change then there is a new data, clean the cached data
-			if (this.preferenceGet('last.rdf.update') != generatedAt) {
-				this.fileRemove('cached.request/');
-				this.preferenceSet('last.rdf.update', generatedAt);
-			}
-
 			/* resutls comparation to see if the URI is listed*/
 			var listed_same_uri = -1;
 			var listed_domain_uri = -1;
 			var listed_other_uri = -1;
 			var aSelected = -1;
-			//this.dump(siteData);
 
-			//normalizing
-			var aData = [],
-				site;
-			//the first line is the meta data <!-- generated at -->
-			for (var i = 1, counter = 0; i < siteData.length; i++, counter++) {
-				site = siteData[i].split('\t');
-				aData[counter] = {}
-				aData[counter].url = site[1];
-				aData[counter].title = site[2];
-				aData[counter].description = site[3];
-				aData[counter].category = site[0];
-				aData[counter].type = (site[5] || '');
-				aData[counter].cool = (site[4] || '');
-				aData[counter].mediadate = (site[6] || '');
-			}
 			this.listingInformationData = aData;
-			//	this.dump(aData);
-			//looking for the most close url (wichi is already served by godzuki)
+			//this.dump(aData);
+			//looking for the most close url
 			for (var i = 0; i < aData.length; i++) {
-				var siteURLWWW = this.decodeUTF8Recursive(this.removeSchema(this.shortURL(aData[i].url).replace(/\/+$/, ''))).toLowerCase();
+				var siteURLWWW = this.decodeUTF8Recursive(this.removeSchema(this.shortURL(aData[i].uri).replace(/\/+$/, ''))).toLowerCase();
 				var siteURLNoWWW = this.removeWWW(siteURLWWW);
-
-				/*SITE INFO*/
 
 				if (
 					siteURLWWW == focusedLocationWWW ||
@@ -174,6 +265,13 @@
 				} else {
 					listed_other_uri = i;
 				}
+				aData[i].type = ''
+				if (aData[i].pdf)
+					aData[i].type = 'PDF'
+				if (aData[i].atom)
+					aData[i].type = 'Atom'
+				if (aData[i].rss)
+					aData[i].type = 'RSS'
 			}
 
 			if (listed_same_uri > -1) {
@@ -186,30 +284,30 @@
 				this.listingInformation = 'listed-other-uri';
 				aSelected = listed_other_uri;
 			}
-
 			this.extensionIconUpdateStatus();
 
 			this.getElement('panel-subcontainer').setAttribute('listed', this.listingInformation); //the border of the panel
 			this.getElement('panel-header-title').setAttribute('listed', this.listingInformation); //the color of the header
 			this.getElement('panel-move').setAttribute('listed', this.listingInformation); //the color of the move button
-			this.getElement('panel-header-title').setAttribute('type', aData[aSelected].type + '-' + aData[aSelected].cool);
 
 			this.panelInformationToggle(!this.preferenceGet('ui.informative.panel.closed'), false);
 
 			if (this.preferenceGet('ui.informative.panel')) {
 				this.panelInformationBuildHeader(aSelected);
 				this.panelInformationBuildRelated(aSelected);
-
-				if (this.preferenceGet('ui.informative.panel')) //the user maybe unchecked all the visual options
-				{
-					if (this.getElement('panel').state != 'open')
-						this.getElement('panel').openPopup(this.getBrowserElement('main-window'), 'end_after', this.preferenceGet('ui.informative.panel.x'), this.preferenceGet('ui.informative.panel.y'), false);
+				//the user maybe unchecked all the visual options
+				if (this.preferenceGet('ui.informative.panel')) {
+					panel.setAttribute('style', 'bottom:' + this.preferenceGet('ui.informative.panel.b') + 'px !important;right:' + this.preferenceGet('ui.informative.panel.r') + 'px !important;');
+					panel.setAttribute('hidden', false);
 				} else {
-					this.getElement('panel').hidePopup();
+					panel.setAttribute('hidden', true);
 				}
 			} else {
-				this.getElement('panel').hidePopup();
+				panel.setAttribute('hidden', true);
 			}
+		} else {
+			this.extensionIconUpdateStatus();
+
 		}
 	}
 	return null;

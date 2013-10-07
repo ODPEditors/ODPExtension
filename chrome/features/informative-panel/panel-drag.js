@@ -3,18 +3,18 @@
 	//allows move the panel from its position, by holding the "d" a little of time
 
 	//panel dragging
-	var panelInformationDragX = 0;
-	var panelInformationDragY = 0;
+	var panelInformationDragR = 0;
+	var panelInformationDragB = 0;
 	var panelInformationDragTimeout = null;
 	var panelInformationDragging = false;
 	var panelInformationDragHiddenStatus = false;
 
 	//wait for the user to see if they want moves the panel
 	this.panelInformationDragCheckStart = function() {
-		panelInformationDragX = 0;
-		panelInformationDragY = 0;
-		panelInformationDragTimeout = setTimeout(ODPExtension.panelInformationDragStartDrag, 333);
-		window.addEventListener('mouseup', ODPExtension.panelInformationDragCheckStop, false);
+		panelInformationDragR = 0;
+		panelInformationDragB = 0;
+		panelInformationDragTimeout = setTimeout(ODPExtension.panelInformationDragStartDrag, 100);
+		window.document.addEventListener('mouseup', ODPExtension.panelInformationDragCheckStop, false);
 	}
 
 	//the user want moves the panel, add the mousemove listener
@@ -23,7 +23,7 @@
 		panelInformationDragHiddenStatus = (ODPExtension.getElement('panel-subcontainer').getAttribute('hidden') == 'true');
 		ODPExtension.panelInformationToggle(false, false);
 		//ODPby('ODPSite-window-infopopup2').hidden=true;
-		window.addEventListener('mousemove', ODPExtension.panelInformationDrag, false);
+		window.document.addEventListener('mousemove', ODPExtension.panelInformationDrag, false);
 
 		ODPExtension.getElement('panel-move').style.setProperty("cursor", "move", "important");
 	}
@@ -34,10 +34,10 @@
 		ODPExtension.stopEvent(event);
 		clearTimeout(panelInformationDragTimeout);
 		try {
-			window.removeEventListener('mousemove', ODPExtension.panelInformationDrag, false);
+			window.document.removeEventListener('mousemove', ODPExtension.panelInformationDrag, false);
 		} catch (e) {}
 		try {
-			window.removeEventListener('mouseup', ODPExtension.panelInformationDragCheckStop, false);
+			window.document.removeEventListener('mouseup', ODPExtension.panelInformationDragCheckStop, false);
 		} catch (e) {}
 		ODPExtension.getElement('panel-move').style.setProperty("cursor", "pointer", "important");
 		if (panelInformationDragging) {
@@ -46,30 +46,31 @@
 		}
 		//move the popup to the new position in all the windows, by calling preferenceChange
 		if (
-			panelInformationDragX == 0 ||
-			panelInformationDragY == 0) {} else {
-			ODPExtension.preferenceSet('ui.informative.panel.x', panelInformationDragX);
-			ODPExtension.preferenceSet('ui.informative.panel.y', panelInformationDragY);
+			panelInformationDragR == 0 ||
+			panelInformationDragB == 0) {} else {
+			ODPExtension.preferenceSet('ui.informative.panel.r', panelInformationDragR);
+			ODPExtension.preferenceSet('ui.informative.panel.b', panelInformationDragB);
 		}
 	}
 	//move the panel to the desired position
 	this.panelInformationDrag = function(event) {
 		panelInformationDragging = true;
 
-		//stupid bug - can't move panels which are posicionated to the rigth bottom. ODPExtension.getElement('panel').moveTo((event.pageX-ODPExtension.getElement('panel').popupBoxObject.width)+11, (event.pageY-ODPExtension.getElement('panel').popupBoxObject.height)+49);//
+		//ODPExtension.getElement('panel').hidePopup(); //showld hide the popup to move it! WTF!
+		//ODPExtension.getElement('panel').setAttribute('hidden', true); //showld hide the popup to move it! WTF!
+		if (event.target.ownerDocument instanceof HTMLDocument) {
+			panelInformationDragR = window.document.width - event.clientX;
+			panelInformationDragB = window.document.height - event.clientY;
+			var panel = ODPExtension.getElement('panel');
 
-		ODPExtension.getElement('panel').hidePopup(); //showld hide the popup to move it! WTF!
-		panelInformationDragX = (((window.document.width - event.pageX) + 350) * -1) + 11;
-		panelInformationDragY = ((window.document.height - event.pageY) * -1) + 31;
-		ODPExtension.getElement('panel').openPopup(ODPExtension.getBrowserElement('main-window'), 'end_after', panelInformationDragX, panelInformationDragY, false);
-		//ODPExtension.getElement('panel').moveTo(, );
-
-		//	ODPExtension.dump('dragging x'+(((window.width-event.pageX)+350)*-1)+' y'+((window.height-event.pageY)*-1) );
+			panel.setAttribute('style', 'bottom:' + panelInformationDragB + 'px;right:' + panelInformationDragR + 'px;');
+			//panel.setAttribute('hidden', false);
+		}
 	}
 	//resets the position of the panel
 	this.panelInformationResetPosition = function() {
-		this.preferenceSet('ui.informative.panel.x', -390);
-		this.preferenceSet('ui.informative.panel.y', -51);
+		this.preferenceSet('ui.informative.panel.r', 250);
+		this.preferenceSet('ui.informative.panel.b', 60);
 	}
 
 	return null;

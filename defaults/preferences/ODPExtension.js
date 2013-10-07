@@ -77,8 +77,8 @@
 
 		pref('extensions.ODPExtension.ui.informative.panel', true);
 		pref('extensions.ODPExtension.ui.informative.panel.closed', false);
-		pref('extensions.ODPExtension.ui.informative.panel.x', -390);
-		pref('extensions.ODPExtension.ui.informative.panel.y', -51);
+		pref('extensions.ODPExtension.ui.informative.panel.r', 250);
+		pref('extensions.ODPExtension.ui.informative.panel.b', 60);
 		pref('extensions.ODPExtension.ui.informative.panel.url', true);
 		pref('extensions.ODPExtension.ui.informative.panel.title', true);
 		pref('extensions.ODPExtension.ui.informative.panel.description', true);
@@ -100,15 +100,6 @@
 	pref('extensions.ODPExtension.privacy.no.referrer', true);
 	pref('extensions.ODPExtension.privacy.private.browsing.on', true);
 
-	//LISTINGS BEHAVIOR
-		//METHOD
-		pref('extensions.ODPExtension.privacy.listing.method.url', false);
-		pref('extensions.ODPExtension.privacy.listing.method.domain', false);
-		pref('extensions.ODPExtension.privacy.listing.method.none', true);
-		//WHEN
-		pref('extensions.ODPExtension.privacy.listing.when.location', true);
-		pref('extensions.ODPExtension.privacy.listing.when.click', false);
-
 //URL TOOLS - DONE
 
 	pref('extensions.ODPExtension.url.tools.urls', '--Archive%0AWeb%20Archive%20URL%7Chttp%3A%2F%2Fweb.archive.org%2F%7BURL%7D%0AWeb%20Archive%20domain%7Chttp%3A%2F%2Fweb.archive.org%2F%7BWWW_DOMAIN%7D%0AWeb%20Archive%20owner%20domain%7Chttp%3A%2F%2Fweb.archive.org%2F%7BOWNER_DOMAIN%7D%0A-%0AGoogle%20cache%20URL%7Chttp%3A%2F%2Fwww.google.com%2Fsearch%3Fq%3Dcache%253A%7BURL%7CE%7D%0AGoogle%20cache%20domain%7Chttp%3A%2F%2Fwww.google.com%2Fsearch%3Fq%3Dcache%253A%7BSCHEMA%7CE%7D%7BWWW_DOMAIN%7CE%7D%0A%0A-%0A--Search%0AFind%20domain%20in%20ODP%7Chttp%3A%2F%2Fsearch.dmoz.org%2Fcgi-bin%2Fsearch%3Febuttons%3D1%26search%3D%7BDOMAIN%7D%0AHighligh%20all%20links%20listed%20on%20the%20directory%7Ccommand_highlightListings%0A-%0AGoogle%20site%20search%7Chttp%3A%2F%2Fgoogle.com%2Fsearch%3Fq%3D%7BASK%7D%2520site%253A%7BSCHEMA%7CE%7D%7BWWW_DOMAIN%7CE%7D%0AGoogle%20site%20search%20in%20this%20folder%7Chttp%3A%2F%2Fgoogle.com%2Fsearch%3Fq%3D%7BASK%7D%2520site%253A%7BURL_LAST_FOLDER%7CE%7D%0AGoogle%20site%20search%20in%20root%20folder%7Chttp%3A%2F%2Fgoogle.com%2Fsearch%3Fq%3D%7BASK%7D%2520site%253A%7BURL_FIRST_FOLDER%7CE%7D%0A%0A-%0A--Whois%0Adomaintools.com%7Chttp%3A%2F%2Fwhois.domaintools.com%2F%7BWWW_DOMAIN%7D%0A.es%7Chttp%3A%2F%2Fwww.esreg.com%2Fwhois.php%3Fdomain%3D%7BWWW_DOMAIN%7D%0A%0A-%0A--URL%20Utilities%0AGuess%20Language%20zaphod%7Chttp%3A%2F%2Fodp.dlugan.com%2Fzaphod.cgi%3Furl%3D%7BURL%7D%0ALink%20mining%20in%20overdrive%7Chttp%3A%2F%2Fpmoz.info%2Fpickaxe.php5%3Furl%3D%7BURL%7D%26MineIt%3DMine%2Bpage%26starturl%3D%26maxurls%3D%0A-%0AShow%20page%20with%20URLY%7Chttp%3A%2F%2Fpmoz.info%2Furly.php5%3Furl%3D%7BURL%7D%0AShow%20headers%20w3.org%7Chttp%3A%2F%2Fcgi.w3.org%2Fcgi-bin%2Fheaders%3Furl%3D%7BURL%7D%0A-%0ACheck%20the%20HTTP%20Status%20of%20links%7Ccommand_checkHTTPStatus');
@@ -128,7 +119,6 @@
 	pref('extensions.ODPExtension.advanced.urls.word.reference', 'http%3A%2F%2Fbuscon.rae.es%2FdraeI%2FSrvltGUIBusUsual%3FLEMA%3D%7BSELECTED_TEXT%7D%26TIPO_BUS%3D3%26submit%3DConsultar%0Ahttp%3A%2F%2Fen.wikipedia.org%2Fwiki%2F%7BSELECTED_TEXT%7D%0Ahttp%3A%2F%2Fes.wikipedia.org%2Fwiki%2F%7BSELECTED_TEXT%7D%0Ahttp%3A%2F%2Ffr.wikipedia.org%2Fwiki%2F%7BSELECTED_TEXT%7D%0Ahttp%3A%2F%2Fit.wikipedia.org%2Fwiki%2F%7BSELECTED_TEXT%7D%0Ahttp%3A%2F%2Fru.wikipedia.org%2Fwiki%2F%7BSELECTED_TEXT%7D');
 	pref('extensions.ODPExtension.advanced.urls.odp.private.no.referrer', '%5E%5Ba-z%5D%2B%5C%3A%2F%2B(%5B%5E%2F%5D%2B)%3F%5C.%3F(editors%7Cforums%7Cresearch%7Cbeta%7Crdf%7Ctools%7Cpassport)%5C.dmoz%5C.org%2F%0A%5E%5Ba-z%5D%2B%5C%3A%2F%2B(%5B%5E%2F%5D%2B)%3F%5C.%3Fodp%5C.danielmclean%5C.id%5C.au%2F%0A%5E%5Ba-z%5D%2B%5C%3A%2F%2B(%5B%5E%2F%5D%2B)%3F%5C.%3Fodp%5C.dlugan%5C.com%2F%0A%5E%5Ba-z%5D%2B%5C%3A%2F%2B(%5B%5E%2F%5D%2B)%3F%5C.%3Fodp%5C.jtlabs%5C.net%2F%0A%5E%5Ba-z%5D%2B%5C%3A%2F%2B(%5B%5E%2F%5D%2B)%3F%5C.%3Fodp%5C.tubert%5C.org%2F%0A%5E%5Ba-z%5D%2B%5C%3A%2F%2B(%5B%5E%2F%5D%2B)%3F%5C.%3Fpmoz%5C.info%2F%0A%5E%5Ba-z%5D%2B%5C%3A%2F%2B(%5B%5E%2F%5D%2B)%3F%5C.%3Frobert%5C.mathmos%5C.net%2Fodp%2F%0A%5E%5Ba-z%5D%2B%5C%3A%2F%2B(%5B%5E%2F%5D%2B)%3F%5C.%3Frpfuller%5C.com%2F%0A%5E%5Ba-z%5D%2B%5C%3A%2F%2B(%5B%5E%2F%5D%2B)%3F%5C.%3Frpfuller%5C.org%2F');
 	pref('extensions.ODPExtension.advanced.urls.rdf', '');
-	pref('extensions.ODPExtension.last.rdf.update', 'Never');
 	pref('extensions.ODPExtension.advanced.urls.domain.explorer', 'http%3A%2F%2Fsiteexplorer.search.yahoo.com%2Fsearch%3Fp%3D%7BSCHEMA%7D%7BWWW_DOMAIN%7D%0Ahttp%3A%2F%2Fwww.bing.com%2Fsearch%3Fq%3Dsite%253A%7BWWW_DOMAIN%7D%0Ahttp%3A%2F%2Fwww.google.com%2Fsearch%3Fsafe%3Doff%26q%3Dsite%253A%7BWWW_DOMAIN%7D');
 	pref('extensions.ODPExtension.locked.categories.txt.last.update', 'Never');
 

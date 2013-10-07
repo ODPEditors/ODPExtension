@@ -39,18 +39,11 @@
 	];
 
 	this.preferences.radios = [
-
-		'privacy.listing.method.url', //DONE
-		'privacy.listing.method.domain', //DONE
-		'privacy.listing.method.none', //DONE
-
-		'privacy.listing.when.location', //DONE
-		'privacy.listing.when.click' //DONE
 	];
 
 	this.preferences.ints = [
-		'ui.informative.panel.x', //DONE
-		'ui.informative.panel.y', //DONE
+		'ui.informative.panel.r', //DONE
+		'ui.informative.panel.b', //DONE
 		'link.checker.threads',
 		'link.checker.use.cache'
 	];
@@ -60,7 +53,6 @@
 		'extension.directory', //DONE
 		'advanced.urls.rdf', //DONE
 		'locked.categories.txt.last.update', //DONE
-		'last.rdf.update', //DONE
 		'url.tools.urls' //DONE
 	];
 	this.preferences.stringsMultiline = [

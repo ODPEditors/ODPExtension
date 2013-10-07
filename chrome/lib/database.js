@@ -233,8 +233,11 @@
 						queryReference.paramsValues[aParam] = aValue;
 					}
 				}
-				queryReference.execute = function() {
-					object.execute(queryReference);
+				queryReference.execute = function(aFunction) {
+					if(!aFunction)
+						object.execute(queryReference);
+					else
+						object.executeCallback(queryReference, aFunction);
 				}
 				queryReference.finalize = function() {
 					queryReference.query.finalize();
@@ -267,6 +270,58 @@
 					//this query can fail, fail silenty
 					try {
 						query.executeAsync();
+					} catch (e) { /*this query can fail (like inserting two indentical values in a unique column), fail silenty*/ }
+				}
+				//there is no need to reset the query
+			}
+			//executes a query Async takes the values to a callback
+			object.executeCallback = function(q, aFunction, canFail) {
+				var query = this.queriesReferences[q.id].query;
+				var columnNames = this.queriesReferences[q.id].columnNames;
+				var aData = [];
+				if (!canFail) {
+					try {
+						query.executeAsync({
+							handleResult: function(aResultSet) {
+								for (let row = aResultSet.getNextRow(); row; row = aResultSet.getNextRow()) {
+									var aRow = {}
+									for (var id in columnNames) {
+										aRow[columnNames[id]] = row.getResultByName(columnNames[id]);
+									}
+									aData[aData.length] = aRow;
+								}
+							},
+							handleError: function(aError) {
+								ODPExtension.dump("Error: " + aError.message);
+							},
+							handleCompletion: function(aReason) {
+								aFunction(aData);
+							}
+						});
+					} catch (e) {
+						//if can't fails and fails: output to the console that this query failed
+						this.theExtension.code('ODPExtension').dump('QUERY Failed:\n\t' + this.queriesReferences[q.id].sql + '\nQUERY VALUES:\n\t' + this.queriesReferences[q.id].paramsValues.toSource() + '\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString);
+					}
+				} else {
+					//this query can fail, fail silenty
+					try {
+						query.executeAsync({
+							handleResult: function(aResultSet) {
+								for (let row = aResultSet.getNextRow(); row; row = aResultSet.getNextRow()) {
+									var aRow = {}
+									for (var id in columnNames) {
+										aRow[columnNames[id]] = row.getResultByName(columnNames[id]);
+									}
+									aData[aData.length] = aRow;
+								}
+							},
+							handleError: function(aError) {
+								ODPExtension.dump("Error: " + aError.message);
+							},
+							handleCompletion: function(aReason) {
+								aFunction(aData);
+							}
+						});
 					} catch (e) { /*this query can fail (like inserting two indentical values in a unique column), fail silenty*/ }
 				}
 				//there is no need to reset the query

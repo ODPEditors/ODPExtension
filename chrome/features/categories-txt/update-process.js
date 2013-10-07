@@ -31,7 +31,13 @@
 		//timer.start('open database');
 		var aConnection = this.categoriesTXTDatabaseOpen();
 		//	aConnection = storageService.openSpecialDatabase('memory');//for tests, faster
-		aConnection.executeSimple('drop table if exists `categories_txt`');
+		try {
+			aConnection.aConnection.executeSimpleSQL('drop table if exists `categories_txt`');
+		} catch (e) {
+			this.categoriesTXTDatabaseClose();
+			ODPExtension.fileRemove('CategoriesTXT.sqlite');
+			aConnection = this.categoriesTXTDatabaseOpen();
+		}
 		aConnection.executeSimple('	CREATE TABLE IF NOT EXISTS `categories_txt` ( `id` INTEGER PRIMARY KEY ASC  NOT NULL, `parent` INTEGER  NOT NULL, `category` TEXT NOT NULL, `name` TEXT  NOT NULL, `depth` INTEGER  NOT NULL)');
 		var insertCategory = aConnection.aConnection.createStatement('INSERT INTO `categories_txt` ( `id`,`parent`,`category`,`name`,`depth`) VALUES ( :id,:parent, :category, :name, :depth )')
 		aConnection.begin();

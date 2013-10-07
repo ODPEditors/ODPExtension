@@ -8,7 +8,7 @@
 		}
 
 		//https check
-		if (this.preferenceGet('privacy.queries.exclude.https') && this.getSchema(aURL) == 'https') {
+		if (this.preferenceGet('privacy.queries.exclude.https') && this.getSchema(aURL) == 'https://') {
 			//this.dump('NO https!!', true);
 			return true;
 		}

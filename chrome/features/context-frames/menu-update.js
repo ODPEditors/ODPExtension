@@ -54,7 +54,7 @@
 		var menuIsEmpty = true;
 		for (var id in framesURLs) {
 			var aURL = framesURLs[id];
-			if (aURL != '' && aURL != this.focusedURL && this.isPublicURL(aURL)) {
+			if (aURL != '' && aURL != this.focusedURL) {
 				var add = this.create("menuitem");
 				add.setAttribute("label", this.decodeUTF8Recursive(aURL));
 				add.setAttribute('tooltiptext', this.decodeUTF8Recursive(aURL));

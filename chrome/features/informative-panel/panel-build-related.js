@@ -2,7 +2,6 @@
 
 
 	this.addListener('userInterfaceUpdate', function() {
-
 		if (ODPExtension.preferenceGet('ui.informative.panel.categories.align.left')) {
 			ODPExtension.getElement('panel-related-categories').setAttribute('data-align', 'left');
 			var categoryCrop = 'end';
@@ -13,7 +12,6 @@
 		for (var i = 0; i < ODPExtension.getElement('panel-related-categories').childNodes.length; i++) {
 			ODPExtension.getElement('panel-related-categories').childNodes[i].setAttribute('crop', categoryCrop);
 		}
-
 	});
 	//builds the related content of the informative panel ( other listed uris with information about categories and titles )
 	this.panelInformationBuildRelated = function(aSelected) {
@@ -21,38 +19,38 @@
 			//so, do you wanted to completely hide the informative panel
 			if (!this.preferenceGet('ui.informative.panel.url') && !this.preferenceGet('ui.informative.panel.description') && !this.preferenceGet('ui.informative.panel.title')) {
 				this.preferenceSet('ui.informative.panel', false);
-				this.getElement('panel').hidePopup();
+				this.getElement('panel').setAttribute('hidden', true);
 			}
-
 			this.getElement('panel-related').setAttribute('hidden', true);
 		} else {
 			this.getElement('panel-related').setAttribute('hidden', false);
 
-			var site, title, uri, category, urlPretty;
+			var aSite, title, uri, category, urlPretty, tooltiptext;
 
 			for (var i = 0; i < this.listingInformationData.length; i++) {
-				site = this.listingInformationData[i];
+				aSite = this.listingInformationData[i];
 
-				urlPretty = this.removeSchema(this.decodeUTF8Recursive(site.url)).replace(/\/$/, '');
+				urlPretty = this.decodeUTF8Recursive(aSite.uri);
+				tooltiptext = aSite.title + '\n' + urlPretty + '\n' + this.categoryAbbreviate(aSite.category) + '\n' + aSite.description;
 
 				title = this.getElement('panel-related-titles-' + i);
 				uri = this.getElement('panel-related-uris-' + i);
 				category = this.getElement('panel-related-categories-' + i);
 
-				title.setAttribute('value', (site.mediadate != '' ? '(' + site.mediadate + ') ' : '') + site.title);
-				title.setAttribute('url', site.url);
-				title.setAttribute('type', site.type + '-' + site.cool);
-				title.setAttribute('tooltiptext', urlPretty);
+				title.setAttribute('value', (aSite.mediadate != '' ? '(' + aSite.mediadate + ') ' : '') + aSite.title);
+				title.setAttribute('url', aSite.uri);
+				title.setAttribute('type', aSite.type + '-' + aSite.cool);
+				title.setAttribute('tooltiptext', tooltiptext);
 
-				uri.setAttribute('value', urlPretty);
-				uri.setAttribute('url', site.url);
-				uri.setAttribute('type', site.type + '-' + site.cool);
-				uri.setAttribute('tooltiptext', urlPretty);
+				uri.setAttribute('value', this.removeSchema(urlPretty));
+				uri.setAttribute('url', aSite.uri);
+				uri.setAttribute('type', aSite.type + '-' + aSite.cool);
+				uri.setAttribute('tooltiptext', tooltiptext);
 
-				category.setAttribute('value', this.categoryAbbreviate(site.category));
-				category.setAttribute('category', site.category);
-				category.setAttribute('type', site.type + '-' + site.cool);
-				category.setAttribute('tooltiptext', site.category);
+				category.setAttribute('value', this.categoryAbbreviate(aSite.category));
+				category.setAttribute('category', aSite.category);
+				category.setAttribute('type', aSite.type + '-' + aSite.cool);
+				category.setAttribute('tooltiptext', tooltiptext);
 
 				title.removeAttribute('hidden');
 				uri.removeAttribute('hidden');

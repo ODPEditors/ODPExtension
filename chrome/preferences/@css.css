@@ -27,10 +27,10 @@ dialog {
 	margin: 0px !important;
 	margin-right: 4px !important;
 	margin-left: 4px !important;
-	-moz-border-top-left-radius: 0px !important;
-	-moz-border-top-right-radius: 0px !important;
-	border-radius-bottomright: 0px !important;
-	border-radius-bottomleft: 0px !important;
+	border-top-left-radius: 0px !important;
+	border-top-right-radius: 0px !important;
+	border-bottom-right-radius: 0px !important;
+	border-bottom-left-radius: 0px !important;
 	border: 0px !important;
 }
 .radiogroupWhite {

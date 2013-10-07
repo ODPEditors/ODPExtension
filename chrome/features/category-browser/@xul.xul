@@ -118,8 +118,8 @@
 				<menu protected="true" locked="true" label="This browsing session categories">
 					<menupopup id="ODPExtension-category-browser-session-categories"><menuitem locked="true" hidden="true"/></menupopup>
 				</menu>
-				<menuseparator id="ODPExtension-category-browser-categories-opened" locked="true"/>
 				<menuseparator id="ODPExtension-category-browser-categories-clipboard" locked="true"/>
+				<menuseparator id="ODPExtension-category-browser-categories-opened" locked="true"/>
 				<menuseparator id="ODPExtension-category-browser-categories-search" hidden="true" locked="true"/>
 				<menuseparator id="ODPExtension-category-browser-categories-history" locked="true"/>
 			</menupopup>

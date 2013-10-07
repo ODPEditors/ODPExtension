@@ -5,7 +5,7 @@
 
 	//informative popup
 	//updates the content when switching tabs
-	this.addListener('onLocationChange', function() {
+	this.addListener('onLocationChangeNotDocumentLoad', function() {
 		ODPExtension.listingGetInformation(ODPExtension.focusedURL);
 	});
 
@@ -197,7 +197,7 @@
 		aLocationID.path_parent_folder = this.removeFileName2(aLocationID.path_no_file_name)
 		aLocationID.path_first_folder = this.removeFromTheFirstFolder2(aLocationID.path_parent_folder)
 
-		//ODPExtension.dump(aLocationID);
+		ODPExtension.dump('query:'+aLocation);
 
 		//check if the domain has few listings
 		query_domain_count.params('domain', aLocationID.domain);

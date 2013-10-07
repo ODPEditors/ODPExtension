@@ -16,7 +16,7 @@
 			<xul:textbox
 				style="width:170px;" class="ODPExtension-filter-textbox" anonid="ODPExtension-category-browser-textbox-data-xbl"
 				emptytext="&ODPExtension.search.ellipsis;"  type="search" timeout="500" flex="1"
-				onmouseover=""
+				onmouseover="this.focus();"
 				oncommand="
 					if(this.hasAttribute('stop')) {
 						this.removeAttribute('stop');
@@ -45,7 +45,7 @@
 				<xul:textbox
 					anonid="ODPExtension-category-browser-textbox-data-where-xbl"
 					emptytext="Restrict to branch.."
-					onmouseover=""
+					onmouseover="this.focus();"
 					flex="1"
 					oncommand="
 						if(this.hasAttribute('stop'))

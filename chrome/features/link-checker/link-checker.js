@@ -25,8 +25,7 @@
 	}
 	//general blacklisting..
 	this.linkCheckerItem = function(item, oRedirectionAlert, aResult) {
-		if (!item.href ||
-			this.isGarbage(item.href) || !this.canFollowURL(item.href, this.focusedDomain))
+		if (!item.href || this.isGarbage(item.href) || !this.canFollowURL(item.href, this.focusedURL))
 			return;
 
 		var tooltiptext = this.decodeUTF8Recursive(item.href);

@@ -19,7 +19,7 @@
 														( \
 															regexp(\'--\', c.`name`) or \
 															regexp(\' \', c.`name`) or \
-															regexp(\'__\', c.`name`)
+															regexp(\'__\', c.`name`) \
 														) \
 													order by \
 														c.`category` asc \

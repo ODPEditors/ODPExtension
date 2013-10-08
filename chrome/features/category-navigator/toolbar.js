@@ -50,7 +50,7 @@
 
 		var aCategoryNodes = aCategory.split('/');
 		var path = '';
-		if (aCategory != '') {
+		if (aCategory != '' && aCategory.indexOf('Bookmarks/') !== 0  && aCategory.indexOf('Test/') !== 0) {
 			for (var id = 0; id < aCategoryNodes.length; id++) {
 				path += aCategoryNodes[id] + '/';
 

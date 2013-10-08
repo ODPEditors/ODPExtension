@@ -1,16 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<!DOCTYPE html>
+<html>
 <head>
-
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>ODPExtension Help!? Category Browser</title>
+	<title>Category Browser</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
-
 <body bgcolor="#F5F5F5" style="font-family:Georgia, Times New Roman, Times, serif">
 <h2><a href="index.html">Index</a> : ODP Extension HELP!?</h2>
 <p><b>Category Browser</b></p>
@@ -23,7 +16,7 @@
   </li>
   <li><b>Usages</b>:
     <ul>
-      <li>Basically has two usages:
+      <li>Basically has two <u>very handy</u> usages:
         <ul>
           <li>[ action to category ] For when you previously selected and action (example: edit a category description ) and wants to find the category to apply that action. </li>
           <li>[ category to action ] For when&nbsp; you want to find a category to then apply an action (example: edit a category description ). </li>
@@ -53,23 +46,20 @@
       </li>
     </ul>
   </li>
-  <li><b>Quick view
-    of the menu items </b>
+  <li><b>Quick view of the menu items </b>
     <ul>
       <li>Textbox filter/finder </li>
       <li>-----------------</li>
       <li>Reset menu </li>
       <li>-----------------</li>
       <li>Top categories</li>
+      <li>-----------------</li>
+      <li>Categories found on your clipboard (if any) </li>
       <li>This browsing session categories (if any) </li>
       <li>-----------------</li>
       <li>Categories that are opened in this browser tabs (if any) </li>
       <li>-----------------</li>
-      <li>Categories found on your clipboard (if any) </li>
-      <li>-----------------</li>
       <li>Searches on categories txt (if any) </li>
-      <li>----------------</li>
-      <li>Locked categories</li>
       <li>---------------</li>
       <li>Category history (if any) </li>
     </ul>
@@ -150,11 +140,6 @@
             <li>Foreach search on the categories.txt the menu will list the categories and the amount of categories found. </li>
           </ul>
         </li>
-        <li>Locked categories
-          <ul>
-            <li> Because you maybe access to some categories more frequently than others, this menu allows you to set some &quot;locked&quot; categories, that never will be removed, configurable via Preferences -&gt; Category Browser.</li>
-          </ul>
-        </li>
         <li>Category history
           <ul>
             <li>Every time you open or edit a category, this menu saves the category on a database, so the next time you open this menu the categories are there. Also it tries to add some relevance to the menu, for example giving priority to categories that you edit most frequently.</li>
@@ -165,7 +150,7 @@
   <li><b>Navigation</b>
     <ul>
       <li>Another cool feature of this menu is that allows you to navigate the directory. </li>
-      <li>When you hover a category X the extension will read the public or editor pages and parse the content to dynamically build a submenu that shows the subcategories of the hovered category. If the category starts with Test, the server to read is the editors server, this is because Test is private ( non public accessible ). If you already downloaded and processed the categories.txt database the extension will look for subcategories there if applicable. </li>
+      <li>When you hover a category X the extension will read the public or editor pages and parse the content to dynamically build a submenu that shows the subcategories of the hovered category. If the category starts with Test, the server to read is the www.dmoz.org server, this is because Test is private ( non public accessible ). If you already downloaded and processed the categories.txt database the extension will look for subcategories there if applicable. </li>
       <li>When the navigation reach the limit ( when the category doesn't' have subcategories ) a slash is added to the category path to indicate that.</li>
       <li>Currently this feature only navigates subcategories, not @links, altlangs or related categories.</li>
     </ul>
@@ -183,9 +168,7 @@
             <li>Categories that were opened in this browser session</li>
             <li>Categories that you keep on the clipboard</li>
             <li>Categories  searches from the categories.txt database</li>
-            <li>Locked categories that are set on the extension preferences</li>
             <li>Every time you visit or edit a category the category is saved in a SQLite database. ( category history )</li>
-            <li>Editors server ( editors.dmoz.org )</li>
             <li>Public server ( www.dmoz.org ) </li>
             <li>Categories imported from your past browsing history</li>
           </ul>

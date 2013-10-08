@@ -95,8 +95,6 @@
 
 					<vbox flex="1">
 
-
-
 						<groupbox flex="1">
 							<caption label="&ODPExtension.ui.from.context.menu;"/>
 								<checkbox label="&ODPExtension.ui.context.menu.from.categories;" id="ui.context.menu.from.categories"/>
@@ -153,8 +151,10 @@
 					<checkbox label="&ODPExtension.privacy.queries.exclude.https;" id="privacy.queries.exclude.https"/>
 					<checkbox label="&ODPExtension.privacy.no.referrer;" id="privacy.no.referrer"/>
 					<checkbox label="&ODPExtension.privacy.private.browsing.on;" id="privacy.private.browsing.on"/>
-						<caption label="&ODPExtension.advanced.url.rdf;"/>
+					<groupbox flex="1">
+						<caption label="&ODPExtension.advanced.url.rdf; (currently not used)"/>
 						<textbox flex="1" id="advanced.urls.rdf" style="padding:1px;"/>
+					</groupbox>
 				</groupbox>
 			</hbox>
 			</vbox></tabpanel>

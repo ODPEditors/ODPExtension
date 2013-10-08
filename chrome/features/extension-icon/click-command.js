@@ -70,7 +70,6 @@
 						'https://www.google.com/search?safe=off&q=site%3A{WWW_DOMAIN}'
 						,'http://www.ewhois.com/{DOMAIN}/'
 						,'http://www.bing.com/search?q=site%3A{WWW_DOMAIN}'
-						//,'https://ahrefs.com/site-explorer/overview/subdomains/{WWW_DOMAIN}'
 						,'http://www.opensiteexplorer.org/links.html?site={WWW_DOMAIN}'
 					];
 
@@ -100,7 +99,6 @@
 			case 'openPreferences':
 				{
 					this.preferencesOpen();
-
 					break;
 				}
 			case 'openDContextMenu':
@@ -111,7 +109,6 @@
 			case 'extensionToggle':
 				{
 					this.extensionToggle();
-
 					break;
 				}
 			default:

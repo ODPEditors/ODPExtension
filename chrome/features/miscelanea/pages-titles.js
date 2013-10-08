@@ -15,9 +15,11 @@
 				aLocation.indexOf('editcat/index') != -1)
 				title = 'EDIT';
 			else if (
-				aLocation.indexOf('editurl/edit') != -1 ||
+				aLocation.indexOf('editurl/edit') != -1)
+				title = 'URL:L';
+			else if (
 				aLocation.indexOf('editurl/add') != -1)
-				title = 'URL';
+				title = 'ADD';
 			else if (
 				aLocation.indexOf('editfaq.cgi') != -1)
 				title = 'FAQ';
@@ -28,8 +30,11 @@
 				aLocation.indexOf('log/search') != -1)
 				title = 'LOG';
 			else if (
-				aLocation.indexOf('editunrev/listurl') != -1)
+				aLocation.indexOf('editunrev/editurl') != -1)
 				title = 'UNREV';
+			else if (
+				aLocation.indexOf('editunrev/listurl') != -1)
+				title = 'URL:U';
 			else if (
 				aLocation.indexOf('editcat/new') != -1)
 				title = 'NEWCAT';

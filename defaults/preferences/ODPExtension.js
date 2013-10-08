@@ -92,7 +92,7 @@ pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.de', false)
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.it', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ja', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.pl', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ru', true);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ru', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.es', true);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.sv', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.tr', false);

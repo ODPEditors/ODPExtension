@@ -7,9 +7,6 @@
 <script type="application/x-javascript" src="menu-update.js"></script>
 <script type="application/x-javascript" src="open.js"></script>
 
-
-
-
 <popup id="contentAreaContextMenu">
 
 	<menu hidden="true" id="ODPExtension-context-url-tools-menu" label="&ODPExtension.ui.context.menu.url.tools;">

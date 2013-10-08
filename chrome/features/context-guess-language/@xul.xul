@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE overlay SYSTEM "chrome://ODPExtension/locale/xul.dtd">
+
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/x-javascript" src="guess-language.js"></script>
+
+
+<popup id="contentAreaContextMenu">
+
+	<menuitem hidden="true" id="ODPExtension-guess-language" label="Guess Language" oncommand="ODPExtension.guessLanguage(event);"/>
+
+</popup>
+
+</overlay>

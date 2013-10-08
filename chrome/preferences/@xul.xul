@@ -73,6 +73,7 @@
 								<hbox flex="1">
 									<vbox flex="1">
 										<checkbox label="&ODPExtension.ui.context.menu.translate;" id="ui.context.menu.translate"/>
+										<checkbox label="Guess Language" id="ui.context.menu.guess.language"/>
 										<checkbox label="&ODPExtension.ui.context.menu.word.reference;" id="ui.context.menu.word.reference"/>
 										<checkbox label="&ODPExtension.ui.context.menu.url.tools;" id="ui.context.menu.url.tools"/>
 										<checkbox label="&ODPExtension.ui.context.menu.frame.selected;" id="ui.context.menu.frame.selected"/>
@@ -184,7 +185,7 @@
 								<textbox id="privacy.queries.exclude.strings"  wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
 							</groupbox>
 							<groupbox flex="1">
-								<caption label="Don't send referrer from the following domains (regular expression)"/>
+								<caption label="Don't send referrer from the following domains (NOT regular expression)"/>
 								<textbox id="advanced.urls.odp.private.no.referrer" wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
 							</groupbox>
 

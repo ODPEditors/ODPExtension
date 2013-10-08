@@ -54,6 +54,7 @@
 		'privacy.private.browsing.on',
 
 		//context menu - DONE
+		'ui.context.menu.guess.language',
 		'ui.context.menu.word.reference',
 		'ui.context.menu.url.tools',
 		'ui.context.menu.frame.selected',

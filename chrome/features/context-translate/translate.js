@@ -11,25 +11,30 @@
 		this.stopEvent(aEvent);
 
 		//the selected text
-		var aString = this.getSelectedText(false);
+		var aString = this.getSelectedTextOrPrompt(false);
 
-		//the linked url
-		if (aString == '')
-			aString = this.getSelectedLinkURL();
-
-		//the focused url
-		if (aString == '')
-			aString = this.focusedURL;
-
-		if (aString != '' && aString.indexOf('http') !== 0)
+		if (aString != '' && aString.indexOf('http') !== 0) {
 			this.tabOpenCheckForBehavior('http://translate.google.com/',
 				aEvent,
 				'translate',
 				'text=' + this.encodeUTF8(aString.replace(/_/g, ' ').replace(/\//g, ' / ').replace(/World\//g, ' ')) + '&langpair=auto|' + aEvent.originalTarget.getAttribute('value') + '&ie=UTF-8&oe=UTF-8');
-		else if (aString.indexOf('http') === 0) //translate the page
-			this.tabOpenCheckForBehavior('http://translate.google.com/translate?sl=auto&tl=' + aEvent.originalTarget.getAttribute('value') + '&js=n&prev=_t&hl=en&ie=UTF-8&u=' + this.encodeUTF8(aString),
-				aEvent,
-				'translate');
+		} else {
+
+			//the linked url
+			if (aString == '')
+				aString = this.getSelectedLinkURL();
+
+			//the focused url
+			if (aString == '') {
+				if (!this.prompt('Translate focused URL!?', this.focusedURL))
+					return;
+				aString = this.focusedURL;
+			}
+			if (aString != '')
+				this.tabOpenCheckForBehavior('http://translate.google.com/translate?sl=auto&tl=' + aEvent.originalTarget.getAttribute('value') + '&js=n&prev=_t&hl=en&ie=UTF-8&u=' + this.encodeUTF8(aString),
+					aEvent,
+					'translate');
+		}
 	}
 	return null;
 

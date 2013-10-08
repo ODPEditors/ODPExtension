@@ -6,45 +6,44 @@
 
 	//handle the single click over the "d"
 
+	var extensionIconClickTimeout = false;
 	this.extensionIconClick = function(aEvent, waitForClick) {
 		//allows double click wihtout firing click alone twice, tricky.
 		if (!waitForClick) {
 			//clears the timeout of the first click and add another for the dblclick, which will be cleared in the dblclick funtion
-			try {
-				clearTimeout(this.clickWaitDoubleClick);
-			} catch (e) { /*shhh*/ }
-			this.clickWaitDoubleClick = setTimeout(function() {
+			clearTimeout(extensionIconClickTimeout);
+			extensionIconClickTimeout = setTimeout(function() {
 				ODPExtension.extensionIconClick(aEvent, true);
 			}, 333);
 		} else {
 			//event mapping
 			if (aEvent.button == 0) {
 				if (aEvent.ctrlKey)
-					this.extensionIconClickCommand(this.preferenceGet('event.click.icon.left.single.ctrl'));
+					this.extensionIconClickCommand('copyLocationPHPBB');
 				else if (aEvent.shiftKey)
-					this.extensionIconClickCommand(this.preferenceGet('event.click.icon.left.single.shift'));
+					this.extensionIconClickCommand('copyLocationHTML');
 				else if (aEvent.altKey)
-					this.extensionIconClickCommand(this.preferenceGet('event.click.icon.left.single.alt'));
+					this.extensionIconClickCommand('');
 				else
-					this.extensionIconClickCommand(this.preferenceGet('event.click.icon.left.single'));
+					this.extensionIconClickCommand('copyLocation');
 			} else if (aEvent.button == 1) {
 				if (aEvent.ctrlKey)
-					this.extensionIconClickCommand(this.preferenceGet('event.click.icon.middle.single.ctrl'));
+					this.extensionIconClickCommand('');
 				else if (aEvent.shiftKey)
-					this.extensionIconClickCommand(this.preferenceGet('event.click.icon.middle.single.shift'));
+					this.extensionIconClickCommand('');
 				else if (aEvent.altKey)
-					this.extensionIconClickCommand(this.preferenceGet('event.click.icon.middle.single.alt'));
+					this.extensionIconClickCommand('');
 				else
-					this.extensionIconClickCommand(this.preferenceGet('event.click.icon.middle.single'));
+					this.extensionIconClickCommand('domainSiteSE');
 			} else if (aEvent.button == 2) {
 				if (aEvent.ctrlKey)
-					this.extensionIconClickCommand(this.preferenceGet('event.click.icon.right.single.ctrl'));
+					this.extensionIconClickCommand('');
 				else if (aEvent.shiftKey)
-					this.extensionIconClickCommand(this.preferenceGet('event.click.icon.right.single.shift'));
+					this.extensionIconClickCommand('');
 				else if (aEvent.altKey)
-					this.extensionIconClickCommand(this.preferenceGet('event.click.icon.right.single.alt'));
+					this.extensionIconClickCommand('');
 				else
-					this.extensionIconClickCommand(this.preferenceGet('event.click.icon.right.single'));
+					this.extensionIconClickCommand('openDContextMenu');
 			}
 		}
 	}
@@ -52,36 +51,36 @@
 	//handle the double click over the "d"
 
 	this.extensionIconClickDouble = function(aEvent) {
-		clearTimeout(this.clickWaitDoubleClick);
+		clearTimeout(extensionIconClickTimeout);
 
 		//event mapping
 		if (aEvent.button == 0) {
 			if (aEvent.ctrlKey)
-				this.extensionIconClickCommand(this.preferenceGet('event.click.icon.left.double.ctrl'));
+				this.extensionIconClickCommand('');
 			else if (aEvent.shiftKey)
-				this.extensionIconClickCommand(this.preferenceGet('event.click.icon.left.double.shift'));
+				this.extensionIconClickCommand('');
 			else if (aEvent.altKey)
-				this.extensionIconClickCommand(this.preferenceGet('event.click.icon.left.double.alt'));
+				this.extensionIconClickCommand('');
 			else
-				this.extensionIconClickCommand(this.preferenceGet('event.click.icon.left.double'));
+				this.extensionIconClickCommand('domainSiteODP');
 		} else if (aEvent.button == 1) {
 			if (aEvent.ctrlKey)
-				this.extensionIconClickCommand(this.preferenceGet('event.click.icon.middle.double.ctrl'));
+				this.extensionIconClickCommand('');
 			else if (aEvent.shiftKey)
-				this.extensionIconClickCommand(this.preferenceGet('event.click.icon.middle.double.shift'));
+				this.extensionIconClickCommand('');
 			else if (aEvent.altKey)
-				this.extensionIconClickCommand(this.preferenceGet('event.click.icon.middle.double.alt'));
+				this.extensionIconClickCommand('');
 			else
-				this.extensionIconClickCommand(this.preferenceGet('event.click.icon.middle.double'));
+				this.extensionIconClickCommand('');
 		} else if (aEvent.button == 2) {
 			if (aEvent.ctrlKey)
-				this.extensionIconClickCommand(this.preferenceGet('event.click.icon.right.double.ctrl'));
+				this.extensionIconClickCommand('');
 			else if (aEvent.shiftKey)
-				this.extensionIconClickCommand(this.preferenceGet('event.click.icon.right.double.shift'));
+				this.extensionIconClickCommand('');
 			else if (aEvent.altKey)
-				this.extensionIconClickCommand(this.preferenceGet('event.click.icon.right.double.alt'));
+				this.extensionIconClickCommand('');
 			else
-				this.extensionIconClickCommand(this.preferenceGet('event.click.icon.right.double'));
+				this.extensionIconClickCommand('highlightListings');
 		}
 	}
 

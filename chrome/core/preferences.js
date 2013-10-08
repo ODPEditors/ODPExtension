@@ -3,38 +3,6 @@
 
 	this.preferences.menuList = [
 
-		//EVENTS - ALL DONE
-
-		'event.click.icon.left.single',
-		'event.click.icon.left.single.ctrl',
-		'event.click.icon.left.single.shift',
-		'event.click.icon.left.single.alt',
-
-		'event.click.icon.middle.single',
-		'event.click.icon.middle.single.ctrl',
-		'event.click.icon.middle.single.shift',
-		'event.click.icon.middle.single.alt',
-
-		'event.click.icon.right.single',
-		'event.click.icon.right.single.ctrl',
-		'event.click.icon.right.single.shift',
-		'event.click.icon.right.single.alt',
-
-		'event.click.icon.left.double',
-		'event.click.icon.left.double.ctrl',
-		'event.click.icon.left.double.shift',
-		'event.click.icon.left.double.alt',
-
-		'event.click.icon.middle.double',
-		'event.click.icon.middle.double.ctrl',
-		'event.click.icon.middle.double.shift',
-		'event.click.icon.middle.double.alt',
-
-		'event.click.icon.right.double',
-		'event.click.icon.right.double.ctrl',
-		'event.click.icon.right.double.shift',
-		'event.click.icon.right.double.alt',
-
 		'preferences.font.size'
 	];
 

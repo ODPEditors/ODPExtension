@@ -19,39 +19,6 @@
 
 //USER INTERFACE - DONE
 
-	//ICON CLICKS - DONE
-		//CLICK
-			pref('extensions.ODPExtension.event.click.icon.left.single', 'copyLocation');
-			pref('extensions.ODPExtension.event.click.icon.left.single.ctrl', 'copyLocationPHPBB');
-			pref('extensions.ODPExtension.event.click.icon.left.single.shift', 'copyLocationHTML');
-			pref('extensions.ODPExtension.event.click.icon.left.single.alt', '');
-
-			pref('extensions.ODPExtension.event.click.icon.middle.single', 'domainSiteSE');
-			pref('extensions.ODPExtension.event.click.icon.middle.single.ctrl', '');
-			pref('extensions.ODPExtension.event.click.icon.middle.single.shift', '');
-			pref('extensions.ODPExtension.event.click.icon.middle.single.alt', '');
-
-			pref('extensions.ODPExtension.event.click.icon.right.single', 'openDContextMenu');
-			pref('extensions.ODPExtension.event.click.icon.right.single.ctrl', '');
-			pref('extensions.ODPExtension.event.click.icon.right.single.shift', '');
-			pref('extensions.ODPExtension.event.click.icon.right.single.alt', '');
-
-		//DOUBLE CLICK
-			pref('extensions.ODPExtension.event.click.icon.left.double', 'domainSiteODP');
-			pref('extensions.ODPExtension.event.click.icon.left.double.ctrl', '');
-			pref('extensions.ODPExtension.event.click.icon.left.double.shift', '');
-			pref('extensions.ODPExtension.event.click.icon.left.double.alt', '');
-
-			pref('extensions.ODPExtension.event.click.icon.middle.double', '');
-			pref('extensions.ODPExtension.event.click.icon.middle.double.ctrl', '');
-			pref('extensions.ODPExtension.event.click.icon.middle.double.shift', '');
-			pref('extensions.ODPExtension.event.click.icon.middle.double.alt', '');
-
-			pref('extensions.ODPExtension.event.click.icon.right.double', 'highlightListings');
-			pref('extensions.ODPExtension.event.click.icon.right.double.ctrl', '');
-			pref('extensions.ODPExtension.event.click.icon.right.double.shift', '');
-			pref('extensions.ODPExtension.event.click.icon.right.double.alt', '');
-
 	//CONTEXT MENU - DONE
 
 		pref('extensions.ODPExtension.ui.context.menu.translate', true);

@@ -8,6 +8,33 @@
 		 /*
 				CODES
 					assign a code for security errors, (such mixed content, expired certificates and the like)
+
+					tabsListener = {
+						QueryInterface: function(aIID) {
+							if (aIID.equals(Components.interfaces.nsIWebProgressListener) ||
+								aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
+								aIID.equals(Components.interfaces.nsISupports))
+								return this;
+							throw Components.results.NS_NOINTERFACE;
+						},
+						onLocationChange: function(aBrowser, aWebProgress, aRequest, aLocation) {
+							//ODPExtension.dump('onLocationChange:onLocationChange', true);
+							ODPExtension.dispatchOnLocationChange(false);
+						},
+						onStateChange: function(aBrowser, aWebProgress, aRequest, aFlag, aStatus) {
+							if (aFlag & STATE_STOP) {
+								ODPExtension.dispatchDOMContentLoaded({originalTarget:aWebProgress.DOMWindow.document});
+							}
+						},
+						onProgressChange: function(aBrowser, aWebProgress, aRequest, curSelf, maxSelf, curTot, maxTot) {},
+						onStatusChange: function(aBrowser, aWebProgress, aRequest, aStatus, aMessage) {},
+						onSecurityChange: function(aBrowser, aWebProgress, aRequest, aState) {},
+						onRefreshAttempted: function(aBrowser, aWebProgress, aRefreshURI, aMillis, aSameURI) {},
+						onLinkIconAvailable: function(aBrowser) {}
+					};
+					gBrowser.addTabsProgressListener(tabsListener);
+
+
 		 */
 
 			var debugingThisFile = true;
@@ -276,9 +303,9 @@
 
 										//newTabBrowser.loadURI(aURL);
 										if(ODPExtension.preferenceGet('link.checker.use.cache') === 0)
-											newTabBrowser.loadURIWithFlags(aURL, newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | newTabBrowser.webNavigation.LOAD_ANONYMOUS, null, null);
+											newTabBrowser.loadURIWithFlags(aURL, newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | newTabBrowser.webNavigation.LOAD_ANONYMOUS | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
 										else
-											newTabBrowser.loadURIWithFlags(aURL, newTabBrowser.webNavigation.LOAD_ANONYMOUS, null, null);
+											newTabBrowser.loadURIWithFlags(aURL, newTabBrowser.webNavigation.LOAD_ANONYMOUS | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
 
 										setTimeout(function(){ if(timedout === 0){ timedout = 1; onTabLoad(); } }, oRedirectionAlert.timeout);//give 60 seconds to load, else, just forget it.
 									});
@@ -339,9 +366,9 @@
 								};
 								Requester.open("GET", aURL, true);
 								if(ODPExtension.preferenceGet('link.checker.use.cache') === 0)
-									Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_FLAGS_BYPASS_PROXY | Components.interfaces.nsIRequest.LOAD_BYPASS_CACHE | Components.interfaces.nsIRequest.LOAD_ANONYMOUS;
+									Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_FLAGS_BYPASS_PROXY | Components.interfaces.nsIRequest.LOAD_BYPASS_CACHE | Components.interfaces.nsIRequest.LOAD_ANONYMOUS | Components.interfaces.nsIRequest.LOAD_FLAGS_BYPASS_HISTORY;
 								else
-									Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_ANONYMOUS;
+									Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_ANONYMOUS | Components.interfaces.nsIRequest.LOAD_FLAGS_BYPASS_HISTORY
 
 								if(tryAgain === 0)
 									Requester.setRequestHeader('Referer', aURL);

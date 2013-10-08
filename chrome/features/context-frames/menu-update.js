@@ -59,6 +59,7 @@
 				add.setAttribute("label", this.decodeUTF8Recursive(aURL));
 				add.setAttribute('tooltiptext', this.decodeUTF8Recursive(aURL));
 				add.setAttribute("value", aURL);
+				add.setAttribute('image', this.faviconGetFromURL(aURL));
 				menupopup.appendChild(add);
 				menuIsEmpty = false;
 			}

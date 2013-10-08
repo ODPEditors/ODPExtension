@@ -7,8 +7,8 @@
 		ODPExtension.focusedDomain = '';
 		ODPExtension.focusedSubdomain = '';
 	});
-	this.addListener('onLocationChangeNotDocumentLoad', function() {
-		ODPExtension.focusedURL = ODPExtension.focusedLocation();
+	this.addListener('onLocationChangeNotDocumentLoad', function(aLocation) {
+		ODPExtension.focusedURL = aLocation;
 		ODPExtension.focusedDomain = ODPExtension.getDomainFromURL(ODPExtension.focusedURL);
 		ODPExtension.focusedSubdomain = ODPExtension.getSubdomainFromURL(ODPExtension.focusedURL);
 	});

@@ -372,19 +372,19 @@ var ODPExtension = {};
 			this.dump('dispatchOnLocationChange:aLocation:' + aLocation + ':focusedDocumentHasBeenLoaded:' + focusedDocumentHasBeenLoaded, debugingThisFile);
 			focusedLocation = aLocation;
 
-			if (listeners['onLocationChange']) {
-				for (var id in listeners['onLocationChange']) {
-					listeners['onLocationChange'][id](aDoc);
-				}
-			}
-
 			if (!focusedDocumentHasBeenLoaded) {
 				if (listeners['onLocationChangeNotDocumentLoad']) {
 					for (var id in listeners['onLocationChangeNotDocumentLoad']) {
-						listeners['onLocationChangeNotDocumentLoad'][id](aDoc);
+						listeners['onLocationChangeNotDocumentLoad'][id](focusedLocation);
 					}
 				}
 			}
+			if (listeners['onLocationChange']) {
+				for (var id in listeners['onLocationChange']) {
+					listeners['onLocationChange'][id](focusedLocation);
+				}
+			}
+
 		}
 
 	}

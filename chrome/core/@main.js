@@ -30,7 +30,8 @@
 
 		ODPExtension.checkListeners();
 
-		ODPExtension.dispatchEvent('onLocationChange', ODPExtension.focusedURL);
+		ODPExtension.dispatchEvent('onLocationChangeNotDocumentLoad', ODPExtension.documentFocusedGetLocation());
+		ODPExtension.dispatchEvent('onLocationChange', ODPExtension.documentFocusedGetLocation());
 	});
 
 	this.extensionToggle = function() {

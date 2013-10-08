@@ -28,9 +28,8 @@
 	];
 	this.preferences.stringsMultilineSort = [
 
-		'advanced.urls.word.reference', //DONE
+		//'advanced.urls.word.reference', //DONE
 		'advanced.urls.odp.private.no.referrer', //DONE
-		'advanced.urls.domain.explorer', //DONE
 
 		'privacy.queries.exclude.domains', //DONE
 		'privacy.queries.exclude.strings', //DONE
@@ -159,7 +158,7 @@
 
 		//dispatch to all the windows (local)
 		ODPExtension.dispatchGlobalEvent('preferencesLoadLocal');
-		ODPExtension.dispatchGlobalEvent('onLocationChange', true);
+		ODPExtension.notifyInstances('dispatchOnLocationChange', true);
 		ODPExtension.dispatchGlobalEvent('userInterfaceUpdate', ODPExtension.preferenceGet('enabled'))
 	});
 
@@ -171,7 +170,7 @@
 
 		//dispatch to all the windows (local)
 		ODPExtension.dispatchGlobalEvent('preferencesLoadLocal');
-		ODPExtension.dispatchGlobalEvent('onLocationChange', true);
+		ODPExtension.notifyInstances('dispatchOnLocationChange', true);
 		ODPExtension.dispatchGlobalEvent('userInterfaceUpdate', ODPExtension.preferenceGet('enabled'))
 	});
 
@@ -183,7 +182,7 @@
 
 		//dispatch to all the windows (local)
 		ODPExtension.dispatchGlobalEvent('preferencesLoadLocal');
-		ODPExtension.dispatchGlobalEvent('onLocationChange', true);
+		ODPExtension.notifyInstances('dispatchOnLocationChange', true);
 		ODPExtension.dispatchGlobalEvent('userInterfaceUpdate', ODPExtension.preferenceGet('enabled'))
 
 		if (aName == 'enabled')
@@ -197,7 +196,7 @@
 
 		//dispatch to all the windows (local)
 		ODPExtension.dispatchGlobalEvent('preferencesLoadLocal');
-		ODPExtension.dispatchGlobalEvent('onLocationChange', true);
+		ODPExtension.notifyInstances('dispatchOnLocationChange', true);
 		ODPExtension.dispatchGlobalEvent('userInterfaceUpdate', ODPExtension.preferenceGet('enabled'))
 	});
 

@@ -5,7 +5,7 @@
 	this.addListener('beforeBrowserLoad', function() {
 		ODPExtension.focusedCategory = '';
 	});
-	this.addListener('onLocationChange', function() {
+	this.addListener('onLocationChange', function(aLocation) {
 		var focusedCategory = ODPExtension.categoryGetFocused();
 
 		if (focusedCategory != ODPExtension.focusedCategory) {

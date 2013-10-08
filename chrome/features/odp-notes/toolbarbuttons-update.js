@@ -5,7 +5,7 @@
 	var debugingThisFile = true;
 
 	//updates show or hide the ODP URL Notes toolbarbuttons
-	this.addListener('onLocationChange', function() {
+	this.addListener('onLocationChange', function(aLocation) {
 		ODPExtension.odpURLNotesToolbarbuttonsUpdate(ODPExtension.focusedSubdomain);
 	});
 

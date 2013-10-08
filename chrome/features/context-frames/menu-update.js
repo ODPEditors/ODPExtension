@@ -29,7 +29,7 @@
 	});
 	//the user has opened the context menu, the menu of frames was builded,
 	//but maybe the user switched from tab and there is o no frames
-	this.addListener('onLocationChange', function() {
+	this.addListener('onLocationChange', function(aLocation) {
 		if (ODPExtension.preferenceGet('ui.context.menu.frames') && ODPExtension.contentAreaContextMenu().state == 'open') {
 			ODPExtension.frameMenuUpdate();
 		}

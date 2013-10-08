@@ -1,7 +1,7 @@
 (function() {
 
 	//updates the icon of the extension
-	this.addListener('onLocationChange', function() {
+	this.addListener('onLocationChangeNotDocumentLoad', function(aLocation) {
 		ODPExtension.extensionIconUpdateStatus();
 	});
 

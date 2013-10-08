@@ -5,8 +5,8 @@
 
 	//informative popup
 	//updates the content when switching tabs
-	this.addListener('onLocationChangeNotDocumentLoad', function() {
-		ODPExtension.listingGetInformation(ODPExtension.focusedURL);
+	this.addListener('onLocationChangeNotDocumentLoad', function(aLocation) {
+		ODPExtension.listingGetInformation(aLocation);
 	});
 
 	var db, query_domain_count, query_domain_select, query_slice;

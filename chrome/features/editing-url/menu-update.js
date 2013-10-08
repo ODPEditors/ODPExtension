@@ -10,7 +10,7 @@
 	});
 
 	//updates show or hide the formater context menu when switching tabs (if the context menu is opened)
-	this.addListener('onLocationChange', function() {
+	this.addListener('onLocationChange', function(aLocation) {
 		if (ODPExtension.contentAreaContextMenu().state == 'open')
 			ODPExtension.editingFormURLMenuUpdate(ODPExtension.focusedSubdomain);
 	});

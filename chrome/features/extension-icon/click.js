@@ -56,7 +56,7 @@
 		//event mapping
 		if (aEvent.button == 0) {
 			if (aEvent.ctrlKey)
-				this.extensionIconClickCommand('');
+				this.extensionIconClickCommand('domainSiteSE');
 			else if (aEvent.shiftKey)
 				this.extensionIconClickCommand('');
 			else if (aEvent.altKey)

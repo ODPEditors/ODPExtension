@@ -38,7 +38,9 @@ var ODPExtension = {};
 	var listeners = []; //an array of functions to add as listeners
 	var shutdown = []; //an array of functions that will remove things added by the extension
 	var focusedLocation = 'about:blank'; //holds the location of the focused tab TOP document
+
 	var urlBarListener; //the ProgressListener
+
 	var callsToInitListeners = 0; //this is just dumb protection, if the extension found more calls to initListeners than removeListeners will throw an error
 	var callsToRemoveListeners = 0; //
 	var popupShowingListeners = [];
@@ -407,6 +409,7 @@ var ODPExtension = {};
 					listeners['DOMContentLoadedWithFrames'][id](aDoc);
 				}
 			}
+
 		} else {
 			//notify to onLocationChange that the document has been loaded but only if this loaded document is the current focused one
 			if (listeners['onLocationChange']) {

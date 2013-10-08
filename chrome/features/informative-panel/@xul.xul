@@ -150,10 +150,10 @@
 					<!-- the move popup, close and open button -->
 					<hbox>
 						<spacer flex="1"/>
-						<toolbarbutton
+						<vbox
 							id="ODPExtension-panel-move"
 							status="opened"
-							oncommand="ODPExtension.panelInformationToggle(this.parentNode.previousSibling.getAttribute('hidden') == 'true', true);"
+							onclick="if(event.button===0){ ODPExtension.panelInformationToggle(this.parentNode.previousSibling.getAttribute('hidden') == 'true', true);}"
 							onmousedown="ODPExtension.panelInformationDragCheckStart();"
 							onmouseup="ODPExtension.stopEvent(event);ODPExtension.panelInformationDragCheckStop(event)"
 							context="ODPExtension-extension-icon-context"

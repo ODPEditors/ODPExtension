@@ -9,7 +9,7 @@
 
 		this.openURL(
 			aURL,
-			aEvent.button == 1, //in new tab
+			true, //aEvent.button == 1, //in new tab
 			aEvent.ctrlKey, //in new window
 			false, //select the tab
 			aPostData);

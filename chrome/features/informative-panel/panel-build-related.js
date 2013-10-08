@@ -37,6 +37,14 @@
 				uri = this.getElement('panel-related-uris-' + i);
 				category = this.getElement('panel-related-categories-' + i);
 
+				 if (this.categoryIsRTL(aSite.category)) {
+					title.setAttribute('direction', 'rtl');
+					category.setAttribute('direction', 'rtl');
+				} else {
+					title.removeAttribute('direction');
+					category.removeAttribute('direction');
+				}
+
 				title.setAttribute('value', (aSite.mediadate != '' ? '(' + aSite.mediadate + ') ' : '') + aSite.title);
 				title.setAttribute('url', aSite.uri);
 				title.setAttribute('type', aSite.type + '-' + aSite.cool);

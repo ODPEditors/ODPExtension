@@ -158,6 +158,9 @@ related : the list of categories and other uris related to the focused site. Sit
 #ODPExtension-panel-related-categories[data-align="left"] > description {
 	text-align: left;
 }
+#ODPExtension-panel-related-categories > description[direction="rtl"] {
+	text-align:right;
+}
 /* the type of the site*/
 #ODPExtension-panel-related-titles > description[type="RSS-0"],
 #ODPExtension-panel-related-uris > description[type="RSS-0"],

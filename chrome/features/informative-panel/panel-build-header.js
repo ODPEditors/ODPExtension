@@ -15,6 +15,13 @@
 
 		var urlPretty = this.decodeUTF8Recursive(aSite.uri);
 
+		 if (this.categoryIsRTL(aSite.category)) {
+			title.setAttribute('direction', 'rtl');
+			description.setAttribute('direction', 'rtl');
+		} else {
+			title.removeAttribute('direction');
+			description.removeAttribute('direction');
+		}
 		//panel
 		header.setAttribute('category', aSite.category);
 		header.setAttribute('url', aSite.uri);

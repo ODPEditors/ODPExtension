@@ -156,32 +156,23 @@
 	}
 	//returns the category name for the focused tab, trys to get the category from the document, if fails will look into the url
 	this.categoryGetFocused = function() {
-		var focusedDocument = this.documentGetFocused();
-
-		var isODPSubdomain = this.isODPSubdomain(this.getSubdomainFromURL(this.documentGetLocation(focusedDocument)));
-
-		var aCategory = this.categoryGetFromDocument(focusedDocument);
-
-		if (isODPSubdomain && aCategory == '')
-			aCategory = this.categoryGetFromURL(this.documentGetLocation(focusedDocument));
-
-		if (isODPSubdomain && aCategory != '')
-			return aCategory;
-		else
-			return '';
+		return this.categoryGetFromDocument(this.documentGetFocused());
 	}
 	//returns the category name for the document
 	this.categoryGetFromDocument = function(aDoc) {
-		var aCategory = '';
 
-		//edit x pages
+		var isODPSubdomain = this.isODPSubdomain(this.getSubdomainFromURL(this.documentGetLocation(aDoc)));
+
+		if(!isODPSubdomain)
+			return '';
+
+		var aCategory = '';
 
 		var item = this.getElementNamed('cat', aDoc);
 		if (!item) {} else
 			aCategory = item.value;
 
 		//public pages select
-
 		if (aCategory == '' || this.tagName(item) == 'select') {
 			if (
 				aDoc.getElementsByTagName("option").length &&
@@ -190,15 +181,15 @@
 			}
 		}
 
-		if (aCategory == '')
-			return '';
-
 		aCategory = this.categorySanitize(aCategory);
 
-		if (this.categoryStartsWithValidName(aCategory))
-			return aCategory;
-		else
-			return '';
+		if (!this.categoryStartsWithValidName(aCategory))
+			aCategory = '';
+
+		if (aCategory == '')
+			aCategory = this.categoryGetFromURL(this.documentGetLocation(aDoc));
+
+		return aCategory;
 	}
 	//returns the category name for the URI, if multiples categories found will return the first
 	this.categoryGetFromURL = function(aURI, aggressive) {

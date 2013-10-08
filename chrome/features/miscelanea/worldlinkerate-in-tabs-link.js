@@ -6,7 +6,6 @@
 	});
 
 
-	//opens a tab looking at the user preferences
 	this.worldlinkerateInTabsLink = function(aDoc) {
 		var aURL = this.documentGetLocation(aDoc);
 

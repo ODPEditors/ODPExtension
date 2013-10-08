@@ -408,6 +408,13 @@ var ODPExtension = {};
 				}
 			}
 		} else {
+			//notify to onLocationChange that the document has been loaded but only if this loaded document is the current focused one
+			if (listeners['onLocationChange']) {
+				if (aDoc == window.top.getBrowser().browsers[window.top.getBrowser().mTabBox.selectedIndex].contentDocument) {
+					ODPExtension.dispatchOnLocationChange(true);
+				}
+			}
+
 			//calling listeners for frames but for top document too
 			if (listeners['DOMContentLoadedWithFrames']) {
 				//ODPExtension.dump('dispatchDOMContentLoaded:topDocument:aDoc.location:'+aDoc.location, debugingThisFile);
@@ -420,13 +427,6 @@ var ODPExtension = {};
 				//ODPExtension.dump('dispatchDOMContentLoaded:topDocument:aDoc.location:'+aDoc.location, debugingThisFile);
 				for (var id in listeners['DOMContentLoadedNoFrames']) {
 					listeners['DOMContentLoadedNoFrames'][id](aDoc);
-				}
-			}
-			//notify to onLocationChange that the document has been loaded and the DOMcontentLoaded functions has been already called
-			//but only if this loaded document is the current focused one
-			if (listeners['onLocationChange']) {
-				if (aDoc == window.top.getBrowser().browsers[window.top.getBrowser().mTabBox.selectedIndex].contentDocument) {
-					ODPExtension.dispatchOnLocationChange(true);
 				}
 			}
 		}

@@ -716,7 +716,7 @@
 			//add three pixels is for when the user clicked multiples time like triple click to select a line of text
 			//maybe the user clciked more than 3 times and that will active the first action of the menu
 			//this popup should be nice, not evil!
-			if (this.contentAreaContextMenu().state != 'open' || aEvent.type == 'dblclick') {
+			if (this.contentAreaContextMenu().state != 'open' || aEvent.type == 'dblclick' || aEvent.detail == 3) {
 				setTimeout(function() {
 					ODPExtension.contentAreaContextMenu().hidePopup();
 					ODPExtension.getElement('from-category').openPopupAtScreen(aEvent.screenX + 25, aEvent.screenY - 40, false);

@@ -22,7 +22,7 @@
 	this.toolbarbuttonOpen = function(aToolbarbutton, aEvent) {
 		/*from webdeveloper extension*/
 		// If the toolbar button is set and is not open
-		if (aToolbarbutton && !aToolbarbutton.open && aEvent.originalTarget == aEvent.currentTarget) {
+		if (aToolbarbutton && !aToolbarbutton.open && aEvent.originalTarget == aEvent.currentTarget && aToolbarbutton.tagName != 'image') {
 			var toolbarButton = null;
 			var toolbarButtons = aToolbarbutton.parentNode.getElementsByTagName("toolbarbutton");
 			var toolbarButtonsLength = toolbarButtons.length;
@@ -34,6 +34,22 @@
 					toolbarButton.open = false;
 					aToolbarbutton.open = true;
 					break;
+				}
+			}
+		} else if (aToolbarbutton && aEvent.originalTarget == aEvent.currentTarget && aToolbarbutton.tagName == 'image') {
+			var toolbarButton = null;
+			var menupopup = null;
+			var toolbarButtons = aToolbarbutton.parentNode.getElementsByTagName("image");
+			var toolbarButtonsLength = toolbarButtons.length;
+			for (var i = 0; i < toolbarButtonsLength; i++) {
+				toolbarButton = toolbarButtons.item(i);
+				if(toolbarButton.id){
+					menupopup = this.getBrowserElement(toolbarButton.id+'-menupopup')
+					if (toolbarButton && menupopup && toolbarButton != aToolbarbutton && menupopup.state == 'open' ) {
+						menupopup.hidePopup();
+						this.getBrowserElement(aToolbarbutton.id+'-menupopup').openPopup(aToolbarbutton, 'after_end');
+						break;
+					}
 				}
 			}
 		}

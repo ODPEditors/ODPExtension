@@ -64,8 +64,6 @@
 	//FROM CATEGORY
 
 		pref('extensions.ODPExtension.ui.from.category.auto', false);
-		pref('extensions.ODPExtension.ui.from.category.selected.array.unique', true);
-		pref('extensions.ODPExtension.ui.from.category.selected.array.sort', true);
 
 		pref('extensions.ODPExtension.ui.context.menu.from.category', true);
 		pref('extensions.ODPExtension.ui.context.menu.from.category.in.tab.context.menu', true);

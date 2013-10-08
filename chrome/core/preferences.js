@@ -110,8 +110,6 @@
 
 		//miscelanea - DONE
 		'ui.from.category.auto',
-		'ui.from.category.selected.array.unique', //hidden pref
-		'ui.from.category.selected.array.sort', //hidden pref
 
 		//url notes - DONE
 

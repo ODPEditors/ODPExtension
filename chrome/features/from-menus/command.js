@@ -19,10 +19,8 @@
 					}*/
 		}
 
-		if (this.preferenceGet('ui.from.category.selected.array.unique'))
-			aCategories = this.arrayUnique(aCategories);
-		if (this.preferenceGet('ui.from.category.selected.array.sort'))
-			aCategories = aCategories.sort(this.sortLocale);
+		aCategories = this.arrayUnique(aCategories);
+		aCategories = aCategories.sort(this.sortLocale);
 
 		//this.dump('fromCategoryCommand:aCommand:'+aCommand);
 		//this.dump('fromCategoryCommand:aValue:'+aCategories);

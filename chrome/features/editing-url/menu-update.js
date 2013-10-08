@@ -26,7 +26,7 @@
 			var aDoc = this.documentGetFocused();
 		}
 
-		if ((aSubdomain == 'editors.dmoz.org' || aSubdomain == 'www.dmoz.org') && this.editingFormURLExists(aDoc)) {
+		if (aSubdomain == 'www.dmoz.org' && this.editingFormURLExists(aDoc)) {
 			this.getElement('context-editing-form-url-formater').setAttribute('hidden', false);
 		} else {
 			this.getElement('context-editing-form-url-formater').setAttribute('hidden', true);

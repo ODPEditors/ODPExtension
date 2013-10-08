@@ -13,7 +13,7 @@
 		else
 			var aDoc = this.documentGetFocused();
 
-		var anElement = this.getElementNamed('newtitle', aDoc);
+		var anElement = this.getElementNamed('newtitle', aDoc) || this.getElementNamed('title', aDoc);
 
 		if (!anElement) {} else {
 			var aString = this.fixPuntuation(this.removeNewLines(anElement.value)).toLowerCase();

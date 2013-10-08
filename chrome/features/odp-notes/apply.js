@@ -50,11 +50,10 @@
 
 		//applying a URL Note to a document
 
-		if (!aDoc.forms || !aDoc.forms[1])
+		var aForm = this.editingFormURLExists(aDoc);
+
+		if (!aForm)
 			return;
-
-		var aForm = aDoc.forms[1].action == 'http://www.dmoz.org/editors/editunrev/resolveurlerror' ? aDoc.forms[2] : aDoc.forms[1];
-
 
 		if (aType == 'next') //next site, skip or cancel button
 		{
@@ -65,45 +64,32 @@
 
 			for (var i = 0; i < aForm.elements.length; i++) {
 				var aElement = aForm.elements[i];
-				//if(aElement.name =='submit')
-				//{
 				if (aElement.getAttribute('accesskey') == '>') {
-					//this.dump('element '+aElement.getAttribute('value')+' found');
 					aElement.click();
 					found = true;
 					break;
 				}
-				//}
 			}
 
 			//if not looking for cancel
-
 			if (!found) {
-				//this.dump('element next was not found, looking for cancel');
 				for (var i = 0; i < aForm.elements.length; i++) {
 					var aElement = aForm.elements[i];
-					//if(aElement.name =='submit')
-					//{
 					if (aElement.getAttribute('accesskey') == 'c') {
-						// this.dump('element '+aElement.getAttribute('value')+' found');
 						aElement.click();
 						break;
 					}
-					//}
 				}
 			}
 
-			//this.dump('submitting form');
-			//return;
-
-			//aForm.submit();
-
 			return;
+
 		} else if (aType == 'reset') //reset the form
 		{
 			aForm.reset();
 
 			return;
+
 		} else if (aType == 'copy.unreview' || aType == 'copy.publish') //copy a site to unreview or published
 		{
 			alert('Sorry, currently, the feature "copy site" is disabled due to an outdated implementation.');
@@ -300,7 +286,7 @@
 							link_href.indexOf('url=') != -1) {
 							var checkSkip = this.categoryGetFromURL(link_href); //.replace(/^.*import=([^&]*)&?.*$/i, "$1")
 							if (checkSkip.indexOf('Bookmarks/') === 0 || checkSkip.indexOf('Test/') === 0) {} else
-								listed_in_tmp[count++] = checkSkip;
+								listed_in_tmp[listed_in_tmp.length] = checkSkip;
 						}
 					}
 				}
@@ -314,66 +300,36 @@
 			}
 			//this.dump('{ALREADY_IN} is '+listed_in);
 			//inputs type hidden and type text
-			for (var i = 0; i < aDoc.getElementsByTagName("input").length; i++) {
-				if (aDoc.getElementsByTagName("input").item(i).getAttribute('name') == 'url') {
-					var url = aDoc.getElementsByTagName("input").item(i).value;
-					if (
-						this.preferenceGet('url.notes.form.submit') &&
-						this.preferenceGet('url.notes.form.submit.confirm') &&
-						aDoc.getElementsByTagName("input").item(i).type != 'hidden') {
-						this.focusElement(aDoc.getElementsByTagName("input").item(i));
-						window.content.scroll(0, 5000);
-						aDoc.getElementsByTagName("input").item(i).blur(); //if the element is already focused focus() dont scroll to the element.
-						aDoc.getElementsByTagName("input").item(i).focus();
-					}
-				} else if (aDoc.getElementsByTagName("input").item(i).getAttribute('name') == 'cat')
-					var cat = this.categoryGetFromURL(aDoc.getElementsByTagName("input").item(i).value);
-				else if (aDoc.getElementsByTagName("input").item(i).getAttribute('name') == 'newurl') {
-					if (
-						this.preferenceGet('url.notes.form.submit') &&
-						this.preferenceGet('url.notes.form.submit.confirm') &&
-						aDoc.getElementsByTagName("input").item(i).type != 'hidden') {
-						this.focusElement(aDoc.getElementsByTagName("input").item(i));
-						window.content.scroll(0, 5000);
-						aDoc.getElementsByTagName("input").item(i).blur(); //if the element is already focused focus() dont scroll to the element.
-						aDoc.getElementsByTagName("input").item(i).focus();
-					}
-					var newurl = aDoc.getElementsByTagName("input").item(i).value;
-				} else if (aDoc.getElementsByTagName("input").item(i).getAttribute('name') == 'typecat') {
-					if (aType == 'move.unreview' || aType == 'move.publish')
-						aDoc.getElementsByTagName("input").item(i).value = toCategory;
-					var typecat = aDoc.getElementsByTagName("input").item(i).value;
-					typecat = this.categoryGetFromURL(typecat);
-					aDoc.getElementsByTagName("input").item(i).value = typecat;
-				}
+
+			var url = this.getElementNamed('url', aDoc).value;
+			try {
+				var newurl = this.getElementNamed('newurl', aDoc).value;
+			} catch (e) {
+				var newurl = url;
+			}
+			var cat = this.getElementNamed('cat', aDoc).value;
+			var typecat = this.categoryGetFromURL(this.getElementNamed('typecat', aDoc).value);
+			var selcat = this.getElementNamed('newcat', aDoc).value;
+
+			if (aType == 'move.unreview' || aType == 'move.publish')
+				this.getElementNamed('typecat', aDoc).value = toCategory;
+
+
+			if (this.preferenceGet('url.notes.form.submit') &&
+				this.preferenceGet('url.notes.form.submit.confirm')) {
+				var focus = this.getElementNamed('newurl', aDoc) || this.getElementNamed('url', aDoc)
+				this.focusElement(focus);
+				window.content.scroll(0, 5000);
+				focus.blur(); //if the element is already focused focus() dont scroll to the element.
+				focus.focus();
 			}
 
-			//this.dump('url is '+url);
-			//this.dump('cat is '+cat);
-			//this.dump('newurl is '+newurl);
-			//this.dump('typecat is '+typecat);
-
-			//selecat
-
-			for (var i = 0; i < aForm.elements.length; i++) {
-				var aElement = aForm.elements[i];
-				if (aElement.id == 'selcat') {
-					var selcat = this.categoryGetFromURL(aElement.options[aElement.selectedIndex].value);
-					break;
-				}
-			}
-
-			//stupid backend, lets build our own!!!!!!!!
-
-			for (var i = 0; i < aForm.elements.length; i++) {
-				var aElement = aForm.elements[i];
-				if (aElement.name == 'desc' || aElement.name == 'newdesc') {
-					aElement.value = aElement.value + ' ';
-				}
-			}
+			/*			this.dump('url is ' + url, true);
+			this.dump('cat is ' + cat, true);
+			this.dump('newurl is ' + newurl, true);
+			this.dump('typecat is ' + typecat, true);*/
 
 			//new url
-
 			if (aODPNote.indexOf('{NEW_URL}') != -1) {
 				if (url == newurl) {
 					this.alert(this.getString('url.notes.new.url.is.same.as.url'));
@@ -387,7 +343,6 @@
 			}
 
 			//new cat
-
 			if (aODPNote.indexOf('{NEW_CAT}') != -1) {
 				if ((selcat == '' || selcat == cat) && (typecat == cat || typecat == '')) {
 					this.alert(this.getString('url.notes.new.cat.is.same.as.cat'));
@@ -406,7 +361,6 @@
 			}
 
 			//old url
-
 			if (aODPNote.indexOf('{URL}') != -1) {
 				if (url == '' && newurl != 'http://' && newurl != '')
 					aODPNote = aODPNote.split('{URL}').join(newurl);
@@ -415,7 +369,6 @@
 			}
 
 			//old cat
-
 			if (aODPNote.indexOf('{CAT}') != -1) {
 				if (cat == '' && typecat != '')
 					aODPNote = aODPNote.split('{CAT}').join(typecat);
@@ -426,7 +379,6 @@
 			}
 
 			//CLIPBOARD
-
 			if (aODPNote.indexOf('{CLIPBOARD}') != -1) {
 				var clipboard = this.getClipboard();
 				if (!clipboard || clipboard == '')
@@ -435,7 +387,6 @@
 			}
 
 			//ASK
-
 			if (aODPNote.indexOf('{ASK}') != -1) {
 				var ask = this.prompt(this.getString('url.tools.wants.your.input'));
 				if (ask != null && ask != '')
@@ -445,17 +396,9 @@
 			}
 
 			//apply note
-
-			for (var i = 0; i < aForm.elements.length; i++) {
-				var aElement = aForm.elements[i];
-				if (aElement.name == 'newnote') {
-					aElement.value = aODPNote;
-					break;
-				}
-			}
+			this.getElementNamed('newnote', aDoc).value = aODPNote;
 
 			//validation empty url
-
 			if (this.preferenceGet('url.notes.form.submit')) {
 				if (newurl == '' || newurl == 'http://') {
 					this.alert(this.getString('url.notes.new.url.is.empty'));
@@ -464,14 +407,14 @@
 			}
 
 			//change radio action
-
 			if (aType == 'update' || aType == 'move.publish')
 				var radioValue = 'update,grant';
 			else if (aType == 'unreview' || aType == 'move.unreview')
 				var radioValue = 'unrev';
-			else
+			else if (aType == 'delete')
 				var radioValue = 'deny,delete';
-
+			else
+				this.alert('exception aType:' + aType);
 
 			for (var i = 0; i < aForm.elements.length; i++) {
 				var aElement = aForm.elements[i];
@@ -479,30 +422,30 @@
 					if (aElement.type == 'hidden') {} else {
 						if ((aElement.value == 'update' || aElement.value == 'grant') && radioValue == 'update,grant') {
 							aElement.click();
-							/*if(this.preferenceGet('url.notes.form.submit'))
-												aElement.setAttribute('type','hidden');
-											else
-												aElement.checked=true;*/
+							break;
 						} else if ((aElement.value == 'deny' || aElement.value == 'delete') && radioValue == 'deny,delete') {
-							aElement.click();
-							//aElement.checked=false;
+							if (this.confirm('Please confirm you requested a deletion')) {
+								aElement.click();
+							} else {
+								return;
+							}
+							break;
 						} else if (aElement.value == 'unrev' && radioValue == 'unrev') {
 							aElement.click();
+							break;
 						}
 					}
 				}
 			}
 
 			//submitir
-
 			var submitElement = false;
-
 			if (this.preferenceGet('url.notes.form.submit')) {
 				var found = false;
 				for (var i = 0; i < aForm.elements.length; i++) {
 					var Element = aForm.elements[i];
 					if (Element.type == 'submit') {
-						if (Element.getAttribute('accesskey') == 'b') {
+						if (Element.getAttribute('accesskey') == 'b') { //update + back
 							submitElement = Element;
 							found = true;
 						} else {
@@ -527,14 +470,12 @@
 						if (this.confirm(this.getString('url.notes.want.move.site.now'))) {
 							submitElement.click();
 						} else {
-
 							return;
 						}
 					} else {
 						if (this.confirm(this.getString('url.notes.form.submit'))) {
 							submitElement.click();
 						} else {
-
 							return;
 						}
 					}

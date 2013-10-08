@@ -14,7 +14,7 @@
 		else
 			var aDoc = this.documentGetFocused();
 
-		var anElement = this.getElementNamed('newdesc', aDoc);
+		var anElement = this.getElementNamed('newdesc', aDoc) || this.getElementNamed('desc', aDoc);
 
 		if (!anElement) {} else {
 			var value = this.ucFirst(this.editingFormURLCleanChars(anElement.value).toLowerCase());

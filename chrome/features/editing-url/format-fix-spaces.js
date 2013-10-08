@@ -8,10 +8,9 @@
 
 	this.editingFormURLFormatFixSpaces = function() {
 		this.editingFormURLFormatFixSpacesElement('newdesc');
+		this.editingFormURLFormatFixSpacesElement('desc');
 		this.editingFormURLFormatFixSpacesElement('newtitle');
-		this.editingFormURLFormatFixSpacesElementCharter('CATDESC');
-		this.editingFormURLFormatFixSpacesElementCharter('CATCHARTERsummary');
-		this.editingFormURLFormatFixSpacesElementCharter('CATCHARTER');
+		this.editingFormURLFormatFixSpacesElement('title');
 	}
 	this.editingFormURLFormatFixSpacesElement = function(aName) {
 		//if the rigth clicked document is framed..

@@ -16,14 +16,14 @@
 			this.removeChilds(aMenu);
 
 			var notes = this.preferenceGet('url.notes.' + aMenu.getAttribute('value').replace(/\..*$/, '')).split('\n');
-			var cache = [];
+			//var cache = [];
 			for (var id in notes) {
 				if (notes[id] != '') {
-					var words = notes[id].split(' ');
+					/*var words = notes[id].split(' ');
 					var word = words[0].replace(/(,|\.)+$/, '');
 					if (!cache[word]) {
 						cache[word] = this.create('menupopup');
-					}
+					}*/
 					var menuitem = this.create('menuitem');
 					menuitem.setAttribute('label', notes[id]);
 					menuitem.setAttribute('class', 'menuitem-iconic');

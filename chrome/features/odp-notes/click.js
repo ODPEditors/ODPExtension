@@ -25,8 +25,6 @@
 				this.notifyInstances('odpURLNotesToolbarbuttonsMenuReset', aType);
 			}
 
-
-
 			//this.dump('new note:'+aType, debugingThisFile);
 
 			//building the form

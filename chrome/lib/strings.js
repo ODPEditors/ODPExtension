@@ -204,7 +204,18 @@
 			return '';
 		return aString.substring(0, 1).toUpperCase() + aString.substring(1, aString.length);
 	};
-
+	var detectLanguageLoaded = {};
+	this.detectLanguage = function(aString){
+		if(!detectLanguageLoaded.loaded){
+			Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
+				.getService(Components.interfaces.mozIJSSubScriptLoader).loadSubScript("chrome://ODPExtension/content/lib-external/cld-min.js", detectLanguageLoaded);
+			detectLanguageLoaded.loaded = true;
+		}
+		var lang = detectLanguageLoaded.detectLanguage(aString);
+		if(!lang)
+			return 'Unknown';
+		else return lang;
+	}
 	return null;
 
 }).apply(ODPExtension);

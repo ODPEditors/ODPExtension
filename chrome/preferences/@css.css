@@ -11,6 +11,11 @@ tab, tabbox, tabpanels, tabpanel, dialogheader {
 	padding: 0px !important;
 	margin: 0px !important;
 }
+caption {
+	background-color: transparent !important;
+	-moz-appearance: none !important;
+	color: black;
+}
 dialogheader {
 	padding: 12px !important;
 }

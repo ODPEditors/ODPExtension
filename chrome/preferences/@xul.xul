@@ -45,7 +45,7 @@
 						  <radio onclick="ODPExtension.getElement('tab-3').click();" pane="nada" label="&ODPExtension.tab.translate;" class="tabTranslate radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-6').click();" pane="nada" label="&ODPExtension.tab.url.tools;" class="tabURLTools radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-11').click();" pane="nada" label="&ODPExtension.tab.url.notes;" class="tabURLNotes radioButton"/>
-						  <radio onclick="ODPExtension.getElement('tab-4').click();" pane="nada" label="&ODPExtension.tab.advanced;" class="tabAdvanced radioButton"/>
+						  <!--radio onclick="ODPExtension.getElement('tab-4').click();" pane="nada" label="&ODPExtension.tab.advanced;" class="tabAdvanced radioButton"/-->
 						  <radio onclick="ODPExtension.getElement('tab-12').click();" pane="nada" label="&ODPExtension.tab.help;" class="tabDocumentation radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-5').click();" pane="nada" label="&ODPExtension.tab.license;" class="tabLicense radioButton"/>
 
@@ -55,14 +55,16 @@
 						<tab id="ODPExtension-tab-1" active="true"/>
 						<tab id="ODPExtension-tab-2"/>
 						<tab id="ODPExtension-tab-3"/>
-						<tab id="ODPExtension-tab-4"/>
+						<!--tab id="ODPExtension-tab-4"/-->
 						<tab id="ODPExtension-tab-5"/>
 						<tab id="ODPExtension-tab-6"/>
 						<tab id="ODPExtension-tab-11"/>
 						<tab id="ODPExtension-tab-12"/>
 					</tabs>
 					<tabpanels flex="1" orient="vertical">
-						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">			<hbox>
+						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">
+
+							<hbox>
 
 					<vbox flex="1">
 
@@ -89,6 +91,37 @@
 
 						</groupbox>
 
+						<groupbox >
+							<caption label="Handy Data and Processes"/>
+
+							<groupbox>
+								<caption label="&ODPExtension.local.category.finder; ( 1~ minute process )"/>
+								<hbox flex="1">
+									<description value="&ODPExtension.last.update;"/>
+									<description id="locked.categories.txt.last.update"/>
+									<button label="&ODPExtension.update.now;" oncommand="ODPExtension.preferencesSave();ODPExtensionOnWindow.categoriesTXTUpdate(true)"/>
+								</hbox>
+							</groupbox>
+
+							<groupbox>
+								<caption label="&ODPExtension.category.browser; ( 2~ minutes process )"/>
+								<hbox flex="1">
+									<description value="Fill it with categories from my history and sort these by frequency"/>
+									<button   label="&ODPExtension.update.now;" oncommand="ODPExtensionOnWindow.categoryHistoryImportCategoriesHistory()"/>
+								</hbox>
+							</groupbox>
+
+							<groupbox>
+								<caption label="RDF ( 30~ minutes process )"/>
+								<hbox flex="1">
+									<description value="Download and process all structure.u8 and content.u8 files"/>
+									<button   label="&ODPExtension.update.now;" oncommand="ODPExtensionOnWindow.rdfParserStart();"/>
+								</hbox>
+							</groupbox>
+
+
+						</groupbox>
+
 					</vbox>
 
 					<vbox flex="1">
@@ -104,9 +137,8 @@
 
 						<groupbox flex="1">
 							<caption label="&ODPExtension.ui.informative.panel;"/>
-							<hbox flex="1">
+							<hbox >
 								<checkbox label="&ODPExtension.ui.informative.panel.show;" id="ui.informative.panel"/>
-								<spacer flex="1"/>
 								<button  label="&ODPExtension.ui.informative.panel.reset.position;" oncommand="ODPExtensionOnWindow.panelInformationResetPosition();"/>
 							</hbox>
 							<groupbox flex="1">
@@ -122,40 +154,61 @@
 
 					</vbox>
 
+
+
+			</hbox>
+			<hbox flex="1">
+
+				<groupbox flex="1">
+					<caption label="&ODPExtension.extension.directory;"/>
+					<hbox flex="1">
+						<textbox flex="1" id="extension.directory" style="padding:1px;"/>
+						<button label="&ODPExtension.browse;" oncommand="ODPExtensionOnWindow.folderOpen(document.getElementById('extension.directory').value);"/>
+						<button  label="&ODPExtension.extension.directory.change;" oncommand="var folder = ODPExtension.fileAskUserFolderSelect(); if(!folder){}else{ ODPExtension.getBrowserElement('extension.directory').value = folder.file.path}"/>
+					</hbox>
+				</groupbox>
 			</hbox>
 	</vbox></tabpanel>
-						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">
-			<hbox flex="1">
-				<vbox flex="1">
-					<groupbox flex="1">
-						<caption label="&ODPExtension.privacy.queries.exclude.domains;"/>
-						<textbox id="privacy.queries.exclude.domains" wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
-					</groupbox>
-					<groupbox flex="1">
-						<caption label="&ODPExtension.privacy.queries.exclude.strings;"/>
-						<textbox id="privacy.queries.exclude.strings"  wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
-					</groupbox>
-				</vbox>
-				<groupbox flex="1">
-					<caption label="&ODPExtension.privacy.information;"/>
-						<browser type="content" flex="1" src="chrome://ODPExtension/content/documents/privacy.html"/>
-				</groupbox>
-			</hbox>
 
-			<hbox >
-				<groupbox flex="1">
-					<caption  label="&ODPExtension.tab.advanced;"/>
-					<checkbox label="&ODPExtension.privacy.queries.exclude.ips;" id="privacy.queries.exclude.ips"/>
-					<checkbox label="&ODPExtension.privacy.queries.exclude.https;" id="privacy.queries.exclude.https"/>
-					<checkbox label="&ODPExtension.privacy.no.referrer;" id="privacy.no.referrer"/>
-					<checkbox label="&ODPExtension.privacy.private.browsing.on;" id="privacy.private.browsing.on"/>
+		<tabpanel orient="vertical" flex="1">
+			<vbox class="paneDeckContainer" flex="1">
+				<hbox flex="1">
+					<vbox flex="1">
+
+							<groupbox flex="1">
+								<caption label="&ODPExtension.privacy.queries.exclude.domains;"/>
+								<textbox id="privacy.queries.exclude.domains" wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
+							</groupbox>
+							<groupbox flex="1">
+								<caption label="&ODPExtension.privacy.queries.exclude.strings;"/>
+								<textbox id="privacy.queries.exclude.strings"  wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
+							</groupbox>
+							<groupbox flex="1">
+								<caption label="Don't send referrer from the following domains (regular expression)"/>
+								<textbox id="advanced.urls.odp.private.no.referrer" wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
+							</groupbox>
+
+						<hbox flex="1">
+							<groupbox flex="1">
+								<caption  label="&ODPExtension.tab.advanced;"/>
+								<checkbox label="&ODPExtension.privacy.queries.exclude.ips;" id="privacy.queries.exclude.ips"/>
+								<checkbox label="&ODPExtension.privacy.queries.exclude.https;" id="privacy.queries.exclude.https"/>
+								<checkbox label="&ODPExtension.privacy.no.referrer;" id="privacy.no.referrer"/>
+								<checkbox label="&ODPExtension.privacy.private.browsing.on;" id="privacy.private.browsing.on"/>
+								<groupbox flex="1">
+									<caption label="&ODPExtension.advanced.url.rdf; (currently not used)"/>
+									<textbox id="advanced.urls.rdf" style="padding:1px;" multiline="false"/>
+								</groupbox>
+							</groupbox>
+						</hbox>
+					</vbox>
 					<groupbox flex="1">
-						<caption label="&ODPExtension.advanced.url.rdf; (currently not used)"/>
-						<textbox flex="1" id="advanced.urls.rdf" style="padding:1px;"/>
+						<caption label="&ODPExtension.privacy.information;"/>
+						<browser type="content" flex="1" src="chrome://ODPExtension/content/documents/privacy.html"/>
 					</groupbox>
-				</groupbox>
-			</hbox>
-			</vbox></tabpanel>
+				</hbox>
+			</vbox>
+		</tabpanel>
 
 			<tabpanel orient="vertical" flex="1">
 				<vbox class="paneDeckContainer" flex="1">
@@ -229,7 +282,7 @@
 
 
 </vbox></tabpanel>
-						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">			<hbox flex="1">
+						<!--tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">			<hbox flex="1">
 
 				  <vbox id="ODPExtension-warningScreen" flex="1" align="center" style="overflow: auto;">
 					<spacer flex="1"/>
@@ -253,43 +306,10 @@
 								<textbox id="advanced.urls.word.reference" wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
 							</groupbox>
 
-							<groupbox flex="1">
-								<caption label="&ODPExtension.advanced.urls.domain.explorer;"/>
-								<textbox id="advanced.urls.domain.explorer" wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
-							</groupbox>
-
-							<groupbox flex="1">
-								<caption label="&ODPExtension.advanced.urls.odp.private.no.referrer;"/>
-								<textbox id="advanced.urls.odp.private.no.referrer" wrap="off" flex="1" style="height:100%;padding:1px;" multiline="true"/>
-							</groupbox>
-
-							<groupbox>
-
-								<caption label="&ODPExtension.local.category.finder;"/>
-								<hbox flex="1">
-									<description value="&ODPExtension.last.update;"/>
-									<description id="locked.categories.txt.last.update"/>
-									<button label="&ODPExtension.update.now;" oncommand="ODPExtension.preferencesSave();ODPExtensionOnWindow.categoriesTXTUpdate(true)"/>
-								</hbox>
-
-							</groupbox>
-
-							<groupbox>
-								<caption label="&ODPExtension.extension.directory;"/>
-								<hbox flex="1">
-									<textbox flex="1" id="extension.directory" style="padding:1px;"/>
-									<button label="&ODPExtension.browse;" oncommand="ODPExtensionOnWindow.folderOpen(document.getElementById('extension.directory').value);"/>
-									<button  label="&ODPExtension.extension.directory.change;" oncommand="var folder = ODPExtension.fileAskUserFolderSelect(); if(!folder){}else{ ODPExtension.getBrowserElement('extension.directory').value = folder.file.path}"/>
-								</hbox>
-							</groupbox>
-							<groupbox>
-								<caption label="&ODPExtension.category.browser;"/>
-								<button flex="1" label="Import categories from my browsing history to the &quot;Categories History&quot; database and give to them radiation(points) to get a better relevance on the &quot;Category Browser&quot; menu." oncommand="ODPExtensionOnWindow.categoryHistoryImportCategoriesHistory()"/>
-							</groupbox>
 					</vbox>
 
 			</hbox>
-</vbox></tabpanel>
+</vbox></tabpanel-->
 						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">	<browser id="licence-browser" type="content" flex="1" src="chrome://ODPExtension/content/documents/license.html" style="margin-bottom:4px;"/>
 </vbox></tabpanel>
 						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">

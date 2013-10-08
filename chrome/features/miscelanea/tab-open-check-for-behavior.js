@@ -9,9 +9,9 @@
 
 		this.openURL(
 			aURL,
-			this.preferenceGet('tab.behavior.' + aUserPreference + '.tab.new.tab') || aEvent.button == 1,
-			this.preferenceGet('tab.behavior.' + aUserPreference + '.tab.new.window') || aEvent.ctrlKey,
-			this.preferenceGet('tab.behavior.' + aUserPreference + '.tab.selected'),
+			aEvent.button == 1, //in new tab
+			aEvent.ctrlKey, //in new window
+			false, //select the tab
 			aPostData);
 	}
 	return null;

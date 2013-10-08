@@ -83,12 +83,6 @@
 		pref('extensions.ODPExtension.ui.informative.panel.categories.titles.urls', true);
 		pref('extensions.ODPExtension.ui.informative.panel.categories.align.left', false);
 
-	//PAGES STYLES
-
-	//CSS editor pages
-
-		pref('extensions.ODPExtension.ui.forum.pages.custom.nicknames', false);
-
 //PRIVACY - DONE
 
 	pref('extensions.ODPExtension.privacy.queries.exclude.domains' , '*.block-all-subdomains-of-this-domain.org%0Ablock-this-domain.org');
@@ -119,41 +113,6 @@
 	pref('extensions.ODPExtension.advanced.urls.rdf', '');
 	pref('extensions.ODPExtension.advanced.urls.domain.explorer', 'http%3A%2F%2Fsiteexplorer.search.yahoo.com%2Fsearch%3Fp%3D%7BSCHEMA%7D%7BWWW_DOMAIN%7D%0Ahttp%3A%2F%2Fwww.bing.com%2Fsearch%3Fq%3Dsite%253A%7BWWW_DOMAIN%7D%0Ahttp%3A%2F%2Fwww.google.com%2Fsearch%3Fsafe%3Doff%26q%3Dsite%253A%7BWWW_DOMAIN%7D');
 	pref('extensions.ODPExtension.locked.categories.txt.last.update', 'Never');
-
-
-//TAB BEHAVIOR - done
-
-	pref('extensions.ODPExtension.tab.behavior.translate.tab.new.tab', true);
-	pref('extensions.ODPExtension.tab.behavior.translate.tab.new.window', false);
-	pref('extensions.ODPExtension.tab.behavior.translate.tab.selected', true);
-
-	pref('extensions.ODPExtension.tab.behavior.informative.panel.tab.new.tab', true);
-	pref('extensions.ODPExtension.tab.behavior.informative.panel.tab.new.window', false);
-	pref('extensions.ODPExtension.tab.behavior.informative.panel.tab.selected', false);
-
-	pref('extensions.ODPExtension.tab.behavior.frame.from.menu.tab.new.tab', true);
-	pref('extensions.ODPExtension.tab.behavior.frame.from.menu.tab.new.window', false);
-	pref('extensions.ODPExtension.tab.behavior.frame.from.menu.tab.selected', true);
-
-	pref('extensions.ODPExtension.tab.behavior.frame.selected.tab.new.tab', true);
-	pref('extensions.ODPExtension.tab.behavior.frame.selected.tab.new.window', false);
-	pref('extensions.ODPExtension.tab.behavior.frame.selected.tab.selected', true);
-
-	pref('extensions.ODPExtension.tab.behavior.odp.search.tab.new.tab', true);
-	pref('extensions.ODPExtension.tab.behavior.odp.search.tab.new.window', false);
-	pref('extensions.ODPExtension.tab.behavior.odp.search.tab.selected', true);
-
-	pref('extensions.ODPExtension.tab.behavior.domain.site.tab.new.tab', true);
-	pref('extensions.ODPExtension.tab.behavior.domain.site.tab.new.window', false);
-	pref('extensions.ODPExtension.tab.behavior.domain.site.tab.selected', false);
-
-	pref('extensions.ODPExtension.tab.behavior.url.tools.tab.new.tab', true);
-	pref('extensions.ODPExtension.tab.behavior.url.tools.tab.new.window', false);
-	pref('extensions.ODPExtension.tab.behavior.url.tools.tab.selected', false);
-
-	pref('extensions.ODPExtension.tab.behavior.word.reference.tab.new.tab', false);
-	pref('extensions.ODPExtension.tab.behavior.word.reference.tab.new.window', false);
-	pref('extensions.ODPExtension.tab.behavior.word.reference.tab.selected', false);
 
 //languages display - ALL DONE
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ca', false);

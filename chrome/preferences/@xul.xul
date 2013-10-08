@@ -43,8 +43,6 @@
 						  <radio onclick="ODPExtension.getElement('tab-1').click();" pane="nada" label="&ODPExtension.tab.ui;" class="tabUserInterface radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-2').click();" pane="nada" label="&ODPExtension.tab.privacy;" class="tabPrivacy radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-7').click();" pane="nada" label="&ODPExtension.tab.icon.clicks;" class="tabIconClicks radioButton"/>
-						  <radio onclick="ODPExtension.getElement('tab-9').click();" pane="nada" label="&ODPExtension.tab.tab.behavior;" class="tabBehavior radioButton"/>
-
 						  <radio onclick="ODPExtension.getElement('tab-3').click();" pane="nada" label="&ODPExtension.tab.translate;" class="tabTranslate radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-6').click();" pane="nada" label="&ODPExtension.tab.url.tools;" class="tabURLTools radioButton"/>
 						  <radio onclick="ODPExtension.getElement('tab-11').click();" pane="nada" label="&ODPExtension.tab.url.notes;" class="tabURLNotes radioButton"/>
@@ -62,7 +60,6 @@
 						<tab id="ODPExtension-tab-5"/>
 						<tab id="ODPExtension-tab-6"/>
 						<tab id="ODPExtension-tab-7"/>
-						<tab id="ODPExtension-tab-9"/>
 						<tab id="ODPExtension-tab-11"/>
 						<tab id="ODPExtension-tab-12"/>
 					</tabs>
@@ -427,124 +424,6 @@
 				</vbox>
 
 			</hbox></vbox></tabpanel>
-
-						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">			<hbox>
-
-				<vbox  flex="1" >
-				<groupbox flex="1" orient="vertical" style="padding:9px;" >
-				<caption label="&ODPExtension.tab.tab.behavior;" class="rowTitle"/>
-
-					<!-- customizable! -->
-
-						<hbox>
-							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
-								<caption label="&ODPExtension.ui.context.menu.translate;" class="rowTitle"/>
-								<checkbox id="tab.behavior.translate.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>
-								<checkbox id="tab.behavior.translate.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>
-								<checkbox id="tab.behavior.translate.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>
-							</groupbox>
-						</hbox>
-
-						<hbox>
-							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
-								<caption label="&ODPExtension.ui.context.menu.word.reference;" class="rowTitle"/>
-								<checkbox id="tab.behavior.word.reference.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>
-								<checkbox id="tab.behavior.word.reference.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>
-								<checkbox id="tab.behavior.word.reference.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>
-							</groupbox>
-						</hbox>
-
-						<hbox>
-							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
-								<caption label="&ODPExtension.ui.context.menu.url.tools;" class="rowTitle"/>
-								<checkbox id="tab.behavior.url.tools.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>
-								<checkbox id="tab.behavior.url.tools.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>
-								<checkbox id="tab.behavior.url.tools.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>
-							</groupbox>
-						</hbox>
-
-						<hbox>
-							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
-								<caption label="&ODPExtension.ui.context.menu.frame.selected;" class="rowTitle"/>
-								<checkbox id="tab.behavior.frame.selected.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>
-								<checkbox id="tab.behavior.frame.selected.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>
-								<checkbox id="tab.behavior.frame.selected.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>
-							</groupbox>
-						</hbox>
-
-						<hbox>
-							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
-								<caption label="&ODPExtension.ui.context.menu.frames;" class="rowTitle"/>
-								<checkbox id="tab.behavior.frame.from.menu.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>
-								<checkbox id="tab.behavior.frame.from.menu.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>
-								<checkbox id="tab.behavior.frame.from.menu.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>
-							</groupbox>
-						</hbox>
-
-						<hbox>
-							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
-								<caption label="&ODPExtension.command.domain.site.odp;" class="rowTitle"/>
-								<checkbox id="tab.behavior.odp.search.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>
-								<checkbox id="tab.behavior.odp.search.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>
-								<checkbox id="tab.behavior.odp.search.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>
-							</groupbox>
-						</hbox>
-
-						<hbox>
-							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
-								<caption label="&ODPExtension.command.domain.site.se;" class="rowTitle"/>
-								<checkbox id="tab.behavior.domain.site.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>
-								<checkbox id="tab.behavior.domain.site.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>
-								<checkbox id="tab.behavior.domain.site.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>
-							</groupbox>
-						</hbox>
-
-						<hbox>
-							<groupbox flex="1" orient="horizontal" style="padding:5px;padding-left:27px;" >
-								<caption label="&ODPExtension.ui.informative.panel;" class="rowTitle"/>
-								<checkbox id="tab.behavior.informative.panel.tab.new.tab" label="&ODPExtension.tab.open.in.new.tab;"  class="rowTitle"/>
-								<checkbox id="tab.behavior.informative.panel.tab.new.window" label="&ODPExtension.tab.open.in.new.window;"  class="rowTitle"/>
-								<checkbox id="tab.behavior.informative.panel.tab.selected" label="&ODPExtension.tab.select.tab;"  class="rowTitle"/>
-							</groupbox>
-						</hbox>
-
-					<spacer flex="1"/>
-
-
-					<hbox>
-						<description>
-							Note: Tabs behaviour special features are powered by <label
-								onclick="if (event.button == 0){ ODPExtensionOnWindow.openURL(this.getAttribute('tooltiptext'), true, false, true); }"
-								class="text-link"
-								value="piro"
-								tooltiptext="http://piro.sakura.ne.jp/"
-							/>'s extensions <label
-								onclick="if (event.button == 0){ ODPExtensionOnWindow.openURL(this.getAttribute('tooltiptext'), true, false, true); }"
-								class="text-link"
-								value="for Firefox"
-								tooltiptext="https://addons.mozilla.org/en-US/firefox/user/9480"
-							/>, specially <label
-								onclick="if (event.button == 0){ ODPExtensionOnWindow.openURL(this.getAttribute('tooltiptext'), true, false, true); }"
-								class="text-link"
-								value="Multiple Tab Handler"
-								tooltiptext="http://piro.sakura.ne.jp/xul/_multipletab.html.en"
-							/> and <label
-								onclick="if (event.button == 0){ ODPExtensionOnWindow.openURL(this.getAttribute('tooltiptext'), true, false, true); }"
-								class="text-link"
-								value="Tree Style Tab"
-								tooltiptext="http://piro.sakura.ne.jp/xul/_treestyletab.html.en"
-							/>.
-						</description>
-					</hbox>
-
-						</groupbox>
-
-			</vbox>
-
-
-
-			</hbox></vbox></tabpanel>
-
 
 						<tabpanel orient="vertical" flex="1"><vbox class="paneDeckContainer" flex="1">
 			<hbox flex="1">

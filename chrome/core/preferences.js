@@ -112,44 +112,8 @@
 		'ui.from.category.auto',
 
 		//url notes - DONE
-
 		'url.notes.form.submit',
 		'url.notes.form.submit.confirm',
-
-		//tab behavior - DONE
-
-		//informative.panel
-		'tab.behavior.informative.panel.tab.new.tab',
-		'tab.behavior.informative.panel.tab.new.window',
-		'tab.behavior.informative.panel.tab.selected',
-		//translate
-		'tab.behavior.translate.tab.new.tab',
-		'tab.behavior.translate.tab.new.window',
-		'tab.behavior.translate.tab.selected',
-		//frame from menu
-		'tab.behavior.frame.from.menu.tab.new.tab',
-		'tab.behavior.frame.from.menu.tab.new.window',
-		'tab.behavior.frame.from.menu.tab.selected',
-		//frame selected
-		'tab.behavior.frame.selected.tab.new.tab',
-		'tab.behavior.frame.selected.tab.new.window',
-		'tab.behavior.frame.selected.tab.selected',
-		//odp search
-		'tab.behavior.odp.search.tab.new.tab',
-		'tab.behavior.odp.search.tab.new.window',
-		'tab.behavior.odp.search.tab.selected',
-		//url tools
-		'tab.behavior.url.tools.tab.new.tab',
-		'tab.behavior.url.tools.tab.new.window',
-		'tab.behavior.url.tools.tab.selected',
-		//word reference
-		'tab.behavior.word.reference.tab.new.tab',
-		'tab.behavior.word.reference.tab.new.window',
-		'tab.behavior.word.reference.tab.selected',
-		//domain site
-		'tab.behavior.domain.site.tab.new.tab',
-		'tab.behavior.domain.site.tab.new.window',
-		'tab.behavior.domain.site.tab.selected',
 
 		//languages - ALL DONE
 		'ui.context.menu.translate',

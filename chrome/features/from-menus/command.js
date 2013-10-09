@@ -78,6 +78,8 @@
 			aCommand == 'command_editor_log_detail' ||
 			aCommand == 'command_editor_log_request' ||
 			aCommand == 'command_editor_log_cool' ||
+			aCommand == 'command_editor_log_url_add' ||
+			aCommand == 'command_editor_log_category_log' ||
 			aCommand == 'command_editor_log_new_cat' ||
 			aCommand == 'command_editor_log_del_cat' ||
 			aCommand == 'command_editor_tool_arwen') {
@@ -109,15 +111,19 @@
 				else if (aCommand == 'command_editor_log_summary')
 					this.openURL('http://www.dmoz.org/editors/log/editsummary?editor=' + editors[id], true, false, inSelectedTab);
 				else if (aCommand == 'command_editor_log_detail')
-					this.openURL('http://www.dmoz.org/editors/log/search?cat=&editor=' + editors[id] + '&type=all&function=', true, false, inSelectedTab);
+					this.openURL('http://www.dmoz.org/editors/log/search?cat=&editor=' + editors[id] + '&type=editing&function=', true, false, inSelectedTab);
 				else if (aCommand == 'command_editor_log_request')
 					this.openURL('http://www.dmoz.org/editors/log/requestlog?editor=' + editors[id], true, false, inSelectedTab);
+				else if (aCommand == 'command_editor_log_url_add')
+					this.openURL('http://www.dmoz.org/editors/log/search?cat=&editor=' + editors[id] + '&type=editing&function=url_add', true, false, inSelectedTab);
 				else if (aCommand == 'command_editor_log_cool')
-					this.openURL('http://www.dmoz.org/editors/log/search?cat=&editor=' + editors[id] + '&type=all&function=url_*cool', true, false, inSelectedTab);
+					this.openURL('http://www.dmoz.org/editors/log/search?cat=&editor=' + editors[id] + '&type=editing&function=url_*cool', true, false, inSelectedTab);
 				else if (aCommand == 'command_editor_log_new_cat')
-					this.openURL('http://www.dmoz.org/editors/log/search?cat=&editor=' + editors[id] + '&type=all&function=ont_add', true, false, inSelectedTab);
+					this.openURL('http://www.dmoz.org/editors/log/search?cat=&editor=' + editors[id] + '&type=editing&function=ont_add', true, false, inSelectedTab);
+				else if (aCommand == 'command_editor_log_category_log')
+					this.openURL('http://www.dmoz.org/editors/log/search?cat=&editor=' + editors[id] + '&type=editing&function=ont_*', true, false, inSelectedTab);
 				else if (aCommand == 'command_editor_log_del_cat')
-					this.openURL('http://www.dmoz.org/editors/log/search?cat=&editor=' + editors[id] + '&type=all&function=ont_deletenode', true, false, inSelectedTab);
+					this.openURL('http://www.dmoz.org/editors/log/search?cat=&editor=' + editors[id] + '&type=editing&function=ont_deletenode', true, false, inSelectedTab);
 				else if (aCommand == 'command_editor_tool_arwen')
 					this.openURL('http://odp.kazhar.org/arwen/view/' + editors[id], true, false, inSelectedTab);
 			}

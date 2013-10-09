@@ -12,14 +12,18 @@
 		//the set timeout is there to avoid multiples clicks
 		ODPExtension.getBrowserElement("content").addEventListener("mouseup", function(event) {
 			if (event.button == 0) {
-				clearTimeout(fromCategoryTimeout);
-				fromCategoryTimeout = setTimeout(function() {
-					ODPExtension.fromCategoryUpdateMenu(event, 'from-category');
-				}, 200);
+				(function(event){
+					clearTimeout(fromCategoryTimeout);
+					fromCategoryTimeout = setTimeout(function() {
+						ODPExtension.fromCategoryUpdateMenu(event, 'from-category');
+					}, 200);
+				})(event)
 			} else if (event.button == 2 && ODPExtension.tagName(event.originalTarget) == 'select') {
-				setTimeout(function() {
-					ODPExtension.fromCategoryUpdateMenu(event, 'from-category');
-				}, 50);
+				(function(event){
+					setTimeout(function() {
+						ODPExtension.fromCategoryUpdateMenu(event, 'from-category');
+					}, 50);
+				})(event)
 			}
 		}, false);
 	});

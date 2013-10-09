@@ -7,7 +7,7 @@
 	//this fills the "edit url" form accourdly to user input which is semi-automated via the ODP Notes toolbar.
 	//basically receive the action (aType) a note (aODPNote) the doc and a category optionally (toCategory) if the user want to copy or move the site.
 
-	this.odpURLNotesApply = function(aEvent, aType, aODPNote, aDoc, toCategory) {
+	this.odpURLNotesApply = function(aEvent, aType, aODPNote, aDoc, toCategory, closeTheTab) {
 		//this check if the user wants to move or copy the site, then ask for a category were to move/copy the site.
 
 		if ((aType.indexOf('move.') != -1 || aType.indexOf('copy.') != -1) && !toCategory) {
@@ -43,7 +43,11 @@
 			this.odpURLNotesMultipleTabHandlerSelectedDocuments = [];
 			for (var id in documents) {
 				//this.dump('odpURLNotesApply to document '+id);
-				this.odpURLNotesApply(aEvent, aType, aODPNote, documents[id], toCategory);
+				(function(aDoc){
+					setTimeout(function() {
+						ODPExtension.odpURLNotesApply(aEvent, aType, aODPNote, aDoc, toCategory, true);
+					}, id * 1333);
+				})(documents[id]);
 			}
 			return;
 		}
@@ -164,7 +168,7 @@
 
 			//kids and teens stuff
 			var kt = '';
-			if(this.getElementNamed('newkids', aDoc) || this.getElementNamed('kids', aDoc)){
+			if (this.getElementNamed('newkids', aDoc) || this.getElementNamed('kids', aDoc)) {
 
 				try {
 					var kids = this.getElementNamed('newkids', aDoc).checked; //new site, not added yet.
@@ -190,7 +194,7 @@
 				if (mteens)
 					mteens = 'on';
 
-				kt = '&kids='+kids+'&teens='+teens+'&mteens='+mteens;
+				kt = '&kids=' + kids + '&teens=' + teens + '&mteens=' + mteens;
 			}
 
 			var contenttype = '';
@@ -262,7 +266,7 @@
 				var operation = 'update';
 
 			//copy site
-			var aCopy = 'http://www.dmoz.org/editors/editurl/doadd?url=' + this.encodeUTF8(url) + '&typecat=' + this.encodeUTF8(toCategory) + '&title=' + this.encodeUTF8(title) + '&submit=' + this.encodeUTF8('Update') + '&operation=' + this.encodeUTF8(operation) + '&newnote=' + this.encodeUTF8(aODPNote) + '&newcat=&mediadate=' + this.encodeUTF8(mediadate) + '&desc=' + this.encodeUTF8(desc) + '&contenttype=' + this.encodeUTF8(contenttype) + '&cat=' + this.encodeUTF8(toCategory) + '&uksite=' + this.encodeUTF8(uksite)+kt;
+			var aCopy = 'http://www.dmoz.org/editors/editurl/doadd?url=' + this.encodeUTF8(url) + '&typecat=' + this.encodeUTF8(toCategory) + '&title=' + this.encodeUTF8(title) + '&submit=' + this.encodeUTF8('Update') + '&operation=' + this.encodeUTF8(operation) + '&newnote=' + this.encodeUTF8(aODPNote) + '&newcat=&mediadate=' + this.encodeUTF8(mediadate) + '&desc=' + this.encodeUTF8(desc) + '&contenttype=' + this.encodeUTF8(contenttype) + '&cat=' + this.encodeUTF8(toCategory) + '&uksite=' + this.encodeUTF8(uksite) + kt;
 
 			if (this.preferenceGet('url.notes.form.submit.confirm')) {
 				if (this.confirm(this.getString('url.notes.want.copy.site.now'))) {
@@ -421,11 +425,8 @@
 							aElement.click();
 							break;
 						} else if ((aElement.value == 'deny' || aElement.value == 'delete') && radioValue == 'deny,delete') {
-							if (this.confirm('Please confirm you requested a deletion')) {
-								aElement.click();
-							} else {
-								return;
-							}
+							this.notifyTab('Site marked for deletion', 5)
+							aElement.click();
 							break;
 						} else if (aElement.value == 'unrev' && radioValue == 'unrev') {
 							aElement.click();
@@ -435,6 +436,15 @@
 				}
 			}
 
+			if ( !! closeTheTab) {
+				var aTab = this.tabGetFromDocument(aDoc);
+				var newTabBrowser = this.browserGetFromTab(aTab);
+				newTabBrowser.addEventListener("DOMContentLoaded", function(aEvent) {
+					if (ODPExtension.documentGetFromTab(aTab).body.innerHTML.indexOf('history.back') != -1) {} else {
+						ODPExtension.tabClose(aTab);
+					}
+				}, false);
+			}
 			//submitir
 			var submitElement = false;
 			if (this.preferenceGet('url.notes.form.submit')) {

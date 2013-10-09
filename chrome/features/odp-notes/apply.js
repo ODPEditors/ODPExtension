@@ -159,9 +159,39 @@
 			} catch (e) {
 				var uksite = this.getElementNamed('uksite', aDoc).checked; ///unreview or editing
 			}
-
 			if (uksite)
 				uksite = 'on';
+
+			//kids and teens stuff
+			var kt = '';
+			if(this.getElementNamed('newkids', aDoc) || this.getElementNamed('kids', aDoc)){
+
+				try {
+					var kids = this.getElementNamed('newkids', aDoc).checked; //new site, not added yet.
+				} catch (e) {
+					var kids = this.getElementNamed('kids', aDoc).checked; ///unreview or editing
+				}
+				if (kids)
+					kids = 'on';
+
+				try {
+					var teens = this.getElementNamed('newteens', aDoc).checked; //new site, not added yet.
+				} catch (e) {
+					var teens = this.getElementNamed('teens', aDoc).checked; ///unreview or editing
+				}
+				if (teens)
+					teens = 'on';
+
+				try {
+					var mteens = this.getElementNamed('newmteens', aDoc).checked; //new site, not added yet.
+				} catch (e) {
+					var mteens = this.getElementNamed('mteens', aDoc).checked; ///unreview or editing
+				}
+				if (mteens)
+					mteens = 'on';
+
+				kt = '&kids='+kids+'&teens='+teens+'&mteens='+mteens;
+			}
 
 			var contenttype = '';
 			for (var i = 0; i < aDoc.getElementsByTagName("input").length; i++) {
@@ -232,7 +262,7 @@
 				var operation = 'update';
 
 			//copy site
-			var aCopy = 'http://www.dmoz.org/editors/editurl/doadd?url=' + this.encodeUTF8(url) + '&typecat=' + this.encodeUTF8(toCategory) + '&title=' + this.encodeUTF8(title) + '&submit=' + this.encodeUTF8('Update') + '&operation=' + this.encodeUTF8(operation) + '&newnote=' + this.encodeUTF8(aODPNote) + '&newcat=&mediadate=' + this.encodeUTF8(mediadate) + '&desc=' + this.encodeUTF8(desc) + '&contenttype=' + this.encodeUTF8(contenttype) + '&cat=' + this.encodeUTF8(toCategory) + '&uksite=' + this.encodeUTF8(uksite);
+			var aCopy = 'http://www.dmoz.org/editors/editurl/doadd?url=' + this.encodeUTF8(url) + '&typecat=' + this.encodeUTF8(toCategory) + '&title=' + this.encodeUTF8(title) + '&submit=' + this.encodeUTF8('Update') + '&operation=' + this.encodeUTF8(operation) + '&newnote=' + this.encodeUTF8(aODPNote) + '&newcat=&mediadate=' + this.encodeUTF8(mediadate) + '&desc=' + this.encodeUTF8(desc) + '&contenttype=' + this.encodeUTF8(contenttype) + '&cat=' + this.encodeUTF8(toCategory) + '&uksite=' + this.encodeUTF8(uksite)+kt;
 
 			if (this.preferenceGet('url.notes.form.submit.confirm')) {
 				if (this.confirm(this.getString('url.notes.want.copy.site.now'))) {

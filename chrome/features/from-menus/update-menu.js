@@ -99,7 +99,7 @@
 		}
 		//this.dump('fromCategoryUpdateMenu:aEvent.type:'+aEvent.type);
 
-		var aDocTypeHTML = aEvent.originalTarget.ownerDocument instanceof HTMLDocument;
+		var aDocTypeHTML = aEvent.originalTarget.ownerDocument instanceof HTMLDocument || aEvent.originalTarget.ownerDocument instanceof XMLDocument;
 		var aDocTypeXUL = aEvent.originalTarget.ownerDocument instanceof XULDocument;
 
 		//if XUL was clicked or if the click come with a modifier
@@ -182,7 +182,7 @@
 			var aCategoryPopup = '';
 
 		//check a SELECT with a category value - firefox 3.6 will not show up the context menu, then my context menu will not be so disturbing!
-		if (this.tagName(aEvent.originalTarget) == 'select') {
+		if (this.tagName(aEvent.originalTarget) == 'select' && aEvent.button == 2) {
 			var aCategorySelectHTML = this.categoryGetFromURL(this.trim(aEvent.originalTarget.options[aEvent.originalTarget.selectedIndex].value));
 			if (aCategorySelectHTML == '')
 				var aCategorySelectHTML = this.categoryGetFromURL(this.trim(aEvent.originalTarget.options[aEvent.originalTarget.selectedIndex].innerHTML));

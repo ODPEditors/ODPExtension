@@ -275,8 +275,8 @@
 				</xul:menupopup>
 			  </xul:menu>-->
 			<xul:menuseparator anonid="ODPExtension-from-category-navigate-separator"/>
-			<xul:menu class="ODPExtension-menu-no-arrow" anonid="ODPExtension-from-category-navigate" label="&ODPExtension.from.category.navigate;" original_label="&ODPExtension.from.category.navigate;" style="font-weight:bold;"/>
-			<xul:menu class="ODPExtension-menu-no-arrow" anonid="ODPExtension-from-category-navigate-parents" label="&ODPExtension.from.category.parents;" original_label="&ODPExtension.from.category.parents;" style="font-weight:bold;"/>
+			<xul:menu class="ODPExtension-menu-no-arrow" anonid="ODPExtension-from-category-navigate" label="&ODPExtension.from.category.navigate;" original_label="&ODPExtension.from.category.navigate;" direction="ltr" style="font-weight:bold;"/>
+			<xul:menu class="ODPExtension-menu-no-arrow" anonid="ODPExtension-from-category-navigate-parents" label="&ODPExtension.from.category.parents;" original_label="&ODPExtension.from.category.parents;" direction="ltr" style="font-weight:bold;"/>
 	  </content>
 	</binding>
 </bindings>

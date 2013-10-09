@@ -65,6 +65,7 @@
 
 			var menupopupParents = this.create('menupopup');
 			menupopupParents.setAttribute('ignorekeys', true);
+			menupopupParents.setAttribute('direction', 'ltr');
 
 			var aNodes = item.getAttribute('value').split('/');
 			var path = '';
@@ -84,7 +85,6 @@
 			menupopup.appendChild(menuParents);
 		}
 
-
 		//appending the menus
 
 		var focused = item && item.hasAttribute('isFocused')
@@ -93,7 +93,7 @@
 				menu.setAttribute('id', item.getAttribute('id'));
 			if(item.hasAttribute('style'))
 				menu.setAttribute('style', item.getAttribute('style'));
-			if(item.hasAttribute('direction'))
+			if(item.hasAttribute('direction') && !menu.hasAttribute('direction') )
 				menu.setAttribute('direction', item.getAttribute('direction'));
 			if (item.hasAttribute('temporal'))
 				menu.setAttribute('temporal', item.getAttribute('temporal'));

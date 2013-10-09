@@ -32,20 +32,27 @@
 .ODPExtension-crop > menupopup > menuitem {
 	max-width: 100%;
 }
+
 menu[direction="rtl"],
 menuitem[direction="rtl"],
 toolbarbutton[direction="rtl"],
 menupopup[direction="rtl"],
 description[direction="rtl"],
-label[direction="rtl"] {
+label[direction="rtl"]
+ {
 	direction: rtl;
 	unicode-bidi: embed;
+}
+description[direction="rtl"]{
 	text-align: right;
 }
 menu[direction="ltr"],
 menuitem[direction="ltr"],
 toolbarbutton[direction="ltr"],
-menupopup[direction="ltr"] {
+menupopup[direction="ltr"],
+description[direction="ltr"],
+label[direction="ltr"]
+{
 	direction: ltr;
 	unicode-bidi: embed;
 }

@@ -62,13 +62,10 @@
 					<menuitem url="http://forums.dmoz.org/forum/viewtopic.php?t=920940" tooltiptext="http://forums.dmoz.org/forum/viewtopic.php?t=920940" label="&ODPExtension.odp.extension.project;"/>
 					<menuitem url="chrome://odpextension/content/documents/index.html" tooltiptext="chrome://odpextension/content/documents/index.html" label="Documentation"/>
 					<menuseparator/>
-					<menuitem url="http://github.com/titoBouzout/extensions" tooltiptext="http://github.com/titoBouzout/extensions" label="Source code"/>
+					<menuitem url="https://github.com/ODPEditors/ODPExtension" tooltiptext="https://github.com/ODPEditors/ODPExtension" label="Source code"/>
 				</menupopup>
 			</menu>
-			<menuseparator/>
-			<menuitem url="http://passport.dmoz.org/" tooltiptext="http://passport.dmoz.org/" label="ODP Passport"/>
-			<menuitem url="http://tools.dmoz.org/" tooltiptext="http://tools.dmoz.org/" label="ODP Toolbox"/>
-			<menuitem url="http://www.dmoz.org/Test/Tools_for_Editors/" tooltiptext="http://www.dmoz.org/Test/Tools_for_Editors/" label="Tools for Editors"/>
+
 			<menuseparator/>
 			<menu label="&ODPExtension.blogs;">
 				<menupopup>
@@ -80,18 +77,18 @@
 					<menuitem url="http://editando.org/" tooltiptext="http://editando.org/" label="Editando"/>
 					<menuitem url="http://dmozblog.dk/" tooltiptext="http://dmozblog.dk/" label="Dansk Dmoz Blog"/>
 					<menuitem url="http://trilobit.bloguje.cz/" tooltiptext="http://trilobit.bloguje.cz/" label="Trilobit bloguje"/>
-					<menuitem url="http://dmoz-es.org/" tooltiptext="http://dmoz-es.org/" label="dmoz blog"/>
+					<menuitem url="http://we-dmoz.blogspot.com/" tooltiptext="http://we-dmoz.blogspot.com/" label="DMOZ/ODP Español"/>
 				</menupopup>
 			</menu>
-			<menuitem url="http://www.dmoz.org/newsletter/index.html" tooltiptext="http://www.dmoz.org/newsletter/index.html" label="Newsletter"/>
+			<menuitem url="http://www.dmoz.org/docs/en/newsletter/" tooltiptext="http://www.dmoz.org/docs/en/newsletter/" label="Newsletter"/>
 			<menuseparator/>
 			<menuitem url="http://www.dmoz.org/Test/Tips/" tooltiptext="http://www.dmoz.org/Test/Tips/" label="Tips"/>
 			<menuitem url="http://www.dmoz.org/Test/Help_Wanted/" tooltiptext="http://www.dmoz.org/Test/Help_Wanted/" label="Help Wanted"/>
 			<menuseparator/>
 			<menu url="http://www.dmoz.org/about.html" tooltiptext="http://www.dmoz.org/about.html" label="About ODP">
 				<menupopup>
-					<menuitem url="http://www.dmoz.org/help/become.html" tooltiptext="http://www.dmoz.org/help/become.html" label="Become an Editor"/>
 					<menuitem url="http://www.dmoz.org/reinstate.html" tooltiptext="http://www.dmoz.org/reinstate.html" label="Request Reinstatement"/>
+					<menuitem url="http://www.dmoz.org/help/become.html" tooltiptext="http://www.dmoz.org/help/become.html" label="Become an Editor"/>
 					<menuseparator/>
 					<menuitem url="http://www.dmoz.org/socialcontract.html" tooltiptext="http://www.dmoz.org/socialcontract.html" label="Social Contract"/>
 					<menuitem url="http://rdf.dmoz.org/" tooltiptext="http://rdf.dmoz.org/" label="ODP Data - RDF"/>
@@ -113,24 +110,49 @@
 			</menu>
 			<menu url="http://www.dmoz.org/guidelines/" tooltiptext="http://www.dmoz.org/guidelines/" label="Guidelines">
 				<menupopup>
-				<menuitem url="http://www.dmoz.org/guidelines/admin/" tooltiptext="http://www.dmoz.org/guidelines/admin/" label="Administrator"/>
-				<menuitem url="http://www.dmoz.org/guidelines/meta/" tooltiptext="http://www.dmoz.org/guidelines/meta/" label="Meta"/>
-				<menuitem url="http://www.dmoz.org/guidelines/catmod/" tooltiptext="http://www.dmoz.org/guidelines/catmod/" label="Catmod"/>
-				<menuitem url="http://www.dmoz.org/guidelines/editall/" tooltiptext="http://www.dmoz.org/guidelines/editall/" label="Editall"/>
 				<menuitem url="http://www.dmoz.org/guidelines/greenbuster/" tooltiptext="http://www.dmoz.org/guidelines/greenbuster/" label="Greenbuster"/>
-				<menuitem url="http://www.dmoz.org/guidelines/kguidelines/" tooltiptext="http://www.dmoz.org/guidelines/kguidelines/" label="Kids &amp; Teens"/>
+				<menuseparator/>
 				<menuitem url="http://www.dmoz.org/guidelines/regional/" tooltiptext="http://www.dmoz.org/guidelines/regional/" label="Regional"/>
 				<menuitem url="http://www.dmoz.org/guidelines/travel/" tooltiptext="http://www.dmoz.org/guidelines/travel/" label="Travel"/>
+				<menuseparator/>
+				<menuitem url="http://www.dmoz.org/guidelines/kguidelines/" tooltiptext="http://www.dmoz.org/guidelines/kguidelines/" label="Kids &amp; Teens"/>
+				<menuseparator/>
+				<menuitem url="http://www.dmoz.org/guidelines/editall/" tooltiptext="http://www.dmoz.org/guidelines/editall/" label="Editall"/>
+				<menuitem url="http://www.dmoz.org/guidelines/catmod/" tooltiptext="http://www.dmoz.org/guidelines/catmod/" label="Catmod"/>
+				<menuitem url="http://www.dmoz.org/guidelines/meta/" tooltiptext="http://www.dmoz.org/guidelines/meta/" label="Meta"/>
+				<menuseparator/>
+				<menuitem url="http://www.dmoz.org/guidelines/admin/" tooltiptext="http://www.dmoz.org/guidelines/admin/" label="Administrator"/>
+				<menuseparator/>
 				<menuitem url="http://www.dmoz.org/guidelines/gambling/" tooltiptext="http://www.dmoz.org/guidelines/gambling/" label="Gambling"/>
+				<menuseparator/>
 				<menuitem url="http://www.dmoz.org/guidelines/adult/" tooltiptext="http://www.dmoz.org/guidelines/adult/" label="Adult"/>
+				<menuseparator/>
+				<menuitem url="http://www.dmoz.org/erz/documentation.html" tooltiptext="http://www.dmoz.org/erz/documentation.html" label="Translating the guidelines"/>
 				</menupopup>
 			</menu>
 
 			<menuseparator/>
 			<menuitem url="http://www.resource-zone.com/forum/" tooltiptext="http://www.resource-zone.com/forum/" label="Resource Zone"/>
-			<menuitem url="http://forums.dmoz.org/forum/" tooltiptext="http://forums.dmoz.org/forum/" label="Editor Forum"/>
+			<menuitem url="http://forums.dmoz.org/forum/" tooltiptext="http://forums.dmoz.org/forum/" label="Editor Forums"/>
 			<menuseparator/>
 			<menuitem url="http://odp.tubert.org/wiki/" tooltiptext="http://odp.tubert.org/wiki/" label="Wiki"/>
+
+			<menuseparator/>
+			<menu label="Tools">
+				<menupopup>
+				<menuitem url="http://passport.dmoz.org/" tooltiptext="http://passport.dmoz.org/" label="ODP Passport"/>
+				<menuitem url="http://tools.dmoz.org/" tooltiptext="http://tools.dmoz.org/" label="ODP Toolbox"/>
+				<menuitem url="http://www.dmoz.org/Test/Tools_for_Editors/" tooltiptext="http://www.dmoz.org/Test/Tools_for_Editors/" label="Tools for Editors"/>
+				<menuseparator/>
+				<menuitem url="http://robert.mathmos.net/odp/numbers/" tooltiptext="http://robert.mathmos.net/odp/numbers/" label="Numbers"/>
+				<menuitem url="http://pmoz.info/catstats/" tooltiptext="http://pmoz.info/catstats/" label="Catstats"/>
+				<menuseparator/>
+				<menuitem url="http://robert.mathmos.net/odp/missing/" tooltiptext="http://robert.mathmos.net/odp/missing/" label="Missing"/>
+				<menuseparator/>
+				<menuitem oncommand="ODPExtension.rdfFind();" label="Find for a string in an RDF U8 file…"/>
+			</menupopup>
+			</menu>
+
 			<menuseparator/>
 			<menu id="ODPExtension-extension-icon-from-editor" label="&ODPExtension.ui.context.menu.from.editor.empty;">
 				<menupopup

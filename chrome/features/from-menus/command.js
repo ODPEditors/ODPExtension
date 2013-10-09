@@ -237,7 +237,7 @@
 			this.openURL('http://odp.jtlabs.net/pnf/', true, false, true);
 			return;
 		} else if (aCommand == 'command_tool_spell_check') {
-			this.openURL('http://odp.rpfuller.com/spell/', true, false, true);
+			this.openURL('http://www.godzuki.com.uy/mimizu/check-spelling.php?cat='+aValue, true, false, true);
 			return
 		} else if (aCommand == 'command_encode') {
 			this.selectionEncode();
@@ -421,6 +421,9 @@
 				this.openURL('http://odp.jtlabs.net/notice/index.cgi?category=' + this.encodeUTF8(aValue + '/') + '&type=rdf&all=on&edit=on', true, false, inSelectedTab);
 			else if (aCommand == 'find_in_cat_editors_scan')
 				this.openURL('http://odp.jtlabs.net/notice/index.cgi?category=' + this.encodeUTF8(aValue + '/') + '&type=scan&all=on&edit=on', true, false, inSelectedTab);
+			else if (aCommand == 'command_editors_mimizu')
+				this.openURL('http://www.godzuki.com.uy/mimizu/editor-search.php?cat=' + this.encodeUTF8(aValue) + '&term=&action=Search', true, false, inSelectedTab);
+
 			//tools
 			else if (aCommand == 'tool_eddy')
 				this.openURL('http://odp.dlugan.com/eddy.cgi?cat=' + this.encodeUTF8(aValue + '/'), true, false, inSelectedTab);
@@ -571,11 +574,11 @@
 
 			//search
 			else if (aCommand == 'search_display_subcategories')
-				this.categoryFinderQuery(aValue + '/[^/]+$', null, aValue)
+				this.categoryFinderQuery(aValue + '/[^/]+$', aValue)
 			else if (aCommand == 'search_display_all_subcategories')
-				this.categoryFinderQuery(aValue + '/', null, aValue)
+				this.categoryFinderQuery('', aValue)
 			else if (aCommand == 'search_find_subcategory')
-				this.categoryFinderQuery(aValue + '/ ' + searchFor + ' ', null, aValue);
+				this.categoryFinderQuery(searchFor, aValue);
 			//else if(aCommand=='search_find_subcategory_called')
 			//this.categoryFinderQuery(aValue+'/.*?'+searchFor+'([^/]*)?$', null, aValue);
 			else if (aCommand == 'find_dmoz')

@@ -15,12 +15,12 @@
 		db = ODPExtension.rdfDatabaseOpen();
 		if (db.exists){
 
-			var select = ' as sorting, u.id as site_id, u.uri as uri, u.title as title, u.description as description, u.mediadate as mediadate, u.pdf as pdf, u.atom as atom, u.rss as rss, u.cool as cool, c.category as category, c.description as category_description ';
+			var select = ' as sorting, u.id as site_id, u.uri as uri, u.title as title, u.description as description, u.mediadate as mediadate, u.pdf as pdf, u.atom as atom, u.rss as rss, u.cool as cool, c.category as category';
 
 			var where_subdomain = ' h.host = :subdomain and h.id = u.subdomain_id and u.category_id = c.id ';
 			var where_domain = ' h.host = :domain and h.id = u.domain_id and  u.category_id = c.id ';
 
-			query_domain_count = db.query(' select count(*) from uris u, hosts h where h.host = :domain and h.id = u.domain_id');
+			query_domain_count = db.query(' select count(u.id) from uris u, hosts h where h.host = :domain and h.id = u.domain_id');
 			query_domain_select = db.query(' select 1 ' + select + ' from  hosts h, uris u, categories c where ' + where_domain);
 
 			query_slice = db.query(' \
@@ -219,7 +219,7 @@
 		//check if the domain has few listings
 		query_domain_count.params('domain', aLocationID.domain);
 		query_domain_count.execute(function(aData) {
-			if (aData[0]['count(*)'] < 30) {
+			if (aData[0]['count(u.id)'] < 30) {
 				query_domain_select.params('domain', aLocationID.domain);
 				query_domain_select.execute(function(aData) {
 					ODPExtension.listingGetInformationLoaded(aData, aLocation, aLocationID);

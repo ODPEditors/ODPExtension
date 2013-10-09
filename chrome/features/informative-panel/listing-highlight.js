@@ -9,7 +9,7 @@
 		db = ODPExtension.rdfDatabaseOpen();
 		if (db.exists){
 
-			var select = ' as sorting, u.id as site_id, u.uri as uri, u.title as title, u.description as description, u.mediadate as mediadate, u.pdf as pdf, u.atom as atom, u.rss as rss, u.cool as cool, c.category as category, c.description as category_description ';
+			var select = ' as sorting, u.id as site_id, u.uri as uri, u.title as title, u.description as description, c.category as category ';
 
 			var where_subdomain = ' h.host = :subdomain and h.id = u.subdomain_id and u.category_id = c.id ';
 			var where_domain = ' h.host = :domain and h.id = u.domain_id and  u.category_id = c.id ';
@@ -205,11 +205,13 @@
 				responseURL = aData[id].uri;
 				responseCategory = aData[id].category;
 
+				var tooltiptext = ODPExtension.categoryTitle(ODPExtension.categoryAbbreviate(responseCategory+'\n'+aData[id].uri+'\n'+aData[id].title+'\n'+aData[id].description))
+
 				if (ODPExtension.decodeUTF8Recursive(ODPExtension.removeSchema(ODPExtension.shortURL(item.href).replace(/\/+$/, ''))).replace(/\/$/, '').toLowerCase() == ODPExtension.decodeUTF8Recursive(ODPExtension.removeSchema(ODPExtension.shortURL(responseURL).replace(/\/+$/, ''))).replace(/\/$/, '').toLowerCase()) {
 					item.style.setProperty('color', 'white', 'important');
 					item.style.setProperty('background-color', '#669933', 'important');
-					item.setAttribute('title', ODPExtension.categoryTitle(ODPExtension.categoryAbbreviate(responseCategory)));
-					item.setAttribute('tooltiptext', ODPExtension.categoryTitle(ODPExtension.categoryAbbreviate(responseCategory)));
+					item.setAttribute('title', tooltiptext);
+					item.setAttribute('tooltiptext', tooltiptext);
 					item.setAttribute('category', ODPExtension.encodeUTF8(responseCategory));
 					item.setAttribute('onclick', "if(event.ctrlKey){window.open('" + ODPExtension.categoryGetURL(responseCategory) + "', '_blank');return false;}");
 					break;
@@ -217,23 +219,23 @@
 					foundDomain = true;
 					item.style.setProperty('color', 'white', 'important');
 					item.style.setProperty('background-color', '#626CAF', 'important');
-					item.setAttribute('title', ODPExtension.categoryTitle(ODPExtension.categoryAbbreviate(responseCategory)));
-					item.setAttribute('tooltiptext', ODPExtension.categoryTitle(ODPExtension.categoryAbbreviate(responseCategory)));
+					item.setAttribute('title', tooltiptext);
+					item.setAttribute('tooltiptext', tooltiptext);
 					item.setAttribute('category', ODPExtension.encodeUTF8(responseCategory));
 					item.setAttribute('onclick', "if(event.ctrlKey){window.open('" + ODPExtension.categoryGetURL(responseCategory) + "', '_blank');return false;}");
 				} else if (itemDomain == ODPExtension.getDomainFromURL(responseURL)) {
 					foundDomain = true;
 					item.style.setProperty('color', 'white', 'important');
 					item.style.setProperty('background-color', '#626CAF', 'important');
-					item.setAttribute('title', ODPExtension.categoryTitle(ODPExtension.categoryAbbreviate(responseCategory)));
-					item.setAttribute('tooltiptext', ODPExtension.categoryTitle(ODPExtension.categoryAbbreviate(responseCategory)));
+					item.setAttribute('title', tooltiptext);
+					item.setAttribute('tooltiptext', tooltiptext);
 					item.setAttribute('category', ODPExtension.encodeUTF8(responseCategory));
 					item.setAttribute('onclick', "if(event.ctrlKey){window.open('" + ODPExtension.categoryGetURL(responseCategory) + "', '_blank');return false;}");
 				} else if (!foundDomain) {
 					item.style.setProperty('color', 'white', 'important');
 					item.style.setProperty('background-color', '#666666', 'important');
-					item.setAttribute('title', ODPExtension.categoryTitle(ODPExtension.categoryAbbreviate(responseCategory)));
-					item.setAttribute('tooltiptext', ODPExtension.categoryTitle(ODPExtension.categoryAbbreviate(responseCategory)));
+					item.setAttribute('title', tooltiptext);
+					item.setAttribute('tooltiptext', tooltiptext);
 					item.setAttribute('category', ODPExtension.encodeUTF8(responseCategory));
 					item.setAttribute('onclick', "if(event.ctrlKey){window.open('" + ODPExtension.categoryGetURL(responseCategory) + "', '_blank');return false;}");
 				}

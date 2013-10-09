@@ -561,7 +561,6 @@ var ODPExtension = {};
 		this.dump('exit', debugingThisFile);
 		if (debugingThisFile)
 			ODPExtension.alert('ODPExtension completed the shutdown on this window. Time to look the error console if there is any errors. Looks like the window will be closed');
-		ODPExtension = window.ODPExtension = null;
 	}
 	//output to the console messages
 	this.dump = function(something, debugingThisFile, aTitle) {

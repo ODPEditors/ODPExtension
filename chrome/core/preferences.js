@@ -159,7 +159,8 @@
 
 		//dispatch to all the windows (local)
 		ODPExtension.dispatchGlobalEvent('preferencesLoadLocal');
-		ODPExtension.notifyInstances('dispatchOnLocationChange', true);
+		ODPExtension.dispatchGlobalEvent('onLocationChangeNotDocumentLoad', '');
+		ODPExtension.dispatchGlobalEvent('onLocationChange', '');
 		ODPExtension.dispatchGlobalEvent('userInterfaceUpdate', ODPExtension.preferenceGet('enabled'))
 	});
 
@@ -171,7 +172,8 @@
 
 		//dispatch to all the windows (local)
 		ODPExtension.dispatchGlobalEvent('preferencesLoadLocal');
-		ODPExtension.notifyInstances('dispatchOnLocationChange', true);
+		ODPExtension.dispatchGlobalEvent('onLocationChangeNotDocumentLoad', '');
+		ODPExtension.dispatchGlobalEvent('onLocationChange', '');
 		ODPExtension.dispatchGlobalEvent('userInterfaceUpdate', ODPExtension.preferenceGet('enabled'))
 	});
 
@@ -183,7 +185,8 @@
 
 		//dispatch to all the windows (local)
 		ODPExtension.dispatchGlobalEvent('preferencesLoadLocal');
-		ODPExtension.notifyInstances('dispatchOnLocationChange', true);
+		ODPExtension.dispatchGlobalEvent('onLocationChangeNotDocumentLoad', '');
+		ODPExtension.dispatchGlobalEvent('onLocationChange', '');
 		ODPExtension.dispatchGlobalEvent('userInterfaceUpdate', ODPExtension.preferenceGet('enabled'))
 
 		if (aName == 'enabled')
@@ -197,7 +200,8 @@
 
 		//dispatch to all the windows (local)
 		ODPExtension.dispatchGlobalEvent('preferencesLoadLocal');
-		ODPExtension.notifyInstances('dispatchOnLocationChange', true);
+		ODPExtension.dispatchGlobalEvent('onLocationChangeNotDocumentLoad', '');
+		ODPExtension.dispatchGlobalEvent('onLocationChange', '');
 		ODPExtension.dispatchGlobalEvent('userInterfaceUpdate', ODPExtension.preferenceGet('enabled'))
 	});
 

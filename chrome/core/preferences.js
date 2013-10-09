@@ -44,6 +44,7 @@
 	this.preferences.bools = [
 		//extension - DONE
 		'enabled',
+		'first.run',
 		'last.enabled',
 		'toolbars.toggle',
 

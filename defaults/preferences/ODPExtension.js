@@ -6,6 +6,7 @@
 //TOGGLES
 
 	pref('extensions.ODPExtension.enabled', true);
+	pref('extensions.ODPExtension.first.run', false);
 	pref('extensions.ODPExtension.last.enabled', true);
 	pref('extensions.ODPExtension.toolbars.toggle', false);
 

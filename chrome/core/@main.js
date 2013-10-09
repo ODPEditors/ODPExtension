@@ -6,9 +6,6 @@
 
 	this.addListener('onFirstRun', function() {
 
-		ODPExtension.categoriesTXTDatabaseClose();
-		ODPExtension.rdfDatabaseClose();
-
 		var oldData = ODPExtension.folderListContent('')
 		for (var id in oldData) {
 			if (oldData[id] != 'ODPExtension.sqlite')
@@ -18,11 +15,9 @@
 		ODPExtension.categoriesTXTDatabaseOpen();
 		ODPExtension.rdfDatabaseOpen();
 
+		ODPExtension.dispatchGlobalEvent('databaseCreate');
 		ODPExtension.dispatchGlobalEvent('databaseReady');
-
 		ODPExtension.categoryHistoryImportCategoriesHistory();
-
-		ODPExtension.categoriesTXTUpdate(true);
 	});
 
 	this.addListener('afterBrowserLoad', function() {

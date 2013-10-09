@@ -133,6 +133,17 @@ var ODPExtension = {};
 			}
 		}
 
+		//on first run
+		if (listeners['onFirstRun']) {
+			if (!this.preferenceGet('first.run')) {
+				this.preferenceSet('first.run', true);
+				for (var id in listeners['onFirstRun']) {
+					this.dump('initLoadListeners:onFirstRun:' + listeners['onFirstRun'][id], debugingThisFile);
+					listeners['onFirstRun'][id]();
+				}
+			}
+		}
+
 		//before the browser load listener
 		if (listeners['databaseCreate']) {
 			for (var id in listeners['databaseCreate']) {
@@ -166,20 +177,7 @@ var ODPExtension = {};
 			}
 		}
 
-		//on first run
-		if (listeners['onFirstRun']) {
 
-			if (!this.preferenceExists('first.run', 'bool') || !this.preferenceGet('first.run')) {
-				ODPExtension.preferenceCreate('first.run', true, 'bool');
-
-				for (var id in listeners['onFirstRun']) {
-					this.dump('initLoadListeners:onFirstRun:' + listeners['onFirstRun'][id], debugingThisFile);
-					setTimeout(function() {
-						listeners['onFirstRun'][id]();
-					}, 2000);
-				}
-			}
-		}
 
 		this.extensionHasBeenLoaded = true;
 	};

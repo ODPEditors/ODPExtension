@@ -25,7 +25,13 @@
 		this.fromCategoryCanceledAutoPopup = false;
 
 		//head of temporal files
-		this.fileCreateTemporalHead = '<link rel="stylesheet" type="text/css" href="chrome://ODPExtension/content/html/@css.css"/>';
+		this.readURL('chrome://odpextension/content/html/%40css.css', false, false,false, function(aCSS){
+			ODPExtension.fileCreateTemporalHead = '<style>'+aCSS+'</style>';
+			ODPExtension.fileCreateTemporalHead += '<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>';
+			ODPExtension.readURL('chrome://odpextension/content/html/js.js', false, false,false, function(aJS){
+				ODPExtension.fileCreateTemporalHead += '<script>'+aJS+'</script>';
+			})
+		})
 
 		this.dispatchEvent('preferencesLoadLocal');
 	}

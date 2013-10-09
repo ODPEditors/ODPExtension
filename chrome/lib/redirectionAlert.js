@@ -290,7 +290,7 @@
 													timedout = 2;
 													onTabLoad()
 												}
-											}, 14000);
+											}, 12000);
 										}, true);
 										newTabBrowser.webNavigation.allowAuth = false;
 										newTabBrowser.webNavigation.allowImages = false;
@@ -767,13 +767,6 @@
 			if(aData.html.indexOf('FrameSet') != -1){
 				aData.status.suspicious.push('Document may has a FrameSet');
 			}
-
-/*
-			To many false positives
-			if(aData.html.indexOf('<title>'+aData.domain+'</title>') != -1){
-				aData.status.suspicious.push('Maybe parked');
-			}
-*/
 
 			//experimenting
 			if(aData.status.error === false){

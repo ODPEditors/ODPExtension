@@ -40,16 +40,15 @@
 
 		var aMsg = 'Categories without incoming but with outgoing alternative languages on "{CATEGORY}" and on its subcategories ({RESULTS})'; //informative msg and title of document
 
-
 		query.params('category', aCategory + '*');
 
 		var row, rows = [],
 			aData = '';
 		for (var results = 0; row = db.fetchObjects(query); results++) {
-			aData += '<a onclick="flip(' + row.id + ', this)" opened="false"></a>';
+			aData += '<a onclick="$(\'.result' + row.id + '\').toggle()" class="collapse"></a>';
 			aData += row.category;
 			aData += this.__LINE__;
-			aData += '<div id="' + row.id + '" style="display:none" level="1">';
+			aData += '<div class="result result' + row.id + '" style="display:none">';
 			aData += this.__LINE__;
 			aData += '<font color="red">';
 			var altlangs = this.rdfGetCategoryAltlangsIDsFromCategoryIDs(row.id);
@@ -63,7 +62,7 @@
 			aData += '</div>';
 		}
 		if (results > 0) {
-			aData = '<div><a href="javascript:expand(1)" opened="false">Expand all</a> - <a href="javascript:collapse(1)" opened="true">Collapse all</a>' + this.__LINE__ + this.__LINE__ + '</div>' + aData;
+			aData = '<div><a   href="javascript://" onclick="$(\'.result\').show();">Expand all</a> - <a href="javascript://" onclick="$(\'.result\').hide();">Collapse all</a>' + this.__LINE__ + this.__LINE__ + '</div>' + aData;
 		}
 
 		//sets msg

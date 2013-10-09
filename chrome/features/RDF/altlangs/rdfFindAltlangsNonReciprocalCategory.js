@@ -51,13 +51,13 @@
 
 					if (aComparator != String(altlangs)) {
 						if (!found) {
-							aData += '<div><a style="float:right;" href="javascript://" onclick="for(var id in this.parentNode.querySelectorAll(\'input[type=submit]\'))try{this.parentNode.querySelectorAll(\'input[type=submit]\')[id].click();}catch(e){};">Fix all</a>';
+							aData += '<div><div style="text-align:right;"><a href="javascript://"  onclick="$(this.parentNode.parentNode).find(\'.result\').show();">Show</a> - <a href="javascript://"  onclick="$(this.parentNode.parentNode).find(\'.result\').hide();">Hide</a> - <a  href="javascript://" onclick="$(this.parentNode.parentNode).find(\'.submit\').click();">Fix</a></div>';
 						}
 						found = true;
 
 						//this.dump(aComparator);
 						//this.dump(String(altlangs));
-						aData += '<a onclick="flip(\'' + results + '_' + altlangsMix[id] + '\', this)" opened="false"></a><span>';
+						aData += '<a onclick="$(\'.result' + results + '_' + altlangsMix[id] + '\').toggle()" class="collapse"></a><span>';
 						aData += this.rdfGetCategoryFromCategoryID(altlangsMix[id]).category;
 						aData += '</span>';
 
@@ -80,7 +80,7 @@
 							item += this.__LINE__;
 						}
 
-						/*	aData +=	'<form style="float:left;" action="http://www.dmoz.org/editors/editcat/editrelation?cat='+this.encodeUTF8(this.rdfGetCategoryFromCategoryID(altlangsMix[id]).category)+'&type=altlang" method="post" target="_blank">'+
+							aData +=	'<form style="float:left;" action="http://www.dmoz.org/editors/editcat/editrelation?cat='+this.encodeUTF8(this.rdfGetCategoryFromCategoryID(altlangsMix[id]).category)+'&type=altlang" method="post" target="_blank">'+
 											  '<input type="hidden" name="cat" value="'+this.rdfGetCategoryFromCategoryID(altlangsMix[id]).category+'" />'+
 											  '<input type="hidden" name="type" value="altlang" />'+
 											  '<textarea style="display:none" name="altlangs">'+
@@ -89,9 +89,9 @@
 											  '<textarea style="display:none" name="newaltlangs">'+
 												(newCategories.join("\n"))+
 											  '</textarea>'+
-											  '<input type="submit" name="submit" value="Update" style="display:none;" id="'+altlangsMix[id]+'"/>'+
-											'</form>';*/
-						aData += '<div id="' + results + '_' + altlangsMix[id] + '" style="display:none" level="1">';
+											  '<input type="submit" name="submit" class="submit" value="Update" style="display:none;" id="'+altlangsMix[id]+'"/>'+
+											'</form>';
+						aData += '<div class="result result' + results + '_' + altlangsMix[id] + '">';
 						aData += this.__LINE__;
 						aData += item;
 						aData += '</div>';
@@ -110,7 +110,7 @@
 		}
 		if (results > 0) {
 			aData = aData.replace(/<li>$/, '');
-			aData = '<div><a href="javascript:expand(1)" opened="false">Expand all</a> - <a href="javascript:collapse(1)" opened="true">Collapse all</a>' + this.__LINE__ + this.__LINE__ + '</div>' + aData;
+			aData = '<div><a  href="javascript://" onclick="$(\'.result\').show();">Expand all</a> - <a href="javascript://" onclick="$(\'.result\').hide();">Collapse all</a>' + this.__LINE__ + this.__LINE__ + '</div>' + aData;
 		}
 
 		//sets msg

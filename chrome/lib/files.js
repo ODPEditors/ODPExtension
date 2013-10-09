@@ -141,11 +141,11 @@
 
 		why_not_a_simple_fopen_fwrite.init(WriteStream, "utf-8", 0, 0xFFFD); // U+FFFD = replacement character
 		if (aData.indexOf('<!DOCTYPE') != -1 || aName.indexOf('.html') == -1) {} else {
-			var head = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head>';
+			var head = '<!DOCTYPE HTML><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' + this.htmlSpecialCharsEncode(aTitle) + '</title>';
 			if (!this.fileCreateTemporalHead) {} else
 				head += this.fileCreateTemporalHead;
 
-			aData = head + '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' + this.htmlSpecialCharsEncode(aTitle) + '</title></head><body>' + aData + '</body></html>';
+			aData = head + '</head><body>' + aData + '</body></html>';
 		}
 		why_not_a_simple_fopen_fwrite.writeString(aData);
 		why_not_a_simple_fopen_fwrite.close();

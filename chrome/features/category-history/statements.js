@@ -30,7 +30,7 @@
 																			`categories_history` \
 																		ORDER BY \
 																			`categories_history_radiation` DESC, \
-																			`categories_history_category` DESC LIMIT 50 \
+																			`categories_history_category` DESC LIMIT 300 \
 																	');
 		this.categoryHistoryGetHistory = db.query(' \
 																 		SELECT \

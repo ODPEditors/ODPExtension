@@ -33,7 +33,7 @@
 	this.addListener('databaseReady', function() {
 		db = ODPExtension.categoriesTXTDatabaseOpen();
 		if(db.exists){
-			query = db.query('select * from categories_txt where category GLOB :category and name = :name limit 200');
+			query = db.query('select * from categories_txt where category GLOB :category and name = :name limit 300');
 		}
 	});
 	this.sistersCategoriesMenuUpdate = function(currentPopup, aEvent) {

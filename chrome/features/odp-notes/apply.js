@@ -92,183 +92,155 @@
 
 		} else if (aType == 'copy.unreview' || aType == 'copy.publish') //copy a site to unreview or published
 		{
-			alert('Sorry, currently, the feature "copy site" is disabled due to an outdated implementation.');
-			/*
-						//copy site data and submit to addurl2.cgi
-						//vars to replace
-							//listed in
-								if(aODPNote.indexOf('{ALREADY_IN}') != -1)
-								{
-									var listed_in_tmp = [];
-									var count =0;
-									for(var i = 4; i < aDoc.getElementsByTagName("a").length; i++)
-									{
-										if(aDoc.getElementsByTagName("a").item(i).hasAttribute('href'))
-										{
-											var link_href = aDoc.getElementsByTagName("a").item(i).getAttribute('href');
-											if (
-													link_href.indexOf('import') != -1 &&
-													link_href.indexOf('cat=') != -1 &&
-													link_href.indexOf('url=') != -1
-												)
-											{
-												var checkSkip = this.categoryGetFromURL(link_href.replace(/^.*import=([^&]*)&?.*$/i, "$1"));
-												if(checkSkip.indexOf('Bookmarks/') === 0 || checkSkip.indexOf('Test/') === 0){}
-												else
-													listed_in_tmp[count++] = checkSkip;
-											}
-										}
-									}
-									var listed_in = listed_in_tmp.join(', ');
 
-									if(listed_in=='')
-									{
-										this.alert(this.getString('url.notes.already.in.data.was.not.found'));
-										return;
-									}
-									aODPNote = aODPNote.split('{ALREADY_IN}').join(listed_in);
-								}
-							//inputs types hidden, text, radio, checkbox
-								var uksite='';
-								var type='';
-								var cat='';
-								for(var i = 0; i < aDoc.getElementsByTagName("input").length; i++)
-								{
-									if(aDoc.getElementsByTagName("input").item(i).getAttribute('name') == 'newurl')
-									{
-										if(this.preferenceGet('url.notes.form.submit.confirm'))
-										{
-											this.focusElement(aDoc.getElementsByTagName("input").item(i));
-											window.content.scroll(0,5000);
-											aDoc.getElementsByTagName("input").item(i).blur();//if the element is already focused focus() dont scroll to the element.
-											aDoc.getElementsByTagName("input").item(i).focus();
-										}
-										var newurl = aDoc.getElementsByTagName("input").item(i).value;
-									}
-									else if(aDoc.getElementsByTagName("input").item(i).getAttribute('name') == 'newtitle')
-										var newtitle = aDoc.getElementsByTagName("input").item(i).value;
-									else if(aDoc.getElementsByTagName("input").item(i).getAttribute('name') == 'date')
-										var date = aDoc.getElementsByTagName("input").item(i).value;
-									else if(aDoc.getElementsByTagName("input").item(i).getAttribute('name') == 'locale')
-										var locale = aDoc.getElementsByTagName("input").item(i).value;
-									else if(aDoc.getElementsByTagName("input").item(i).getAttribute('name') == 'typecat')
-									{
-										if(toCategory != null && toCategory != '')
-											var typecat = toCategory;
-										else
-											var typecat = aDoc.getElementsByTagName("input").item(i).value;
-									}
+			//listed in
+			if (aODPNote.indexOf('{ALREADY_IN}') != -1) {
+				var listed_in_tmp = [];
+				for (var i = 4; i < aDoc.getElementsByTagName("a").length; i++) {
+					if (aDoc.getElementsByTagName("a").item(i).hasAttribute('href')) {
+						var link_href = aDoc.getElementsByTagName("a").item(i).getAttribute('href');
+						if (
+							link_href.indexOf('import') != -1 &&
+							link_href.indexOf('cat=') != -1 &&
+							link_href.indexOf('url=') != -1) {
+							var checkSkip = this.categoryGetFromURL(link_href.replace(/^.*import=([^&]*)&?.*$/i, "$1"));
+							if (checkSkip.indexOf('Bookmarks/') === 0 || checkSkip.indexOf('Test/') === 0) {} else
+								listed_in_tmp[listed_in_tmp.length] = checkSkip;
+						}
+					}
+				}
+				var listed_in = listed_in_tmp.join(', ');
 
-									if(aDoc.getElementsByTagName("input").item(i).getAttribute('name') == 'uksite' && aDoc.getElementsByTagName("input").item(i).checked == true)
-										uksite ='on';
-									if(aDoc.getElementsByTagName("input").item(i).getAttribute('name') == 'type' && aDoc.getElementsByTagName("input").item(i).checked == true)
-										type = aDoc.getElementsByTagName("input").item(i).value;
-								}
-							//selecat & new note
-								for(var i = 0; i < aForm.elements.length; i++)
-								{
-									var aElement = aForm.elements[i];
-									if(aElement.name =='selcat')
-										var selcat = aElement.options[aElement.selectedIndex].value;
-									else if(aElement.name=='newnote')
-										var newnote = aElement.value;
-									else if(aElement.name=='newdesc')
-										var newdesc = aElement.value;
-								}
-
-							//new url validation
-								if(newurl=='' || newurl=='http://')
-								{
-									this.alert(this.getString('url.notes.new.url.is.empty'));
-									return;
-								}
-
-							//setting new cat
-								selcat = this.categoryGetFromURL(selcat);
-								typecat = this.categoryGetFromURL(typecat);
-
-								if(toCategory  != null && toCategory != '')
-									cat = this.categoryGetFromURL(toCategory);
-								else if(selcat!='')
-									cat = selcat;
-								else
-									cat = typecat;
-							//new url
-								if(aODPNote.indexOf('{NEW_URL}') != -1)
-								{
-									aODPNote = aODPNote.split('{NEW_URL}').join(newurl);
-								}
-							//new cat
-								if(aODPNote.indexOf('{NEW_CAT}') != -1)
-								{
-									aODPNote = aODPNote.split('{NEW_CAT}').join(toCategory);
-								}
-							//old url
-								if(aODPNote.indexOf('{URL}') != -1)
-								{
-									aODPNote = aODPNote.split('{URL}').join(newurl);
-								}
-							//old cat
-								if(aODPNote.indexOf('{CAT}') != -1)
-								{
-									if(cat == '' && typecat != '')
-										aODPNote = aODPNote.split('{CAT}').join(typecat);
-									else if(cat=='' && selcat != '')
-										aODPNote = aODPNote.split('{CAT}').join(selcat);
-									else
-										aODPNote = aODPNote.split('{CAT}').join(cat);
-								}
-							//CLIPBOARD
-								if(aODPNote.indexOf('{CLIPBOARD}') != -1)
-								{
-									var clipboard= this.getClipboard();
-									if(!clipboard || clipboard=='')
-										return;
-									aODPNote = aODPNote.split('{CLIPBOARD}').join(clipboard);
-								}
-
-							//ASK
-								if(aODPNote.indexOf('{ASK}') != -1)
-								{
-									var ask = this.prompt(this.getString('url.tools.wants.your.input'));
-									if(ask != null && ask != '')
-										aODPNote = aODPNote.split('{ASK}').join(ask);
-									else
-										return;
-								}
-
-						//apply note
-
-							for(var i = 0; i < aForm.elements.length; i++)
-							{
-								var aElement = aForm.elements[i];
-								if(aElement.name =='newnote')
-								{
-									aElement.value=aODPNote;
-									newnote = aODPNote;
-									break;
-								}
-							}
+				if (listed_in == '') {
+					this.alert(this.getString('url.notes.already.in.data.was.not.found'));
+					return;
+				}
+				aODPNote = aODPNote.split('{ALREADY_IN}').join(listed_in);
+			}
 
 
-							//put in unrev or publish the site
-								if(aType == 'copy.unreview')
-									var omit = 'unrev';
-								else
-									var omit = 'no';
 
-							//copy site
-								var aCopy = 'http://www.dmoz.org/editors/addurl2.cgi?url=&ref=&locale='+this.encodeUTF8(locale)+'&omit='+this.encodeUTF8(omit)+'&submit=Update&date='+this.encodeUTF8(date)+'&uksite='+this.encodeUTF8(uksite)+'&type='+this.encodeUTF8(type)+'&cat='+this.encodeUTF8(cat)+'&newurl='+this.encodeUTF8(newurl)+'&selcat='+this.encodeUTF8(selcat)+'&typecat='+this.encodeUTF8(typecat)+'&newtitle='+this.encodeUTF8(newtitle)+'&newdesc='+this.encodeUTF8(newdesc)+'&newnote='+this.encodeUTF8(newnote);
+			try {
+				var url = this.getElementNamed('newurl', aDoc).value; //new site, not added yet.
+			} catch (e) {
+				var url = this.getElementNamed('url', aDoc).value; ///unreview or editing
+			}
 
-								if(this.preferenceGet('url.notes.form.submit.confirm'))
-								{
-									if(this.confirm(this.getString('url.notes.want.copy.site.now')))
-									{
-										this.tabOpen(aCopy, true);
-									}
-								}
-								else
-									this.tabOpen(aCopy, true);*/
+			var typecat = this.categoryGetFromURL(this.getElementNamed('typecat', aDoc).value);
+			var selcat = this.getElementNamed('newcat', aDoc).value;
+			var cat = this.getElementNamed('cat', aDoc).value;
+
+			if (aType == 'move.unreview' || aType == 'move.publish')
+				this.getElementNamed('typecat', aDoc).value = toCategory;
+
+			if (this.preferenceGet('url.notes.form.submit') &&
+				this.preferenceGet('url.notes.form.submit.confirm')) {
+				var focus = this.getElementNamed('newurl', aDoc) || this.getElementNamed('url', aDoc)
+				this.focusElement(focus);
+				window.content.scroll(0, 5000);
+				focus.blur(); //if the element is already focused focus() dont scroll to the element.
+				focus.focus();
+			}
+
+			try {
+				var title = this.getElementNamed('newtitle', aDoc).value; //new site, not added yet.
+			} catch (e) {
+				var title = this.getElementNamed('title', aDoc).value; ///unreview or editing
+			}
+
+			try {
+				var mediadate = this.getElementNamed('newmediadate', aDoc).value; //new site, not added yet.
+			} catch (e) {
+				var mediadate = this.getElementNamed('mediadate', aDoc).value; ///unreview or editing
+			}
+
+			try {
+				var uksite = this.getElementNamed('newuksite', aDoc).checked; //new site, not added yet.
+			} catch (e) {
+				var uksite = this.getElementNamed('uksite', aDoc).checked; ///unreview or editing
+			}
+
+			if (uksite)
+				uksite = 'on';
+
+			var contenttype = '';
+			for (var i = 0; i < aDoc.getElementsByTagName("input").length; i++) {
+				if (aDoc.getElementsByTagName("input").item(i).getAttribute('name') == 'newcontenttype' && aDoc.getElementsByTagName("input").item(i).checked == true)
+					contenttype = aDoc.getElementsByTagName("input").item(i).value;
+			}
+			if (contenttype == '') {
+				for (var i = 0; i < aDoc.getElementsByTagName("input").length; i++) {
+					if (aDoc.getElementsByTagName("input").item(i).getAttribute('name') == 'contenttype' && aDoc.getElementsByTagName("input").item(i).checked == true)
+						contenttype = aDoc.getElementsByTagName("input").item(i).value;
+				}
+			}
+
+			try {
+				var desc = this.getElementNamed('newdesc', aDoc).value; //new site, not added yet.
+			} catch (e) {
+				var desc = this.getElementNamed('desc', aDoc).value; ///unreview or editing
+			}
+
+			//new url validation
+			if (url == '' || url == 'http://') {
+				this.alert(this.getString('url.notes.new.url.is.empty'));
+				return;
+			}
+
+			//new url
+			if (aODPNote.indexOf('{NEW_URL}') != -1) {
+				aODPNote = aODPNote.split('{NEW_URL}').join(url);
+			}
+			//new cat
+			if (aODPNote.indexOf('{NEW_CAT}') != -1) {
+				aODPNote = aODPNote.split('{NEW_CAT}').join(toCategory);
+			}
+			//old url
+			if (aODPNote.indexOf('{URL}') != -1) {
+				aODPNote = aODPNote.split('{URL}').join(url);
+			}
+			//old cat
+			if (aODPNote.indexOf('{CAT}') != -1) {
+				if (cat == '' && typecat != '')
+					aODPNote = aODPNote.split('{CAT}').join(typecat);
+				else if (cat == '' && selcat != '')
+					aODPNote = aODPNote.split('{CAT}').join(selcat);
+				else
+					aODPNote = aODPNote.split('{CAT}').join(cat);
+			}
+			//CLIPBOARD
+			if (aODPNote.indexOf('{CLIPBOARD}') != -1) {
+				var clipboard = this.getClipboard();
+				if (!clipboard || clipboard == '')
+					return;
+				aODPNote = aODPNote.split('{CLIPBOARD}').join(clipboard);
+			}
+
+			//ASK
+			if (aODPNote.indexOf('{ASK}') != -1) {
+				var ask = this.prompt(this.getString('url.tools.wants.your.input'));
+				if (ask != null && ask != '')
+					aODPNote = aODPNote.split('{ASK}').join(ask);
+				else
+					return;
+			}
+
+			//put in unrev or publish the site
+			if (aType == 'copy.unreview')
+				var operation = 'unrev';
+			else
+				var operation = 'update';
+
+			//copy site
+			var aCopy = 'http://www.dmoz.org/editors/editurl/doadd?url=' + this.encodeUTF8(url) + '&typecat=' + this.encodeUTF8(toCategory) + '&title=' + this.encodeUTF8(title) + '&submit=' + this.encodeUTF8('Update') + '&operation=' + this.encodeUTF8(operation) + '&newnote=' + this.encodeUTF8(aODPNote) + '&newcat=&mediadate=' + this.encodeUTF8(mediadate) + '&desc=' + this.encodeUTF8(desc) + '&contenttype=' + this.encodeUTF8(contenttype) + '&cat=' + this.encodeUTF8(toCategory) + '&uksite=' + this.encodeUTF8(uksite);
+
+			if (this.preferenceGet('url.notes.form.submit.confirm')) {
+				if (this.confirm(this.getString('url.notes.want.copy.site.now'))) {
+					this.tabOpen(aCopy, true);
+				}
+			} else {
+				this.tabOpen(aCopy, true);
+			}
 		} else {
 			//move site or apply a normal note (update, unreview, delete)
 
@@ -323,11 +295,6 @@
 				focus.blur(); //if the element is already focused focus() dont scroll to the element.
 				focus.focus();
 			}
-
-			/*			this.dump('url is ' + url, true);
-			this.dump('cat is ' + cat, true);
-			this.dump('newurl is ' + newurl, true);
-			this.dump('typecat is ' + typecat, true);*/
 
 			//new url
 			if (aODPNote.indexOf('{NEW_URL}') != -1) {
@@ -448,8 +415,6 @@
 						if (Element.getAttribute('accesskey') == 'b') { //update + back
 							submitElement = Element;
 							found = true;
-						} else {
-							//Element.setAttribute('name','');
 						}
 					}
 				}
@@ -459,8 +424,6 @@
 						if (Element.type == 'submit') {
 							if (Element.getAttribute('accesskey') == 'n') {
 								submitElement = Element;
-							} else {
-								//Element.setAttribute('name','');
 							}
 						}
 					}

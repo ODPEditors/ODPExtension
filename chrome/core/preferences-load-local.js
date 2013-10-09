@@ -30,8 +30,8 @@
 			ODPExtension.fileCreateTemporalHead += '<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>';
 			ODPExtension.readURL('chrome://odpextension/content/html/js.js', false, false,false, function(aJS){
 				ODPExtension.fileCreateTemporalHead += '<script>'+aJS+'</script>';
-			})
-		})
+			}, true)
+		}, true)
 
 		this.dispatchEvent('preferencesLoadLocal');
 	}

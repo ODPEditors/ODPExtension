@@ -387,7 +387,7 @@
 	}
 	//reads cacheID and calls aFunction with the data or read the data from online resource,
 	//cache the data and calls aFunction
-	this.readURL = function(aURL, aCacheID, aPostData, anArrayHeaders, aFunction) {
+	this.readURL = function(aURL, aCacheID, aPostData, anArrayHeaders, aFunction, textPlain) {
 		var aCallbackArgs = [];
 		aCallbackArgs[0] = arguments[5];
 		aCallbackArgs[1] = arguments[6];
@@ -415,7 +415,8 @@
 		}
 
 		var Requester = new XMLHttpRequest();
-		//Requester.overrideMimeType('text/plain');
+		if(!!textPlain)
+			Requester.overrideMimeType('text/plain');
 		if (aPostData === null)
 			Requester.open("GET", aURL, true);
 		else {

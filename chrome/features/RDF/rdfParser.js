@@ -50,8 +50,9 @@
 			, 'http://rdf.dmoz.org/rdf/structure.rdf.u8.gz'
 		]
 		var contentU8 = [
-			'http://rdf.dmoz.org/rdf/ad-content.rdf.u8.gz'
-			, 'http://rdf.dmoz.org/rdf/kt-content.rdf.u8.gz'
+			//'http://rdf.dmoz.org/rdf/ad-content.rdf.u8.gz'
+			//,
+			'http://rdf.dmoz.org/rdf/kt-content.rdf.u8.gz'
 			, 'http://rdf.dmoz.org/rdf/content.rdf.u8.gz'
 		]
 		var aConnection = this.rdfDatabaseOpen();

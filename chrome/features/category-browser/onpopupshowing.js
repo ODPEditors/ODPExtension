@@ -65,7 +65,7 @@
 		} else
 			this.getElement('category-browser-session-categories').parentNode.setAttribute('disabled', true);
 
-
+		document.getAnonymousElementByAttribute(this.getElement('category-browser'), "anonid", "ODPExtension-category-browser-textbox-data-xbl").focus();
 	}
 	return null;
 

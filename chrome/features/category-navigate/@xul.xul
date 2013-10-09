@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<script src="build-submenu.js" type="application/x-javascript"/>
+	<script src="focus-textbox.js" type="application/x-javascript"/>
 	<script src="make-menu-popup-navegable.js" type="application/x-javascript"/>
 	<script src="navigate.js" type="application/x-javascript"/>
 	<script src="request-categories.js" type="application/x-javascript"/>

@@ -22,7 +22,7 @@
 	//CONTEXT MENU - DONE
 
 		pref('extensions.ODPExtension.ui.context.menu.translate', true);
-		pref('extensions.ODPExtension.ui.context.menu.guess.language', true);
+		pref('extensions.ODPExtension.ui.context.menu.guess.language', false);
 		pref('extensions.ODPExtension.ui.context.menu.word.reference', true);
 		pref('extensions.ODPExtension.ui.context.menu.url.tools', true);
 		pref('extensions.ODPExtension.ui.context.menu.frame.selected', true);
@@ -61,7 +61,7 @@
 
 //URL TOOLS - DONE
 
-	pref('extensions.ODPExtension.url.tools.urls', '--Archive%0AWeb%20Archive%20URL%7Chttp%3A%2F%2Fweb.archive.org%2F%7BURL%7D%0AWeb%20Archive%20domain%7Chttp%3A%2F%2Fweb.archive.org%2F%7BWWW_DOMAIN%7D%0AWeb%20Archive%20owner%20domain%7Chttp%3A%2F%2Fweb.archive.org%2F%7BOWNER_DOMAIN%7D%0A-%0AGoogle%20cache%20URL%7Chttp%3A%2F%2Fwww.google.com%2Fsearch%3Fq%3Dcache%253A%7BURL%7CE%7D%0AGoogle%20cache%20domain%7Chttp%3A%2F%2Fwww.google.com%2Fsearch%3Fq%3Dcache%253A%7BSCHEMA%7CE%7D%7BWWW_DOMAIN%7CE%7D%0A%0A-%0A--Search%0AFind%20domain%20in%20ODP%7Chttp%3A%2F%2Fsearch.dmoz.org%2Fcgi-bin%2Fsearch%3Febuttons%3D1%26search%3D%7BDOMAIN%7D%0AHighligh%20all%20links%20listed%20on%20the%20directory%7Ccommand_highlightListings%0A-%0AGoogle%20site%20search%7Chttp%3A%2F%2Fgoogle.com%2Fsearch%3Fq%3D%7BASK%7D%2520site%253A%7BSCHEMA%7CE%7D%7BWWW_DOMAIN%7CE%7D%0AGoogle%20site%20search%20in%20this%20folder%7Chttp%3A%2F%2Fgoogle.com%2Fsearch%3Fq%3D%7BASK%7D%2520site%253A%7BURL_LAST_FOLDER%7CE%7D%0AGoogle%20site%20search%20in%20root%20folder%7Chttp%3A%2F%2Fgoogle.com%2Fsearch%3Fq%3D%7BASK%7D%2520site%253A%7BURL_FIRST_FOLDER%7CE%7D%0A%0A-%0A--Whois%0Adomaintools.com%7Chttp%3A%2F%2Fwhois.domaintools.com%2F%7BWWW_DOMAIN%7D%0A.es%7Chttp%3A%2F%2Fwww.esreg.com%2Fwhois.php%3Fdomain%3D%7BWWW_DOMAIN%7D%0A%0A-%0A--URL%20Utilities%0AGuess%20Language%20zaphod%7Chttp%3A%2F%2Fodp.dlugan.com%2Fzaphod.cgi%3Furl%3D%7BURL%7D%0ALink%20mining%20in%20overdrive%7Chttp%3A%2F%2Fpmoz.info%2Fpickaxe.php5%3Furl%3D%7BURL%7D%26MineIt%3DMine%2Bpage%26starturl%3D%26maxurls%3D%0A-%0AShow%20page%20with%20URLY%7Chttp%3A%2F%2Fpmoz.info%2Furly.php5%3Furl%3D%7BURL%7D%0AShow%20headers%20w3.org%7Chttp%3A%2F%2Fcgi.w3.org%2Fcgi-bin%2Fheaders%3Furl%3D%7BURL%7D%0A-%0ACheck%20the%20HTTP%20Status%20of%20links%7Ccommand_checkHTTPStatus');
+	pref('extensions.ODPExtension.url.tools.urls', '--Archive%0AWeb%20Archive%20URL%7Chttp%3A%2F%2Fweb.archive.org%2F%7BURL%7D%0AWeb%20Archive%20domain%7Chttp%3A%2F%2Fweb.archive.org%2F%7BWWW_DOMAIN%7D%0AWeb%20Archive%20owner%20domain%7Chttp%3A%2F%2Fweb.archive.org%2F%7BOWNER_DOMAIN%7D%0A-%0AGoogle%20cache%20URL%7Chttp%3A%2F%2Fwebcache.googleusercontent.com%2Fsearch%3Fq%3Dcache%3A%7BURL%7CE%7D%0AGoogle%20cache%20domain%7Chttp%3A%2F%2Fwebcache.googleusercontent.com%2Fsearch%3Fq%3Dcache%3A%7BSCHEMA%7CE%7D%7BWWW_DOMAIN%7CE%7D%0A%0A-%0A--Search%0AFind%20domain%20in%20ODP%7Chttp%3A%2F%2Fwww.dmoz.org%2Fsearch%3Febuttons%3D1%26q%3D%7BDOMAIN%7D%0AHighligh%20all%20links%20listed%20on%20the%20directory%7Ccommand_highlightListings%0A-%0AGoogle%20site%20search%7Chttp%3A%2F%2Fgoogle.com%2Fsearch%3Fq%3D%7BASK%7D%2520site%253A%7BSCHEMA%7CE%7D%7BWWW_DOMAIN%7CE%7D%0AGoogle%20site%20search%20in%20this%20folder%7Chttps%3A%2F%2Fwww.google.com%2Fsearch%3Fq%3D%7BASK%7D%2520site%253A%7BURL_LAST_FOLDER%7CE%7D%0AGoogle%20site%20search%20in%20root%20folder%7Chttps%3A%2F%2Fwww.google.com%2Fsearch%3Fq%3D%7BASK%7D%2520site%253A%7BURL_FIRST_FOLDER%7CE%7D%0A%0A-%0A--Whois%0Adomaintools.com%7Chttp%3A%2F%2Fwhois.domaintools.com%2F%7BWWW_DOMAIN%7D%0A.es%7Chttp%3A%2F%2Fwww.esreg.com%2Fwhois.php%3Fdomain%3D%7BWWW_DOMAIN%7D%0A%0A-%0A--URL%20Utilities%0ALink%20mining%20in%20overdrive%7Chttp%3A%2F%2Fpmoz.info%2Fpickaxe.php5%3Furl%3D%7BURL%7D%26MineIt%3DMine%2Bpage%26starturl%3D%26maxurls%3D%0A-%0AShow%20page%20with%20URLY%7Chttp%3A%2F%2Fpmoz.info%2Furly.php5%3Furl%3D%7BURL%7D%0AShow%20headers%20w3.org%7Chttp%3A%2F%2Fcgi.w3.org%2Fcgi-bin%2Fheaders%3Furl%3D%7BURL%7D%0A-%0ACheck%20the%20HTTP%20Status%20of%20links%7Ccommand_checkHTTPStatus');
 
 //URL NOTES - DONE
 
@@ -93,7 +93,7 @@ pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.it', false)
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ja', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.pl', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ru', false);
-pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.es', true);
+pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.es', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.sv', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.tr', false);
 

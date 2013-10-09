@@ -475,7 +475,7 @@
 						aSite.subdomain_id = ODPExtension.removeWWW(aSite.subdomain_id);
 						aSite.path = ODPExtension.decodeUTF8Recursive(ODPExtension.removeSubdomain(aSite.uri)).toLowerCase();*/
 
-						if (!hosts[aSite.subdomain]){
+						if (!hosts[aSite.subdomain]) {
 							hosts[aSite.subdomain] = currentHostID++;
 							insertHost.params['id'] = hosts[aSite.subdomain];
 							insertHost.params['host'] = aSite.subdomain;
@@ -483,7 +483,7 @@
 						}
 						aSite.subdomain = hosts[aSite.subdomain];
 
-						if (!hosts[aSite.domain]){
+						if (!hosts[aSite.domain]) {
 							hosts[aSite.domain] = currentHostID++;
 							insertHost.params['id'] = hosts[aSite.domain];
 							insertHost.params['host'] = aSite.domain;
@@ -660,42 +660,44 @@
 
 	this.rdfParserSetTable = function(aFile) //finding generated at
 	{
-		if (!this.fileOpen(aFile)) {
-			this.fileClose()
+		var file = this.rdfFileOpen(aFile);
+		if (!file) {
+			this.rdfFileClose(file[0], file[1]);
 			this.dump('File no exists:' + aFile);
 			return false;
 		}
 
-		this.rdfHeader = '';
-		this.rdfFooter = '</RDF>';
+		var header, table;
+
+		header = '';
 
 		var cont = true;
 		var line = {};
 		var value = '';
 
-		for (; cont = this.is.readLine(line);) {
+		for (; cont = file[1].readLine(line);) {
 			value = this.trim(line.value);
 
 			if (value.indexOf('<!-- Generated at ') === 0) {
-				this.table = value.replace(/<!-- Generated at ([0-9]{4}-[0-9]{2}-[0-9]{2}).*/, '$1').split('-').join('');
+				table = value.replace(/<!-- Generated at ([0-9]{4}-[0-9]{2}-[0-9]{2}).*/, '$1').split('-').join('');
 			}
 			if (value.indexOf('<Topic') === 0) {
 				break;
 			}
-			this.rdfHeader += value;
+			header += value;
 		}
 
-		this.fileClose();
-		this.dump('Table id set...');
-		return true;
+		this.rdfFileClose(file[0], file[1]);
+		return [header, table];
 	}
 	this.rdfParserFind = function(aFile, aQuery) {
-		this.rdfParserSetTable(aFile);
 
-		if (!this.fileOpen(aFile)) {
-			this.fileClose()
+		var header_table = this.rdfParserSetTable(aFile);
+		var file = this.rdfFileOpen(aFile);
+		if (!file) {
+			this.rdfFileClose(file[0], file[1]);
 			this.dump('File no exists:' + aFile);
-			return;
+			return false;
 		}
 
 		//initializing parsing
@@ -706,38 +708,59 @@
 		var aTopic = '';
 		var result = {};
 		result.count = 0;
-		result.data = this.rdfHeader;
+		result.data = header_table[0];
 		//parsing
 
-		for (; cont = this.is.readLine(line);) {
+		for (; cont = file[1].readLine(line);) {
 			value = this.trim(line.value);
 
 			if (value.indexOf('<Topic') === 0) {
 				aTopic = value;
 				aTopic += '\n';
-
-				for (; cont = this.is.readLine(line);) {
+				for (; cont = file[1].readLine(line);) {
 					value = this.trim(line.value);
-
-					aTopic += value;
-					aTopic += '\n';
-
-					if (value.indexOf('</Topic') === 0) {
+					if (value.indexOf('<Topic') === 0) {
 						if (aTopic.indexOf(aQuery) != -1) {
 							result.data += aTopic;
 							result.count++;
 						}
 						break;
 					}
+					aTopic += value;
+					aTopic += '\n';
 				}
 			}
 		}
 
-		this.fileClose();
+		this.rdfFileClose(file[0], file[1]);
 
-		result.data += this.rdfFooter;
+		result.data += '</RDF>';
 
 		return result;
+	}
+
+	this.rdfFileOpen = function(aFilePath) {
+		var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+		file.initWithPath(aFilePath);
+
+		if (!file.exists())
+			return false;
+
+		var istream = Components.classes["@mozilla.org/network/file-input-stream;1"].createInstance(Components.interfaces.nsIFileInputStream);
+		istream.init(file, 0x01, 0444, 0);
+		istream.QueryInterface(Components.interfaces.nsILineInputStream);
+
+		var is = Components.classes["@mozilla.org/intl/converter-input-stream;1"].createInstance(Components.interfaces.nsIConverterInputStream);
+
+		is.init(istream, "UTF-8", 1024, 0xFFFD);
+		is.QueryInterface(Components.interfaces.nsIUnicharLineInputStream);
+
+		return [istream, is];
+	}
+
+	this.rdfFileClose =  function(istream, is) {
+		istream.close();
+		is.close();
 	}
 
 	return null;

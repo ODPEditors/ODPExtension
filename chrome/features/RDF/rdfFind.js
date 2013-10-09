@@ -3,7 +3,10 @@
 
 	var debugingThisFile = true;
 
-	this.rdfFind = function(aQuery) {
+	this.rdfFind = function() {
+
+		var aQuery = this.prompt(this.getString('search.ellipsis'));
+
 		while (true) {
 			var aFile = this.fileAskUserFileOpen('', 'rdf.u8');
 			if (!aFile)
@@ -28,9 +31,7 @@
 		//odpParser
 		this.alert(this.getString('please.wait'));
 
-		var results = Components.classes['@particle.universe.tito/ODPParser;2']
-			.getService().wrappedJSObject
-			.find(aFile, aQuery);
+		var results = this.rdfParserFind(aFile, aQuery);
 
 		//sets msg
 		var aMsg = 'Results for search "{QUERY}" on file "{FILE}" ({RESULTS})'; //informative msg and title of document

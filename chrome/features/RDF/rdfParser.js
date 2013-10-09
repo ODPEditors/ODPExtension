@@ -57,7 +57,6 @@
 		var aConnection = this.rdfDatabaseOpen();
 
 		this.dump('Cleaning database tables...');
-		aConnection.begin();
 		try {
 			aConnection.aConnection.executeSimpleSQL('DROP TABLE IF EXISTS `categories`');
 			aConnection.aConnection.executeSimpleSQL('DROP TABLE IF EXISTS `editors`');
@@ -67,14 +66,12 @@
 			aConnection.aConnection.executeSimpleSQL('DROP TABLE IF EXISTS `newsgroup`');
 			aConnection.aConnection.executeSimpleSQL('DROP TABLE IF EXISTS `hosts`');
 			aConnection.aConnection.executeSimpleSQL('DROP TABLE IF EXISTS `uris`');
+			aConnection.vacuum();
 		} catch (e) {
 			this.rdfDatabaseClose();
 			ODPExtension.fileRemove('RDF.sqlite');
 			aConnection = this.rdfDatabaseOpen();
-			aConnection.begin();
 		}
-		aConnection.commit();
-		aConnection.vacuum();
 		this.dump('Database tables cleaned...');
 
 		this.dump('Creating database tables and statements...');

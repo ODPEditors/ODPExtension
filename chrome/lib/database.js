@@ -99,7 +99,11 @@
 				try {
 					this.aConnection.close();
 				} catch (e) {
-					this.theExtension.code('ODPExtension').dump('Connection to the database can\'t be closed');
+					try {
+						this.aConnection.asyncClose()
+					} catch (e) {
+						this.theExtension.code('ODPExtension').dump('Connection to the database can\'t be closed');
+					}
 				}
 
 				this.aConnection = false;

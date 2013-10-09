@@ -5,7 +5,7 @@
 		db = ODPExtension.categoriesTXTDatabaseOpen();
 		if(db.exists){
 			query_subcategories = db.query('select category from categories_txt where parent = (select id from categories_txt where category = :category)');
-			query_sisters = db.query('select * from categories_txt where category GLOB :category and name = :name');
+			query_sisters = db.query('select * from categories_txt where category GLOB :category and name = :name limit 200');
 		}
 	});
 

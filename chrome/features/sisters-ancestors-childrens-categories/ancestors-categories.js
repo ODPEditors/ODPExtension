@@ -31,7 +31,7 @@
 	this.addListener('databaseReady', function() {
 		db = ODPExtension.categoriesTXTDatabaseOpen();
 		if(db.exists){
-			query = db.query('select * from categories_txt where category GLOB :category and name = :name and depth < :depth');
+			query = db.query('select * from categories_txt where category GLOB :category and name = :name and depth < :depth limit 200');
 		}
 	});
 

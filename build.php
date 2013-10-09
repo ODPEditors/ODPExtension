@@ -42,7 +42,7 @@
 		die("cannot open <".$extension.">");
 	//print_r($list);
 	for($i=0;$i<count($list);$i++){
-		if(strpos($list[$i], '.git') === false and strpos($list[$i], 'build.php') === false)
+		if(strpos($list[$i], '.git') === false and strpos($list[$i], 'build.php') === false and strpos($list[$i], 'push.bat') === false)
 			$zip->addFile(realpath(dirname(__FILE__).'/'.$list[$i]),  preg_replace("~^\./~", '', $list[$i]));
 	}
 	$zip->close();

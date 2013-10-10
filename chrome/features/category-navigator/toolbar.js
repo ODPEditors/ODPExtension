@@ -68,7 +68,7 @@
 
 				var popup = this.create('menupopup');
 				popup.setAttribute('value', path);
-				popup.setAttribute('onpopupshowing', 'ODPExtension.categoryNavigatorToolbarbuttonUpdate(this, event);ODPExtension.categoryFilterFocusTextbox(this, event);"');
+				popup.setAttribute('onpopupshowing', 'ODPExtension.categoryNavigatorToolbarbuttonUpdate(this, event);ODPExtension.categoryFilterFocusTextbox(this, event);');
 				//makes the category navegable and filterable by setting a few attributes
 				this.categoryBrowserNavigateMakeMenuPopupNavegable(popup);
 				toolbarbutton.appendChild(popup);

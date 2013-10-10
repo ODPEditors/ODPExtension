@@ -13,18 +13,16 @@
 	this.panelInformationDragCheckStart = function() {
 		panelInformationDragR = 0;
 		panelInformationDragB = 0;
-		panelInformationDragTimeout = setTimeout(ODPExtension.panelInformationDragStartDrag, 100);
-		window.document.addEventListener('mouseup', ODPExtension.panelInformationDragCheckStop, false);
+		panelInformationDragTimeout = setTimeout(ODPExtension.panelInformationDragStartDrag, 300);
+		window.addEventListener('mouseup', ODPExtension.panelInformationDragCheckStop, false);
 	}
 
 	//the user want moves the panel, add the mousemove listener
 	this.panelInformationDragStartDrag = function() {
 		panelInformationDragging = true;
-		panelInformationDragHiddenStatus = (ODPExtension.getElement('panel-subcontainer').getAttribute('hidden') == 'true');
+		panelInformationDragHiddenStatus = (ODPExtension.getElement('panel').getAttribute('hidden') == 'true');
 		ODPExtension.panelInformationToggle(false, false);
-		//ODPby('ODPSite-window-infopopup2').hidden=true;
-		window.document.addEventListener('mousemove', ODPExtension.panelInformationDrag, false);
-
+		window.addEventListener('mousemove', ODPExtension.panelInformationDrag, true);
 		ODPExtension.getElement('panel-move').style.setProperty("cursor", "move", "important");
 	}
 
@@ -34,10 +32,10 @@
 		ODPExtension.stopEvent(event);
 		clearTimeout(panelInformationDragTimeout);
 		try {
-			window.document.removeEventListener('mousemove', ODPExtension.panelInformationDrag, false);
+			window.removeEventListener('mousemove', ODPExtension.panelInformationDrag, true);
 		} catch (e) {}
 		try {
-			window.document.removeEventListener('mouseup', ODPExtension.panelInformationDragCheckStop, false);
+			window.removeEventListener('mouseup', ODPExtension.panelInformationDragCheckStop, false);
 		} catch (e) {}
 		ODPExtension.getElement('panel-move').style.setProperty("cursor", "pointer", "important");
 		if (panelInformationDragging) {
@@ -52,20 +50,61 @@
 			ODPExtension.preferenceSet('ui.informative.panel.b', panelInformationDragB);
 		}
 	}
+
+	var panel, panel_move, panel_move_height, panel_move_width;
+	this.addListener('userInterfaceLoad', function() {
+		panel = ODPExtension.getElement('panel');
+
+		panel_move = ODPExtension.getElement('panel-move');
+
+		panel_move_height     = panel_move.boxObject.height;
+		panel_move_width      = panel_move.boxObject.width;
+	});
+
 	//move the panel to the desired position
 	this.panelInformationDrag = function(event) {
 		panelInformationDragging = true;
 
-		//ODPExtension.getElement('panel').hidePopup(); //showld hide the popup to move it! WTF!
-		//ODPExtension.getElement('panel').setAttribute('hidden', true); //showld hide the popup to move it! WTF!
-		if (event.target.ownerDocument instanceof HTMLDocument) {
-			panelInformationDragR = window.document.width - event.clientX;
-			panelInformationDragB = window.document.height - event.clientY;
-			var panel = ODPExtension.getElement('panel');
+		var document_width = window.document.width;
+		var document_height  = window.document.height;
 
-			panel.setAttribute('style', 'bottom:' + panelInformationDragB + 'px;right:' + panelInformationDragR + 'px;');
-			//panel.setAttribute('hidden', false);
-		}
+/*		if(event.pageX >=(document_width/2))
+			var screen_zone_left_right = 'right';
+		else
+			var screen_zone_left_right = 'left';
+		if(event.pageY>=(document_height/2))
+			var screen_zone_above_below = 'below';
+		else
+			var screen_zone_above_below = 'above';*/
+
+	//posicion relativa a la derecha inferior de la pantalla
+		var new_x = document_width-event.pageX ;
+		var new_y = document_height-event.pageY;
+		var half_button_size = 12;
+
+		//12 = half button size
+			//right normalize
+				if(new_x<=half_button_size)
+					new_x = half_button_size;
+			//left normalize
+				else if(new_x>document_width-half_button_size)
+					new_x = document_width-half_button_size;
+			//bottom normalize
+				if(new_y<=half_button_size)
+					new_y = half_button_size;
+			//top normalize
+				else if(new_y>document_height-half_button_size)
+					new_y = document_height-half_button_size;
+
+				panel.style.setProperty("right", (new_x-half_button_size)+'px', "important");
+				panel.style.setProperty("bottom", (new_y+panel_move_height+half_button_size)+'px', "important");
+
+				panelInformationDragR = (new_x-half_button_size)
+				panelInformationDragB = (new_y+panel_move_height+half_button_size)
+
+				panel_move.style.setProperty("right", (new_x-half_button_size)+'px', "important");
+				panel_move.style.setProperty("bottom", (new_y-half_button_size)+'px', "important");
+
 	}
 	//resets the position of the panel
 	this.panelInformationResetPosition = function() {

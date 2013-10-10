@@ -15,156 +15,138 @@
 
 <window id="main-window">
 
-	<hbox
-		id="ODPExtension-panel"
-		level="top"
-		width="350"
-		minwidth="350"
-	>
-		<hbox maxwidth="350" id="ODPExtension-panel-container">
 
-				<vbox flex="1">
-					<vbox flex="1" id="ODPExtension-panel-subcontainer">
-
-							<vbox
-								id="ODPExtension-panel-header"
-								url=""
-								category=""
-								panel-header-selected="0"
-							>
-								<vbox onclick="ODPExtension.tabOpenCheckForBehavior(ODPExtension.siteGetURLEdit(this.parentNode.getAttribute('url'),this.parentNode.getAttribute('category')), event, 'informative.panel');">
-									<description id="ODPExtension-panel-header-title"><n/></description>
-									<description id="ODPExtension-panel-header-description"><n/></description>
-								</vbox>
-								<description id="ODPExtension-panel-header-uri" onclick="ODPExtension.tabOpenCheckForBehavior(this.parentNode.getAttribute('url'), event, 'informative.panel')" crop="end"><n/></description>
-							</vbox>
-
-							<vbox id="ODPExtension-panel-related"
-								panel-related-selected="0"
-							>
-								<vbox hidden="true" id="ODPExtension-panel-related-titles" onclick="if(event.originalTarget.hasAttribute('url'))ODPExtension.tabOpenCheckForBehavior(event.originalTarget.getAttribute('url'), event, 'informative.panel')">
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-0"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-1"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-2"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-3"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-4"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-5"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-6"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-7"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-8"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-9"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-10"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-11"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-12"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-13"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-14"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-15"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-16"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-17"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-18"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-19"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-20"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-21"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-22"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-23"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-24"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-25"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-26"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-27"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-28"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-29"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-30"/>
-									<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-31"/>
-								</vbox>
-								<vbox hidden="true" id="ODPExtension-panel-related-uris" onclick="if(event.originalTarget.hasAttribute('url'))ODPExtension.tabOpenCheckForBehavior(event.originalTarget.getAttribute('url'), event, 'informative.panel')">
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-0"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-1"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-2"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-3"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-4"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-5"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-6"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-7"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-8"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-9"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-10"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-11"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-12"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-13"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-14"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-15"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-16"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-17"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-18"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-19"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-20"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-21"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-22"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-23"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-24"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-25"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-26"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-27"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-28"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-29"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-30"/>
-									<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-31"/>
-								</vbox>
-								<vbox id="ODPExtension-panel-related-categories" data-align="right" onclick="if(event.originalTarget.hasAttribute('category') &amp;&amp; event.button != 2)ODPExtension.tabOpenCheckForBehavior(ODPExtension.categoryGetURL(event.originalTarget.getAttribute('category')), event, 'informative.panel')">
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-0"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-1"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-2"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-3"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-4"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-5"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-6"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-7"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-8"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-9"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-10"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-11"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-12"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-13"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-14"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-15"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-16"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-17"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-18"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-19"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-20"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-21"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-22"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-23"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-24"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-25"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-26"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-27"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-28"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-29"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-30"/>
-									<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-31"/>
-								</vbox>
-							</vbox>
-					</vbox>
-
-					<!-- the move popup, close and open button -->
-					<hbox>
-						<spacer flex="1"/>
-						<vbox
-							id="ODPExtension-panel-move"
-							status="opened"
-							onclick="if(event.button===0){ ODPExtension.panelInformationToggle(this.parentNode.previousSibling.getAttribute('hidden') == 'true', true);}"
-							onmousedown="ODPExtension.panelInformationDragCheckStart();"
-							onmouseup="ODPExtension.stopEvent(event);ODPExtension.panelInformationDragCheckStop(event)"
-							context="ODPExtension-extension-icon-context"
-						/>
-					</hbox>
-
+		<vbox level="top" id="ODPExtension-panel" hidden="true">
+			<vbox
+				id="ODPExtension-panel-header"
+				url=""
+				category=""
+				panel-header-selected="0"
+				>
+				<vbox onclick="ODPExtension.tabOpenCheckForBehavior(ODPExtension.siteGetURLEdit(this.parentNode.getAttribute('url'),this.parentNode.getAttribute('category')), event, 'informative.panel');">
+					<description id="ODPExtension-panel-header-title"><n/></description>
+					<description id="ODPExtension-panel-header-description"><n/></description>
 				</vbox>
+				<description id="ODPExtension-panel-header-uri" onclick="ODPExtension.tabOpenCheckForBehavior(this.parentNode.getAttribute('url'), event, 'informative.panel')" crop="end"><n/></description>
+			</vbox>
 
-		</hbox>
+			<vbox id="ODPExtension-panel-related" panel-related-selected="0">
+				<vbox hidden="true" id="ODPExtension-panel-related-titles" onclick="if(event.originalTarget.hasAttribute('url'))ODPExtension.tabOpenCheckForBehavior(event.originalTarget.getAttribute('url'), event, 'informative.panel')">
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-0"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-1"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-2"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-3"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-4"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-5"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-6"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-7"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-8"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-9"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-10"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-11"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-12"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-13"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-14"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-15"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-16"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-17"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-18"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-19"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-20"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-21"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-22"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-23"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-24"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-25"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-26"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-27"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-28"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-29"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-30"/>
+					<description crop="end" wrap="false"  id="ODPExtension-panel-related-titles-31"/>
+				</vbox>
+				<vbox hidden="true" id="ODPExtension-panel-related-uris" onclick="if(event.originalTarget.hasAttribute('url'))ODPExtension.tabOpenCheckForBehavior(event.originalTarget.getAttribute('url'), event, 'informative.panel')">
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-0"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-1"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-2"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-3"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-4"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-5"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-6"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-7"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-8"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-9"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-10"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-11"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-12"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-13"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-14"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-15"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-16"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-17"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-18"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-19"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-20"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-21"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-22"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-23"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-24"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-25"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-26"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-27"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-28"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-29"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-30"/>
+					<description crop="end" wrap="false" id="ODPExtension-panel-related-uris-31"/>
+				</vbox>
+				<vbox id="ODPExtension-panel-related-categories" data-align="right" onclick="if(event.originalTarget.hasAttribute('category') &amp;&amp; event.button != 2)ODPExtension.tabOpenCheckForBehavior(ODPExtension.categoryGetURL(event.originalTarget.getAttribute('category')), event, 'informative.panel')">
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-0"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-1"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-2"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-3"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-4"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-5"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-6"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-7"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-8"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-9"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-10"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-11"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-12"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-13"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-14"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-15"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-16"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-17"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-18"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-19"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-20"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-21"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-22"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-23"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-24"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-25"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-26"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-27"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-28"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-29"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-30"/>
+					<description crop="start" wrap="false" context="ODPExtension-from-category" id="ODPExtension-panel-related-categories-31"/>
+				</vbox>
+			</vbox>
+		</vbox>
 
-	</hbox>
+
+	<!-- the move popup, close and open button -->
+		<hbox
+			hidden="true"
+			id="ODPExtension-panel-move"
+			status="opened"
+			onclick="if(event.button===0){ ODPExtension.panelInformationToggle(this.previousSibling.getAttribute('hidden') == 'true', true);}"
+			onmousedown="ODPExtension.panelInformationDragCheckStart();"
+			onmouseup="ODPExtension.stopEvent(event);ODPExtension.panelInformationDragCheckStop(event)"
+			context="ODPExtension-extension-icon-context"
+		/>
 
  </window>
 

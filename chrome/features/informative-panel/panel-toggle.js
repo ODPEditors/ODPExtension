@@ -2,20 +2,37 @@
 
 	//toggle the visibility of the panel
 
+	var panel, panel_move;
+	this.addListener('userInterfaceLoad', function() {
+		panel = ODPExtension.getElement('panel');
+		panel_move = ODPExtension.getElement('panel-move');
+	});
+
 	this.panelInformationToggle = function(closed, saveStatus) {
 		if (closed) {
-			this.getElement('panel-subcontainer').setAttribute('hidden', false);
-			this.getElement('panel-move').setAttribute('status', 'opened');
+			panel.setAttribute('hidden', false);
+			panel_move.setAttribute('status', 'opened');
 			if (saveStatus)
 				this.preferenceSet('ui.informative.panel.closed', false);
 		} else {
-			this.getElement('panel-subcontainer').setAttribute('hidden', true);
-			this.getElement('panel-move').setAttribute('status', 'closed');
+			panel.setAttribute('hidden', true);
+			panel_move.setAttribute('status', 'closed');
 			if (saveStatus)
 				this.preferenceSet('ui.informative.panel.closed', true);
 		}
 	}
 
+	this.panelShow = function(aHide) {
+		panel.setAttribute('hidden', !aHide);
+		panel_move.setAttribute('hidden', !aHide);
+		if (panel_move.hidden) {} else {
+			panel.style.setProperty("right", this.preferenceGet('ui.informative.panel.r') + 'px', "important");
+			panel.style.setProperty("bottom", this.preferenceGet('ui.informative.panel.b') + 'px', "important");
+
+			panel_move.style.setProperty("right", (this.preferenceGet('ui.informative.panel.r')) + 'px', "important");
+			panel_move.style.setProperty("bottom", (this.preferenceGet('ui.informative.panel.b') - 24) + 'px', "important");
+		}
+	}
 	return null;
 
 }).apply(ODPExtension);

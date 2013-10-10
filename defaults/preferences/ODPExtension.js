@@ -43,8 +43,8 @@
 
 		pref('extensions.ODPExtension.ui.informative.panel', true);
 		pref('extensions.ODPExtension.ui.informative.panel.closed', false);
-		pref('extensions.ODPExtension.ui.informative.panel.r', 250);
-		pref('extensions.ODPExtension.ui.informative.panel.b', 60);
+		pref('extensions.ODPExtension.ui.informative.panel.r', 20);
+		pref('extensions.ODPExtension.ui.informative.panel.b', 20);
 		pref('extensions.ODPExtension.ui.informative.panel.url', true);
 		pref('extensions.ODPExtension.ui.informative.panel.title', true);
 		pref('extensions.ODPExtension.ui.informative.panel.description', true);

@@ -7,30 +7,18 @@ related : the list of categories and other uris related to the focused site. Sit
 /*the real popup*/
 #ODPExtension-panel {
 	-moz-appearance: none !important;
-	padding: 0px !important;
-	margin: 0px !important;
-	border: 0px !important;
-	word-wrap: break-word !important;
-	background-color: transparent !important;
 	position: fixed !important;
-}
-/*the container of the data and UI of the popup*/
-#ODPExtension-panel-container {
-	-moz-appearance: none !important;
+	bottom:20px;
+	right: 20px;
+
 	padding: 0px !important;
 	margin: 0px !important;
-	border: 0px !important;
 	word-wrap: break-word !important;
-}
-/*the container of the header and realted*/
-#ODPExtension-panel-subcontainer {
+
 	background-color: white !important;
 	font-family: arial, sans-serif;
 	font-size: 11px;
 	color: black;
-	word-wrap: break-word !important;
-	padding: 0px !important;
-	margin: 0px !important;
 	border-left: #666666 solid 3px;
 	border-top: #666666 solid 1px;
 	border-bottom: #666666 solid 2px;
@@ -38,25 +26,25 @@ related : the list of categories and other uris related to the focused site. Sit
 	border-radius: 1px 14px;
 	width: 350px;
 }
-#ODPExtension-panel-subcontainer[listed="listed"] {
+#ODPExtension-panel[listed="listed"] {
 	border-left: #669933 solid 3px;
 	border-bottom: #669933 solid 2px;
 }
-#ODPExtension-panel-subcontainer[listed="listed-domain-uri"] {
+#ODPExtension-panel[listed="listed-domain-uri"] {
 	border-left: #626CAF solid 3px;
 	border-bottom: #626CAF solid 2px;
 }
-#ODPExtension-panel-subcontainer[listed="listed-other-uri"] {
+#ODPExtension-panel[listed="listed-other-uri"] {
 	border-left: #666666 solid 3px;
 	border-bottom: #666666 solid 2px;
 }
-#ODPExtension-panel-subcontainer[listed="listed"] > #ODPExtension-panel-header {
+#ODPExtension-panel[listed="listed"] > #ODPExtension-panel-header {
 	border-bottom-color: #669933;
 }
-#ODPExtension-panel-subcontainer[listed="listed-domain-uri"] > #ODPExtension-panel-header{
+#ODPExtension-panel[listed="listed-domain-uri"] > #ODPExtension-panel-header{
 	border-bottom-color: #626CAF;
 }
-#ODPExtension-panel-subcontainer[listed="listed-other-uri"] > #ODPExtension-panel-header{
+#ODPExtension-panel[listed="listed-other-uri"] > #ODPExtension-panel-header{
 	border-bottom-color: #666666;
 }
 /* the header or focused site : title, description, uri*/
@@ -66,25 +54,26 @@ related : the list of categories and other uris related to the focused site. Sit
 	padding-top: 0px;
 	padding-bottom: 1px;
 	border-bottom: 1px solid  #333;
+	width: 100%;
 /* should be perfect :P*/
 }
-/*title*/
+
 #ODPExtension-panel-header-title {
 	border: 0px;
 	padding: 0px;
 	margin: 0px;
 	cursor: pointer !important;
-	color: #000000;
 	font-weight: bold;
 	font-size: 12px;
+	width: 100%;
 }
-#ODPExtension-panel-header-title[listed="listed"] {
+#ODPExtension-panel[listed="listed"] #ODPExtension-panel-header-title {
 	color: #006600;
 }
-#ODPExtension-panel-header-title[listed="listed-domain-uri"] {
+#ODPExtension-panel[listed="listed-domain-uri"] #ODPExtension-panel-header-title {
 	color: #626CAF;
 }
-#ODPExtension-panel-header-title[listed="listed-other-uri"] {
+#ODPExtension-panel[listed="listed-other-uri"] #ODPExtension-panel-header-title {
 	color: #666666;
 }
 /* the type of the site*/
@@ -125,6 +114,7 @@ related : the list of categories and other uris related to the focused site. Sit
 	cursor: pointer !important;
 	color: #333333;
 	font-size: 12px;
+	width: 100%;
 }
 /*uri*/
 #ODPExtension-panel-header-uri {
@@ -133,11 +123,13 @@ related : the list of categories and other uris related to the focused site. Sit
 	margin: 0px;
 	cursor: pointer !important;
 	color: black;
+	width: 100%;
 }
 /* the related or "the other listed uris"*/
 /*container*/
 #ODPExtension-panel-related {
 	padding: 0px;
+	width: 100%;
 }
 #ODPExtension-panel-related-titles > description,
 #ODPExtension-panel-related-uris > description,
@@ -151,6 +143,7 @@ related : the list of categories and other uris related to the focused site. Sit
 	border: 0px;
 	cursor: pointer !important;
 	color: #000000;
+	width: 100%;
 }
 #ODPExtension-panel-related-categories[data-align="right"] > description {
 	text-align: right;
@@ -160,6 +153,7 @@ related : the list of categories and other uris related to the focused site. Sit
 }
 #ODPExtension-panel-related-categories > description[direction="rtl"] {
 	text-align:right;
+	direction: rtl;
 }
 /* the type of the site*/
 #ODPExtension-panel-related-titles > description[type="RSS-0"],
@@ -224,6 +218,9 @@ related : the list of categories and other uris related to the focused site. Sit
 /* the move panel button and hide show popup */
 #ODPExtension-panel-move {
 	-moz-appearance: none !important;
+	position: fixed !important;
+	bottom:20px;
+	right: 20px;
 	margin: 0px !important;
 	border: 0px !important;
 	padding: 13px !important;

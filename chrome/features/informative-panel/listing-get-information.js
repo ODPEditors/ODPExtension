@@ -176,6 +176,7 @@
 	var panel;
 	this.addListener('userInterfaceLoad', function() {
 		panel = ODPExtension.getElement('panel');
+		panel_move = ODPExtension.getElement('panel-move');
 	});
 
 	this.listingGetInformation = function(aLocation) {
@@ -183,12 +184,12 @@
 		if (!this.preferenceGet('ui.informative.panel') || !this.preferenceGet('enabled') || !db.exists) {
 			//listing check disabled
 			this.listingInformation = '';
-			panel.setAttribute('hidden', true);
+			this.panelShow(false);
 			this.extensionIconUpdateStatus();
 			return;
 		} else if (!db.tableExists('uris')) {
 			this.listingInformation = 'error';
-			panel.setAttribute('hidden', true);
+			this.panelShow(false);
 			this.extensionIconUpdateStatus();
 			return;
 		}
@@ -249,7 +250,7 @@
 			if (aData.length == 0) {
 				this.listingInformation = 'nada';
 				this.extensionIconUpdateStatus();
-				panel.setAttribute('hidden', true);
+				this.panelShow(false);
 				return;
 			} else {
 				this.listingInformation = 'loading';
@@ -312,8 +313,7 @@
 			}
 			this.extensionIconUpdateStatus();
 
-			this.getElement('panel-subcontainer').setAttribute('listed', this.listingInformation); //the border of the panel
-			this.getElement('panel-header-title').setAttribute('listed', this.listingInformation); //the color of the header
+			this.getElement('panel').setAttribute('listed', this.listingInformation); //the border of the panel
 			this.getElement('panel-move').setAttribute('listed', this.listingInformation); //the color of the move button
 
 			this.panelInformationToggle(!this.preferenceGet('ui.informative.panel.closed'), false);
@@ -323,13 +323,12 @@
 				this.panelInformationBuildRelated(aSelected);
 				//the user maybe unchecked all the visual options
 				if (this.preferenceGet('ui.informative.panel')) {
-					panel.setAttribute('style', 'bottom:' + this.preferenceGet('ui.informative.panel.b') + 'px !important;right:' + this.preferenceGet('ui.informative.panel.r') + 'px !important;');
-					panel.setAttribute('hidden', false);
+					this.panelShow(true);
 				} else {
-					panel.setAttribute('hidden', true);
+					this.panelShow(false);
 				}
 			} else {
-				panel.setAttribute('hidden', true);
+				this.panelShow(false);
 			}
 		} else {
 			this.extensionIconUpdateStatus();

@@ -4,8 +4,7 @@
 		<em:id>development@dmoz.org</em:id>
 		<em:name>ODP Extension</em:name>
 		<em:creator>tito (ed:development)</em:creator>
-		<em:developer>development</em:developer>
-		<em:version>4.130922.62</em:version>
+		<em:version>4.131010.63</em:version>
 		<em:description>Different editing experience</em:description>
 
 		<em:optionsURL>chrome://ODPExtension/content/preferences/@xul.xul</em:optionsURL>

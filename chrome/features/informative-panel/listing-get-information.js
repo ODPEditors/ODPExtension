@@ -316,7 +316,6 @@
 			this.getElement('panel').setAttribute('listed', this.listingInformation); //the border of the panel
 			this.getElement('panel-move').setAttribute('listed', this.listingInformation); //the color of the move button
 
-			this.panelInformationToggle(!this.preferenceGet('ui.informative.panel.closed'), false);
 
 			if (this.preferenceGet('ui.informative.panel')) {
 				this.panelInformationBuildHeader(aSelected);
@@ -330,6 +329,7 @@
 			} else {
 				this.panelShow(false);
 			}
+			this.panelInformationToggle(!this.preferenceGet('ui.informative.panel.closed'), false);
 		} else {
 			this.extensionIconUpdateStatus();
 

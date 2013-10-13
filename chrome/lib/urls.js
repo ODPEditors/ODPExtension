@@ -417,7 +417,7 @@
 		var Requester = new XMLHttpRequest();
 		if(!!textPlain)
 			Requester.overrideMimeType('text/plain');
-		if (aPostData === null)
+		if (!aPostData)
 			Requester.open("GET", aURL, true);
 		else {
 			Requester.open("POST", aURL, true);
@@ -432,6 +432,7 @@
 				}
 			}
 		}
+
 		Requester.onload = function() {
 			if (Requester.responseText == -1 || Requester.responseText == null || Requester.responseText == '') {} else {
 				if (aCacheID !== null && aCacheID !== false)

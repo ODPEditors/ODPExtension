@@ -11,10 +11,8 @@
 <script type="application/x-javascript" src="format-lowercase.js"></script>
 <script type="application/x-javascript" src="format-paste.js"></script>
 <script type="application/x-javascript" src="format-title.js"></script>
+<script type="application/x-javascript" src="import-title-from-site.js"></script>
 <script type="application/x-javascript" src="menu-update.js"></script>
-
-
-
 
 <popup id="contentAreaContextMenu">
 	<menu
@@ -35,6 +33,8 @@
 			<menuitem label="The Title" oncommand="ODPExtension.editingFormURLFormatTitle('The Title');"/>
 			<menuitem label="THE TITLE" oncommand="ODPExtension.editingFormURLFormatTitle('THE TITLE');"/>
 			<menuitem label="Title, The" oncommand="ODPExtension.editingFormURLFormatTitle('Title, The');"/>
+			<menuseparator/>
+			<menuitem label="Import title from live site" oncommand="ODPExtension.editingFormURLImportTitleFromSite();"/>
 		</menupopup>
 	</menu>
 

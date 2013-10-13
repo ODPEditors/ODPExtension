@@ -40,7 +40,11 @@
 		<xul:menuseparator/>
 		<xul:menuitem label="&ODPExtension.from.editor.log.new.editors;" action="command_editor_log_new_editors"/-->
 
+		<xul:arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
+			<children includes="menupopup"/><children/>
+		</xul:arrowscrollbox>
 	  </content>
+
 
 	</binding>
 

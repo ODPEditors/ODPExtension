@@ -31,6 +31,7 @@
 			//xul content
 			var aLabel = this.createFormLabel(this.getString('url.notes.example'));
 			var aTextbox = this.createTextbox('new.note');
+				aTextbox.setAttribute('spellcheck', true);
 
 			var aHiddenValue = this.createFormHiddenInput('aType', aType);
 

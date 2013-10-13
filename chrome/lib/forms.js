@@ -37,7 +37,7 @@
 		//title
 		var hbox = this.create('hbox');
 		hbox.setAttribute('style', 'border-bottom:1px black groove;margin-bottom:7px;cursor:pointer;');
-		hbox.setAttribute('onclick', 'this.nextSibling.hidden=!this.nextSibling.hidden;this.nextSibling.nextSibling.hidden=!this.nextSibling.nextSibling.hidden;');
+	//	hbox.setAttribute('onclick', 'this.nextSibling.hidden=!this.nextSibling.hidden;this.nextSibling.nextSibling.hidden=!this.nextSibling.nextSibling.hidden;');
 		var toolbarbutton = this.create('toolbarbutton');
 		if (!icon16)
 			toolbarbutton.setAttribute('image', 'chrome://ODPExtension/content/icon/icon16.png');

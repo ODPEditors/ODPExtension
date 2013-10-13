@@ -232,6 +232,12 @@
 
 												aData.html = new XMLSerializer().serializeToString(aDoc);
 
+												aData.mediaCount = 0;
+
+												var tags = ['object', 'media', 'video', 'audio', 'embed'];
+												for(var id in tags)
+													aData.mediaCount += aDocCopy.getElementsByTagName(stripTags[id]).length;
+
 												var stripTags = ['noscript', 'object', 'noframes', 'style', 'script', 'frameset', 'embed'];
 												var aDocCopy = aDoc.cloneNode(true);
 												for(var id in stripTags){
@@ -662,7 +668,7 @@
 			   ||
 			   (
 			    this.urlFlagSempty.indexOf(aData.txt.toLowerCase()) !== -1
-			    && aData.linksInternal.length < 1
+			    && aData.mediaCount.length < 1
 			   )
 			) {
 				aData.status.code = -8;

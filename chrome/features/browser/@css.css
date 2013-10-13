@@ -17,8 +17,15 @@
 	visibility: visible !important;
 }
 /* simluate toolbarbutton for urlbar icons*/
-#urlbar-icons > .ODPExtension-toolbarbutton[collapsed="true"] {
+.ODPExtension-toolbarbutton[collapsed="true"] {
 	display: none !important;
+}
+#ODPExtension-urlbar-box{
+	-moz-user-focus: ignore;
+	-moz-user-select: none;
+	display: -moz-box;
+	-moz-box-sizing: border-box;
+	-moz-box-align: center;
 }
 /* crop very large/short menuitems. ( not so large and not so short) */
 .ODPExtension-crop,

@@ -425,7 +425,7 @@
 							aElement.click();
 							break;
 						} else if ((aElement.value == 'deny' || aElement.value == 'delete') && radioValue == 'deny,delete') {
-							this.notifyTab('Site marked for deletion', 5)
+							this.notifyTab('Site marked for deletion', 7)
 							aElement.click();
 							break;
 						} else if (aElement.value == 'unrev' && radioValue == 'unrev') {

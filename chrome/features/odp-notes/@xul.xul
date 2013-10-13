@@ -16,12 +16,11 @@
 
 
 
-<hbox id="urlbar-icons">
-
-	<!-- odp url notes -->
+<textbox id="urlbar">
+	<box id="ODPExtension-urlbar-box" insertbefore="notification-popup-box">
 		<image
-			id="ODPExtension-toolbarbutton-odp-url-notes-update"
-			tooltiptext="&ODPExtension.url.notes.action.update;"
+			id="ODPExtension-toolbarbutton-odp-url-notes-delete"
+			tooltiptext="&ODPExtension.url.notes.action.delete;"
 			hidden="true"
 			class="plain urlbar-icon ODPExtension-toolbarbutton"
 			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
@@ -36,8 +35,8 @@
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event);"
 		/>
 		<image
-			id="ODPExtension-toolbarbutton-odp-url-notes-delete"
-			tooltiptext="&ODPExtension.url.notes.action.delete;"
+			id="ODPExtension-toolbarbutton-odp-url-notes-update"
+			tooltiptext="&ODPExtension.url.notes.action.update;"
 			hidden="true"
 			class="plain urlbar-icon ODPExtension-toolbarbutton"
 			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
@@ -83,7 +82,9 @@
 			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event);"
 		/>
-</hbox>
+
+	</box>
+</textbox>
 
 
 <window id="main-window">

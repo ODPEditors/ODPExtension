@@ -150,7 +150,7 @@
 			},
 			check: function(aURL, aFunction, tryAgain) {
 				this.itemsWorking++;
-				//ODPExtension.dump('check:function');
+				//ODPExtension.dump('check:function:'+aURL);
 				if (typeof(tryAgain) == 'undefined')
 					tryAgain = 1;
 
@@ -201,8 +201,25 @@
 				} catch (e) {} //Indicates whether or not the object represents a background service request. If true, no load group is associated with the request, and security dialogs are prevented from being shown to the user. Requires elevated privileges to access.
 
 				var loaded = false;
+				var timer;
 				Requester.timeout = oRedirectionAlert.timeout;
+				Requester.onreadystatechange = function() {
+					if(Requester.readyState == 2){//headers received
+						var contentType = Requester.getResponseHeader('Content-Type');
+						if(contentType && contentType.indexOf('audio/mpeg') != -1){
+							aData.checkType = 'XMLHttpRequestAbortMedia'
+							aData.contentType = contentType;
+							aData.headers = Requester.getAllResponseHeaders();
+							tryAgain = 0;
+							aData.mediaCount = 1;
+							Requester.onerror('ABORTED');
+							Requester.abort();
+						}
+					}
+				}
 				Requester.onload = function() {
+					if(loaded)
+						return null;
 					aData.checkType = 'XMLHttpRequestSuccess'
 					loaded = true;
 					aData.stop = true;
@@ -401,12 +418,17 @@
 				};
 				Requester.onerror = Requester.onabort = function(TIMEDOUT) {
 					aData.checkType = 'XMLHttpRequestError'
-					loaded = true;
 					//ODPExtension.dump('Requester.onerror');
+					//ODPExtension.dump(TIMEDOUT);
 					if (tryAgain == 1) {
+						//ODPExtension.dump('sending again..'+aURL);
 						oRedirectionAlert.itemsDone++;
+						clearTimeout(timer);
 						oRedirectionAlert.check(aURL, aFunction, 0);
 					} else {
+						if(loaded)
+							return null;
+						loaded = true;
 						var oHttp = {};
 						oHttp.originalURI = {};
 						oHttp.originalURI.spec = {};
@@ -422,6 +444,10 @@
 						if (typeof(TIMEDOUT) != 'undefined' && TIMEDOUT === 'TIMEDOUT') {
 							oHttp.responseStatus = -5
 							aData.checkType = 'XMLHttpRequestTimeout'
+						} else if (typeof(TIMEDOUT) != 'undefined' && TIMEDOUT === 'ABORTED') {
+							//oHttp.responseStatus = -5
+							aData.stop = true;
+							aData.checkType = 'XMLHttpRequestAbortMedia'
 						} else {
 							if (
 								Components
@@ -445,8 +471,8 @@
 									oHttp.responseStatus = -1;
 							}
 						}
-
-						oRedirectionAlert.onExamineResponse(oHttp);
+						//if (TIMEDOUT !== 'ABORTED')
+							oRedirectionAlert.onExamineResponse(oHttp);
 
 						aData.stop = true;
 
@@ -461,6 +487,7 @@
 						if (oRedirectionAlert.itemsDone == oRedirectionAlert.itemsWorking)
 							oRedirectionAlert.unLoad();
 					}
+					return null;
 				};
 				Requester.open("GET", aURL, true);
 				if (ODPExtension.preferenceGet('link.checker.use.cache') === 0)
@@ -474,9 +501,9 @@
 					Requester.setRequestHeader('Referer', 'https://www.google.com/search?q=' + ODPExtension.encodeUTF8(aURL));
 				Requester.send(null);
 				//in some situations, timeout is maybe ignored, but neither onload, onerror nor onabort are called
-				setTimeout(function() {
+				timer = setTimeout(function() {
 					if (!loaded) {
-						//ODPExtension.dump('aborted');
+						//ODPExtension.dump('aborted'+aURL);
 						Requester.onerror('TIMEDOUT');
 					}
 				}, oRedirectionAlert.timeout + 5000);
@@ -789,7 +816,7 @@
 		}
 
 		//suspicious
-		if (aData.contentType != '' && aData.contentType != 'text/html' && aData.contentType != 'application/pdf' && aData.contentType != 'application/xhtml+xml') {
+		if (aData.contentType != '' && aData.contentType != 'text/plain' && aData.contentType != 'text/html' && aData.contentType != 'application/pdf' && aData.contentType != 'application/xhtml+xml') {
 			aData.status.suspicious.push('Unknown content type: ' + aData.contentType);
 			//ODPExtension.dump(aData);
 		}
@@ -813,7 +840,7 @@
 
 	this.redirectionOK = function(oldURL, newURL) {
 
-		if (this.getSchema(oldURL) != newURL)
+		if (this.getSchema(oldURL) != this.getSchema(newURL))
 			return false;
 		oldURL = this.removeWWW(this.removeSchema(oldURL)).replace(/\/+$/, '').toLowerCase()
 		newURL = this.removeWWW(this.removeSchema(newURL)).replace(/\/+$/, '').toLowerCase();

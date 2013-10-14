@@ -387,7 +387,7 @@
 	}
 	//reads cacheID and calls aFunction with the data or read the data from online resource,
 	//cache the data and calls aFunction
-	this.readURL = function(aURL, aCacheID, aPostData, anArrayHeaders, aFunction, textPlain) {
+	this.readURL = function(aURL, aCacheID, aPostData, anArrayHeaders, aFunction, textPlain, useCookies) {
 		var aCallbackArgs = [];
 		aCallbackArgs[0] = arguments[5];
 		aCallbackArgs[1] = arguments[6];
@@ -423,7 +423,9 @@
 			Requester.open("POST", aURL, true);
 			Requester.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
 		}
-
+		if (useCookies) {
+			ODPExtension.XMLHttpRequestFix(Requester, ODPExtension.categoryGetURL(aCategory));
+		}
 		if (aURL.indexOf('http') === 0) {
 			Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_BYPASS_CACHE;
 			if (anArrayHeaders) {
@@ -432,21 +434,32 @@
 				}
 			}
 		}
-
 		Requester.onload = function() {
 			if (Requester.responseText == -1 || Requester.responseText == null || Requester.responseText == '') {} else {
 				if (aCacheID !== null && aCacheID !== false)
 					ODPExtension.fileWrite(cachedFile, Requester.responseText);
-
-				(function() {
-					aFunction(Requester.responseText,
-						aCallbackArgs[0], aCallbackArgs[1], aCallbackArgs[2], aCallbackArgs[3],
-						aCallbackArgs[4], aCallbackArgs[5], aCallbackArgs[6], aCallbackArgs[7])
-				}());
+				if (aFunction) {
+					(function() {
+						aFunction(Requester.responseText,
+							aCallbackArgs[0], aCallbackArgs[1], aCallbackArgs[2], aCallbackArgs[3],
+							aCallbackArgs[4], aCallbackArgs[5], aCallbackArgs[6], aCallbackArgs[7])
+					}());
+				}
 			}
 		};
 		Requester.send(aPostData);
 	}
+	this.XMLHttpRequestFix = function(aRequester, aURL){
+		var cookie, cookies = [], cookieManager = Components.classes["@mozilla.org/cookiemanager;1"].getService(Components.interfaces.nsICookieManager2);
+		for (var e = cookieManager.getCookiesFromHost(this.newURI(aURL).host); e.hasMoreElements();) {
+			cookie = e.getNext().QueryInterface(Components.interfaces.nsICookie2);
+			//why on earth I need to do this?? I mean.. this way
+			//ODPExtension.dump(cookie);
+			aRequester.setRequestHeader('Cookie', (cookie.name) + "=" + (cookie.value), true);
+		}
+		cookie = cookies = e = cookieManager = null
+	}
+
 	this.removeFileName = function(aURL) {
 		var url2 = this.removeVariables(aURL).replace(/\/+$/, '').replace(/\/[^\/]+$/, '/');
 		if (/\:\/+$/.test(url2))

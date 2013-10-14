@@ -3,7 +3,7 @@
 	var db, query_subcategories, query_sisters;
 	this.addListener('databaseReady', function() {
 		db = ODPExtension.categoriesTXTDatabaseOpen();
-		if(db.exists){
+		if (db.exists) {
 			query_subcategories = db.query('select category from categories_txt where parent = (select id from categories_txt where category = :category)');
 			query_sisters = db.query('select * from categories_txt where category GLOB :category and name = :name limit 300');
 		}
@@ -23,7 +23,7 @@
 
 		//for when displaying bookmarks and test
 		if (aCategory.indexOf('Bookmarks') === 0 || aCategory.indexOf('Test') === 0) {
-			/*var aPath = '';
+			var aPath = '';
 			for (var id in aCategoryNodes) {
 				if (id == aIndex) {
 					aPath += aCategoryNodes[id] + '/';
@@ -60,8 +60,9 @@
 				}
 			};
 			Requester.open("GET", this.categoryGetURL(aCategory), true);
+			ODPExtension.XMLHttpRequestFix(Requester, ODPExtension.categoryGetURL(aCategory));
 			Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_BYPASS_CACHE;
-			Requester.send(null);*/
+			Requester.send(null);
 
 		} else {
 			//this.dump(currentPopup);

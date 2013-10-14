@@ -13,7 +13,7 @@
 	this.addListener('databaseReady', function() {
 
 		db = ODPExtension.rdfDatabaseOpen();
-		if (db.exists){
+		if (db.exists) {
 
 			var select = ' as sorting, u.id as site_id, u.uri as uri, u.title as title, u.description as description, u.mediadate as mediadate, u.pdf as pdf, u.atom as atom, u.rss as rss, u.cool as cool, c.category as category';
 
@@ -179,21 +179,23 @@
 		panel_move = ODPExtension.getElement('panel-move');
 	});
 
-	this.listingGetInformation = function(aLocation) {
+	var cacheDomainsWithListings = [],
+		cacheDomainsWithNOListings = []
+		this.listingGetInformation = function(aLocation) {
 
-		if (!this.preferenceGet('ui.informative.panel') || !this.preferenceGet('enabled') || !db.exists) {
-			//listing check disabled
-			this.listingInformation = '';
-			this.panelShow(false);
-			this.extensionIconUpdateStatus();
-			return;
-		} else if (!db.tableExists('uris')) {
-			this.listingInformation = 'error';
-			this.panelShow(false);
-			this.extensionIconUpdateStatus();
-			return;
-		}
-		/*else if (this.cantLeakURL(aLocation)) { //currently the data is local
+			if (!this.preferenceGet('ui.informative.panel') || !this.preferenceGet('enabled') || !db.exists) {
+				//listing check disabled
+				this.listingInformation = '';
+				this.panelShow(false);
+				this.extensionIconUpdateStatus();
+				return;
+			} else if (!db.tableExists('uris')) {
+				this.listingInformation = 'error';
+				this.panelShow(false);
+				this.extensionIconUpdateStatus();
+				return;
+			}
+			/*else if (this.cantLeakURL(aLocation)) { //currently the data is local
 			//private URI
 			this.listingInformation = '';
 			panel.setAttribute('hidden', true);
@@ -201,46 +203,62 @@
 			return;
 		}*/
 
-		//update the icon status
-		this.listingInformationURL = this.decodeUTF8Recursive(aLocation);
-		this.listingInformation = 'loading';
-		this.extensionIconUpdateStatus();
+			//update the icon status
+			this.listingInformationURL = this.decodeUTF8Recursive(aLocation);
+			this.listingInformation = 'loading';
+			this.extensionIconUpdateStatus();
 
-		//get the data
-		var aLocationID = this.getURLID(aLocation);
-		aLocationID.path = this.shortURL(aLocationID.path)
-		aLocationID.path_no_hash = this.removeHash(aLocationID.path)
-		aLocationID.path_no_vars = this.removeVariables(aLocationID.path_no_hash)
-		aLocationID.path_no_file_name = this.removeFileName2(aLocationID.path_no_vars)
-		aLocationID.path_parent_folder = this.removeFileName2(aLocationID.path_no_file_name)
-		aLocationID.path_first_folder = this.removeFromTheFirstFolder2(aLocationID.path_parent_folder)
+			//get the data
+			var aLocationID = this.getURLID(aLocation);
+			aLocationID.path = this.shortURL(aLocationID.path)
+			aLocationID.path_no_hash = this.removeHash(aLocationID.path)
+			aLocationID.path_no_vars = this.removeVariables(aLocationID.path_no_hash)
+			aLocationID.path_no_file_name = this.removeFileName2(aLocationID.path_no_vars)
+			aLocationID.path_parent_folder = this.removeFileName2(aLocationID.path_no_file_name)
+			aLocationID.path_first_folder = this.removeFromTheFirstFolder2(aLocationID.path_parent_folder)
 
-		//ODPExtension.dump('query:'+aLocation);
+			//ODPExtension.dump('query:'+aLocation);
 
-		//check if the domain has few listings
-		query_domain_count.params('domain', aLocationID.domain);
-		query_domain_count.execute(function(aData) {
-			if (aData[0]['count(u.id)'] < 30) {
-				query_domain_select.params('domain', aLocationID.domain);
-				query_domain_select.execute(function(aData) {
-					ODPExtension.listingGetInformationLoaded(aData, aLocation, aLocationID);
-				});
+			//check if the domain has few listings and is cached
+			if ( !! cacheDomainsWithListings[aLocationID.domain]) {
+				this.listingGetInformationLoaded(cacheDomainsWithListings[aLocationID.domain], aLocation, aLocationID);
+			}
+			//check if the domain has NO listing and is cached
+			else if ( !! cacheDomainsWithNOListings[aLocationID.domain]) {
+				this.listingGetInformationLoaded([], aLocation, aLocationID);
 			} else {
-				query_slice.params('domain', aLocationID.domain);
-				query_slice.params('subdomain', aLocationID.subdomain);
-				query_slice.params('path', aLocationID.path);
-				query_slice.params('path_glob', aLocationID.path + '*');
-				query_slice.params('path_no_hash', aLocationID.path_no_hash + '*');
-				query_slice.params('path_no_vars', aLocationID.path_no_vars + '*');
-				query_slice.params('path_no_file_name', aLocationID.path_no_file_name + '*');
-				query_slice.params('path_parent_folder', aLocationID.path_parent_folder + '*');
-				query_slice.params('path_first_folder', aLocationID.path_first_folder + '*');
-				query_slice.execute(function(aData) {
-					ODPExtension.listingGetInformationLoaded(aData, aLocation, aLocationID);
+				query_domain_count.params('domain', aLocationID.domain);
+				query_domain_count.execute(function(aData) {
+					if (aData[0]['count(u.id)'] < 1) {
+						if (cacheDomainsWithNOListings.length > 1000)
+							cacheDomainsWithNOListings = []
+						cacheDomainsWithNOListings[aLocationID.domain] = true;
+						ODPExtension.listingGetInformationLoaded(aData, aLocation, aLocationID);
+					} else if (aData[0]['count(u.id)'] < 30) {
+						query_domain_select.params('domain', aLocationID.domain);
+						query_domain_select.execute(function(aData) {
+							if (cacheDomainsWithListings.length > 50)
+								cacheDomainsWithListings = []
+							cacheDomainsWithListings[aLocationID.domain] = aData;
+							ODPExtension.listingGetInformationLoaded(aData, aLocation, aLocationID);
+						});
+					} else {
+						query_slice.params('domain', aLocationID.domain);
+						query_slice.params('subdomain', aLocationID.subdomain);
+						query_slice.params('path', aLocationID.path);
+						query_slice.params('path_glob', aLocationID.path + '*');
+						query_slice.params('path_no_hash', aLocationID.path_no_hash + '*');
+						query_slice.params('path_no_vars', aLocationID.path_no_vars + '*');
+						query_slice.params('path_no_file_name', aLocationID.path_no_file_name + '*');
+						query_slice.params('path_parent_folder', aLocationID.path_parent_folder + '*');
+						query_slice.params('path_first_folder', aLocationID.path_first_folder + '*');
+						query_slice.execute(function(aData) {
+							ODPExtension.listingGetInformationLoaded(aData, aLocation, aLocationID);
+						});
+					}
 				});
 			}
-		});
-	}
+		}
 
 	this.listingGetInformationLoaded = function(aData, aLocation, aLocationID) {
 		//check if the retreived data is for this focused tab
@@ -332,7 +350,6 @@
 			this.panelInformationToggle(!this.preferenceGet('ui.informative.panel.closed'), false);
 		} else {
 			this.extensionIconUpdateStatus();
-
 		}
 	}
 	return null;

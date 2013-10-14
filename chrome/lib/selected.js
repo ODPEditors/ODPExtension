@@ -103,6 +103,12 @@
 				links[links.length] = lk[a];
 			}
 		}
+		var lk = this.getBrowserSelectionObjects('area');
+		for (var a = 0; a < lk.length; a++) {
+			if (lk[a].hasAttribute('href')) {
+				links[links.length] = lk[a];
+			}
+		}
 		return links;
 	};
 	//returns an array of the URLs of the selected links
@@ -117,10 +123,37 @@
 	};
 
 	this.getAllLinksItems = function(aTab) {
-		var links = []
-		this.foreachFrame(this.windowGetFromTab(aTab), function(aDoc) {
+		var links = [],
+			aWindow;
+		if (aTab.ownerDocument && aTab.ownerDocument instanceof XULDocument)
+			aWindow = this.windowGetFromTab(aTab);
+		else {
+			try {
+				aWindow = aTab.defaultView.top;
+			} catch (e) {
+				try {
+					ODPExtension.dump('getAllLinksItems fallo con 1 ' + aTab.defaultView);
+					ODPExtension.dump('getAllLinksItems fallo con 1 ' + aTab.defaultView.document.location);
+				} catch (e) {
+					ODPExtension.dump('getAllLinksItems fallo con 2 ' + aTab.location);
+				}
+				try {
+					aWindow = aTab.defaultView;
+				} catch (e) {
+					return [];
+				}
+			}
+		}
+
+		this.foreachFrame(aWindow, function(aDoc) {
 			var a = aDoc.getElementsByTagName("a");
-			var length = aDoc.getElementsByTagName("a").length;
+			var length = a.length;
+			for (var i = 0; i < length; i++) {
+				if (a.item(i).href)
+					links[links.length] = a.item(i);
+			}
+			var a = aDoc.getElementsByTagName("area");
+			var length = a.length;
 			for (var i = 0; i < length; i++) {
 				if (a.item(i).href)
 					links[links.length] = a.item(i);
@@ -128,14 +161,53 @@
 		})
 		return links;
 	}
+	this.getAllLinksHrefs = function(aTab) {
+		var links = [],
+			aWindow;
+		if (aTab.ownerDocument && aTab.ownerDocument instanceof XULDocument)
+			aWindow = this.windowGetFromTab(aTab);
+		else {
+			try {
+				aWindow = aTab.defaultView.top;
+			} catch (e) {
+				try {
+					ODPExtension.dump('getAllLinksItems fallo con 1 ' + aTab.defaultView);
+					ODPExtension.dump('getAllLinksItems fallo con 1 ' + aTab.defaultView.document.location);
+				} catch (e) {
+					ODPExtension.dump('getAllLinksItems fallo con 2 ' + aTab.location);
+				}
+				try {
+					aWindow = aTab.defaultView;
+				} catch (e) {
+					return [];
+				}
+			}
+		}
+
+		this.foreachFrame(aWindow, function(aDoc) {
+			var a = aDoc.getElementsByTagName("a");
+			var length = a.length;
+			for (var i = 0; i < length; i++) {
+				if (a.item(i).href)
+					links[links.length] = a.item(i).href;
+			}
+			var a = aDoc.getElementsByTagName("area");
+			var length = a.length;
+			for (var i = 0; i < length; i++) {
+				if (a.item(i).href)
+					links[links.length] = a.item(i).href;
+			}
+		})
+		return links;
+	}
 
 	this.getLinksPreferSelected = function(aTab) {
 		var links = [];
-		var link = this.getSelectedLinkItem();
-		if (!link) {} else
-			links[links.length] = link;
 		if (!links || !links.length)
 			links = this.getSelectedLinksItems();
+		var link = this.getSelectedLinkItem();
+		if ((!links || !links.length) && ( !! link))
+			links[links.length] = link;
 		if (!links || !links.length)
 			links = this.getAllLinksItems(aTab);
 		return links;

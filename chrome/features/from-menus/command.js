@@ -386,23 +386,23 @@
 				this.openURL('http://pmoz.info/hunt.php5?cat=' + this.encodeUTF8(aValue) + '&greenbusts=on', true, false, inSelectedTab);
 			//logs
 			else if (aCommand == 'cat_log_edit')
-				this.openURL('http://www.dmoz.org/editors/log/search?cat=' + this.encodeUTF8(aValue + '/*') + '&editor=&type=all&function=', true, false, inSelectedTab);
+				this.openURL('http://www.dmoz.org/editors/log/search?cat=' + this.encodeUTF8(aValue + '*') + '&editor=&type=all&function=', true, false, inSelectedTab);
 			else if (aCommand == 'cat_log_cool')
-				this.openURL('http://www.dmoz.org/editors/log/search?cat=' + this.encodeUTF8(aValue + '/*') + '&editor=&type=all&function=url_*cool', true, false, inSelectedTab);
+				this.openURL('http://www.dmoz.org/editors/log/search?cat=' + this.encodeUTF8(aValue + '*') + '&editor=&type=all&function=url_*cool', true, false, inSelectedTab);
 			else if (aCommand == 'cat_log_new_editor')
-				this.openURL('http://www.dmoz.org/editors/log/search?cat=' + this.encodeUTF8(aValue + '/*') + '&editor=&type=all&function=queue_granteditor', true, false, inSelectedTab);
+				this.openURL('http://www.dmoz.org/editors/log/search?cat=' + this.encodeUTF8(aValue + '*') + '&editor=&type=all&function=queue_granteditor', true, false, inSelectedTab);
 			else if (aCommand == 'cat_log_new_editor_permissions')
-				this.openURL('http://www.dmoz.org/editors/log/search?cat=' + this.encodeUTF8(aValue + '/*') + '&editor=&type=all&function=queue_granteditor+OR+function%3Aqueue_grantrequest', true, false, inSelectedTab);
+				this.openURL('http://www.dmoz.org/editors/log/search?cat=' + this.encodeUTF8(aValue + '*') + '&editor=&type=all&function=queue_granteditor+OR+function%3Aqueue_grantrequest', true, false, inSelectedTab);
 			else if (aCommand == 'cat_log_new_editor_permissions_recent')
-				this.openURL('http://www.dmoz.org/editors/log/search?cat=' + this.encodeUTF8(aValue + '/*') + '&editor=&type=all&function=queue_granteditor+OR+function%3Aqueue_grantrequest+AND+timestamp%3A+[NOW-30DAY+TO+NOW]', true, false, inSelectedTab);
+				this.openURL('http://www.dmoz.org/editors/log/search?cat=' + this.encodeUTF8(aValue + '*') + '&editor=&type=all&function=queue_granteditor+OR+function%3Aqueue_grantrequest+AND+timestamp%3A+[NOW-30DAY+TO+NOW]', true, false, inSelectedTab);
 			else if (aCommand == 'cat_log_new_cat')
-				this.openURL('http://www.dmoz.org/editors/log/search?cat=' + this.encodeUTF8(aValue + '/*') + '&editor=&type=all&function=ont_add', true, false, inSelectedTab);
+				this.openURL('http://www.dmoz.org/editors/log/search?cat=' + this.encodeUTF8(aValue + '*') + '&editor=&type=all&function=ont_add', true, false, inSelectedTab);
 			else if (aCommand == 'cat_log_catmv')
-				this.openURL('http://www.dmoz.org/editors/log/search?cat=' + this.encodeUTF8(aValue + '/*') + '&editor=&type=all&function=ont_move', true, false, inSelectedTab);
+				this.openURL('http://www.dmoz.org/editors/log/search?cat=' + this.encodeUTF8(aValue + '*') + '&editor=&type=all&function=ont_move', true, false, inSelectedTab);
 			else if (aCommand == 'cat_log_del_cat')
-				this.openURL('http://www.dmoz.org/editors/log/search?cat=' + this.encodeUTF8(aValue + '/*') + '&editor=&type=all&function=ont_deletenode', true, false, inSelectedTab);
+				this.openURL('http://www.dmoz.org/editors/log/search?cat=' + this.encodeUTF8(aValue + '*') + '&editor=&type=all&function=ont_deletenode', true, false, inSelectedTab);
 			else if (aCommand == 'cat_log_cat_terms')
-				this.openURL('http://www.dmoz.org/editors/log/search?cat=' + this.encodeUTF8(aValue + '/*') + '&editor=&type=all&function=ont_setterms', true, false, inSelectedTab);
+				this.openURL('http://www.dmoz.org/editors/log/search?cat=' + this.encodeUTF8(aValue + '*') + '&editor=&type=all&function=ont_setterms', true, false, inSelectedTab);
 			//link finder
 			else if (aCommand == 'linkfinder_links_from_here_or_from_any')
 				this.openURL('http://odp.danielmclean.id.au/linkFinder/index.cgi?links=from&category=' + this.encodeUTF8(aValue + '/') + '&subcats=on&sym=on ', true, false, inSelectedTab);

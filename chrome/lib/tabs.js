@@ -65,14 +65,16 @@
 			return false;
 	}
 	//open a new tab with an URL that is already encoded example:http://www.dmoz.org/World/Espa%C3%B1ol/
-	this.tabOpen = function(aURL, selected, aPostData) {
-		this.treeStyleTabInTreeOpenStart();
+	this.tabOpen = function(aURL, selected, aPostData, inNoTree) {
+		if(!inNoTree)
+			this.treeStyleTabInTreeOpenStart();
 
 		var aTab = gBrowser.addTab(aURL, null, null, this.postData(aPostData));
 		if (!selected) {} else
 			this.tabSelect(aTab);
 
-		this.treeStyleTabInTreeOpenStop();
+		if(!inNoTree)
+			this.treeStyleTabInTreeOpenStop();
 		return aTab;
 	}
 	//selects a tab

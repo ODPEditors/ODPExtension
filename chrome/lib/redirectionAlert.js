@@ -176,6 +176,7 @@
 					aData.htmlTab = '';
 
 					aData.hash = '';
+					aData.ids = [];
 
 					aData.ip = '';
 
@@ -231,6 +232,9 @@
 							aData.urlLast = ODPExtension.tabGetLocation(aTab);
 
 							if (aDoc.documentURI.indexOf('about:') === 0 || aDoc.documentURI.indexOf('chrome:') === 0) {
+								ODPExtension.alert('aca la que quería');
+								ODPExtension.dump(aData.urlLast);
+								ODPExtension.dump(aData.htmlRequester);
 								aDoc = ODPExtension.toDOM(aData.htmlRequester, aData.urlLast);
 							}
 
@@ -278,6 +282,7 @@
 							if (!aDoc.mediaStripped) {
 								aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
 								aData.html = aData.htmlTab;
+								aData.ids = aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || []
 
 								aData.domTree = ODPExtension.domTree(aDoc);
 								aData.hash = ODPExtension.md5(JSON.stringify(aData.domTree));
@@ -346,6 +351,8 @@
 
 									aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
 									aData.html = aData.htmlTab;
+									aData.ids = aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || []
+
 									aData.domTree = ODPExtension.domTree(aDoc);
 									aData.hash = ODPExtension.md5(JSON.stringify(aData.domTree));
 
@@ -608,7 +615,6 @@
 		var lastStatus = aData.statuses[aData.statuses.length - 1];
 
 		var urlMalformed = aData.urlLast.indexOf('https:///') != -1 || aData.urlLast.indexOf('http:///') != -1 || aData.subdomain.indexOf(',') !== -1 || aData.subdomain.indexOf('%') !== -1 || !this.isPublicURL(aData.urlLast);
-
 
 		//-6 BAd URL
 		if (false || urlMalformed || lastStatus == 414 // Request-URI Too Large - The URL (usually created by a GET form request) is too large for the server to handle. Check to see that a lot of garbage didn't somehow get pasted in after the URL.

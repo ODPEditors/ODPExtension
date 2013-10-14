@@ -100,8 +100,14 @@
 		/*aData.html = '';
 				aData.headers = '';
 				ODPExtension.dump(JSON.stringify(aData));*/
-		item.innerHTML = '[' + aData.statuses.join(', ') + ' | ' + aData.status.code + ' | ' + aData.status.errorString + ' | ' + aData.ip + ' | ' + aData.language + '] ' +
-			item.getAttribute('original_text');
+		item.innerHTML = '[' +
+								aData.statuses.join(', ') +  ' | ' +
+								aData.status.code + ' | ' +
+								aData.status.errorString + ' | ' +
+								aData.ip + ' | ' +
+								aData.language + ' | ' +
+								aData.checkType +
+								'] '+ item.getAttribute('original_text');
 
 		item.setAttribute('note', '' + aData.statuses.join(', ') + ' | ' + aData.status.code + ' | ' + aData.status.errorString);
 		item.setAttribute('error', aData.status.code);

@@ -286,6 +286,31 @@
 	}
 	//this selects nodes ala "jquery" using querySelectorAll on any HTML string.
 	this.select = function(aQuery, anHTML, anURI) {
+
+		var aBaseHREF = '<base href="' + anURI + '" />';
+		if(
+		   	anHTML.indexOf('<html') != -1 || anHTML.indexOf('<HTML') != -1 ||
+		   	anHTML.indexOf('<head') != -1 || anHTML.indexOf('<HEAD') != -1 ||
+		   	anHTML.indexOf('<body') != -1 || anHTML.indexOf('<BODY') != -1
+		){
+			if(anHTML.indexOf('<base') != -1 || anHTML.indexOf('<BASE') != -1){} else {
+					anHTML = anHTML
+						.replace('</HEAD>', aBaseHREF+'</HEAD>')
+						.replace('</head>', aBaseHREF+'</head>')
+						.replace('<HEAD>', '<HEAD>'+aBaseHREF)
+						.replace('<head>', '<head>'+aBaseHREF)
+						.replace('<html>', '<html>'+aBaseHREF)
+						.replace('<body>', aBaseHREF+'<body>')
+						.replace('<BODY>', aBaseHREF+'<BODY>');
+			}
+		} else {
+			anHTML = '<html><head>'+aBaseHREF+'</head><body>'+anHTML+'</body></html>';
+		}
+
+		var aDoc = document.implementation.createHTMLDocument("parser");
+		aDoc.documentElement.innerHTML = anHTML;
+
+/*
 		//resolving relative paths
 		//relative paths are not resolved by "parseFragment" when strict XML is false.
 		var linkedAttributes = ['href', 'HREF', 'src', 'SRC'];
@@ -305,9 +330,9 @@
 
 		//creating fragment
 
-		var html = document.implementation.createDocument('http://www.w3.org/1999/xhtml', "html", null);
+		var aDoc = document.implementation.createDocument('http://www.w3.org/1999/xhtml', "html", null);
 		var body = document.createElementNS('http://www.w3.org/1999/xhtml', "body");
-		html.documentElement.appendChild(body);
+		aDoc.documentElement.appendChild(body);
 
 		//escaping content/converting to dom
 		anHTML = '<base href="' + anURI + '" />' + anHTML;
@@ -315,11 +340,11 @@
 
 		body.appendChild(Components.classes["@mozilla.org/feed-unescapehtml;1"]
 			.getService(Components.interfaces.nsIScriptableUnescapeHTML)
-			.parseFragment(anHTML, false, this.newURI(anURI) /*this is skipped, is here because maybe is not skiped on some future*/ , body));
-
+			.parseFragment(anHTML, false, this.newURI(anURI), body));
+*/
 		//doing query
 
-		var found = html.querySelectorAll(aQuery);
+		var found = aDoc.querySelectorAll(aQuery);
 
 		//converting the nodeList to an array
 
@@ -327,6 +352,31 @@
 		for (var i = 0; i < found.length; i++)
 			elements[elements.length] = found[i];
 		return elements;
+	}
+	//this selects nodes ala "jquery" using querySelectorAll on any HTML string.
+	this.toDOM = function(anHTML, anURI) {
+
+		var aBaseHREF = '<base href="' + anURI + '" odp-extension="true"/>';
+		if(
+		   	anHTML.indexOf('<html') != -1 || anHTML.indexOf('<HTML') != -1 ||
+		   	anHTML.indexOf('<head') != -1 || anHTML.indexOf('<HEAD') != -1 ||
+		   	anHTML.indexOf('<body') != -1 || anHTML.indexOf('<BODY') != -1
+		){
+			if(anHTML.indexOf('<base') != -1 || anHTML.indexOf('<BASE') != -1){} else {
+					anHTML = anHTML
+						.replace('</HEAD>', aBaseHREF+'</HEAD>')
+						.replace('</head>', aBaseHREF+'</head>')
+						.replace('<HEAD>', '<HEAD>'+aBaseHREF)
+						.replace('<head>', '<head>'+aBaseHREF)
+						.replace('<html>', '<html>'+aBaseHREF)
+						.replace('<body>', aBaseHREF+'<body>')
+						.replace('<BODY>', aBaseHREF+'<BODY>');
+			}
+		}
+
+		var aDoc = document.implementation.createHTMLDocument("parser");
+		aDoc.documentElement.innerHTML = anHTML;
+		return aDoc;
 	}
 	this.setAutocomplete = function(aTextbox) {
 		aTextbox.setAttribute('type', 'autocomplete');

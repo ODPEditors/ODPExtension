@@ -165,16 +165,16 @@
 			  <xul:menuitem action="new_subcat" label="&ODPExtension.from.category.new.category;"/>
 			  <xul:menu action="search_display_all_subcategories"  label="Subcategories">
 				<xul:menupopup>
-					<!--<xul:menuitem disabled="true" label="categories.txt" style="font-weight:bold;"/>
+					<!-- <xul:menuitem disabled="true" label="categories.txt" style="font-weight:bold;"/>
 					 <xul:menuitem action="search_find_subcategory_called" label="&ODPExtension.from.category.find.subcategory.called;"/>
-					<!--xul:menuitem action="search_display_subcategories" label="&ODPExtension.from.category.display.subcategories;"/
+					xul:menuitem action="search_display_subcategories" label="&ODPExtension.from.category.display.subcategories;"/
 					<xul:menuitem action="" label="&ODPExtension.from.category.display.all.subcategories;"/>
 
-					<xul:menuseparator/>-->
-					<!--xul:menuitem disabled="true" label="Spider" style="font-weight:bold;"/>
+					<xul:menuseparator/>
+					xul:menuitem disabled="true" label="Spider" style="font-weight:bold;"/>
 
 					<xul:menuitem disabled="true" action="display_empty_categories" label="&ODPExtension.from.category.display.empty.categories;"/>
-					<xul:menuseparator/-->
+					<xul:menuseparator/ -->
 
 					<xul:menuitem disabled="true" label="RDF" style="font-weight:bold;"/>
 					<xul:menuitem action="rdf_category_spell_check" label="Spell check on categories names"/>

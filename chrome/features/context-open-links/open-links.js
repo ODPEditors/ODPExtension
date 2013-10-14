@@ -7,7 +7,7 @@
 	var links = [];
 
 	this.addListener('userInterfaceUpdate', function(aEnable) {
-		ODPExtension.getElement('open-links-new-tab').setAttribute('hidden', !aEnable));
+		ODPExtension.getElement('open-links-new-tab').setAttribute('hidden', !aEnable);
 	});
 
 	this.addListener('contextMenuShowing', function(event) {

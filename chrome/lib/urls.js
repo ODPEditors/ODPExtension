@@ -415,7 +415,7 @@
 		}
 
 		var Requester = new XMLHttpRequest();
-		if(!!textPlain)
+		if ( !! textPlain)
 			Requester.overrideMimeType('text/plain');
 		if (!aPostData)
 			Requester.open("GET", aURL, true);
@@ -747,11 +747,14 @@
 	//returns aURL in short mode, example http://domain.org/index.html will throw http://domain.org
 
 	this.shortURL = function(aURL) {
-		aURL = aURL.replace(/\/index\.[a-z]{2,4}$/i, '/');
-		aURL = aURL.replace(/\/default\.[a-z]{2,4}$/i, '/');
-		aURL = aURL.replace(/\/index$/i, '/');
-		aURL = aURL.replace(/\/default$/i, '/');
-
+		try {
+			aURL = aURL.replace(/\/index\.[a-z]{2,4}$/i, '/');
+			aURL = aURL.replace(/\/default\.[a-z]{2,4}$/i, '/');
+			aURL = aURL.replace(/\/index$/i, '/');
+			aURL = aURL.replace(/\/default$/i, '/');
+		} catch (e) {
+			this.stack();
+		}
 		return aURL;
 	}
 

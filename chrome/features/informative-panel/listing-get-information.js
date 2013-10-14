@@ -233,7 +233,7 @@
 						if (cacheDomainsWithNOListings.length > 1000)
 							cacheDomainsWithNOListings = []
 						cacheDomainsWithNOListings[aLocationID.domain] = true;
-						ODPExtension.listingGetInformationLoaded(aData, aLocation, aLocationID);
+						ODPExtension.listingGetInformationLoaded([], aLocation, aLocationID);
 					} else if (aData[0]['count(u.id)'] < 30) {
 						query_domain_select.params('domain', aLocationID.domain);
 						query_domain_select.execute(function(aData) {

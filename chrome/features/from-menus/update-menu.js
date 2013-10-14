@@ -348,7 +348,7 @@
 				document.getAnonymousElementByAttribute(thePopupContainer, "anonid", "ODPExtension-from-category-copy-selection").setAttribute('hidden', false);
 				/*
 								var hideEncodeDecodeSeparator = true;
-								if(!selectedText.match(/^([a-z]|[0-9])+$/i))
+								if(!selectedText.search(/^([a-z]|[0-9])+$/i))
 								{
 									document.getAnonymousElementByAttribute(thePopupContainer , "anonid", "ODPExtension-from-category-encode").setAttribute('hidden', false);
 									hideEncodeDecodeSeparator = false;

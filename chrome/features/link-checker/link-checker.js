@@ -17,7 +17,7 @@
 		progress.progress();
 
 		//look at selected links
-		var items = this.getLinksPreferSelected(this.tabGetFocused());
+		var items = this.getAllLinksItemsPreferSelected(this.tabGetFocused());
 		if (items.length > 0) {
 			for (var id in items)
 				this.linkCheckerItem(items[id], oRedirectionAlert, aResult);

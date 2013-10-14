@@ -99,13 +99,13 @@
 		var links = [];
 		var lk = this.getBrowserSelectionObjects('a');
 		for (var a = 0; a < lk.length; a++) {
-			if (lk[a].hasAttribute('href')) {
+			if (lk[a].href) {
 				links[links.length] = lk[a];
 			}
 		}
 		var lk = this.getBrowserSelectionObjects('area');
 		for (var a = 0; a < lk.length; a++) {
-			if (lk[a].hasAttribute('href')) {
+			if (lk[a].href) {
 				links[links.length] = lk[a];
 			}
 		}
@@ -113,15 +113,32 @@
 	};
 	//returns an array of the URLs of the selected links
 	this.getSelectedLinksURLs = function(forced) {
-		var items = this.getSelectedLinksItems();
 		var links = []
+		var items = this.getSelectedLinksItems();
 		for (var id in items) {
-			if (items[id].hasAttribute('href'))
+			if (items[id].href)
 				links[links.length] = String(items[id].href);
 		}
-		return links;
+		if(!links || !links.length){
+			var link = this.getSelectedLinkURL()
+			if(link != '')
+				return [link]
+			else
+				return []
+		} else
+			return links;
 	};
-
+	this.getAllLinksItemsPreferSelected = function(aTab) {
+		var links = [];
+		if (!links || !links.length)
+			links = this.getSelectedLinksItems();
+		var link = this.getSelectedLinkItem();
+		if ((!links || !links.length) && ( !! link))
+			links[links.length] = link;
+		if (!links || !links.length)
+			links = this.getAllLinksItems(aTab);
+		return links;
+	}
 	this.getAllLinksItems = function(aTab) {
 		var links = [],
 			aWindow;
@@ -201,17 +218,7 @@
 		return links;
 	}
 
-	this.getLinksPreferSelected = function(aTab) {
-		var links = [];
-		if (!links || !links.length)
-			links = this.getSelectedLinksItems();
-		var link = this.getSelectedLinkItem();
-		if ((!links || !links.length) && ( !! link))
-			links[links.length] = link;
-		if (!links || !links.length)
-			links = this.getAllLinksItems(aTab);
-		return links;
-	}
+
 
 	//gets the selected text of a document looking in focused elements (window, textinputs)
 	//if forced === true

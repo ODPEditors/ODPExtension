@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<script src="open-links.js" type="application/x-javascript"/>
+	<popup id="contentAreaContextMenu">
+		<menuitem
+			id="ODPExtension-open-links-new-tab"
+			insertafter="context-openlinkintab"
+			label="Open Links in New Tabs"
+			oncommand="setTimeout(function(){ODPExtension.openSelectedLinks();}, 0);"
+		/>
+	</popup>
+</overlay>

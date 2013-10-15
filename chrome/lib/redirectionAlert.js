@@ -181,6 +181,8 @@
 					aData.ip = '';
 
 					aData.title = '';
+					aData.metaDescription = '';
+
 					aData.externalContent = [];
 					aData.linksInternal = []
 					aData.linksExternal = []
@@ -257,6 +259,7 @@
 
 							aData.contentType = aDoc.contentType;
 							aData.title = ODPExtension.documentGetTitle(aDoc);
+							aData.metaDescription = ODPExtension.documentGetMetaDescription(aDoc);
 
 							//detect meta/js redirect
 							if (aData.urlRedirections[aData.urlRedirections.length - 1] != aData.urlLast) {

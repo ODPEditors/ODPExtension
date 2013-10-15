@@ -9,6 +9,16 @@
 		ODPExtension.listingGetInformation(aLocation);
 	});
 
+	this.addListener('onLocationChange', function(aLocation) {
+
+		var aDoc = ODPExtension.documentGetFocused();
+		if(ODPExtension.editingFormURLExists(aDoc)){
+			aLocation = ODPExtension.getElementNamed('newurl', aDoc) || ODPExtension.getElementNamed('url', aDoc)
+			aLocation = aLocation.value;
+			ODPExtension.listingGetInformation(aLocation);
+		}
+	});
+
 	var db, query_domain_count, query_domain_select, query_slice;
 	this.addListener('databaseReady', function() {
 

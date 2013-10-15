@@ -8,10 +8,29 @@
 		ODPExtension.focusedSubdomain = '';
 	});
 	this.addListener('onLocationChangeNotDocumentLoad', function(aLocation) {
+
+		var aDoc = ODPExtension.documentGetFocused();
+		if(ODPExtension.editingFormURLExists(aDoc)){
+			aLocation = ODPExtension.getElementNamed('newurl', aDoc) || ODPExtension.getElementNamed('url', aDoc)
+			aLocation = aLocation.value;
+		}
 		ODPExtension.focusedURL = aLocation;
 		ODPExtension.focusedDomain = ODPExtension.getDomainFromURL(ODPExtension.focusedURL);
 		ODPExtension.focusedSubdomain = ODPExtension.getSubdomainFromURL(ODPExtension.focusedURL);
 	});
+
+	this.addListener('onLocationChange', function(aLocation) {
+
+		var aDoc = ODPExtension.documentGetFocused();
+		if(ODPExtension.editingFormURLExists(aDoc)){
+			aLocation = ODPExtension.getElementNamed('newurl', aDoc) || ODPExtension.getElementNamed('url', aDoc)
+			aLocation = aLocation.value;
+			ODPExtension.focusedURL = aLocation;
+			ODPExtension.focusedDomain = ODPExtension.getDomainFromURL(ODPExtension.focusedURL);
+			ODPExtension.focusedSubdomain = ODPExtension.getSubdomainFromURL(ODPExtension.focusedURL);
+		}
+	});
+
 
 	return null;
 

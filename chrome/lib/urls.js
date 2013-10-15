@@ -415,25 +415,6 @@
 		}
 
 		var Requester = new XMLHttpRequest();
-		if ( !! textPlain)
-			Requester.overrideMimeType('text/plain');
-		if (!aPostData)
-			Requester.open("GET", aURL, true);
-		else {
-			Requester.open("POST", aURL, true);
-			Requester.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-		}
-		if (useCookies) {
-			ODPExtension.XMLHttpRequestFix(Requester, ODPExtension.categoryGetURL(aCategory));
-		}
-		if (aURL.indexOf('http') === 0) {
-			Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_BYPASS_CACHE;
-			if (anArrayHeaders) {
-				for (var id in anArrayHeaders) {
-					Requester.setRequestHeader(id, anArrayHeaders[id]);
-				}
-			}
-		}
 		Requester.onload = function() {
 			if (Requester.responseText == -1 || Requester.responseText == null || Requester.responseText == '') {} else {
 				if (aCacheID !== null && aCacheID !== false)
@@ -447,6 +428,27 @@
 				}
 			}
 		};
+		if ( !! textPlain)
+			Requester.overrideMimeType('text/plain');
+		if (!aPostData)
+			Requester.open("GET", aURL, true);
+		else {
+			Requester.open("POST", aURL, true);
+			Requester.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+		}
+		if (useCookies) {
+			this.XMLHttpRequestFix(Requester, aURL);
+		}
+
+		if (aURL.indexOf('http') === 0) {
+			Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_BYPASS_CACHE;
+			if (anArrayHeaders) {
+				for (var id in anArrayHeaders) {
+					Requester.setRequestHeader(id, anArrayHeaders[id]);
+				}
+			}
+		}
+
 		Requester.send(aPostData);
 	}
 	this.XMLHttpRequestFix = function(aRequester, aURL){
@@ -455,8 +457,10 @@
 			cookie = e.getNext().QueryInterface(Components.interfaces.nsICookie2);
 			//why on earth I need to do this?? I mean.. this way
 			//ODPExtension.dump(cookie);
-			aRequester.setRequestHeader('Cookie', (cookie.name) + "=" + (cookie.value), true);
+			cookies[cookies.length] = (cookie.name) + "=" + (cookie.value)
 		}
+		cookies.reverse();
+		aRequester.setRequestHeader('Cookie', cookies.join('; '));
 		cookie = cookies = e = cookieManager = null
 	}
 

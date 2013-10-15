@@ -47,7 +47,7 @@
 		<em:contributor>MozDev.org</em:contributor>
 		<em:contributor>mozillaZine.org community</em:contributor>
 		<em:contributor>Tortoise *</em:contributor>
-
+		<em:unpack>true</em:unpack>
 		<!-- Firefox -->
 		<em:targetApplication>
 			<Description>

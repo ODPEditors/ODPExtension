@@ -85,6 +85,7 @@
 		//we should prevent to the popup appears again if the new event is mouseup, because that mouse up is for hidding the popup, not for open again the popup
 		if (this.fromCategoryLastEvent == 'dblclick' && aEvent.type == 'mouseup') {
 			this.fromCategoryLastEvent = '';
+
 			return;
 		}
 		if (
@@ -407,7 +408,7 @@
 		//rigth double clik
 		else if (aEvent.type == 'dblclick') {
 
-			//this.dump('double click:'+aEvent.type);
+			//this.dump('double ??? click:'+aEvent.type, true);
 
 			this.fromCategoryAutoPopupPreventAppearAgain = true;
 
@@ -415,7 +416,7 @@
 				if (aCategoryTabContextMenu != '') {
 					this.fromCategorySelectedCategory = aCategoryTabContextMenu; //rigth clicked category in not focused tab
 					this.fromCategoryClickType = 'single';
-				} else {
+				} else if(aEvent.type != 'dblclick') {
 					fromCategoryUpdating = false;
 					return;
 				}

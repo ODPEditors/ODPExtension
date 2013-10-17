@@ -251,9 +251,6 @@
 							aData.urlLast = ODPExtension.tabGetLocation(aTab);
 
 							if (aDoc.documentURI.indexOf('about:') === 0 || aDoc.documentURI.indexOf('chrome:') === 0) {
-								ODPExtension.alert('aca la que quería');
-								ODPExtension.dump(aData.urlLast);
-								ODPExtension.dump(aData.htmlRequester);
 								aDoc = ODPExtension.toDOM(aData.htmlRequester, aData.urlLast);
 							}
 
@@ -345,11 +342,12 @@
 							if (aData.removeFromBrowserHistory)
 								ODPExtension.removeURLFromBrowserHistory(aURL);
 
-							aFunction(aData, aURL)
-							aTab.setAttribute('hidden', false);
+							//aTab.setAttribute('hidden', false);
 							try {
 								ODPExtension.tabClose(aTab);
 							} catch (e) {}
+
+							aFunction(aData, aURL)
 
 							onThreadDone();
 
@@ -735,10 +733,23 @@
 			aData.status.unreview = true;
 			aData.status.match = aData.txt;
 
-			//-1338 	Redirect OK	The server redirects to another page but it's OK
+		//-1340 	Redirect OK	The server redirects to another page but it's OK and  probably very likelly can be autofixed
 		} else if (
 		(
 			aData.statuses.indexOf(300) !== -1 // Moved
+		|| aData.statuses.indexOf(301) !== -1 // Redirect Permanently
+		|| aData.statuses.indexOf(302) !== -1 // Redirect Temporarily
+		// || aData.statuses.indexOf(303) !== -1 // See Other
+		|| aData.statuses.indexOf('meta/js') !== -1 // meta/js redirect
+		|| aData.urlOriginal != aData.urlLast) && this.redirectionOKAutoFix(aData.urlOriginal, aData.urlLast)) {
+			aData.status.code = -1340;
+			aData.status.errorString = 'Redirect OK Candidate 4 Autofix';
+			aData.status.error = false;
+
+			//-1338 	Redirect OK	The server redirects to another page but it's OK
+		} else if (
+		(
+		 aData.statuses.indexOf(300) !== -1 // Moved
 		|| aData.statuses.indexOf(301) !== -1 // Redirect Permanently
 		|| aData.statuses.indexOf(302) !== -1 // Redirect Temporarily
 		|| aData.statuses.indexOf(303) !== -1 // See Other
@@ -840,6 +851,19 @@
 	}
 
 	this.allDocuments = [];
+
+	this.redirectionOKAutoFix = function(oldURL, newURL) {
+		if(oldURL == newURL)
+			return false;
+
+		oldURL = this.removeWWW(this.removeSchema(this.shortURLAggresive(oldURL))).replace(/\/+$/, '').toLowerCase().trim();
+		newURL = this.removeSchema(newURL).replace(/\/+$/, '').replace(/^www\./, '').toLowerCase().trim();
+
+		if (oldURL == newURL)
+			return true;
+		 else
+			return false;
+	}
 
 	this.redirectionOK = function(oldURL, newURL) {
 

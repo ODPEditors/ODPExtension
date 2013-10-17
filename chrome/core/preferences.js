@@ -12,8 +12,7 @@
 	this.preferences.ints = [
 		'ui.informative.panel.r', //DONE
 		'ui.informative.panel.b', //DONE
-		'link.checker.threads',
-		'link.checker.use.cache'
+		'link.checker.threads'
 	];
 
 	this.preferences.colors = [];
@@ -47,6 +46,10 @@
 		'first.run',
 		'last.enabled',
 		'toolbars.toggle',
+
+		//link checker
+		'link.checker.use.cache',
+		'link.checker.generate.graph',
 
 		//privacy - DONE
 		'privacy.no.referrer',

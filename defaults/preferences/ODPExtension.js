@@ -15,8 +15,8 @@
 	pref('extensions.ODPExtension.preferences.font.size', '13');
 
 	pref('extensions.ODPExtension.link.checker.threads', 5);
-	pref('extensions.ODPExtension.link.checker.use.cache', 0);
-
+	pref('extensions.ODPExtension.link.checker.use.cache', false);
+	pref('extensions.ODPExtension.link.checker.generate.graph', true);
 
 //USER INTERFACE - DONE
 

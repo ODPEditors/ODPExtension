@@ -405,7 +405,7 @@
 						newTabBrowser.webNavigation.allowSubframes = true;
 
 						//newTabBrowser.loadURI(aURL);
-						if (ODPExtension.preferenceGet('link.checker.use.cache') === 0)
+						if (!ODPExtension.preferenceGet('link.checker.use.cache'))
 							newTabBrowser.loadURIWithFlags(aURL, newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | newTabBrowser.webNavigation.LOAD_ANONYMOUS | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
 						else
 							newTabBrowser.loadURIWithFlags(aURL, newTabBrowser.webNavigation.LOAD_ANONYMOUS | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
@@ -493,7 +493,7 @@
 					return null;
 				};
 				Requester.open("GET", aURL, true);
-				if (ODPExtension.preferenceGet('link.checker.use.cache') === 0)
+				if (!ODPExtension.preferenceGet('link.checker.use.cache'))
 					Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_FLAGS_BYPASS_PROXY | Components.interfaces.nsIRequest.LOAD_BYPASS_CACHE | Components.interfaces.nsIRequest.LOAD_ANONYMOUS | Components.interfaces.nsIRequest.LOAD_FLAGS_BYPASS_HISTORY;
 				else
 					Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_ANONYMOUS | Components.interfaces.nsIRequest.LOAD_FLAGS_BYPASS_HISTORY

@@ -11,7 +11,8 @@
 		var oRedirectionAlert = this.redirectionAlert();
 		var self = this;
 		var progress = this.progress('link.cheker.' + oRedirectionAlert.id, function() {
-			self.linkCheckerDoneGraph(aResult);
+			if(self.preferenceGet('link.checker.generate.graph'))
+				self.linkCheckerDoneGraph(aResult);
 		});
 		progress.reset();
 		progress.progress();
@@ -55,7 +56,8 @@
 	}
 
 	this.linkCheckerCheckDone = function(aData, aURL, item, oRedirectionAlert, aResult) {
-		aResult.data[aResult.data.length] = aData;
+		if(ODPExtension.preferenceGet('link.checker.generate.graph'))
+			aResult.data[aResult.data.length] = aData;
 
 		var progress = this.progress('link.cheker.' + oRedirectionAlert.id);
 		progress.remove();
@@ -114,6 +116,14 @@
 		item.setAttribute('newurl', aData.urlRedirections[aData.urlRedirections.length - 1]);
 		if (aData.status.suspicious.length)
 			item.setAttribute('title', item.getAttribute('title') + '\n' + aData.status.suspicious.join('\n'));
+
+		//autoedit
+
+		if(aData.status.code === -1340){
+			item.parentNode.innerHTML = ''+this.htmlSpecialCharsEncode(aData.urlOriginal)+'<br>'+this.htmlSpecialCharsEncode(aData.urlLast)+' <img src="/mimizu/service/hidden/update-url.php?category='+this.encodeUTF8(item.parentNode.getAttribute('category'))+'&url='+this.encodeUTF8(aData.urlOriginal)+'&new_url='+this.encodeUTF8(aData.urlLast)+'">';
+		} else {
+			this.removeElement(item.parentNode);
+		}
 	}
 
 	this.linkCheckerDoneGraph = function(aResult) {

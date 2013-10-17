@@ -64,7 +64,7 @@
 				var self = this;
 				setTimeout(function() {
 					self._unLoad();
-				}, 3000);
+				}, 10000);
 			},
 			_unLoad: function() {
 				if (this.itemsWorking != this.itemsDone)
@@ -264,8 +264,9 @@
 								//save the redirection
 								aData.urlRedirections.push(aData.urlLast);
 								//get the last status, if was meta/js redirect
-								if (!oRedirectionAlert.cacheTabs[aData.urlLast]) {} else
+								if (!oRedirectionAlert.cacheTabs[aData.urlLast]) {} else{
 									aData.statuses.push(oRedirectionAlert.cacheTabs[aData.urlLast]);
+								}
 							}
 
 							aData.subdomain = ODPExtension.getSubdomainFromURL(aData.urlLast);
@@ -347,6 +348,7 @@
 								ODPExtension.tabClose(aTab);
 							} catch (e) {}
 
+							oRedirectionAlert.cache[aURL] = null;
 							aFunction(aData, aURL)
 
 							onThreadDone();
@@ -472,8 +474,7 @@
 									oHttp.responseStatus = -1;
 							}
 						}
-						//if (TIMEDOUT !== 'ABORTED')
-							oRedirectionAlert.onExamineResponse(oHttp);
+						oRedirectionAlert.onExamineResponse(oHttp);
 
 						aData.stop = true;
 
@@ -482,6 +483,7 @@
 						aData.ip = ODPExtension.getIPFromDomain(aData.subdomain);
 
 						ODPExtension.urlFlag(aData);
+						oRedirectionAlert.cache[aURL] = null;
 						aFunction(aData, aURL)
 
 						oRedirectionAlert.itemsDone++;

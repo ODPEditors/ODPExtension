@@ -1,5 +1,7 @@
 (function() {
 	//sanitize the format of a category
+	var categoryCheckFormatRegExp1 =  /(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_|-)*$/;
+	var categoryCheckFormatRegExp2 =  /^(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_|-)*/;
 	this.categoryCheckFormat = function(aCategory, aggressive) {
 		//multiples categories selected maybe
 
@@ -9,9 +11,9 @@
 		}
 
 		//ending with
-		aCategory = aCategory.replace(/(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_|-)*$/, '');
+		aCategory = aCategory.replace(categoryCheckFormatRegExp1, '');
 		//starting with
-		aCategory = aCategory.replace(/^(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_|-)*/, '');
+		aCategory = aCategory.replace(categoryCheckFormatRegExp2, '');
 
 		//stange caracteres
 
@@ -50,10 +52,10 @@
 		//ending with
 
 		aCategory = aCategory.replace(/->.*$/, '');
-		aCategory = aCategory.replace(/(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_|-)*$/, '');
+		aCategory = aCategory.replace(categoryCheckFormatRegExp1, '');
 
 		//starting with
-		aCategory = aCategory.replace(/^(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_|-)*/, '');
+		aCategory = aCategory.replace(categoryCheckFormatRegExp2, '');
 
 		aCategory = this.trim(aCategory);
 
@@ -100,9 +102,9 @@
 		aCategory = this.categorySanitize(aCategory);
 
 		//ends with
-		aCategory = aCategory.replace(/(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_)*$/, '');
+		aCategory = aCategory.replace(categoryCheckFormatRegExp1, '');
 		//starting with
-		aCategory = aCategory.replace(/^(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_)*/, '');
+		aCategory = aCategory.replace(categoryCheckFormatRegExp2, '');
 
 
 		//Bookmarks/D/development/Bandas y artistas/

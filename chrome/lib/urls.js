@@ -451,8 +451,9 @@
 
 		Requester.send(aPostData);
 	}
-	this.XMLHttpRequestFix = function(aRequester, aURL){
-		var cookie, cookies = [], cookieManager = Components.classes["@mozilla.org/cookiemanager;1"].getService(Components.interfaces.nsICookieManager2);
+	this.XMLHttpRequestFix = function(aRequester, aURL) {
+		var cookie, cookies = [],
+			cookieManager = Components.classes["@mozilla.org/cookiemanager;1"].getService(Components.interfaces.nsICookieManager2);
 		for (var e = cookieManager.getCookiesFromHost(this.newURI(aURL).host); e.hasMoreElements();) {
 			cookie = e.getNext().QueryInterface(Components.interfaces.nsICookie2);
 			//why on earth I need to do this?? I mean.. this way
@@ -761,22 +762,20 @@
 
 		return id;
 	}
-	//returns aURL in short mode, example http://domain.org/index.html will throw http://domain.org
 
+	//returns aURL in short mode, example http://domain.org/index.html will throw http://domain.org
+	var shortURLRegExp = /\/(index|default|home|main|)(\.[a-z]{2,4})\/?$/i;
 	this.shortURL = function(aURL) {
-		try {
-			aURL = aURL.replace(/\/index\.[a-z]{2,4}$/i, '/');
-			aURL = aURL.replace(/\/default\.[a-z]{2,4}$/i, '/');
-			aURL = aURL.replace(/\/index$/i, '/');
-			aURL = aURL.replace(/\/default$/i, '/');
-		} catch (e) {
-			this.stack();
-		}
-		return aURL;
+		return aURL.replace(shortURLRegExp, '/');
 	}
 
+	var shortURLAggresiveRegExp = /\/(index|default|home|main|cms|blog|weblog|forum|forums|site|wordpress|web|homepage|welcome|main_page|wp|joomla|bbs|vb|\#\!|\#|phpbb2|portal|public|new|old|start|www|intro|html)((_|-)?[0-9]{,2}\.[a-z]{2,4})?\/?\??$/i;
+	this.shortURLAggresive = function(aURL) {
+		return aURL.replace(shortURLAggresiveRegExp, '/');
+	}
+	var removeHashRegExp = /#.*$/i
 	this.removeHash = function(aURL) {
-		return aURL.replace(/#.*$/i, '');
+		return aURL.replace(removeHashRegExp, '');
 	}
 
 	return null;

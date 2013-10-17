@@ -313,18 +313,29 @@
 	}
 	//returns true if the has badly characters, Note: should receive categories
 	this.categoryIsBadEncoded = function(aCategory) {
-		return (aCategory.indexOf('%') != -1);
+		return aCategory.indexOf('%') != -1;
 	}
 	//returns true if the category is kids and teens
 	this.categoryIsKidsAndTeens = function(aCategory) {
-		if (aCategory.indexOf('Kids_and_Teens') == 0)
-			return true;
-		else
-			return false;
+		return aCategory.indexOf('Kids_and_Teens') == 0;
 	}
 	//convert &amp; to ampersands & and remove slashs from the beggining and end.
+	var categorySanitizeRegExp1 = /%2F/gi
+	var categorySanitizeRegExp2 = /\*$/
+	var categorySanitizeRegExp3 = /\\/g
+	var categorySanitizeRegExp4 = /\/+/g
+	var categorySanitizeRegExp5 = /^\//
+	var categorySanitizeRegExp6 =/\/$/
+	var categorySanitizeRegExp7 =/^Top\//
 	this.categorySanitize = function(aCategory) {
-		return this.htmlSpecialCharsDecode(this.trim(this.decodeUTF8(aCategory))).replace(/%2F/gi, '/').replace(/\*$/, '').replace(/\\/g, '/').replace(/\/+/g, '/').replace(/^\//, '').replace(/\/$/, '').replace(/^Top\//, '');
+		return this.htmlSpecialCharsDecode(this.trim(this.decodeUTF8(aCategory)))
+					.replace(categorySanitizeRegExp1, '/')
+					.replace(categorySanitizeRegExp2, '')
+					.replace(categorySanitizeRegExp3, '/')
+					.replace(categorySanitizeRegExp4, '/')
+					.replace(categorySanitizeRegExp5, '')
+					.replace(categorySanitizeRegExp6, '')
+					.replace(categorySanitizeRegExp7, '');
 	}
 	//returns true if aCategory starts with a valid category name
 	this.categoryStartsWithValidName = function(aCategory) {
@@ -334,7 +345,7 @@
 			aCategory.indexOf('Bookmarks') == 0 ||
 			aCategory.indexOf('Test') == 0 ||
 			aCategory.indexOf('Top/') == 0 || //top should be followed by a a category
-		aCategory.indexOf('Kids_and_Teens') == 0 ||
+			aCategory.indexOf('Kids_and_Teens') == 0 ||
 			aCategory.indexOf('Arts') == 0 ||
 			aCategory.indexOf('Computers') == 0 ||
 			aCategory.indexOf('Games') == 0 ||
@@ -416,11 +427,10 @@
 	this.odpSearchGetURL = function(aString) {
 		return 'http://www.dmoz.org/search?ebuttons=1&q=' + this.encodeUTF8(aString);
 	}
-	//returns the private URL for editing a site
+	//returns the URL for editing a site
 	this.siteGetURLEdit = function(aURL, aCategory) {
 		return 'http://www.dmoz.org/editors/editurl.cgi?cat=' + this.encodeUTF8(aCategory) + '&url=' + this.encodeUTF8(aURL);
 	}
-	//returns the private URL for editing a site
 	this.categoryGetURLEditUS = function(aCategory) {
 		return 'http://www.dmoz.org/editors/editunrev/listurl?cat=' + this.encodeUTF8(aCategory)+'&mode=super';
 	}

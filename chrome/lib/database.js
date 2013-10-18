@@ -273,7 +273,9 @@
 				queryReference.fetchObjects = function(resetQuery) {
 					return object.fetchObjects(queryReference, resetQuery);
 				}
-
+				queryReference.executeAsync = function(canFail) {
+					object.executeAsync(queryReference, canFail);
+				}
 				return queryReference;
 			};
 			//'create' statements should use this function

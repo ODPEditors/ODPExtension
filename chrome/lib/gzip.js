@@ -1,5 +1,7 @@
 (function() {
 
+	//TODO, this does not work correctly yet with some chars.
+
 	this.gzip = function(aString, aFunction) {
 
 		function Accumulator() {}

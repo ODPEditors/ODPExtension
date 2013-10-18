@@ -7,11 +7,14 @@
 			var aDatabaseConn = aDatabase + '.' + this.sha256(aPath) + '.sqlite.connection';
 
 		if (this.sharedObjectExists(aDatabaseConn)) {
+
 			var db = this.sharedObjectGet(aDatabaseConn);
 			if (!db.aConnection)
 				db.open();
 			return db;
+
 		} else {
+
 			// our custom database handler
 			var object = {};
 			//reference to extension code
@@ -23,18 +26,34 @@
 			object.exists = false;
 			//inits the connection
 			object.initConnection = function() {
-				//gets the working directory
-				if (!this.aPath)
-					this.file = this.theExtension.code('ODPExtension').fileDame(this.theExtension.code('ODPExtension').extensionDirectory().path + '/' + this.aDatabase + '.sqlite');
-				else
-					this.file = this.theExtension.code('ODPExtension').fileDame(this.aPath);
 
-				this.name = aDatabase;
-				this.path = this.file.path;
-				this.storageService = Components.classes["@mozilla.org/storage/service;1"]
-					.getService(Components.interfaces.mozIStorageService);
-				this.aConnection = this.storageService.openDatabase(this.file);
+				//gets the working directory
+
+				if (this.aPath === 'memory') {
+
+					this.name = aDatabase;
+					this.path = this.file;
+					this.storageService = Components.classes["@mozilla.org/storage/service;1"]
+						.getService(Components.interfaces.mozIStorageService);
+					this.aConnection = this.storageService.openSpecialDatabase('memory');
+
+				} else {
+
+					if (!this.aPath)
+						this.file = this.theExtension.code('ODPExtension').fileDame(this.theExtension.code('ODPExtension').extensionDirectory().path + '/' + this.aDatabase + '.sqlite');
+					else
+						this.file = this.theExtension.code('ODPExtension').fileDame(this.aPath);
+
+					this.name = aDatabase;
+					this.path = this.file.path;
+					this.storageService = Components.classes["@mozilla.org/storage/service;1"]
+						.getService(Components.interfaces.mozIStorageService);
+					this.aConnection = this.storageService.openDatabase(this.file);
+
+				}
+
 			}
+
 			//holds references to the queries with some custom propierties
 			object.queriesReferences = [];
 			//object mapping
@@ -217,7 +236,6 @@
 				for (var a = 0; a < length; a++)
 					columnNames[columnNames.length] = queryReference.query.getColumnName(a);
 				queryReference.columnNames = columnNames;
-
 				//fill parameters
 				queryReference.params = function(aParam, aValue) {
 					aValue = (!aValue || aValue == '*') ? '' : aValue.toString();
@@ -251,6 +269,9 @@
 				}
 				queryReference.finalize = function() {
 					queryReference.query.finalize();
+				}
+				queryReference.fetchObjects = function(resetQuery) {
+					return object.fetchObjects(queryReference, resetQuery);
 				}
 
 				return queryReference;

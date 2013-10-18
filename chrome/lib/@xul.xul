@@ -14,6 +14,7 @@
 	<script src="extensions.js" type="application/x-javascript"/>
 	<script src="files.js" type="application/x-javascript"/>
 	<script src="forms.js" type="application/x-javascript"/>
+	<script src="gzip.js" type="application/x-javascript"/>
 	<script src="hash.js" type="application/x-javascript"/>
 	<script src="history.js" type="application/x-javascript"/>
 	<script src="notifications.js" type="application/x-javascript"/>

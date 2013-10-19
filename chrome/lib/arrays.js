@@ -36,6 +36,15 @@
 	this.sortLocale = function(a, b) {
 		return String(a).localeCompare(String(b));
 	}
+	//mixes two arrays
+	this.arrayMix = function (anArray, anotherArray)
+	{
+		for(var id in anotherArray)
+		{
+			anArray[anArray.length] = anotherArray[id]
+		}
+		return anArray;
+	};
 
 	return null;
 

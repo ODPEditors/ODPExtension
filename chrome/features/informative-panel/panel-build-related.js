@@ -55,7 +55,7 @@
 				uri.setAttribute('type', aSite.type + '-' + aSite.cool);
 				uri.setAttribute('tooltiptext', tooltiptext);
 
-				category.setAttribute('value', this.categoryAbbreviate(aSite.category));
+				category.setAttribute('value', this.categoryAbbreviate(aSite.category).replace(/\/$/, ''));
 				category.setAttribute('category', aSite.category);
 				category.setAttribute('type', aSite.type + '-' + aSite.cool);
 				category.setAttribute('tooltiptext', tooltiptext);

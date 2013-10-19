@@ -331,7 +331,7 @@
 			canUnreview: true,
 			body:[''
 				,'<title>Hacked By '
-				,'HaCked By Virus-IM'
+				,'HaCked By'
 			]
 		}
 

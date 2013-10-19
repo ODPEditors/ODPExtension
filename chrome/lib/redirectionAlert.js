@@ -3,38 +3,32 @@
 			This file comes from an idea from here http://forums.dmoz.org/forum/viewtopic.php?t=920940&start=0#1716101
 			The link checker was introduced here http://forums.dmoz.org/forum/viewtopic.php?t=920940&start=50#1758894
 		*/
-	//Problems:
 	/*
-				CODES
-					assign a code for security errors, (such mixed content, expired certificates and the like)
-
-					tabsListener = {
-						QueryInterface: function(aIID) {
-							if (aIID.equals(Components.interfaces.nsIWebProgressListener) ||
-								aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
-								aIID.equals(Components.interfaces.nsISupports))
-								return this;
-							throw Components.results.NS_NOINTERFACE;
-						},
-						onLocationChange: function(aBrowser, aWebProgress, aRequest, aLocation) {
-							//ODPExtension.dump('onLocationChange:onLocationChange', true);
-							ODPExtension.dispatchOnLocationChange(false);
-						},
-						onStateChange: function(aBrowser, aWebProgress, aRequest, aFlag, aStatus) {
-							if (aFlag & STATE_STOP) {
-								ODPExtension.dispatchDOMContentLoaded({originalTarget:aWebProgress.DOMWindow.document});
-							}
-						},
-						onProgressChange: function(aBrowser, aWebProgress, aRequest, curSelf, maxSelf, curTot, maxTot) {},
-						onStatusChange: function(aBrowser, aWebProgress, aRequest, aStatus, aMessage) {},
-						onSecurityChange: function(aBrowser, aWebProgress, aRequest, aState) {},
-						onRefreshAttempted: function(aBrowser, aWebProgress, aRefreshURI, aMillis, aSameURI) {},
-						onLinkIconAvailable: function(aBrowser) {}
-					};
-					gBrowser.addTabsProgressListener(tabsListener);
-
-
-		 */
+		tabsListener = {
+			QueryInterface: function(aIID) {
+				if (aIID.equals(Components.interfaces.nsIWebProgressListener) ||
+					aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
+					aIID.equals(Components.interfaces.nsISupports))
+					return this;
+				throw Components.results.NS_NOINTERFACE;
+			},
+			onLocationChange: function(aBrowser, aWebProgress, aRequest, aLocation) {
+				//ODPExtension.dump('onLocationChange:onLocationChange', true);
+				ODPExtension.dispatchOnLocationChange(false);
+			},
+			onStateChange: function(aBrowser, aWebProgress, aRequest, aFlag, aStatus) {
+				if (aFlag & STATE_STOP) {
+					ODPExtension.dispatchDOMContentLoaded({originalTarget:aWebProgress.DOMWindow.document});
+				}
+			},
+			onProgressChange: function(aBrowser, aWebProgress, aRequest, curSelf, maxSelf, curTot, maxTot) {},
+			onStatusChange: function(aBrowser, aWebProgress, aRequest, aStatus, aMessage) {},
+			onSecurityChange: function(aBrowser, aWebProgress, aRequest, aState) {},
+			onRefreshAttempted: function(aBrowser, aWebProgress, aRefreshURI, aMillis, aSameURI) {},
+			onLinkIconAvailable: function(aBrowser) {}
+		};
+		gBrowser.addTabsProgressListener(tabsListener);
+*/
 
 	var debugingThisFile = true;
 
@@ -206,9 +200,9 @@
 				var timer;
 				Requester.timeout = oRedirectionAlert.timeout;
 				Requester.onreadystatechange = function() {
-					if(Requester.readyState == 2){//headers received
+					if (Requester.readyState == 2) { //headers received
 						var contentType = Requester.getResponseHeader('Content-Type');
-						if(contentType && contentType.indexOf('audio/mpeg') != -1){
+						if (contentType && contentType.indexOf('audio/mpeg') != -1) {
 							aData.checkType = 'XMLHttpRequestAbortMedia'
 							aData.contentType = contentType;
 							aData.headers = Requester.getAllResponseHeaders();
@@ -220,7 +214,7 @@
 					}
 				}
 				Requester.onload = function() {
-					if(loaded)
+					if (loaded)
 						return null;
 					aData.checkType = 'XMLHttpRequestSuccess'
 					loaded = true;
@@ -228,7 +222,8 @@
 					aData.headers = Requester.getAllResponseHeaders();
 					aData.htmlRequester = Requester.responseText;
 					aData.html = Requester.responseText;
-
+					aData.ids = ODPExtension.arrayMix(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
+					aData.contentType = Requester.getResponseHeader('Content-Type');
 					//now get the response as UTF-8
 					ODPExtension.runThreaded('link.checker.utf8.html.content.' + oRedirectionAlert.id, ODPExtension.preferenceGet('link.checker.threads'), function(onThreadDone) {
 
@@ -264,7 +259,7 @@
 								//save the redirection
 								aData.urlRedirections.push(aData.urlLast);
 								//get the last status, if was meta/js redirect
-								if (!oRedirectionAlert.cacheTabs[aData.urlLast]) {} else{
+								if (!oRedirectionAlert.cacheTabs[aData.urlLast]) {} else {
 									aData.statuses.push(oRedirectionAlert.cacheTabs[aData.urlLast]);
 								}
 							}
@@ -277,7 +272,7 @@
 							aData.linksInternal = []
 							aData.linksExternal = []
 
-							var links = ODPExtension.getAllLinksHrefs(aDoc);;
+							var links = ODPExtension.getAllLinksHrefs(aDoc);
 							for (var i = 0, length = links.length; i < length; i++) {
 								var link = links[i];
 								if (link.href && link.href != '' && link.href.indexOf('http') === 0) {
@@ -297,28 +292,27 @@
 								}
 							}
 
-							if (!aDoc.mediaStripped) {
+							var mediaTags = ['object', 'media', 'video', 'audio', 'embed'];
+							if (!aDoc.mediaCounted) {
 								aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
 								aData.html = aData.htmlTab;
-								aData.ids = aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || []
+								aData.ids = ODPExtension.arrayMix(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
 
 								aData.domTree = ODPExtension.domTree(aDoc);
 								aData.hash = ODPExtension.md5(JSON.stringify(aData.domTree));
 
 								aData.mediaCount = 0;
-								var mediaTags = ['object', 'media', 'video', 'audio', 'embed'];
 								for (var id in mediaTags)
 									aData.mediaCount += aDoc.getElementsByTagName(mediaTags[id]).length;
-
-								for (var id in mediaTags) {
-									var tags = aDoc.getElementsByTagName(mediaTags[id]);
-									var i = tags.length;
-									while (i--) {
-										tags[i].parentNode && tags[i].parentNode.removeChild(tags[i]);
-									}
+							}
+							aDoc = aDoc.cloneNode(true);
+							for (var id in mediaTags) {
+								var tags = aDoc.getElementsByTagName(mediaTags[id]);
+								var i = tags.length;
+								while (i--) {
+									tags[i].parentNode && tags[i].parentNode.removeChild(tags[i]);
 								}
 							}
-
 							var stripTags = ['noscript', 'noframes', 'style', 'script', 'frameset'];
 							for (var id in stripTags) {
 								var tags = aDoc.getElementsByTagName(stripTags[id]);
@@ -351,6 +345,8 @@
 							oRedirectionAlert.cache[aURL] = null;
 							aFunction(aData, aURL)
 
+							aData = null;
+
 							onThreadDone();
 
 							oRedirectionAlert.itemsDone++;
@@ -367,16 +363,17 @@
 
 								//its a frame
 								if (aDoc != topDoc) {} else {
+
 									timedout = 2;
 
 									aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
 									aData.html = aData.htmlTab;
-									aData.ids = aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || []
+									aData.ids = ODPExtension.arrayMix(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
 
 									aData.domTree = ODPExtension.domTree(aDoc);
 									aData.hash = ODPExtension.md5(JSON.stringify(aData.domTree));
 
-									aDoc.mediaStripped = true;
+									aDoc.mediaCounted = true;
 									var mediaTags = ['object', 'media', 'video', 'audio', 'embed'];
 									for (var id in mediaTags)
 										aData.mediaCount += aDoc.getElementsByTagName(mediaTags[id]).length;
@@ -385,7 +382,13 @@
 										var tags = aDoc.getElementsByTagName(mediaTags[id]);
 										var i = tags.length;
 										while (i--) {
-											tags[i].parentNode && tags[i].parentNode.removeChild(tags[i]);
+											try {
+												tags[i].pause();
+											} catch (e) {
+												try {
+													tags[i].stop();
+												} catch (e) {}
+											}
 										}
 									}
 
@@ -395,6 +398,7 @@
 								}
 							}
 						}, false);
+
 						newTabBrowser.webNavigation.allowAuth = false;
 						newTabBrowser.webNavigation.allowImages = false;
 						//newTabBrowser.webNavigation.allowMedia = false; //does not work
@@ -429,7 +433,7 @@
 						clearTimeout(timer);
 						oRedirectionAlert.check(aURL, aFunction, 0);
 					} else {
-						if(loaded)
+						if (loaded)
 							return null;
 						loaded = true;
 						var oHttp = {};
@@ -485,6 +489,8 @@
 						ODPExtension.urlFlag(aData);
 						oRedirectionAlert.cache[aURL] = null;
 						aFunction(aData, aURL)
+
+						aData = null;
 
 						oRedirectionAlert.itemsDone++;
 						if (oRedirectionAlert.itemsDone == oRedirectionAlert.itemsWorking)
@@ -735,7 +741,7 @@
 			aData.status.unreview = true;
 			aData.status.match = aData.txt;
 
-		//-1340 	Redirect OK	The server redirects to another page but it's OK and  probably very likelly can be autofixed
+			//-1340 	Redirect OK	The server redirects to another page but it's OK and  probably very likelly can be autofixed
 		} else if (
 		(
 			aData.statuses.indexOf(300) !== -1 // Moved
@@ -751,7 +757,7 @@
 			//-1338 	Redirect OK	The server redirects to another page but it's OK
 		} else if (
 		(
-		 aData.statuses.indexOf(300) !== -1 // Moved
+			aData.statuses.indexOf(300) !== -1 // Moved
 		|| aData.statuses.indexOf(301) !== -1 // Redirect Permanently
 		|| aData.statuses.indexOf(302) !== -1 // Redirect Temporarily
 		|| aData.statuses.indexOf(303) !== -1 // See Other
@@ -836,7 +842,7 @@
 			aData.status.suspicious.push('Unknown content type: ' + aData.contentType);
 			//ODPExtension.dump(aData);
 		}
-		if (aData.html.indexOf('FrameSet') != -1) {
+		if (aData.html.indexOf('frameset') != -1) {
 			aData.status.suspicious.push('Document may has a FrameSet');
 		}
 
@@ -855,7 +861,7 @@
 	this.allDocuments = [];
 
 	this.redirectionOKAutoFix = function(oldURL, newURL) {
-		if(oldURL == newURL)
+		if (oldURL == newURL)
 			return false;
 
 		oldURL = this.removeWWW(this.removeSchema(this.shortURLAggresive(oldURL))).replace(/\/+$/, '').toLowerCase().trim();
@@ -863,7 +869,7 @@
 
 		if (oldURL == newURL)
 			return true;
-		 else
+		else
 			return false;
 	}
 

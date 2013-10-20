@@ -240,6 +240,8 @@
 
 						function onTabLoad() {
 
+							newTabBrowser.removeEventListener("DOMContentLoaded", DOMContentLoaded, false);
+
 							timedout = 3;
 							aData.checkType = 'aTab'
 							var aDoc = ODPExtension.documentGetFromTab(aTab);
@@ -305,6 +307,8 @@
 								for (var id in mediaTags)
 									aData.mediaCount += aDoc.getElementsByTagName(mediaTags[id]).length;
 							}
+
+							//clone doc, do not touch the doc in the tab
 							aDoc = aDoc.cloneNode(true);
 							for (var id in mediaTags) {
 								var tags = aDoc.getElementsByTagName(mediaTags[id]);
@@ -323,12 +327,13 @@
 							ODPExtension.removeComments(aDoc);
 
 							try {
-								var aDocString = new XMLSerializer().serializeToString(aDoc.body);
+								var aDoc = new XMLSerializer().serializeToString(aDoc.body);
 							} catch (e) {
-								var aDocString = new XMLSerializer().serializeToString(aDoc);
+								var aDoc = new XMLSerializer().serializeToString(aDoc);
 							}
-							aData.txt = ODPExtension.stripTags(aDocString, ' ').replace(/[\t| ]+/g, ' ').replace(/\n\s+/g, '\n').trim();
+							aData.txt = ODPExtension.stripTags(aDoc, ' ').replace(/[\t| ]+/g, ' ').replace(/\n\s+/g, '\n').trim();
 							aData.language = ODPExtension.detectLanguage(aData.txt);
+							//aData.language = 'Spanish';
 
 							ODPExtension.urlFlag(aData);
 
@@ -342,7 +347,7 @@
 								ODPExtension.tabClose(aTab);
 							} catch (e) {}
 
-							oRedirectionAlert.cache[aURL] = null;
+							oRedirectionAlert.cache[aURL] = aTab = aDoc = newTabBrowser = null;
 							aFunction(aData, aURL)
 
 							aData = null;
@@ -353,7 +358,8 @@
 							if (oRedirectionAlert.itemsDone == oRedirectionAlert.itemsWorking)
 								oRedirectionAlert.unLoad();
 						}
-						newTabBrowser.addEventListener("DOMContentLoaded", function(aEvent) {
+
+						function DOMContentLoaded(aEvent) {
 							if (timedout === -1) {
 								var aDoc = aEvent.originalTarget;
 								if (!aDoc.defaultView)
@@ -397,7 +403,8 @@
 									}, 12000);
 								}
 							}
-						}, false);
+						}
+						newTabBrowser.addEventListener("DOMContentLoaded", DOMContentLoaded, false);
 
 						newTabBrowser.webNavigation.allowAuth = false;
 						newTabBrowser.webNavigation.allowImages = false;
@@ -847,7 +854,7 @@
 		}
 
 		//experimenting
-		if (aData.status.error === false) {
+		/*		if (aData.status.error === false) {
 			if (aData.hash in this.allDocuments) {
 				if (aData.urlOriginal != this.allDocuments[aData.hash]) {
 					aData.extended = 'This same ' + aData.urlOriginal + ' document found on ' + this.allDocuments[aData.hash];
@@ -855,10 +862,10 @@
 				}
 			}
 		}
-		this.allDocuments[aData.hash] = aData.urlOriginal;
+		this.allDocuments[aData.hash] = aData.urlOriginal;*/
 	}
 
-	this.allDocuments = [];
+	//this.allDocuments = [];
 
 	this.redirectionOKAutoFix = function(oldURL, newURL) {
 		if (oldURL == newURL)

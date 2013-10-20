@@ -204,11 +204,11 @@
 			return '';
 		return aString.substring(0, 1).toUpperCase() + aString.substring(1, aString.length);
 	};
-	var detectLanguageLoaded = {};
+	var detectLanguageLoaded =  new Components.utils.Sandbox("about:blank");
 	this.detectLanguage = function(aString) {
 		if (!detectLanguageLoaded.loaded) {
 			Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-				.getService(Components.interfaces.mozIJSSubScriptLoader).loadSubScript("chrome://ODPExtension/content/lib-external/cld-min.js", detectLanguageLoaded);
+				.getService(Components.interfaces.mozIJSSubScriptLoader).loadSubScript("chrome://ODPExtension/content/lib-external/cld-min.js", detectLanguageLoaded, "UTF-8");
 			detectLanguageLoaded.loaded = true;
 		}
 		var lang = detectLanguageLoaded.detectLanguage(aString.slice(0, 4096));

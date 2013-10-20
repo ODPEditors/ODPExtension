@@ -45,7 +45,7 @@
 				this.timeout = 60 * 1000; //60 seconds for the website to load
 				this.cache = [];
 				this.cacheRedirects = [];
-				this.cacheTabs = [];
+				//this.cacheTabs = [];
 				this.itemsWorking = 0;
 				this.itemsDone = 0;
 				var observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
@@ -72,7 +72,7 @@
 
 				delete(this.cache);
 				delete(this.cacheRedirects);
-				delete(this.cacheTabs);
+				//delete(this.cacheTabs);
 				delete(this.itemsWorking);
 				delete(this.itemsDone);
 			},
@@ -84,16 +84,15 @@
 					// this piece allows to get the HTTP code of urls that redirects via metarefresh or JS
 					// allow to holds the urls of external content associated to a tab. !
 					try {
-
 						var notificationCallbacks = aSubject.notificationCallbacks ? aSubject.notificationCallbacks : aSubject.loadGroup.notificationCallbacks;
 						if (!notificationCallbacks) {} else {
-							this.cacheTabs[aSubject.URI.spec] = aSubject.responseStatus;
+							//this.cacheTabs[aSubject.URI.spec] = aSubject.responseStatus;
 
 							var domWin = notificationCallbacks.getInterface(Components.interfaces.nsIDOMWindow);
 							var aTab = ODPExtension.tabGetFromChromeDocument(domWin);
-							if (aTab && aTab.hasAttribute('ODPExtension-originalURI')) {
-								var URI = aTab.getAttribute('ODPExtension-originalURI');
-								this.cache[URI].externalContent.push(aSubject.URI.spec);
+							if (aTab && !!aTab.ODPExtensionExternalContent) {
+								aTab.ODPExtensionExternalContent[aTab.ODPExtensionExternalContent.length] = aSubject.URI.spec;
+								aTab.ODPExtensionURIsStatus[aSubject.URI.spec] = aSubject.responseStatus;
 							}
 						}
 					} catch (e) {}
@@ -104,7 +103,7 @@
 				} else if (aTopic == 'content-document-global-created') {
 					if (aSubject instanceof Components.interfaces.nsIDOMWindow) {
 						var aTab = ODPExtension.tabGetFromChromeDocument(aSubject);
-						if (aTab && aTab.hasAttribute('ODPExtension-linkChecker')) {
+						if (aTab && !!aTab.ODPExtensionLinkChecker) {
 							ODPExtension.disableTabFeatures(aSubject);
 						}
 					}
@@ -142,7 +141,7 @@
 					this.cache[originalURI].urlLast = oHttp.URI.spec;
 				}
 			},
-			check: function(aURL, aFunction, tryAgain) {
+			check: function(aURL, aFunction, aFunctionTick, tryAgain) {
 				this.itemsWorking++;
 				//ODPExtension.dump('check:function:'+aURL);
 				if (typeof(tryAgain) == 'undefined')
@@ -181,6 +180,7 @@
 					aData.linksInternal = []
 					aData.linksExternal = []
 					aData.mediaCount = 0;
+					aData.dateStart = ODPExtension.now();
 
 					aData.removeFromBrowserHistory = !ODPExtension.isVisitedURL(aURL);
 
@@ -229,8 +229,11 @@
 
 						var aTab = ODPExtension.tabOpen('about:blank', false, false, true);
 						aTab.setAttribute('hidden', true);
-						aTab.setAttribute('ODPExtension-linkChecker', true);
-						aTab.setAttribute('ODPExtension-originalURI', aURL);
+						aTab.ODPExtensionLinkChecker = true;
+						aTab.ODPExtensionOriginalURI = aURL;
+						aTab.ODPExtensionExternalContent = [];
+						aTab.ODPExtensionURIsStatus = [];
+
 						var newTabBrowser = ODPExtension.browserGetFromTab(aTab);
 
 						var timedout = -1;
@@ -244,6 +247,8 @@
 
 							timedout = 3;
 							aData.checkType = 'aTab'
+							aData.externalContent = aTab.ODPExtensionExternalContent;
+
 							var aDoc = ODPExtension.documentGetFromTab(aTab);
 							aData.urlLast = ODPExtension.tabGetLocation(aTab);
 
@@ -261,8 +266,8 @@
 								//save the redirection
 								aData.urlRedirections.push(aData.urlLast);
 								//get the last status, if was meta/js redirect
-								if (!oRedirectionAlert.cacheTabs[aData.urlLast]) {} else {
-									aData.statuses.push(oRedirectionAlert.cacheTabs[aData.urlLast]);
+								if (!aTab.ODPExtensionURIsStatus[aData.urlLast]) {} else {
+									aData.statuses.push(aTab.ODPExtensionURIsStatus[aData.urlLast]);
 								}
 							}
 
@@ -333,7 +338,6 @@
 							}
 							aData.txt = ODPExtension.stripTags(aDoc, ' ').replace(/[\t| ]+/g, ' ').replace(/\n\s+/g, '\n').trim();
 							aData.language = ODPExtension.detectLanguage(aData.txt);
-							//aData.language = 'Spanish';
 
 							ODPExtension.urlFlag(aData);
 
@@ -348,6 +352,9 @@
 							} catch (e) {}
 
 							oRedirectionAlert.cache[aURL] = aTab = aDoc = newTabBrowser = null;
+
+							aData.dateEnd = ODPExtension.now();
+
 							aFunction(aData, aURL)
 
 							aData = null;
@@ -390,6 +397,13 @@
 										while (i--) {
 											try {
 												tags[i].pause();
+												try {
+													tags[i].stop();
+												} catch (e) {
+													try {
+														tags[i].stop();
+													} catch (e) {}
+												}
 											} catch (e) {
 												try {
 													tags[i].stop();
@@ -401,6 +415,8 @@
 									setTimeout(function() {
 										onTabLoad()
 									}, 12000);
+
+									aFunctionTick();
 								}
 							}
 						}
@@ -420,7 +436,6 @@
 							newTabBrowser.loadURIWithFlags(aURL, newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | newTabBrowser.webNavigation.LOAD_ANONYMOUS | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
 						else
 							newTabBrowser.loadURIWithFlags(aURL, newTabBrowser.webNavigation.LOAD_ANONYMOUS | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
-
 						setTimeout(function() {
 							if (timedout === -1) {
 								timedout = 1;
@@ -438,7 +453,7 @@
 						//ODPExtension.dump('sending again..'+aURL);
 						oRedirectionAlert.itemsDone++;
 						clearTimeout(timer);
-						oRedirectionAlert.check(aURL, aFunction, 0);
+						oRedirectionAlert.check(aURL, aFunction, aFunctionTick, 0);
 					} else {
 						if (loaded)
 							return null;
@@ -495,6 +510,9 @@
 
 						ODPExtension.urlFlag(aData);
 						oRedirectionAlert.cache[aURL] = null;
+
+						aData.dateEnd = ODPExtension.now();
+
 						aFunction(aData, aURL)
 
 						aData = null;

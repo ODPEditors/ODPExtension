@@ -207,9 +207,9 @@
 	var detectLanguageLoaded =  new Components.utils.Sandbox("about:blank");
 	this.detectLanguage = function(aString) {
 		if (!detectLanguageLoaded.loaded) {
+			detectLanguageLoaded.console = console;
 			Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
 				.getService(Components.interfaces.mozIJSSubScriptLoader).loadSubScript("chrome://ODPExtension/content/lib-external/cld-min.js", detectLanguageLoaded, "UTF-8");
-			detectLanguageLoaded.loaded = true;
 		}
 		var lang = detectLanguageLoaded.detectLanguage(aString.slice(0, 4096));
 		if (!lang)

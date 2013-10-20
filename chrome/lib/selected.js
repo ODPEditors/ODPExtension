@@ -166,14 +166,14 @@
 			var a = aDoc.getElementsByTagName("a");
 			var length = a.length;
 			for (var i = 0; i < length; i++) {
-				if (a.item(i).href)
-					links[links.length] = a.item(i);
+				if (a[i].href)
+					links[links.length] = a[i];
 			}
 			var a = aDoc.getElementsByTagName("area");
 			var length = a.length;
 			for (var i = 0; i < length; i++) {
-				if (a.item(i).href)
-					links[links.length] = a.item(i);
+				if (a[i].href)
+					links[links.length] = a[i];
 			}
 		})
 		return links;
@@ -205,14 +205,14 @@
 			var a = aDoc.getElementsByTagName("a");
 			var length = a.length;
 			for (var i = 0; i < length; i++) {
-				if (a.item(i).href)
-					links[links.length] = a.item(i).href;
+				if (a[i].href)
+					links[links.length] = a[i].href;
 			}
 			var a = aDoc.getElementsByTagName("area");
 			var length = a.length;
 			for (var i = 0; i < length; i++) {
-				if (a.item(i).href)
-					links[links.length] = a.item(i).href;
+				if (a[i].href)
+					links[links.length] = a[i].href;
 			}
 		})
 		return links;

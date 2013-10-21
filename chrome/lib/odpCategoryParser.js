@@ -17,7 +17,6 @@
 
 	}
 	//parse a category data (category public page HTML) and returns an array with all the subcategories
-
 	this.categoryParserGetCategorySubcategories = function(aCategoryDocumentHTML, anURI) {
 
 		var categorySubcategories = [];
@@ -49,28 +48,65 @@
 				this.categoryParserGetCategoryUSSites(aCategoryDocumentHTML[id], aURI, aSites, 'updates');
 			}
 		}
+
 		return aSites;
 	}
 
 	this.categoryParserGetCategoryUSSites = function(aCategoryDocumentHTML, aURI, aSites, aType) {
 		var elements = this.select('li', aCategoryDocumentHTML, aURI);
 		for (var id in elements) {
-			try{
+			try {
 				var site = {}
 				site.id = elements[id].getElementsByTagName('a')[0].href.split('urlsubId=')[1].split('&')[0];
 				site.url = elements[id].getElementsByTagName('a')[1].href;
 				site.url_id = this.getURLID(site.url);
+				site.domain = site.url_id.domain;
+				site.subdomain = site.url_id.subdomain;
 				site.title = this.stripTags(this.htmlEntityDecode(this.select('input[name^="urlsub_title_"]', elements[id].innerHTML, aURI)[0].value));
 				site.description = this.stripTags(this.htmlEntityDecode(this.select('input[name^="urlsub_desc_"]', elements[id].innerHTML, aURI)[0].value));
 				site.category = this.categoryGetFromURL(elements[id].getElementsByTagName('a')[2].href);
 				site.user = this.select('small', elements[id].innerHTML, aURI)[0].innerHTML;
 				site.date = site.user.split('<i>')[1].trim().replace(/^- +/, '').slice(0, 10).trim();
+				if (/[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9][0-9]/.test(site.date))
+					site.date = site.date.slice(0, 4) + '-' + site.date.slice(6, 7) + '-' + site.date.slice(8, 10);
+				else if (/[0-9][0-9].[0-9][0-9].[0-9][0-9][0-9][0-9]/.test(site.date))
+					site.date = site.date.slice(6, 10) + '-' + site.date.slice(3, 5) + '-' + site.date.slice(0, 2);
 				site.ip = site.user.split(' ')[1].trim();
 				site.user = site.user.split(' ')[0].trim().toLowerCase();
+				if(site.user =='')
+					site.user = 'no user';
+				if(site.ip=='')
+					site.ip = 'no ip';
 				site.type = aType;
+				switch(site.type){
+					case 'error':
+						site.colour = 'red';
+						break;
+					case 'editor':
+						site.colour = 'green';
+						break;
+					case 'public':
+						site.colour = 'blue';
+						break;
+					case 'xml':
+						site.colour = 'orange';
+						break;
+					case 'updates':
+						site.colour = 'purple';
+						break;
+					case 'greenbust':
+						site.colour = 'darkgreen';
+						break;
+					case 'default':
+						site.colour = 'grey';
+						break;
+				}
+				site.typeColour = site.type+'-'+site.colour;
+				site.area = 'unrev';
+				site.action = 'N';
 				aSites[aSites.length] = site;
-			}catch(e){
-				//
+
+			} catch (e) {
 			}
 		}
 		return aSites

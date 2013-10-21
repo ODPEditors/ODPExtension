@@ -385,6 +385,13 @@
 		// postData is ready to be used as aPostData argument
 		return postData;
 	}
+	this.readURLAsync = function(aURL) {
+		var Requester = new XMLHttpRequest();
+			Requester.overrideMimeType('text/plain');
+			Requester.open("GET", aURL, false);
+			Requester.send(null);
+			return Requester.responseText;
+	}
 	//reads cacheID and calls aFunction with the data or read the data from online resource,
 	//cache the data and calls aFunction
 	this.readURL = function(aURL, aCacheID, aPostData, anArrayHeaders, aFunction, textPlain, useCookies) {

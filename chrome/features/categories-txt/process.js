@@ -30,7 +30,6 @@
 		var subStrCount = this.subStrCount;
 		//timer.start('open database');
 		var aConnection = this.categoriesTXTDatabaseOpen();
-		//	aConnection = storageService.openSpecialDatabase('memory');//for tests, faster
 		try {
 			aConnection.aConnection.executeSimpleSQL('drop table if exists `categories_txt`');
 		} catch (e) {

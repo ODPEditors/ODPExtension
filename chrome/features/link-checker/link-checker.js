@@ -11,7 +11,7 @@
 		var oRedirectionAlert = this.redirectionAlert();
 		var self = this;
 		var progress = this.progress('link.cheker.' + oRedirectionAlert.id, function() {
-			if(self.preferenceGet('link.checker.generate.graph'))
+			if (self.preferenceGet('link.checker.generate.graph'))
 				self.linkCheckerDoneGraph(aResult);
 		});
 		progress.reset();
@@ -44,7 +44,6 @@
 		this.runThreaded('link.checker.' + oRedirectionAlert.id, this.preferenceGet('link.checker.threads') * 2, function(onThreadDone) {
 
 			item.style.setProperty('border', '1px solid green', 'important');
-			item.style.setProperty('padding', '2px', 'important');
 			item.style.removeProperty('background-color');
 			item.style.removeProperty('color');
 
@@ -56,7 +55,7 @@
 	}
 
 	this.linkCheckerCheckDone = function(aData, aURL, item, oRedirectionAlert, aResult) {
-		if(ODPExtension.preferenceGet('link.checker.generate.graph'))
+		if (ODPExtension.preferenceGet('link.checker.generate.graph'))
 			aResult.data[aResult.data.length] = aData;
 
 		var progress = this.progress('link.cheker.' + oRedirectionAlert.id);
@@ -66,12 +65,12 @@
 		if (!item)
 			return;
 		var tooltiptext
-		if(this.shared.me)
-			tooltiptext = ODPExtension.decodeUTF8((aData.urlRedirections.join('\n')) + '\n' + (aData.status.match || ''))
+		if (this.shared.me)
+			tooltiptext = ODPExtension.decodeUTF8(aData.urlRedirections.join('\n') + '\n' + aData.status.suspicious.join('\n') + '\n' + (aData.status.match || ''))
 		else
-			tooltiptext = ODPExtension.decodeUTF8((aData.urlRedirections.join('\n')))
+			tooltiptext = ODPExtension.decodeUTF8(aData.urlRedirections.join('\n') + '\n' + aData.status.suspicious.join('\n'))
 
-		item.setAttribute('title', tooltiptext.trim() + '\n' + aData.txt.slice(0, 255));
+			item.setAttribute('title', tooltiptext.trim() + '\n' + aData.txt.slice(0, 255));
 
 		if (aData.status.suspicious.length) {
 			//orange
@@ -97,32 +96,30 @@
 			item.style.setProperty('background-color', '#FFFFCC', 'important');
 		}
 
-		if(this.shared.me){
+		if (this.shared.me) {
 			item.innerHTML = '[' +
-									aData.statuses.join(', ') +  ' | ' +
-									aData.status.code + ' | ' +
-									aData.status.errorString + ' | ' +
-									aData.ip + ' | ' +
-									aData.language + ' | ' +
-									aData.checkType +
-									'] '+ item.getAttribute('original_text');
+				aData.statuses.join(', ') + ' | ' +
+				aData.status.code + ' | ' +
+				aData.status.errorString + ' | ' +
+				aData.ip + ' | ' +
+				aData.language + ' | ' +
+				aData.checkType +
+				'] ' + item.getAttribute('original_text');
 		} else {
 			item.innerHTML = '[' +
 
-									aData.status.code + ' | ' +
-									aData.status.errorStringUserFriendly + ' | ' +
-									aData.language  +
-									'] '+ item.getAttribute('original_text');
+			aData.status.code + ' | ' +
+				aData.status.errorStringUserFriendly + ' | ' +
+				aData.language +
+				'] ' + item.getAttribute('original_text');
 		}
 
 		item.setAttribute('note', '' + aData.statuses.join(', ') + ' | ' + aData.status.code + ' | ' + aData.status.errorString);
 		item.setAttribute('error', aData.status.code);
 		item.setAttribute('newurl', aData.urlRedirections[aData.urlRedirections.length - 1]);
-		if (aData.status.suspicious.length)
-			item.setAttribute('title', item.getAttribute('title') + '\n' + aData.status.suspicious.join('\n'));
 
 		//autoedit
-/*
+		/*
 		if(aData.status.code === -1340){
 			item.parentNode.innerHTML = ''+this.htmlSpecialCharsEncode(aData.urlOriginal)+'<br>'+this.htmlSpecialCharsEncode(aData.urlLast)+' <img src="/mimizu/service/hidden/update-url.php?category='+this.encodeUTF8(item.parentNode.getAttribute('category'))+'&url='+this.encodeUTF8(aData.urlOriginal)+'&new_url='+this.encodeUTF8(aData.urlLast)+'">';
 		} else {

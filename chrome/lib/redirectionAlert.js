@@ -34,6 +34,11 @@
 
 	var redirectionAlertID = 0;
 
+	var timeoutAfter = 60 * 1000; //60 seconds for the website to load
+	var tagsMedia = ['object', 'media', 'video', 'audio', 'embed'];
+	var tagsNoContent = ['noscript', 'noframes', 'style', 'script', 'frameset']
+	var contentTypes = ['text/plain', 'text/html', 'application/pdf', 'application/xhtml+xml', '']
+
 	this.redirectionAlert = function() {
 		function RedirectionAlert() {
 			return this;
@@ -42,7 +47,6 @@
 		RedirectionAlert.prototype = {
 			init: function() {
 				this.id = String(redirectionAlertID++);
-				this.timeout = 60 * 1000; //60 seconds for the website to load
 				this.cache = [];
 				this.cacheRedirects = [];
 				//this.cacheTabs = [];
@@ -90,7 +94,7 @@
 
 							var domWin = notificationCallbacks.getInterface(Components.interfaces.nsIDOMWindow);
 							var aTab = ODPExtension.tabGetFromChromeDocument(domWin);
-							if (aTab && !!aTab.ODPExtensionExternalContent) {
+							if (aTab && !! aTab.ODPExtensionExternalContent) {
 								aTab.ODPExtensionExternalContent[aTab.ODPExtensionExternalContent.length] = aSubject.URI.spec;
 								aTab.ODPExtensionURIsStatus[aSubject.URI.spec] = aSubject.responseStatus;
 							}
@@ -103,7 +107,7 @@
 				} else if (aTopic == 'content-document-global-created') {
 					if (aSubject instanceof Components.interfaces.nsIDOMWindow) {
 						var aTab = ODPExtension.tabGetFromChromeDocument(aSubject);
-						if (aTab && !!aTab.ODPExtensionLinkChecker) {
+						if (aTab && !! aTab.ODPExtensionLinkChecker) {
 							ODPExtension.disableTabFeatures(aSubject);
 						}
 					}
@@ -159,19 +163,21 @@
 					aData.urlRedirections = [];
 					aData.urlOriginal = aURL;
 					aData.urlLast = aURL;
+					aData.domain = '';
+					aData.subdomain = '';
+					aData.ip = '';
 
-					aData.html = '';
-					aData.txt = '';
-					aData.language = '';
 					aData.checkType = '';
 
+					aData.html = '';
 					aData.htmlRequester = '';
 					aData.htmlTab = '';
+					aData.domTree = '';
+					aData.txt = '';
+					aData.language = '';
 
 					aData.hash = '';
 					aData.ids = [];
-
-					aData.ip = '';
 
 					aData.title = '';
 					aData.metaDescription = '';
@@ -180,9 +186,10 @@
 					aData.linksInternal = []
 					aData.linksExternal = []
 					aData.mediaCount = 0;
+					aData.wordCount = 0;
 					aData.hasFrameset = 0;
 					aData.dateStart = ODPExtension.now();
-
+					aData.dateEnd = aData.dateStart;
 					aData.removeFromBrowserHistory = !ODPExtension.isVisitedURL(aURL);
 
 				} else {
@@ -199,7 +206,7 @@
 
 				var loaded = false;
 				var timer;
-				Requester.timeout = oRedirectionAlert.timeout;
+				Requester.timeout = timeoutAfter;
 				Requester.onreadystatechange = function() {
 					if (Requester.readyState == 2) { //headers received
 						var contentType = Requester.getResponseHeader('Content-Type');
@@ -286,22 +293,21 @@
 								if (link.href && link.href != '' && link.href.indexOf('http') === 0) {
 									var aDomain = ODPExtension.getDomainFromURL(link.href)
 									if (aDomain != aData.domain)
-										aData.linksExternal.push({
+										aData.linksExternal[aData.linksExternal.length] = {
 											url: String(link.href),
 											anchor: link.innerHTML,
 											domain: aDomain
-										});
+									};
 									else
-										aData.linksInternal.push({
+										aData.linksInternal[aData.linksInternal.length] = {
 											url: String(link.href),
 											anchor: link.innerHTML,
 											domain: aDomain
-										});
+									};
 								}
 							}
 							link = links = null
 
-							var mediaTags = ['object', 'media', 'video', 'audio', 'embed'];
 							if (!aDoc.mediaCounted) {
 								aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
 								aData.html = aData.htmlTab;
@@ -311,24 +317,23 @@
 								aData.hash = ODPExtension.md5(JSON.stringify(aData.domTree));
 
 								aData.mediaCount = 0;
-								for (var id in mediaTags)
-									aData.mediaCount += aDoc.getElementsByTagName(mediaTags[id]).length;
+								for (var id in tagsMedia)
+									aData.mediaCount += aDoc.getElementsByTagName(tagsMedia[id]).length;
 							}
 
-							aData.hasFrameset =  aDoc.getElementsByTagName('frameset').length;
+							aData.hasFrameset = aDoc.getElementsByTagName('frameset').length;
 
 							//clone doc, do not touch the doc in the tab
 							aDoc = aDoc.cloneNode(true);
-							for (var id in mediaTags) {
-								var tags = aDoc.getElementsByTagName(mediaTags[id]);
+							for (var id in tagsMedia) {
+								var tags = aDoc.getElementsByTagName(tagsMedia[id]);
 								var i = tags.length;
 								while (i--) {
 									tags[i].parentNode && tags[i].parentNode.removeChild(tags[i]);
 								}
 							}
-							var stripTags = ['noscript', 'noframes', 'style', 'script', 'frameset'];
-							for (var id in stripTags) {
-								var tags = aDoc.getElementsByTagName(stripTags[id]);
+							for (var id in tagsNoContent) {
+								var tags = aDoc.getElementsByTagName(tagsNoContent[id]);
 								var i = tags.length;
 								while (i--)
 									tags[i].parentNode.removeChild(tags[i]);
@@ -336,12 +341,13 @@
 							ODPExtension.removeComments(aDoc);
 
 							try {
-								var aDoc = new XMLSerializer().serializeToString(aDoc.body);
+								aDoc = new XMLSerializer().serializeToString(aDoc.body);
 							} catch (e) {
-								var aDoc = new XMLSerializer().serializeToString(aDoc);
+								aDoc = new XMLSerializer().serializeToString(aDoc);
 							}
-							aData.txt = ODPExtension.stripTags(aDoc, ' ').replace(/[\t| ]+/g, ' ').replace(/\n\s+/g, '\n').trim();
+							aData.txt = ODPExtension.stripTags(aDoc, ' ').replace(/[\t| ]+/g, ' ').replace(/\n\s+/g, '\n').replace(/\s+\n/g, '\n').trim();
 							aData.language = ODPExtension.detectLanguage(aData.txt);
+							aData.wordCount = aData.txt.split(' ').length
 
 							ODPExtension.urlFlag(aData);
 
@@ -351,9 +357,8 @@
 								ODPExtension.removeURLFromBrowserHistory(aURL);
 
 							//aTab.setAttribute('hidden', false);
-							try {
-								ODPExtension.tabClose(aTab);
-							} catch (e) {}
+
+							ODPExtension.tabClose(aTab);
 
 							oRedirectionAlert.cache[aURL] = aTab = aDoc = newTabBrowser = null;
 
@@ -391,12 +396,11 @@
 									aData.hash = ODPExtension.md5(JSON.stringify(aData.domTree));
 
 									aDoc.mediaCounted = true;
-									var mediaTags = ['object', 'media', 'video', 'audio', 'embed'];
-									for (var id in mediaTags)
-										aData.mediaCount += aDoc.getElementsByTagName(mediaTags[id]).length;
+									for (var id in tagsMedia)
+										aData.mediaCount += aDoc.getElementsByTagName(tagsMedia[id]).length;
 
-									for (var id in mediaTags) {
-										var tags = aDoc.getElementsByTagName(mediaTags[id]);
+									for (var id in tagsMedia) {
+										var tags = aDoc.getElementsByTagName(tagsMedia[id]);
 										var i = tags.length;
 										while (i--) {
 											try {
@@ -419,7 +423,7 @@
 									setTimeout(function() {
 										onTabLoad()
 									}, 12000);
-									if(!!aFunctionTick)
+									if ( !! aFunctionTick)
 										aFunctionTick();
 								}
 							}
@@ -428,7 +432,9 @@
 
 						newTabBrowser.webNavigation.allowAuth = false;
 						newTabBrowser.webNavigation.allowImages = false;
-						//newTabBrowser.webNavigation.allowMedia = false; //does not work
+						try {
+							newTabBrowser.webNavigation.allowMedia = false; //does not work
+						} catch (e) {}
 						newTabBrowser.webNavigation.allowJavascript = true;
 						newTabBrowser.webNavigation.allowMetaRedirects = true;
 						newTabBrowser.webNavigation.allowPlugins = false;
@@ -445,7 +451,7 @@
 								timedout = 1;
 								onTabLoad();
 							}
-						}, oRedirectionAlert.timeout + 5000); //give 60 seconds to load, else, just forget it.
+						}, timeoutAfter + 5000); //give 60 seconds to load, else, just forget it.
 					});
 					return null;
 				};
@@ -495,7 +501,7 @@
 									oHttp.responseStatus = ODPExtension.createTCPErrorFromFailedXHR(Requester);
 								} catch (e) {
 									try {
-										oHttp.responseStatus = Requester.status
+										oHttp.responseStatus = Requester.status;
 									} catch (e) {
 										oHttp.responseStatus = -1;
 									}
@@ -544,7 +550,7 @@
 						//ODPExtension.dump('aborted'+aURL);
 						Requester.onerror('TIMEDOUT');
 					}
-				}, oRedirectionAlert.timeout + 5000);
+				}, timeoutAfter + 5000);
 				//ODPExtension.dump('check');
 			}
 		};
@@ -772,7 +778,7 @@
 			//-8 	Empty Page
 		} else if (false ||
 			(
-			this.urlFlagSempty.indexOf(aData.txt.toLowerCase()) !== -1 && aData.mediaCount.length < 1)) {
+		(aData.wordCount < 3 && aData.mediaCount.length < 1))) {
 			aData.status.code = -8;
 			aData.statuses.push(aData.status.code);
 			aData.status.errorString = 'Empty Page';
@@ -786,7 +792,7 @@
 			aData.statuses.indexOf(300) !== -1 // Moved
 		|| aData.statuses.indexOf(301) !== -1 // Redirect Permanently
 		|| aData.statuses.indexOf(302) !== -1 // Redirect Temporarily
-		// || aData.statuses.indexOf(303) !== -1 // See Other
+		//|| aData.statuses.indexOf(303) !== -1 // See Other
 		|| aData.statuses.indexOf('meta/js') !== -1 // meta/js redirect
 		|| aData.urlOriginal != aData.urlLast) && this.redirectionOKAutoFix(aData.urlOriginal, aData.urlLast)) {
 			aData.status.code = -1340;
@@ -800,7 +806,7 @@
 			aData.statuses.indexOf(300) !== -1 // Moved
 		|| aData.statuses.indexOf(301) !== -1 // Redirect Permanently
 		|| aData.statuses.indexOf(302) !== -1 // Redirect Temporarily
-		|| aData.statuses.indexOf(303) !== -1 // See Other
+		//|| aData.statuses.indexOf(303) !== -1 // See Other
 		|| aData.statuses.indexOf('meta/js') !== -1 // meta/js redirect
 		|| aData.urlOriginal != aData.urlLast) && this.redirectionOK(aData.urlOriginal, aData.urlLast)) {
 			aData.status.code = -1338;
@@ -884,27 +890,13 @@
 		}
 
 		//suspicious
-		if (aData.contentType != '' && aData.contentType != 'text/plain' && aData.contentType != 'text/html' && aData.contentType != 'application/pdf' && aData.contentType != 'application/xhtml+xml') {
+		if (contentTypes.indexOf(aData.contentType) == -1)
 			aData.status.suspicious.push('Unknown content type: ' + aData.contentType);
-			//ODPExtension.dump(aData);
-		}
-		if (aData.hasFrameset > 0) {
-			aData.status.suspicious.push('Document has a FrameSet');
-		}
-
-		//experimenting
-		/*		if (aData.status.error === false) {
-			if (aData.hash in this.allDocuments) {
-				if (aData.urlOriginal != this.allDocuments[aData.hash]) {
-					aData.extended = 'This same ' + aData.urlOriginal + ' document found on ' + this.allDocuments[aData.hash];
-					this.dump(aData.extended);
-				}
-			}
-		}
-		this.allDocuments[aData.hash] = aData.urlOriginal;*/
+		if (this.urlFlagsHash.indexOf(aData.hash) != -1)
+			aData.status.suspicious.push('Document may has problems');
+		if (aData.hasFrameset > 0)
+			aData.status.suspicious.push('Document has a frameset');
 	}
-
-	//this.allDocuments = [];
 
 	this.redirectionOKAutoFix = function(oldURL, newURL) {
 		if (oldURL == newURL)

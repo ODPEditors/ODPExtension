@@ -375,22 +375,7 @@
 		}
 	};
 
-	this.urlFlagSempty = [''
-		,'test'
-		,'test page'
-		,'hello'
-		,'hello!'
-		,':)'
-		,':-)'
-		,':'
-		,'-'
-		,'yes'
-		,'no'
-		,':-('
-		,':('
-		,'welcome'
-		,'welcome!'
-	];
+	this.urlFlagsHash = [''];
 
 
 	return null;

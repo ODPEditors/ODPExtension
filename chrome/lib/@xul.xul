@@ -4,7 +4,6 @@
 	<script src="arrays.js" type="application/x-javascript"/>
 	<script src="browser.js" type="application/x-javascript"/>
 	<script src="browsers.js" type="application/x-javascript"/>
-	<script src="bugs.js" type="application/x-javascript"/>
 	<script src="clipboard.js" type="application/x-javascript"/>
 	<script src="css.js" type="application/x-javascript"/>
 	<script src="database.js" type="application/x-javascript"/>
@@ -21,7 +20,9 @@
 	<script src="odp.js" type="application/x-javascript"/>
 	<script src="odpCategoryParser.js" type="application/x-javascript"/>
 	<script src="redirectionAlert.js" type="application/x-javascript"/>
+	<script src="redirectionAlertData.js" type="application/x-javascript"/>
 	<script src="screen.js" type="application/x-javascript"/>
+	<script src="searchEngine.js" type="application/x-javascript"/>
 	<script src="selected.js" type="application/x-javascript"/>
 	<script src="services.js" type="application/x-javascript"/>
 	<script src="sharedMemory.js" type="application/x-javascript"/>

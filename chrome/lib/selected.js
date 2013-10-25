@@ -149,7 +149,7 @@
 				aWindow = aTab.defaultView.top;
 			} catch (e) {
 				try {
-					//ODPExtension.dump('getAllLinksItems fallo con 1 ' + aTab.defaultView);
+					ODPExtension.dump('getAllLinksItems fallo con 1 ' + aTab.location);
 					//ODPExtension.dump('getAllLinksItems fallo con 1 ' + aTab.defaultView.document.location);
 				} catch (e) {
 					//ODPExtension.dump('getAllLinksItems fallo con 2 ' + aTab.location);
@@ -188,10 +188,11 @@
 				aWindow = aTab.defaultView.top;
 			} catch (e) {
 				try {
-					//ODPExtension.dump('getAllLinksItems fallo con 1 ' + aTab.defaultView);
-					//ODPExtension.dump('getAllLinksItems fallo con 1 ' + aTab.defaultView.document.location);
+					ODPExtension.dump('getAllLinksHrefs fallo con 1 ' + aTab.location);
+					//ODPExtension.dump('getAllLinksHrefs fallo con 1 ' + aTab.top);
+					//ODPExtension.dump('getAllLinksHrefs fallo con 1 ' + aTab.defaultView.document.location);
 				} catch (e) {
-					//ODPExtension.dump('getAllLinksItems fallo con 2 ' + aTab.location);
+					//ODPExtension.dump('getAllLinksHrefs fallo con 2 ' + aTab.location);
 				}
 				try {
 					aWindow = aTab.defaultView;

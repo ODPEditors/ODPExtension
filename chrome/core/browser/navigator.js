@@ -285,13 +285,14 @@ var ODPExtension = {};
 		//this.dump('dispatchEvent:'+arguments[0], debugingThisFile);
 
 		var aListener = arguments[0];
-		if (listeners[aListener]) {
-			for (var id in listeners[aListener]) {
-				if (aListener != 'onModifyRequest') //spams the console
-					this.dump('dispatchEvent:' + aListener + ':' + listeners[aListener][id], debugingThisFile);
+		var aListeners = listeners[aListener];
+		if (aListeners) {
+			for (var id in aListeners) {
+				//if (aListener != 'onModifyRequest') //spams the console
+				//	this.dump('dispatchEvent:' + aListener + ':' + aListeners[id], debugingThisFile);
 
 				//I never use too many arguments
-				listeners[aListener][id](
+				aListeners[id](
 					arguments[1], arguments[2], arguments[3], arguments[4], arguments[5],
 					arguments[6], arguments[7], arguments[8], arguments[9], arguments[10]);
 			}
@@ -574,16 +575,10 @@ var ODPExtension = {};
 			else if (something == null)
 				consoleService.logStringMessage('ODPExtension:' + aTitle + 'null');
 			else {
-				//try to show the stupid data
-				//	{
-				//	consoleService.logStringMessage('ODPExtension:string:'+aTitle+String(data.toString()));
-				//	consoleService.logStringMessage('ODPExtension:source:'+aTitle+String(data.toSource()));
-				consoleService.logStringMessage('ODPExtension:' + aTitle + this.sfilugfgopgbop3gbogogasig(something));
-				//}
-				//catch(e)
-				//	{
-				//consoleService.logStringMessage('ODPExtension:json:'+aTitle+String(JSON.stringify(data)));
-				//	}//
+				if (console && console.log) {
+					console.log('ODPExtension: ' + aTitle);
+					console.log(something)
+				}
 			}
 		}
 	};

@@ -1,8 +1,70 @@
-body {
-	padding: 0px;
-	margin: 0px;
-	margin: 8px;
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 300;
+	src: local('Open Sans Light'), local('OpenSans-Light'), url(chrome://ODPExtension/content/html/fonts/open-sans.woff) format('woff');
 }
+
+body {
+	font-family: "Verdana", Times, serif;
+	padding:0;
+	margin: 0;
+	border:0;
+	overflow-y: scroll;
+}
+
+.clear {
+	float: none;
+	clear: both;
+	display: block;
+	margin: 2px;
+}
+
+.click {
+	cursor: pointer;
+	text-decoration: underline;
+	color: inherit;
+}
+.ignore {
+	-moz-user-select: none;
+	user-select: none;
+	pointer-events: none;
+	cursor: normal;
+}
+.not-ignore {
+	-moz-user-select: normal;
+	user-select: normal;
+	pointer-events: all;
+}
+.no-selection {
+	-moz-user-select: none;
+	user-select: none;
+	cursor: normal;
+}
+.inline-block{
+	display: inline-block;
+}
+.hidden,
+.filterboxed {
+	display: none;
+}
+
+/* elements genric */
+h1, h2, h3, h4, h5 {
+	color: rgb(85, 85, 85);
+	font-family: 'Open Sans',Arial,Verdana,sans-serif;
+	font-style: normal;
+	font-weight: 300;
+	margin-bottom: 0.5em;
+	margin-left: -3px;
+	margin-top: 0px;
+}
+/* classes generic */
+header .title{
+	font-family: 'Open Sans',Arial,Verdana,sans-serif;
+	}
+/* elements updated me!*/
+
 .header {
 	background-color: #669933;
 	color: white;
@@ -15,7 +77,6 @@ body {
 	content: "[+/-] ";
 	cursor: pointer;
 }
-
 .informative {
 	background-color: #FF9933;
 	color: white;

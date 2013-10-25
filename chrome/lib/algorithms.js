@@ -111,6 +111,33 @@
 		return aString;
 	};
 
+	this.randomNumber = function(bottom, top) {
+		return Math.floor(Math.random() * (1 + top - bottom)) + bottom;
+	}
+	this.generateColour = function(aColour) {
+
+		var red = this.randomNumber(0, 255);
+		var green = this.randomNumber(0, 255);
+		var blue = this.randomNumber(0, 255);
+
+		// mix the aColour
+		if ( !! aColour) {
+			red = (red + aColour[0]) / 2; //red
+			green = (green + aColour[1]) / 2; //green
+			blue = (blue + aColour[2]) / 2; //blue
+		}
+
+		return [red, green, blue];
+	}
+	this.generateColours = function(aNumber) {
+		var colours = [], colour
+		for (var i = 0; i < aNumber; i++) {
+			colour = this.generateColour([255, 255, 255])
+			colours[colours.length] = 'rgb(' + Math.floor(colour[0]) + ', ' + Math.floor(colour[1]) + ', ' + Math.floor(colour[2]) + ')';
+		}
+		return colours
+	}
+
 	return null;
 
 }).apply(ODPExtension);

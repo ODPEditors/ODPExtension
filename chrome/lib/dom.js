@@ -237,6 +237,9 @@
 		}
 
 	}
+	this.isVisible = function(aNode) {
+		return !(aNode && aNode.offsetWidth === 0 && aNode.offsetHeight === 0)
+	}
 	//hides the non selected item
 	this.paginate = function(aNode) {
 		var childNodes = aNode.parentNode.childNodes;
@@ -280,7 +283,7 @@
 	this.saveAutocomplete = function(aTextbox) {
 		try {
 			var aValue = this.trim(aTextbox.value);
-			if(aValue != '')
+			if (aValue != '')
 				Components.classes["@mozilla.org/satchel/form-history;1"].getService(Components.interfaces.nsIFormHistory2).addEntry(aTextbox.getAttribute('autocompletesearchparam'), aTextbox.value);
 		} catch (e) {}
 	}
@@ -288,29 +291,28 @@
 	this.select = function(aQuery, anHTML, anURI) {
 
 		var aBaseHREF = '<base href="' + anURI + '" />';
-		if(
-		   	anHTML.indexOf('<html') != -1 || anHTML.indexOf('<HTML') != -1 ||
-		   	anHTML.indexOf('<head') != -1 || anHTML.indexOf('<HEAD') != -1 ||
-		   	anHTML.indexOf('<body') != -1 || anHTML.indexOf('<BODY') != -1
-		){
-			if(anHTML.indexOf('<base') != -1 || anHTML.indexOf('<BASE') != -1){} else {
-					anHTML = anHTML
-						.replace('</HEAD>', aBaseHREF+'</HEAD>')
-						.replace('</head>', aBaseHREF+'</head>')
-						.replace('<HEAD>', '<HEAD>'+aBaseHREF)
-						.replace('<head>', '<head>'+aBaseHREF)
-						.replace('<html>', '<html>'+aBaseHREF)
-						.replace('<body>', aBaseHREF+'<body>')
-						.replace('<BODY>', aBaseHREF+'<BODY>');
+		if (
+			anHTML.indexOf('<html') != -1 || anHTML.indexOf('<HTML') != -1 ||
+			anHTML.indexOf('<head') != -1 || anHTML.indexOf('<HEAD') != -1 ||
+			anHTML.indexOf('<body') != -1 || anHTML.indexOf('<BODY') != -1) {
+			if (anHTML.indexOf('<base') != -1 || anHTML.indexOf('<BASE') != -1) {} else {
+				anHTML = anHTML
+					.replace('</HEAD>', aBaseHREF + '</HEAD>')
+					.replace('</head>', aBaseHREF + '</head>')
+					.replace('<HEAD>', '<HEAD>' + aBaseHREF)
+					.replace('<head>', '<head>' + aBaseHREF)
+					.replace('<html>', '<html>' + aBaseHREF)
+					.replace('<body>', aBaseHREF + '<body>')
+					.replace('<BODY>', aBaseHREF + '<BODY>');
 			}
 		} else {
-			anHTML = '<html><head>'+aBaseHREF+'</head><body>'+anHTML+'</body></html>';
+			anHTML = '<html><head>' + aBaseHREF + '</head><body>' + anHTML + '</body></html>';
 		}
 
 		var aDoc = document.implementation.createHTMLDocument("parser");
 		aDoc.documentElement.innerHTML = anHTML;
 
-/*
+		/*
 		//resolving relative paths
 		//relative paths are not resolved by "parseFragment" when strict XML is false.
 		var linkedAttributes = ['href', 'HREF', 'src', 'SRC'];
@@ -357,20 +359,19 @@
 	this.toDOM = function(anHTML, anURI) {
 
 		var aBaseHREF = '<base href="' + anURI + '" odp-extension="true"/>';
-		if(
-		   	anHTML.indexOf('<html') != -1 || anHTML.indexOf('<HTML') != -1 ||
-		   	anHTML.indexOf('<head') != -1 || anHTML.indexOf('<HEAD') != -1 ||
-		   	anHTML.indexOf('<body') != -1 || anHTML.indexOf('<BODY') != -1
-		){
-			if(anHTML.indexOf('<base') != -1 || anHTML.indexOf('<BASE') != -1){} else {
-					anHTML = anHTML
-						.replace('</HEAD>', aBaseHREF+'</HEAD>')
-						.replace('</head>', aBaseHREF+'</head>')
-						.replace('<HEAD>', '<HEAD>'+aBaseHREF)
-						.replace('<head>', '<head>'+aBaseHREF)
-						.replace('<html>', '<html>'+aBaseHREF)
-						.replace('<body>', aBaseHREF+'<body>')
-						.replace('<BODY>', aBaseHREF+'<BODY>');
+		if (
+			anHTML.indexOf('<html') != -1 || anHTML.indexOf('<HTML') != -1 ||
+			anHTML.indexOf('<head') != -1 || anHTML.indexOf('<HEAD') != -1 ||
+			anHTML.indexOf('<body') != -1 || anHTML.indexOf('<BODY') != -1) {
+			if (anHTML.indexOf('<base') != -1 || anHTML.indexOf('<BASE') != -1) {} else {
+				anHTML = anHTML
+					.replace('</HEAD>', aBaseHREF + '</HEAD>')
+					.replace('</head>', aBaseHREF + '</head>')
+					.replace('<HEAD>', '<HEAD>' + aBaseHREF)
+					.replace('<head>', '<head>' + aBaseHREF)
+					.replace('<html>', '<html>' + aBaseHREF)
+					.replace('<body>', aBaseHREF + '<body>')
+					.replace('<BODY>', aBaseHREF + '<BODY>');
 			}
 		}
 
@@ -450,10 +451,10 @@
 		var object = {
 			t: element.tagName
 		};
-		var children = element.childNodes;
-		if (children.length) {
+		var children = element.childNodes, length = children.length;
+		if (length) {
 			var b = 0;
-			for (var i = 0; i < children.length; i++) {
+			for (var i = 0; i < length; i++) {
 				if (children[i].nodeType == 1) {
 					if (!object.c)
 						object.c = [];
@@ -465,13 +466,17 @@
 	}
 
 	this.removeComments = function(element) {
-		for (var i = 0; i < element.childNodes.length; i++) {
-			var child = element.childNodes[i];
-			if (child.nodeType === 8) {
-				element.removeChild(child);
-				i--;
-			} else if (child.nodeType === 1) {
-				this.removeComments(child);
+		var childs = element.childNodes,
+			length = childs.length;
+		for (var i = 0; i < childs.length; i++) {
+			var child = childs[i];
+			switch (child.nodeType) {
+				case 8:
+					element.removeChild(child);
+					i--;
+					break;
+				case 1:
+					this.removeComments(child);
 			}
 		}
 	}

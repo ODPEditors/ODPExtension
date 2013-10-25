@@ -1,0 +1,65 @@
+"None are so hopelessly enslaved as those who falsely believe they are free."
+												Johann Wolfgang von Goethe
+
+ODP Extension licenses
+
+ODP Extension  - Different editing experience
+https://github.com/ODPEditors/ODPExtension
+
+Copyright (C) 2006-2013 tito (ed:development) <tito.bouzout@gmail.com>
+This license apply to all the files inside this program unless noted different
+for some files, or portions of code.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation. http://www.gnu.org/licenses/gpl.html
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see http://www.gnu.org/licenses/gpl.html
+
+----------------------------------------------------------------------------------
+
+jquery-2.0.3.min.js
+https://jquery.org/license/
+
+----------------------------------------------------------------------------------
+
+LanguageDetect.js
+http://blog.fgribreau.com/2011/07/week-end-project-nodejs-language.html
+
+----------------------------------------------------------------------------------
+
+d3.v3.min.js
+https://github.com/mbostock/d3/blob/master/LICENSE
+
+----------------------------------------------------------------------------------
+
+crossfilter.min.js
+https://github.com/square/crossfilter/blob/master/LICENSE
+
+----------------------------------------------------------------------------------
+
+bayes.js
+https://github.com/ttezel/bayes/
+
+----------------------------------------------------------------------------------
+
+jquery.tinysort.min.js
+https://github.com/Sjeiti/TinySort
+
+----------------------------------------------------------------------------------
+
+underscore-min.js
+http://underscorejs.org/
+
+----------------------------------------------------------------------------------
+
+backbone-min.js
+http://backbonejs.org/
+
+----------------------------------------------------------------------------------

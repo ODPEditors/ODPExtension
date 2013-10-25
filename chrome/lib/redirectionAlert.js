@@ -180,6 +180,7 @@
 					aData.linksInternal = []
 					aData.linksExternal = []
 					aData.mediaCount = 0;
+					aData.hasFrameset = 0;
 					aData.dateStart = ODPExtension.now();
 
 					aData.removeFromBrowserHistory = !ODPExtension.isVisitedURL(aURL);
@@ -279,25 +280,26 @@
 							aData.linksInternal = []
 							aData.linksExternal = []
 
-							var links = ODPExtension.getAllLinksHrefs(aDoc);
+							var links = ODPExtension.getAllLinksItems(aDoc);
 							for (var i = 0, length = links.length; i < length; i++) {
 								var link = links[i];
 								if (link.href && link.href != '' && link.href.indexOf('http') === 0) {
 									var aDomain = ODPExtension.getDomainFromURL(link.href)
 									if (aDomain != aData.domain)
 										aData.linksExternal.push({
-											url: link.href,
+											url: String(link.href),
 											anchor: link.innerHTML,
 											domain: aDomain
 										});
 									else
 										aData.linksInternal.push({
-											url: link.href,
+											url: String(link.href),
 											anchor: link.innerHTML,
 											domain: aDomain
 										});
 								}
 							}
+							link = links = null
 
 							var mediaTags = ['object', 'media', 'video', 'audio', 'embed'];
 							if (!aDoc.mediaCounted) {
@@ -312,6 +314,8 @@
 								for (var id in mediaTags)
 									aData.mediaCount += aDoc.getElementsByTagName(mediaTags[id]).length;
 							}
+
+							aData.hasFrameset =  aDoc.getElementsByTagName('frameset').length;
 
 							//clone doc, do not touch the doc in the tab
 							aDoc = aDoc.cloneNode(true);
@@ -415,8 +419,8 @@
 									setTimeout(function() {
 										onTabLoad()
 									}, 12000);
-
-									aFunctionTick();
+									if(!!aFunctionTick)
+										aFunctionTick();
 								}
 							}
 						}
@@ -443,7 +447,7 @@
 							}
 						}, oRedirectionAlert.timeout + 5000); //give 60 seconds to load, else, just forget it.
 					});
-
+					return null;
 				};
 				Requester.onerror = Requester.onabort = function(TIMEDOUT) {
 					aData.checkType = 'XMLHttpRequestError'
@@ -552,14 +556,14 @@
 	}
 	//https://developer.mozilla.org/en-US/docs/How_to_check_the_security_state_of_an_XMLHTTPRequest_over_SSL
 	this.createTCPErrorFromFailedXHR = function(xhr) {
-		let status = xhr.channel.QueryInterface(Components.interfaces.nsIRequest).status;
+		var status = xhr.channel.QueryInterface(Components.interfaces.nsIRequest).status;
 
-		let errType;
+		var errType;
 		var errName = -1;
 		if ((status & 0xff0000) === 0x5a0000) { // Security module
 			const nsINSSErrorsService = Components.interfaces.nsINSSErrorsService;
-			let nssErrorsService = Components.classes['@mozilla.org/nss_errors_service;1'].getService(nsINSSErrorsService);
-			let errorClass;
+			var nssErrorsService = Components.classes['@mozilla.org/nss_errors_service;1'].getService(nsINSSErrorsService);
+			var errorClass;
 			// getErrorClass will throw a generic NS_ERROR_FAILURE if the error code is
 			// somehow not in the set of covered errors.
 			try {
@@ -577,7 +581,7 @@
 			if ((status & 0xffff) < Math.abs(nsINSSErrorsService.NSS_SEC_ERROR_BASE)) {
 				// The bases are actually negative, so in our positive numeric space, we
 				// need to subtract the base off our value.
-				let nssErr = Math.abs(nsINSSErrorsService.NSS_SEC_ERROR_BASE) - (status & 0xffff);
+				var nssErr = Math.abs(nsINSSErrorsService.NSS_SEC_ERROR_BASE) - (status & 0xffff);
 				switch (nssErr) {
 					case 11: // SEC_ERROR_EXPIRED_CERTIFICATE, sec(11)
 						errName = 'SecurityExpiredCertificateError';
@@ -605,7 +609,7 @@
 						break;
 				}
 			} else {
-				let sslErr = Math.abs(nsINSSErrorsService.NSS_SSL_ERROR_BASE) - (status & 0xffff);
+				var sslErr = Math.abs(nsINSSErrorsService.NSS_SSL_ERROR_BASE) - (status & 0xffff);
 				switch (sslErr) {
 					case 3: // SSL_ERROR_NO_CERTIFICATE, ssl(3)
 						errName = 'SecurityNoCertificateError';
@@ -665,8 +669,8 @@
 		aData.status = {};
 		aData.status.error = true;
 		aData.status.code = false;
-		aData.status.delete = false;
-		aData.status.unreview = false;
+		aData.status.canDelete = false;
+		aData.status.canUnreview = false;
 		aData.status.suspicious = [];
 
 		//HTTP redirections to HTTPS are not perceived as a redirection, log it
@@ -684,25 +688,29 @@
 		) {
 			aData.status.code = -6;
 			aData.status.errorString = 'Bad URL';
-			aData.status.unreview = true;
+			aData.status.errorStringUserFriendly = 'Bad URL';
+			aData.status.canUnreview = true;
 
 			//-1 	Unable to Resolve Host 	They didn't pay their bill for their Domain name.
 		} else if (false || aData.statuses.indexOf(-1) != -1 || aData.statuses.indexOf('DomainNotFound') != -1) {
 			aData.status.code = -1;
 			aData.status.errorString = 'Domain Not Found';
-			aData.status.delete = true;
+			aData.status.errorStringUserFriendly = 'Does Not Work';
+			aData.status.canDelete = true;
 
 			//-401  SSL Error
 		} else if (false || aData.statuses.indexOf('SecurityProtocol') != -1 || aData.statuses.indexOf('SecurityCertificate') != -1 || aData.statuses.indexOf('SecurityExpiredCertificateError') != -1 || aData.statuses.indexOf('SecurityRevokedCertificateError') != -1 || aData.statuses.indexOf('SecurityUntrustedCertificateIssuerError') != -1 || aData.statuses.indexOf('SecurityInadequateKeyUsageError') != -1 || aData.statuses.indexOf('SecurityCertificateSignatureAlgorithmDisabledError') != -1 || aData.statuses.indexOf('SecurityError') != -1 || aData.statuses.indexOf('SecurityNoCertificateError') != -1 || aData.statuses.indexOf('SecurityBadCertificateError') != -1 || aData.statuses.indexOf('SecurityUnsupportedCertificateTypeError') != -1 || aData.statuses.indexOf('SecurityUnsupportedTLSVersionError') != -1 || aData.statuses.indexOf('SecurityCertificateDomainMismatchError') != -1 || aData.statuses.indexOf('SecurityCertificateDomainMismatchError') != -1) {
 			aData.status.code = -401;
 			aData.status.errorString = 'SSL Error: ' + aData.statuses.join(',');
-			aData.status.unreview = true;
+			aData.status.errorStringUserFriendly = 'SSL Error';
+			aData.status.canUnreview = true;
 
 			//-4 	Can't connect 	We can't connect to the HTTP server. The server is there but it didn't want to talk to Robozilla on the specified port.
 		} else if (false || aData.statuses.indexOf(-4) != -1 || aData.statuses.indexOf('ConnectionRefused') != -1 || aData.statuses.indexOf('NetworkError') != -1) {
 			aData.status.code = -4;
 			aData.status.errorString = 'Can\'t Connect';
-			aData.status.unreview = true;
+			aData.status.errorStringUserFriendly = 'Can\'t Connect';
+			aData.status.canUnreview = true;
 
 			//-5 	Timeout Robozilla connected OK, and sent the request but Robozilla timed out waiting to fetch the page. This happens sometimes on really busy servers.
 		} else if (false || aData.statuses.indexOf(-5) != -1 || aData.statuses.indexOf('NetworkTimeout') != -1 || lastStatus == 408 // Request Time-Out	- The server took longer than expected to return a page, and timed out. Similar to -5, but generated by the server, rather than Robozilla.
@@ -710,12 +718,15 @@
 		) {
 			aData.status.code = -5;
 			aData.status.errorString = 'Network Timeout';
-			aData.status.unreview = true;
+			aData.status.errorStringUserFriendly = 'Network Timeout';
+			aData.status.canUnreview = true;
 
 			//-1337 	Local Network error - probably the internet is gone
 		} else if (false || aData.statuses.indexOf(-1337) != -1 || aData.statuses.indexOf('NetworkInterrupt') != -1) {
 			aData.status.code = -1337;
 			aData.status.errorString = 'Internet Gone!?';
+			aData.status.errorStringUserFriendly = 'Internet Gone!?';
+
 
 			//Server Error	The server returned an error code that looks like permanent.
 		} else if (false || lastStatus == 505 // HTTP Version Not Supported
@@ -746,7 +757,8 @@
 		) {
 			aData.status.code = lastStatus;
 			aData.status.errorString = 'Server Error';
-			aData.status.unreview = true;
+			aData.status.errorStringUserFriendly = 'Server Error';
+			aData.status.canUnreview = true;
 
 			//404 	Not Found
 		} else if (false || lastStatus == 404 // Not Found
@@ -754,7 +766,8 @@
 		) {
 			aData.status.code = lastStatus;
 			aData.status.errorString = 'Not Found';
-			aData.status.unreview = true;
+			aData.status.errorStringUserFriendly = 'Not Found';
+			aData.status.canUnreview = true;
 
 			//-8 	Empty Page
 		} else if (false ||
@@ -763,7 +776,8 @@
 			aData.status.code = -8;
 			aData.statuses.push(aData.status.code);
 			aData.status.errorString = 'Empty Page';
-			aData.status.unreview = true;
+			aData.status.errorStringUserFriendly = 'Empty Page';
+			aData.status.canUnreview = true;
 			aData.status.match = aData.txt;
 
 			//-1340 	Redirect OK	The server redirects to another page but it's OK and  probably very likelly can be autofixed
@@ -777,6 +791,7 @@
 		|| aData.urlOriginal != aData.urlLast) && this.redirectionOKAutoFix(aData.urlOriginal, aData.urlLast)) {
 			aData.status.code = -1340;
 			aData.status.errorString = 'Redirect OK Candidate 4 Autofix';
+			aData.status.errorStringUserFriendly = 'OK';
 			aData.status.error = false;
 
 			//-1338 	Redirect OK	The server redirects to another page but it's OK
@@ -790,6 +805,7 @@
 		|| aData.urlOriginal != aData.urlLast) && this.redirectionOK(aData.urlOriginal, aData.urlLast)) {
 			aData.status.code = -1338;
 			aData.status.errorString = 'Redirect OK';
+			aData.status.errorStringUserFriendly = 'OK';
 			aData.status.error = false;
 
 			//-1339 	Redirect Must be corrected The server redirects to another page and must be corrected
@@ -801,18 +817,22 @@
 		|| aData.urlOriginal != aData.urlLast) {
 			aData.status.code = -1339;
 			aData.status.errorString = 'Redirect';
+			aData.status.errorStringUserFriendly = 'Redirect';
 
 			//200 OK
 		} else if (false || lastStatus == 200 // OK
 		) {
 			aData.status.code = 200;
 			aData.status.errorString = 'OK';
+			aData.status.errorStringUserFriendly = 'OK';
+
 			aData.status.error = false;
 
 			//-7 	Server Error	The server returned an unknown error code, and is probably mis-configured. The page may still show up okay, but it's a good idea to check it just in case.
 		} else {
 			aData.status.code = lastStatus;
 			aData.status.errorString = 'Unknown Error';
+			aData.status.errorStringUserFriendly = 'Unknown Error';
 		}
 
 		//most important should go first (example, makes no sense to check for errors in a page that is just parked)
@@ -847,10 +867,11 @@
 						aData.status.error = true;
 						aData.status.code = this['urlFlags'][array[name]]['errorCode'];
 						if (this['urlFlags'][array[name]]['canDelete'])
-							aData.status.delete = true;
+							aData.status.canDelete = true;
 						if (this['urlFlags'][array[name]]['canUnreview'])
-							aData.status.unreview = true;
+							aData.status.canUnreview = true;
 						aData.status.errorString = this['urlFlags'][array[name]]['errorString'];
+						aData.status.errorStringUserFriendly = this['urlFlags'][array[name]]['errorStringUserFriendly'];
 						aData.statuses.push(aData.status.code);
 						aData.status.match = string;
 						breaky = true;
@@ -867,8 +888,8 @@
 			aData.status.suspicious.push('Unknown content type: ' + aData.contentType);
 			//ODPExtension.dump(aData);
 		}
-		if (aData.html.indexOf('frameset') != -1) {
-			aData.status.suspicious.push('Document may has a FrameSet');
+		if (aData.hasFrameset > 0) {
+			aData.status.suspicious.push('Document has a FrameSet');
 		}
 
 		//experimenting
@@ -902,8 +923,8 @@
 
 		if (this.getSchema(oldURL) != this.getSchema(newURL))
 			return false;
-		oldURL = this.removeWWW(this.removeSchema(oldURL)).replace(/\/+$/, '').toLowerCase()
-		newURL = this.removeWWW(this.removeSchema(newURL)).replace(/\/+$/, '').toLowerCase();
+		oldURL = this.removeWWW(this.removeSchema(oldURL)).replace(/\/+$/, '').toLowerCase().trim();
+		newURL = this.removeWWW(this.removeSchema(newURL)).replace(/\/+$/, '').toLowerCase().trim();
 
 		if (oldURL == newURL) {
 			return true;

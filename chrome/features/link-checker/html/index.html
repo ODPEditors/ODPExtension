@@ -1,58 +1,11 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-		<title>Graph</title>
-		<script src="chrome://ODPExtension/content/lib-external/d3.v3.min.js"></script>
-<style type="text/css">
-	html, body{
-		padding: 0;
-		margin: 0;
-		border: 0;
-		overflow: hidden;
-		font: 1em sans-serif;
-	}
-	path, image, text{
-		pointer-events: none;
-	}
-	path.link {
-		fill: none;
-		stroke: #666;
-		stroke-width: 1.5px;
-		z-index: 2000;
-	}
-	marker#green {
-		fill: green;
-	}
-	path.link.green {
-		stroke: green;
-	}
-	path.link.dotted {
-		stroke-dasharray: 0,2 1;
-	}
-	path.link.connected-source{
-		stroke:red;
-	}
-	path.link.connected-target{
-		stroke:blue;
-	}
-	path.link.connected-no{
-		stroke-opacity:.2;
-		fill-opacity:.2;
-	}
-	circle {
-		stroke: #D5D5D5;
-		fill: rgb(243, 243, 243);
-		stroke-width: 1px;
-	}
-	text {
-
-	}
-	image{
-		border-radius: 4px;
-		z-index:4000;
-	}
-</style>
+<head>
+	<meta charset="utf-8">
+	<title>Graph</title>
+	<script src="chrome://ODPExtension/content/lib-external/d3.v3.min.js"></script>
+	<link type="text/css" media="all" rel="stylesheet" href="chrome://ODPExtension/content/html/@css.css"/>
+	<link type="text/css" media="all" rel="stylesheet" href="@css.css"/>
 </head>
 <body><script type="text/javascript">
 

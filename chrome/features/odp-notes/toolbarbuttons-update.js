@@ -6,12 +6,14 @@
 
 	//updates show or hide the ODP URL Notes toolbarbuttons
 	this.addListener('onLocationChange', function(aLocation) {
-		ODPExtension.odpURLNotesToolbarbuttonsUpdate(ODPExtension.focusedSubdomain);
+		ODPExtension.odpURLNotesToolbarbuttonsUpdate();
 	});
 
 	//hides or shows the toolbatbuttons (update,unreview,delete,options) when the user hits the edit url form
 
-	this.odpURLNotesToolbarbuttonsUpdate = function(aSubdomain) {
+	this.odpURLNotesToolbarbuttonsUpdate = function() {
+
+		var aSubdomain = this.getSubdomainFromURL(this.documentFocusedGetLocation())
 		//when the location change we empty the cache of documents selected with multiple tab handler
 		this.odpURLNotesMultipleTabHandlerSelectedDocuments = [];
 

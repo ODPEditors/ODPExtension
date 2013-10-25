@@ -3,22 +3,27 @@
 
 	var debugingThisFile = true;
 
-	//informative popup
+	var focusedURL = '';
+	var focusedURLLast = '';
+
 	//updates the content when switching tabs
 	this.addListener('onLocationChangeNotDocumentLoad', function(aLocation) {
-		ODPExtension.listingGetInformation(aLocation);
+		var aDoc = ODPExtension.documentGetFocused();
+		if (ODPExtension.editingFormURLExists(aDoc)) {
+			focusedURL = (ODPExtension.getElementNamed('newurl', aDoc) || ODPExtension.getElementNamed('url', aDoc)).value;
+		} else {
+			focusedURL = aLocation;
+		}
+		ODPExtension.listingGetInformation(focusedURL);
 	});
 
 	this.addListener('onLocationChange', function(aLocation) {
-
 		var aDoc = ODPExtension.documentGetFocused();
-		if(ODPExtension.editingFormURLExists(aDoc)){
-			aLocation = ODPExtension.getElementNamed('newurl', aDoc) || ODPExtension.getElementNamed('url', aDoc)
-			aLocation = aLocation.value;
-			ODPExtension.listingGetInformation(aLocation);
+		if (ODPExtension.editingFormURLExists(aDoc)) {
+			focusedURL = (ODPExtension.getElementNamed('newurl', aDoc) || ODPExtension.getElementNamed('url', aDoc)).value;
+			ODPExtension.listingGetInformation(focusedURL);
 		}
 	});
-
 	var db, query_domain_count, query_domain_select, query_slice;
 	this.addListener('databaseReady', function() {
 
@@ -192,6 +197,9 @@
 	var cacheDomainsWithListings = [],
 		cacheDomainsWithNOListings = []
 		this.listingGetInformation = function(aLocation) {
+			if (aLocation == focusedURLLast)
+				return;
+			focusedURLLast = aLocation;
 
 			if (!this.preferenceGet('ui.informative.panel') || !this.preferenceGet('enabled') || !db.exists) {
 				//listing check disabled
@@ -227,7 +235,7 @@
 			aLocationID.path_parent_folder = this.removeFileName2(aLocationID.path_no_file_name)
 			aLocationID.path_first_folder = this.removeFromTheFirstFolder2(aLocationID.path_parent_folder)
 
-			//ODPExtension.dump('query:'+aLocation);
+			//ODPExtension.dump('query:' + aLocation);
 
 			//check if the domain has few listings and is cached
 			if ( !! cacheDomainsWithListings[aLocationID.domain]) {
@@ -272,7 +280,7 @@
 
 	this.listingGetInformationLoaded = function(aData, aLocation, aLocationID) {
 		//check if the retreived data is for this focused tab
-		if (aLocation == this.focusedURL && this.preferenceGet('enabled')) {
+		if (aLocation == focusedURL && this.preferenceGet('enabled')) {
 
 			//validate the response
 			if (aData.length == 0) {
@@ -286,10 +294,10 @@
 			}
 
 			//if there is a need to remove the www
-			var focusedLocationWWW = this.decodeUTF8Recursive(this.removeSchema(this.shortURL(this.focusedURL).replace(/\/+$/, ''))).toLowerCase();
-			var focusedLocationNoWWW = this.removeWWW(this.focusedURL);
-			var focusedLocationDomain = this.focusedDomain;
-			var focusedLocationSubdomain = this.focusedSubdomain;
+			var focusedLocationWWW = this.decodeUTF8Recursive(this.removeSchema(this.shortURL(focusedURL).replace(/\/+$/, ''))).toLowerCase();
+			var focusedLocationNoWWW = this.removeWWW(focusedURL);
+			var focusedLocationDomain = this.getDomainFromURL(focusedURL);
+			var focusedLocationSubdomain = this.getSubdomainFromURL(focusedURL);
 
 			/* resutls comparation to see if the URI is listed*/
 			var listed_same_uri = -1;

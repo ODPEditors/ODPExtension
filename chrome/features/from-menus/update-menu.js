@@ -205,13 +205,13 @@
 		//check link with category attribute
 		//this.dump(fromWhere);
 
-		if (fromWhere == 'context-from-category' && gContextMenu && gContextMenu.link && (gContextMenu.link.hasAttribute('category') || gContextMenu.link.hasAttribute('data-category') || gContextMenu.link.hasAttribute('data-odpextension-autopopup'))) {
-			if (gContextMenu.link.hasAttribute('category'))
-				var aLinkCategoryAttribute = this.categoryGetFromURL(gContextMenu.link.getAttribute('category'));
-			else if (gContextMenu.link.hasAttribute('data-category'))
-				var aLinkCategoryAttribute = this.categoryGetFromURL(gContextMenu.link.getAttribute('data-category'));
-			else if (gContextMenu.link.hasAttribute('data-odpextension-autopopup')) {
-				var aLinkCategoryAttribute = this.categoryGetFromURL(gContextMenu.link.href);
+		if (fromWhere == 'context-from-category' && gContextMenu && gContextMenu.target && (gContextMenu.target.hasAttribute('category') || gContextMenu.target.hasAttribute('data-category') || gContextMenu.target.hasAttribute('data-odpextension-autopopup'))) {
+			if (gContextMenu.target.hasAttribute('category'))
+				var aLinkCategoryAttribute = this.categoryGetFromURL(gContextMenu.target.getAttribute('category'));
+			else if (gContextMenu.target.hasAttribute('data-category'))
+				var aLinkCategoryAttribute = this.categoryGetFromURL(gContextMenu.target.getAttribute('data-category'));
+			else if (gContextMenu.target.hasAttribute('data-odpextension-autopopup')) {
+				var aLinkCategoryAttribute = this.categoryGetFromURL(gContextMenu.target.getAttribute('href'));
 				autoPopup = true;
 			}
 		} else
@@ -259,8 +259,6 @@
 			var thePopupContainer = this.getElement(fromWhere);
 
 		//from editor
-
-
 		var aEditor = '';
 
 		aTemp = this.getSelectedLinksURLs();

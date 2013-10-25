@@ -60,6 +60,8 @@
 			this.shared = this.sharedObjectGet('shared');
 		}
 
+		this.shared.me = this.preferenceGet('me');
+
 		//correction of the extension directory
 		this.extensionDirectory();
 

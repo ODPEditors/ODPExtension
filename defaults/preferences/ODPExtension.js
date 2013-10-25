@@ -136,3 +136,4 @@ pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.uk', false)
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.vi', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.cy', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.yi', false);
+pref('extensions.ODPExtension.me', false);

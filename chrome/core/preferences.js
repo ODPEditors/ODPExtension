@@ -143,7 +143,8 @@
 		'ui.context.menu.translate.lang.display.uk',
 		'ui.context.menu.translate.lang.display.vi',
 		'ui.context.menu.translate.lang.display.cy',
-		'ui.context.menu.translate.lang.display.yi'
+		'ui.context.menu.translate.lang.display.yi',
+		'me'
 
 	];
 

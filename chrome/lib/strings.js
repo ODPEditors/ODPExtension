@@ -107,7 +107,7 @@
 			return aString;
 	};
 	//Encodes HTML special chars
-	this.htmlSpecialCharsEncode = function(aString) {
+	this.htmlSpecialCharsEncode = this.h = function(aString) {
 		if (!aString)
 			return '';
 		return aString.split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;').split("'").join('&apos;');
@@ -209,12 +209,13 @@
 		if (!detectLanguageLoaded.loaded) {
 			detectLanguageLoaded.console = console;
 			Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-				.getService(Components.interfaces.mozIJSSubScriptLoader).loadSubScript("chrome://ODPExtension/content/lib-external/cld-min.js", detectLanguageLoaded, "UTF-8");
+				.getService(Components.interfaces.mozIJSSubScriptLoader)
+				.loadSubScript("chrome://ODPExtension/content/lib-external/LanguageDetect.js", detectLanguageLoaded, "UTF-8");
 		}
 		var lang = detectLanguageLoaded.detectLanguage(aString.slice(0, 4096));
 		if (!lang)
 			lang = 'Unknown';
-		return lang;
+		return this.ucFirst(lang);
 	}
 	return null;
 

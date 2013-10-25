@@ -23,15 +23,8 @@
 															WHERE \
 																`categories_history_category`= :categories_history_category \
 														');
-		this.categoryHistoryGetMostVisitedLimit = db.query(' \
-																		SELECT \
-																			`categories_history_category` \
-																		FROM \
-																			`categories_history` \
-																		ORDER BY \
-																			`categories_history_radiation` DESC, \
-																			`categories_history_category` DESC LIMIT 300 \
-																	');
+		this.categoryHistoryGetMostVisitedLimit = db.query('select categories_history_radiation/((cast(strftime("%s", DATE("now")) - strftime("%s", categories_history_date) as real) /60/60)+1) as radiation, `categories_history_category` from categories_history order by radiation desc LIMIT 300');
+
 		this.categoryHistoryGetHistory = db.query(' \
 																 		SELECT \
 																			`categories_history_category` \

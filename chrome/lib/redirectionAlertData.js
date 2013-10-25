@@ -4,6 +4,7 @@
 		parked: {
 			errorCode: -8,
 			errorString: 'Parked',
+			errorStringUserFriendly: 'No Content',
 			canDelete: true,
 			body:[''
 				,"domainname=referer_detect"
@@ -76,6 +77,7 @@
 		, forSale: {
 			errorCode: -8,
 			errorString: 'For Sale',
+			errorStringUserFriendly: 'No Content',
 			canDelete: true,
 			body:[''
 				,"domainnamesales.com/lcontact?d="
@@ -97,7 +99,8 @@
 
 		, pendingRenew: {
 			errorCode: -8,
-			errorString: 'Pending Review',
+			errorString: 'Pending Renew',
+			errorStringUserFriendly: 'No Content',
 			canUnreview: true,
 			body:[''
 				,"and is pending renewal or deletion"
@@ -114,6 +117,7 @@
 		, gonePermanent: {
 			errorCode: -8,
 			errorString: 'Gone',
+			errorStringUserFriendly: 'Not Found',
 			canDelete: true,
 			body:[''
 				,"<title>Blogger: Sign in</title>"
@@ -147,6 +151,7 @@
 		, goneTemporal: {
 			errorCode: -8,
 			errorString: 'Not Found',
+			errorStringUserFriendly: 'Not Found',
 			canUnreview: true,
 			body:[''
 				,"<title>Página no encontrada</title>"
@@ -172,6 +177,7 @@
 		, serverPage: {
 			errorCode: -8,
 			errorString: 'Server Default Page',
+			errorStringUserFriendly: 'No Content',
 			canUnreview: true,
 			body:[''
 				,"cgi-sys/defaultwebpage"
@@ -220,6 +226,7 @@
 		, emptyMeaningNoContent: {
 			errorCode: -8,
 			errorString: 'No Content',
+			errorStringUserFriendly: 'No Content',
 			canUnreview: true,
 			body:[''
 				,'<h1>Your website is up and running!</h1>'
@@ -238,6 +245,7 @@
 		, pageErrors: {
 			errorCode: -8,
 			errorString: 'Has Errors',
+			errorStringUserFriendly: 'Has Errors',
 			canUnreview: true,
 			body:[''
 				,"<b>Fatal error</b>:  require_once("
@@ -262,6 +270,7 @@
 		, underConstruction: {
 			errorCode: -8,
 			errorString: 'Under Construction',
+			errorStringUserFriendly: 'Under Construction',
 			canUnreview: true,
 			body:[''
 				,"<title>Site under maintenance"
@@ -295,6 +304,7 @@
 		, comingSoon: {
 			errorCode: -8,
 			errorString: 'Coming Soon',
+			errorStringUserFriendly: 'No Content',
 			canUnreview: true,
 			body:[''
 				,'<p>coming soon</p>'
@@ -309,6 +319,7 @@
 		, suspended: {
 			errorCode: -8,
 			errorString: 'Suspended',
+			errorStringUserFriendly: 'Suspended',
 			canUnreview: true,
 			body:[''
 				,"cgi-sys/suspendedpage.cgi"
@@ -328,6 +339,7 @@
 		, hacked: {
 			errorCode: -8,
 			errorString: 'Hacked',
+			errorStringUserFriendly: 'No Content',
 			canUnreview: true,
 			body:[''
 				,'<title>Hacked By '
@@ -338,6 +350,7 @@
 		, hijacked: {
 			errorCode: -8,
 			errorString: 'Hijacked',
+			errorStringUserFriendly: 'No Content',
 			canDelete: true,
 			body:[''
 				,'.credonic.com'

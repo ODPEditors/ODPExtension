@@ -128,9 +128,11 @@
 		//used vars
 		var aTemp;
 
+		var getSelectedTextHTML = this.getSelectedTextHTML();
+
 		//hack for pre tag support
 		if (gContextMenu && gContextMenu.target && this.tagName(gContextMenu.target) == 'pre') {
-			var selectedText = this.trim(this.stripTags(this.getSelectedTextHTML()));
+			var selectedText = this.trim(this.stripTags(getSelectedTextHTML));
 		} else {
 			var selectedText = this.trim(this.getSelectedText(false));
 		}
@@ -140,7 +142,7 @@
 								then
 								if the selected text contains a <a tag, then is not a pre tag or our own at least.
 							*/
-		var selectedTextHTML = this.getSelectedTextHTML();
+		var selectedTextHTML = getSelectedTextHTML;
 		if (selectedTextHTML.indexOf('<a') != -1 || selectedTextHTML.indexOf('<A') != -1)
 			selectedTextHTML = selectedText;
 		else
@@ -165,7 +167,8 @@
 
 		//check if the selected first links are valid categories
 		var aCategoryLinks = '';
-		var aTemp = this.getSelectedLinksURLs();
+		var getSelectedLinksURLs = this.getSelectedLinksURLs();
+		var aTemp = getSelectedLinksURLs;
 		for (var id in aTemp) {
 			if ((aTemp[id] = this.categoryGetFromURL(aTemp[id])) != '') {
 				aCategoryLinks = aTemp[id];
@@ -232,7 +235,7 @@
 
 		//check if the selected links are valid categories
 		var aMCategoryLinks = [];
-		aTemp = this.getSelectedLinksURLs();
+		aTemp = getSelectedLinksURLs;
 		for (var id in aTemp) {
 			if ((aTemp[id] = this.categoryGetFromURL(aTemp[id])) != '') {
 				aMCategoryLinks[aMCategoryLinks.length] = aTemp[id]
@@ -261,18 +264,18 @@
 		//from editor
 		var aEditor = '';
 
-		aTemp = this.getSelectedLinksURLs();
+		aTemp = getSelectedLinksURLs;
 		for (var id in aTemp) {
 			if ((aEditor = this.editorGetFromURL(aTemp[id])) != '')
 				this.fromEditorSelectedEditors[this.fromEditorSelectedEditors.length] = aEditor;
 		}
 
-		if (this.fromEditorSelectedEditors.length == 0 && this.documentGetFocused().body && this.documentGetFocused().body.innerHTML) {
+/*		if (this.fromEditorSelectedEditors.length == 0 && this.documentGetFocused().body && this.documentGetFocused().body.innerHTML) {
 			aTemp = this.categoryParserGetCategoryEditors(this.documentGetFocused().body.innerHTML);
 			for (var id in aTemp) {
 				this.fromEditorSelectedEditors[this.fromEditorSelectedEditors.length] = aTemp[id];
 			}
-		}
+		}*/
 
 		if ((aEditor = this.editorGetFromURL(this.getSelectedLinkURL())) != '') {
 			this.fromEditorSelectedEditor = aEditor;

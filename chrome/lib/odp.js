@@ -2,20 +2,41 @@
 	//sanitize the format of a category
 	var categoryCheckFormatRegExp1 = /(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_|-)*$/;
 	var categoryCheckFormatRegExp2 = /^(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_|-)*/;
+	var categoryCheckFormatRegExp3 =/\r/g
+	var categoryCheckFormatRegExp4 =/\n\n/g
+	var categoryCheckFormatRegExp5 =/ +\(.*$/
+	var categoryCheckFormatRegExp6 =/ +\[.*$/
+	var categoryCheckFormatRegExp7 =/Unreviewed$/
+	var categoryCheckFormatRegExp8 =/Unrev$/
+	var categoryCheckFormatRegExp9 =/unrev$/
+	var categoryCheckFormatRegExp10 =/\.unreview$/
+	var categoryCheckFormatRegExp11 =/->.*$/
+	var categoryCheckFormatRegExp12 =/]$/
+	var categoryCheckFormatRegExp13 =/.* ([^ ]+)\]$/
+	var categoryCheckFormatRegExp14 =/\]$/
+	var categoryCheckFormatRegExp15 =/\:\+/g
+	var categoryCheckFormatRegExp16 =/\+/g
+	var categoryCheckFormatRegExp17 =/^\:+/
+	var categoryCheckFormatRegExp18 =/\s*?:\s*/g
+	var categoryCheckFormatRegExp19 =/\s/g
+	var categoryCheckFormatRegExp20 =/\s*?\/\s*/g
+	var categoryCheckFormatRegExp21 =/_*?\/_*/g
+	var categoryCheckFormatRegExp22 =/<.*$/
+	var categoryCheckFormatRegExp23 =/\/([^\/]+)\.(html|cgi|htm|php)$/i
+	var categoryCheckFormatRegExp24 =/\/[^\/]+$/
+	var categoryCheckFormatRegExp25 =/ /g
+
 	this.categoryCheckFormat = function(aCategory, aggressive) {
 		//multiples categories selected maybe
-
 		if (aCategory.indexOf('\n') != -1 || aCategory.indexOf('\r') != -1) {
-			aCategory = aCategory.replace(/\r/g, '\n').replace(/\n\n/g, '\n');
-			aCategory = aCategory.split('\n')[0];
+			aCategory = aCategory.replace(categoryCheckFormatRegExp3, '\n').replace(categoryCheckFormatRegExp4, '\n').split('\n')[0];
 		}
 
 		//ending with
-		aCategory = aCategory.replace(categoryCheckFormatRegExp1, '');
-		//starting with
-		aCategory = aCategory.replace(categoryCheckFormatRegExp2, '');
-
-		//stange caracteres
+		/*aCategory = aCategory
+						.replace(categoryCheckFormatRegExp1, '')
+						//starts with
+						.replace(categoryCheckFormatRegExp2, '');*/
 
 		//Test/Tools_for_Editors/New_Editors/faq.html#42
 		if (aCategory.indexOf('#') != -1)
@@ -42,31 +63,31 @@
 
 		//some log pages
 
-		aCategory = aCategory.replace(/ +\(.*$/, '');
-		aCategory = aCategory.replace(/ +\[.*$/, '');
-		aCategory = aCategory.replace(/Unreviewed$/, '');
-		aCategory = aCategory.replace(/Unrev$/, '');
-		aCategory = aCategory.replace(/unrev$/, '');
-		aCategory = aCategory.replace(/\.unreview$/, '');
+		aCategory = aCategory
+						.replace(categoryCheckFormatRegExp5, '')
+						.replace(categoryCheckFormatRegExp6, '')
+						.replace(categoryCheckFormatRegExp7, '')
+						.replace(categoryCheckFormatRegExp8, '')
+						.replace(categoryCheckFormatRegExp9, '')
+						.replace(categoryCheckFormatRegExp10, '')
 
 		//ending with
 
-		aCategory = aCategory.replace(/->.*$/, '');
-		aCategory = aCategory.replace(categoryCheckFormatRegExp1, '');
+						.replace(categoryCheckFormatRegExp11, '')
+						//.replace(categoryCheckFormatRegExp1, '')
 
 		//starting with
-		aCategory = aCategory.replace(categoryCheckFormatRegExp2, '');
+						//.replace(categoryCheckFormatRegExp2, '')
 
-		aCategory = this.trim(aCategory);
-
+						.trim(aCategory);
 		//I cant' remember this one
 
 		if (aCategory.indexOf('[') == -1 && aCategory.indexOf(']') != -1) {
-			aCategory = aCategory.replace(/]$/, '');
+			aCategory = aCategory.replace(categoryCheckFormatRegExp12, '');
 		}
 
-		if (aCategory.indexOf('[') != -1 && aCategory.indexOf(']') != -1 && (/\]$/.test(aCategory))) {
-			var catTest = aCategory.replace(/.* ([^ ]+)\]$/, "$1");
+		if (aCategory.indexOf('[') != -1 && aCategory.indexOf(']') != -1 && (categoryCheckFormatRegExp14.test(aCategory))) {
+			var catTest = aCategory.replace(categoryCheckFormatRegExp13, "$1");
 			if (catTest != '' && this.categoryStartsWithValidName(catTest)) {
 				aCategory = catTest;
 			}
@@ -77,40 +98,38 @@
 		//:World:+Chinese+Simplified:+科学:+科技:+电子工程/
 
 		if (aCategory.indexOf(':+') != -1)
-			aCategory = aCategory.replace(/\:\+/g, '/').replace(/\+/g, '_').replace(/^\:+/, '');
+			aCategory = aCategory.replace(categoryCheckFormatRegExp15, '/').replace(categoryCheckFormatRegExp16, '_').replace(categoryCheckFormatRegExp17, '');
 
 		//World : Chinese Simplified : 科学 : 科技 : 电子工程
 		if (aCategory.indexOf(':') != -1)
-			aCategory = aCategory.replace(/\s*?:\s*/g, '/').replace(/\s/g, '_');
+			aCategory = aCategory.replace(categoryCheckFormatRegExp18, '/').replace(categoryCheckFormatRegExp19, '_');
 
 		//World / Euskara / Hezkuntza
 		if (aCategory.indexOf(' /') != -1 || aCategory.indexOf('/ ') != -1)
-			aCategory = aCategory.replace(/\s*?\/\s*/g, '/');
+			aCategory = aCategory.replace(categoryCheckFormatRegExp20, '/');
 
 		//World_/_Euskara_/_Hezkuntza
 		if (aCategory.indexOf('_/') != -1 || aCategory.indexOf('/_') != -1)
-			aCategory = aCategory.replace(/_*?\/_*/g, '/');
+			aCategory = aCategory.replace(categoryCheckFormatRegExp21, '/');
 
 		//World/Español/Juegos/Cartas</td>
 		if (aCategory.indexOf('<') != -1)
-			aCategory = aCategory.replace(/<.*$/, '');
+			aCategory = aCategory.replace(categoryCheckFormatRegExp22, '');
 
 		//Test/Tools_for_Editors/New_Editors/faq.html
-		if (/\/([^\/]+)\.(html|cgi|htm|php)$/i.test(aCategory))
-			aCategory = aCategory.replace(/\/[^\/]+$/, '');
+		if (categoryCheckFormatRegExp23.test(aCategory))
+			aCategory = aCategory.replace(categoryCheckFormatRegExp24, '');
 
-		aCategory = this.categorySanitize(aCategory);
+		aCategory = this.categorySanitize(aCategory)
 
 		//ends with
-		aCategory = aCategory.replace(categoryCheckFormatRegExp1, '');
+						.replace(categoryCheckFormatRegExp1, '')
 		//starting with
-		aCategory = aCategory.replace(categoryCheckFormatRegExp2, '');
-
+						.replace(categoryCheckFormatRegExp2, '');
 
 		//Bookmarks/D/development/Bandas y artistas/
 		if (aCategory.indexOf(' ') != -1)
-			aCategory = aCategory.replace(/ /g, '_');
-
+			aCategory = aCategory.replace(categoryCheckFormatRegExp25, '_');
 		//ok we have a valid category
 		if (this.categoryStartsWithValidName(aCategory))
 			return aCategory;
@@ -341,32 +360,34 @@
 	}
 	//returns true if aCategory starts with a valid category name
 	this.categoryStartsWithValidName = function(aCategory) {
-		if (
-			aCategory.indexOf('World') == 0 ||
-			aCategory.indexOf('Regional') == 0 ||
-			aCategory.indexOf('Bookmarks') == 0 ||
-			aCategory.indexOf('Test') == 0 ||
-			aCategory.indexOf('Top/') == 0 || //top should be followed by a a category
-		aCategory.indexOf('Kids_and_Teens') == 0 ||
-			aCategory.indexOf('Arts') == 0 ||
-			aCategory.indexOf('Computers') == 0 ||
-			aCategory.indexOf('Games') == 0 ||
-			aCategory.indexOf('Health') == 0 ||
-			aCategory.indexOf('Home') == 0 ||
-			aCategory.indexOf('News') == 0 ||
-			aCategory.indexOf('Recreation') == 0 ||
-			aCategory.indexOf('Reference') == 0 ||
-			aCategory.indexOf('Society') == 0 ||
-			aCategory.indexOf('Sports') == 0 ||
-			aCategory.indexOf('Science') == 0 ||
-			aCategory.indexOf('Shopping') == 0 ||
-			aCategory.indexOf('Business') == 0 ||
-			aCategory.indexOf('Netscape') == 0 ||
-			aCategory.indexOf('AOL') == 0 ||
-			aCategory.indexOf('Adult') == 0)
-			return true;
-		else
-			return false;
+		aCategory = aCategory.split('/')[0];
+		switch(aCategory){
+			case 'World':
+			case 'Regional':
+			case 'Bookmarks' :
+			case 'Test':
+			//case 'Top/':
+			case 'Kids_and_Teens' :
+			case 'Arts':
+			case 'Computers' :
+			case 'Games':
+			case 'Health' :
+			case 'Home':
+			case 'News' :
+			case 'Recreation' :
+			case 'Reference' :
+			case 'Society':
+			case 'Sports' :
+			case 'Science' :
+			case 'Shopping' :
+			case 'Business' :
+			case 'Netscape' :
+			case 'AOL':
+			case 'Adult':
+				return true;
+			default:
+				return false;
+		}
 	}
 	//returns a category title from a category name
 	this.categoryTitle = function(aCategory) {
@@ -385,17 +406,21 @@
 		return this.categoryTitle(this.categoryGetLastChildName(aCategory));
 	}
 	//returns the editor name for the URI
+	var editorGetFromURLRegExp1 = /^.*editor=(([a-z]|[0-9])+)[^\:]?[^\.]?[^\%]?[^a-z]?.*$/i
+	var editorGetFromURLRegExp2 = /^.*\/profiles\/(([a-z]|[0-9])+)[^a-z]?.*$/
+	var editorGetFromURLRegExp3 = /^.*Bookmarks\/.\/(([a-z]|[0-9])+)[^a-z]?.*$/
+	var editorGetFromURLRegExp4 = /^.*\/(Редактори|编辑员|Redaktører|Editoren|Editores|Editoreak|Editeurs|Συντάκτες|Editori|Editors|Redacteuren|RedaktorzyРедакторы|Redaktörer)\/(.\/)?(([a-z]|[0-9])+)\/?.*$/i
 	this.editorGetFromURL = function(aURI) {
 		var aFellowEditor = '';
 
 		if (aURI.indexOf('editor=') != -1)
-			aFellowEditor = aURI.replace(/^.*editor=(([a-z]|[0-9])+)[^\:]?[^\.]?[^\%]?[^a-z]?.*$/i, "$1");
+			aFellowEditor = aURI.replace(editorGetFromURLRegExp1, "$1");
 		else if (aURI.indexOf('/profiles/') != -1)
-			aFellowEditor = aURI.replace(/^.*\/profiles\/(([a-z]|[0-9])+)[^a-z]?.*$/, "$1");
+			aFellowEditor = aURI.replace(editorGetFromURLRegExp2, "$1");
 		else if (aURI.indexOf('Bookmarks/') != -1)
-			aFellowEditor = aURI.replace(/^.*Bookmarks\/.\/(([a-z]|[0-9])+)[^a-z]?.*$/, "$1");
+			aFellowEditor = aURI.replace(editorGetFromURLRegExp3, "$1");
 		else if (aURI.indexOf('Test/') != -1) //the regular expression is not accepting the chinise characters! !?
-			aFellowEditor = this.categoryGetFromURL(aURI).replace(/^.*\/(Редактори|编辑员|Redaktører|Editoren|Editores|Editoreak|Editeurs|Συντάκτες|Editori|Editors|Redacteuren|RedaktorzyРедакторы|Redaktörer)\/(.\/)?(([a-z]|[0-9])+)\/?.*$/i, "$3");
+			aFellowEditor = this.categoryGetFromURL(aURI).replace(editorGetFromURLRegExp4, "$3");
 
 		if (aFellowEditor.indexOf('/') != -1 || aFellowEditor == 'http')
 			return '';

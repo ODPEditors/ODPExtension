@@ -33,10 +33,10 @@
 		}
 
 		//ending with
-		/*aCategory = aCategory
+		aCategory = aCategory
 						.replace(categoryCheckFormatRegExp1, '')
 						//starts with
-						.replace(categoryCheckFormatRegExp2, '');*/
+						.replace(categoryCheckFormatRegExp2, '');
 
 		//Test/Tools_for_Editors/New_Editors/faq.html#42
 		if (aCategory.indexOf('#') != -1)

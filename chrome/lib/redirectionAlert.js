@@ -1,34 +1,4 @@
 (function() {
-	/*
-			This file comes from an idea from here http://forums.dmoz.org/forum/viewtopic.php?t=920940&start=0#1716101
-			The link checker was introduced here http://forums.dmoz.org/forum/viewtopic.php?t=920940&start=50#1758894
-		*/
-	/*
-		tabsListener = {
-			QueryInterface: function(aIID) {
-				if (aIID.equals(Components.interfaces.nsIWebProgressListener) ||
-					aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
-					aIID.equals(Components.interfaces.nsISupports))
-					return this;
-				throw Components.results.NS_NOINTERFACE;
-			},
-			onLocationChange: function(aBrowser, aWebProgress, aRequest, aLocation) {
-				//ODPExtension.dump('onLocationChange:onLocationChange', true);
-				ODPExtension.dispatchOnLocationChange(false);
-			},
-			onStateChange: function(aBrowser, aWebProgress, aRequest, aFlag, aStatus) {
-				if (aFlag & STATE_STOP) {
-					ODPExtension.dispatchDOMContentLoaded({originalTarget:aWebProgress.DOMWindow.document});
-				}
-			},
-			onProgressChange: function(aBrowser, aWebProgress, aRequest, curSelf, maxSelf, curTot, maxTot) {},
-			onStatusChange: function(aBrowser, aWebProgress, aRequest, aStatus, aMessage) {},
-			onSecurityChange: function(aBrowser, aWebProgress, aRequest, aState) {},
-			onRefreshAttempted: function(aBrowser, aWebProgress, aRefreshURI, aMillis, aSameURI) {},
-			onLinkIconAvailable: function(aBrowser) {}
-		};
-		gBrowser.addTabsProgressListener(tabsListener);
-*/
 
 	var debugingThisFile = true;
 
@@ -81,39 +51,44 @@
 				delete(this.itemsDone);
 			},
 			observe: function(aSubject, aTopic, aData) {
-				if (aTopic == 'http-on-examine-response' || aTopic == 'http-on-examine-merged-response' || aTopic == 'http-on-examine-cached-response') {
-					aSubject.QueryInterface(Components.interfaces.nsIHttpChannel);
+				switch (aTopic) {
+					case 'http-on-examine-response':
+					case 'http-on-examine-merged-response':
+					case 'http-on-examine-cached-response':
 
-					// LISTEN for Tabs
-					// this piece allows to get the HTTP code of urls that redirects via metarefresh or JS
-					// allow to holds the urls of external content associated to a tab. !
-					try {
-						var notificationCallbacks = aSubject.notificationCallbacks ? aSubject.notificationCallbacks : aSubject.loadGroup.notificationCallbacks;
-						if (!notificationCallbacks) {} else {
-							//this.cacheTabs[aSubject.URI.spec] = aSubject.responseStatus;
+						aSubject.QueryInterface(Components.interfaces.nsIHttpChannel);
+						// LISTEN for Tabs
+						// this piece allows to get the HTTP code of urls that redirects via metarefresh or JS
+						// allow to holds the urls of external content associated to a tab. !
+						try {
+							var notificationCallbacks = aSubject.notificationCallbacks ? aSubject.notificationCallbacks : aSubject.loadGroup.notificationCallbacks;
+							if (!notificationCallbacks) {} else {
+								//this.cacheTabs[aSubject.URI.spec] = aSubject.responseStatus;
 
-							var domWin = notificationCallbacks.getInterface(Components.interfaces.nsIDOMWindow);
-							var aTab = ODPExtension.tabGetFromChromeDocument(domWin);
-							if (aTab && !! aTab.ODPExtensionExternalContent) {
-								aTab.ODPExtensionExternalContent[aTab.ODPExtensionExternalContent.length] = aSubject.URI.spec;
-								aTab.ODPExtensionURIsStatus[aSubject.URI.spec] = aSubject.responseStatus;
+								var domWin = notificationCallbacks.getInterface(Components.interfaces.nsIDOMWindow);
+								var aTab = ODPExtension.tabGetFromChromeDocument(domWin);
+								if (aTab && !! aTab.ODPExtensionExternalContent) {
+									aTab.ODPExtensionExternalContent[aTab.ODPExtensionExternalContent.length] = aSubject.URI.spec;
+									aTab.ODPExtensionURIsStatus[aSubject.URI.spec] = aSubject.responseStatus;
+								}
+							}
+						} catch (e) {}
+
+						// LISTEN for XMLHttpRequest
+						this.onExamineResponse(aSubject);
+						break;
+					case 'content-document-global-created':
+						if (aSubject instanceof Components.interfaces.nsIDOMWindow) {
+							var aTab = ODPExtension.tabGetFromChromeDocument(aSubject);
+							if (aTab && !! aTab.ODPExtensionLinkChecker) {
+								ODPExtension.disableTabFeatures(aSubject);
 							}
 						}
-					} catch (e) {}
-
-					// LISTEN for XMLHttpRequest
-					this.onExamineResponse(aSubject);
-
-				} else if (aTopic == 'content-document-global-created') {
-					if (aSubject instanceof Components.interfaces.nsIDOMWindow) {
-						var aTab = ODPExtension.tabGetFromChromeDocument(aSubject);
-						if (aTab && !! aTab.ODPExtensionLinkChecker) {
-							ODPExtension.disableTabFeatures(aSubject);
-						}
-					}
+						break;
 				}
 			},
 			onExamineResponse: function(oHttp) {
+
 				//skiping the examinations of requests NOT related to our redirection alert
 				if (!this.cache[oHttp.originalURI.spec]) {
 					if (!this.cacheRedirects[oHttp.originalURI.spec]) {
@@ -137,28 +112,55 @@
 				if (responseStatus === 0)
 					responseStatus = -1;
 
+				//DO NOT EDIT:
 				this.cache[originalURI].statuses.push(responseStatus);
 				this.cache[originalURI].urlRedirections.push(oHttp.URI.spec);
-
 				if (originalURI != oHttp.URI.spec) {
 					this.cacheRedirects[oHttp.URI.spec] = originalURI;
 					this.cache[originalURI].urlLast = oHttp.URI.spec;
+				} else {
+					var  lastURL = '';
+					try{
+						lastURL = oHttp.URI.resolve(oHttp.getResponseHeader('Location'))
+					}catch(e){}
+					if(lastURL != '' && lastURL != oHttp.URI.spec){
+						this.cache[originalURI].urlLast = lastURL
+					}
 				}
+
+				this.cache[originalURI].isDownload = oHttp.channelIsForDownload || false;
+				this.cache[originalURI].requestMethod = oHttp.requestMethod || 'GET';
+				//if the request is from XMLHttpRequester, the "Location:" header, maybe is not reflected in the redirections,
+				//then we need to get if from the responseHeaders.
+				//aData[URL] is equal to the original URI. But then,
+				//Since the redirectionn is not exposed, if we change the current Location to
+				//this.cache[originalURI].lastURL = oHttp.getResponseHeader('Location')
+				//we will inherit all the properties of the previous URL, such contenttype, etc.
+				//So, dont use this:
+				//this.cache[originalURI].remoteAddress = oHttp.remoteAddress || 0;
+				//this.cache[originalURI].remotePort = oHttp.remotePort || 0;
+				//this.cache[originalURI].contentLength = oHttp.contentLength || 0;
+				//this.cache[originalURI].contentType = oHttp.contentType || '';
+				//this.cache[originalURI].contentCharset = oHttp.contentCharset || '';
+
 			},
-			check: function(aURL, aFunction, aFunctionTick, tryAgain) {
+			check: function(aURL, aFunction, aFunctionTick, letsTryAgainIfFail) {
 				this.itemsWorking++;
 				//ODPExtension.dump('check:function:'+aURL);
-				if (typeof(tryAgain) == 'undefined')
-					tryAgain = 1;
+				if (typeof(letsTryAgainIfFail) == 'undefined')
+					letsTryAgainIfFail = 1;
 
 				if (!this.cache[aURL]) {
 					this.cache[aURL] = {};
 					var aData = this.cache[aURL];
 					aData.stop = false;
 
+					aData.isDownload = false;
+
 					aData.statuses = [];
 					aData.headers = '';
-					aData.contentType = 'text/plain';
+					aData.contentType = '';
+					aData.requestMethod = 'GET';
 
 					aData.urlRedirections = [];
 					aData.urlOriginal = aURL;
@@ -214,7 +216,7 @@
 							aData.checkType = 'XMLHttpRequestAbortMedia'
 							aData.contentType = contentType;
 							aData.headers = Requester.getAllResponseHeaders();
-							tryAgain = 0;
+							letsTryAgainIfFail = 0;
 							aData.mediaCount = 1;
 							Requester.onerror('ABORTED');
 							Requester.abort();
@@ -459,29 +461,23 @@
 					aData.checkType = 'XMLHttpRequestError'
 					//ODPExtension.dump('Requester.onerror');
 					//ODPExtension.dump(TIMEDOUT);
-					if (tryAgain == 1) {
+					if (letsTryAgainIfFail == 1) {
 						//ODPExtension.dump('sending again..'+aURL);
 						oRedirectionAlert.itemsDone++;
 						clearTimeout(timer);
+
+						aData.statuses = [];
+						aData.urlRedirections = [];
+
 						oRedirectionAlert.check(aURL, aFunction, aFunctionTick, 0);
 					} else {
 						if (loaded)
 							return null;
 						loaded = true;
-						var oHttp = {};
-						oHttp.originalURI = {};
-						oHttp.originalURI.spec = {};
-						oHttp.URI = {};
-						oHttp.URI.spec = {};
-						oHttp.responseStatus = {};
-
-						oHttp.originalURI.spec = aURL;
-						oHttp.URI.spec = aURL;
 
 						//detects if I'm offline
-
 						if (typeof(TIMEDOUT) != 'undefined' && TIMEDOUT === 'TIMEDOUT') {
-							oHttp.responseStatus = -5
+							aData.statuses.push(-5)
 							aData.checkType = 'XMLHttpRequestTimeout'
 						} else if (typeof(TIMEDOUT) != 'undefined' && TIMEDOUT === 'ABORTED') {
 							//oHttp.responseStatus = -5
@@ -495,22 +491,22 @@
 								.offline ||
 								false //ODPExtension.getIPFromDomain('www.google.com', true) === '' // this blocks the browser because is sync
 							) {
-								oHttp.responseStatus = -1337
+								aData.statuses.push(-1337)
 							} else {
 								try {
-									oHttp.responseStatus = ODPExtension.createTCPErrorFromFailedXHR(Requester);
+									aData.statuses.push(ODPExtension.createTCPErrorFromFailedXHR(Requester));
 								} catch (e) {
 									try {
-										oHttp.responseStatus = Requester.status;
+										aData.statuses.push(Requester.status);
 									} catch (e) {
-										oHttp.responseStatus = -1;
+										aData.statuses.push(-1);
 									}
 								}
-								if (oHttp.responseStatus === 0)
-									oHttp.responseStatus = -1;
+								if (aData.statuses[aData.statuses.length-1] === 0)
+									aData.statuses[aData.statuses.length-1] = -1;
 							}
 						}
-						oRedirectionAlert.onExamineResponse(oHttp);
+					//	oRedirectionAlert.onExamineResponse(oHttp);
 
 						aData.stop = true;
 
@@ -539,10 +535,11 @@
 				else
 					Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_ANONYMOUS | Components.interfaces.nsIRequest.LOAD_FLAGS_BYPASS_HISTORY
 
-				if (tryAgain === 0)
+				if (letsTryAgainIfFail === 0){
 					Requester.setRequestHeader('Referer', aURL);
-				else
+				} else {
 					Requester.setRequestHeader('Referer', 'https://www.google.com/search?q=' + ODPExtension.encodeUTF8(aURL));
+				}
 				Requester.send(null);
 				//in some situations, timeout is maybe ignored, but neither onload, onerror nor onabort are called
 				timer = setTimeout(function() {
@@ -892,7 +889,7 @@
 		//suspicious
 		if (contentTypes.indexOf(aData.contentType) == -1)
 			aData.status.suspicious.push('Unknown content type: ' + aData.contentType);
-		if (this.urlFlagsHash.indexOf(aData.hash) != -1)
+		if (aData.hash != '' && this.urlFlagsHash.indexOf(aData.hash) != -1)
 			aData.status.suspicious.push('Document may has problems');
 		if (aData.hasFrameset > 0)
 			aData.status.suspicious.push('Document has a frameset');

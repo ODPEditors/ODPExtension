@@ -24,6 +24,10 @@
 				this.cacheRedirects = [];
 				this.itemsWorking = 0;
 				this.itemsDone = 0;
+
+				this.itemsNetworking = 0;
+				this.queue = []
+
 				var observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
 				observerService.addObserver(this, "http-on-examine-response", false);
 				observerService.addObserver(this, "http-on-examine-merged-response", false);
@@ -31,10 +35,11 @@
 				observerService.addObserver(this, 'content-document-global-created', false);
 			},
 			unLoad: function() {
+				//ODPExtension.alert('unloading')
 				var self = this;
 				setTimeout(function() {
 					self._unLoad();
-				}, 10000);
+				}, 20000);
 			},
 			_unLoad: function() {
 				if (this.itemsWorking != this.itemsDone)
@@ -50,6 +55,7 @@
 				delete(this.cacheRedirects);
 				delete(this.itemsWorking);
 				delete(this.itemsDone);
+				delete(this.queue);
 			},
 			observe: function(aSubject, aTopic, aData) {
 				switch (aTopic) {
@@ -159,8 +165,21 @@
 				//this.cache[originalURI].contentCharset = oHttp.contentCharset || '';
 
 			},
-			check: function(aURL, aFunction, aFunctionTick, letsTryAgainIfFail) {
+			check: function(aURL, aFunction) {
+				this.queue[this.queue.length] = [aURL, aFunction];
+				this.next();
+			},
+			next: function(){
+				if(this.itemsNetworking < ODPExtension.preferenceGet('link.checker.threads')){
+					var next = this.queue.shift();
+					if(!!next)
+						this._check(next[0], next[1]);
+				}
+			},
+			_check:function(aURL, aFunction, letsTryAgainIfFail) {
 				this.itemsWorking++;
+				this.itemsNetworking++;
+
 				//ODPExtension.dump('check:function:'+aURL);
 				if (typeof(letsTryAgainIfFail) == 'undefined')
 					letsTryAgainIfFail = 1;
@@ -227,7 +246,7 @@
 				var timer;
 				Requester.timeout = timeoutAfter;
 				Requester.onreadystatechange = function() {
-					if (Requester.readyState == 2) { //headers received
+					/*if (Requester.readyState == 2) { //headers received
 						var contentType = Requester.getResponseHeader('Content-Type');
 						if (contentType && contentType.indexOf('audio/mpeg') != -1) {
 							aData.checkType = 'XMLHttpRequestAbortMedia'
@@ -238,7 +257,7 @@
 							Requester.onerror('ABORTED');
 							Requester.abort();
 						}
-					}
+					}*/
 				}
 				Requester.onload = function() {
 					if (loaded)
@@ -252,7 +271,6 @@
 					aData.ids = ODPExtension.arrayUnique(ODPExtension.arrayMix(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || []))
 					aData.contentType = Requester.getResponseHeader('Content-Type');
 					//now get the response as UTF-8
-					ODPExtension.runThreaded('link.checker.utf8.html.content.' + oRedirectionAlert.id, ODPExtension.preferenceGet('link.checker.threads'), function(onThreadDone) {
 
 						var aTab = ODPExtension.tabOpen('about:blank', false, false, true);
 						aTab.setAttribute('hidden', true);
@@ -269,6 +287,7 @@
 						//timedout = 2 | tab did load (did fired DOM CONTENT LOAD)
 
 						function onTabLoad() {
+							oRedirectionAlert.next();
 
 							newTabBrowser.removeEventListener("DOMContentLoaded", DOMContentLoaded, false);
 
@@ -399,7 +418,7 @@
 
 							aData = null;
 
-							onThreadDone();
+							oRedirectionAlert.next();
 
 							oRedirectionAlert.itemsDone++;
 							if (oRedirectionAlert.itemsDone == oRedirectionAlert.itemsWorking)
@@ -407,6 +426,8 @@
 						}
 
 						function DOMContentLoaded(aEvent) {
+							oRedirectionAlert.next();
+
 							if (timedout === -1) {
 								var aDoc = aEvent.originalTarget;
 								if (!aDoc.defaultView)
@@ -416,7 +437,8 @@
 
 								//its a frame
 								if (aDoc != topDoc) {} else {
-
+									oRedirectionAlert.itemsNetworking--;
+									oRedirectionAlert.next();
 									timedout = 2;
 
 									aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
@@ -454,8 +476,6 @@
 									setTimeout(function() {
 										onTabLoad()
 									}, 12000);
-									if ( !! aFunctionTick)
-										aFunctionTick();
 								}
 							}
 						}
@@ -480,13 +500,17 @@
 						setTimeout(function() {
 							if (timedout === -1) {
 								timedout = 1;
+								oRedirectionAlert.itemsNetworking--;
+								oRedirectionAlert.next();
 								onTabLoad();
 							}
 						}, timeoutAfter + 5000); //give 60 seconds to load, else, just forget it.
-					});
 					return null;
 				};
 				Requester.onerror = Requester.onabort = function(TIMEDOUT) {
+					oRedirectionAlert.next();
+
+					oRedirectionAlert.itemsNetworking--;
 					aData.checkType = 'XMLHttpRequestError'
 					//ODPExtension.dump('Requester.onerror');
 					//ODPExtension.dump(TIMEDOUT);
@@ -498,7 +522,7 @@
 						aData.statuses = [];
 						aData.urlRedirections = [];
 
-						oRedirectionAlert.check(aURL, aFunction, aFunctionTick, 0);
+						oRedirectionAlert._check(aURL, aFunction, 0);
 					} else {
 						if (loaded)
 							return null;
@@ -560,11 +584,12 @@
 						aFunction(aData, aURL)
 
 						aData = null;
-
+						oRedirectionAlert.next();
 						oRedirectionAlert.itemsDone++;
 						if (oRedirectionAlert.itemsDone == oRedirectionAlert.itemsWorking)
 							oRedirectionAlert.unLoad();
 					}
+					oRedirectionAlert.next();
 					return null;
 				};
 				Requester.open("GET", aURL, true);

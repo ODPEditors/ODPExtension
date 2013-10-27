@@ -41,16 +41,12 @@
 		progress.add();
 		progress.progress();
 
-		this.runThreaded('link.checker.' + oRedirectionAlert.id, this.preferenceGet('link.checker.threads') * 2, function(onThreadDone) {
+		item.style.setProperty('border', '1px solid green', 'important');
+		item.style.removeProperty('background-color');
+		item.style.removeProperty('color');
 
-			item.style.setProperty('border', '1px solid green', 'important');
-			item.style.removeProperty('background-color');
-			item.style.removeProperty('color');
-
-			oRedirectionAlert.check(item.href, function(aData, aURL) {
-				ODPExtension.linkCheckerCheckDone(aData, aURL, item, oRedirectionAlert, aResult);
-				onThreadDone();
-			});
+		oRedirectionAlert.check(item.href, function(aData, aURL) {
+			ODPExtension.linkCheckerCheckDone(aData, aURL, item, oRedirectionAlert, aResult);
 		});
 	}
 

@@ -2,29 +2,29 @@
 	//sanitize the format of a category
 	var categoryCheckFormatRegExp1 = /(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_|-)*$/;
 	var categoryCheckFormatRegExp2 = /^(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_|-)*/;
-	var categoryCheckFormatRegExp3 =/\r/g
-	var categoryCheckFormatRegExp4 =/\n\n/g
-	var categoryCheckFormatRegExp5 =/ +\(.*$/
-	var categoryCheckFormatRegExp6 =/ +\[.*$/
-	var categoryCheckFormatRegExp7 =/Unreviewed$/
-	var categoryCheckFormatRegExp8 =/Unrev$/
-	var categoryCheckFormatRegExp9 =/unrev$/
-	var categoryCheckFormatRegExp10 =/\.unreview$/
-	var categoryCheckFormatRegExp11 =/->.*$/
-	var categoryCheckFormatRegExp12 =/]$/
-	var categoryCheckFormatRegExp13 =/.* ([^ ]+)\]$/
-	var categoryCheckFormatRegExp14 =/\]$/
-	var categoryCheckFormatRegExp15 =/\:\+/g
-	var categoryCheckFormatRegExp16 =/\+/g
-	var categoryCheckFormatRegExp17 =/^\:+/
-	var categoryCheckFormatRegExp18 =/\s*?:\s*/g
-	var categoryCheckFormatRegExp19 =/\s/g
-	var categoryCheckFormatRegExp20 =/\s*?\/\s*/g
-	var categoryCheckFormatRegExp21 =/_*?\/_*/g
-	var categoryCheckFormatRegExp22 =/<.*$/
-	var categoryCheckFormatRegExp23 =/\/([^\/]+)\.(html|cgi|htm|php)$/i
-	var categoryCheckFormatRegExp24 =/\/[^\/]+$/
-	var categoryCheckFormatRegExp25 =/ /g
+	var categoryCheckFormatRegExp3 = /\r/g
+	var categoryCheckFormatRegExp4 = /\n\n/g
+	var categoryCheckFormatRegExp5 = / +\(.*$/
+	var categoryCheckFormatRegExp6 = / +\[.*$/
+	var categoryCheckFormatRegExp7 = /Unreviewed$/
+	var categoryCheckFormatRegExp8 = /Unrev$/
+	var categoryCheckFormatRegExp9 = /unrev$/
+	var categoryCheckFormatRegExp10 = /\.unreview$/
+	var categoryCheckFormatRegExp11 = /->.*$/
+	var categoryCheckFormatRegExp12 = /]$/
+	var categoryCheckFormatRegExp13 = /.* ([^ ]+)\]$/
+	var categoryCheckFormatRegExp14 = /\]$/
+	var categoryCheckFormatRegExp15 = /\:\+/g
+	var categoryCheckFormatRegExp16 = /\+/g
+	var categoryCheckFormatRegExp17 = /^\:+/
+	var categoryCheckFormatRegExp18 = /\s*?:\s*/g
+	var categoryCheckFormatRegExp19 = /\s/g
+	var categoryCheckFormatRegExp20 = /\s*?\/\s*/g
+	var categoryCheckFormatRegExp21 = /_*?\/_*/g
+	var categoryCheckFormatRegExp22 = /<.*$/
+	var categoryCheckFormatRegExp23 = /\/([^\/]+)\.(html|cgi|htm|php)$/i
+	var categoryCheckFormatRegExp24 = /\/[^\/]+$/
+	var categoryCheckFormatRegExp25 = / /g
 
 	this.categoryCheckFormat = function(aCategory, aggressive) {
 		//multiples categories selected maybe
@@ -34,9 +34,9 @@
 
 		//ending with
 		aCategory = aCategory
-						.replace(categoryCheckFormatRegExp1, '')
-						//starts with
-						.replace(categoryCheckFormatRegExp2, '');
+			.replace(categoryCheckFormatRegExp1, '')
+		//starts with
+		.replace(categoryCheckFormatRegExp2, '');
 
 		//Test/Tools_for_Editors/New_Editors/faq.html#42
 		if (aCategory.indexOf('#') != -1)
@@ -64,22 +64,22 @@
 		//some log pages
 
 		aCategory = aCategory
-						.replace(categoryCheckFormatRegExp5, '')
-						.replace(categoryCheckFormatRegExp6, '')
-						.replace(categoryCheckFormatRegExp7, '')
-						.replace(categoryCheckFormatRegExp8, '')
-						.replace(categoryCheckFormatRegExp9, '')
-						.replace(categoryCheckFormatRegExp10, '')
+			.replace(categoryCheckFormatRegExp5, '')
+			.replace(categoryCheckFormatRegExp6, '')
+			.replace(categoryCheckFormatRegExp7, '')
+			.replace(categoryCheckFormatRegExp8, '')
+			.replace(categoryCheckFormatRegExp9, '')
+			.replace(categoryCheckFormatRegExp10, '')
 
 		//ending with
 
-						.replace(categoryCheckFormatRegExp11, '')
-						//.replace(categoryCheckFormatRegExp1, '')
+		.replace(categoryCheckFormatRegExp11, '')
+		//.replace(categoryCheckFormatRegExp1, '')
 
 		//starting with
-						//.replace(categoryCheckFormatRegExp2, '')
+		//.replace(categoryCheckFormatRegExp2, '')
 
-						.trim(aCategory);
+		.trim(aCategory);
 		//I cant' remember this one
 
 		if (aCategory.indexOf('[') == -1 && aCategory.indexOf(']') != -1) {
@@ -123,9 +123,9 @@
 		aCategory = this.categorySanitize(aCategory)
 
 		//ends with
-						.replace(categoryCheckFormatRegExp1, '')
+		.replace(categoryCheckFormatRegExp1, '')
 		//starting with
-						.replace(categoryCheckFormatRegExp2, '');
+		.replace(categoryCheckFormatRegExp2, '');
 
 		//Bookmarks/D/development/Bandas y artistas/
 		if (aCategory.indexOf(' ') != -1)
@@ -361,27 +361,27 @@
 	//returns true if aCategory starts with a valid category name
 	this.categoryStartsWithValidName = function(aCategory) {
 		aCategory = aCategory.split('/')[0];
-		switch(aCategory){
+		switch (aCategory) {
 			case 'World':
 			case 'Regional':
-			case 'Bookmarks' :
+			case 'Bookmarks':
 			case 'Test':
-			//case 'Top/':
-			case 'Kids_and_Teens' :
+				//case 'Top/':
+			case 'Kids_and_Teens':
 			case 'Arts':
-			case 'Computers' :
+			case 'Computers':
 			case 'Games':
-			case 'Health' :
+			case 'Health':
 			case 'Home':
-			case 'News' :
-			case 'Recreation' :
-			case 'Reference' :
+			case 'News':
+			case 'Recreation':
+			case 'Reference':
 			case 'Society':
-			case 'Sports' :
-			case 'Science' :
-			case 'Shopping' :
-			case 'Business' :
-			case 'Netscape' :
+			case 'Sports':
+			case 'Science':
+			case 'Shopping':
+			case 'Business':
+			case 'Netscape':
 			case 'AOL':
 			case 'Adult':
 				return true;
@@ -494,6 +494,198 @@
 	}
 	this.odpRedL = function() {
 		return 'rgba(255, 0, 0, 0.45)';
+	}
+
+	var getLanguageFromCategoryData = {
+		'Arabic': {
+			'code': 'ar',
+			'name': 'Arabic',
+			'encodings': ['Windows-1256', 'ISO-8859-6']
+		},
+		'Azerbaijani': {
+			'code': 'az',
+			'name': 'Azerbaijani',
+			'encodings': ['Windows-1254']
+		},
+		'Bahasa_Indonesia': {
+			'code': 'id',
+			'name': 'Bahasa_Indonesia',
+			'encodings': ['Windows-1252', 'ISO-8859-1']
+		},
+		'Bulgarian': {
+			'code': 'bg',
+			'name': 'Bulgarian',
+			'encodings': ['Windows-1251']
+		},
+		'Català': {
+			'code': 'ca',
+			'name': 'Català',
+			'encodings': ['Windows-1252', 'ISO-8859-1']
+		},
+		'Česky': {
+			'code': 'cs',
+			'name': 'Česky',
+			'encodings': ['Windows-1250', 'ISO-8859-2']
+		},
+		'Chinese_Simplified': {
+			'code': 'zh',
+			'name': 'Chinese_Simplified',
+			'encodings': ['gb2312', 'gbk', 'gb18030']
+		},
+		'Chinese_Traditional': {
+			'code': 'zh-tw',
+			'name': 'Chinese_Traditional',
+			'encodings': ['BIG-5', 'gb2312']
+		},
+		'Cymraeg': {
+			'code': 'cy',
+			'name': 'Cymraeg',
+			'encodings': ['ISO-8859-1']
+		},
+		'Dansk': {
+			'code': 'da',
+			'name': 'Dansk',
+			'encodings': ['ISO-8859-1', 'Windows-1252']
+		},
+		'Deutsch': {
+			'code': 'de',
+			'name': 'Deutsch',
+			'encodings': ['ISO-8859-1', 'Windows-1252']
+		},
+		'Eesti': {
+			'code': 'et',
+			'name': 'Eesti',
+			'encodings': ['ISO-8859-1', 'Windows-1251']
+		},
+		'Español': {
+			'code': 'es',
+			'name': 'Español',
+			'encodings': ['ISO-8859-1', 'Windows-1251', 'Windows-1252']
+		},
+		'Français': {
+			'code': 'fr',
+			'name': 'Français',
+			'encodings': ['ISO-8859-1', 'Windows-1251', 'Windows-1252']
+		},
+		'Gàidhlig': {
+			'code': 'gd',
+			'name': 'Gàidhlig',
+			'encodings': ['ISO-8859-1', 'Windows-1251', 'Windows-1252']
+		},
+		'Galego': {
+			'code': 'gl',
+			'name': 'Galego',
+			'encodings': ['ISO-8859-1', 'Windows-1251', 'Windows-1252']
+		},
+		'Greek': {
+			'code': 'el',
+			'name': 'Greek',
+			'encodings': ['ISO-8859-7', 'Windows-1253']
+		},
+		'Hrvatski': {
+			'code': 'hr',
+			'name': 'Hrvatski',
+			'encodings': ['ISO-8859-2', 'Windows-1250']
+		},
+		'Italiano': {
+			'code': 'it',
+			'name': 'Italiano',
+			'encodings': ['ISO-8859-1', 'Windows-1251', 'Windows-1252']
+		},
+		'Japanese': {
+			'code': 'jp',
+			'name': 'Japanese',
+			'encodings': ['SHIFT_JIS', 'EUC-JP', 'SJIS', 'ISO-2022-JP', 'eucJP-win', 'SJIS-win']
+		},
+		'Korean': {
+			'code': 'ko',
+			'name': 'Korean',
+			'encodings': ['EUC-KR', 'ISO-2022-KR', 'SHIFT_JIS', 'EUC-JP', 'SJIS', 'ISO-2022-JP', 'eucJP-win', 'SJIS-win']
+		},
+		'Latviski': {
+			'code': 'lv',
+			'name': 'Latviski',
+			'encodings': ['windows-1257', 'ISO-8859-1', 'Windows-1250']
+		},
+		'Lietuvių': {
+			'code': 'lt',
+			'name': 'Lietuvių',
+			'encodings': ['windows-1257', 'Windows-1251', 'ISO-8859-1']
+		},
+		'Nederlands': {
+			'code': 'nl',
+			'name': 'Nederlands',
+			'encodings': ['ISO-8859-1', 'windows-1252', 'ISO-8859-15', 'windows-1257']
+		},
+		'Norsk': {
+			'code': 'nb',
+			'name': 'Norsk',
+			'encodings': ['ISO-8859-1', 'windows-1252']
+		},
+		'Norsk': {
+			'code': 'nb',
+			'name': 'Norsk',
+			'encodings': ['ISO-8859-1', 'windows-1252']
+		},
+		'Persian': {
+			'code': 'nb',
+			'name': 'Persian',
+			'encodings': ['Windows-1256', 'ISO-8859-6', 'ISO-8859-1', 'Windows-1252']
+		},
+		'Persian': {
+			'code': 'fa',
+			'name': 'Persian',
+			'encodings': ['Windows-1256', 'ISO-8859-6', 'ISO-8859-1', 'Windows-1252']
+		},
+		'Polski': {
+			'code': 'pl',
+			'name': 'Polski',
+			'encodings': ['ISO-8859-1', 'ISO-8859-2', 'Windows-1250']
+		},
+		'Português': {
+			'code': 'pt',
+			'name': 'Português',
+			'encodings': ['ISO-8859-1', 'Windows-1252', 'Windows-1251']
+		},
+		'Română': {
+			'code': 'ro',
+			'name': 'Română',
+			'encodings': ['ISO-8859-1', 'Windows-1250', 'ISO-8859-2', 'Windows-1251']
+		},
+		'Russian': {
+			'code': 'ru',
+			'name': 'Russian',
+			'encodings': ['Windows-1251', 'KOI8-R', 'ISO-8859-5', 'KOI8-U']
+		},
+		'Slovensky': {
+			'code': 'sk',
+			'name': 'Slovensky',
+			'encodings': ['Windows-1250', 'ISO-8859-1', 'ISO-8859-2']
+		},
+		'English': {
+			'code': 'en',
+			'name': 'English',
+			'encodings': ['ISO-8859-1', 'ISO-8859-2']
+		}
+	}
+	this.getLanguageFromCategory = function(aCategory) {
+		aCategory = aCategory
+			.replace(/^\/?Top\//, '')
+			.replace(/^\/+/, '')
+			.replace(/^Test\/World_Test\/World\/?/, '')
+			.replace(/^Test\/World\/?/, '')
+			.replace(/^Test\/World\/?/, '')
+			.replace(/^Test\/?/, '')
+			.replace(/^World\/?/, '')
+			.replace(/^Kids_and_Teens\/International\/?/, '')
+			.replace(/^Kids_and_Teens\/?/, '')
+			.replace(/^Adult\/World\/?/, '')
+			.replace(/^\/+/, '')
+			.split('/')[0];
+		if (!getLanguageFromCategoryData[aCategory])
+			return getLanguageFromCategoryData['English'];
+		else
+			return getLanguageFromCategoryData[aCategory];
 	}
 
 	return null;

@@ -69,7 +69,7 @@
 								var domWin = notificationCallbacks.getInterface(Components.interfaces.nsIDOMWindow);
 								var aTab = ODPExtension.tabGetFromChromeDocument(domWin);
 								if (aTab && !! aTab.ODPExtensionExternalContent) {
-									aTab.ODPExtensionExternalContent[aTab.ODPExtensionExternalContent.length] = aSubject.URI.spec;
+									aTab.ODPExtensionExternalContent[aTab.ODPExtensionExternalContent.length] = {url:aSubject.URI.spec, status:aSubject.responseStatus};
 									aTab.ODPExtensionURIsStatus[aSubject.URI.spec] = aSubject.responseStatus;
 								}
 							}
@@ -245,7 +245,7 @@
 					ODPExtension.runThreaded('link.checker.utf8.html.content.' + oRedirectionAlert.id, ODPExtension.preferenceGet('link.checker.threads'), function(onThreadDone) {
 
 						var aTab = ODPExtension.tabOpen('about:blank', false, false, true);
-						aTab.setAttribute('hidden', true);
+						//aTab.setAttribute('hidden', true);
 						aTab.ODPExtensionLinkChecker = true;
 						aTab.ODPExtensionOriginalURI = aURL;
 						aTab.ODPExtensionExternalContent = [];
@@ -330,8 +330,19 @@
 									aData.mediaCount += aDoc.getElementsByTagName(tagsMedia[id]).length;
 							}
 
+							//frames
 							aData.hasFrameset = aDoc.getElementsByTagName('frameset').length;
-							aData.frames = aDoc.getElementsByTagName('iframe').length;
+							aData.frames = aDoc.getElementsByTagName('iframe').length+aDoc.getElementsByTagName('frame').length;
+
+							aData.framesURLs = [];
+							var frames = aDoc.getElementsByTagName('iframe')
+							for(var i=0;i<frames.length;i++){
+								aData.framesURLs[aData.framesURLs.length] = frames[i].src;
+							}
+							var frames = aDoc.getElementsByTagName('frame')
+							for(var i=0;i<frames.length;i++){
+								aData.framesURLs[aData.framesURLs.length] = frames[i].src;
+							}
 
 							//clone doc, do not touch the doc in the tab
 							aDoc = aDoc.cloneNode(true);
@@ -912,7 +923,10 @@
 				, 'suspended'
 		]
 
-		var data = (aData.urlRedirections.join('\n') + '\n' + aData.externalContent.join('\n') + '\n' + aData.headers + '\n' + aData.html).toLowerCase();
+		var externalContent = []
+		for(var id in aData.externalContent)
+			externalContent[externalContent.length] = aData.externalContent[id].url;
+		var data = (aData.urlRedirections.join('\n') + '\n' + externalContent.join('\n') + '\n' + aData.headers + '\n' + aData.html).toLowerCase();
 		var breaky = false;
 		for (var name in array) {
 			if (array[name] != '') {

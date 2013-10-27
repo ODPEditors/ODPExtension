@@ -217,6 +217,23 @@
 			lang = 'Unknown';
 		return this.ucFirst(lang);
 	}
+	var stringCompressor =  new Components.utils.Sandbox("about:blank");
+	this.compress = function(aString) {
+		if (!stringCompressor.loaded) {
+			Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
+				.getService(Components.interfaces.mozIJSSubScriptLoader)
+				.loadSubScript("chrome://ODPExtension/content/lib-external/lz-string-1.3.3.js", stringCompressor, "UTF-8");
+		}
+		return stringCompressor.LZString.compressToUTF16(aString);
+	}
+	this.uncompress = function(aString) {
+		if (!stringCompressor.loaded) {
+			Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
+				.getService(Components.interfaces.mozIJSSubScriptLoader)
+				.loadSubScript("chrome://ODPExtension/content/lib-external/lz-string-1.3.3.js", stringCompressor, "UTF-8");
+		}
+		return stringCompressor.LZString.decompressFromUTF16(aString);
+	}
 	return null;
 
 }).apply(ODPExtension);

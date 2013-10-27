@@ -1,14 +1,16 @@
 (function() {
 
-	var debugingThisFile = true;
+	var debugingThisFile = false;
 
 	var redirectionAlertID = 0;
 
 	var timeoutAfter = 60 * 1000; //60 seconds for the website to load
 	var tagsMedia = ['object', 'media', 'video', 'audio', 'embed'];
 	var tagsNoContent = ['noscript', 'noframes', 'style', 'script', 'frameset']
-	var contentTypes = ['text/plain', 'text/html', 'application/pdf', 'application/xhtml+xml', '']
-	var contentTypesDownload = ['application/pdf']
+	var contentTypes = ['text/plain', 'text/html', 'application/pdf', 'application/xhtml+xml', 'application/msword', '']
+	var contentTypesDownload = ['application/pdf', 'application/x-gzip','application/msword']
+
+	var debug = false;
 
 	this.redirectionAlert = function() {
 		function RedirectionAlert() {
@@ -20,7 +22,6 @@
 				this.id = String(redirectionAlertID++);
 				this.cache = [];
 				this.cacheRedirects = [];
-				//this.cacheTabs = [];
 				this.itemsWorking = 0;
 				this.itemsDone = 0;
 				var observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
@@ -47,7 +48,6 @@
 
 				delete(this.cache);
 				delete(this.cacheRedirects);
-				//delete(this.cacheTabs);
 				delete(this.itemsWorking);
 				delete(this.itemsDone);
 			},
@@ -64,8 +64,6 @@
 						try {
 							var notificationCallbacks = aSubject.notificationCallbacks ? aSubject.notificationCallbacks : aSubject.loadGroup.notificationCallbacks;
 							if (!notificationCallbacks) {} else {
-								//this.cacheTabs[aSubject.URI.spec] = aSubject.responseStatus;
-
 								var domWin = notificationCallbacks.getInterface(Components.interfaces.nsIDOMWindow);
 								var aTab = ODPExtension.tabGetFromChromeDocument(domWin);
 								if (aTab && !! aTab.ODPExtensionExternalContent) {
@@ -131,10 +129,22 @@
 				}
 				this.cache[originalURI].isDownload = oHttp.channelIsForDownload || false;
 				this.cache[originalURI].requestMethod = oHttp.requestMethod || 'GET';
-				if (contentTypesDownload.indexOf(oHttp.contentType) != -1) {
+
+
+				//detect downloads
+				try{
+					var contentDispositionHeader = oHttp.contentDispositionHeader;
 					this.cache[originalURI].isDownload = true;
+				} catch(e){}
+				if (this.cache[originalURI].isDownload || contentTypesDownload.indexOf(oHttp.contentType) != -1) {
+					this.cache[originalURI].isDownload = true;
+					this.cache[originalURI].contentType = oHttp.contentType;
 					oHttp.cancel(Components.results.NS_BINDING_ABORTED);
 				}
+
+				//console.log(oHttp)
+
+
 				//if the request is from XMLHttpRequester, the "Location:" header, maybe is not reflected in the redirections,
 				//then we need to get if from the responseHeaders.
 				//aData[URL] is equal to the original URI. But then,
@@ -245,7 +255,7 @@
 					ODPExtension.runThreaded('link.checker.utf8.html.content.' + oRedirectionAlert.id, ODPExtension.preferenceGet('link.checker.threads'), function(onThreadDone) {
 
 						var aTab = ODPExtension.tabOpen('about:blank', false, false, true);
-						//aTab.setAttribute('hidden', true);
+						aTab.setAttribute('hidden', true);
 						aTab.ODPExtensionLinkChecker = true;
 						aTab.ODPExtensionOriginalURI = aURL;
 						aTab.ODPExtensionExternalContent = [];
@@ -378,13 +388,13 @@
 							if (aData.removeFromBrowserHistory)
 								ODPExtension.removeURLFromBrowserHistory(aURL);
 
-							//aTab.setAttribute('hidden', false);
 							ODPExtension.tabClose(aTab);
 
 							oRedirectionAlert.cache[aURL] = aTab = aDoc = newTabBrowser = null;
 
 							aData.dateEnd = ODPExtension.now();
-
+							if(debug)
+								ODPExtension.fileWrite('tito.txt', JSON.stringify(aData));
 							aFunction(aData, aURL)
 
 							aData = null;
@@ -496,6 +506,12 @@
 
 						if (aData.isDownload) {
 							aData.checkType = 'Attachment'
+							if(aData.contentType == ''){
+								var contentType = Requester.getResponseHeader('Content-Type');
+									aData.contentType = contentType;
+							}
+							aData.headers = Requester.getAllResponseHeaders();
+
 						} else if (typeof(TIMEDOUT) != 'undefined' && TIMEDOUT === 'TIMEDOUT') {
 							aData.statuses.push(-5)
 							aData.checkType = 'XMLHttpRequestTimeout'
@@ -539,6 +555,8 @@
 
 						aData.dateEnd = ODPExtension.now();
 
+						if(debug)
+							ODPExtension.fileWrite('tito.txt', JSON.stringify(aData));
 						aFunction(aData, aURL)
 
 						aData = null;
@@ -926,6 +944,7 @@
 		var externalContent = []
 		for(var id in aData.externalContent)
 			externalContent[externalContent.length] = aData.externalContent[id].url;
+		aData.ids = this.arrayUnique(this.arrayMix(aData.ids, (externalContent.join('\n')).match(/(pub|ua)-[^"'&\s]+/gmi) || []))
 		var data = (aData.urlRedirections.join('\n') + '\n' + externalContent.join('\n') + '\n' + aData.headers + '\n' + aData.html).toLowerCase();
 		var breaky = false;
 		for (var name in array) {

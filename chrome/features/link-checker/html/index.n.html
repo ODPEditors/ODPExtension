@@ -44,8 +44,8 @@ var drag = force.drag()
 
 force.start()
 for(var i=0;i<30;i++){
-		force.nodes(force.nodes().filter(function(d){return d.weight>1}));
-		force.links(force.links().filter(function(d){return d.target.weight>1}));
+		//force.nodes(force.nodes().filter(function(d){return d.weight>1}));
+		force.links(force.links().filter(function(d){return d.source.weight>2}));
 	force.start()
 }
 

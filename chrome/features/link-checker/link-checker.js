@@ -74,9 +74,8 @@
 
 		if (aData.status.suspicious.length) {
 			//orange
-			item.style.setProperty('color', 'white', 'important');
+			item.style.setProperty('color', 'black', 'important');
 			item.style.setProperty('background-color', 'orange', 'important');
-
 		} else if (aData.status.error && aData.status.canDelete) {
 			//red
 			item.style.setProperty('color', 'white', 'important');
@@ -89,7 +88,6 @@
 			//green
 			item.style.setProperty('color', 'white', 'important');
 			item.style.setProperty('background-color', '#669933', 'important');
-
 		} else {
 			//yellow light
 			item.style.setProperty('color', 'black', 'important');
@@ -105,6 +103,9 @@
 				aData.language + ' | ' +
 				aData.checkType +
 				'] ' + item.getAttribute('original_text');
+			item.setAttribute('note', '' + aData.statuses.join(', ') + ' | ' + aData.status.code + ' | ' + aData.status.errorString);
+			item.setAttribute('error', aData.status.code);
+			item.setAttribute('newurl', aData.urlRedirections[aData.urlRedirections.length - 1]);
 		} else {
 			item.innerHTML = '[' +
 
@@ -113,10 +114,6 @@
 				aData.language +
 				'] ' + item.getAttribute('original_text');
 		}
-
-		item.setAttribute('note', '' + aData.statuses.join(', ') + ' | ' + aData.status.code + ' | ' + aData.status.errorString);
-		item.setAttribute('error', aData.status.code);
-		item.setAttribute('newurl', aData.urlRedirections[aData.urlRedirections.length - 1]);
 
 		//autoedit
 		/*
@@ -140,13 +137,33 @@
 				continue;
 			links.push({
 				source: aResult.domain,
-				target: site.ip,
+				target: site.ip.replace(/\.[0-9]+$/, '.*'),
 				type: "green"
 			});
 			links.push({
-				source: site.ip,
+				source: site.ip.replace(/\.[0-9]+$/, '.*'),
 				target: site.domain,
 				type: "black"
+			});
+		}
+
+		//multiple links to same domain should be removed, to allow the graph count properly the weight
+		links = this.arrayUniqueObjects(links, function(o) {
+			return o.source + '_' + o.target;
+		});
+
+		this.tabOpen('chrome://ODPExtension/content/features/link-checker/html/index.n.html#' + JSON.stringify(links))
+
+		//trace links
+		var links = [];
+		for (var id in aResult.data) {
+			var site = aResult.data[id];
+			if (blackListGraphLink.indexOf(site.domain) != -1)
+				continue;
+			links.push({
+				source: aResult.domain,
+				target: site.domain,
+				type: "green"
 			});
 			for (var link in site.linksExternal) {
 				if (blackListGraphLink.indexOf(site.linksExternal[link].domain) == -1)
@@ -163,7 +180,7 @@
 			return o.source + '_' + o.target;
 		});
 
-		this.tabOpen('chrome://ODPExtension/content/features/link-checker/html/index.html#' + JSON.stringify(links))
+		this.tabOpen('chrome://ODPExtension/content/features/link-checker/html/index.l.html#' + JSON.stringify(links))
 	}
 	return null;
 

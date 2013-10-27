@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Graph</title>
+	<script src="chrome://ODPExtension/content/lib-external/d3.v3.min.js"></script>
+	<link type="text/css" media="all" rel="stylesheet" href="chrome://ODPExtension/content/html/@css.css"/>
+	<link type="text/css" media="all" rel="stylesheet" href="@css.css"/>
+</head>
+<body><script type="text/javascript">
+
+/*
+	Based on http://bl.ocks.org/mbostock/1153292
+*/
+
+var links = JSON.parse(decodeURIComponent(document.location.hash.replace(/^#/, '')));
+
+var nodes = {};
+
+// Compute the distinct nodes from the links.
+links.forEach(function(link) {
+	link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
+	link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
+});
+
+var w = 900,
+		h = 600;
+
+var distance = 90;
+
+var circle = 16;
+
+var force = d3.layout.force()
+							.nodes(d3.values(nodes))
+							.links(links)
+							.size([w, h])
+							.gravity(.04)
+							.distance(distance*2)
+							.charge((distance*-1)*5)
+							.on("tick", tick)
+
+var drag = force.drag()
+							.on("dragstart", dragstart)
+
+
+force.start()
+for(var i=0;i<30;i++){
+		force.nodes(force.nodes().filter(function(d){return d.weight>1}));
+		force.links(force.links().filter(function(d){return d.target.weight>1}));
+	force.start()
+}
+
+var svg = d3.select("body").append("svg")
+						.attr("width", w)
+						.attr("height", h)
+
+// Per-type markers, as they don't inherit styles.
+svg.append("svg:defs").selectAll("marker")
+				.data(["black", "green", "dotted"])
+			.enter().append("svg:marker")
+				.attr("id", String)
+				.attr("viewBox", "0 -5 10 10")
+				.attr("refX", 23)
+				.attr("refY", -1.5)
+				.attr("markerWidth", 8)
+				.attr("markerHeight", 6)
+				.attr("orient", "auto")
+			.append("svg:path")
+				.attr("d", "M0,-5L10,0L0,5")
+
+var node = svg.selectAll(".node")
+							.data(force.nodes())
+						.enter().append("g")
+							.attr("class", "node")
+							.on("mouseover", mouseover)
+							.on("mouseout", mouseout)
+							.call(force.drag)
+		node.append("circle")
+					 .attr("r", circle)
+					 .attr("x", circle/2)
+					 .attr("y", circle/2)
+
+		node.append("image")
+					.attr("xlink:href", function(d) { return 'https://plus.google.com/_/favicon?domain='+ d.name; })
+					.attr("width", 16)
+					.attr("height", 16)
+					.attr("x", -8)
+					.attr("y", -8)
+
+var path = svg.append("svg:g").selectAll("path")
+							.data(force.links())
+						.enter().append("path")
+							.attr("class", function(d) { return "link " + d.type; })
+							.attr("marker-end", function(d) { return "url(#" + d.type + ")"; })
+
+node.append("text")
+			.attr("x", 19)
+			.attr("dy", ".35em")
+			.text(function(d) { return d.name; })
+
+var linkedByIndex = {};
+links.forEach(function(d) {
+  linkedByIndex[d.source.index + "," + d.target.index] = 1;
+});
+
+function neighboring(a, b) {
+  return linkedByIndex[a.index + "," + b.index];
+}
+
+function dragstart(d) {
+	d.fixed = true;
+	d3.select(this).classed("fixed", true);
+}
+function mouseover() {
+	d3.select(this).select("circle")
+			//.transition()
+			//.duration(750)
+			.attr("r", 32);
+
+		var self = this.__data__;
+
+		svg.selectAll(".link").each(
+		     function(d){
+		     		var item = d3.select(this);
+			     	if(d.source.index == self.index)
+			     		item.classed('connected-source', true);
+			     	else if(d.target.index == self.index)
+			     		item.classed('connected-target', true);
+			     	else
+			     		item.classed('connected-no', true);
+		     }
+		)
+}
+function mouseout() {
+	d3.select(this).select("circle")
+			//.transition()
+			//.duration(750)
+			.attr("r", circle);
+
+			svg.selectAll(".link").each(
+			     function(d){
+				     	var item = d3.select(this);
+			     		item.classed('connected-source', false);
+			     		item.classed('connected-target', false);
+			     		item.classed('connected-no', false);
+			     }
+			)
+}
+function resize() {
+	width = window.innerWidth, height = window.innerHeight;
+	svg.attr("width", width).attr("height", height);
+	force.size([width, height]).resume();
+}
+d3.select(window).on("resize", resize);
+
+for(var i=0;i<20000;i++){
+	force.tick();
+}
+
+setTimeout(resize, 0);
+
+// Use elliptical arc path segments to doubly-encode directionality.
+function tick() {
+
+	path.attr("d", function(d) {
+		var dx = d.target.x - d.source.x,
+				dy = d.target.y - d.source.y,
+				dr = Math.sqrt(dx * dx + dy * dy);
+		return "M" + Math.round(d.source.x) + "," + Math.round(d.source.y) + "A" + Math.round(dr) + "," + Math.round(dr) + " 0 0,1 " + Math.round(d.target.x) + "," + Math.round(d.target.y);
+	});
+
+	node.attr("transform", function(d) {
+		return "translate(" + Math.round(d.x) + "," + Math.round(d.y) + ")";
+	});
+
+/*	text.attr("transform", function(d) {
+		return "translate(" + d.x + "," + d.y + ")";
+	});*/
+}
+
+</script>
+<div style="position:fixed;bottom:10px;left:10px;padding:5px; pointer-events:none;">
+<div><span style="color:red !important;">______</span> Link out</div>
+<div><span style="color:blue !important;">______</span> Link in</div>
+</div></body>
+</html>

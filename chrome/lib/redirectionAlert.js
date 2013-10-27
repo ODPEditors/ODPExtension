@@ -125,10 +125,10 @@
 						lastURL = oHttp.URI.resolve(oHttp.getResponseHeader('Location'))
 					} catch (e) {}
 					if (lastURL != '' && lastURL != oHttp.URI.spec) {
-						this.cache[originalURI].urlLast = lastURL
+						this.cacheRedirects[lastURL] = originalURI;
+						this.cache[originalURI].urlLast = lastURL;
 					}
 				}
-				console.log(oHttp);
 				this.cache[originalURI].isDownload = oHttp.channelIsForDownload || false;
 				this.cache[originalURI].requestMethod = oHttp.requestMethod || 'GET';
 				if (contentTypesDownload.indexOf(oHttp.contentType) != -1) {

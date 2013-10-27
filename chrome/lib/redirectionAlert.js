@@ -8,6 +8,7 @@
 	var tagsMedia = ['object', 'media', 'video', 'audio', 'embed'];
 	var tagsNoContent = ['noscript', 'noframes', 'style', 'script', 'frameset']
 	var contentTypes = ['text/plain', 'text/html', 'application/pdf', 'application/xhtml+xml', '']
+	var contentTypesDownload = ['application/pdf']
 
 	this.redirectionAlert = function() {
 		function RedirectionAlert() {
@@ -81,7 +82,7 @@
 						if (aSubject instanceof Components.interfaces.nsIDOMWindow) {
 							var aTab = ODPExtension.tabGetFromChromeDocument(aSubject);
 							if (aTab && !! aTab.ODPExtensionLinkChecker) {
-								ODPExtension.disableTabFeatures(aSubject);
+								ODPExtension.disableTabFeatures(aSubject, aTab, this.cache[aTab.ODPExtensionOriginalURI]);
 							}
 						}
 						break;
@@ -119,17 +120,21 @@
 					this.cacheRedirects[oHttp.URI.spec] = originalURI;
 					this.cache[originalURI].urlLast = oHttp.URI.spec;
 				} else {
-					var  lastURL = '';
-					try{
+					var lastURL = '';
+					try {
 						lastURL = oHttp.URI.resolve(oHttp.getResponseHeader('Location'))
-					}catch(e){}
-					if(lastURL != '' && lastURL != oHttp.URI.spec){
+					} catch (e) {}
+					if (lastURL != '' && lastURL != oHttp.URI.spec) {
 						this.cache[originalURI].urlLast = lastURL
 					}
 				}
-
+				console.log(oHttp);
 				this.cache[originalURI].isDownload = oHttp.channelIsForDownload || false;
 				this.cache[originalURI].requestMethod = oHttp.requestMethod || 'GET';
+				if (contentTypesDownload.indexOf(oHttp.contentType) != -1) {
+					this.cache[originalURI].isDownload = true;
+					oHttp.cancel(Components.results.NS_BINDING_ABORTED);
+				}
 				//if the request is from XMLHttpRequester, the "Location:" header, maybe is not reflected in the redirections,
 				//then we need to get if from the responseHeaders.
 				//aData[URL] is equal to the original URI. But then,
@@ -190,8 +195,10 @@
 					aData.mediaCount = 0;
 					aData.wordCount = 0;
 					aData.hasFrameset = 0;
+					aData.frames = 0;
 					aData.dateStart = ODPExtension.now();
 					aData.dateEnd = aData.dateStart;
+					aData.intrusivePopups = 0;
 					aData.removeFromBrowserHistory = !ODPExtension.isVisitedURL(aURL);
 
 				} else {
@@ -232,7 +239,7 @@
 					aData.headers = Requester.getAllResponseHeaders();
 					aData.htmlRequester = Requester.responseText;
 					aData.html = Requester.responseText;
-					aData.ids = ODPExtension.arrayMix(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
+					aData.ids = ODPExtension.arrayUnique(ODPExtension.arrayMix(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || []))
 					aData.contentType = Requester.getResponseHeader('Content-Type');
 					//now get the response as UTF-8
 					ODPExtension.runThreaded('link.checker.utf8.html.content.' + oRedirectionAlert.id, ODPExtension.preferenceGet('link.checker.threads'), function(onThreadDone) {
@@ -313,7 +320,7 @@
 							if (!aDoc.mediaCounted) {
 								aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
 								aData.html = aData.htmlTab;
-								aData.ids = ODPExtension.arrayMix(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
+								aData.ids = ODPExtension.arrayUnique(ODPExtension.arrayMix(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || []))
 
 								aData.domTree = ODPExtension.domTree(aDoc);
 								aData.hash = ODPExtension.md5(JSON.stringify(aData.domTree));
@@ -324,6 +331,7 @@
 							}
 
 							aData.hasFrameset = aDoc.getElementsByTagName('frameset').length;
+							aData.frames = aDoc.getElementsByTagName('iframe').length;
 
 							//clone doc, do not touch the doc in the tab
 							aDoc = aDoc.cloneNode(true);
@@ -347,10 +355,11 @@
 							} catch (e) {
 								aDoc = new XMLSerializer().serializeToString(aDoc);
 							}
-							aData.txt = ODPExtension.stripTags(aDoc, ' ').replace(/[\t| ]+/g, ' ').replace(/\n\s+/g, '\n').replace(/\s+\n/g, '\n').trim();
+							aData.txt = ODPExtension.htmlSpecialCharsDecode(ODPExtension.stripTags(aDoc, ' ').replace(/[\t| ]+/g, ' ').replace(/\n\s+/g, '\n').replace(/\s+\n/g, '\n').trim());
 							aData.language = ODPExtension.detectLanguage(aData.txt);
 							aData.wordCount = aData.txt.split(' ').length
 
+							ODPExtension.disableTabFeatures(ODPExtension.windowGetFromTab(aTab), aTab, aData)
 							ODPExtension.urlFlag(aData);
 
 							//because the linkcheck runs in a tab, it add stuff to the browser history that shouldn't be added
@@ -359,7 +368,6 @@
 								ODPExtension.removeURLFromBrowserHistory(aURL);
 
 							//aTab.setAttribute('hidden', false);
-
 							ODPExtension.tabClose(aTab);
 
 							oRedirectionAlert.cache[aURL] = aTab = aDoc = newTabBrowser = null;
@@ -392,7 +400,7 @@
 
 									aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
 									aData.html = aData.htmlTab;
-									aData.ids = ODPExtension.arrayMix(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
+									aData.ids = ODPExtension.arrayUnique(ODPExtension.arrayMix(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || []))
 
 									aData.domTree = ODPExtension.domTree(aDoc);
 									aData.hash = ODPExtension.md5(JSON.stringify(aData.domTree));
@@ -461,7 +469,7 @@
 					aData.checkType = 'XMLHttpRequestError'
 					//ODPExtension.dump('Requester.onerror');
 					//ODPExtension.dump(TIMEDOUT);
-					if (letsTryAgainIfFail == 1) {
+					if (letsTryAgainIfFail == 1 && !aData.isDownload) {
 						//ODPExtension.dump('sending again..'+aURL);
 						oRedirectionAlert.itemsDone++;
 						clearTimeout(timer);
@@ -475,8 +483,9 @@
 							return null;
 						loaded = true;
 
-						//detects if I'm offline
-						if (typeof(TIMEDOUT) != 'undefined' && TIMEDOUT === 'TIMEDOUT') {
+						if (aData.isDownload) {
+							aData.checkType = 'Attachment'
+						} else if (typeof(TIMEDOUT) != 'undefined' && TIMEDOUT === 'TIMEDOUT') {
 							aData.statuses.push(-5)
 							aData.checkType = 'XMLHttpRequestTimeout'
 						} else if (typeof(TIMEDOUT) != 'undefined' && TIMEDOUT === 'ABORTED') {
@@ -502,11 +511,11 @@
 										aData.statuses.push(-1);
 									}
 								}
-								if (aData.statuses[aData.statuses.length-1] === 0)
-									aData.statuses[aData.statuses.length-1] = -1;
+								if (aData.statuses[aData.statuses.length - 1] === 0)
+									aData.statuses[aData.statuses.length - 1] = -1;
 							}
 						}
-					//	oRedirectionAlert.onExamineResponse(oHttp);
+						//	oRedirectionAlert.onExamineResponse(oHttp);
 
 						aData.stop = true;
 
@@ -535,7 +544,7 @@
 				else
 					Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_ANONYMOUS | Components.interfaces.nsIRequest.LOAD_FLAGS_BYPASS_HISTORY
 
-				if (letsTryAgainIfFail === 0){
+				if (letsTryAgainIfFail === 0) {
 					Requester.setRequestHeader('Referer', aURL);
 				} else {
 					Requester.setRequestHeader('Referer', 'https://www.google.com/search?q=' + ODPExtension.encodeUTF8(aURL));
@@ -660,10 +669,55 @@
 		return errName;
 	}
 
-	this.disableTabFeatures = function(aWindow) {
-		try {
-			aWindow.wrappedJSObject.alert = aWindow.wrappedJSObject.onbeforeunload = aWindow.wrappedJSObject.prompt = aWindow.wrappedJSObject.confirm = aWindow.wrappedJSObject.focus = function() {};
-		} catch (e) {}
+	this.disableTabFeatures = function(aWindow, aTab, aData) {
+
+		var events = ['beforeunload', 'unbeforeunload']
+
+		this.disableTabFeaturesCounter(aWindow.onbeforeunload, aData);
+		this.disableTabFeaturesCounter(aWindow.beforeunload, aData);
+		this.disableTabFeaturesCounter(aWindow.wrappedJSObject.onbeforeunload, aData);
+		this.disableTabFeaturesCounter(aWindow.wrappedJSObject.beforeunload, aData);
+
+		var v = aWindow.wrappedJSObject;
+		for (var id in events) {
+			if (v._eventTypes && v._eventTypes[events[id]]) {
+				var r = v._eventTypes[events[id]];
+				for (var s = 0; s < r.length; s++) {
+					this.disableTabFeaturesCounter(r[events[id]], aData);
+					v.removeEventListener(events[id], r[events[id]], false);
+				}
+				v._eventTypes[events[id]] = [];
+			}
+		}
+
+		aWindow.wrappedJSObject.alert = aWindow.wrappedJSObject.prompt = aWindow.wrappedJSObject.confirm = aWindow.wrappedJSObject.focus = aWindow.alert = aWindow.prompt = aWindow.confirm = aWindow.wrappedJSObject.onbeforeunload = aWindow.wrappedJSObject.beforeunload = aWindow.onbeforeunload = aWindow.beforeunload = aWindow.focus = function() {};
+
+		this.foreachFrame(aWindow.wrappedJSObject, function(aDoc) {
+			var aWin = aDoc.defaultView;
+
+			var v = aWin;
+			for (var id in events) {
+				if (v._eventTypes && v._eventTypes[events[id]]) {
+					var r = v._eventTypes[events[id]];
+					for (var s = 0; s < r.length; s++) {
+						ODPExtension.disableTabFeaturesCounter(r[events[id]], aData);
+						v.removeEventListener(events[id], r[events[id]], false);
+					}
+					v._eventTypes[events[id]] = [];
+				}
+			}
+			ODPExtension.disableTabFeaturesCounter(aWin.onbeforeunload, aData);
+			ODPExtension.disableTabFeaturesCounter(aWin.beforeunload, aData);
+
+			aWin.alert = aWin.prompt = aWin.confirm = aWin.onbeforeunload = aWin.beforeunload = aWin.focus = function() {};
+		});
+	}
+	this.disableTabFeaturesCounter = function(aFunction, aData) {
+		if ( !! aFunction && !! aFunction.toSource) {
+			var src = aFunction.toSource();
+			if (src.indexOf('return') != -1 || src.indexOf('alert') != -1)
+				aData.intrusivePopups++;
+		}
 	}
 
 	// comments of the error codes based or taken from http://www.dmoz.org/docs/en/errorcodes.html
@@ -893,6 +947,8 @@
 			aData.status.suspicious.push('Document may has problems');
 		if (aData.hasFrameset > 0)
 			aData.status.suspicious.push('Document has a frameset');
+		if (aData.intrusivePopups > 1)
+			aData.status.suspicious.push('Window may has problems');
 	}
 
 	this.redirectionOKAutoFix = function(oldURL, newURL) {

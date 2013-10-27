@@ -171,7 +171,7 @@
 	this.foreachFrameFrame = function(frame, aFunction) {
 		var frames = frame.frames;
 		for (var i = 0; i < frames.length; i++) {
-			if (!frames[i].document)
+			if (!frames[i] || !frames[i].document)
 				continue;
 			aFunction(frames[i].document);
 			this.foreachFrameFrame(frames[i], aFunction);
@@ -477,6 +477,7 @@
 					break;
 				case 1:
 					this.removeComments(child);
+					break;
 			}
 		}
 	}

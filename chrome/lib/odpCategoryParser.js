@@ -62,8 +62,8 @@
 				site.url_id = this.getURLID(site.url);
 				site.domain = site.url_id.domain;
 				site.subdomain = site.url_id.subdomain;
-				site.title = this.stripTags(this.htmlEntityDecode(this.select('input[name^="urlsub_title_"]', elements[id].innerHTML, aURI)[0].value));
-				site.description = this.stripTags(this.htmlEntityDecode(this.select('input[name^="urlsub_desc_"]', elements[id].innerHTML, aURI)[0].value));
+				site.title = this.stripTags(this.htmlSpecialCharsDecode(this.select('input[name^="urlsub_title_"]', elements[id].innerHTML, aURI)[0].value));
+				site.description = this.stripTags(this.htmlSpecialCharsDecode(this.select('input[name^="urlsub_desc_"]', elements[id].innerHTML, aURI)[0].value));
 				site.category = this.categoryGetFromURL(elements[id].getElementsByTagName('a')[2].href);
 				site.user = this.select('small', elements[id].innerHTML, aURI)[0].innerHTML;
 				try {

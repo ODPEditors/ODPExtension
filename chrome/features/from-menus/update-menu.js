@@ -146,7 +146,7 @@
 		if (selectedTextHTML.indexOf('<a') != -1 || selectedTextHTML.indexOf('<A') != -1)
 			selectedTextHTML = selectedText;
 		else
-			selectedTextHTML = this.trim(this.htmlEntityDecode(this.stripTags(selectedTextHTML.replace(/<br>/gi, '\n').replace(/<\/br>/gi, '\n'))));
+			selectedTextHTML = this.trim(this.htmlSpecialCharsDecode(this.stripTags(selectedTextHTML.replace(/<br>/gi, '\n').replace(/<\/br>/gi, '\n'))));
 
 		//hack for multiple category selection on text area
 		if (this.focusedElementIsTextbox() && selectedTextHTML == '')

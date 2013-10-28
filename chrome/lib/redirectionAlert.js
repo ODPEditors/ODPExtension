@@ -5,8 +5,17 @@
 	var timeoutAfter = 60 * 1000; //60 seconds for the website to load
 	var tagsMedia = ['object', 'media', 'video', 'audio', 'embed'];
 	var tagsNoContent = ['noscript', 'noframes', 'style', 'script', 'frameset']
-	var contentTypes = ['text/plain', 'text/html', 'application/pdf', 'application/xhtml+xml', 'application/msword', '']
-	var contentTypesDownload = ['application/pdf', 'application/x-gzip','application/msword','application/octet-stream']
+
+	var contentTypesTxt = ['application/atom+xml', 'application/atom', 'application/javascript', 'application/json', 'application/rdf+xml', 'application/rdf', 'application/rss+xml', 'application/rss', 'application/xhtml', 'application/xhtml+xml', 'application/xml', 'application/xml-dtd', 'application/html', 'text/css', 'text/csv', 'text/html', 'text/xhtml', 'text/javascript', 'text/plain', 'text/xml', 'text/json', 'text', 'html', 'xml', ''];
+	var contentTypesKnown = [
+	'application/atom+xml', 'application/atom', 'application/javascript', 'application/json', 'application/rdf+xml', 'application/rdf', 'application/rss+xml', 'application/rss', 'application/xhtml', 'application/xhtml+xml', 'application/xml', 'application/xml-dtd', 'application/html', 'text/css', 'text/csv', 'text/html', 'text/xhtml', 'text/javascript', 'text/plain', 'text/xml', 'text/json', 'text', 'html', 'xml', '', //txt
+	'application/x-bzip', 'application/x-bzip-compressed-tar', 'application/x-gzip', 'application/x-tar', 'application/x-tgz', 'application/zip', //compressed
+	'application/pdf', //documents
+	'application/x-shockwave-flash', 'application/ogg', //multimedia
+	'audio/mpeg',  'audio/x-mpegurl',  'audio/x-ms-wax',  'audio/x-ms-wma',  'audio/x-wav',//audio
+	'image/gif',  'image/jpeg',  'image/png',  'image/x-xbitmap',  'image/x-xpixmap',  'image/x-xwindowdump', //image
+	'video/mpeg', 'video/quicktime', 'video/x-ms-asf', 'video/x-ms-wmv', 'video/x-msvideo', //video
+	'']
 
 	var debug = false;
 
@@ -33,7 +42,6 @@
 				observerService.addObserver(this, 'content-document-global-created', false);
 			},
 			unLoad: function() {
-				//ODPExtension.alert('unloading')
 				var self = this;
 				setTimeout(function() {
 					self._unLoad();
@@ -107,6 +115,7 @@
 				if (this.cache[originalURI].stop == true) {
 					//resolving: this item was already checked to the end but all the request are still on examination
 					//so: if you open a new tab with this item.url, that information willl be appended as a redirection (this return avoids this)
+
 					return;
 				}
 
@@ -134,20 +143,18 @@
 				this.cache[originalURI].isDownload = oHttp.channelIsForDownload || false;
 				this.cache[originalURI].requestMethod = oHttp.requestMethod || 'GET';
 
-
 				//detect downloads
 				try{
 					var contentDispositionHeader = oHttp.contentDispositionHeader;
 					this.cache[originalURI].isDownload = true;
 				} catch(e){}
-				if (this.cache[originalURI].isDownload || contentTypesDownload.indexOf(oHttp.contentType) != -1) {
+				if (this.cache[originalURI].isDownload || ( oHttp.contentType.trim() != '' && contentTypesTxt.indexOf(oHttp.contentType) === -1)) {
 					this.cache[originalURI].isDownload = true;
 					this.cache[originalURI].contentType = oHttp.contentType;
 					oHttp.cancel(Components.results.NS_BINDING_ABORTED);
 				}
 
 				//console.log(oHttp)
-
 
 				//if the request is from XMLHttpRequester, the "Location:" header, maybe is not reflected in the redirections,
 				//then we need to get if from the responseHeaders.
@@ -243,20 +250,6 @@
 				var loaded = false;
 				var timer;
 				Requester.timeout = timeoutAfter;
-				Requester.onreadystatechange = function() {
-					/*if (Requester.readyState == 2) { //headers received
-						var contentType = Requester.getResponseHeader('Content-Type');
-						if (contentType && contentType.indexOf('audio/mpeg') != -1) {
-							aData.checkType = 'XMLHttpRequestAbortMedia'
-							aData.contentType = contentType;
-							aData.headers = Requester.getAllResponseHeaders();
-							letsTryAgainIfFail = 0;
-							aData.mediaCount = 1;
-							Requester.onerror('ABORTED');
-							Requester.abort();
-						}
-					}*/
-				}
 				Requester.onload = function() {
 					if (loaded)
 						return null;
@@ -301,6 +294,11 @@
 							}
 
 							aData.contentType = aDoc.contentType;
+							//a tab may redirect to binary content
+							if (aData.contentType != '' && contentTypesTxt.indexOf(aData.contentType) === -1) {
+								aData.isDownload = true;
+							}
+
 							aData.title = ODPExtension.documentGetTitle(aDoc);
 							aData.metaDescription = ODPExtension.documentGetMetaDescription(aDoc);
 
@@ -995,7 +993,7 @@
 		}
 
 		//suspicious
-		if (contentTypes.indexOf(aData.contentType) == -1)
+		if (contentTypesKnown.indexOf(aData.contentType) == -1)
 			aData.status.suspicious.push('Unknown content type: ' + aData.contentType);
 		if (aData.hash != '' && this.urlFlagsHash.indexOf(aData.hash) != -1)
 			aData.status.suspicious.push('Document may has problems');

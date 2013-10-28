@@ -60,13 +60,13 @@
 
 		if (!item)
 			return;
-		var tooltiptext
+		var tooltiptext;
 		if (this.shared.me)
 			tooltiptext = ODPExtension.decodeUTF8(aData.urlRedirections.join('\n') + '\n' + aData.status.suspicious.join('\n') + '\n' + (aData.status.match || ''))
 		else
 			tooltiptext = ODPExtension.decodeUTF8(aData.urlRedirections.join('\n') + '\n' + aData.status.suspicious.join('\n'))
 
-			item.setAttribute('title', tooltiptext.trim() + '\n' + aData.txt.slice(0, 255));
+			item.setAttribute('title', tooltiptext.trim() + '\n' + aData.txt.slice(0, 255)+'...');
 
 		if (aData.status.suspicious.length) {
 			//orange

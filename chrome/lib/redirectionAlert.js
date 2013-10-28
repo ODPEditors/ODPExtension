@@ -1,14 +1,12 @@
 (function() {
 
-	var debugingThisFile = false;
-
 	var redirectionAlertID = 0;
 
 	var timeoutAfter = 60 * 1000; //60 seconds for the website to load
 	var tagsMedia = ['object', 'media', 'video', 'audio', 'embed'];
 	var tagsNoContent = ['noscript', 'noframes', 'style', 'script', 'frameset']
 	var contentTypes = ['text/plain', 'text/html', 'application/pdf', 'application/xhtml+xml', 'application/msword', '']
-	var contentTypesDownload = ['application/pdf', 'application/x-gzip','application/msword']
+	var contentTypesDownload = ['application/pdf', 'application/x-gzip','application/msword','application/octet-stream']
 
 	var debug = false;
 
@@ -530,10 +528,8 @@
 
 						if (aData.isDownload) {
 							aData.checkType = 'Attachment'
-							if(aData.contentType == ''){
-								var contentType = Requester.getResponseHeader('Content-Type');
-									aData.contentType = contentType;
-							}
+							if(aData.contentType == '')//the raw contentType sometimes has the "charset" and other stuff, only get it if is not already set.
+								aData.contentType = Requester.getResponseHeader('Content-Type');
 							aData.headers = Requester.getAllResponseHeaders();
 
 						} else if (typeof(TIMEDOUT) != 'undefined' && TIMEDOUT === 'TIMEDOUT') {

@@ -76,14 +76,14 @@
 
 		this.dump('Creating database tables and statements...');
 		aConnection.begin();
-		aConnection.executeSimple('	CREATE TABLE `categories` 	( `id` INTEGER PRIMARY KEY NOT NULL, `parent` INTEGER NOT NULL, `catid` INTEGER NOT NULL, `depth` INTEGER NOT NULL, `category` TEXT NOT NULL, `category_reversed` TEXT NOT NULL, `name` TEXT NOT NULL, `last_update` DATETIME NOT NULL, `description` TEXT NOT NULL)');
-		aConnection.executeSimple('	CREATE TABLE `editors`		( `id` INTEGER PRIMARY KEY NOT NULL, `editor` TEXT NOT NULL, `category_id` INTEGER NOT NULL)');
-		aConnection.executeSimple('	CREATE TABLE `related`		( `id` INTEGER PRIMARY KEY NOT NULL, `to` INTEGER NOT NULL, `from` INTEGER NOT NULL)');
-		aConnection.executeSimple('	CREATE TABLE `altlang` 		( `id` INTEGER PRIMARY KEY NOT NULL, `to` INTEGER NOT NULL, `from` INTEGER NOT NULL)');
-		aConnection.executeSimple('	CREATE TABLE `link` 		( `id` INTEGER PRIMARY KEY NOT NULL, `to` INTEGER NOT NULL, `from` INTEGER NOT NULL, `name` TEXT NOT NULL, `position` INTEGER NOT NULL)');
-		aConnection.executeSimple('	CREATE TABLE `newsgroup`	( `id` INTEGER PRIMARY KEY NOT NULL, `newsgroup` TEXT NOT NULL, `category_id` INTEGER NOT NULL )');
-		aConnection.executeSimple('	CREATE TABLE `hosts`	( `id` INTEGER PRIMARY KEY NOT NULL, `host` TEXT NOT NULL)');
-		aConnection.executeSimple('	CREATE TABLE `uris`			( `id` INTEGER PRIMARY KEY NOT NULL, `schemaWWW` TEXT NOT NULL, `subdomain_id` INTEGER NOT NULL, `domain_id` INTEGER NOT NULL, `uri` TEXT NOT NULL, `path` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `mediadate` DATE NOT NULL, `pdf` INTEGER NOT NULL, `atom` INTEGER NOT NULL, `rss` INTEGER NOT NULL, `cool` INTEGER NOT NULL, `category_id` INTEGER NOT NULL)');
+		aConnection.executeSimple('	CREATE TABLE `categories` 	( `id` INTEGER PRIMARY KEY NOT NULL, `parent` INTEGER NOT NULL DEFAULT 0, `catid` INTEGER NOT NULL DEFAULT 0, `depth` INTEGER NOT NULL DEFAULT 0, `category` TEXT NOT NULL DEFAULT "", `category_reversed` TEXT NOT NULL DEFAULT "", `name` TEXT NOT NULL DEFAULT "", `last_update` DATETIME NOT NULL DEFAULT "", `description` TEXT NOT NULL DEFAULT "")');
+		aConnection.executeSimple('	CREATE TABLE `editors`		( `id` INTEGER PRIMARY KEY NOT NULL, `editor` TEXT NOT NULL DEFAULT "", `category_id` INTEGER NOT NULL DEFAULT 0)');
+		aConnection.executeSimple('	CREATE TABLE `related`		( `id` INTEGER PRIMARY KEY NOT NULL, `to` INTEGER NOT NULL DEFAULT 0, `from` INTEGER NOT NULL DEFAULT 0)');
+		aConnection.executeSimple('	CREATE TABLE `altlang` 		( `id` INTEGER PRIMARY KEY NOT NULL, `to` INTEGER NOT NULL DEFAULT 0, `from` INTEGER NOT NULL DEFAULT 0)');
+		aConnection.executeSimple('	CREATE TABLE `link` 		( `id` INTEGER PRIMARY KEY NOT NULL, `to` INTEGER NOT NULL DEFAULT 0, `from` INTEGER NOT NULL DEFAULT 0, `name` TEXT NOT NULL DEFAULT "", `position` INTEGER NOT NULL DEFAULT 0)');
+		aConnection.executeSimple('	CREATE TABLE `newsgroup`	( `id` INTEGER PRIMARY KEY NOT NULL, `newsgroup` TEXT NOT NULL DEFAULT "", `category_id` INTEGER NOT NULL DEFAULT 0 )');
+		aConnection.executeSimple('	CREATE TABLE `hosts`		( `id` INTEGER PRIMARY KEY NOT NULL, `host` TEXT NOT NULL DEFAULT "")');
+		aConnection.executeSimple('	CREATE TABLE `uris`			( `id` INTEGER PRIMARY KEY NOT NULL, `schemaWWW` TEXT NOT NULL DEFAULT "", `subdomain_id` INTEGER NOT NULL DEFAULT 0, `domain_id` INTEGER NOT NULL DEFAULT 0, `uri` TEXT NOT NULL DEFAULT "", `path` TEXT NOT NULL DEFAULT "", `title` TEXT NOT NULL DEFAULT "", `description` TEXT NOT NULL DEFAULT "", `mediadate` DATE NOT NULL DEFAULT "", `pdf` INTEGER NOT NULL DEFAULT 0, `atom` INTEGER NOT NULL DEFAULT 0, `rss` INTEGER NOT NULL DEFAULT 0, `cool` INTEGER NOT NULL DEFAULT 0, `category_id` INTEGER NOT NULL DEFAULT 0)');
 
 		var insertCategory = aConnection.aConnection.createStatement('INSERT INTO `categories` ( `id`, `parent`, `catid`,`depth`, `category`,`category_reversed`, `name` , `last_update` , `description` ) VALUES ( :id, :parent , :catid, :depth, :category, :category_reversed, :name, :last_update , :description )')
 		var insertEditor = aConnection.aConnection.createStatement('INSERT INTO `editors` ( `editor`, `category_id` ) VALUES ( :editor, :category_id )')

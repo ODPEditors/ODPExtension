@@ -4,7 +4,7 @@
 		<em:id>development@dmoz.org</em:id>
 		<em:name>ODP Extension</em:name>
 		<em:creator>tito (ed:development)</em:creator>
-		<em:version>4.131010.63</em:version>
+		<em:version>4.132910.64</em:version>
 		<em:description>Different editing experience</em:description>
 
 		<em:optionsURL>chrome://ODPExtension/content/preferences/@xul.xul</em:optionsURL>
@@ -47,7 +47,7 @@
 		<em:contributor>MozDev.org</em:contributor>
 		<em:contributor>mozillaZine.org community</em:contributor>
 		<em:contributor>Tortoise *</em:contributor>
-		<em:unpack>true</em:unpack>
+		<!--em:unpack>true</em:unpack-->
 		<!-- Firefox -->
 		<em:targetApplication>
 			<Description>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>KS</title>
+	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/d3.v3.min.js"></script>
+	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/crossfilter.min.js"></script>
+	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/underscore-min.js"></script>
+	<script type="text/javascript" src="chrome://ODPExtension/content/html/js.js"></script>
+	<script type="text/javascript" src="js.js"></script>
+	<script type="text/javascript" src="entry.js"></script>
+
+	<link type="text/css" media="all" rel="stylesheet" href="chrome://ODPExtension/content/html/@css.css"/>
+	<link type="text/css" media="all" rel="stylesheet" href="@css.css"/>
+</head>
+<body loading="true">
+<div class="loading">Loading.. please wait</div>
+<header>
+	<div class="title"><b class="no-selection">KataSlice</b> - <div class="categories inline-block"></div> </div>
+	<div class="totals">
+		<span class="filtered">0</span> current view,
+		<span class="total">0</span> total,
+		<span class="selected">0</span> selected,
+		<span class="pending">0</span> pending actions.
+	</div>
+	<div class="clear"></div>
+</header>
+
+<div class="container">
+	<div class="sidebar">
+
+		<div class="pie-types ignore">
+			 <div class="pie-type not-ignore"></div>
+		</div>
+
+		Group by:
+		<ul class="group-by">
+			<li>none <span class="group-by-none-total"></span></li>
+			<li>domain <span class="group-by-domain-total"></span></li>
+			<li>subdomain <span class="group-by-subdomain-total"></span></li>
+			<li>user <span class="group-by-user-total"></span></li>
+			<li>ip <span class="group-by-ip-total"></span></li>
+			<li>type <span class="group-by-type-total"></span></li>
+			<li>category <span class="group-by-category-total"></span></li>
+		</ul>
+
+		Sort By:
+		<ul class="sort-by">
+			<li class="click" onclick="listSortBy(this)" order="desc">date</li>
+			<li class="click" onclick="listSortBy(this)">domain</li>
+			<li class="click" onclick="listSortBy(this)">subdomain</li>
+			<li class="click" onclick="listSortBy(this)">user</li>
+			<li class="click" onclick="listSortBy(this)">ip</li>
+			<li class="click" onclick="listSortBy(this)">url</li>
+			<li class="click" onclick="listSortBy(this)">type</li>
+			<li class="click" onclick="listSortBy(this)">category</li>
+		</ul>
+
+	</div>
+	<div class="content">
+		<div class="clear"></div>
+
+		<div class="bars">
+			<div class="bar-category"></div>
+			<div class="bar-ip"></div>
+			<div class="bar-user"></div>
+			<div class="bar-domain"></div>
+		<div class="clear"></div>
+
+		</div>
+
+		<div class="clear"></div>
+
+		<div class="filtersContainer">
+			<span class="filters no-selection">
+				active filters: <span class="current"></span>
+				<input
+					type="text"
+					class="filterbox"
+					placeholder="free text filter..."
+					onkeyup="filterFreeText(true)"
+					onblur="filterFreeText(true)"
+				>
+			</span>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+
+		<div class="table-no-results" results="false">There are no results, try clearing some filters.</div>
+		<div class="table"></div>
+		<div class="clear"></div>
+
+		<div class="list-item-template" style="display:none">
+
+			<div class="list-entry" onmouseover="entryMouseOver(this, event)" onmouseout="entryMouseOut(this, event)" onclick="entrySelect(this, event)" title="{category}">
+				<div class="data">
+					<span class="title" spellcheck="false" contenteditable="true" onkeypress="return entryKeyPress(this, event)" onmousedown="this.focus()">{title}</span> -
+					<div class="description-container"><span class="description" spellcheck="false" contenteditable="true" onkeypress="return entryKeyPress(this, event)" onmousedown="this.focus()">{description}</span></div>
+					<div class="clear"></div>
+					<div><span class="date">{date}</span> <span class="url" spellcheck="false" contenteditable="true" onkeypress="return entryKeyPress(this, event)" onmousedown="this.focus()">{url}</span> <span class="tools-links">[<a href="{url}" target="_blank" title="{url}" class="click">open</a>, <span class="click" onclick="entryNotes(this)">show notes</span>, <span class="click" onclick="entrySE(this)">search</span>]</span></div>
+				</div>
+				<div class="user">
+					{user}<br/>{ip}
+				</div>
+				<div class="clear"></div>
+				<div class="tools" title=""></div>
+				<div class="clear"></div>
+			</div>
+
+		</div>
+
+		<div class="list-item-template-tool-se" style="display:none">
+				<div class="tool-entry">
+					<div class="tool-text">
+						<a href="{url}" target="_blank" title="{url}" class="title click">{title}</a>
+						<span class="description">{description}</span>
+						<div class="clear"></div>
+					</div>
+					<span class="url">{url}</span>
+					<div class="clear"></div>
+				</div>
+		</div>
+		<div class="list-item-template-tool-notes" style="display:none">
+				<div class="tool-entry">
+					<div class="tool-text">
+						<a href="{url}" target="_blank" title="{url}" class="title click">{title}</a>
+						<span class="description">{description}</span>
+					</div>
+					<div>
+						<div>{note}</div>
+						<div>{date} - <a href="http://www.dmoz.org/editors/profile/view?editor={editor}" class="click" target="_blank">{editor}</a></div>
+						<div class="clear"></div>
+					</div>
+					<div class="clear"></div>
+				</div>
+		</div>
+
+	</div>
+	<div class="clear"></div>
+
+</div>
+</body>
+</html>

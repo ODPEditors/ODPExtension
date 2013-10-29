@@ -68,6 +68,9 @@
 			  		<!--xul:menuseparator/-->
 			  		<!--xul:menuitem action="command_editor_produced_tool_Redbust" label="Redbust"/>
 			  		<xul:menuitem action="command_editor_produced_tool_PNF" label="PNF"/-->
+			  		<xul:menuseparator/>
+
+			  		<xul:menuitem action="edit_cat_kataslice_unrev" label="KataSlice"/>
 			  	</xul:menupopup>
 			    </xul:menu>
 			    <xul:menuseparator/>

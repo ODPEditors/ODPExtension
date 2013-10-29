@@ -36,6 +36,7 @@
 <?xul-overlay href="chrome://ODPExtension/content/features/odp-notes/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/privacy/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/RDF/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/kataslice/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/sisters-ancestors-childrens-categories/@xul.xul"?>
 
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">

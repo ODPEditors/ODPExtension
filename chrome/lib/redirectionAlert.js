@@ -10,17 +10,24 @@
 	var contentTypesKnown = [
 	'application/atom+xml', 'application/atom', 'application/javascript', 'application/json', 'application/rdf+xml', 'application/rdf', 'application/rss+xml', 'application/rss', 'application/xhtml', 'application/xhtml+xml', 'application/xml', 'application/xml-dtd', 'application/html', 'text/css', 'text/csv', 'text/html', 'text/xhtml', 'text/javascript', 'text/plain', 'text/xml', 'text/json', 'text', 'html', 'xml', '', //txt
 
+
 	'application/x-bzip', 'application/x-bzip-compressed-tar', 'application/x-gzip', 'application/x-tar', 'application/x-tgz', 'application/zip', //compressed
+
 
 	'application/pdf', //documents
 
+
 	'application/x-shockwave-flash', 'application/ogg', //multimedia
+
 
 	'audio/mpeg', 'audio/x-mpegurl', 'audio/x-ms-wax', 'audio/x-ms-wma', 'audio/x-wav', //audio
 
+
 	'image/gif', 'image/jpeg', 'image/png', 'image/x-xbitmap', 'image/x-xpixmap', 'image/x-xwindowdump', //image
 
+
 	'video/mpeg', 'video/quicktime', 'video/x-ms-asf', 'video/x-ms-wmv', 'video/x-msvideo', //video
+
 
 	'application/x-unknown-content-type', '']
 
@@ -184,8 +191,9 @@
 			next: function() {
 				if (this.itemsNetworking < ODPExtension.preferenceGet('link.checker.threads')) {
 					var next = this.queue.shift();
-					if ( !! next)
+					if ( !! next) {
 						this._check(next[0], next[1]);
+					}
 				}
 			},
 			_check: function(aURL, aFunction, letsTryAgainIfFail) {
@@ -260,6 +268,7 @@
 				Requester.onload = function() {
 					if (loaded)
 						return null;
+
 					aData.checkType = 'XMLHttpRequestSuccess'
 					loaded = true;
 					aData.stop = true;
@@ -932,7 +941,7 @@
 			aData.status.errorStringUserFriendly = 'Redirect';
 
 			//200 OK
-		} else if (false || lastStatus == 200 // OK
+		} else if (false || lastStatus == 200  || lastStatus == 304 // OK / Not modified
 		) {
 			aData.status.code = 200;
 			aData.status.errorString = 'OK';

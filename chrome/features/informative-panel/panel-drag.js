@@ -9,6 +9,16 @@
 	var panelInformationDragging = false;
 	var panelInformationDragHiddenStatus = false;
 
+	var panel, panel_move, panel_move_height, panel_move_width;
+	this.addListener('userInterfaceLoad', function() {
+		panel = ODPExtension.getElement('panel');
+
+		panel_move = ODPExtension.getElement('panel-move');
+
+		panel_move_height     = panel_move.boxObject.height;
+		panel_move_width      = panel_move.boxObject.width;
+	});
+
 	//wait for the user to see if they want moves the panel
 	this.panelInformationDragCheckStart = function() {
 		panelInformationDragR = 0;
@@ -20,10 +30,11 @@
 	//the user want moves the panel, add the mousemove listener
 	this.panelInformationDragStartDrag = function() {
 		panelInformationDragging = true;
-		panelInformationDragHiddenStatus = (ODPExtension.getElement('panel').getAttribute('hidden') == 'true');
+		panelInformationDragHiddenStatus = (panel.getAttribute('hidden') == 'true');
 		ODPExtension.panelInformationToggle(false, false);
 		window.addEventListener('mousemove', ODPExtension.panelInformationDrag, true);
-		ODPExtension.getElement('panel-move').style.setProperty("cursor", "move", "important");
+		panel_move.style.setProperty("cursor", "move", "important");
+		panel_move.setAttribute('moving', true);
 	}
 
 	//the panel is not going to be moved
@@ -37,7 +48,7 @@
 		try {
 			window.removeEventListener('mouseup', ODPExtension.panelInformationDragCheckStop, false);
 		} catch (e) {}
-		ODPExtension.getElement('panel-move').style.setProperty("cursor", "pointer", "important");
+		panel_move.style.setProperty("cursor", "pointer", "important");
 		if (panelInformationDragging) {
 			panelInformationDragging = false;
 			ODPExtension.panelInformationToggle(panelInformationDragHiddenStatus, false);
@@ -49,17 +60,8 @@
 			ODPExtension.preferenceSet('ui.informative.panel.r', panelInformationDragR);
 			ODPExtension.preferenceSet('ui.informative.panel.b', panelInformationDragB);
 		}
+		panel_move.removeAttribute('moving');
 	}
-
-	var panel, panel_move, panel_move_height, panel_move_width;
-	this.addListener('userInterfaceLoad', function() {
-		panel = ODPExtension.getElement('panel');
-
-		panel_move = ODPExtension.getElement('panel-move');
-
-		panel_move_height     = panel_move.boxObject.height;
-		panel_move_width      = panel_move.boxObject.width;
-	});
 
 	//move the panel to the desired position
 	this.panelInformationDrag = function(event) {

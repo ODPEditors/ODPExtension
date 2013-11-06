@@ -15,6 +15,8 @@ addEventListener('load', function() {
 	addEventListener("hashchange", onCategoryChange, false);
 }, false);
 
+//sets aSites
+
 function onCategoryChange() {
 	aCategory = ODP.categoryGetFromURL(document.location.hash)
 
@@ -36,23 +38,38 @@ var groups = ['domain', 'subdomain', 'user', 'ip', 'type', 'category', 'typeColo
 	by = [],
 	byCount = [];
 
+//create page
+
 function onCategoryLoad() {
-
-	document.title = 'KS: ' + ODP.categoryTitleForLabel(ODP.categoryGetFromURL(aCategory));
-
-	$('.categories').text(ODP.categoryGetFromURL(aCategory))
-
-	aSites = _.sortBy(aSites, 'date').reverse();
 
 	timer.resetAll()
 
+	document.title = 'KS: ' + ODP.categoryTitleForLabel(ODP.categoryGetFromURL(aCategory));
+
+	//set category
+	$('.categories').text(ODP.categoryGetFromURL(aCategory))
+
+	//sort sites by date
+	timer.start('sortSitesByDate');
+	aSites = _.sortBy(aSites, 'date').reverse();
+	timer.stop('sortSitesByDate');
+
+	//set the site text for filtering
+	timer.start('setSitesText');
+	aSites.forEach(function(d) {
+		d.text = d.subdomain + ' ' + d.user + ' ' + d.ip + ' ' + d.title + ' ' + d.description + ' ' + d.category + ' ' + d.url;
+	});
+	timer.stop('setSitesText');
+
+	//render HTML
 	listRender();
 	update();
-	chartsRender();
+	chartsRenderBar();
 	chartsRenderPie();
 
 	timer.display()
 
+	//remove loading
 	$('.loading').fadeOut();
 	$('body').attr('loading', false);
 }
@@ -61,65 +78,70 @@ var ListBody, listRows, listRowsVisible;
 
 function listRender() {
 
-	timer.start('table');
+	console.log(new Date())
 
-	_.templateSettings = {
-		escape: /\{(.+?)\}/g
-	};
-	var item = _.template($(".list-item-template").html());
+	timer.start('listRender');
 
-	$('.table').empty();
+	var item = _.template($(".tpl-list-item").html());
 
-	ListBody = d3.select(".table")
-		.append("div")
+	$('.list').empty();
+
+	ListBody = d3.select(".list")
 		.attr('sort-by', 'date')
-		.attr('sort-order', 'desc')
-		.attr('class', 'list');
+		.attr('sort-order', 'desc');
 
 	listRows = ListBody.selectAll("div").data(aSites).enter().append("div")
 	listRows
 		.attr('class', 'item')
 		.attr('id', function(d) {
-		return d.id
-	}).html(function(d, i) {
-		return item(d);
-	});
+					return d.id;
+				}).attr('action', function(d) {
+			return d.action;
+		}).attr('index', function(d, k) {
+			return k;
+		}).html(function(d, i) {
+			return item(d);
+		})
 
-	timer.stop('table');
+	timer.stop('listRender');
 }
 
 function update() {
 	listFilter();
 	filterFreeText();
-	listRowsVisible = ListBody.selectAll('.item:not(.hidden):not(.filterboxed)')
-	$('.filtered').text(listRowsVisible.size())
+	updateTotals();
+	chartsRenderPie()
+	timer.display();
+}
+
+function updateTotals() {
+	timer.start('updateTotals');
+	listRowsVisible = ListBody.selectAll('.item:not(.filtered):not(.filtertextboxed)')
+	$('.totals .filtered').text(listRowsVisible.size())
 
 	if (listRowsVisible.size() < 1)
-		$('.table-no-results').attr('results', false);
+		$('.list-no-results').attr('results', false);
 	else
-		$('.table-no-results').attr('results', true);
-
-	chartsRenderPie()
+		$('.list-no-results').attr('results', true);
+	timer.stop('updateTotals');
 }
 
 var filters = {};
 
 function listFilter() {
 
-	timer.start('filtering')
+	timer.start('listFilter')
 
 	var filter = _.values(filters)
 	var size = 0
-	for (var id in filter) {
+	for (var id in filter)
 		size += _.size(filter[id])
-	}
 
 	if (size > 0) {
 		//hide all rows
 		listRows.each(function(d) {
-			d3.select(this).classed('hidden', true);
+			d3.select(this).classed('filtered', true);
 		});
-
 
 		//apply filters
 		listRows.each(function(d) {
@@ -140,17 +162,15 @@ function listFilter() {
 					break;
 			}
 			if (show)
-				d3.select(this).classed('hidden', false)
+				d3.select(this).classed('filtered', false)
 		});
-
 
 	} else {
 		listRows.each(function(d) {
-			d3.select(this).classed('hidden', false);
+			d3.select(this).classed('filtered', false);
 		});
 	}
-	timer.stop('filtering')
-	timer.display()
+	timer.stop('listFilter')
 }
 
 function filterAdd(key, value, event) {
@@ -163,16 +183,16 @@ function filterAdd(key, value, event) {
 		negation: event && event.ctrlKey
 	}
 
-	var superClass = '.filters .current .filterAnd[key="' + ODP.h(key) + '"]';
+	var superClass = '.filters .current .and[key="' + ODP.h(key) + '"]';
 	if (key == 'category')
-		var anchor = ODP.categoryTitleForLabel(value);
+		var anchor = ODP.categoryTitleLastChild(value);
 	else
 		var anchor = value;
 	if (!$(superClass).length)
-		$('.filters .current').append('<span class="filterAnd" key="' + ODP.h(key) + '"></span>');
+		$('.filters .current').append('<span class="and" key="' + ODP.h(key) + '"></span>');
 
 	if (!$(superClass + ' .filter[k="' + ODP.h(k) + '"]').length)
-		$(superClass).append('<span class="filter filterOr" k="' + ODP.h(k) + '" key="' + ODP.h(key) + '"></span>');
+		$(superClass).append('<span class="filter or" k="' + ODP.h(k) + '" key="' + ODP.h(key) + '"></span>');
 
 	var item = $(superClass + ' .filter[k="' + ODP.h(k) + '"]');
 	item.attr('title', 'Click to remove filter');
@@ -203,43 +223,40 @@ function filterFreeText(timedout) {
 }
 
 function filterFreeTextFilter() {
-	var item = $('.filterbox');
+	var item = $('.filtertextbox');
 	var filterFreeTextLastText = item.val().trim();
-	ListBody.selectAll('.item:not(.hidden)').each(function(d) {
-		if (filterFreeTextLastText == '' || ODP.searchEngineSearch(filterFreeTextLastText, d.subdomain + ' ' + d.user + ' ' + d.ip + ' ' + d.title + ' ' + d.description + ' ' + d.category + ' ' + d.url))
-			d3.select(this).classed('filterboxed', false)
+	ListBody.selectAll('.item:not(.filtered)').each(function(d) {
+		if (filterFreeTextLastText == '' || ODP.searchEngineSearch(filterFreeTextLastText, d.text))
+			d3.select(this).classed('filtertextboxed', false)
 		else
-			d3.select(this).classed('filterboxed', true)
+			d3.select(this).classed('filtertextboxed', true)
 	});
 }
 
-function chartsRender() {
+function chartsRenderBar() {
+	timer.start('chartsRenderBar')
 
 	var data = []
 	listRowsVisible.each(function(d) {
 		data[data.length] = d;
 	});
 	//crossfilter
-	timer.start('crossfilter')
+	timer.start('groups')
 	var xdata = crossfilter(data);
-	timer.stop('crossfilter')
 
 	//total
-	$('.total').text(xdata.size())
-	$('.group-by-none-total').text('(' + xdata.size() + ')')
+	$('.totals .total').text(xdata.size())
+	$('.group-by-totals .none').text('(' + xdata.size() + ')')
 
 	//grouping by all
-	timer.start('group by all')
 	by['all'] = xdata.dimension(function(d) {
 		return d;
 	});
 	byCount['all'] = by['all'].group(function(d) {
 		return d;
 	});
-	timer.stop('group by all')
 
 	//grouping by group
-	timer.start('group by group')
 	for (var id in groups) {
 		var item = groups[id];
 		by[item] = xdata.dimension(function(d) {
@@ -249,12 +266,12 @@ function chartsRender() {
 			return value;
 		});
 	}
-	timer.stop('group by group')
 
 	//sidebar count group by
 	for (var id in groups) {
-		$('.group-by-' + groups[id] + '-total').text('(' + byCount[groups[id]].size() + ')')
+		$('.group-by-totals .' + groups[id] ).text('(' + byCount[groups[id]].size() + ')')
 	}
+	timer.stop('groups')
 
 	//bars group
 	timer.start('bar');
@@ -262,7 +279,7 @@ function chartsRender() {
 	var group, colours;
 	for (var i in bars) {
 
-		$('.bar-' + bars[i]).empty();
+		$('.bars .' + bars[i]).empty();
 
 		group = byCount[bars[i]].top(Infinity)
 		colours = ODP.generateColours(group.length)
@@ -271,7 +288,7 @@ function chartsRender() {
 		group.forEach(function(item) {
 			t += item.value
 		})
-		bar = d3.select('.bar-' + bars[i]).attr('key', bars[i])
+		bar = d3.select('.bars .' + bars[i]).attr('key', bars[i])
 		bar.selectAll('div').data(group).enter()
 			.append("div")
 			.attr('style', function(d, i) {
@@ -284,9 +301,10 @@ function chartsRender() {
 			.on('click', function(d, i) {
 			filterAdd(this.parentNode.getAttribute('key'), d.key, d3.event)
 		})
-		bar.append('div').attr('class', 'bar-legend ignore').text(bars[i])
+		bar.append('div').attr('class', 'legend ignore').text(bars[i])
 	}
 	timer.stop('bar');
+	timer.stop('chartsRenderBar');
 }
 
 function chartsRenderPie() {
@@ -303,12 +321,11 @@ function chartsRenderPie() {
 	var c = [],
 		values = [],
 		names = [],
-		group = groups,
 		functions = [],
 		tooltip = [];
-	for (var id in group) {
+	for (var id in groups) {
 		names[names.length] = id.split('-')[0]
-		values[values.length] = group[id].length
+		values[values.length] = groups[id].length
 		c[c.length] = id.split('-')[1]
 		tooltip[tooltip.length] = names[names.length - 1] + ' (' + values[values.length - 1] + ')';
 		functions[functions.length] = function(d) {
@@ -342,4 +359,3 @@ function listSortBy(item, by, order) {
 			return d3.ascending(a[by], b[by]);
 	});
 }
-

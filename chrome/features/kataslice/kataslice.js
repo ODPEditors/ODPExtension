@@ -6,7 +6,7 @@
 
 			var aURL = this.categoryGetURLEditUS(this.categoryGetFromURL(aCategory));
 
-			this.readURL(aURL, false, false, false, function(aData) {
+			this.readURL('file:///S:/desktop/listurl.htm', false, false, false, function(aData) {
 
 				if (aData.indexOf('<form action="login"') != -1)
 					ODPExtension.alert('You must be logged in to your dashboard to use this tool.');

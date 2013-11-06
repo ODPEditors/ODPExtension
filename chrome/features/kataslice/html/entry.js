@@ -1,45 +1,81 @@
 
-function entryMouseOver(item, event) {
+function entryGetItem(item, event){
+	item = $(item)
+	if(item.hasClass('item'))
+		return item;
+	else
+		return item.parents('.item');
+}
+function entryGetData(item, event){
+	return listRows[0][entryGetItem(item).attr('index')].__data__;
+}
+function entrySync(item){
 	item = $(item);
-	item.find('[contenteditable]').each(function() {
+	var k = item.attr('class');
+	var v = item.text();
+	lastSelectedData[k] = v;
+}
+
+var lastSelectedEntry = false;
+function entryMouseOver(item, event) {}
+
+function entryMouseOut(item, event) {}
+
+function entryClick(item, event){
+
+	item = $(item);
+	entry = entryGetItem(item)
+	lastSelectedData = entryGetData(item);
+
+	var targetIsContentEditable = $(event.originalTarget).attr('contenteditable');
+
+	//remove spellcheck from lastSelectedEntry item
+	if(lastSelectedEntry && lastSelectedEntry.attr('id') != entry.attr('id')){
+		lastSelectedEntry.find('[contenteditable]').each(function() {
+			$(this).attr('contenteditable', false);
+			$(this).attr('spellcheck', false);
+			$(this).attr('contenteditable', true);
+		});
+	}
+	//enable spellcheck in this clicked entry
+	entry.find('[contenteditable]').each(function() {
 		$(this).attr('contenteditable', false);
 		$(this).attr('spellcheck', true);
 		$(this).attr('contenteditable', true);
+		if(!targetIsContentEditable){
+			targetIsContentEditable = true;
+			$(this).focus();
+		}
 	});
-}
+	lastSelectedEntry = entry;
 
-function entryMouseOut(item, event) {
-	item = $(item);
-	item.find('[contenteditable]').each(function() {
-		$(this).attr('contenteditable', false);
-		$(this).attr('spellcheck', false);
-		$(this).attr('contenteditable', true);
-	});
+	//select item
+	if (!event.ctrlKey)
+		$('.item.selected').each(function() {
+			$(this).removeClass('selected');
+		});
+	if (entry.hasClass('selected'))
+		entry.removeClass('selected')
+	else
+		entry.addClass('selected');
+
+	$('.totals .selected').text($('.item.selected').length);
 }
 
 function entryKeyPress(item, event) {
+	entrySync(item);
+
 	if (event.keyCode == event.DOM_VK_RETURN) {
 		event.stopPropagation();
 		event.preventDefault();
-		ODP.tabOpen($(item).parents('.list-entry').find('.url').text(), true)
+		ODP.tabOpen(entryGetData(item).url, true)
 		return false;
 	} else {
 		return true;
 	}
 }
-
-function entrySelect(item, event) {
-	item = $(item);
-	if (!event.ctrlKey)
-		$('.list-entry.selected').each(function() {
-			$(this).removeClass('selected');
-		});
-	if (item.hasClass('selected'))
-		item.removeClass('selected')
-	else
-		item.addClass('selected');
-
-	$('.totals .selected').text($('.list-entry.selected').length);
+function entryPaste(item, event) {
+	ODP.copyToClipboard(ODP.getClipboard().replace(/\s+/g, ' '));
 }
 
 var seFreeTextTimeout = false;
@@ -50,16 +86,18 @@ function entrySEFreeText(item, event) {
 	}, 1200);
 }
 
+
+
 //getLanguageFromCategory
 function entrySE(item, event, text, fromAKeypress) {
 
-	item = $(item);
-	var template = _.template($(".list-item-template-tool-se").html());
+	item = entryGetItem(item);
+	var d = entryGetData(item);
+	var template = _.template($(".tpl-list-item-tool-se").html());
 
-	var entry = item.parents('.list-entry')
 	if (!text)
-		text = entry.find('.title').text()
-	var tools = entry.find('.tools')
+		text = d.title
+	var tools = item.find('.tools')
 
 	var container = tools.find('.se');
 	if (container.length < 1 || fromAKeypress) {

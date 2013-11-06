@@ -475,25 +475,41 @@
 			}
 		}, true, true);
 	}
+	/* COLOURS */
 	//DARK
-	this.odpPurpleD = function() {
-		return 'purple';
+	this.odpColourUpdateD = function() {
+		return '#8e44ad'; //'purple';
 	}
-	this.odpGreenD = function() {
-		return 'green';
+	this.odpColourEditorD = function() {
+		return '#27ae60'; //'green';
 	}
-	this.odpRedD = function() {
-		return 'red';
+	this.odpColourPublishedD = function() {
+		return '#669933'; //'green odp';
+	}
+	this.odpColourErrorD = function() {
+		return '#e74c3c'; //'red';
+	}
+	this.odpColourPublicD = function() {
+		return '#3498db'; //'blue';
+	}
+	this.odpColourXMLD = function() {
+		return '#f39c12'; //not sure
+	}
+	this.odpColourGreenbustD = function() {
+		return '#16a085';//'greendark';
+	}
+	this.odpColourGreyD = function() {
+		return '#7f8c8d'; //mm grey
 	}
 	//Light
-	this.odpPurple = function() {
-		return 'rgba(128, 0, 128, 0.45)';
+	this.odpPurpleL = function() {
+		return '#9b59b6'; //'rgba(128, 0, 128, 0.45)';
 	}
 	this.odpGreenL = function() {
-		return 'rgba(0, 128, 0, 0.45)';
+		return '#2ecc71'; //'rgba(0, 128, 0, 0.45)';
 	}
 	this.odpRedL = function() {
-		return 'rgba(255, 0, 0, 0.45)';
+		return '#e74c3c'; //'rgba(255, 0, 0, 0.45)';
 	}
 
 	var getLanguageFromCategoryData = {

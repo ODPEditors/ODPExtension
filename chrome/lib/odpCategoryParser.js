@@ -85,30 +85,30 @@
 				site.type = aType;
 				switch (site.type) {
 					case 'error':
-						site.colour = this.odpRedD();
+						site.colour = this.odpColourErrorD();
 						break;
 					case 'editor':
-						site.colour = this.odpGreenD();
+						site.colour = this.odpColourEditorD();
 						break;
 					case 'public':
-						site.colour = 'blue';
+						site.colour = this.odpColourPublicD();
 						break;
 					case 'xml':
-						site.colour = 'orange';
+						site.colour = this.odpColourXMLD();
 						break;
 					case 'updates':
-						site.colour = this.odpPurpleD();
+						site.colour = this.odpColourPurpleD();
 						break;
 					case 'greenbust':
-						site.colour = 'darkgreen';
+						site.colour = this.odpColourGreenbustD();
 						break;
 					default:
-						site.colour = 'grey';
+						site.colour = this.odpColourGreyD();
 						break;
 				}
 				site.typeColour = site.type + '-' + site.colour;
 				site.area = 'unrev';
-				site.action = 'U'; // U = unrev, L = list, D = delete
+				site.action = 'U'; // U = unrev, P = publish, D = delete
 				site.id = site.area + '-' + site.site_id;
 				aSites[aSites.length] = site;
 

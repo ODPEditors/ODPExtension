@@ -2,27 +2,37 @@
 	font-family: 'Open Sans';
 	font-style: normal;
 	font-weight: 300;
-	src: local('Open Sans Light'), local('OpenSans-Light'), url(chrome://ODPExtension/content/html/fonts/open-sans.woff) format('woff');
+	src: local('Open Sans Light'), local('OpenSans-Light'), url(fonts/open-sans.woff) format('woff');
 }
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 300;
+	src: local('Open Sans Light'), local('OpenSans-Light'), url(fonts/open-sans.woff) format('woff');
+}
+@font-face {
+  font-family: 'Flat-UI-Icons';
+  font-style: normal;
 
+  font-variant: normal;
+  src: url(fonts/Flat-UI-Icons.woff) format('woff');
+}
 body {
 	font-family: "Verdana", Times, serif;
-	padding:0;
+	padding: 0;
 	margin: 0;
-	border:0;
+	border: 0;
 	overflow-y: scroll;
 }
-
 .clear {
 	float: none;
 	clear: both;
 	display: block;
 	margin: 2px;
 }
-
 .click {
 	cursor: pointer;
-	text-decoration: underline;
+	text-decoration: underline !important;
 	color: inherit;
 }
 .ignore {
@@ -41,12 +51,111 @@ body {
 	user-select: none;
 	cursor: normal;
 }
-.inline-block{
+.inline-block {
 	display: inline-block;
 }
-.hidden,
-.filterboxed {
-	display: none;
+@media (max-width: 900px) {
+	.narrow{
+		display: none;
+	}
+}
+
+.icons{
+	font-family: 'Flat-UI-Icons';
+	color:rgba(0, 0, 0, 0.6);
+	opacity: .7;
+	font-size:.9em;
+}
+.icons span{
+	margin: 0px 0px 0px 1px;
+	width: 32px;
+}
+.icons .deleted:before{
+	content: "\e032";
+	color:red;
+}
+.icons .unreviewed:before{
+	content: "\e011";
+}
+.icons .published:before{
+	content: "\e000";
+	color:green;
+}
+
+/* sidebar */
+
+.sidebar {
+	-moz-box-sizing: padding-box;
+	max-width: 15%;
+	position: fixed;
+	right: 0;
+	top: 50px;
+	background-color: #2c3e50;
+	height: 100%;
+	color: white;
+	border-left: 1px solid #34495e;
+	box-shadow: 0px 0px 12px -2px black;
+	padding-top: 7px;
+}
+.sidebar b{
+	display: block;
+	text-transform: uppercase;
+	margin-left: 12px;
+}
+.sidebar hr{
+	border:0px;
+	padding: 0px;
+	margin: 0px;
+	height: 1px;
+	background-color:rgba(255, 255, 255, 0.1);
+	width: 100%;
+	margin-top:0px;
+	margin-bottom:0px;
+}
+.sidebar ul{
+	padding: 0px;
+	border: 0px none;
+	margin: 0px 0px 10px;
+	margin-bottom: 0px;
+}
+.sidebar li{
+	margin: 0px;
+	padding:0px;
+	list-style-type: none;
+	text-align: right;
+	transition: background-color .6s;
+}
+
+.sidebar li, .sidebar b{
+	padding-right: 10px;
+}
+.sidebar li:hover{
+	background-color: #34495e;
+}
+
+.sidebar .menu li{
+	padding: 10px;
+	padding-bottom: 14px;
+}
+.sidebar .menu b{
+	text-align: left;
+	margin-bottom: -10px;
+	margin-top: 7px;
+}
+.sidebar ul.menu{
+	border-top: 4px solid rgba(255,255,255,.2);
+	transition:all .4s;
+}
+.sidebar ul.menu:hover{
+	border-top: 4px solid rgba(255,255,255,.5);
+}
+
+.sidebar ul b{
+	opacity: .4;
+	transition:opacity .4s;
+}
+.sidebar ul:hover b{
+	opacity: 1;
 }
 
 /* elements genric */
@@ -59,12 +168,13 @@ h1, h2, h3, h4, h5 {
 	margin-left: -3px;
 	margin-top: 0px;
 }
-/* classes generic */
-header .title{
-	font-family: 'Open Sans',Arial,Verdana,sans-serif;
-	}
-/* elements updated me!*/
 
+/* classes generic */
+header .title {
+	font-family: 'Open Sans',Arial,Verdana,sans-serif;
+}
+
+/* elements -> TODO -> updated me!*/
 .header {
 	background-color: #669933;
 	color: white;

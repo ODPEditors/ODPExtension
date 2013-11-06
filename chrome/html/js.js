@@ -32,7 +32,7 @@ function pie(item, names, values, colours, tooltip, functions) {
 		.style("stroke-width", "5")
 		.text(function(g){ return values[names.indexOf(g)];})
 		.on('click', function(d){ functions[names.indexOf(d.data)](d.data); })
-		.attr('class', 'click')
+		.attr('class', 'click not-ignore')
 		.attr('title', function(g){ return tooltip[names.indexOf(g)]; })
 		.each(function() {
 			this._current = {

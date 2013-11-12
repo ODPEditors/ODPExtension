@@ -585,10 +585,17 @@ var ODPExtension = {};
 	//output to the console an error
 	this.error = function(aMsg) {
 		var stack = new Error().stack
+
 		setTimeout(function() {
+			ODPExtension.errorString = 'ODPExtension : ' + aMsg + "\n\n" + stack;
 			throw new Error('ODPExtension : ' + aMsg) + "\n\n" + stack;
 		}, 0);
 	};
+	this.getError = function() {
+		var error = String(ODPExtension.errorString)
+		ODPExtension.errorString = null
+		return error;
+	}
 	//output to the console the stack
 	this.stack = function(aMsg) {
 		var stack = new Error().stack

@@ -26,7 +26,7 @@ function entryClick(item, event){
 	item = $(item);
 	entry = entryGetItem(item)
 	lastSelectedData = entryGetData(item);
-
+	var lastSelectedIsSsame = false
 	var targetIsContentEditable = $(event.originalTarget).attr('contenteditable');
 
 	//remove spellcheck from lastSelectedEntry item
@@ -36,13 +36,15 @@ function entryClick(item, event){
 			$(this).attr('spellcheck', false);
 			$(this).attr('contenteditable', true);
 		});
+	} else if(lastSelectedEntry) {
+		lastSelectedIsSsame = true;
 	}
 	//enable spellcheck in this clicked entry
 	entry.find('[contenteditable]').each(function() {
 		$(this).attr('contenteditable', false);
 		$(this).attr('spellcheck', true);
 		$(this).attr('contenteditable', true);
-		if(!targetIsContentEditable){
+		if(!targetIsContentEditable && !lastSelectedIsSsame){
 			targetIsContentEditable = true;
 			$(this).focus();
 		}

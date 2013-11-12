@@ -88,7 +88,7 @@
 						this.queriesReferences[id].query = this.aConnection.createStatement(this.queriesReferences[id].sql)
 						//this.theExtension.code('ODPExtension').dump('state'+this.queriesReferences[id].query.state);
 					} catch (e) { /*probably bad wrote of a query*/
-						this.theExtension.code('ODPExtension').error('init:re-createStatement FAILED:\nQUERY:\n\t' + this.queriesReferences[id].sql + '\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString);
+						this.theExtension.code('ODPExtension').error('init:re-createStatement FAILED:\nQUERY:\n\t' + this.queriesReferences[id].sql.trim() + '\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString);
 					};
 				}
 
@@ -223,7 +223,7 @@
 				try {
 					queryReference.query = this.aConnection.createStatement(query)
 				} catch (e) { /*probably bad wrote of a query*/
-					this.theExtension.code('ODPExtension').error('createStatement FAILED:\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString + 'QUERY:\n\t' + query + '\n');
+					this.theExtension.code('ODPExtension').error('createStatement FAILED:\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString.trim() + '\nQUERY:\n\t' + query.trim() + '\n');
 				};
 				queryReference.sql = String(query);
 				queryReference.columnNames = {};
@@ -254,7 +254,7 @@
 							queryReference.paramsValues[aParam] = aValue;
 
 						} catch (e) {
-							this.theExtension.code('ODPExtension').dump('FILL PARAMS FAILED:\n\tCan\'t fill params:aParam:' + aParam + ':aValue:' + aValue + '\nQUERY:\n\t' + this.sql + '\nQUERY VALUES:\n\t' + queryReference.paramsValues.toSource() + '\nSQLITE SAYS:\n\t' + queryReference.aConnection.lastErrorString);
+							this.theExtension.code('ODPExtension').dump('FILL PARAMS FAILED:\n\tCan\'t fill params:aParam:' + aParam + ':aValue:' + aValue + '\nQUERY:\n\t' + this.sql.trim() + '\nQUERY VALUES:\n\t' + queryReference.paramsValues.toSource() + '\nSQLITE SAYS:\n\t' + queryReference.aConnection.lastErrorString);
 						}
 
 						queryReference.paramsValues = {};
@@ -284,7 +284,7 @@
 					this.aConnection.executeSimpleSQL(query)
 				} catch (e) { /*probably bad wrote of a query*/
 					if (!canFail) {
-						this.theExtension.code('ODPExtension').error('executeSimpleSQL FAILED:\nQUERY:\n\t' + query + '\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString);
+						this.theExtension.code('ODPExtension').error('executeSimpleSQL FAILED:\nQUERY:\n\t' + query.trim() + '\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString);
 					}
 				}
 			};
@@ -297,7 +297,7 @@
 						query.executeAsync();
 					} catch (e) {
 						//if can't fails and fails: output to the console that this query failed
-						this.theExtension.code('ODPExtension').dump('QUERY Failed:\n\t' + this.queriesReferences[q.id].sql + '\nQUERY VALUES:\n\t' + this.queriesReferences[q.id].paramsValues.toSource() + '\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString);
+						this.theExtension.code('ODPExtension').dump('QUERY Failed:\n\t' + this.queriesReferences[q.id].sql.trim() + '\nQUERY VALUES:\n\t' + this.queriesReferences[q.id].paramsValues.toSource() + '\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString);
 					}
 				} else {
 					//this query can fail, fail silenty
@@ -333,7 +333,7 @@
 						});
 					} catch (e) {
 						//if can't fails and fails: output to the console that this query failed
-						this.theExtension.code('ODPExtension').dump('QUERY Failed:\n\t' + this.queriesReferences[q.id].sql + '\nQUERY VALUES:\n\t' + this.queriesReferences[q.id].paramsValues.toSource() + '\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString);
+						this.theExtension.code('ODPExtension').dump('QUERY Failed:\n\t' + this.queriesReferences[q.id].sql.trim() + '\nQUERY VALUES:\n\t' + this.queriesReferences[q.id].paramsValues.toSource() + '\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString);
 					}
 				} else {
 					//this query can fail, fail silenty
@@ -366,7 +366,7 @@
 						query.executeStep();
 					} catch (e) {
 						//if fails: output to the console that this query failed
-						this.theExtension.code('ODPExtension').dump('QUERY Failed:\n\t' + this.queriesReferences[q.id].sql + '\nQUERY VALUES:\n\t' + this.queriesReferences[q.id].paramsValues.toSource() + '\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString);
+						this.theExtension.code('ODPExtension').dump('QUERY Failed:\n\t' + this.queriesReferences[q.id].sql.trim() + '\nQUERY VALUES:\n\t' + this.queriesReferences[q.id].paramsValues.toSource() + '\nSQLITE SAYS:\n\t' + this.aConnection.lastErrorString);
 					}
 				} else {
 					try {

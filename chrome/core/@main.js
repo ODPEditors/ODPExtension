@@ -30,8 +30,6 @@
 
 		ODPExtension.dispatchEvent('onLocationChangeNotDocumentLoad', ODPExtension.documentFocusedGetLocation());
 		ODPExtension.dispatchEvent('onLocationChange', ODPExtension.documentFocusedGetLocation());
-		if(ODPExtension.shared.me)
-			HUDConsoleUI.toggleBrowserConsole();
 	});
 
 	this.extensionToggle = function() {

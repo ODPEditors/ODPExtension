@@ -68,11 +68,7 @@
 
 			item.setAttribute('title', tooltiptext.trim() + '\n' + aData.txt.slice(0, 255)+'...');
 
-		if (aData.status.suspicious.length) {
-			//orange
-			item.style.setProperty('color', 'black', 'important');
-			item.style.setProperty('background-color', 'orange', 'important');
-		} else if (aData.status.error && aData.status.canDelete) {
+		if (aData.status.error && aData.status.canDelete) {
 			//red
 			item.style.setProperty('color', 'white', 'important');
 			item.style.setProperty('background-color', '#EB6666', 'important');
@@ -80,6 +76,12 @@
 			//purple
 			item.style.setProperty('color', 'white', 'important');
 			item.style.setProperty('background-color', '#6F6FFC', 'important');
+		}
+		else if (aData.status.suspicious.length) {
+			//orange
+			item.style.setProperty('color', 'black', 'important');
+			item.style.setProperty('background-color', 'orange', 'important');
+
 		} else if (aData.statuses[aData.statuses.length - 1] == '200' && aData.status.error === false) {
 			//green
 			item.style.setProperty('color', 'white', 'important');

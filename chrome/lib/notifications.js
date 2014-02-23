@@ -54,12 +54,13 @@
 				} catch (e) { /*if the notification is removed manually this throw an exception*/ }
 			}, aTime * 1000);
 	}
+	var progressesShared = []
 	//shows a progress of anID in the status-bar
 	this.progress = function(anID, aFunction) {
 		var aConnection = 'progress.' + anID;
 
-		if (this.sharedObjectExists(aConnection)) {
-			return this.sharedObjectGet(aConnection);
+		if (!!progressesShared[aConnection]) {
+			return progressesShared[aConnection];
 		} else {
 			var object = {};
 			object.message = '';
@@ -97,7 +98,8 @@
 				ODPExtension.notifyStatusBar('');
 			}
 
-			return this.sharedObjectGet(aConnection, object);
+			progressesShared[aConnection] = object;
+			return progressesShared[aConnection];
 		}
 	}
 

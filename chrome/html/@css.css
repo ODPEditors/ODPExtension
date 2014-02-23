@@ -79,6 +79,11 @@ body {
 	content: "\e000";
 	color: green;
 }
+table {
+	table-layout: fixed;
+	width: 100%;
+	word-break: break-all;
+}
 /* sidebar */
 .sidebar {
 	-moz-box-sizing: padding-box;

@@ -85,14 +85,15 @@
 		aConnection.executeSimple('	CREATE TABLE `hosts`		( `id` INTEGER PRIMARY KEY NOT NULL, `host` TEXT NOT NULL DEFAULT "")');
 		aConnection.executeSimple('	CREATE TABLE `uris`			( `id` INTEGER PRIMARY KEY NOT NULL, `schemaWWW` TEXT NOT NULL DEFAULT "", `subdomain_id` INTEGER NOT NULL DEFAULT 0, `domain_id` INTEGER NOT NULL DEFAULT 0, `uri` TEXT NOT NULL DEFAULT "", `path` TEXT NOT NULL DEFAULT "", `title` TEXT NOT NULL DEFAULT "", `description` TEXT NOT NULL DEFAULT "", `mediadate` DATE NOT NULL DEFAULT "", `pdf` INTEGER NOT NULL DEFAULT 0, `atom` INTEGER NOT NULL DEFAULT 0, `rss` INTEGER NOT NULL DEFAULT 0, `cool` INTEGER NOT NULL DEFAULT 0, `category_id` INTEGER NOT NULL DEFAULT 0)');
 
-		var insertCategory = aConnection.aConnection.createStatement('INSERT INTO `categories` ( `id`, `parent`, `catid`,`depth`, `category`,`category_reversed`, `name` , `last_update` , `description` ) VALUES ( :id, :parent , :catid, :depth, :category, :category_reversed, :name, :last_update , :description )')
-		var insertEditor = aConnection.aConnection.createStatement('INSERT INTO `editors` ( `editor`, `category_id` ) VALUES ( :editor, :category_id )')
-		var insertRelated = aConnection.aConnection.createStatement('INSERT INTO `related` ( `to`, `from` ) VALUES ( :to, :from )')
-		var insertAltlang = aConnection.aConnection.createStatement('INSERT INTO `altlang` ( `to`, `from` ) VALUES ( :to, :from )')
-		var insertLink = aConnection.aConnection.createStatement('INSERT INTO `link` ( `to`, `from` , `name`, `position` ) VALUES ( :to, :from, :name, :position )')
+		var insertCategory  = aConnection.aConnection.createStatement('INSERT INTO `categories` ( `id`, `parent`, `catid`,`depth`, `category`,`category_reversed`, `name` , `last_update` , `description` ) VALUES ( :id, :parent , :catid, :depth, :category, :category_reversed, :name, :last_update , :description )')
+		var insertEditor    = aConnection.aConnection.createStatement('INSERT INTO `editors` ( `editor`, `category_id` ) VALUES ( :editor, :category_id )')
+		var insertRelated   = aConnection.aConnection.createStatement('INSERT INTO `related` ( `to`, `from` ) VALUES ( :to, :from )')
+		var insertAltlang   = aConnection.aConnection.createStatement('INSERT INTO `altlang` ( `to`, `from` ) VALUES ( :to, :from )')
+		var insertLink      = aConnection.aConnection.createStatement('INSERT INTO `link` ( `to`, `from` , `name`, `position` ) VALUES ( :to, :from, :name, :position )')
 		var insertNewsgroup = aConnection.aConnection.createStatement('INSERT INTO `newsgroup` ( `newsgroup`, `category_id`) VALUES ( :newsgroup, :category_id )')
-		var insertHost = aConnection.aConnection.createStatement('INSERT INTO `hosts` ( `id`, `host`) VALUES ( :id, :host )')
-		var insertURI = aConnection.aConnection.createStatement('INSERT INTO `uris` ( `schemaWWW`, `subdomain_id`, `domain_id`, `uri`, `path`, `title`, `description`, `mediadate`, `pdf`, `atom`, `rss`, `cool`, `category_id`) VALUES (:schemaWWW, :subdomain_id, :domain_id, :uri, :path, :title, :description, :mediadate, :pdf, :atom, :rss, :cool, :category_id )')
+		var insertHost      = aConnection.aConnection.createStatement('INSERT INTO `hosts` ( `id`, `host`) VALUES ( :id, :host )')
+		var insertURI       = aConnection.aConnection.createStatement('INSERT INTO `uris` ( `schemaWWW`, `subdomain_id`, `domain_id`, `uri`, `path`, `title`, `description`, `mediadate`, `pdf`, `atom`, `rss`, `cool`, `category_id`) VALUES (:schemaWWW, :subdomain_id, :domain_id, :uri, :path, :title, :description, :mediadate, :pdf, :atom, :rss, :cool, :category_id )')
+
 		this.dump('Database tables and statements created...');
 
 		function StreamListenerCategoriesTXT() {

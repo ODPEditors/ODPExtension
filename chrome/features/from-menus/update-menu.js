@@ -12,14 +12,15 @@
 		//the set timeout is there to avoid multiples clicks
 		ODPExtension.getBrowserElement("content").addEventListener("mouseup", function(event) {
 			if (event.button == 0) {
-				(function(event){
+				(function(event) {
 					clearTimeout(fromCategoryTimeout);
 					fromCategoryTimeout = setTimeout(function() {
 						ODPExtension.fromCategoryUpdateMenu(event, 'from-category');
 					}, 200);
 				})(event)
-			} else if (event.button == 2 && ODPExtension.tagName(event.originalTarget) == 'select') {
-				(function(event){
+			}
+			else if (event.button == 2 && ODPExtension.tagName(event.originalTarget) == 'select') {
+				(function(event) {
 					setTimeout(function() {
 						ODPExtension.fromCategoryUpdateMenu(event, 'from-category');
 					}, 50);
@@ -59,7 +60,6 @@
 		ODPExtension.fromCategoryUpdateMenu(event, 'tab-context-from-category');
 	});
 
-
 	this.addListener('userInterfaceUpdate', function(aEnabled) {
 
 		ODPExtension.getElement('context-from-category').setAttribute('hidden', !aEnabled);
@@ -68,7 +68,6 @@
 		ODPExtension.getElement('context-from-editors').setAttribute('hidden', !aEnabled);
 
 	});
-
 
 	//this is to complex to follow
 	//1 - check changes on the UI of the from category menu
@@ -89,14 +88,14 @@
 			return;
 		}
 		if (
-		(
-		(
-			this.fromCategoryCanceledAutoPopup && //if the element was showed with the rigth click event and the timeout to show the menu again is on
-		(
-			aEvent.type == 'mouseup' ||
-			aEvent.type == 'dblclick')) ||
-			fromCategoryUpdating //or this function is already running
-		) &&
+			(
+				(
+					this.fromCategoryCanceledAutoPopup && //if the element was showed with the rigth click event and the timeout to show the menu again is on
+					(
+						aEvent.type == 'mouseup' ||
+						aEvent.type == 'dblclick')) ||
+				fromCategoryUpdating //or this function is already running
+			) &&
 			aEvent.type != 'dblclick' //allow processing if doble rigth click
 		) {
 			//this.dump('fromCategoryMenu:UpdateCanceled');
@@ -133,7 +132,8 @@
 		//hack for pre tag support
 		if (gContextMenu && gContextMenu.target && this.tagName(gContextMenu.target) == 'pre') {
 			var selectedText = this.trim(this.stripTags(getSelectedTextHTML));
-		} else {
+		}
+		else {
 			var selectedText = this.trim(this.getSelectedText(false));
 		}
 		//more hack for pre tag
@@ -151,7 +151,6 @@
 		//hack for multiple category selection on text area
 		if (this.focusedElementIsTextbox() && selectedTextHTML == '')
 			selectedTextHTML = selectedText;
-
 
 		var selectedTextInsideInput = (this.getFocusedElementSelection() != '' ? true : false);
 		var clipboard = (this.getClipboard() != '' ? true : false);
@@ -186,7 +185,8 @@
 				var aCategoryPopup = this.categoryGetFromURL(document.popupNode.getAttribute('value'));
 			else
 				var aCategoryPopup = '';
-		} else
+		}
+		else
 			var aCategoryPopup = '';
 
 		//check a SELECT with a category value - firefox 3.6 will not show up the context menu, then my context menu will not be so disturbing!
@@ -194,7 +194,8 @@
 			var aCategorySelectHTML = this.categoryGetFromURL(this.trim(aEvent.originalTarget.options[aEvent.originalTarget.selectedIndex].value));
 			if (aCategorySelectHTML == '')
 				var aCategorySelectHTML = this.categoryGetFromURL(this.trim(aEvent.originalTarget.options[aEvent.originalTarget.selectedIndex].innerHTML));
-		} else
+		}
+		else
 			var aCategorySelectHTML = '';
 
 		//check tab context menu
@@ -208,18 +209,35 @@
 		//check link with category attribute
 		//this.dump(fromWhere);
 
+		var aLinkCategoryAttribute = ''
+
 		if (fromWhere == 'context-from-category' && gContextMenu && gContextMenu.target && (gContextMenu.target.hasAttribute('category') || gContextMenu.target.hasAttribute('data-category') || gContextMenu.target.hasAttribute('data-odpextension-autopopup'))) {
 			if (gContextMenu.target.hasAttribute('category'))
-				var aLinkCategoryAttribute = this.categoryGetFromURL(gContextMenu.target.getAttribute('category'));
+				aLinkCategoryAttribute = this.categoryGetFromURL(gContextMenu.target.getAttribute('category'));
 			else if (gContextMenu.target.hasAttribute('data-category'))
-				var aLinkCategoryAttribute = this.categoryGetFromURL(gContextMenu.target.getAttribute('data-category'));
+				aLinkCategoryAttribute = this.categoryGetFromURL(gContextMenu.target.getAttribute('data-category'));
 			else if (gContextMenu.target.hasAttribute('data-odpextension-autopopup')) {
-				var aLinkCategoryAttribute = this.categoryGetFromURL(gContextMenu.target.getAttribute('href'));
+				aLinkCategoryAttribute = this.categoryGetFromURL(gContextMenu.target.getAttribute('href'));
 				autoPopup = true;
 			}
-		} else
-			var aLinkCategoryAttribute = '';
+			else
+				aLinkCategoryAttribute = ''
+		}
 
+		/*
+		mm... gContextMenu.target has no parentNode!?
+		if (aLinkCategoryAttribute == '' && gContextMenu && gContextMenu.target) {
+
+			var parent = gContextMenu.target
+			while (parent) {
+				if (parent.category) {
+					aLinkCategoryAttribute = this.categoryGetFromURL(parent.category);
+					break
+				} else {
+					parent = parent.parentNode;
+				}
+			}
+		}*/
 		//multiple categories
 
 		//check if the selected text is a valid category
@@ -249,7 +267,8 @@
 		for (var id in aTabs) {
 			if ((aTemp = this.categoryGetFromDocument(this.documentGetFromTab(aTabs[id]))) != '') {
 				aMCategoriesMultipleTabHandler[aMCategoriesMultipleTabHandler.length] = aTemp;
-			} else if ((aTemp = this.categoryGetFromURL(this.tabGetLocation(aTabs[id]))) != '') {
+			}
+			else if ((aTemp = this.categoryGetFromURL(this.tabGetLocation(aTabs[id]))) != '') {
 				aMCategoriesMultipleTabHandler[aMCategoriesMultipleTabHandler.length] = aTemp;
 			}
 		}
@@ -270,7 +289,7 @@
 				this.fromEditorSelectedEditors[this.fromEditorSelectedEditors.length] = aEditor;
 		}
 
-/*		if (this.fromEditorSelectedEditors.length == 0 && this.documentGetFocused().body && this.documentGetFocused().body.innerHTML) {
+		/*		if (this.fromEditorSelectedEditors.length == 0 && this.documentGetFocused().body && this.documentGetFocused().body.innerHTML) {
 			aTemp = this.categoryParserGetCategoryEditors(this.documentGetFocused().body.innerHTML);
 			for (var id in aTemp) {
 				this.fromEditorSelectedEditors[this.fromEditorSelectedEditors.length] = aTemp[id];
@@ -279,9 +298,11 @@
 
 		if ((aEditor = this.editorGetFromURL(this.getSelectedLinkURL())) != '') {
 			this.fromEditorSelectedEditor = aEditor;
-		} else if ((aEditor = this.editorGetFromURL(this.focusedLocation())) != '') {
+		}
+		else if ((aEditor = this.editorGetFromURL(this.focusedLocation())) != '') {
 			this.fromEditorSelectedEditor = aEditor;
-		} else if ((aEditor = this.editorGetFromURL(this.categoryGetFromURL(this.focusedLocation()))) != '') {
+		}
+		else if ((aEditor = this.editorGetFromURL(this.categoryGetFromURL(this.focusedLocation()))) != '') {
 			this.fromEditorSelectedEditor = aEditor;
 		}
 
@@ -318,8 +339,8 @@
 		//let's acomodate the UI
 		if (
 			aCategorySelectHTML != '' || //rigth clicked SELECT TAG
-		(aCategoryPopup && aCategoryPopup != '') || //from a menuitem in the toolbar o category browser popup
-		aEvent.currentTarget == this.getElement('extension-icon-context') //from extension icon context
+			(aCategoryPopup && aCategoryPopup != '') || //from a menuitem in the toolbar o category browser popup
+			aEvent.currentTarget == this.getElement('extension-icon-context') //from extension icon context
 		) {
 			//hide elements no realtive to the HTML
 			document.getAnonymousElementByAttribute(thePopupContainer, "anonid", "ODPExtension-from-category-paste").setAttribute('hidden', true);
@@ -328,7 +349,8 @@
 			document.getAnonymousElementByAttribute(thePopupContainer, "anonid", "ODPExtension-from-category-copy-selection").setAttribute('hidden', true);
 			//	document.getAnonymousElementByAttribute(thePopupContainer , "anonid", "ODPExtension-from-category-encode-decode").setAttribute('hidden', true);
 			//	document.getAnonymousElementByAttribute(thePopupContainer , "anonid", "ODPExtension-from-category-encode-decode-separator").setAttribute('hidden', true);
-		} else {
+		}
+		else {
 			//check for clipboard to show paste menuitem
 			if (clipboard && this.focusedElementIsTextbox())
 				document.getAnonymousElementByAttribute(thePopupContainer, "anonid", "ODPExtension-from-category-paste").setAttribute('hidden', false);
@@ -339,7 +361,8 @@
 			if (selectedTextInsideInput) {
 				document.getAnonymousElementByAttribute(thePopupContainer, "anonid", "ODPExtension-from-category-cut").setAttribute('hidden', false);
 				document.getAnonymousElementByAttribute(thePopupContainer, "anonid", "ODPExtension-from-category-delete").setAttribute('hidden', false);
-			} else {
+			}
+			else {
 				document.getAnonymousElementByAttribute(thePopupContainer, "anonid", "ODPExtension-from-category-cut").setAttribute('hidden', true);
 				document.getAnonymousElementByAttribute(thePopupContainer, "anonid", "ODPExtension-from-category-delete").setAttribute('hidden', true);
 			}
@@ -367,7 +390,8 @@
 									document.getAnonymousElementByAttribute(thePopupContainer , "anonid", "ODPExtension-from-category-decode").setAttribute('hidden', true);
 
 								document.getAnonymousElementByAttribute(thePopupContainer , "anonid", "ODPExtension-from-category-encode-decode-separator").setAttribute('hidden', hideEncodeDecodeSeparator);*/
-			} else {
+			}
+			else {
 				document.getAnonymousElementByAttribute(thePopupContainer, "anonid", "ODPExtension-from-category-copy-selection").setAttribute('hidden', true);
 				//document.getAnonymousElementByAttribute(thePopupContainer , "anonid", "ODPExtension-from-category-encode").setAttribute('hidden', true);
 				//document.getAnonymousElementByAttribute(thePopupContainer , "anonid", "ODPExtension-from-category-decode").setAttribute('hidden', true);
@@ -417,37 +441,47 @@
 				if (aCategoryTabContextMenu != '') {
 					this.fromCategorySelectedCategory = aCategoryTabContextMenu; //rigth clicked category in not focused tab
 					this.fromCategoryClickType = 'single';
-				} else if(aEvent.type != 'dblclick') {
+				}
+				else if (aEvent.type != 'dblclick') {
 					fromCategoryUpdating = false;
 					return;
 				}
-			} else {
+			}
+			else {
 				if (aCategorySelectHTML != '') {
 					this.fromCategorySelectedCategory = aCategorySelectHTML; //firefox is not showing the context menu when clicking a select, then give priority to this one
 					this.fromCategoryClickType = 'single';
-				} else if (aCategoryLink != '') {
+				}
+				else if (aCategoryLink != '') {
 					this.fromCategoryClickType = 'single';
 					this.fromCategorySelectedCategory = aCategoryLink; //rigth clicked link
-				} else if (aLinkCategoryAttribute != '') {
+				}
+				else if (aLinkCategoryAttribute != '') {
 					this.fromCategoryClickType = 'single';
 					this.fromCategorySelectedCategory = aLinkCategoryAttribute; //rigth clicked link
-				} else if (aMCategorySelectedText.length > 1) {
+				}
+				else if (aMCategorySelectedText.length > 1) {
 					//this.dump('aMCategorySelectedText'+aMCategorySelectedText);
 					this.fromCategoryClickType = 'multiple';
 					this.fromCategorySelectedCategories = aMCategorySelectedText; //selected linked cateories
-				} else if (aCategorySelectedText != '') {
+				}
+				else if (aCategorySelectedText != '') {
 					this.fromCategoryClickType = 'single';
 					this.fromCategorySelectedCategory = aCategorySelectedText; //selected text
-				} else if (aMCategoryLinks.length > 1) {
+				}
+				else if (aMCategoryLinks.length > 1) {
 					this.fromCategoryClickType = 'multiple';
 					this.fromCategorySelectedCategories = aMCategoryLinks; //selected links
-				} else if (aCategoryLinks != '') {
+				}
+				else if (aCategoryLinks != '') {
 					this.fromCategoryClickType = 'single';
 					this.fromCategorySelectedCategory = aCategoryLinks; //first link in the selection
-				} else if (aCategoryFocused != '') {
+				}
+				else if (aCategoryFocused != '') {
 					this.fromCategoryClickType = 'single';
 					this.fromCategorySelectedCategory = aCategoryFocused; //focused category
-				} else {
+				}
+				else {
 					this.fromCategoryClickType = 'single';
 					this.fromCategorySelectedCategory = '';
 				}
@@ -458,12 +492,14 @@
 				var label = this.create('label');
 				label.setAttribute('value', this.getString('from.category.will.ask.category'));
 				this.getElement('from-categories-tooltip-data').appendChild(label);
-			} else if (this.fromCategoryClickType == 'single') {
+			}
+			else if (this.fromCategoryClickType == 'single') {
 				this.removeChilds(this.getElement('from-categories-tooltip-data'));
 				var label = this.create('label');
 				label.setAttribute('value', this.categoryAbbreviate(this.fromCategorySelectedCategory));
 				this.getElement('from-categories-tooltip-data').appendChild(label);
-			} else {
+			}
+			else {
 				this.removeChilds(this.getElement('from-categories-tooltip-data'));
 				for (var id in this.fromCategorySelectedCategories) {
 					var label = this.create('label');
@@ -502,27 +538,33 @@
 				if (aEvent.button && aEvent.button == 2)
 					autoPopup = true; //should autopopup, there is no context menu on selects
 
-			} else if (aCategoryLink != '') {
+			}
+			else if (aCategoryLink != '') {
 				//this.dump('aCategoryLink');
 				this.fromCategoryClickType = 'single';
 				this.fromCategorySelectedCategory = aCategoryLink; //rigth clicked link
-			} else if (aLinkCategoryAttribute != '') {
+			}
+			else if (aLinkCategoryAttribute != '') {
 				//	this.dump('aLinkCategoryAttribute');
 				this.fromCategoryClickType = 'single';
 				this.fromCategorySelectedCategory = aLinkCategoryAttribute; //rigth clicked link
-			} else if (aCategorySelectedText != '') {
+			}
+			else if (aCategorySelectedText != '') {
 				//	this.dump('aCategorySelectedText');
 				this.fromCategoryClickType = 'single';
 				this.fromCategorySelectedCategory = aCategorySelectedText; //selected text
-			} else if (aCategoryLinks != '') {
+			}
+			else if (aCategoryLinks != '') {
 				//this.dump('aCategoryLinks');
 				this.fromCategoryClickType = 'single';
 				this.fromCategorySelectedCategory = aCategoryLinks; //first link on the list
-			} else if (aCategoryFocused != '') {
+			}
+			else if (aCategoryFocused != '') {
 				//	this.dump('aCategoryFocused');
 				this.fromCategoryClickType = 'single';
 				this.fromCategorySelectedCategory = aCategoryFocused; //focused category
-			} else {
+			}
+			else {
 				this.fromCategoryClickType = 'single';
 				this.fromCategorySelectedCategory = '';
 			}
@@ -595,14 +637,16 @@
 						this.getElement('from-categories-tooltip-data').appendChild(label);
 					}
 					this.getElement('tab-context-multiple-from-category').setAttribute('label', this.getElement('tab-context-multiple-from-category').getAttribute('original_label_multiple'));
-				} else {
+				}
+				else {
 					this.getElement('tab-context-multiple-from-category').setAttribute('tooltiptext', this.fromCategorySelectedCategories[0]);
 					this.getElement('tab-context-multiple-from-category').firstChild.setAttribute('tooltiptext', this.fromCategorySelectedCategories[0]);
 					this.getElement('tab-context-multiple-from-category').setAttribute('label', this.getElement('tab-context-multiple-from-category').getAttribute('original_label_single').replace('{CATEGORY}', this.categoryTitleForLabel(this.categoryAbbreviate(this.fromCategorySelectedCategories[0]))));
 				}
 
 				this.getElement('tab-context-multiple-from-category').setAttribute('hidden', false);
-			} else {
+			}
+			else {
 				this.getElement('tab-context-multiple-from-category').setAttribute('hidden', true);
 			}
 		}
@@ -618,23 +662,28 @@
 				//	this.dump('aMCategorySelectedText'+aMCategorySelectedText);
 				this.fromCategoryClickType = 'multiple';
 				this.fromCategorySelectedCategories = aMCategorySelectedText; //selected linked cateories
-			} else if (aCategorySelectedText != '') {
+			}
+			else if (aCategorySelectedText != '') {
 				//this.dump('aCategorySelectedText'+aCategorySelectedText);
 				this.fromCategoryClickType = 'single';
 				this.fromCategorySelectedCategory = aCategorySelectedText; //selected text
-			} else if (aMCategoryLinks.length > 1) {
+			}
+			else if (aMCategoryLinks.length > 1) {
 				//	this.dump('aMCategoryLinks'+aMCategoryLinks);
 				this.fromCategoryClickType = 'multiple';
 				this.fromCategorySelectedCategories = aMCategoryLinks;
-			} else if (aCategoryLinks != '') {
+			}
+			else if (aCategoryLinks != '') {
 				//this.dump('aCategoryLinks'+aCategoryLinks);
 				this.fromCategoryClickType = 'single';
 				this.fromCategorySelectedCategory = aCategoryLinks; //first link on the list
-			} else if (aCategoryLink != '') {
+			}
+			else if (aCategoryLink != '') {
 				//this.dump('aCategoryLink'+aCategoryLink);
 				this.fromCategoryClickType = 'single';
 				this.fromCategorySelectedCategory = aCategoryLink;
-			} else {
+			}
+			else {
 				//this.dump('nada');
 				this.fromCategoryClickType = 'single';
 				this.fromCategorySelectedCategory = '';
@@ -653,7 +702,8 @@
 				if (this.categoryIsRTL(this.fromCategorySelectedCategory))
 					label.setAttribute('direction', 'rtl');
 				this.getElement('from-categories-tooltip-data').appendChild(label);
-			} else {
+			}
+			else {
 				this.removeChilds(this.getElement('from-categories-tooltip-data'));
 				for (var id in this.fromCategorySelectedCategories) {
 					var label = this.create('label');
@@ -664,7 +714,6 @@
 				}
 			}
 		}
-
 
 		//reset the "category navigate"
 		//adding navigate option only if is not from extension icon contextual menu and if there is no multiples categories
@@ -681,7 +730,6 @@
 			navigate.removeAttribute('done');
 
 			document.getAnonymousElementByAttribute(thePopupContainer, 'anonid', 'ODPExtension-from-category-navigate-separator').setAttribute('hidden', false);
-
 
 			//parents too, why not!
 			var parents = document.getAnonymousElementByAttribute(thePopupContainer, 'anonid', 'ODPExtension-from-category-navigate-parents');
@@ -705,15 +753,16 @@
 				}
 				parents.appendChild(menupopup);
 				parents.setAttribute('hidden', false);
-			} else {
+			}
+			else {
 				parents.setAttribute('hidden', true);
 			}
-		} else {
+		}
+		else {
 			document.getAnonymousElementByAttribute(thePopupContainer, 'anonid', 'ODPExtension-from-category-navigate').setAttribute('hidden', true);
 			document.getAnonymousElementByAttribute(thePopupContainer, 'anonid', 'ODPExtension-from-category-navigate-parents').setAttribute('hidden', true);
 			document.getAnonymousElementByAttribute(thePopupContainer, 'anonid', 'ODPExtension-from-category-navigate-separator').setAttribute('hidden', true);
 		}
-
 
 		if (autoPopup) {
 			//this.stopEvent(aEvent);

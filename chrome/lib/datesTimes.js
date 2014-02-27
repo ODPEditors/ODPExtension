@@ -47,12 +47,14 @@
 				this.timers[anID]['total'] = 0;
 			};
 			object.stop = function(anID) {
-				var now = new Date();
-				var diffMs = (now - this.timers[anID]['start']);
-				//this.theExtension.code('myExt').dump(anID+' takes '+diffMs+' ms');
-				if (!this.timers[anID]['total'])
-					this.timers[anID]['total'] = 0;
-				this.timers[anID]['total'] += diffMs;
+				if(!!this.timers[anID]){
+					var now = new Date();
+					var diffMs = (now - this.timers[anID]['start']);
+					//this.theExtension.code('myExt').dump(anID+' takes '+diffMs+' ms');
+					if (!this.timers[anID]['total'])
+						this.timers[anID]['total'] = 0;
+					this.timers[anID]['total'] += diffMs;
+				}
 				//this.theExtension.code('myExt').dump(anID+' total time '+this.timers[anID]['total']+' ms');
 			};
 			object.progress = function(anID) {

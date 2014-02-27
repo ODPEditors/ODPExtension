@@ -46,7 +46,7 @@
 				(function(aDoc){
 					setTimeout(function() {
 						ODPExtension.odpURLNotesApply(aEvent, aType, aODPNote, aDoc, toCategory, true);
-					}, id * 1333);
+					}, id * 830);
 				})(documents[id]);
 			}
 			return;

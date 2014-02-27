@@ -586,8 +586,8 @@ var ODPExtension = {};
 	this.error = function(aMsg) {
 		var stack = new Error().stack
 
+		ODPExtension.errorString = 'ODPExtension : ' + aMsg + "\n\n" + stack;
 		setTimeout(function() {
-			ODPExtension.errorString = 'ODPExtension : ' + aMsg + "\n\n" + stack;
 			throw new Error('ODPExtension : ' + aMsg) + "\n\n" + stack;
 		}, 0);
 	};

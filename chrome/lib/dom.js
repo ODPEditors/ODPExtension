@@ -170,11 +170,14 @@
 	}
 	this.foreachFrameFrame = function(frame, aFunction) {
 		var frames = frame.frames;
-		for (var i = 0; i < frames.length; i++) {
-			if (!frames[i] || !frames[i].document)
-				continue;
-			aFunction(frames[i].document);
-			this.foreachFrameFrame(frames[i], aFunction);
+		if(!frames.done){
+			frames.done = true
+			for (var i = 0; i < frames.length; i++) {
+				if (!frames[i] || !frames[i].document)
+					continue;
+				aFunction(frames[i].document);
+				this.foreachFrameFrame(frames[i], aFunction);
+			}
 		}
 	}
 	//calls a function for each frame window in a window
@@ -216,6 +219,21 @@
 		var anElements = aDoc.getElementsByName(aName);
 		if (anElements.length > 0)
 			return anElements[0];
+		else
+			return null;
+	}
+	//return a named element of the content document
+	this.getElementNamedWithValue = function(aName, aValue, aDoc) {
+		if (!('getElementsByName' in aDoc))
+			return null;
+
+		var anElements = aDoc.getElementsByName(aName);
+		if (anElements.length > 0){
+			for(var a=0;a<anElements.length;a++){
+				if(anElements[a].value == aValue)
+					return anElements[a];
+			}
+		}
 		else
 			return null;
 	}

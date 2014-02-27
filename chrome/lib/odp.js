@@ -460,6 +460,9 @@
 	this.siteGetURLEdit = function(aURL, aCategory) {
 		return 'http://www.dmoz.org/editors/editurl/edit?cat=' + this.encodeUTF8(aCategory) + '&url=' + this.encodeUTF8(aURL);
 	}
+	this.categoryGetURLEditU = function(aCategory) {
+		return 'http://www.dmoz.org/editors/editunrev/listurl?cat=' + this.encodeUTF8(aCategory);
+	}
 	this.categoryGetURLEditUS = function(aCategory) {
 		return 'http://www.dmoz.org/editors/editunrev/listurl?cat=' + this.encodeUTF8(aCategory) + '&mode=super';
 	}

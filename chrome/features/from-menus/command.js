@@ -586,7 +586,7 @@
 			else if (aCommand == 'search_find_subcategory')
 				this.categoryFinderQuery(searchFor, aValue);
 			 else if (aCommand == 'edit_cat_kataslice_unrev')
-				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/index.html#'+aValue, true);
+				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#'+aValue, true);
 			//else if(aCommand=='search_find_subcategory_called')
 			//this.categoryFinderQuery(aValue+'/.*?'+searchFor+'([^/]*)?$', null, aValue);
 			else if (aCommand == 'find_dmoz')

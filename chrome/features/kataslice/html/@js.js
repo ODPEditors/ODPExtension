@@ -9,8 +9,8 @@ addEventListener('load', function() {
 	timer = ODP.timer();
 	timer.start('onCategoryChange');
 
-	if (!ODP.cacheUSites) // should persist a refresh
-		ODP.cacheUSites = {}
+	//if (!ODP.cacheSites) // should persist a refresh
+		ODP.cacheSites = {}
 	onCategoryChange();
 	addEventListener("hashchange", onCategoryChange, false);
 }, false);
@@ -20,12 +20,12 @@ addEventListener('load', function() {
 function onCategoryChange() {
 	aCategory = ODP.categoryGetFromURL(document.location.hash)
 
-	if ( !! ODP.cacheUSites[aCategory]) {
-		aSites = ODP.cacheUSites[aCategory];
+	if ( !! ODP.cacheSites[aCategory]) {
+		aSites = ODP.cacheSites[aCategory];
 		onCategoryLoad();
 	} else {
 		ODP.kataslice(aCategory, function(aData) {
-			ODP.cacheUSites[aCategory] = aSites = aData;
+			ODP.cacheSites[aCategory] = aSites = aData;
 			timer.stop('onCategoryChange');
 			timer.display();
 			onCategoryLoad();
@@ -47,7 +47,8 @@ function onCategoryLoad() {
 	document.title = 'KS: ' + ODP.categoryTitleForLabel(ODP.categoryGetFromURL(aCategory));
 
 	//set category
-	$('.categories').text(ODP.categoryGetFromURL(aCategory))
+	$('.categories').text(ODP.categoryAbbreviate(ODP.categoryGetFromURL(aCategory)))
+	$('.categories').attr('category', aCategory)
 
 	//sort sites by date
 	timer.start('sortSitesByDate');
@@ -77,8 +78,6 @@ function onCategoryLoad() {
 var ListBody, listRows, listRowsVisible;
 
 function listRender() {
-
-	console.log(new Date())
 
 	timer.start('listRender');
 

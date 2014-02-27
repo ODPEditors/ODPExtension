@@ -9,17 +9,19 @@
 	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/crossfilter.min.js"></script>
 	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/underscore-min.js"></script>
 	<script type="text/javascript" src="chrome://ODPExtension/content/html/js.js"></script>
-	<script type="text/javascript" src="js.js"></script>
+	<script type="text/javascript" src="@js.js"></script>
 	<script type="text/javascript" src="entry.js"></script>
-	<script type="text/javascript" src="entryAction.js"></script>
+	<script type="text/javascript" src="action.js"></script>
 	<script type="text/javascript" src="list.js"></script>
+	<script type="text/javascript" src="sync.js"></script>
+	<script type="text/javascript" src="tools.js"></script>
 
 	<link type="text/css" media="all" rel="stylesheet" href="chrome://ODPExtension/content/html/@css.css"/>
 	<link type="text/css" media="all" rel="stylesheet" href="@css.css"/>
 
 </head>
 <body loading="true">
-<div class="loading" style="opacity:.3">Loading.. please wait</div>
+<div class="loading" style="opacity:.3">Loading.. <br>please wait</div>
 <header>
 	<div class="title"><b class="no-selection">KataSlice</b> - <div class="categories inline-block"></div></div>
 	<div class="totals">
@@ -50,29 +52,39 @@
 
 		<ul class="menu" type="selection"><b class="no-selection ignore"><span class="narrow">With</span> selection</b>
 
-			<li class="click" onclick="entryAction(this)" action="P">publish</li><hr>
+			<li class="click" onclick="action(this)" action="P">publish</li>
+			<hr>
 
-			<li class="click" onclick="entryAction(this)" action="D">delete</li>
-			<li class="click" onclick="entryAction(this)" action="U">unreview</li><hr>
+			<li class="click" onclick="action(this)" action="D">delete</li>
+			<li class="click" onclick="action(this)" action="U">unreview</li><hr>
 
-			<li class="click" onclick="entryAction(this)" action="M">move to</li><hr>
+			<li class="click" onclick="action(this)" action="N">add note</li><hr>
 
-			<li class="click" onclick="entryAction(this)" action="LC">link check</li>
+			<li class="click" onclick="action(this)" action="LC">link check</li><hr>
+
+			<li class="click" onclick="action(this)" action="E">edit</li>
+			<li class="click" onclick="action(this)" action="O">open uris</li>
+			<li class="click" onclick="action(this)" action="C">open categories</li>
 		</ul>
 
 		<ul class="menu" type="visible"><b class="no-selection ignore"><span class="narrow">With</span> visible</b>
 
-			<li class="click" onclick="entryAction(this)" action="P">publish</li><hr>
+			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="P">publish</li>
+			<hr>
 
-			<li class="click" onclick="entryAction(this)" action="D">delete</li>
-			<li class="click" onclick="entryAction(this)" action="U">unreview</li><hr>
+			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="D">delete</li>
+			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="U">unreview</li><hr>
 
-			<li class="click" onclick="entryAction(this)" action="M">move to</li><hr>
+			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="N">add note</li><hr>
 
-			<li class="click" onclick="entryAction(this)" action="LC">link check</li>
+			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="LC">link check</li><hr>
+
+			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="E">edit</li>
+			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="O">open uris</li>
+			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="C">open categories</li>
 		</ul>
 
-		<div class="sync click" title=" Synchronize edits"></div>
+		<div class="sync click" title=" Synchronize edits" onclick="if(ODP.confirm('Are you sure?')) sync();"></div>
 
 	</div>
 	<div class="content">
@@ -117,7 +129,7 @@
 <div class="templates" style="display:none">
 
 	<div class="tpl-list-item">
-		<div onmouseover="entryMouseOver(this, event)" onmouseout="entryMouseOut(this, event)" onclick="entryClick(this, event)" title="{category}" class="child">
+		<div onmouseover="entryMouseOver(this, event)" onmouseout="entryMouseOut(this, event)" onclick="entryClick(this, event)" title="{category}" category="{category}" class="child">
 			<div class="data">
 				<div class="left">
 					<span class="icons">
@@ -131,6 +143,7 @@
 						spellcheck="false"
 						contenteditable="true"
 						onkeypress="return entryKeyPress(this, event)"
+						onblur="return entryOnBlur(this, event)"
 						onmousedown="this.focus()"
 						onpaste="entryPaste(this, event)">{title}</span>
 					<div class="description-container"><span
@@ -138,6 +151,7 @@
 						spellcheck="false"
 						contenteditable="true"
 						onkeypress="return entryKeyPress(this, event)"
+						onblur="return entryOnBlur(this, event)"
 						onmousedown="this.focus()"
 						onpaste="entryPaste(this, event)">{description}</span></div>
 					<div class="clear"></div>
@@ -146,25 +160,41 @@
 						spellcheck="false"
 						contenteditable="true"
 						onkeypress="return entryKeyPress(this, event)"
+						onblur="return entryOnBlur(this, event)"
 						onmousedown="this.focus()"
 						onpaste="entryPaste(this, event)">{url}</span>
+					</div>
+					<div>
+						<span
+							class="category"
+							spellcheck="false"
+							spellcheckdisabled="true"
+							contenteditable="true"
+							onkeypress="return entryKeyPress(this, event)"
+							onblur="return entryOnBlur(this, event)"
+							onmousedown="this.focus()"
+							onpaste="entryPaste(this, event)">{category}</span>
 					</div>
 				</div>
 				<div class="right">
 					{user}<br/>{ip}
 				</div>
-				<div class="tools ignore">
+				<!--<div class="tools ignore">
 					<span class="links not-ignore">
 						[
-							<a href="{url}" target="_blank" title="{url}" class="click" tabindex="9999999">open</a>,
-							<span class="click" onclick="entryNotes(this)">show notes</span>,
+							 ,<a href="{url}" target="_blank" title="{url}" class="click" tabindex="9999999">open</a>,
+							<a href="http://www.dmoz.org/{category}" target="_blank" title="{category}" class="click" tabindex="9999999">cat</a>
+							 <span class="click" onclick="entryNotes(this)">show notes</span>,
 							<span class="click" onclick="entrySE(this)">search</span>
 						]
 					</span>
-				</div>
+					<div class="link-checker"></div>
+				</div>-->
 			</div>
 			<div class="clear"></div>
-			<div class="tools" title=""></div>
+			<div class="tools" title="">
+				<div class="link-checker"></div>
+			</div>
 			<div class="clear"></div>
 		</div>
 	</div>

@@ -16,8 +16,10 @@
 
 
 
-<textbox id="urlbar">
+<hbox id="urlbar-icons">
+
 	<box id="ODPExtension-urlbar-box" insertbefore="notification-popup-box">
+
 		<image
 			id="ODPExtension-toolbarbutton-odp-url-notes-delete"
 			tooltiptext="&ODPExtension.url.notes.action.delete;"
@@ -84,7 +86,7 @@
 		/>
 
 	</box>
-</textbox>
+</hbox>
 
 
 <window id="main-window">

@@ -5,7 +5,7 @@
 
 	this.rdfFindAltlangsNonReciprocalCategory = function(aCategory) {
 
-		var aMsg = 'Non reciprocal alternative languages on "{CATEGORY}" and on its subcategories ({RESULTS})'; //informative msg and title of document
+		var aMsg = 'Non reciprocal alternative languages on "{CATEGORY}" '; //informative msg and title of document
 
 		var subs = [this.rdfGetCategoryFromCategoryPath(aCategory)];
 		var aData = '<li>';

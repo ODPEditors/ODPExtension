@@ -81,7 +81,7 @@
 				catch (e) {
 					site.date = '1980-07-12';
 				}
-				site.dateObject = this.sqlDate(site.date);
+				site.date_object = this.sqlDate(site.date);
 				site.ip = site.user.split(' ')[1].trim();
 				site.user = site.user.split(' ')[0].trim().toLowerCase();
 				if (site.user == '')
@@ -112,7 +112,7 @@
 						site.colour = this.odpColourGreyD();
 						break;
 				}
-				site.typeColour = site.type + '-' + site.colour;
+				site.type_colour = site.type + '-' + site.colour;
 				site.area = 'unrev';
 				site.action = 'U'; // U = unrev, P = publish, D = delete
 				site.id = site.area + '-' + site.site_id;
@@ -175,7 +175,7 @@
 				catch (e) {
 					site.date = '1980-07-12';
 				}
-				site.dateObject = this.sqlDate(site.date);
+				site.date_object = this.sqlDate(site.date);
 				site.ip = site.user.split(' ')[1].trim();
 				site.user = site.user.split(' ')[0].trim().toLowerCase();
 				if (site.user == '')
@@ -206,7 +206,7 @@
 						site.colour = this.odpColourGreyD();
 						break;
 				}
-				site.typeColour = site.type + '-' + site.colour;
+				site.type_colour = site.type + '-' + site.colour;
 				site.area = 'unrev';
 				site.action = 'U'; // U = unrev, P = publish, D = delete
 				site.id = site.area + '-' + site.site_id;
@@ -256,7 +256,7 @@
 				catch (e) {
 					site.date = '1980-07-12';
 				}
-				site.dateObject = this.sqlDate(site.date);
+				site.date_object = this.sqlDate(site.date);
 				site.ip = 'no ip' //site.user.split(' ')[1].trim();
 				site.user = 'no user' //site.user.split(' ')[0].trim().toLowerCase();
 				if (site.user == '')
@@ -287,7 +287,7 @@
 						site.colour = this.odpColourGreyD();
 						break;
 				}
-				site.typeColour = site.type + '-' + site.colour;
+				site.type_colour = site.type + '-' + site.colour;
 				site.area = 'rev';
 				site.action = 'P'; // U = unrev, P = publish, D = delete
 				site.id = site.area + '-' + site.site_id;

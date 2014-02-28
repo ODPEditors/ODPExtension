@@ -9,27 +9,30 @@ function entryGetItem(item, event){
 function entryGetData(item, event){
 	return listRows[0][entryGetItem(item).attr('index')].__data__;
 }
+function entryUpdatePendingCounter(){
+	$('.totals .pending').text($('.item.pending').length);
+}
+var lastSelectedEntry = false;
+var lastSelectedData = [];
+
 function entrySync(item){
 	item = $(item);
 	var k = item.attr('class');
 	var v = item.text().trim();
+
 	if(lastSelectedData[k] != v){
-		lastSelectedData['new'+ODP.ucFirst(k)] = v;
+		ODP.dump('syncing-------')
+		ODP.dump(lastSelectedData[k])
+		ODP.dump(v)
+		lastSelectedData['new_'+k] = v;
 		lastSelectedEntry.addClass('pending');
-		$('.totals .pending').text($('.item.pending').length);
+		entryUpdatePendingCounter();
 	}
 }
 
-var lastSelectedEntry = false;
-
-function entryMouseOver(item, event) {}
-
-function entryMouseOut(item, event) {}
-
 function entryClick(item, event){
-
 	item = $(item);
-	entry = entryGetItem(item)
+	var entry = entryGetItem(item)
 	lastSelectedData = entryGetData(item);
 	var lastSelectedIsSsame = false
 	var targetIsContentEditable = $(event.originalTarget).attr('contenteditable');
@@ -37,32 +40,35 @@ function entryClick(item, event){
 	//remove spellcheck from lastSelectedEntry item
 	if(lastSelectedEntry && lastSelectedEntry.attr('id') != entry.attr('id')){
 		lastSelectedEntry.find('[contenteditable]').each(function() {
-			$(this).attr('contenteditable', false);
-			$(this).attr('spellcheck', false);
-			$(this).attr('contenteditable', true);
+			var input = $(this)
+			input.attr('contenteditable', false);
+			input.attr('spellcheck', false);
+			input.attr('contenteditable', true);
 		});
 	} else if(lastSelectedEntry) {
 		lastSelectedIsSsame = true;
 	}
 	//enable spellcheck in this clicked entry
 	entry.find('[contenteditable]').each(function() {
-		$(this).attr('contenteditable', false);
-		if(!!$(this).attr('spellcheckdisabled')){
-			$(this).attr('spellcheck', true);
+		var input = $(this)
+		input.attr('contenteditable', false);
+		if(!input.attr('spellcheckdisabled') || input.attr('spellcheckdisabled') != 'true'){
+			input.attr('spellcheck', true);
 		}
-		$(this).attr('contenteditable', true);
+		input.attr('contenteditable', true);
 		if(!targetIsContentEditable && !lastSelectedIsSsame){
 			targetIsContentEditable = true;
-			$(this).focus();
+			input.focus();
 		}
 	});
 	lastSelectedEntry = entry;
 
 	//select item
-	if (!event.ctrlKey)
+	if (!event.ctrlKey){
 		$('.item.selected').each(function() {
 			$(this).removeClass('selected');
 		});
+	}
 	if (entry.hasClass('selected'))
 		entry.removeClass('selected')
 	else
@@ -74,14 +80,29 @@ function entryClick(item, event){
 function entryOnBlur(item, event){
 	entrySync(item)
 }
-
-function entryKeyPress(item, event) {
-	entrySync(item);
-
+//navigating with TABs changes current focus
+function entryOnFocus(item, event){
+	item = $(item);
+	var entry = entryGetItem(item)
+	if (!entry.hasClass('selected')){
+		lastSelectedData = entryGetData(item);
+		lastSelectedEntry = entry
+	}
+}
+function entryKeyPressSync(item, event) {
+	//entrySync(item);
+	if (event.keyCode == event.DOM_VK_RETURN) {
+		return false;
+	} else {
+		return true;
+	}
+}
+function entryKeyPressCheckOpen(item, event) {
 	if (event.keyCode == event.DOM_VK_RETURN) {
 		event.stopPropagation();
 		event.preventDefault();
-		ODP.tabOpen(entryGetData(item).url, true)
+		var d = entryGetData(item)
+		ODP.tabOpen(d.new_url || d.url, true)
 		return false;
 	} else {
 		return true;
@@ -90,5 +111,5 @@ function entryKeyPress(item, event) {
 function entryPaste(item, event) {
 	ODP.copyToClipboard(ODP.getClipboard().replace(/\s+/g, ' ').trim());
 }
-
-
+function entryMouseOver(item, event) {}
+function entryMouseOut(item, event) {}

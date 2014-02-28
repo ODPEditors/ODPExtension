@@ -6,11 +6,12 @@ body {
 }
 body[loading="true"] {
 }
-body[loading="true"] .container {
+body[loading="true"] .container ,
+body[loading="true"] .totals{
 	display: none;
 }
 .loading {
-	background: rgba(0, 0, 0, 0.85);
+	background-color: rgba(0, 0, 0, 0.85);
 	width: 100%;
 	height: 100%;
 	position: fixed;
@@ -206,12 +207,15 @@ body[loading="true"] .container {
 	.list-no-results[results="false"] {
 		display: inherit;
 	}
+
 /* entry text*/
 
 	.item {
 
 		background-color: rgb(252, 252, 252);
 		border-left: 3px solid transparent;
+		border-right:6px solid transparent;
+
 	}
 	.item.hidden,
 	.item.filtered,
@@ -235,22 +239,22 @@ body[loading="true"] .container {
 	}
 
 	.item[status="red"]{
-		border-right:4px solid #EB6666;
+		border-right:6px solid #EB6666;
 	}
 	.item[status="purple"]{
-		border-right:4px solid #6F6FFC;
+		border-right:6px solid #6F6FFC;
 	}
 	.item[status="orange"]{
-		border-right:4px solid orange;
+		border-right:6px solid orange;
 	}
 	.item[status="green"]{
-		border-right:4px solid #669933;
+		border-right:6px solid #669933;
 	}
 	.item[status="yellow"]{
-		border-right:4px solid #FFFFCC;
+		border-right:6px solid #FFFFCC;
 	}
 	.item[status="red"]{
-		border-right:4px solid #EB6666;
+		border-right:6px solid #EB6666;
 	}
 
 	.item .child{
@@ -306,68 +310,18 @@ body[loading="true"] .container {
 		left: 0;
 		border:0px;
 		outline: none;
+
+		color: rgb(140, 130, 130);
+		font-size: 10px;
 	}
 	.item .left .date {
 		color: rgb(140, 130, 130);
 	}
-	.item .left .category {
-		color: rgb(140, 130, 130);
-		font-size: 10px;
-	}
-	/* tool links*/
-		.item .data .tools{
-			-moz-box-sizing: padding-box;
-			position: absolute;
-			top: -25px;
-			left: -3px;
-			z-index: 10000;
-			padding: 5px 5px 4px;
-			width: 100%;
-			text-align: center;
-			display: none;
-		}
 
-		.item.selected .data .tools{
-			display: block;
-		}
-		.item .data .tools .links {
-
-			display: inline-block;
-			/*background-color: rgb(246, 246, 239);*/
-		}
-		.item.selected .data .tools .links {
-
-		}
-	/* right */
 	.item .right {
 		color: rgba(0,0,0,.6);
 		float: right;
 		display: inline-block;
 		max-width: 20%;
 		text-align: right;
-	}
-	/* toolsoutput */
-	.item .tools .tool {
-		padding: 40px;
-		padding-top: 20px;
-		padding-bottom: 0px;
-		opacity: .8;
-	}
-	.item .tools a {
-		text-decoration: none;
-		font-weight: none;
-		font-size: .9em;
-	}
-	.item .tools a:empty,
-	.item .tools div:empty,
-	.item .tools span:empty {
-		display: none;
-	}
-	.item .tools .tool-text {
-		max-height: 16px;
-		overflow: hidden;
-	}
-	.item .tools .tool-entry {
-		border-top: 1px solid rgba(0, 0, 0, 0.4);
-		padding: 7px;
 	}

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 	<meta charset="utf-8">
 	<title>KS</title>
 
@@ -12,12 +13,12 @@
 	<script type="text/javascript" src="@js.js"></script>
 	<script type="text/javascript" src="entry.js"></script>
 	<script type="text/javascript" src="action.js"></script>
-	<script type="text/javascript" src="list.js"></script>
 	<script type="text/javascript" src="sync.js"></script>
 	<script type="text/javascript" src="tools.js"></script>
 
 	<link type="text/css" media="all" rel="stylesheet" href="chrome://ODPExtension/content/html/@css.css"/>
 	<link type="text/css" media="all" rel="stylesheet" href="@css.css"/>
+	<link type="text/css" media="all" rel="stylesheet" href="@tools.css"/>
 
 </head>
 <body loading="true">
@@ -52,39 +53,48 @@
 
 		<ul class="menu" type="selection"><b class="no-selection ignore"><span class="narrow">With</span> selection</b>
 
-			<li class="click" onclick="action(this)" action="P">publish</li>
+			<li class="click" onclick="action(this)" action="publish">publish</li>
+
 			<hr>
 
-			<li class="click" onclick="action(this)" action="D">delete</li>
-			<li class="click" onclick="action(this)" action="U">unreview</li><hr>
+			<li class="click" onclick="action(this)" action="delete">delete</li>
+			<li class="click" onclick="action(this)" action="unreview">unreview</li>
 
-			<li class="click" onclick="action(this)" action="N">add note</li><hr>
+			<hr>
 
-			<li class="click" onclick="action(this)" action="LC">link check</li><hr>
+			<li class="click" onclick="action(this)" action="note">add note</li>
 
-			<li class="click" onclick="action(this)" action="E">edit</li>
-			<li class="click" onclick="action(this)" action="O">open uris</li>
-			<li class="click" onclick="action(this)" action="C">open categories</li>
+			<hr>
+
+			<li class="click" onclick="action(this)" action="link-check">link check</li>
+
+			<hr>
+
+			<li class="click" onclick="action(this)" action="edit">edit</li>
+			<li class="click" onclick="action(this)" action="open">open</li>
+			<li class="click" onclick="action(this)" action="open-category">open categories</li>
 		</ul>
 
 		<ul class="menu" type="visible"><b class="no-selection ignore"><span class="narrow">With</span> visible</b>
 
-			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="P">publish</li>
+			<!-- <li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="P">publish</li>
 			<hr>
 
 			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="D">delete</li>
-			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="U">unreview</li><hr>
+			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="U">unreview</li><hr> -->
 
-			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="N">add note</li><hr>
+<!-- 			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="N">add note</li><hr>
+ -->
+			<li class="click" onclick="action(this)" action="link-check">link check</li>
 
-			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="LC">link check</li><hr>
+			<hr>
 
-			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="E">edit</li>
-			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="O">open uris</li>
-			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="C">open categories</li>
+			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="edit">edit</li>
+			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="open">open</li>
+			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="open-categories">open categories</li>
 		</ul>
 
-		<div class="sync click" title=" Synchronize edits" onclick="if(ODP.confirm('Are you sure?')) sync();"></div>
+		<div class="sync click" title="Synchronize edits" onclick="if(ODP.confirm('Are you sure?')) sync();"></div>
 
 	</div>
 	<div class="content">
@@ -129,7 +139,12 @@
 <div class="templates" style="display:none">
 
 	<div class="tpl-list-item">
-		<div onmouseover="entryMouseOver(this, event)" onmouseout="entryMouseOut(this, event)" onclick="entryClick(this, event)" title="{category}" category="{category}" class="child">
+		<div
+			onmouseover="entryMouseOver(this, event)"
+			onmouseout="entryMouseOut(this, event)"
+			onclick="entryClick(this, event)"
+			category="{category}"
+			class="child">
 			<div class="data">
 				<div class="left">
 					<span class="icons">
@@ -142,16 +157,20 @@
 						class="title"
 						spellcheck="false"
 						contenteditable="true"
-						onkeypress="return entryKeyPress(this, event)"
+						onkeypress="return entryKeyPressCheckOpen(this, event)"
+						onkeyup="return entryKeyPressSync(this, event)"
 						onblur="return entryOnBlur(this, event)"
+						onfocus="return entryOnFocus(this, event)"
 						onmousedown="this.focus()"
 						onpaste="entryPaste(this, event)">{title}</span>
 					<div class="description-container"><span
 						class="description"
 						spellcheck="false"
 						contenteditable="true"
-						onkeypress="return entryKeyPress(this, event)"
+						onkeypress="return entryKeyPressCheckOpen(this, event)"
+						onkeyup="return entryKeyPressSync(this, event)"
 						onblur="return entryOnBlur(this, event)"
+						onfocus="return entryOnFocus(this, event)"
 						onmousedown="this.focus()"
 						onpaste="entryPaste(this, event)">{description}</span></div>
 					<div class="clear"></div>
@@ -159,8 +178,10 @@
 						class="url"
 						spellcheck="false"
 						contenteditable="true"
-						onkeypress="return entryKeyPress(this, event)"
+						onkeypress="return entryKeyPressCheckOpen(this, event)"
+						onkeyup="return entryKeyPressSync(this, event)"
 						onblur="return entryOnBlur(this, event)"
+						onfocus="return entryOnFocus(this, event)"
 						onmousedown="this.focus()"
 						onpaste="entryPaste(this, event)">{url}</span>
 					</div>
@@ -170,30 +191,35 @@
 							spellcheck="false"
 							spellcheckdisabled="true"
 							contenteditable="true"
-							onkeypress="return entryKeyPress(this, event)"
+							onkeypress="return entryKeyPressCheckOpen(this, event)"
+							onkeyup="return entryKeyPressSync(this, event)"
 							onblur="return entryOnBlur(this, event)"
+							onfocus="return entryOnFocus(this, event)"
 							onmousedown="this.focus()"
 							onpaste="entryPaste(this, event)">{category}</span>
 					</div>
 				</div>
+
 				<div class="right">
 					{user}<br/>{ip}
 				</div>
-				<!--<div class="tools ignore">
-					<span class="links not-ignore">
-						[
-							 ,<a href="{url}" target="_blank" title="{url}" class="click" tabindex="9999999">open</a>,
-							<a href="http://www.dmoz.org/{category}" target="_blank" title="{category}" class="click" tabindex="9999999">cat</a>
-							 <span class="click" onclick="entryNotes(this)">show notes</span>,
-							<span class="click" onclick="entrySE(this)">search</span>
-						]
-					</span>
-					<div class="link-checker"></div>
-				</div>-->
 			</div>
 			<div class="clear"></div>
-			<div class="tools" title="">
+			<div class="tools">
+				<div class="toolbar" type="selection">[
+						<span class="click" onclick="action(this)" action="publish">publish</span> -
+						<span class="click" onclick="action(this)" action="unreview">unreview</span> |
+						<span class="click" onclick="action(this)" action="delete">delete</span> -
+						<span class="click" onclick="action(this)" action="hijacked">hijacked</span> -
+						<span class="click" onclick="action(this)" action="gone">gone</span> |
+						<span class="click" onclick="action(this)" action="notes">notes</span> -
+						<span class="click" onclick="action(this)" action="note">note</span> |
+						<span class="click" onclick="action(this)" action="note">edit</span> |
+						<span class="click" onclick="action(this)" action="webarchive">webarchive</span> |
+						<input onkeyup="toolSearchEngine(this, event)" onclick="toolSearchEngine(this, event)" size="20" tabindex="99999999">
+					]</div>
 				<div class="link-checker"></div>
+				<div class="search-engine"></div>
 			</div>
 			<div class="clear"></div>
 		</div>

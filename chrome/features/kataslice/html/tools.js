@@ -1,43 +1,37 @@
 
 
-//getLanguageFromCategory
-function entrySE(item, event, text, fromAKeypress) {
-
-	item = entryGetItem(item);
-	var d = entryGetData(item);
-	var template = _.template($(".tpl-list-item-tool-se").html());
-
-	if (!text)
-		text = d.title
-	var tools = item.find('.tools')
-
-	var container = tools.find('.se');
-	if (container.length < 1 || fromAKeypress) {
-		container.remove();
-
-		tools.append('<div class="se tool"></div>')
-		var container = tools.find('.se');
-		if (text) {
-			ODP.searchEngine().search(text, 'en', false, function(aData) {
-				container = tools.find('.se');
-				container.empty()
-				container.append('<input onkeyup="entrySEFreeText(this, event)" value="' + ODP.h(text) + '" size="49" style="margin:10px;float:right;"><div class="clear"></div>');
-				for (var id in aData) {
-					container.append(template(aData[id]));
-				}
-			});
-		}
-	} else {
-		container.slideUp();
-	}
-}
 var seFreeTextTimeout = false;
-function entrySEFreeText(item, event) {
+function toolSearchEngine(item, event) {
 	clearTimeout(seFreeTextTimeout);
 	seFreeTextTimeout = setTimeout(function() {
-		entrySE(item, event, item.value, true);
+		_toolSearchEngine(item, event);
 	}, 1200);
 }
+
+function _toolSearchEngine(item, event) {
+	item = entryGetItem(item);
+	var d = entryGetData(item);
+
+	var template = _.template($(".tpl-list-item-tool-se").html());
+	var container = item.find('.tools').find('.search-engine')
+
+	var text = item.value;
+	if (!text || text == '')
+		text = d.title
+	text = text.trim()
+
+	if(container.attr('text') != text){
+		container.attr('text', text)
+		ODP.searchEngine().search(text, ODP.getLanguageFromCategory(d.category).code, false, function(aData) {
+			container.empty();
+			for (var id in aData) {
+				container.append(template(aData[id]));
+			}
+		});
+	}
+}
+
+
 
 function entryNotes(item, event) {
 	item = $(item);

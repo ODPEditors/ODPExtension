@@ -19,45 +19,92 @@ function action(type) {
 
 	//mark new action
 	switch (actionType) {
-		case 'U': //unreview
-		case 'P': //publish
-		case 'D': //delete
+		case 'unreview': //unreview
 			items.each(function(d) {
-				d.newAction = actionType;
-				d3.select(this).attr('action', actionType);
+				d.new_action = 'U';
+				d3.select(this).attr('action', 'U');
+				d3.select(this).classed('pending', true);
 			});
 			break;
-		case 'N': //delete
+		case 'publish': //publish
+			items.each(function(d) {
+				d.new_action = 'P';
+				d3.select(this).attr('action', 'P');
+				d3.select(this).classed('pending', true);
+			});
+			break;
+		case 'delete': //delete
 			var note = ODP.prompt('Note')
+			if(note){
+				items.each(function(d) {
+					d.new_note = note;
+					d.new_action = 'D';
+					d3.select(this).attr('action', 'D');
+					d3.select(this).classed('pending', true);
+
+				});
+			}
+			break;
+		case 'hijacked': //delete
 			items.each(function(d) {
-				d.newNote = note;
+				d.new_note = 'Hijacked';
+				d.new_action = 'D';
+				d3.select(this).attr('action', 'D');
+				d3.select(this).classed('pending', true);
+
 			});
 			break;
-		case 'O': //open uri
+		case 'gone': //delete
 			items.each(function(d) {
-				ODP.tabOpen(d.url)
+				d.new_note = 'Gone';
+				d.new_action = 'D';
+				d3.select(this).attr('action', 'D');
+				d3.select(this).classed('pending', true);
 			});
 			break;
-		case 'E': //open uri
+		case 'note': //note
+			var note = ODP.prompt('Note')
+			if(note){
+				items.each(function(d) {
+					d.new_note = note;
+					d3.select(this).classed('pending', true);
+				});
+			}
+			break;
+		case 'open': //open uri
+			items.each(function(d) {
+				ODP.tabOpen(d.new_url || d.url, false, false, true)
+			});
+			break;
+		case 'edit': //open edit page
 			items.each(function(d) {
 				if (d.area == 'unrev')
-					ODP.tabOpen('http://www.dmoz.org/editors/editunrev/editurl?urlsubId=' + d.site_id + '&cat=' + ODP.encodeUTF8(d.category) + '&offset=5000')
+					ODP.tabOpen('http://www.dmoz.org/editors/editunrev/editurl?urlsubId=' + d.site_id + '&cat=' + ODP.encodeUTF8(d.category) + '&offset=5000', false, false, true)
 				else if (d.area == 'rev')
-					ODP.tabOpen('http://www.dmoz.org/editors/editurl/edit?urlId=' + d.site_id + '&cat=' + ODP.encodeUTF8(d.category) + '&offset=5000')
+					ODP.tabOpen('http://www.dmoz.org/editors/editurl/edit?urlId=' + d.site_id + '&cat=' + ODP.encodeUTF8(d.category) + '&offset=5000', false, false, true)
 				else if (d.area == 'new')
-					ODP.tabOpen('http://www.dmoz.org/editors/editurl/add?url=' + d.newUrl + '&cat=' + ODP.encodeUTF8(d.newCategory))
+					ODP.tabOpen('http://www.dmoz.org/editors/editurl/add?url=' + d.new_url + '&cat=' + ODP.encodeUTF8(d.new_category), false, false, true)
 			});
 			break;
-		case 'C': //open category
+		case 'open-category': //open category
 			var temp = []
 			items.each(function(d) {
 				temp[temp.length]= d.category
 			});
 			temp = ODP.arrayUnique(temp);
 			for(var id in temp)
-				ODP.tabOpen(ODP.categoryGetURLEdit(temp[id]))
+				ODP.tabOpen(ODP.categoryGetURLEdit(temp[id]), false, false, true)
 			break;
-		case 'LC': //link checked
+		case 'false-positive':
+			var temp = []
+				items.each(function(d) {
+					temp[temp.length]= d.url
+				});
+				temp = ODP.arrayUnique(temp);
+				ODP.fileWrite('link-checker-false-positives.txt', ODP.fileRead('link-checker-false-positives.txt')+'\n'+(temp.join('\n')) )
+
+			break;
+		case 'link-check': //link checked
 
 			var oRedirectionAlert = ODP.redirectionAlert();
 
@@ -76,16 +123,24 @@ function action(type) {
 					else
 						item.attr('status', 'yellow')
 
-					$(item[0]).find('.link-checker').html(
+					var text =
 						'<small>[' +
-							aData.statuses.join(', ') + ' | ' +
+							ODP.h(aData.statuses.join(', ') + ' | ' +
 							aData.status.code + ' | ' +
 							aData.status.errorString + ' | ' +
 							aData.ip + ' | ' +
 							aData.language + ' | ' +
 							aData.checkType +
-						'] <br> '+aData.urlRedirections[aData.urlRedirections.length - 1]+'</small>'
-					);
+							' | '+aData.urlLast)+' ] <span type="selection"><span class="click" onclick="action(this)" action="false-positive">false positive</span></small>'
+					d.text += text
+
+					// redirect maybe be autofixed
+					if(aData.status.code == -1340) {
+						d.new_url = aData.urlLast
+						$(item[0]).find('.data > .url').html(d.new_url);
+						item.classed('pending', true)
+					}
+					$(item[0]).find('.tools > .link-checker').html(text);
 
 				});
 
@@ -94,4 +149,7 @@ function action(type) {
 		default:
 			break;
 	}
+
+	entryUpdatePendingCounter();
+
 }

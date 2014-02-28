@@ -9,8 +9,6 @@ addEventListener('load', function() {
 	timer = ODP.timer();
 	timer.start('onCategoryChange');
 
-	//if (!ODP.cacheSites) // should persist a refresh
-		ODP.cacheSites = {}
 	onCategoryChange();
 	addEventListener("hashchange", onCategoryChange, false);
 }, false);
@@ -20,20 +18,15 @@ addEventListener('load', function() {
 function onCategoryChange() {
 	aCategory = ODP.categoryGetFromURL(document.location.hash)
 
-	if ( !! ODP.cacheSites[aCategory]) {
-		aSites = ODP.cacheSites[aCategory];
+	ODP.kataslice(aCategory, function(aData) {
+		aSites = aData
+		timer.stop('onCategoryChange');
+		timer.display();
 		onCategoryLoad();
-	} else {
-		ODP.kataslice(aCategory, function(aData) {
-			ODP.cacheSites[aCategory] = aSites = aData;
-			timer.stop('onCategoryChange');
-			timer.display();
-			onCategoryLoad();
-		});
-	}
+	});
 }
 
-var groups = ['domain', 'subdomain', 'user', 'ip', 'type', 'category', 'typeColour'],
+var groups = ['domain', 'subdomain', 'user', 'ip', 'type', 'category', 'type_colour'],
 	columns = ['subdomain', 'title', 'description', 'category', 'user', 'date', 'ip', 'type', 'colour', 'action'],
 	by = [],
 	byCount = [];
@@ -94,7 +87,7 @@ function listRender() {
 		.attr('class', 'item')
 		.attr('id', function(d) {
 					return d.id;
-				}).attr('action', function(d) {
+		}).attr('action', function(d) {
 			return d.action;
 		}).attr('index', function(d, k) {
 			return k;
@@ -293,9 +286,9 @@ function chartsRenderBar() {
 			.attr('style', function(d, i) {
 			return 'width:' + (d.value / (t / 100)) + '%;background-color:' + colours[i] + ''
 		})
-			.attr('class', 'bar')
-			.on("mouseover", function(d, i) {
-			d3.select(this).attr('title', d.key + ' (' + d.value + ')\nCLICK: show only items that match this value.\nCTRL+CLICK: remove from the list items that match this value.');
+		.attr('class', 'bar')
+		.on("mouseover", function(d, i) {
+			d3.select(this).attr('title', d.key + ' (' + d.value + ')\n\nCLICK: show only items that match this value.\nCTRL+CLICK: remove from the list items that match this value.');
 		})
 			.on('click', function(d, i) {
 			filterAdd(this.parentNode.getAttribute('key'), d.key, d3.event)
@@ -313,7 +306,7 @@ function chartsRenderPie() {
 		data[data.length] = d;
 	});
 
-	var groups = _.groupBy(data, 'typeColour')
+	var groups = _.groupBy(data, 'type_colour')
 
 	//pie types
 	timer.start('pie');
@@ -357,4 +350,11 @@ function listSortBy(item, by, order) {
 		else
 			return d3.ascending(a[by], b[by]);
 	});
+}
+function listGetVisible() {
+	return ListBody.selectAll('.item:not(.filtered):not(.filtertextboxed)');
+}
+
+function listGetSelected(){
+	return ListBody.selectAll('.item.selected:not(.filtered):not(.filtertextboxed)');
 }

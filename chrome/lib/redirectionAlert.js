@@ -4,31 +4,17 @@
 
 	var timeoutAfter = 60 * 1000; //60 seconds for the website to load
 	var tagsMedia = ['object', 'media', 'video', 'audio', 'embed'];
-	var tagsNoContent = ['noscript', 'noframes', 'style', 'script', 'frameset']
+	var tagsNoContent = ['noscript', 'noframes', 'style', 'script', 'frameset'];
 
 	var contentTypesTxt = ['application/atom+xml', 'application/atom', 'application/javascript', 'application/json', 'application/rdf+xml', 'application/rdf', 'application/rss+xml', 'application/rss', 'application/xhtml', 'application/xhtml+xml', 'application/xml', 'application/xml-dtd', 'application/html', 'text/css', 'text/csv', 'text/html', 'text/xhtml', 'text/javascript', 'text/plain', 'text/xml', 'text/json', 'text', 'html', 'xml', 'application/x-unknown-content-type', ''];
 	var contentTypesKnown = [
 	'application/atom+xml', 'application/atom', 'application/javascript', 'application/json', 'application/rdf+xml', 'application/rdf', 'application/rss+xml', 'application/rss', 'application/xhtml', 'application/xhtml+xml', 'application/xml', 'application/xml-dtd', 'application/html', 'text/css', 'text/csv', 'text/html', 'text/xhtml', 'text/javascript', 'text/plain', 'text/xml', 'text/json', 'text', 'html', 'xml', '', //txt
-
-
 	'application/x-bzip', 'application/x-bzip-compressed-tar', 'application/x-gzip', 'application/x-tar', 'application/x-tgz', 'application/zip', //compressed
-
-
-	'application/pdf', //documents
-
-
+	'application/pdf', 'application/msword', //documents
 	'application/x-shockwave-flash', 'application/ogg', //multimedia
-
-
 	'audio/mpeg', 'audio/x-mpegurl', 'audio/x-ms-wax', 'audio/x-ms-wma', 'audio/x-wav', //audio
-
-
 	'image/gif', 'image/jpeg', 'image/png', 'image/x-xbitmap', 'image/x-xpixmap', 'image/x-xwindowdump', //image
-
-
 	'video/mpeg', 'video/quicktime', 'video/x-ms-asf', 'video/x-ms-wmv', 'video/x-msvideo', //video
-
-
 	'application/x-unknown-content-type', '']
 
 	var debug = false;
@@ -39,6 +25,7 @@
 		}
 
 		RedirectionAlert.prototype = {
+
 			init: function() {
 				this.id = String(redirectionAlertID++);
 				this.cache = [];
@@ -54,6 +41,7 @@
 				observerService.addObserver(this, "http-on-examine-merged-response", false);
 				observerService.addObserver(this, "http-on-examine-cached-response", false);
 				observerService.addObserver(this, 'content-document-global-created', false);
+				observerService.addObserver(this, 'http-on-opening-request', false);
 			},
 			unLoad: function() {
 				var self = this;
@@ -70,6 +58,7 @@
 				observerService.removeObserver(this, "http-on-examine-merged-response", false);
 				observerService.removeObserver(this, "http-on-examine-cached-response", false);
 				observerService.removeObserver(this, 'content-document-global-created', false);
+				observerService.removeObserver(this, 'http-on-opening-request', false);
 
 				delete(this.cache);
 				delete(this.cacheRedirects);
@@ -111,6 +100,12 @@
 							if (aTab && !! aTab.ODPExtensionLinkChecker) {
 								ODPExtension.disableTabFeatures(aSubject, aTab, this.cache[aTab.ODPExtensionOriginalURI]);
 							}
+						}
+						break;
+					case 'http-on-opening-request':
+						aSubject.QueryInterface(Components.interfaces.nsIHttpChannel);
+						if(ODPExtension.isGarbage(aSubject.URI.spec)){
+							aSubject.cancel(Components.results.NS_BINDING_ABORTED);
 						}
 						break;
 				}
@@ -193,6 +188,7 @@
 					var next = this.queue.shift();
 					if ( !! next) {
 						this._check(next[0], next[1]);
+						this.next();
 					}
 				}
 			},
@@ -222,8 +218,10 @@
 					aData.domain = '';
 					aData.subdomain = '';
 					aData.ip = '';
+					aData.ns = '';
 
 					aData.checkType = '';
+					aData.siteType = 'html'; //html, rss, atom, pdf, media, flash
 
 					aData.html = '';
 					aData.htmlRequester = '';
@@ -280,7 +278,7 @@
 					//now get the response as UTF-8
 
 					var aTab = ODPExtension.tabOpen('about:blank', false, false, true);
-					aTab.setAttribute('hidden', true);
+					aTab.setAttribute('hidden', ODPExtension.preferenceGet('link.checker.hidden.tabs'));
 					aTab.ODPExtensionLinkChecker = true;
 					aTab.ODPExtensionOriginalURI = aURL;
 					aTab.ODPExtensionExternalContent = [];
@@ -385,6 +383,17 @@
 							aData.framesURLs[aData.framesURLs.length] = frames[i].src;
 						}
 
+						//"site type"
+						if(aData.htmlTab.indexOf('xmlns=\'http://www.w3.org/2005/Atom\'') !== -1 || aData.htmlTab.indexOf('xmlns="http://www.w3.org/2005/Atom"') !== -1)
+							aData.siteType = 'atom';
+						else if(aData.htmlTab.indexOf('<rss version="') !== -1)
+							aData.siteType = 'rss';
+						else if(aData.htmlTab.indexOf('xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns') !== -1)
+							aData.siteType = 'rdf';
+						else if(ODPExtension.urlFlagsHashFlash.indexOf(aData.hash) !== -1)
+							aData.siteType = 'flash';
+
+
 						//clone doc, do not touch the doc in the tab
 						aDoc = aDoc.cloneNode(true);
 						for (var id in tagsMedia) {
@@ -449,9 +458,9 @@
 
 							//its a frame
 							if (aDoc != topDoc) {} else {
-								oRedirectionAlert.itemsNetworking--;
-								oRedirectionAlert.next();
+
 								timedout = 2;
+
 
 								aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
 								aData.html = aData.htmlTab;
@@ -460,34 +469,57 @@
 								aData.domTree = ODPExtension.domTree(aDoc);
 								aData.hash = ODPExtension.md5(JSON.stringify(aData.domTree));
 
-								aDoc.mediaCounted = true;
-								for (var id in tagsMedia)
-									aData.mediaCount += aDoc.getElementsByTagName(tagsMedia[id]).length;
+								//Check for framed redirects
+								var aURI = '';
 
-								for (var id in tagsMedia) {
-									var tags = aDoc.getElementsByTagName(tagsMedia[id]);
-									var i = tags.length;
-									while (i--) {
-										try {
-											tags[i].pause();
+								if(ODPExtension.urlFlagsHashFramesetRedirect.indexOf(aData.hash) !== -1 && aDoc.getElementsByTagName('frame')[0] && aDoc.getElementsByTagName('frame')[0].src)
+									var aURI = aDoc.getElementsByTagName('frame')[0].src;
+								else if(ODPExtension.urlFlagsHashFramesetRedirect.indexOf(aData.hash) !== -1 && aDoc.getElementsByTagName('iframe')[0] && aDoc.getElementsByTagName('iframe')[0].src)
+									var aURI = aDoc.getElementsByTagName('iframe')[0].src;
+
+								if(aURI != ''){
+
+									timedout = -1
+									aData.statuses.push('framed');
+									if (!ODPExtension.preferenceGet('link.checker.use.cache'))
+										newTabBrowser.loadURIWithFlags(aURI, newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | newTabBrowser.webNavigation.LOAD_ANONYMOUS | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
+									else
+										newTabBrowser.loadURIWithFlags(aURI, newTabBrowser.webNavigation.LOAD_ANONYMOUS | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
+								} else {
+
+									oRedirectionAlert.itemsNetworking--;
+									oRedirectionAlert.next();
+
+									aDoc.mediaCounted = true;
+									for (var id in tagsMedia)
+										aData.mediaCount += aDoc.getElementsByTagName(tagsMedia[id]).length;
+
+									for (var id in tagsMedia) {
+										var tags = aDoc.getElementsByTagName(tagsMedia[id]);
+										var i = tags.length;
+										while (i--) {
 											try {
-												tags[i].stop();
+												tags[i].pause();
+												try {
+													tags[i].stop();
+												} catch (e) {
+													try {
+														tags[i].stop();
+													} catch (e) {}
+												}
 											} catch (e) {
 												try {
 													tags[i].stop();
 												} catch (e) {}
 											}
-										} catch (e) {
-											try {
-												tags[i].stop();
-											} catch (e) {}
 										}
 									}
-								}
 
-								setTimeout(function() {
-									onTabLoad()
-								}, 12000);
+									setTimeout(function() {
+										onTabLoad()
+									}, 12000);
+
+								}
 							}
 						}
 					}
@@ -736,6 +768,9 @@
 	this.disableTabFeatures = function(aWindow, aTab, aData) {
 
 		var events = ['beforeunload', 'unbeforeunload']
+		var noop = function(){}
+		var yesop = function(){ return true; }
+		var empty = function(){ return 'something'; }
 
 		this.disableTabFeaturesCounter(aWindow.onbeforeunload, aData);
 		this.disableTabFeaturesCounter(aWindow.beforeunload, aData);
@@ -749,12 +784,15 @@
 				for (var s = 0; s < r.length; s++) {
 					this.disableTabFeaturesCounter(r[events[id]], aData);
 					v.removeEventListener(events[id], r[events[id]], false);
+					v.removeEventListener(events[id], r[events[id]], true);
 				}
 				v._eventTypes[events[id]] = [];
 			}
 		}
 
-		aWindow.wrappedJSObject.alert = aWindow.wrappedJSObject.prompt = aWindow.wrappedJSObject.confirm = aWindow.wrappedJSObject.focus = aWindow.alert = aWindow.prompt = aWindow.confirm = aWindow.wrappedJSObject.onbeforeunload = aWindow.wrappedJSObject.beforeunload = aWindow.onbeforeunload = aWindow.beforeunload = aWindow.focus = function() {};
+		aWindow.wrappedJSObject.alert = aWindow.wrappedJSObject.focus = aWindow.alert = aWindow.wrappedJSObject.onbeforeunload = aWindow.wrappedJSObject.beforeunload = aWindow.onbeforeunload = aWindow.beforeunload = aWindow.focus = noop
+		aWindow.wrappedJSObject.prompt = aWindow.prompt = empty
+		aWindow.wrappedJSObject.confirm =  aWindow.confirm = yesop
 
 		this.foreachFrame(aWindow.wrappedJSObject, function(aDoc) {
 			var aWin = aDoc.defaultView;
@@ -766,6 +804,7 @@
 					for (var s = 0; s < r.length; s++) {
 						ODPExtension.disableTabFeaturesCounter(r[events[id]], aData);
 						v.removeEventListener(events[id], r[events[id]], false);
+						v.removeEventListener(events[id], r[events[id]], true);
 					}
 					v._eventTypes[events[id]] = [];
 				}
@@ -773,7 +812,9 @@
 			ODPExtension.disableTabFeaturesCounter(aWin.onbeforeunload, aData);
 			ODPExtension.disableTabFeaturesCounter(aWin.beforeunload, aData);
 
-			aWin.alert = aWin.prompt = aWin.confirm = aWin.onbeforeunload = aWin.beforeunload = aWin.focus = function() {};
+			aWin.alert = aWin.onbeforeunload = aWin.beforeunload = aWin.focus = noop;
+			aWin.prompt = empty
+			aWin.confirm = yesop
 		});
 	}
 	this.disableTabFeaturesCounter = function(aFunction, aData) {
@@ -805,7 +846,7 @@
 		//-6 BAd URL
 		if (false || urlMalformed || lastStatus == 414 // Request-URI Too Large - The URL (usually created by a GET form request) is too large for the server to handle. Check to see that a lot of garbage didn't somehow get pasted in after the URL.
 		|| lastStatus == 413 // Request Entity Too Large - The server is refusing to process a request because the request entity is larger than the server is willing or able to process. Should never occur for Robozilla.
-		|| lastStatus == 400 // Bad Request	Usually occurs due to a space in the URL or other malformed URL syntax. Try converting spaces to %20 and see if that fixes the error.
+		//|| lastStatus == 400 // Bad Request	Usually occurs due to a space in the URL or other malformed URL syntax. Try converting spaces to %20 and see if that fixes the error.
 		) {
 			aData.status.code = -6;
 			aData.status.errorString = 'Bad URL';
@@ -848,6 +889,14 @@
 			aData.status.errorString = 'Internet Gone!?';
 			aData.status.errorStringUserFriendly = 'Internet Gone!?';
 
+			//404 	Not Found
+		} else if (false || lastStatus == 404 // Not Found
+		|| lastStatus == 410 // Gone
+		) {
+			aData.status.code = lastStatus;
+			aData.status.errorString = 'Not Found';
+			aData.status.errorStringUserFriendly = 'Not Found';
+			aData.status.canUnreview = true;
 
 			//Server Error	The server returned an error code that looks like permanent.
 		} else if (false || lastStatus == 505 // HTTP Version Not Supported
@@ -881,23 +930,27 @@
 			aData.status.errorStringUserFriendly = 'Server Error';
 			aData.status.canUnreview = true;
 
-			//404 	Not Found
-		} else if (false || lastStatus == 404 // Not Found
-		|| lastStatus == 410 // Gone
-		) {
-			aData.status.code = lastStatus;
-			aData.status.errorString = 'Not Found';
-			aData.status.errorStringUserFriendly = 'Not Found';
-			aData.status.canUnreview = true;
-
 			//-8 	Empty Page
-		} else if (false ||
-			(
-		(aData.wordCount < 3 && aData.mediaCount.length < 1))) {
+		} else if (false  //nothing
+		  || (aData.hash == '869a4716516c5ef5f369913fa60d71b8' && aData.wordCount < 20)
+
+		) {
 			aData.status.code = -8;
 			aData.statuses.push(aData.status.code);
 			aData.status.errorString = 'Empty Page';
 			aData.status.errorStringUserFriendly = 'Empty Page';
+			aData.status.canUnreview = true;
+			aData.status.match = aData.txt;
+
+			//-8 	Tiny Page
+		} else if (false  //nothing
+		  || (aData.wordCount < 3 && aData.mediaCount.length < 1) // few words, no media content
+
+		) {
+			aData.status.code = -8;
+			aData.statuses.push(aData.status.code);
+			aData.status.errorString = 'Tiny Page';
+			aData.status.errorStringUserFriendly = 'Tiny Page';
 			aData.status.canUnreview = true;
 			aData.status.match = aData.txt;
 
@@ -941,7 +994,7 @@
 			aData.status.errorStringUserFriendly = 'Redirect';
 
 			//200 OK
-		} else if (false || lastStatus == 200  || lastStatus == 304 // OK / Not modified
+		} else if (false || lastStatus == 200  //|| lastStatus == 304 // OK / Not modified
 		) {
 			aData.status.code = 200;
 			aData.status.errorString = 'OK';
@@ -967,11 +1020,17 @@
 				, 'hijacked'
 
 				, 'gonePermanent'
-				, 'goneTemporal'
+				, 'notFound'
 				, 'serverPage'
-				, 'emptyMeaningNoContent'
+
+				, 'requiresLogin'
+				, 'noContent'
+
 				, 'pageErrors'
+				, 'serverErrors'
+
 				, 'underConstruction'
+
 				, 'comingSoon'
 				, 'suspended'
 		]
@@ -988,17 +1047,24 @@
 				//bodyMatch
 				for (var id in this['urlFlags'][array[name]]['body']) {
 					string = this['urlFlags'][array[name]]['body'][id].trim();
-					if (string != '' && (data.indexOf(string.toLowerCase().trim()) != -1)) {
+					if ( (string != '' && (data.indexOf(string.toLowerCase().trim()) != -1)) || (aData.hash != '' && this['urlFlags'][array[name]]['hash'].indexOf(aData.hash) != -1)) {
 						aData.status.error = true;
-						aData.status.code = this['urlFlags'][array[name]]['errorCode'];
+
+						if(! this['urlFlags'][array[name]]['errorCodeApplyOnOKOnly'] || ( this['urlFlags'][array[name]]['errorCodeApplyOnOKOnly'] && aData.status.code == 200)) {
+							aData.status.code = this['urlFlags'][array[name]]['errorCode'];
+							aData.statuses.push(aData.status.code);
+						}
+
 						if (this['urlFlags'][array[name]]['canDelete'])
 							aData.status.canDelete = true;
 						if (this['urlFlags'][array[name]]['canUnreview'])
 							aData.status.canUnreview = true;
 						aData.status.errorString = this['urlFlags'][array[name]]['errorString'];
 						aData.status.errorStringUserFriendly = this['urlFlags'][array[name]]['errorStringUserFriendly'];
-						aData.statuses.push(aData.status.code);
 						aData.status.match = string;
+						if (aData.hash != '' && this['urlFlags'][array[name]]['hash'].indexOf(aData.hash) != -1)
+							aData.status.matchHash = true;
+
 						breaky = true;
 						break;
 					}
@@ -1013,7 +1079,7 @@
 			aData.status.suspicious.push('Unknown content type: ' + aData.contentType);
 		if (aData.hash != '' && this.urlFlagsHash.indexOf(aData.hash) != -1)
 			aData.status.suspicious.push('Document may has problems');
-		if (aData.hasFrameset > 0)
+		if (aData.hasFrameset > 0 && this.urlFlagsHashFrameset.indexOf(aData.hash) === -1 )
 			aData.status.suspicious.push('Document has a frameset');
 		if (aData.intrusivePopups > 1)
 			aData.status.suspicious.push('Window may has problems');

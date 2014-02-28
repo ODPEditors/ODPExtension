@@ -149,6 +149,9 @@
 				<menuseparator/>
 				<menuitem url="http://robert.mathmos.net/odp/missing/" tooltiptext="http://robert.mathmos.net/odp/missing/" label="Missing"/>
 				<menuseparator/>
+				<menuitem oncommand="ODPExtension.afrodita();" label="Fire Robozilla…"/>
+				<menuitem oncommand="ODPExtension.afroditaPlay();" label="Play Robozilla…"/>
+				<menuseparator/>
 				<menuitem oncommand="ODPExtension.rdfFind();" label="Find for a string in an RDF U8 file…"/>
 			</menupopup>
 			</menu>

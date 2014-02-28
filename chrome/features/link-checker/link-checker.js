@@ -112,14 +112,6 @@
 				aData.language +
 				'] ' + item.getAttribute('original_text');
 		}
-
-		//autoedit
-		/*
-		if(aData.status.code === -1340){
-			item.parentNode.innerHTML = ''+this.htmlSpecialCharsEncode(aData.urlOriginal)+'<br>'+this.htmlSpecialCharsEncode(aData.urlLast)+' <img src="/mimizu/service/hidden/update-url.php?category='+this.encodeUTF8(item.parentNode.getAttribute('category'))+'&url='+this.encodeUTF8(aData.urlOriginal)+'&new_url='+this.encodeUTF8(aData.urlLast)+'">';
-		} else {
-			this.removeElement(item.parentNode);
-		}*/
 	}
 
 	this.linkCheckerDoneGraph = function(aResult) {

@@ -392,6 +392,12 @@
 			Requester.send(null);
 			return Requester.responseText;
 	}
+	this.readURLDeleteCache = function(aURL, aCacheID){
+		//builds the cache ID
+		var hash = this.sha256(aURL);
+		var cachedFile = 'cached.request/' + aCacheID + '/' + hash[0] + '/' + hash[1] + '/' + hash + '.txt';
+		this.fileRemove(cachedFile)
+	}
 	//reads cacheID and calls aFunction with the data or read the data from online resource,
 	//cache the data and calls aFunction
 	this.readURL = function(aURL, aCacheID, aPostData, anArrayHeaders, aFunction, textPlain, useCookies) {

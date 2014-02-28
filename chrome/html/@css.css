@@ -65,7 +65,7 @@ body {
 	font-size: .9em;
 }
 .icons span {
-	margin: 0px 0px 0px 1px;
+	margin: 0px 2px 0px 1px;
 	width: 32px;
 }
 .icons .deleted:before {
@@ -86,7 +86,6 @@ table {
 }
 /* sidebar */
 .sidebar {
-	-moz-box-sizing: padding-box;
 	max-width: 15%;
 	position: fixed;
 	right: 0;
@@ -135,10 +134,12 @@ table {
 .sidebar .menu li {
 	padding: 10px;
 	padding-bottom: 14px;
+	padding-top: 4px;
+	padding-bottom: 4px;
 }
 .sidebar .menu b {
 	text-align: left;
-	margin-bottom: -10px;
+	margin-bottom: 0px;
 	margin-top: 7px;
 }
 .sidebar ul.menu {

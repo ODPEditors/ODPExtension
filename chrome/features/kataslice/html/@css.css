@@ -272,6 +272,9 @@ body[loading="true"] .totals{
 		background-color: rgb(246, 246, 239);
 		border-left: 3px solid black;
 	}
+	.item.pending {
+		border-left: 3px solid #669933 !important;
+	}
 	.item .left {
 		float: left;
 		display: block;
@@ -311,7 +314,7 @@ body[loading="true"] .totals{
 		border:0px;
 		outline: none;
 
-		color: rgb(140, 130, 130);
+		color: rgba(0,0,0,.6);
 		font-size: 10px;
 	}
 	.item .left .date {

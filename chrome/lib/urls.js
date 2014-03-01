@@ -196,6 +196,17 @@
 		else
 			return false;
 	}
+	// when searching for site replacements, many wikipedia, facebook and other results may popup in search results.
+	//this list just remove noise.
+	var noise = [
+		'facebook.com'
+		, 'wikipedia.org'
+		,'espanoworld.com'
+		,'youtube.com'
+	]
+	this.isNoise = function(aURL){
+		return noise.indexOf(this.getDomainFromURL(aURL)) != -1
+	}
 	//return true if the domain name is a ip address
 	var isIPAddressRegExp = /^([0-9]|\.)+$/;
 	this.isIPAddress = function(aDomain) {

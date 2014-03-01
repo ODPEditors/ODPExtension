@@ -2,12 +2,6 @@
 
 	var debugingThisFile = true;
 
-	var blacklist = [
-		'facebook.com'
-		, 'wikipedia.org'
-		,'espanoworld.com'
-		,'youtube.com'
-	]
 	this.searchEngine = function() {
 
 		function SearchEngine() {
@@ -54,8 +48,7 @@
 						aResult.title = ODPExtension.htmlEntityDecode(ODPExtension.htmlEntityDecode(ODPExtension.stripTags(ODPExtension.select('.r a', html)[0].innerHTML).trim()));
 						aResult.description = ODPExtension.htmlEntityDecode(ODPExtension.htmlEntityDecode(ODPExtension.stripTags(ODPExtension.select('.st', html)[0].innerHTML).trim()));
 
-						if(blacklist.indexOf(ODPExtension.getDomainFromURL(aResult.url)) != -1){}
-					   else
+						if(!ODPExtension.isNoise(aResult.url))
 						   results[results.length] = aResult;
 
 					} catch (e) {}

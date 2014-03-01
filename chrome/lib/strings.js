@@ -234,6 +234,52 @@
 		}
 		return stringCompressor.LZString.decompressFromUTF16(aString);
 	}
+
+	// !! http://stackoverflow.com/questions/11434747/javascript-library-to-align-tab-separated-data-like-elastictabstops/11437399#11437399
+	this.tabs = function(aData){
+		var align;
+		align = function(d) {
+		  var b, l, o, pad;
+		  b = [];
+		  l = [];
+		  d.split('\n').forEach(function(c) {
+		    var a;
+		    a = [];
+		    c.split(/(\t+|\s\s+)/).forEach(function(d) {
+		      if (d.match(/\w/)) {
+		        a.push(d.toString());
+		        if ((l[a.length - 1] != null) < d.length) {
+		          return l[a.length - 1] = d.length;
+		        }
+		      }
+		    });
+		    return b.push(a);
+		  });
+		  pad = function(txt, len) {
+		    while (txt.length < len) {
+		      txt += " ";
+		    }
+		    return txt;
+		  };
+		  o = "\n";
+		  b.forEach(function(d) {
+		    d.forEach(function(j, i) {
+		      o += pad(j.toString(), l[i]);
+		      return o += "\t";
+		    });
+		    return o += "\n";
+		  });
+		  return o;
+		};
+		var txt = '';
+		for(var id in aData){
+			for(var i in aData[id]){
+				txt += aData[id][i]+'\t';
+			}
+			txt +='\n';
+		}
+		return align(txt);
+	}
 	return null;
 
 }).apply(ODPExtension);

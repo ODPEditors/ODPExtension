@@ -46,6 +46,7 @@
 					this.getElement('extension-icon-context').hidePopup();
 					//no info about category, shsould open the category browser
 					this.getElement('category-browser').openPopup();
+					document.getAnonymousElementByAttribute(this.getElement('category-browser'), 'anonid', 'ODPExtension-category-browser-textbox-data-xbl').focus();
 					//this.dump('open poiup categor');
 					return;
 				}

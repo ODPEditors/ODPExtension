@@ -67,7 +67,8 @@
 			aConnection.aConnection.executeSimpleSQL('DROP TABLE IF EXISTS `hosts`');
 			aConnection.aConnection.executeSimpleSQL('DROP TABLE IF EXISTS `uris`');
 			aConnection.vacuum();
-		} catch (e) {
+		}
+		catch (e) {
 			this.rdfDatabaseClose();
 			ODPExtension.fileRemove('RDF.sqlite');
 			aConnection = this.rdfDatabaseOpen();
@@ -85,14 +86,14 @@
 		aConnection.executeSimple('	CREATE TABLE `hosts`		( `id` INTEGER PRIMARY KEY NOT NULL, `host` TEXT NOT NULL DEFAULT "")');
 		aConnection.executeSimple('	CREATE TABLE `uris`			( `id` INTEGER PRIMARY KEY NOT NULL, `schemaWWW` TEXT NOT NULL DEFAULT "", `subdomain_id` INTEGER NOT NULL DEFAULT 0, `domain_id` INTEGER NOT NULL DEFAULT 0, `uri` TEXT NOT NULL DEFAULT "", `path` TEXT NOT NULL DEFAULT "", `title` TEXT NOT NULL DEFAULT "", `description` TEXT NOT NULL DEFAULT "", `mediadate` DATE NOT NULL DEFAULT "", `pdf` INTEGER NOT NULL DEFAULT 0, `atom` INTEGER NOT NULL DEFAULT 0, `rss` INTEGER NOT NULL DEFAULT 0, `cool` INTEGER NOT NULL DEFAULT 0, `category_id` INTEGER NOT NULL DEFAULT 0)');
 
-		var insertCategory  = aConnection.aConnection.createStatement('INSERT INTO `categories` ( `id`, `parent`, `catid`,`depth`, `category`,`category_reversed`, `name` , `last_update` , `description` ) VALUES ( :id, :parent , :catid, :depth, :category, :category_reversed, :name, :last_update , :description )')
-		var insertEditor    = aConnection.aConnection.createStatement('INSERT INTO `editors` ( `editor`, `category_id` ) VALUES ( :editor, :category_id )')
-		var insertRelated   = aConnection.aConnection.createStatement('INSERT INTO `related` ( `to`, `from` ) VALUES ( :to, :from )')
-		var insertAltlang   = aConnection.aConnection.createStatement('INSERT INTO `altlang` ( `to`, `from` ) VALUES ( :to, :from )')
-		var insertLink      = aConnection.aConnection.createStatement('INSERT INTO `link` ( `to`, `from` , `name`, `position` ) VALUES ( :to, :from, :name, :position )')
+		var insertCategory = aConnection.aConnection.createStatement('INSERT INTO `categories` ( `id`, `parent`, `catid`,`depth`, `category`,`category_reversed`, `name` , `last_update` , `description` ) VALUES ( :id, :parent , :catid, :depth, :category, :category_reversed, :name, :last_update , :description )')
+		var insertEditor = aConnection.aConnection.createStatement('INSERT INTO `editors` ( `editor`, `category_id` ) VALUES ( :editor, :category_id )')
+		var insertRelated = aConnection.aConnection.createStatement('INSERT INTO `related` ( `to`, `from` ) VALUES ( :to, :from )')
+		var insertAltlang = aConnection.aConnection.createStatement('INSERT INTO `altlang` ( `to`, `from` ) VALUES ( :to, :from )')
+		var insertLink = aConnection.aConnection.createStatement('INSERT INTO `link` ( `to`, `from` , `name`, `position` ) VALUES ( :to, :from, :name, :position )')
 		var insertNewsgroup = aConnection.aConnection.createStatement('INSERT INTO `newsgroup` ( `newsgroup`, `category_id`) VALUES ( :newsgroup, :category_id )')
-		var insertHost      = aConnection.aConnection.createStatement('INSERT INTO `hosts` ( `id`, `host`) VALUES ( :id, :host )')
-		var insertURI       = aConnection.aConnection.createStatement('INSERT INTO `uris` ( `schemaWWW`, `subdomain_id`, `domain_id`, `uri`, `path`, `title`, `description`, `mediadate`, `pdf`, `atom`, `rss`, `cool`, `category_id`) VALUES (:schemaWWW, :subdomain_id, :domain_id, :uri, :path, :title, :description, :mediadate, :pdf, :atom, :rss, :cool, :category_id )')
+		var insertHost = aConnection.aConnection.createStatement('INSERT INTO `hosts` ( `id`, `host`) VALUES ( :id, :host )')
+		var insertURI = aConnection.aConnection.createStatement('INSERT INTO `uris` ( `schemaWWW`, `subdomain_id`, `domain_id`, `uri`, `path`, `title`, `description`, `mediadate`, `pdf`, `atom`, `rss`, `cool`, `category_id`) VALUES (:schemaWWW, :subdomain_id, :domain_id, :uri, :path, :title, :description, :mediadate, :pdf, :atom, :rss, :cool, :category_id )')
 
 		this.dump('Database tables and statements created...');
 
@@ -259,7 +260,8 @@
 									insertCategory.params['last_update'] = aCategory.lastUpdate;
 									insertCategory.params['description'] = aCategory.description;
 									insertCategory.execute();
-								} catch (e) {
+								}
+								catch (e) {
 									ODPExtension.dump('---------');
 									ODPExtension.dump(aConnection.aConnection.lastErrorString);
 									ODPExtension.dump(aTopic);
@@ -296,7 +298,8 @@
 								aTopic = '';
 								aCategory = {};
 								break;
-							} else if (value.indexOf('<catid') === 0)
+							}
+							else if (value.indexOf('<catid') === 0)
 								aCategory.catid = stripTags(value);
 							else if (value.indexOf('<lastUpdate') === 0)
 								aCategory.lastUpdate = stripTags(value);
@@ -312,7 +315,8 @@
 								var tmp = {};
 								tmp.link = ids[categorySanitize(value.replace(resourceValueRegExp, '$1'))] || this.onMissingCategory(categorySanitize(value.replace(resourceValueRegExp, '$1')));
 								aCategory.altlang[aCategory.altlang.length] = tmp;
-							} else if (value.indexOf('<symbolic') === 0) {
+							}
+							else if (value.indexOf('<symbolic') === 0) {
 								var tmp = {};
 								tmp.name = htmlSpecialCharsDecode(value.replace(resourceIndexRegExp, '$1'));
 								tmp.link = ids[categorySanitize(value.replace(resourceValueRegExp, '$1'))] || this.onMissingCategory(categorySanitize(value.replace(resourceValueRegExp, '$1')));
@@ -391,14 +395,14 @@
 					ODPExtension.dump('Processing ' + url + '...');
 					ODPExtension.rdfParserDownload(url, new StreamListenerContentRDF());
 
-				} else {
+				}
+				else {
 					ODPExtension.dump('Processing ' + url + '...');
 					progress.message = 'Processing ' + url;
 					ODPExtension.rdfParserDownload(url, new StreamListenerStructureRDF());
 				}
 			}
 		}
-
 
 		function StreamListenerContentRDF() {
 			return this;
@@ -465,7 +469,6 @@
 					if (value.indexOf('<ExternalPage') === 0) {
 
 						var aSite = getURLID(htmlSpecialCharsDecode(value.split('about="')[1].slice(0, -2)));
-
 
 						/*						aSite.subdomain_id = ODPExtension.getSubdomainFromURL(aSite.uri);
 						aSite.domain_id = ODPExtension.getDomainFromURL(aSite.uri);
@@ -538,7 +541,8 @@
 									params['category_id'] = aSite.category_id;
 
 									insert.execute();
-								} catch (e) {
+								}
+								catch (e) {
 									ODPExtension.dump('---------');
 									ODPExtension.dump(aConnection.aConnection.lastErrorString);
 									ODPExtension.dump(aSite);
@@ -547,7 +551,8 @@
 								aTopic = '';
 								aSite = {};
 								break;
-							} else if (value.indexOf('<d:Description') === 0)
+							}
+							else if (value.indexOf('<d:Description') === 0)
 								aSite.description = htmlSpecialCharsDecode(stripTags(value));
 							else if (value.indexOf('<d:Title') === 0)
 								aSite.title = htmlSpecialCharsDecode(stripTags(value));
@@ -629,9 +634,10 @@
 
 					ODPExtension.rdfParserComplete();
 
-					aConnection.executeSimple('PRAGMA "user_version" = '+(ODPExtension.date().replace(/-/g,''))+'');
+					aConnection.executeSimple('PRAGMA "user_version" = ' + (ODPExtension.date().replace(/-/g, '')) + '');
 
-				} else {
+				}
+				else {
 					ODPExtension.dump('Processing ' + url + '...');
 					progress.message = 'Processing ' + url;
 					ODPExtension.rdfParserDownload(url, new StreamListenerContentRDF());
@@ -758,7 +764,7 @@
 		return [istream, is];
 	}
 
-	this.rdfFileClose =  function(istream, is) {
+	this.rdfFileClose = function(istream, is) {
 		istream.close();
 		is.close();
 	}

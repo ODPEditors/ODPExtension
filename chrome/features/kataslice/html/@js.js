@@ -28,6 +28,7 @@ function onCategoryChange() {
 
 var groups = ['domain', 'subdomain', 'user', 'ip', 'type', 'category', 'type_colour'],
 	columns = ['subdomain', 'title', 'description', 'category', 'user', 'date', 'ip', 'type', 'colour', 'action'],
+	columns_changes = ['title', 'description', 'category', 'type', 'action', 'url'],
 	by = [],
 	byCount = [];
 

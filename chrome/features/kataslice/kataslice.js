@@ -49,7 +49,8 @@
 							else {
 
 								ODPExtension.categoryParserGetCategoryU(aData, urlUnreview, aSites)
-
+								next();
+/*
 								ODPExtension.readURL(urlList, cache, false, false, function(aData) {
 
 									if (aData.indexOf('<form action="login"') != -1) {
@@ -65,9 +66,8 @@
 									else {
 										ODPExtension.categoryParserGetCategoryL(aData, urlList, aSites)
 									}
-									next();
 
-								}, true, true);
+								}, true, true);*/
 							}
 
 						}, true, true);

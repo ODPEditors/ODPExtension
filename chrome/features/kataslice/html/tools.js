@@ -9,14 +9,14 @@ function toolSearchEngine(item, event) {
 }
 
 function _toolSearchEngine(item, event) {
+	var text = $(item).val();
 	item = entryGetItem(item);
 	var d = entryGetData(item);
 
 	var template = _.template($(".tpl-list-item-tool-se").html());
-	var container = item.find('.tools').find('.search-engine')
+	var container = $(item.find('.tools').find('.search-engine'))
 
-	var text = item.value;
-	if (!text || text == '')
+	if (text == '')
 		text = d.title
 	text = text.trim()
 

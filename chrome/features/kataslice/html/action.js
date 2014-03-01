@@ -45,6 +45,15 @@ function action(type) {
 				});
 			}
 			break;
+		case 'delete-duplicate': //delete
+			items.each(function(d) {
+				d.new_note = 'Duplicated';
+				d.new_action = 'D';
+				d3.select(this).attr('action', 'D');
+				d3.select(this).classed('pending', true);
+
+			});
+			break;
 		case 'hijacked': //delete
 			items.each(function(d) {
 				d.new_note = 'Hijacked';
@@ -57,6 +66,30 @@ function action(type) {
 		case 'gone': //delete
 			items.each(function(d) {
 				d.new_note = 'Gone';
+				d.new_action = 'D';
+				d3.select(this).attr('action', 'D');
+				d3.select(this).classed('pending', true);
+			});
+			break;
+		case 'poor': //delete
+			items.each(function(d) {
+				d.new_note = 'Poor';
+				d.new_action = 'D';
+				d3.select(this).attr('action', 'D');
+				d3.select(this).classed('pending', true);
+			});
+			break;
+		case 'no-content': //delete
+			items.each(function(d) {
+				d.new_note = 'No content';
+				d.new_action = 'D';
+				d3.select(this).attr('action', 'D');
+				d3.select(this).classed('pending', true);
+			});
+			break;
+		case 'MFA': //delete
+			items.each(function(d) {
+				d.new_note = 'MFA';
 				d.new_action = 'D';
 				d3.select(this).attr('action', 'D');
 				d3.select(this).classed('pending', true);
@@ -137,7 +170,7 @@ function action(type) {
 					// redirect maybe be autofixed
 					if(aData.status.code == -1340) {
 						d.new_url = aData.urlLast
-						$(item[0]).find('.data > .url').html(d.new_url);
+						$(item[0]).find('.data .url').html(d.new_url);
 						item.classed('pending', true)
 					}
 					$(item[0]).find('.tools > .link-checker').html(text);

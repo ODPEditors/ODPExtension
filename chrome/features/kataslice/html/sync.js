@@ -8,7 +8,7 @@ function sync() {
 			var name = columns[id]
 			var nameChanged = 'new_' + columns[id]
 			if (d[nameChanged] && d[nameChanged] != d[name]) {
-				d3.select(this).removeClass('pending')
+				d3.select(this).classed('pending', false)
 				changed.push(d)
 				break;
 			}
@@ -64,7 +64,7 @@ function edit(site, url) {
 		}
 		else {
 
-			if (aTab.hasAttribute('edited', true)) {
+			if (aTab.hasAttribute('edited', true) && html.indexOf('<center>Update complete</center>') != -1) {
 				ODP.tabClose(aTab)
 			} else {
 

@@ -21,9 +21,6 @@ function entrySync(item){
 	var v = item.text().trim();
 
 	if(lastSelectedData[k] != v){
-		ODP.dump('syncing-------')
-		ODP.dump(lastSelectedData[k])
-		ODP.dump(v)
 		lastSelectedData['new_'+k] = v;
 		lastSelectedEntry.addClass('pending');
 		entryUpdatePendingCounter();
@@ -32,6 +29,8 @@ function entrySync(item){
 
 function entryClick(item, event){
 	item = $(item);
+	if(item.parents('.tools').length)
+		return
 	var entry = entryGetItem(item)
 	lastSelectedData = entryGetData(item);
 	var lastSelectedIsSsame = false
@@ -99,6 +98,7 @@ function entryKeyPressSync(item, event) {
 }
 function entryKeyPressCheckOpen(item, event) {
 	if (event.keyCode == event.DOM_VK_RETURN) {
+		entrySync(item);
 		event.stopPropagation();
 		event.preventDefault();
 		var d = entryGetData(item)

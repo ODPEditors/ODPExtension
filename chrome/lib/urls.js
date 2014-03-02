@@ -1,6 +1,6 @@
-(function() {
+(function () {
 	//gets the current focused location by looking at the location of the document
-	this.focusedLocation = function() {
+	this.focusedLocation = function () {
 		var aLocation = this.documentFocusedGetLocation();
 
 		if (aLocation != '')
@@ -9,7 +9,7 @@
 			return '';
 	}
 	//gets the current focused location by looking at the value of the URLBar, if is not valid will look into the location of the document
-	this.focusedLocationBarURL = function() {
+	this.focusedLocationBarURL = function () {
 		var aLocation = '';
 
 		//if the URLBar is there...
@@ -48,7 +48,7 @@
 	var getDomainFromURLRegExp1 = /.*\.([^\.]+\.[^\.]+\.[^\.]+)$/;
 	var getDomainFromURLRegExp2 = /.*\.([^\.]+\.[^\.]+)$/;
 
-	this.getDomainFromURL = function(aURL) {
+	this.getDomainFromURL = function (aURL) {
 		if (!aURL)
 			return '';
 		//http://www.iana.org/domains/root/db/ - iana root zone database
@@ -66,7 +66,7 @@
 			return aSubdomainOrDomainOrIP.replace(getDomainFromURLRegExp2, "$1");
 	}
 	//returns the IP of a host name
-	this.getIPFromDomain = function(aDomain, noCache) {
+	this.getIPFromDomain = function (aDomain, noCache) {
 		var IP = '';
 		try {
 			var DNS = this.service('dns');
@@ -83,7 +83,32 @@
 
 		return IP;
 	}
-	this.getDNSFromURL = function(aDomain) {
+
+	this.getIPFromDomainAsync = function (aDomain, aFunction) {
+		try {
+			var DNS = this.service('dns');
+			var thread;
+			if (Components.classes['@mozilla.org/event-queue-service;1']) {
+				const EQS = Components.classes['@mozilla.org/event-queue-service;1'].getService(Components.interfaces.nsIEventQueueService);
+				thread = EQS.getSpecialEventQueue(EQS.CURRENT_THREAD_EVENT_QUEUE);
+			} else {
+				thread = Components.classes['@mozilla.org/thread-manager;1'].getService().mainThread;
+			}
+			DNS.asyncResolve(aDomain, null, {
+				onLookupComplete: function (aRequest, aRecord, aStatus) {
+					while (aRecord && aRecord.hasMore()) {
+						aFunction(aRecord.getNextAddrAsString())
+						return null
+					}
+				}
+			}, thread);
+
+		} catch (e) {
+			aFunction('')
+		}
+	}
+
+	this.getDNSFromURL = function (aDomain) {
 		var aData = {
 			ips: [],
 			hosts: []
@@ -99,17 +124,16 @@
 		return aData;
 	}
 
-
 	//gets the schema of a URL
 	var getSchemaRegExp = /^([^\:]+):.*$/;
-	this.getSchema = function(aURL) {
+	this.getSchema = function (aURL) {
 		if (!aURL)
 			return '';
 		return aURL.replace(getSchemaRegExp, "$1").toLowerCase() + '://';
 	}
 	//gets the subdomain from an URL
 	var getSubdomainFromURLRegExp = /^[^\:]+\:\/+([^(\/|\?)]+)[\/|\?]?.*$/;
-	this.getSubdomainFromURL = function(aURL) {
+	this.getSubdomainFromURL = function (aURL) {
 		if (!aURL)
 			return '';
 		//checks if contains the final /, if not it is added
@@ -118,7 +142,7 @@
 		return this.removePort(aURL.replace(getSubdomainFromURLRegExp, "$1")).toLowerCase();
 	}
 	//shots a url for showing in a label
-	this.getURLForLabel = function(aURL) {
+	this.getURLForLabel = function (aURL) {
 		aURL = this.removeWWW(this.removeSchema(aURL));
 		if (aURL.length > 22)
 			return aURL.substr(0, 22) + '…';
@@ -126,7 +150,7 @@
 			return aURL;
 	}
 	//returns true if the aURLorDomain is garbage
-	this.isGarbage = function(aURLorDomain) {
+	this.isGarbage = function (aURLorDomain) {
 		if (aURLorDomain.indexOf(':') != -1 || aURLorDomain.indexOf('/') != -1)
 			return this.isGarbageURL(aURLorDomain);
 		else if (this.isGarbageSubdomain(aURLorDomain) || this.isGarbageDomain(aURLorDomain))
@@ -135,45 +159,45 @@
 			return false;
 	}
 	//returns true if the aDomain is garbage
-	this.isGarbageDomain = function(aDomain) {
+	this.isGarbageDomain = function (aDomain) {
 		switch (aDomain) {
-			case 'googlesyndication.com':
-			case 'doubleclick.net':
-			case 'fbcdn.net':
-			case 'sharethis.com':
-			case 'scorecardresearch.com':
+		case 'googlesyndication.com':
+		case 'doubleclick.net':
+		case 'fbcdn.net':
+		case 'sharethis.com':
+		case 'scorecardresearch.com':
 
-				return true;
-			default:
-				return false;
+			return true;
+		default:
+			return false;
 		}
 	}
 	//returns true if the aSubdomain is garbage
-	this.isGarbageSubdomain = function(aSubdomain) {
+	this.isGarbageSubdomain = function (aSubdomain) {
 		switch (aSubdomain) {
-			case 'googleads.g.doubleclick.net':
-			case 'pagead2.googlesyndication.com':
+		case 'googleads.g.doubleclick.net':
+		case 'pagead2.googlesyndication.com':
 
-			case 'plus.google.com':
-			case 'apis.google.com':
-			case 'adwords.google.com':
-			case 'services.google.com':
-			case 'accounts.google.com':
+		case 'plus.google.com':
+		case 'apis.google.com':
+		case 'adwords.google.com':
+		case 'services.google.com':
+		case 'accounts.google.com':
 
-			case 'api.facebook.com':
-			case 'static.ak.facebook.com':
-			case 's-static.ak.facebook.com':
+		case 'api.facebook.com':
+		case 'static.ak.facebook.com':
+		case 's-static.ak.facebook.com':
 
-			case 'advertising.microsoft.com':
-			case 'api.tweetmeme.com':
-			case 'mediacdn.disqus.com':
-				return true;
-			default:
-				return false;
+		case 'advertising.microsoft.com':
+		case 'api.tweetmeme.com':
+		case 'mediacdn.disqus.com':
+			return true;
+		default:
+			return false;
 		}
 	}
 	//returns true if the URL is garbage
-	this.isGarbageURL = function(aURL) {
+	this.isGarbageURL = function (aURL) {
 		if (
 			this.isGarbageSubdomain(this.getSubdomainFromURL(aURL)) ||
 			this.isGarbageDomain(this.getDomainFromURL(aURL)) ||
@@ -201,22 +225,22 @@
 	var noise = [
 		'facebook.com'
 		, 'wikipedia.org'
-		,'espanoworld.com'
-		,'youtube.com'
+		, 'espanoworld.com'
+		, 'youtube.com'
 	]
-	this.isNoise = function(aURL){
+	this.isNoise = function (aURL) {
 		return noise.indexOf(this.getDomainFromURL(aURL)) != -1
 	}
 	//return true if the domain name is a ip address
 	var isIPAddressRegExp = /^([0-9]|\.)+$/;
-	this.isIPAddress = function(aDomain) {
+	this.isIPAddress = function (aDomain) {
 		if (isIPAddressRegExp.test(aDomain))
 			return true;
 		else
 			return false;
 	}
 	//return true if the ip address is private
-	this.isIPAddressPrivate = function(aIP) {
+	this.isIPAddressPrivate = function (aIP) {
 		/*
 			checking private ranges - thanks to callimachus
 			The private IP blocks as documented in RFC 1918 and RFC 3330:
@@ -239,7 +263,7 @@
 	}
 	//returns true if the URL is public accesible (maybe)
 	var isPublicURLRegExp = /^([a-z]|[0-9]|@|\:)+$/i;
-	this.isPublicURL = function(aURL) {
+	this.isPublicURL = function (aURL) {
 		var schema = this.getSchema(aURL);
 		if (schema != 'http://' && schema != 'https://' && schema != 'ftp://' && schema != 'gopher://')
 			return false;
@@ -255,7 +279,7 @@
 		return true;
 	}
 	//returns true if the URI is safe to use
-	this.isSecureURI = function(aURI) {
+	this.isSecureURI = function (aURI) {
 		aURI = this.string(aURI).toLowerCase();
 
 		if (
@@ -271,11 +295,11 @@
 		}
 	}
 	//returns a URI from an URL
-	this.newURI = function(aURL) {
+	this.newURI = function (aURL) {
 		return this.service('ios').newURI(aURL, null, null);
 	}
 	//open an external URI - mailto: for example
-	this.openURI = function(aURL, isSecure) {
+	this.openURI = function (aURL, isSecure) {
 		//security
 		if ((aURL.toLowerCase()).indexOf('chrome:') === 0 && !isSecure) {
 			this.error(' chrome:// URLs can\'t be opened with openURI ');
@@ -284,7 +308,7 @@
 			this.error(' javascript:// URLs can\'t be opened with openURI ');
 			return;
 		}
-		(function(aURL) {
+		(function (aURL) {
 			var ios = Components.classes["@mozilla.org/network/io-service;1"]
 				.getService(Components.interfaces.nsIIOService);
 			var uri = ios.newURI(aURL, null, null);
@@ -319,21 +343,21 @@
 				loadgroup.groupObserver = loadListener;
 
 				var uriListener = {
-					onStartURIOpen: function(uri) {
+					onStartURIOpen: function (uri) {
 						return false;
 					},
-					doContent: function(ctype, preferred, request, handler) {
+					doContent: function (ctype, preferred, request, handler) {
 						return false;
 					},
-					isPreferred: function(ctype, desired) {
+					isPreferred: function (ctype, desired) {
 						return false;
 					},
-					canHandleContent: function(ctype, preferred, desired) {
+					canHandleContent: function (ctype, preferred, desired) {
 						return false;
 					},
 					loadCookie: null,
 					parentContentListener: null,
-					getInterface: function(iid) {
+					getInterface: function (iid) {
 						if (iid.equals(Components.interfaces.nsIURIContentListener))
 							return this;
 						if (iid.equals(Components.interfaces.nsILoadGroup))
@@ -352,7 +376,7 @@
 	//opens a an URL that is already encoded example:http://www.dmoz.org/World/Espa%C3%B1ol/
 	//if allowed and selected: in a sub browser of split browser extension, at the desired position
 	//else in a normal tab, selected or not
-	this.openURL = function(aURL, inNewTab, inNewWindow, giveFocus, aPostData, byPassSecure) {
+	this.openURL = function (aURL, inNewTab, inNewWindow, giveFocus, aPostData, byPassSecure) {
 		//security
 		if (this.isSecureURI(aURL) || byPassSecure) {
 			if (inNewWindow && !inNewTab) //err! this is not fun!
@@ -375,7 +399,7 @@
 		}
 	}
 	//returns .. post data in a what???
-	this.postData = function(dataString) {
+	this.postData = function (dataString) {
 		if (!dataString)
 			return null;
 		// POST method requests must wrap the encoded text in a MIME
@@ -396,14 +420,14 @@
 		// postData is ready to be used as aPostData argument
 		return postData;
 	}
-	this.readURLAsync = function(aURL) {
+	this.readURLAsync = function (aURL) {
 		var Requester = new XMLHttpRequest();
-			Requester.overrideMimeType('text/plain');
-			Requester.open("GET", aURL, false);
-			Requester.send(null);
-			return Requester.responseText;
+		Requester.overrideMimeType('text/plain');
+		Requester.open("GET", aURL, false);
+		Requester.send(null);
+		return Requester.responseText;
 	}
-	this.readURLDeleteCache = function(aURL, aCacheID){
+	this.readURLDeleteCache = function (aURL, aCacheID) {
 		//builds the cache ID
 		var hash = this.sha256(aURL);
 		var cachedFile = 'cached.request/' + aCacheID + '/' + hash[0] + '/' + hash[1] + '/' + hash + '.txt';
@@ -411,7 +435,7 @@
 	}
 	//reads cacheID and calls aFunction with the data or read the data from online resource,
 	//cache the data and calls aFunction
-	this.readURL = function(aURL, aCacheID, aPostData, anArrayHeaders, aFunction, textPlain, useCookies) {
+	this.readURL = function (aURL, aCacheID, aPostData, anArrayHeaders, aFunction, textPlain, useCookies) {
 		var aCallbackArgs = [];
 		aCallbackArgs[0] = arguments[5];
 		aCallbackArgs[1] = arguments[6];
@@ -439,12 +463,12 @@
 		}
 
 		var Requester = new XMLHttpRequest();
-		Requester.onload = function() {
+		Requester.onload = function () {
 			if (Requester.responseText == -1 || Requester.responseText == null || Requester.responseText == '') {} else {
 				if (aCacheID !== null && aCacheID !== false)
 					ODPExtension.fileWrite(cachedFile, Requester.responseText);
 				if (aFunction) {
-					(function() {
+					(function () {
 						aFunction(Requester.responseText,
 							aCallbackArgs[0], aCallbackArgs[1], aCallbackArgs[2], aCallbackArgs[3],
 							aCallbackArgs[4], aCallbackArgs[5], aCallbackArgs[6], aCallbackArgs[7])
@@ -475,7 +499,7 @@
 
 		Requester.send(aPostData);
 	}
-	this.XMLHttpRequestFix = function(aRequester, aURL) {
+	this.XMLHttpRequestFix = function (aRequester, aURL) {
 		var cookie, cookies = [],
 			cookieManager = Components.classes["@mozilla.org/cookiemanager;1"].getService(Components.interfaces.nsICookieManager2);
 		for (var e = cookieManager.getCookiesFromHost(this.newURI(aURL).host); e.hasMoreElements();) {
@@ -489,17 +513,17 @@
 		cookie = cookies = e = cookieManager = null
 	}
 
-	this.removeFileName = function(aURL) {
+	this.removeFileName = function (aURL) {
 		var url2 = this.removeVariables(aURL).replace(/\/+$/, '').replace(/\/[^\/]+$/, '/');
 		if (/\:\/+$/.test(url2))
 			return aURL;
 		else
 			return url2;
 	}
-	this.removeFileName2 = function(aURL) {
+	this.removeFileName2 = function (aURL) {
 		return this.removeVariables(aURL).replace(/\/+$/, '').replace(/\/[^\/]+$/, '/');
 	}
-	this.removeFromTheFirstFolder = function(aURL) {
+	this.removeFromTheFirstFolder = function (aURL) {
 		aURL = this.removeVariables(aURL);
 
 		if (this.subStrCount(aURL, '/') >= 2)
@@ -507,25 +531,25 @@
 		else
 			return aURL;
 	}
-	this.removeFromTheFirstFolder2 = function(aURL) {
+	this.removeFromTheFirstFolder2 = function (aURL) {
 		return aURL.replace(/^([^\/]+)\/?.*$/, "$1");
 	}
 	//remove the port number from a domain name
 	var removePortRegExp = /\:[0-9]*$/;
-	this.removePort = function(aDomain) {
+	this.removePort = function (aDomain) {
 		if (!aDomain)
 			return '';
 		return aDomain.replace(removePortRegExp, ''); //the * is for "local" domains like file:////c:/
 	}
 	//removes the schema of an URL
 	var removeSchemaRegExp = /^[^\:]+\:\/+/i;
-	this.removeSchema = function(aURL) {
+	this.removeSchema = function (aURL) {
 		if (!aURL)
 			return '';
 		return aURL.replace(removeSchemaRegExp, '');
 	}
 
-	this.removeSensitiveDataFromURL = function(aURL) {
+	this.removeSensitiveDataFromURL = function (aURL) {
 		var aDomain = this.getDomainFromURL(aURL);
 		var aSubdomain = this.removeWWW(this.getSubdomainFromURL(aURL));
 
@@ -659,7 +683,7 @@
 
 		return aURL;
 	}
-	this.removeSession = function(aURL) {
+	this.removeSession = function (aURL) {
 		aURL = aURL.replace(/cfid\=[^\&]*\&/gi, '').replace(/cfid\=[^\&]*$/i, '');
 		aURL = aURL.replace(/cftoken\=[^\&]*\&/gi, '').replace(/cftoken\=[^\&]*$/i, '');
 		aURL = aURL.replace(/phpsessid\=[^\&]*\&/gi, '').replace(/phpsessid\=[^\&]*$/i, '');
@@ -672,12 +696,12 @@
 	}
 	//removes the http://www.domain/ from an url
 	var removeSubdomainRegExp = /^[^\:]+\:\/+[^(\/|\?|\#)]+\/?(\??.*)$/;
-	this.removeSubdomain = function(aURI) {
+	this.removeSubdomain = function (aURI) {
 		if (!aURI)
 			return '';
 		return aURI.replace(removeSubdomainRegExp, "$1");
 	}
-	this.removeVariables = function(aURL) {
+	this.removeVariables = function (aURL) {
 		return aURL.replace(/^([^\?]+).*$/, '$1');
 	}
 	//remove the ww. ww09. www09. ww-09. www-09. www. www09. es-en.www. es.www09. (and probably others) from a domain name
@@ -688,7 +712,7 @@
 	var removeWWWRegExp1 = /^([a-z]|[0-9]|-)+\.www?-?[0-9]*\./i;
 	var removeWWWRegExp2 = /^www?[a-z]?-?[0-9]*\./i;
 
-	this.removeWWW = function(aDomain) {
+	this.removeWWW = function (aDomain) {
 		if (!aDomain)
 			return '';
 		var temp = aDomain.replace(removeWWWRegExp1, '');
@@ -699,7 +723,7 @@
 	}
 	var getWWWRegExp1 = /^(([a-z]|[0-9]|-)+\.www?-?[0-9]*\.).*/i;
 	var getWWWRegExp2 = /^(www?[a-z]?-?[0-9]*\.).*/i;
-	this.getWWW = function(aDomain) {
+	this.getWWW = function (aDomain) {
 		if (!aDomain)
 			return '';
 		var temp = aDomain.replace(removeWWWRegExp1, '');
@@ -714,7 +738,7 @@
 		}
 	}
 	var decodeUTF8RecursiveRegExp = /% +/g;
-	this.getURLID = function(aURL) {
+	this.getURLID = function (aURL) {
 
 		var id = {}
 		id.uri = aURL;
@@ -789,16 +813,16 @@
 
 	//returns aURL in short mode, example http://domain.org/index.html will throw http://domain.org
 	var shortURLRegExp = /\/(index|default|home|main|)(\.[a-z]{2,4})\/?$/i;
-	this.shortURL = function(aURL) {
+	this.shortURL = function (aURL) {
 		return aURL.replace(shortURLRegExp, '/');
 	}
 
 	var shortURLAggresiveRegExp = /\/(index|default|home|main|cms|blog|weblog|forum|forums|site|wordpress|web|homepage|welcome|main_page|wp|joomla|bbs|vb|\#\!|\#|phpbb2|portal|public|new|old|start|www|intro|html)((_|-)?[0-9]{,2}\.[a-z]{2,4})?\/?\??$/i;
-	this.shortURLAggresive = function(aURL) {
+	this.shortURLAggresive = function (aURL) {
 		return aURL.replace(shortURLAggresiveRegExp, '/');
 	}
 	var removeHashRegExp = /#.*$/i
-	this.removeHash = function(aURL) {
+	this.removeHash = function (aURL) {
 		return aURL.replace(removeHashRegExp, '');
 	}
 

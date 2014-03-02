@@ -183,6 +183,12 @@
 				this.queue[this.queue.length] = [aURL, aFunction];
 				this.next();
 			},
+			done: function(aFunction, aData, aURL) {
+				ODPExtension.getIPFromDomainAsync(aData.subdomain, function(aIP){
+					aData.ip = aIP
+					aFunction(aData, aURL);
+				});
+			},
 			next: function() {
 				if (this.itemsNetworking < ODPExtension.preferenceGet('link.checker.threads')) {
 					var next = this.queue.shift();
@@ -329,7 +335,6 @@
 
 						aData.subdomain = ODPExtension.getSubdomainFromURL(aData.urlLast);
 						aData.domain = ODPExtension.getDomainFromURL(aData.urlLast);
-						aData.ip = ODPExtension.getIPFromDomain(aData.subdomain);
 
 						//links
 						aData.linksInternal = []
@@ -435,9 +440,11 @@
 						aData.dateEnd = ODPExtension.now();
 						if (debug)
 							ODPExtension.fileWrite('tito.txt', JSON.stringify(aData));
-						aFunction(aData, aURL)
 
-						aData = null;
+						oRedirectionAlert.done(aFunction, aData, aURL)
+						//aFunction(aData, aURL)
+
+						//aData = null;
 
 						oRedirectionAlert.next();
 
@@ -614,7 +621,6 @@
 
 						aData.subdomain = ODPExtension.getSubdomainFromURL(aData.urlLast);
 						aData.domain = ODPExtension.getDomainFromURL(aData.urlLast);
-						aData.ip = ODPExtension.getIPFromDomain(aData.subdomain);
 
 						ODPExtension.urlFlag(aData);
 						oRedirectionAlert.cache[aURL] = null;
@@ -623,9 +629,11 @@
 
 						if (debug)
 							ODPExtension.fileWrite('tito.txt', JSON.stringify(aData));
-						aFunction(aData, aURL)
 
-						aData = null;
+						oRedirectionAlert.done(aFunction, aData, aURL)
+						//aFunction(aData, aURL)
+
+						//aData = null;
 						oRedirectionAlert.next();
 						oRedirectionAlert.itemsDone++;
 						if (oRedirectionAlert.itemsDone == oRedirectionAlert.itemsWorking)

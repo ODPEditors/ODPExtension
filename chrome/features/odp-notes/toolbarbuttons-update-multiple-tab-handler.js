@@ -33,12 +33,21 @@
 		this.getElement('toolbarbutton-odp-url-notes-unreview').setAttribute('hidden', !showButtons);
 		this.getElement('toolbarbutton-odp-url-notes-delete').setAttribute('hidden', !showButtons);
 
-		this.getElement('toolbarbutton-odp-url-notes-notes').setAttribute('hidden', !showButtons);
-
 		this.getElement('toolbarbutton-odp-url-notes-move-publish').setAttribute('hidden', !showButtons);
 		this.getElement('toolbarbutton-odp-url-notes-move-unreview').setAttribute('hidden', !showButtons);
 		this.getElement('toolbarbutton-odp-url-notes-copy-publish').setAttribute('hidden', !showButtons);
 		this.getElement('toolbarbutton-odp-url-notes-copy-unreview').setAttribute('hidden', !showButtons);
+
+		this.getElement('toolbarbutton-odp-url-notes-update-label').setAttribute('hidden', !showButtons);
+		this.getElement('toolbarbutton-odp-url-notes-unreview-label').setAttribute('hidden', !showButtons);
+		this.getElement('toolbarbutton-odp-url-notes-delete-label').setAttribute('hidden', !showButtons);
+
+		this.getElement('toolbarbutton-odp-url-notes-move-publish-label').setAttribute('hidden', !showButtons);
+		this.getElement('toolbarbutton-odp-url-notes-move-unreview-label').setAttribute('hidden', !showButtons);
+		this.getElement('toolbarbutton-odp-url-notes-copy-publish-label').setAttribute('hidden', !showButtons);
+		this.getElement('toolbarbutton-odp-url-notes-copy-unreview-label').setAttribute('hidden', !showButtons);
+
+		this.getElement('toolbarbutton-odp-url-notes-notes').setAttribute('hidden', !showButtons);
 	}
 	return null;
 

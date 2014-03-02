@@ -25,63 +25,78 @@
 			tooltiptext="&ODPExtension.url.notes.action.delete;"
 			hidden="true"
 			class="plain urlbar-icon ODPExtension-toolbarbutton"
-			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_start');"
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event);"
 		/>
+		<label hidden="true" onclick="this.previousSibling.click()" onmouseover="ODPExtension.toolbarbuttonOpen(this.previousSibling, event);" id="ODPExtension-toolbarbutton-odp-url-notes-delete-label" value="Delete"/>
+
 		<image
 			id="ODPExtension-toolbarbutton-odp-url-notes-unreview"
 			tooltiptext="&ODPExtension.url.notes.action.unreview;"
 			hidden="true"
 			class="plain urlbar-icon ODPExtension-toolbarbutton"
-			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_start');"
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event);"
 		/>
+		<label hidden="true" onclick="this.previousSibling.click()" onmouseover="ODPExtension.toolbarbuttonOpen(this.previousSibling, event);" id="ODPExtension-toolbarbutton-odp-url-notes-unreview-label" value="Unreview"/>
+
 		<image
 			id="ODPExtension-toolbarbutton-odp-url-notes-update"
 			tooltiptext="&ODPExtension.url.notes.action.update;"
 			hidden="true"
 			class="plain urlbar-icon ODPExtension-toolbarbutton"
-			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_start');"
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event);"
 		/>
+		<label hidden="true" onclick="this.previousSibling.click()" onmouseover="ODPExtension.toolbarbuttonOpen(this.previousSibling, event);" id="ODPExtension-toolbarbutton-odp-url-notes-update-label" value="Publish"/>
+
+
 		<image
 			id="ODPExtension-toolbarbutton-odp-url-notes-move-publish"
 			tooltiptext="&ODPExtension.url.notes.move.to.category.publish;"
 			hidden="true"
 			class="plain urlbar-icon ODPExtension-toolbarbutton"
-			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_start');"
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event);"
 		/>
+		<label hidden="true" onclick="this.previousSibling.click()" onmouseover="ODPExtension.toolbarbuttonOpen(this.previousSibling, event);" id="ODPExtension-toolbarbutton-odp-url-notes-move-publish-label" value="Move P"/>
+
 		<image
 			id="ODPExtension-toolbarbutton-odp-url-notes-move-unreview"
 			tooltiptext="&ODPExtension.url.notes.move.to.category.unreview;"
 			hidden="true"
 			class="plain urlbar-icon ODPExtension-toolbarbutton"
-			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_start');"
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event);"
 		/>
+		<label hidden="true" onclick="this.previousSibling.click()" onmouseover="ODPExtension.toolbarbuttonOpen(this.previousSibling, event);" id="ODPExtension-toolbarbutton-odp-url-notes-move-unreview-label" value="Move U"/>
+
 		<image
 			id="ODPExtension-toolbarbutton-odp-url-notes-copy-publish"
 			tooltiptext="&ODPExtension.url.notes.copy.to.category.publish;"
 			hidden="true"
 			class="plain urlbar-icon ODPExtension-toolbarbutton"
-			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_start');"
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event);"
 		/>
+		<label hidden="true" onclick="this.previousSibling.click()" onmouseover="ODPExtension.toolbarbuttonOpen(this.previousSibling, event);" id="ODPExtension-toolbarbutton-odp-url-notes-copy-publish-label" value="Copy P"/>
+
 		<image
 			id="ODPExtension-toolbarbutton-odp-url-notes-copy-unreview"
 			tooltiptext="&ODPExtension.url.notes.copy.to.category.unreview;"
 			hidden="true"
 			class="plain urlbar-icon ODPExtension-toolbarbutton"
-			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_start');"
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event);"
 		/>
+		<label hidden="true" onclick="this.previousSibling.click()" onmouseover="ODPExtension.toolbarbuttonOpen(this.previousSibling, event);" id="ODPExtension-toolbarbutton-odp-url-notes-copy-unreview-label" value="Copy U"/>
+
 		<image
 			id="ODPExtension-toolbarbutton-odp-url-notes-notes"
 			tooltiptext="&ODPExtension.tab.url.notes;"
 			hidden="true"
 			class="plain urlbar-icon ODPExtension-toolbarbutton"
-			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_end');"
+			onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_start');"
 			onmouseover="ODPExtension.toolbarbuttonOpen(this, event);"
 		/>
 

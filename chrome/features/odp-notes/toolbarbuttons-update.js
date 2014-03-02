@@ -27,6 +27,15 @@
 			this.getElement('toolbarbutton-odp-url-notes-copy-publish').removeAttribute('hidden');
 			this.getElement('toolbarbutton-odp-url-notes-copy-unreview').removeAttribute('hidden');
 
+			this.getElement('toolbarbutton-odp-url-notes-update-label').removeAttribute('hidden');
+			this.getElement('toolbarbutton-odp-url-notes-unreview-label').removeAttribute('hidden');
+			this.getElement('toolbarbutton-odp-url-notes-delete-label').removeAttribute('hidden');
+
+			this.getElement('toolbarbutton-odp-url-notes-move-publish-label').removeAttribute('hidden');
+			this.getElement('toolbarbutton-odp-url-notes-move-unreview-label').removeAttribute('hidden');
+			this.getElement('toolbarbutton-odp-url-notes-copy-publish-label').removeAttribute('hidden');
+			this.getElement('toolbarbutton-odp-url-notes-copy-unreview-label').removeAttribute('hidden');
+
 			this.getElement('toolbarbutton-odp-url-notes-notes').removeAttribute('hidden');
 		} else {
 			this.getElement('toolbarbutton-odp-url-notes-update').setAttribute('hidden', true);
@@ -37,6 +46,15 @@
 			this.getElement('toolbarbutton-odp-url-notes-move-unreview').setAttribute('hidden', true);
 			this.getElement('toolbarbutton-odp-url-notes-copy-publish').setAttribute('hidden', true);
 			this.getElement('toolbarbutton-odp-url-notes-copy-unreview').setAttribute('hidden', true);
+
+			this.getElement('toolbarbutton-odp-url-notes-update-label').setAttribute('hidden', true);
+			this.getElement('toolbarbutton-odp-url-notes-unreview-label').setAttribute('hidden', true);
+			this.getElement('toolbarbutton-odp-url-notes-delete-label').setAttribute('hidden', true);
+
+			this.getElement('toolbarbutton-odp-url-notes-move-publish-label').setAttribute('hidden', true);
+			this.getElement('toolbarbutton-odp-url-notes-move-unreview-label').setAttribute('hidden', true);
+			this.getElement('toolbarbutton-odp-url-notes-copy-publish-label').setAttribute('hidden', true);
+			this.getElement('toolbarbutton-odp-url-notes-copy-unreview-label').setAttribute('hidden', true);
 
 			this.getElement('toolbarbutton-odp-url-notes-notes').setAttribute('hidden', true);
 		}

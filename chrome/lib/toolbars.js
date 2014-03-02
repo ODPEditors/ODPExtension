@@ -47,7 +47,7 @@
 					menupopup = this.getBrowserElement(toolbarButton.id+'-menupopup')
 					if (toolbarButton && menupopup && toolbarButton != aToolbarbutton && menupopup.state == 'open' ) {
 						menupopup.hidePopup();
-						this.getBrowserElement(aToolbarbutton.id+'-menupopup').openPopup(aToolbarbutton, 'after_end');
+						this.getBrowserElement(aToolbarbutton.id+'-menupopup').openPopup(aToolbarbutton, 'after_start');
 						break;
 					}
 				}

@@ -687,12 +687,12 @@
 			'encodings': ['ISO-8859-1', 'ISO-8859-2']
 		}
 	}
+
 	this.getLanguageFromCategory = function(aCategory) {
 		aCategory = aCategory
 			.replace(/^\/?Top\//, '')
 			.replace(/^\/+/, '')
 			.replace(/^Test\/World_Test\/World\/?/, '')
-			.replace(/^Test\/World\/?/, '')
 			.replace(/^Test\/World\/?/, '')
 			.replace(/^Test\/?/, '')
 			.replace(/^World\/?/, '')
@@ -705,6 +705,16 @@
 			return getLanguageFromCategoryData['English'];
 		else
 			return getLanguageFromCategoryData[aCategory];
+	}
+
+	this.getLanguageNameFromCategory = function(aCategory){
+		return (('English/'+aCategory)
+					.replace(/^English\/Kids_and_Teens\/International\//, '')
+					.replace(/^English\/World\//, '')
+					.replace(/^English\/Adult\/World\//, '')
+					.replace(/^English\/Test\/World_Test\/World\//, '')
+					.replace(/^English\/Test\/World\//, '')
+				).split('/')[0];
 	}
 
 	return null;

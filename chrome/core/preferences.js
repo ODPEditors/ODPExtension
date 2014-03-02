@@ -80,6 +80,7 @@
 		'ui.informative.panel.url',
 		'ui.informative.panel.title',
 		'ui.informative.panel.description',
+		'ui.informative.panel.urlbar',
 
 		//miscelanea - DONE
 		'ui.from.category.auto',

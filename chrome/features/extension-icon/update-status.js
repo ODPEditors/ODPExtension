@@ -1,21 +1,25 @@
-(function() {
+(function () {
 
 	//updates the icon of the extension
-	this.addListener('onLocationChangeNotDocumentLoad', function(aLocation) {
+	this.addListener('onLocationChangeNotDocumentLoad', function (aLocation) {
 		ODPExtension.extensionIconUpdateStatus();
 	});
 
-	var tooltip, extensionIcon;
-	this.addListener('userInterfaceLoad', function() {
-		tooltip = ODPExtension.getElement('extension-icon-tooltip-data');
-		extensionIcon = ODPExtension.getElement('extension-icon');
-	});
+	var tooltip, extensionIcon, urlbar
+		this.addListener('userInterfaceLoad', function () {
+			tooltip = ODPExtension.getElement('extension-icon-tooltip-data');
+			extensionIcon = ODPExtension.getElement('extension-icon');
+			urlbar = ODPExtension.getBrowserElement('urlbar');
+		});
 
 	//update the status of the icon
 
-	this.extensionIconUpdateStatus = function() {
+	this.extensionIconUpdateStatus = function () {
 		this.removeChilds(tooltip);
 		var label = this.create('label');
+
+		if (this.preferenceGet('ui.informative.panel.urlbar') && urlbar)
+			urlbar.setAttribute('odp', this.listingInformation);
 
 		if (!this.preferenceGet('enabled')) {
 			extensionIcon.setAttribute('status', 'disabled');
@@ -24,8 +28,10 @@
 			var status = 'nada';
 
 			if (this.cantLeakURL(this.focusedURL)) {
+
 				status = 'private';
 				label.setAttribute('value', this.getString('private.url'));
+
 			} else if (this.listingInformation != '') {
 				status = this.listingInformation;
 				if (status == 'error')
@@ -36,7 +42,9 @@
 					else
 						label.setAttribute('value', this.listingInformationURL);
 				}
+
 			} else {
+
 				if (this.focusedCategory != '')
 					label.setAttribute('value', this.categoryAbbreviate(this.focusedCategory));
 				else

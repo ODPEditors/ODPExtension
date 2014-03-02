@@ -38,6 +38,17 @@ related : the list of categories and other uris related to the focused site. Sit
 	border-left: #666666 solid 3px;
 	border-bottom: #666666 solid 2px;
 }
+
+#urlbar[odp="listed"]{
+	background-color: #669933;
+}
+#urlbar[odp="listed-domain-uri"]{
+	background-color: #626CAF;
+}
+#urlbar[odp="listed-other-uri"]{
+	background-color: #666666;
+}
+
 #ODPExtension-panel[listed="listed"] > #ODPExtension-panel-header {
 	border-bottom-color: #669933;
 }

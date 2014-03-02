@@ -352,7 +352,6 @@
 			this.getElement('panel').setAttribute('listed', this.listingInformation); //the border of the panel
 			this.getElement('panel-move').setAttribute('listed', this.listingInformation); //the color of the move button
 
-
 			if (this.preferenceGet('ui.informative.panel')) {
 				this.panelInformationBuildHeader(aSelected);
 				this.panelInformationBuildRelated(aSelected);

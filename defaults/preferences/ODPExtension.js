@@ -53,6 +53,7 @@
 		pref('extensions.ODPExtension.ui.informative.panel.description', true);
 		pref('extensions.ODPExtension.ui.informative.panel.categories.titles.urls', true);
 		pref('extensions.ODPExtension.ui.informative.panel.categories.align.left', false);
+		pref('extensions.ODPExtension.ui.informative.panel.urlbar', false);
 
 //PRIVACY - DONE
 

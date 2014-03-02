@@ -29,8 +29,9 @@ function entrySync(item){
 
 function entryClick(item, event){
 	item = $(item);
-	if(item.parents('.tools').length)
+	if($(event.originalTarget).parents('.tools').length)
 		return
+
 	var entry = entryGetItem(item)
 	lastSelectedData = entryGetData(item);
 	var lastSelectedIsSsame = false

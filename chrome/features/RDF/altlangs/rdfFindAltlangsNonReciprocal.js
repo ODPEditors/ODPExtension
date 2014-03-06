@@ -51,7 +51,7 @@
 
 					if (aComparator != String(altlangs)) {
 						if (!found) {
-							aData += '<div><div style="text-align:right;"><a href="javascript://"  onclick="$(this.parentNode.parentNode).find(\'.result\').show();">Show</a> - <a href="javascript://"  onclick="$(this.parentNode.parentNode).find(\'.result\').hide();">Hide</a> - <a  href="javascript://" onclick="$(this.parentNode.parentNode).find(\'.submit\').click();">Fix</a></div>';
+							aData += '<div><div style="text-align:right;"><a href="javascript://"  onclick="$(this.parentNode.parentNode).find(\'.result\').show();">Show</a> - <a href="javascript://"  onclick="$(this.parentNode.parentNode).find(\'.result\').hide();">Hide</a> - <a  href="javascript://" onclick="var a = 0; $(this.parentNode.parentNode).find(\'.submit\').each(function () { var item = $(this); setTimeout(function () { item.click(); }, a += 1600); });">Fix</a></div>';
 						}
 						found = true;
 
@@ -68,12 +68,12 @@
 							if (altlangsMix[id2] == altlangsMix[id])
 								continue;
 							if (this.inArray(altlangs, altlangsMix[id2])) {
-								oldCategories[oldCategories.length] = this.rdfGetCategoryFromCategoryID(altlangsMix[id2]).category;
+								oldCategories[oldCategories.length] = this.rdfGetCategoryFromCategoryID(altlangsMix[id2]).category.replace(/\/$/, '');
 								item += '\t<font color="green">';
 							} else
 								item += '\t<font color="red">';
 
-							newCategories[newCategories.length] = this.rdfGetCategoryFromCategoryID(altlangsMix[id2]).category;
+							newCategories[newCategories.length] = this.rdfGetCategoryFromCategoryID(altlangsMix[id2]).category.replace(/\/$/, '');
 
 							item += this.rdfGetCategoryFromCategoryID(altlangsMix[id2]).category;
 							item += '</font>';

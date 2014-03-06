@@ -19,6 +19,7 @@
 	<script src="altlangs/rdfFindAltlangsToHere.js" type="application/x-javascript"/>
 	<script src="altlangs/rdfFindAltlangsToHereToAny.js" type="application/x-javascript"/>
 	<script src="altlangs/rdfFindDescriptionsBrokenLinks.js" type="application/x-javascript"/>
+	<script src="altlangs/rdfFindSameLangAltlangs.js" type="application/x-javascript"/>
 	<script src="categories/rdfCategorySpellCheck.js" type="application/x-javascript"/>
 	<script src="categories/rdfFindCategoryDescription.js" type="application/x-javascript"/>
 	<script src="categories/rdfFindCategoryDescriptionEmpty.js" type="application/x-javascript"/>

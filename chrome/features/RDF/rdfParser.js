@@ -470,7 +470,8 @@
 
 						var aSite = getURLID(htmlSpecialCharsDecode(value.split('about="')[1].slice(0, -2)));
 
-						/*						aSite.subdomain_id = ODPExtension.getSubdomainFromURL(aSite.uri);
+						/*
+						aSite.subdomain_id = ODPExtension.getSubdomainFromURL(aSite.uri);
 						aSite.domain_id = ODPExtension.getDomainFromURL(aSite.uri);
 						aSite.schemaWWW = ODPExtension.getSchema(aSite.uri) + ODPExtension.getWWW(aSite.subdomain_id);
 						aSite.subdomain_id = ODPExtension.removeWWW(aSite.subdomain_id);

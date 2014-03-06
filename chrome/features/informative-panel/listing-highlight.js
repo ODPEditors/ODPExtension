@@ -1,18 +1,34 @@
-(function() {
+(function () {
 	//sets debuging on/off for this JavaScript file
 
 	var debugingThisFile = true;
 
 	var db, query_slice;
-	this.addListener('databaseReady', function() {
+	this.addListener('databaseReady', function () {
 
 		db = ODPExtension.rdfDatabaseOpen();
-		if (db.exists){
+		if (db.exists) {
 
 			var select = ' as sorting, u.id as site_id, u.uri as uri, u.title as title, u.description as description, c.category as category ';
 
 			var where_subdomain = ' h.host = :subdomain and h.id = u.subdomain_id and u.category_id = c.id ';
 			var where_domain = ' h.host = :domain and h.id = u.domain_id and  u.category_id = c.id ';
+
+			query_domain = db.query(' \
+									SELECT  \
+											0 ' + select + '   \
+										FROM  \
+											 hosts h, uris u, categories c \
+										where  \
+											' + where_domain + ' ')
+
+			query_subdomain = db.query(' \
+									SELECT  \
+											0 ' + select + '   \
+										FROM  \
+											 hosts h, uris u, categories c \
+										where  \
+											' + where_subdomain + ' ')
 
 			query_slice = db.query(' \
 			                       \
@@ -119,8 +135,7 @@
 
 	});
 
-
-	this.listingsHighlight = function() {
+	this.listingsHighlight = function () {
 
 		var progress = this.progress('link.highlight');
 		progress.reset();
@@ -134,7 +149,7 @@
 		}
 	}
 	//general blacklisting..
-	this.listingsHighlightItem = function(item, progress) {
+	this.listingsHighlightItem = function (item, progress) {
 		if (!item.href || this.isGarbage(item.href) || !this.canFollowURL(item.href, this.focusedURL))
 			return;
 
@@ -148,7 +163,7 @@
 		progress.add();
 		progress.progress();
 
-		this.runThreaded('link.highlight.', 1, function(onThreadDone) {
+		this.runThreaded('link.highlight.', 1, function (onThreadDone) {
 
 			item.style.setProperty('border', '1px solid green', 'important');
 			item.style.setProperty('padding', '2px', 'important');
@@ -160,8 +175,7 @@
 		});
 	}
 
-	this.listingsHighlightCheckDone = function(item, progress) {
-
+	this.listingsHighlightCheckDone = function (item, progress) {
 
 		if (!item)
 			return;
@@ -181,7 +195,6 @@
 		aLocationID.path_parent_folder = this.removeFileName2(aLocationID.path_no_file_name)
 		aLocationID.path_first_folder = this.removeFromTheFirstFolder2(aLocationID.path_parent_folder)
 
-
 		//query_slice.params('domain', aLocationID.domain);
 		query_slice.params('subdomain', aLocationID.subdomain);
 		query_slice.params('path', aLocationID.path);
@@ -191,7 +204,7 @@
 		query_slice.params('path_no_file_name', aLocationID.path_no_file_name + '*');
 		query_slice.params('path_parent_folder', aLocationID.path_parent_folder + '*');
 		query_slice.params('path_first_folder', aLocationID.path_first_folder + '*');
-		query_slice.execute(function(aData) {
+		query_slice.execute(function (aData) {
 
 			var responseURL = '',
 				responseCategory = '',
@@ -200,12 +213,12 @@
 				itemDomain = ODPExtension.getDomainFromURL(item.href);
 			var foundDomain = false;
 
-			for (var id =0;id < aData.length;id++) {
+			for (var id = 0; id < aData.length; id++) {
 
 				responseURL = aData[id].uri;
 				responseCategory = aData[id].category;
 
-				var tooltiptext = ODPExtension.categoryTitle(ODPExtension.categoryAbbreviate(responseCategory+'\n'+aData[id].uri+'\n'+aData[id].title+'\n'+aData[id].description))
+				var tooltiptext = ODPExtension.categoryTitle(ODPExtension.categoryAbbreviate(responseCategory + '\n' + aData[id].uri + '\n' + aData[id].title + '\n' + aData[id].description))
 
 				if (ODPExtension.decodeUTF8Recursive(ODPExtension.removeSchema(ODPExtension.shortURL(item.href).replace(/\/+$/, ''))).replace(/\/$/, '').toLowerCase() == ODPExtension.decodeUTF8Recursive(ODPExtension.removeSchema(ODPExtension.shortURL(responseURL).replace(/\/+$/, ''))).replace(/\/$/, '').toLowerCase()) {
 					item.style.setProperty('color', 'white', 'important');
@@ -245,11 +258,23 @@
 			progress.progress();
 		});
 
-
 	}
 
+	this.domainGetListings = function (aURL, aFunction) {
+		var aLocationID = this.getURLID(aURL);
+		query_domain.params('domain', aLocationID.domain);
+		query_domain.execute(function (aData) {
+			aFunction(aData)
+		});
+	}
 
-
+	this.subdomainGetListings = function (aURL, aFunction) {
+		var aLocationID = this.getURLID(aURL);
+		query_subdomain.params('subdomain', aLocationID.subdomain);
+		query_subdomain.execute(function (aData) {
+			aFunction(aData)
+		});
+	}
 
 	return null;
 

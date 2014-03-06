@@ -5,7 +5,11 @@ html, body{
 	overflow: hidden;
 	font: 1em sans-serif;
 }
-path, image, text{
+.click{
+	cursor:pointer;
+	text-decoration: underline;
+}
+path, image{
 	pointer-events: none;
 }
 path.link {

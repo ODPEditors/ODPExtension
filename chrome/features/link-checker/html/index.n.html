@@ -12,6 +12,10 @@
 /*
 	Based on http://bl.ocks.org/mbostock/1153292
 */
+var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+	.getService(Components.interfaces.nsIWindowMediator);
+var win = wm.getMostRecentWindow('navigator:browser');
+ODP = win.ODPExtension;
 
 var links = JSON.parse(decodeURIComponent(document.location.hash.replace(/^#/, '')));
 
@@ -95,7 +99,9 @@ var path = svg.append("svg:g").selectAll("path")
 node.append("text")
 			.attr("x", 19)
 			.attr("dy", ".35em")
+			.attr("class", "click")
 			.text(function(d) { return d.name; })
+			.on('click', function(d){ ODP.tabOpen('http://'+d.name); })
 
 var linkedByIndex = {};
 links.forEach(function(d) {

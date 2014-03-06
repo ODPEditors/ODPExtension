@@ -20,6 +20,9 @@
 
 		if (this.preferenceGet('ui.informative.panel.urlbar') && urlbar)
 			urlbar.setAttribute('odp', this.listingInformation);
+		else
+			urlbar.removeAttribute('odp');
+
 
 		if (!this.preferenceGet('enabled')) {
 			extensionIcon.setAttribute('status', 'disabled');

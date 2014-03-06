@@ -40,16 +40,16 @@ related : the list of categories and other uris related to the focused site. Sit
 }
 
 #urlbar[odp="listed"]{
-	background-color: #669933;
-	color:white;
+	background-color: #669933 !important;
+	color:white !important;
 }
 #urlbar[odp="listed-domain-uri"]{
-	background-color: #626CAF;
-	color:white;
+	background-color: #626CAF !important;
+	color:white !important;
 }
 #urlbar[odp="listed-other-uri"]{
-	background-color: #666666;
-	color:white;
+	background-color: #666666 !important;
+	color:white !important;
 }
 
 #ODPExtension-panel[listed="listed"] > #ODPExtension-panel-header {

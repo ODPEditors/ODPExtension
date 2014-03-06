@@ -88,6 +88,7 @@
 
 							<vbox flex="1">
 								<checkbox label="&ODPExtension.ui.from.category.auto;" id="ui.from.category.auto"/>
+								<checkbox label="Show listing information on urlbar (high contrast visual feedback)" id="ui.informative.panel.urlbar"/>
 							</vbox>
 
 						</groupbox>

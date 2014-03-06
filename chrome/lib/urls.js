@@ -100,6 +100,7 @@
 						aFunction(aRecord.getNextAddrAsString())
 						return null
 					}
+					aFunction('')
 				}
 			}, thread);
 
@@ -825,7 +826,19 @@
 	this.removeHash = function (aURL) {
 		return aURL.replace(removeHashRegExp, '');
 	}
+	this.getHashParamFromURL = function(aURL, aName){
+	  var searchString = String(aURL).replace(/^[^#]+#/, ''),
+	      i, val, params = searchString.split("&");
+	     // console.log(searchString);
 
+	  for (i=0;i<params.length;i++) {
+	    val = params[i].split("=");
+	    if (val[0] == aName) {
+	      return this.decodeUTF8(val[1].replace(/\+/g, ' '));
+	    }
+	  }
+	  return null;
+	}
 	return null;
 
 }).apply(ODPExtension);

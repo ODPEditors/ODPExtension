@@ -45,14 +45,14 @@
 		}
 
 		var structureU8 = [
-			'http://rdf.dmoz.org/rdf/ad-structure.rdf.u8.gz'
-			, 'http://rdf.dmoz.org/rdf/kt-structure.rdf.u8.gz'
+			 'http://rdf.dmoz.org/rdf/kt-structure.rdf.u8.gz'
 			, 'http://rdf.dmoz.org/rdf/structure.rdf.u8.gz'
+			,'http://rdf.dmoz.org/rdf/ad-structure.rdf.u8.gz'
 		]
 		var contentU8 = [
-			'http://rdf.dmoz.org/rdf/ad-content.rdf.u8.gz'
-			, 'http://rdf.dmoz.org/rdf/kt-content.rdf.u8.gz'
+			 'http://rdf.dmoz.org/rdf/kt-content.rdf.u8.gz'
 			, 'http://rdf.dmoz.org/rdf/content.rdf.u8.gz'
+			, 'http://rdf.dmoz.org/rdf/ad-content.rdf.u8.gz'
 		]
 		var aConnection = this.rdfDatabaseOpen();
 
@@ -82,7 +82,6 @@
 		aConnection.executeSimple('	CREATE TABLE `related`		( `id` INTEGER PRIMARY KEY NOT NULL, `to` INTEGER NOT NULL DEFAULT 0, `from` INTEGER NOT NULL DEFAULT 0)');
 		aConnection.executeSimple('	CREATE TABLE `altlang` 		( `id` INTEGER PRIMARY KEY NOT NULL, `to` INTEGER NOT NULL DEFAULT 0, `from` INTEGER NOT NULL DEFAULT 0)');
 		aConnection.executeSimple('	CREATE TABLE `link` 		( `id` INTEGER PRIMARY KEY NOT NULL, `to` INTEGER NOT NULL DEFAULT 0, `from` INTEGER NOT NULL DEFAULT 0, `name` TEXT NOT NULL DEFAULT "", `position` INTEGER NOT NULL DEFAULT 0)');
-		aConnection.executeSimple('	CREATE TABLE `newsgroup`	( `id` INTEGER PRIMARY KEY NOT NULL, `newsgroup` TEXT NOT NULL DEFAULT "", `category_id` INTEGER NOT NULL DEFAULT 0 )');
 		aConnection.executeSimple('	CREATE TABLE `hosts`		( `id` INTEGER PRIMARY KEY NOT NULL, `host` TEXT NOT NULL DEFAULT "")');
 		aConnection.executeSimple('	CREATE TABLE `uris`			( `id` INTEGER PRIMARY KEY NOT NULL, `schemaWWW` TEXT NOT NULL DEFAULT "", `subdomain_id` INTEGER NOT NULL DEFAULT 0, `domain_id` INTEGER NOT NULL DEFAULT 0, `uri` TEXT NOT NULL DEFAULT "", `path` TEXT NOT NULL DEFAULT "", `title` TEXT NOT NULL DEFAULT "", `description` TEXT NOT NULL DEFAULT "", `mediadate` DATE NOT NULL DEFAULT "", `pdf` INTEGER NOT NULL DEFAULT 0, `atom` INTEGER NOT NULL DEFAULT 0, `rss` INTEGER NOT NULL DEFAULT 0, `cool` INTEGER NOT NULL DEFAULT 0, `category_id` INTEGER NOT NULL DEFAULT 0)');
 
@@ -91,7 +90,6 @@
 		var insertRelated = aConnection.aConnection.createStatement('INSERT INTO `related` ( `to`, `from` ) VALUES ( :to, :from )')
 		var insertAltlang = aConnection.aConnection.createStatement('INSERT INTO `altlang` ( `to`, `from` ) VALUES ( :to, :from )')
 		var insertLink = aConnection.aConnection.createStatement('INSERT INTO `link` ( `to`, `from` , `name`, `position` ) VALUES ( :to, :from, :name, :position )')
-		var insertNewsgroup = aConnection.aConnection.createStatement('INSERT INTO `newsgroup` ( `newsgroup`, `category_id`) VALUES ( :newsgroup, :category_id )')
 		var insertHost = aConnection.aConnection.createStatement('INSERT INTO `hosts` ( `id`, `host`) VALUES ( :id, :host )')
 		var insertURI = aConnection.aConnection.createStatement('INSERT INTO `uris` ( `schemaWWW`, `subdomain_id`, `domain_id`, `uri`, `path`, `title`, `description`, `mediadate`, `pdf`, `atom`, `rss`, `cool`, `category_id`) VALUES (:schemaWWW, :subdomain_id, :domain_id, :uri, :path, :title, :description, :mediadate, :pdf, :atom, :rss, :cool, :category_id )')
 
@@ -237,7 +235,6 @@
 						aCategory.related = []
 						aCategory.altlang = []
 						aCategory.link = []
-						aCategory.newsgroup = []
 						i++;
 
 						for (; i < total; i++) {
@@ -289,11 +286,6 @@
 									insertLink.params['position'] = aCategory.link[a].position;
 									insertLink.execute();
 								}
-								for (var a = 0; a < aCategory.newsgroup.length; a++) {
-									insertNewsgroup.params['newsgroup'] = aCategory.newsgroup[a];
-									insertNewsgroup.params['category_id'] = aCategory.id;
-									insertNewsgroup.execute();
-								}
 
 								aTopic = '';
 								aCategory = {};
@@ -307,8 +299,6 @@
 								aCategory.description = htmlSpecialCharsDecode(stripTags(value));
 							else if (value.indexOf('<editor') === 0)
 								aCategory.editors[aCategory.editors.length] = value.replace(resourceValueRegExp, '$1');
-							else if (value.indexOf('<newsgroup') === 0)
-								aCategory.newsgroup[aCategory.newsgroup.length] = value.replace(resourceValueRegExp, '$1');
 							else if (value.indexOf('<related') === 0)
 								aCategory.related[aCategory.related.length] = ids[categorySanitize(value.replace(resourceValueRegExp, '$1'))] || this.onMissingCategory(categorySanitize(value.replace(resourceValueRegExp, '$1')));
 							else if (value.indexOf('<altlang') === 0) {
@@ -355,7 +345,6 @@
 					insertRelated.finalize();
 					insertAltlang.finalize();
 					insertLink.finalize();
-					insertNewsgroup.finalize();
 					ODPExtension.dump('Statements finalized...');
 
 					ODPExtension.gc();

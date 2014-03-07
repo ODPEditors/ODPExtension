@@ -328,6 +328,7 @@
 								ODPExtension.dump("Error: " + aError.message);
 							},
 							handleCompletion: function(aReason) {
+								query.reset();
 								aFunction(aData);
 							}
 						});
@@ -352,6 +353,7 @@
 								ODPExtension.dump("Error: " + aError.message);
 							},
 							handleCompletion: function(aReason) {
+								query.reset();
 								aFunction(aData);
 							}
 						});

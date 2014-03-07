@@ -39,8 +39,20 @@
 			  <xul:menuitem anonid="ODPExtension-from-category-paste" hidden="true" action="command_paste" label="&ODPExtension.from.category.paste;"/>
 			  <xul:menuitem anonid="ODPExtension-from-category-delete" hidden="true" action="command_delete" label="&ODPExtension.from.category.delete;"/>
 			  <xul:menuseparator/>
-			  <xul:menuitem action="edit_cat" label="&ODPExtension.from.category.edit;"/>
 			  <!-- <xul:menuitem action="tool_pub" label="Publish"/> -->
+			    <xul:menu action="edit_cat" label="&ODPExtension.from.category.edit;">
+				  	<xul:menupopup>
+				  		<xul:menuitem action="command_editor_produced_tool_Frog" label="Frog" style="font-weight:bold;"/>
+				  		<xul:menuseparator/>
+
+					  	  <xul:menuitem action="edit_cat_updates" label="&ODPExtension.from.category.updates;"/>
+					  	  <xul:menuitem action="edit_cat_greenbusts" label="&ODPExtension.from.category.greenbusts;"/>
+				  		<xul:menuseparator/>
+
+				  		<xul:menuitem action="edit_cat_kataslice_rev" disabled="true" label="KataSlice"/>
+				  		<xul:menuitem action="edit_cat_kataslice_rev_recursive" disabled="true" label="KataSlice (recursive)"/>
+				  	</xul:menupopup>
+			    </xul:menu>
 			    <xul:menu action="edit_cat_unreview" label="&ODPExtension.from.category.unreview;">
 			  	<xul:menupopup>
 			  		<xul:menuitem action="command_editor_produced_tool_Frog" label="Frog" style="font-weight:bold;"/>
@@ -59,7 +71,6 @@
 			  	  <xul:menuitem action="edit_cat_unreview_super_ip" label="&ODPExtension.from.category.super.sort.ip;"/>
 			  	  <xul:menuitem action="edit_cat_unreview_super_email" label="&ODPExtension.from.category.super.sort.email;"/>
 			  	  <xul:menuseparator/-->
-			  	  <xul:menuitem action="edit_cat_updates" label="&ODPExtension.from.category.updates;"/>
 			  	  <xul:menuitem action="edit_cat_greenbusts" label="&ODPExtension.from.category.greenbusts;"/>
 			  		<xul:menuseparator/>
 			  	  <xul:menuitem action="edit_cat_errors" label="&ODPExtension.from.category.errors;"/>
@@ -70,7 +81,8 @@
 			  		<xul:menuitem action="command_editor_produced_tool_PNF" label="PNF"/-->
 			  		<xul:menuseparator/>
 
-			  		<xul:menuitem action="edit_cat_kataslice_unrev" label="KataSlice"/>
+			  		<xul:menuitem action="edit_cat_kataslice_unrev" disabled="true" label="KataSlice"/>
+			  		<xul:menuitem action="edit_cat_kataslice_unrev_recursive" disabled="true" label="KataSlice (recursive)"/>
 			  	</xul:menupopup>
 			    </xul:menu>
 			    <xul:menuseparator/>
@@ -99,6 +111,8 @@
 					<xul:menuitem action="rdf_find_altlangs_subcategories_without_outgoing" label="Find categories without outgoing alternative languages"/>
 					<xul:menuitem action="rdf_find_altlangs_subcategories_without_incoming_with_outgoing" label="Find categories without incoming but with outgoing alternative languages"/>
 					<xul:menuitem action="rdf_find_altlangs_subcategories_without_outgoing_with_incoming" label="Find categories without outgoing but with incoming alternative languages"/>
+					<xul:menuseparator/>
+					<xul:menuitem action="rdf_find_altlangs_with_duplicates_to_the_same_language" label="Find altlangs with duplicates categories to the same language"/>
 				</xul:menupopup>
 			  </xul:menu>
 			  <xul:menu action="edit_cat_related" label="&ODPExtension.from.category.edit.related;">

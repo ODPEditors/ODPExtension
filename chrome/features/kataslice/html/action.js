@@ -1,11 +1,4 @@
-function action(type) {
-	//capturing event
-	setTimeout(function () {
-		_action(type)
-	}, 0)
-}
-
-function _action(type){
+function action(type){
 
 	var el = $(type);
 	var listType = el.parent().attr('type');
@@ -185,7 +178,7 @@ function _action(type){
 							aData.ip + ' | ' +
 							aData.language + ' | ' +
 							aData.checkType +
-							' | '+aData.urlLast)+' ] <span type="selection"><span class="click" onclick="action(this)" action="false-positive">false positive</span></small>'
+							'  ')+(aData.urlLast != aData.urlOriginal ? '<br>'+ODP.h(aData.urlOriginal) +'<br>'+ ODP.h(aData.urlLast)+'<br>' : '')+' ] <span type="selection"><span class="click" onclick="action(this)" action="false-positive">false positive</span></small>'
 					d.text += text
 
 					// redirect maybe be autofixed
@@ -193,6 +186,7 @@ function _action(type){
 						d.new_url = aData.urlLast
 						$(item[0]).find('.data .url').html(d.new_url);
 						item.classed('pending', true)
+						entryUpdatePendingCounter();
 					}
 					$(item[0]).find('.tools > .link-checker').html(text);
 

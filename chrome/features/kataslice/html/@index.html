@@ -141,8 +141,6 @@
 
 	<div class="tpl-list-item">
 		<div
-			onmouseover="entryMouseOver(this, event)"
-			onmouseout="entryMouseOut(this, event)"
 			onclick="entryClick(this, event)"
 			category="{category}"
 			class="child">
@@ -158,20 +156,24 @@
 						class="title"
 						spellcheck="false"
 						contenteditable="true"
-						onkeypress="return entryKeyPressCheckOpen(this, event)"
-						onkeyup="return entryKeyPressSync(this, event)"
-						onblur="return entryOnBlur(this, event)"
-						onfocus="return entryOnFocus(this, event)"
+
+						onkeypress="return entryKeyPress(this, event)"
+						onblur="entryOnBlurOnInput(this, event)"
+						oninput="entryOnBlurOnInput(this, event)"
+
+						onfocus="entryOnFocus(this, event)"
 						onmousedown="this.focus()"
 						onpaste="entryPaste(this, event)">{title}</span>
 					<div class="description-container"><span
 						class="description"
 						spellcheck="false"
 						contenteditable="true"
-						onkeypress="return entryKeyPressCheckOpen(this, event)"
-						onkeyup="return entryKeyPressSync(this, event)"
-						onblur="return entryOnBlur(this, event)"
-						onfocus="return entryOnFocus(this, event)"
+
+						onkeypress="return entryKeyPress(this, event)"
+						onblur="entryOnBlurOnInput(this, event)"
+						oninput="entryOnBlurOnInput(this, event)"
+
+						onfocus="entryOnFocus(this, event)"
 						onmousedown="this.focus()"
 						onpaste="entryPaste(this, event)">{description}</span></div>
 					<div class="clear"></div>
@@ -179,10 +181,12 @@
 						class="url"
 						spellcheck="false"
 						contenteditable="true"
-						onkeypress="return entryKeyPressCheckOpen(this, event)"
-						onkeyup="return entryKeyPressSync(this, event)"
-						onblur="return entryOnBlur(this, event)"
-						onfocus="return entryOnFocus(this, event)"
+
+						onkeypress="return entryKeyPress(this, event)"
+						onblur="entryOnBlurOnInput(this, event)"
+						oninput="entryOnBlurOnInput(this, event)"
+
+						onfocus="entryOnFocus(this, event)"
 						onmousedown="this.focus()"
 						onpaste="entryPaste(this, event)">{url}</span>
 					</div>
@@ -192,10 +196,12 @@
 							spellcheck="false"
 							spellcheckdisabled="true"
 							contenteditable="true"
-							onkeypress="return entryKeyPressCheckOpen(this, event)"
-							onkeyup="return entryKeyPressSync(this, event)"
-							onblur="return entryOnBlur(this, event)"
-							onfocus="return entryOnFocus(this, event)"
+
+							onkeypress="return entryKeyPress(this, event)"
+							onblur="entryOnBlurOnInput(this, event)"
+							oninput="entryOnBlurOnInput(this, event)"
+
+							onfocus="entryOnFocus(this, event)"
 							onmousedown="this.focus()"
 							onpaste="entryPaste(this, event)">{category}</span>
 					</div>
@@ -206,23 +212,23 @@
 				</div>
 			</div>
 			<div class="clear"></div>
+			<div class="toolbar" type="selection">[
+					<span class="click" onclick="action(this)" action="publish">publish</span> -
+					<span class="click" onclick="action(this)" action="unreview">unreview</span> |
+					<span class="click" onclick="action(this)" action="delete">delete</span> -
+					<span class="click" onclick="action(this)" action="MFA">MFA</span> -
+					<span class="click" onclick="action(this)" action="delete-duplicate">duplicate</span> -
+					<span class="click" onclick="action(this)" action="hijacked">hijacked</span> -
+					<span class="click" onclick="action(this)" action="gone">gone</span> |
+					<span class="click" onclick="action(this)" action="poor">poor</span> -
+					<span class="click" onclick="action(this)" action="no-content">no content</span> |
+					<span class="click" onclick="action(this)" action="notes">notes</span> -
+					<span class="click" onclick="action(this)" action="note">note</span> |
+					<span class="click" onclick="action(this)" action="edit">edit</span> |
+					<span class="click" onclick="action(this)" action="webarchive">webarchive</span> |
+					<input onkeyup="toolSearchEngine(this, event)" onclick="toolSearchEngine(this, event)" size="20" tabindex="99999999" value="{title}">
+				]</div>
 			<div class="tools">
-				<div class="toolbar" type="selection">[
-						<span class="click" onclick="action(this)" action="publish">publish</span> -
-						<span class="click" onclick="action(this)" action="unreview">unreview</span> |
-						<span class="click" onclick="action(this)" action="delete">delete</span> -
-						<span class="click" onclick="action(this)" action="MFA">MFA</span> -
-						<span class="click" onclick="action(this)" action="delete-duplicate">duplicate</span> -
-						<span class="click" onclick="action(this)" action="hijacked">hijacked</span> -
-						<span class="click" onclick="action(this)" action="gone">gone</span> |
-						<span class="click" onclick="action(this)" action="poor">poor</span> -
-						<span class="click" onclick="action(this)" action="no-content">no content</span> |
-						<span class="click" onclick="action(this)" action="notes">notes</span> -
-						<span class="click" onclick="action(this)" action="note">note</span> |
-						<span class="click" onclick="action(this)" action="edit">edit</span> |
-						<span class="click" onclick="action(this)" action="webarchive">webarchive</span> |
-						<input onkeyup="toolSearchEngine(this, event)" onclick="toolSearchEngine(this, event)" size="20" tabindex="99999999" value="{title}">
-					]</div>
 				<div class="link-checker"></div>
 				<div class="search-engine"></div>
 				<div class="listings"></div>

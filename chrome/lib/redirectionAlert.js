@@ -1087,18 +1087,34 @@
 			aData.status.suspicious.push('Unknown content type: ' + aData.contentType);
 		if (aData.hash != '' && this.urlFlagsHash.indexOf(aData.hash) != -1)
 			aData.status.suspicious.push('Document may has problems');
-		if (aData.hasFrameset > 0 && this.urlFlagsHashFrameset.indexOf(aData.hash) === -1 )
-			aData.status.suspicious.push('Document has a frameset');
+/*		if (aData.hasFrameset > 0 && this.urlFlagsHashFrameset.indexOf(aData.hash) === -1 )
+			aData.status.suspicious.push('Document has a frameset');*/
 		if (aData.intrusivePopups > 1)
 			aData.status.suspicious.push('Window may has problems');
 	}
+	var redirectionOKAutoFixTLD = /(\.(blogspot|wordpress))?(\.(com|net|org|edu|gov|gub|mil|int|arpa|aero|biz|coop|info|museum|name|co|ac|ne|asia|jobs|mobi|pro|tel|travel))?(\.(ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bl|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mf|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw))?$/i;
 
 	this.redirectionOKAutoFix = function(oldURL, newURL) {
 		if (oldURL == newURL)
 			return false;
 
-		oldURL = this.removeWWW(this.removeSchema(this.shortURLAggresive(oldURL))).replace(/\/+$/, '').toLowerCase().trim();
-		newURL = this.removeSchema(newURL).replace(/\/+$/, '').replace(/^www\./, '').toLowerCase().trim();
+		oldURL = this.removeWWW(this.removeSchema(this.shortURLAggresive(oldURL))).replace(/\/+$/, '').toLowerCase().replace(/-|_/g, '').trim();
+		newURL = this.removeSchema(newURL)
+								.replace(/\/+$/, '')
+								.replace(/^www\./, '') // if http://www.tld/ redirects to http://www9.tld/ shouldn't be corrected [we only remove the wwww]
+								.toLowerCase().replace(/-|_/g, '')
+								.trim();
+		if(newURL.indexOf('/') != -1)
+			newURL = newURL.replace(/\..{3,4}$/,'') // example when http://tld/folder/ redirects to http://tld/folder.htm
+
+		//remove tld, ttp://www.tld1/ redirects to http://www.tld2/ must be corrected
+		oldURL = oldURL.split('/')
+		oldURL[0] = oldURL[0].replace(redirectionOKAutoFixTLD, '')
+		oldURL = oldURL.join('/')
+
+		newURL = newURL.split('/')
+		newURL[0] = newURL[0].replace(redirectionOKAutoFixTLD, '')
+		newURL = newURL.join('/')
 
 		if (oldURL == newURL)
 			return true;

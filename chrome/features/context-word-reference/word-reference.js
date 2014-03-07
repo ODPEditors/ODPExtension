@@ -31,9 +31,9 @@
 				this.tabOpenCheckForBehavior(
 					this.URLToolsApply(
 					                   referenceURLs[id]
-					                   	.replace(/%3A{SELECTED_TEXT}/g, '%3A'+this.encodeUTF8(aString))
-					                   	.replace(/={SELECTED_TEXT}/g, '=' + this.encodeUTF8(aString))
-					                   	.replace(/{SELECTED_TEXT}/g, aString)
+					                   	.replace(/%3A\{SELECTED_TEXT\}/g, '%3A'+this.encodeUTF8(aString))
+					                   	.replace(/=\{SELECTED_TEXT\}/g, '=' + this.encodeUTF8(aString))
+					                   	.replace(/\{SELECTED_TEXT\}/g, aString)
 					),
 					aEvent,
 					'word.reference');

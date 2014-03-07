@@ -9,7 +9,7 @@
 		var aMsg = 'Description of "{CATEGORY}" ({RESULTS})'; //informative msg and title of document
 
 		//sql query
-		var aCategory = this.rdfGetCategoryFromCategoryPath(aCategory)
+		aCategory = this.rdfGetCategoryFromCategoryPath(aCategory)
 		var results = 0;
 		//searching
 		if (aCategory.description != '') {

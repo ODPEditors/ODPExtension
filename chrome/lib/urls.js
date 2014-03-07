@@ -392,7 +392,7 @@
 				}
 			} else {
 				// open a normal tab
-				if (inNewTab && this.documentFocusedGetLocation() != 'about:blank')
+				if (inNewTab && this.documentFocusedGetLocation().indexOf('about:') !== 0)
 					this.tabOpen(aURL, giveFocus, aPostData);
 				else
 					gBrowser.loadURIWithFlags(aURL, null, null, null, this.postData(aPostData))

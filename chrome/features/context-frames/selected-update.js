@@ -17,7 +17,7 @@
 		//update the visibility of "open frame in new tab"
 		if (gContextMenu && gContextMenu.inFrame) {
 			var framedURL = this.string(gContextMenu.target.ownerDocument.location.href);
-			if (framedURL != '' && framedURL != 'about:blank') {
+			if (framedURL != '' && framedURL.indexOf('about:') !== 0 ) {
 				menuitem.setAttribute('label', menuitem.getAttribute('original_label').replace('{URL}', this.decodeUTF8Recursive(this.getURLForLabel(framedURL))));
 				menuitem.setAttribute('tooltiptext', this.decodeUTF8Recursive(framedURL));
 				menuitem.setAttribute('hidden', false);

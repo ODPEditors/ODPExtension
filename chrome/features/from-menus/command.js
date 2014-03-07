@@ -14,9 +14,9 @@
 		else {
 			aCategories = this.fromCategorySelectedCategories;
 			/*if(aCategories[0].length == 0)
-					{
-						this.error("fromCategoryClickType 'multiple' expected 'single'.");
-					}*/
+			{
+				this.error("fromCategoryClickType 'multiple' expected 'single'.");
+			}*/
 		}
 
 		aCategories = this.arrayUnique(aCategories);
@@ -130,7 +130,10 @@
 			return;
 		}
 
-
+		if (aCommand == 'rdf_find_altlangs_with_duplicates_to_the_same_language'){
+			this.rdfFindSameLangAltlangs();
+			return
+		}
 
 		//required data
 
@@ -455,6 +458,7 @@
 				this.rdfFindAltlangsCategoriesWithoutOutgoing(aValue + '/');
 			else if (aCommand == 'rdf_find_altlangs_subcategories_without_incoming_with_outgoing')
 				this.rdfFindAltlangsCategoriesWithoutIncomingWithOutgoing(aValue + '/');
+
 			else if (aCommand == 'rdf_find_altlangs_subcategories_without_outgoing_with_incoming')
 				this.rdfFindAltlangsCategoriesWithoutOutgoingWithIncoming(aValue + '/');
 			else if (aCommand == 'rdf_find_altlangs_non_reciprocal')
@@ -586,7 +590,13 @@
 			else if (aCommand == 'search_find_subcategory')
 				this.categoryFinderQuery(searchFor, aValue);
 			 else if (aCommand == 'edit_cat_kataslice_unrev')
-				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#'+aValue, true);
+				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#rev=0&cat='+aValue, true);
+			 else if (aCommand == 'edit_cat_kataslice_rev')
+				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#rev=1&cat='+aValue, true);
+			 else if (aCommand == 'edit_cat_kataslice_unrev_recursive')
+				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#rev=0&recursive=1&cat='+aValue, true);
+			 else if (aCommand == 'edit_cat_kataslice_rev_recursive')
+				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#rev=1&recursive=1&cat='+aValue, true);
 			//else if(aCommand=='search_find_subcategory_called')
 			//this.categoryFinderQuery(aValue+'/.*?'+searchFor+'([^/]*)?$', null, aValue);
 			else if (aCommand == 'find_dmoz')

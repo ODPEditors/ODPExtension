@@ -1,4 +1,11 @@
 function action(type) {
+	//capturing event
+	setTimeout(function () {
+		_action(type)
+	}, 0)
+}
+
+function _action(type){
 
 	var el = $(type);
 	var listType = el.parent().attr('type');

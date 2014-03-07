@@ -13,12 +13,13 @@ addEventListener('load', function() {
 	addEventListener("hashchange", onCategoryChange, false);
 }, false);
 
-//sets aSites
-
 function onCategoryChange() {
 	aCategory = ODP.categoryGetFromURL(document.location.hash)
 
-	ODP.kataslice(aCategory, function(aData) {
+	var reviewed = ODP.getHashParamFromURL(document.location, 'rev') == '1'
+	var recursive = ODP.getHashParamFromURL(document.location, 'recursive') == '1'
+
+	ODP.kataslice(aCategory, reviewed, recursive, function(aData) {
 		aSites = aData
 		timer.stop('onCategoryChange');
 		timer.display();

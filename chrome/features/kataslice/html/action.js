@@ -109,6 +109,20 @@ function action(type) {
 				ODP.tabOpen(d.new_url || d.url, false, false, true)
 			});
 			break;
+		case 'listings': //open uri
+			items.each(function(d) {
+				var item = d3.select(this)
+				ODP.subdomainGetListings(d.new_url || d.url, function(aData){
+					var txt = ''
+					for(var id in aData){
+						txt += ODP.h(aData[id].category)+'<br>'
+						txt += ODP.h(aData[id].uri)+'<br>'
+						txt += '<hr>'
+					}
+					$(item[0]).find('.tools > .listings').html('<small>'+txt+'</small>');
+				})
+			});
+			break;
 		case 'edit': //open edit page
 			items.each(function(d) {
 				if (d.area == 'unrev')

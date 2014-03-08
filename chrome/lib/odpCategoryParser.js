@@ -235,6 +235,7 @@
 			return aSites
 		}
 		for (var id in elements) {
+
 			try {
 				var site = {}
 				site.site_id = elements[id].getElementsByTagName('a')[0].href.split('urlId=')[1].split('&')[0];
@@ -310,7 +311,7 @@
 				aSites[aSites.length] = site;
 			}
 			catch (e) {
-				throw e
+				this.error(e)
 			}
 		}
 		return aSites

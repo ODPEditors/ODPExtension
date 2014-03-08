@@ -20,7 +20,7 @@
 				,'<form id="parking_form" method="get" action="'
 				,'<form id="parking_form"'
 				,'<h2>Domain Parked'
-				,'adsense/domains/caf.js'
+				//,'adsense/domains/caf.js'
 				,'Enterprise DNS Service.'
 				,'display.cfm?domain='
 				,'"http://www.searchignited.com'
@@ -34,7 +34,7 @@
 				,'godaddy.com/parked'
 				,'google.ads.domains'
 				,'adnxs.com/'
-				,'google.com/adsense/domains/caf.js'
+				//,'google.com/adsense/domains/caf.js'
 				,'href="http://searchdiscovered.com'//src="http://searchdiscovered.com
 				,'href="http://searchresultsguide.com'
 				,'http://pagead2.googlesyndication.com/apps/domainpark/show_afd_ads.js'
@@ -162,6 +162,7 @@
 				,'<img src="/error/rcs/pxnada.gif" width="1" height="30">'
 				,'<title> No such site available </title>'
 				,'<title>Hometown Has Been Shutdown'
+				,'is marked private by its owner. If you were invited to view this site'
 				,'Blog dado de baja'
 				,'Dominio desactivado</font'
 				,'dominio se encuentra desactivado'
@@ -197,8 +198,19 @@
 			body:[''
 				,"<title>Página no encontrada</title>"
 				,"http://www.host.sk/404.php"
+				,'The requested resource is not found'
+				,'<p>HTTP Error 404'
+				,'<title>404 - Not found</title>'
+				,'<h1>Not found...</h1>'
+				,'Sorry, this content is no longer available.'
+				,'You have typed the web address incorrectly'
 				,'>Página no encontrada'
-				,'>404 - Page Not Found<'
+				,'La pàgina no existeix'
+				,'The page that you are looking for cannot be found.'
+				,'La page que vous avez demandée n\'existe pas'
+				,'<title>404 Not Found'
+				,'Aquesta pàgina no existeix'
+				,'404 - Page Not Found'
 				,'site you are looking for is not available'
 				,"The page you are looking for could not be found"
 				,'<h1>Sorry, this page is no longer available</h1>'
@@ -264,6 +276,7 @@
 				,'<title>Parallels H-'
 				,'<title>Test Page for Apache Installation</title>'
 				,'<title>Test Page for the Apache'
+				,'<title>Apache HTTP Server Test'
 				,'<title>Web hosting'
 				,'<title>Welcome to DiscountASP.NET Web Hosting</title>'
 				,'class="welcomeText">Domain Default page</p>'
@@ -310,6 +323,7 @@
 				,'<title>The domain '
 				,'Si Ud es el administrador del dominio'
 				,'Este sitio estara funcionando en breve'
+				,'<title>This domain is registered '
 				,'>Upload your website to get started'
 				,'Bienvenido al dominio '
 				,'Joomla! Community Portal</a> is now online'
@@ -317,6 +331,7 @@
 				,'no content has been uploaded'
 				,'this web site is now reserve'
 				,' Su dominio ya está en funcionamiento '
+				,'The web site has been archived, access to the control panel to restore it'
 				,'This web site has just been created'
 				,'This is the default index page of your website.'
 				,'This domain is not configured on this service.'
@@ -359,11 +374,15 @@
 			body:[''
 				,"<b>Fatal error</b>:  require_once("
 				,'(using password: YES)'
+				,'<a href=\'function.include\'>function.include</a>'
 				,'<b>Fatal error</b>:  Allowed memory size'
 				,'<b>Fatal error</b>:  Cannot redeclare'
+				,'Cannot modify header information - headers already sent by'
 				,'<b>Parse error</b>:  syntax error'
 				,'Database Error: Unable to connect'
 				,'header already sent.'
+				,'Unable to select database'
+				,'We were able to connect to the MySQL database server'
 
 				,'Microsoft OLE DB Provider for SQL Server'
 				,'[an error occurred while processing this directive]'
@@ -451,8 +470,13 @@
 				,"<title>Site under maintenance"
 				,"Estamos trabajando. Pronto estaremos de vuelta"
 				,"Pagina en mantenimiento"
+				,'Siti en mantenança'
 				,'está en construcción :)'
+				,'Diese Homepage wird derzeit gewartet'
+				,'sito in ricostruzione'
 				,'>Under Maintenance<'
+				,'site been down for the maintenance purpose'
+				,'The site is under Maintenance'
 				,'<title ID=titletext>En construcción</title>'
 				,'<title>Cette page est en construction</title>'
 				,'<title>Sitio fuera de línea'
@@ -493,6 +517,9 @@
 				,'we\'re currently undergoing maintenanc'
 				,' actualmente nuestro sitio web está bajo mantenimiento'
 				,'ration de maintenance afin de vous fournir une meilleure exp'
+				,'may be temporarily unavailable, moved'
+				,'being setup or not available at this moment'
+				,'The site you are trying to view is either'
 			],
 			hash:[''
 				, 'c8badc7e23f3e90ca3aa35a34f2c926a'
@@ -538,10 +565,13 @@
 				,'suspended.page/">here'
 				,'>The requested domain name has been suspended'
 				,'suspendida por razones de seguridad</title>'
+				,'If you are the site owner, please'
 				,'This account has been suspended</title>'
 				,'/suspended.page/'
 				,'Suspendido, póngase en contacto con administración'
 				,'<title>Suspended Domain</title>'
+				,'<title>Dominio temporalmente inactivo</title>'
+				,'Dominio desactivado'
 				,'This account has been suspended'
 			],
 			hash:[''
@@ -583,7 +613,6 @@
 				,'<html lang="ja"'
 				,'<title>"Domain-Name.bz"'
 				,'Below are sponsored listings for goods and services related to'
-				,'buy phentermine'
 				,'class="resMain"><h2>Sponsored listings for'
 				,'Disclaimer: Domain owner maintains no relationship with third party advertisers'
 				,'hosting24.com/count.php"><'
@@ -592,6 +621,24 @@
 				,'iframe src="http://cw.gabbly.com/'
 				,'star-domain.jp/'
 				,'traffic.ddc.com'
+			],
+			hash:[''
+				, ''
+			]
+		}
+
+		, dirty: {
+			errorCode: -8,
+			errorCodeApplyOnOKOnly: false,
+			errorString: 'Dirty',
+			errorStringUserFriendly: 'Dirty',
+			canDelete: false,
+			canUnreview: true,
+			body:[''
+				,'viagra'
+				,'phentermine'
+				,'porn'
+				,'casino'
 			],
 			hash:[''
 				, ''
@@ -714,6 +761,7 @@
 		, '672c1d7ce1578935eaa4c2f29aae9186'
 		, 'f17350088611962e835fa6a04446890f'
 		, '677b9a65d4e97b563930227d4f9accc3'
+		,'af52f7695d3f5610fda87fc410f555cb'
 	]
 
 	this.urlFlagsHashFlash = [''

@@ -424,6 +424,8 @@
 						aData.txt = ODPExtension.htmlSpecialCharsDecode(ODPExtension.stripTags(aDoc, ' ').replace(/[\t| ]+/g, ' ').replace(/\n\s+/g, '\n').replace(/\s+\n/g, '\n').trim());
 						aData.language = ODPExtension.detectLanguage(aData.txt);
 						aData.wordCount = aData.txt.split(' ').length
+						if(aData.wordCount < 3 && aData.txt.length > 100)
+							aData.wordCount = aData.txt.length
 
 						ODPExtension.disableTabFeatures(ODPExtension.windowGetFromTab(aTab), aTab, aData)
 						ODPExtension.urlFlag(aData);
@@ -653,7 +655,12 @@
 				} else {
 					Requester.setRequestHeader('Referer', 'https://www.google.com/search?q=' + ODPExtension.encodeUTF8(aURL));
 				}
-				Requester.send(null);
+				try{
+					Requester.send(null);
+				}catch(e){
+					//NS_ERROR_NO_CONTENT:
+					Requester.onerror('ABORTED');
+				}
 				//in some situations, timeout is maybe ignored, but neither onload, onerror nor onabort are called
 				timer = setTimeout(function() {
 					if (!loaded) {
@@ -778,7 +785,7 @@
 		var events = ['beforeunload', 'unbeforeunload']
 		var noop = function(){}
 		var yesop = function(){ return true; }
-		var empty = function(){ return 'something'; }
+		var notempty = function(){ return 'something'; }
 
 		this.disableTabFeaturesCounter(aWindow.onbeforeunload, aData);
 		this.disableTabFeaturesCounter(aWindow.beforeunload, aData);
@@ -799,7 +806,7 @@
 		}
 
 		aWindow.wrappedJSObject.alert = aWindow.wrappedJSObject.focus = aWindow.alert = aWindow.wrappedJSObject.onbeforeunload = aWindow.wrappedJSObject.beforeunload = aWindow.onbeforeunload = aWindow.beforeunload = aWindow.focus = noop
-		aWindow.wrappedJSObject.prompt = aWindow.prompt = empty
+		aWindow.wrappedJSObject.prompt = aWindow.prompt = notempty
 		aWindow.wrappedJSObject.confirm =  aWindow.confirm = yesop
 
 		this.foreachFrame(aWindow.wrappedJSObject, function(aDoc) {
@@ -821,7 +828,7 @@
 			ODPExtension.disableTabFeaturesCounter(aWin.beforeunload, aData);
 
 			aWin.alert = aWin.onbeforeunload = aWin.beforeunload = aWin.focus = noop;
-			aWin.prompt = empty
+			aWin.prompt = notempty
 			aWin.confirm = yesop
 		});
 	}
@@ -952,7 +959,10 @@
 
 			//-8 	Tiny Page
 		} else if (false  //nothing
-		  || (aData.wordCount < 20
+		  || (
+		      	aData.checkType != 'Attachment'
+		      	&&  aData.wordCount < 20
+		      	&&  !aData.hasFrameset
 				&&  (
  		      		aData.mediaCount.length < 1
  		      		|| ( aData.linksExternal.length + aData.linksInternal.length ) < 1)
@@ -1044,6 +1054,8 @@
 
 				, 'comingSoon'
 				, 'suspended'
+
+				, 'dirty'
 		]
 
 		var externalContent = []

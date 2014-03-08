@@ -216,6 +216,9 @@ body[loading="true"] .totals{
 		border-left: 3px solid transparent;
 		border-right:6px solid transparent;
 
+		border-top: 1px solid transparent;
+		border-bottom: 1px solid rgb(238, 238, 238);
+
 	}
 	.item.hidden,
 	.item.filtered,
@@ -271,6 +274,8 @@ body[loading="true"] .totals{
 	.item.selected {
 		background-color: rgb(246, 246, 239);
 		border-left: 3px solid black;
+		border-bottom: 1px solid rgba(0,0,0, .7);
+		border-top: 1px solid rgba(0,0,0, .7);
 	}
 	.item.pending {
 		border-left: 3px solid #669933 !important;

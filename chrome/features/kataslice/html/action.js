@@ -159,6 +159,22 @@ function action(type){
 				ODP.fileWrite('link-checker-false-positives.txt', ODP.fileRead('link-checker-false-positives.txt')+'\n'+(temp.join('\n')) )
 
 			break;
+		case 'webarchive':
+			items.each(function(d) {
+				ODP.tabOpen('http://web.archive.org/'+(d.new_url || d.url));
+			});
+			break
+		case 'link-check-dump': //link checked
+
+			var oRedirectionAlert = ODP.redirectionAlert();
+
+			items.each(function(d) {
+				var item = d3.select(this)
+				oRedirectionAlert.check(d.url, function(aData, aURL) {
+					ODP.dump(aData)
+				});
+			});
+			break
 		case 'link-check': //link checked
 
 			var oRedirectionAlert = ODP.redirectionAlert();

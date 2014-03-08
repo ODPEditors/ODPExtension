@@ -37,7 +37,7 @@
 
 			query_domain_count = db.query(' select count(u.id) from uris u, hosts h where h.host = :domain and h.id = u.domain_id');
 			query_domain_select = db.query(' select 1 ' + select + ' from  hosts h, uris u, categories c where ' + where_domain);
-			db.aConnection.executeSimpleSQL('create temporary table uris_temp as select * from uris limit 1 ');
+			db.aConnection.executeSimpleSQL('create temporary table uris_temp_'+ODPExtension.windowID+' as select * from uris limit 1 ');
 
 			query_slice = db.query(' \
 			                       \
@@ -47,7 +47,7 @@
 									SELECT  \
 											0 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp u, categories c \
+											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
 										where  \
 											' + where_subdomain + ' and \
 											 u.path = :path \
@@ -56,7 +56,7 @@
 										select * from(SELECT  \
 											1 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp u, categories c \
+											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
 										where  \
 											' + where_subdomain + ' and \
 											 u.path = "" limit 2 ) \
@@ -64,7 +64,7 @@
 										select * from(SELECT  \
 											1 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp u, categories c \
+											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
 										where  \
 											' + where_domain + ' and \
 											 u.path = "" limit 2 ) \
@@ -73,7 +73,7 @@
 										SELECT  \
 											2 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp u, categories c \
+											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
 										where  \
 											' + where_subdomain + ' and \
 											u.path GLOB :path_glob \
@@ -82,7 +82,7 @@
 										SELECT  \
 											3 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp u, categories c \
+											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
 										where  \
 											' + where_subdomain + ' and \
 											u.path GLOB :path_no_hash \
@@ -91,7 +91,7 @@
 										SELECT  \
 											3 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp u, categories c \
+											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
 										where  \
 											' + where_subdomain + ' and \
 											u.path GLOB :path_no_vars \
@@ -100,7 +100,7 @@
 										SELECT  \
 											4 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp u, categories c \
+											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
 										where  \
 											' + where_subdomain + ' and \
 											u.path GLOB :path_no_file_name \
@@ -110,7 +110,7 @@
 										SELECT  \
 											 5 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp u, categories c \
+											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
 										where  \
 											' + where_subdomain + ' and \
 											u.path GLOB :path_parent_folder \
@@ -120,7 +120,7 @@
 										SELECT  \
 											6 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp u, categories c \
+											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
 										where  \
 											' + where_subdomain + ' and \
 											u.path GLOB :path_first_folder \
@@ -130,7 +130,7 @@
 										SELECT  \
 											7 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp u, categories c \
+											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
 										where  \
 											' + where_subdomain + ' and u.path = "" \
 									\
@@ -139,7 +139,7 @@
 										SELECT  \
 											8 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp u, categories c \
+											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
 										where  \
 											' + where_subdomain + ' \
 									\
@@ -148,7 +148,7 @@
 										SELECT  \
 											9 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp u, categories c \
+											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
 										where  \
 											' + where_domain + ' and u.path = "" \
 									\
@@ -159,7 +159,7 @@
 										SELECT  \
 											10 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp u, categories c \
+											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
 										where  \
 											' + where_domain + ' and h.id != u.subdomain_id and path = "" \
 									\
@@ -168,7 +168,7 @@
 										SELECT  \
 											11 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp u, categories c \
+											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
 										where  \
 											' + where_domain + ' and h.id != u.subdomain_id \
 									\
@@ -177,7 +177,7 @@
 										SELECT  \
 											12 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp u, categories c \
+											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
 										where  \
 											' + where_domain + ' \
 									group by site_id  order by sorting asc LIMIT 200 \
@@ -262,8 +262,8 @@
 							ODPExtension.listingGetInformationLoaded(aData, aLocation, aLocationID);
 						});
 					} else {
-						db.aConnection.executeSimpleSQL('drop table uris_temp ');
-						db.aConnection.executeSimpleSQL('create temporary table uris_temp as select u.* from uris u, hosts h where h.host = "'+aLocationID.domain+'" and u.domain_id = h.id ');
+						db.aConnection.executeSimpleSQL('drop table uris_temp_'+ODPExtension.windowID+' ');
+						db.aConnection.executeSimpleSQL('create temporary table uris_temp_'+ODPExtension.windowID+' as select u.* from uris u, hosts h where h.host = "'+aLocationID.domain+'" and u.domain_id = h.id ');
 
 						query_slice.params('domain', aLocationID.domain);
 						query_slice.params('subdomain', aLocationID.subdomain);

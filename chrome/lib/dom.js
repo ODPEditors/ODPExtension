@@ -153,7 +153,11 @@
 
 		var tBox = document.commandDispatcher.focusedElement;
 
-		if ((this.tagName(tBox) == 'input' && (!tBox.hasAttribute('type') || tBox.getAttribute('type') == 'text')) || this.tagName(tBox) == 'textarea')
+		if (
+		    	(this.tagName(tBox) == 'input' && (!tBox.hasAttribute('type') || tBox.getAttribute('type') == 'text'))
+		    	|| this.tagName(tBox) == 'textarea'
+		    	|| tBox.hasAttribute('contenteditable')
+		)
 			return true;
 		else
 			return false;

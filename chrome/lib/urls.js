@@ -818,7 +818,7 @@
 		return aURL.replace(shortURLRegExp, '/');
 	}
 
-	var shortURLAggresiveRegExp = /\/(index|default|home|main|cms|blog|weblog|forum|forums|site|wordpress|web|homepage|welcome|main_page|wp|joomla|bbs|vb|\#\!|\#|phpbb2|portal|public|new|old|start|www|intro|html)((_|-)?[0-9]{,2}\.[a-z]{2,4})?\/?\??$/i;
+	var shortURLAggresiveRegExp = /\/(index|default|home|main|cms|blog|weblog|forum|forums|site|wordpress|web|homepage|welcome|main_page|wp|joomla|bbs|vb|\#\!|\#|phpbb2|portal|public|new|old|start|www|intro|html|php|php3|php4|php5)((_|-)?[0-9]{,2}\.[a-z]{2,4})?\/?\??$/i;
 	this.shortURLAggresive = function (aURL) {
 		return aURL.replace(shortURLAggresiveRegExp, '/');
 	}

@@ -952,8 +952,11 @@
 
 			//-8 	Tiny Page
 		} else if (false  //nothing
-		  || (aData.wordCount < 3 && aData.mediaCount.length < 1) // few words, no media content
-
+		  || (aData.wordCount < 20
+				&&  (
+ 		      		aData.mediaCount.length < 1
+ 		      		|| ( aData.linksExternal.length + aData.linksInternal.length ) < 1)
+ 		      	) // few words, no media content
 		) {
 			aData.status.code = -8;
 			aData.statuses.push(aData.status.code);
@@ -1047,14 +1050,14 @@
 		for (var id in aData.externalContent)
 			externalContent[externalContent.length] = aData.externalContent[id].url;
 		aData.ids = this.arrayUnique(this.arrayMix(aData.ids, (externalContent.join('\n')).match(/(pub|ua)-[^"'&\s]+/gmi) || []))
-		var data = (aData.urlRedirections.join('\n') + '\n' + externalContent.join('\n') + '\n' + aData.headers + '\n' + aData.html).toLowerCase();
+		var data = (aData.urlRedirections.join('\n') + '\n' + externalContent.join('\n') + '\n' + aData.headers + '\n' + aData.html).toLowerCase().replace(/\s+/g, ' ');
 		var breaky = false;
 		for (var name in array) {
 			if (array[name] != '') {
 
 				//bodyMatch
 				for (var id in this['urlFlags'][array[name]]['body']) {
-					string = this['urlFlags'][array[name]]['body'][id].trim();
+					string = this['urlFlags'][array[name]]['body'][id].replace(/\s+/g, ' ').trim();
 					if ( (string != '' && (data.indexOf(string.toLowerCase().trim()) != -1)) || (aData.hash != '' && this['urlFlags'][array[name]]['hash'].indexOf(aData.hash) != -1)) {
 						aData.status.error = true;
 

@@ -12,16 +12,19 @@
 		});
 
 	var database = false;
-	var insert, query;
+	var insert, query_inclusive, query_exclusive;
 
 	this.addListener('IPResolved', function (aDomain, aData) {
-		ODPExtension.showIPDatabaseInsertIp(aDomain, aData);
+		if (ODPExtension.preferenceGet('me'))
+			ODPExtension.showIPDatabaseInsertID(aData, ODPExtension.removeWWW(aDomain));
 	});
 	this.addListener('databaseCreate', function () {
-		ODPExtension.showIPDatabaseCreateTable();
+		if (ODPExtension.preferenceGet('me'))
+			ODPExtension.showIPDatabaseCreateTable();
 	});
 	this.addListener('databaseReady', function () {
-		ODPExtension.showIPDatabaseStatements();
+		if (ODPExtension.preferenceGet('me'))
+			ODPExtension.showIPDatabaseStatements();
 	});
 
 	//updates show or hide the ODP URL Notes toolbarbuttons
@@ -33,16 +36,51 @@
 			label.setAttribute('hidden', true)
 	});
 
+	this.addListener('DOMContentLoadedNoFrames', function (aDoc) {
+		ODPExtension.showIPOnDocumentLoaded(aDoc, []);
+	});
+
+	this.addListener('DOMContentLinkChecked', function (aDoc, aIDs) {
+		ODPExtension.showIPOnDocumentLoaded(aDoc, aIDs);
+	});
+
+	this.showIPOnDocumentLoaded = function (aDoc, aIDs) {
+		if (this.preferenceGet('me') && aDoc.defaultView) {
+			var ids = []
+			for (var id in aIDs)
+				ids[ids.length] = aIDs[id]
+
+			ids = this.documentGetIDs(aDoc, ids);
+
+			if (ids.length) {
+				var aDomain = this.getSubdomainFromURL(this.documentGetLocation(aDoc))
+				var aDomainNOWWW = this.removeWWW(aDomain)
+				for (var id in ids) {
+					this.showIPDatabaseInsertID(aDomainNOWWW, ids[id])
+					this.showIPDatabaseInsertID(ids[id], aDomainNOWWW)
+				}
+				if ( !! cache[aDomain]) {
+					this.showIPDatabaseInsertID(cache[aDomain], aDomainNOWWW)
+				} else {
+					this.getIPFromDomainAsync(aDomain, function (aData) {
+						ODPExtension.showIPDatabaseInsertID(aData, aDomainNOWWW)
+						cache[aDomain] = aData
+					});
+				}
+			}
+		}
+	}
 	//hides or shows the toolbatbuttons (update,unreview,delete,options) when the user hits the edit url form
 
 	this.showIPUpdateLabel = function (aLocation) {
 
-		var aSubdomain = this.getSubdomainFromURL(aLocation)
-		if ( !! cache[aSubdomain])
-			label.setAttribute('value', cache[aSubdomain])
+		var aDomain = this.getSubdomainFromURL(aLocation)
+
+		if ( !! cache[aDomain])
+			label.setAttribute('value', cache[aDomain])
 		else {
-			this.getIPFromDomainAsync(aSubdomain, function (aData) {
-				cache[aSubdomain] = aData
+			this.getIPFromDomainAsync(aDomain, function (aData) {
+				cache[aDomain] = aData
 				if (aLocation == ODPExtension.focusedURL) {
 					label.setAttribute('value', aData);
 				}
@@ -51,83 +89,141 @@
 	}
 
 	this.showIPUpdateMenu = function (aEvent) {
-		//empty the menu
-		this.removeChilds(menupopup);
+		if (ODPExtension.preferenceGet('me')) {
 
-		var ip = label.getAttribute('value')
-		query.params('ip', ip)
-		var row;
-		while (row = database.fetchObjects(query)) {
+			this.removeChilds(menupopup);
+			var row, row2, items = [], added = 0;
+			var aDomain = this.removeWWW(this.getSubdomainFromURL(this.documentFocusedGetLocation()))
 
-			var add = this.create("menuitem");
-			add.setAttribute('class', 'menuitem-iconic');
-			add.setAttribute("label", row.domain);
-			add.setAttribute("value", 'http://'+row.domain);
-			menupopup.appendChild(add);
+			//On Same IP
+			var ip = label.getAttribute('value')
+			query_exclusive.params('name', ip)
+			query_exclusive.params('value', aDomain)
+			while (row = database.fetchObjects(query_exclusive)) {
+				var add = this.create("menuitem");
+				add.setAttribute('class', 'menuitem-iconic');
+				add.setAttribute("label", row.value);
+				add.setAttribute("value", 'http://' + row.value);
+				items[items.length] = add
+				added++;
+			}
+			if (items.length) {
+				menupopup.appendChild(this.create("menuseparator"));
+				var add = this.create("menuitem");
+				add.setAttribute('class', 'menuitem-iconic');
+				add.setAttribute("label", 'On Same IP');
+				add.setAttribute("disabled", true);
+				menupopup.appendChild(add);
+				for (var id in items) {
+					menupopup.appendChild(items[id]);
+				}
+			}
+
+			items = []
+
+			//with same id
+			var ids = this.documentGetIDs(this.documentGetFocused())
+			query_inclusive.params('name', aDomain)
+			while (row = database.fetchObjects(query_inclusive))
+				ids[ids.length] = row.value
+			ids = this.normalizeIDs(ids);
+			for (var id in ids) {
+				query_exclusive.params('name', ids[id])
+				query_exclusive.params('value', aDomain)
+				while (row = database.fetchObjects(query_exclusive)) {
+					var add = this.create("menuitem");
+					add.setAttribute('class', 'menuitem-iconic');
+					add.setAttribute("label", row.name + ' ' + row.value);
+					add.setAttribute("value", 'http://' + row.value);
+					items[items.length] = add
+					added++;
+				}
+			}
+			if (items.length) {
+				menupopup.appendChild(this.create("menuseparator"));
+				var add = this.create("menuitem");
+				add.setAttribute('class', 'menuitem-iconic');
+				add.setAttribute("label", 'On Same ID');
+				add.setAttribute("disabled", true);
+				menupopup.appendChild(add);
+				for (var id in items)
+					menupopup.appendChild(items[id]);
+			}
+
+			if (added) {
+				//open all
+				menupopup.appendChild(this.create("menuseparator"));
+				var add = this.create("menuitem");
+				add.setAttribute('class', 'menuitem-iconic');
+				add.setAttribute("label", 'Open All in Tabs');
+				add.setAttribute("oncommand", 'ODPExtension.showIPMenuOpenAll()');
+				menupopup.appendChild(add);
+			}
 		}
-		menupopup.appendChild(this.create("menuseparator"));
-
-		var add = this.create("menuitem");
-		add.setAttribute('class', 'menuitem-iconic');
-		add.setAttribute("label", 'Open All in Tabs');
-		add.setAttribute("oncommand", 'ODPExtension.showIPMenuOpenAll()');
-		menupopup.appendChild(add);
 
 	}
-	this.showIPMenuOpenAll = function(){
-		for(var a=0;a<menupopup.childNodes.length;a++){
+	this.showIPMenuOpenAll = function () {
+		var items = []
+		for (var a = 0; a < menupopup.childNodes.length; a++) {
 			var item = menupopup.childNodes[a]
-			if(item.hasAttribute('locked') || item.getAttribute('value').indexOf('http') !== 0)
+			if (item.hasAttribute('locked') || item.getAttribute('value').indexOf('http') !== 0)
 				continue
-			this.tabOpen(item.getAttribute('value'), false, false, false)
+			items[items.length] = item.getAttribute('value')
 		}
+		items = this.arrayUnique(items);
+		for(var id in items)
+			this.tabOpen(items[id], false, false, false)
 	}
 
 	this.showIPDatabaseOpen = function () {
-		if (!database) {
-			database = this.databaseGet('IPs');
+		if (!database && ODPExtension.preferenceGet('me')) {
+			database = this.databaseGet('IDs');
 			database.executeSimple('PRAGMA temp_store = 2');
 			database.executeSimple('PRAGMA journal_mode = memory');
 		}
 		return database;
 	}
 	this.showIPDatabaseClose = function () {
-		if (database) {
+		if (database && ODPExtension.preferenceGet('me')) {
 			database.close();
 			database = false;
 		}
 	}
-	this.showIPDatabaseInsertIp = function (aDomain, aIP) {
-		insert.params('ip', aIP);
-		insert.params('domain', aDomain);
+	this.showIPDatabaseInsertID = function (aName, aValue) {
+		if (ODPExtension.preferenceGet('me')) {
+			insert.params('name', aName);
+			insert.params('value', aValue);
 
-		database.insertAsync(insert, true);
+			database.insertAsync(insert, true);
+		}
 	}
 
 	this.showIPDatabaseCreateTable = function () {
+		if (ODPExtension.preferenceGet('me')) {
+			var db = this.showIPDatabaseOpen()
+			db.create('\
+									CREATE TABLE IF NOT EXISTS \
+										`ids` \
+									( \
+										`id` INTEGER PRIMARY KEY ASC NOT NULL , \
+										`name` TEXT NOT NULL , \
+										`value` TEXT NOT NULL \
+									) \
+			');
+			db.executeSimple('	CREATE INDEX IF NOT EXISTS `name` ON `ids` (`name`) ');
+			db.executeSimple('	CREATE UNIQUE INDEX IF NOT EXISTS `name_value` ON `ids` (`name`, `value`) ');
 
-		var db = this.showIPDatabaseOpen()
-		db.create('\
-								CREATE TABLE IF NOT EXISTS \
-									`ips` \
-								( \
-									`id` INTEGER PRIMARY KEY ASC NOT NULL , \
-									`ip` TEXT NOT NULL , \
-									`domain` TEXT NOT NULL \
-								) \
-						');
-		db.executeSimple('	CREATE INDEX IF NOT EXISTS `ip` ON `ips` (`ip`) ');
-		db.executeSimple('	CREATE INDEX IF NOT EXISTS `domain` ON `ips` (`domain`) ');
-		db.executeSimple('	CREATE UNIQUE INDEX IF NOT EXISTS `ip_domain` ON `ips` (`ip`, `domain`) ');
-
-		this.showIPDatabaseClose()
-		this.showIPDatabaseOpen()
+			this.showIPDatabaseClose()
+			this.showIPDatabaseOpen()
+		}
 	}
 
 	this.showIPDatabaseStatements = function () {
-		insert = database.query('INSERT INTO `ips` ( `ip`, `domain` ) VALUES (:ip, :domain) ');
-
-		query = database.query('select * from ips where ip = :ip order by domain asc LIMIT 300');
+		if (ODPExtension.preferenceGet('me')) {
+			insert = database.query('INSERT INTO `ids` ( `name`, `value` ) VALUES (:name, :value) ');
+			query_exclusive = database.query('select * from ids where name = :name and value != :value order by value asc, name asc LIMIT 300');
+			query_inclusive = database.query('select * from ids where name = :name order by value asc, name asc LIMIT 300');
+		}
 	}
 
 	return null;

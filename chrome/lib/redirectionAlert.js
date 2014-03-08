@@ -279,7 +279,7 @@
 					aData.headers = Requester.getAllResponseHeaders();
 					aData.htmlRequester = Requester.responseText;
 					aData.html = Requester.responseText;
-					aData.ids = ODPExtension.arrayUnique(ODPExtension.arrayMix(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || []))
+					aData.ids = ODPExtension.normalizeIDs(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
 					aData.contentType = Requester.getResponseHeader('Content-Type');
 					//now get the response as UTF-8
 
@@ -307,6 +307,7 @@
 						aData.externalContent = aTab.ODPExtensionExternalContent;
 
 						var aDoc = ODPExtension.documentGetFromTab(aTab);
+
 						aData.urlLast = ODPExtension.tabGetLocation(aTab);
 
 						if (aDoc.documentURI.indexOf('about:') === 0 || aDoc.documentURI.indexOf('chrome:') === 0) {
@@ -364,8 +365,7 @@
 						if (!aDoc.mediaCounted) {
 							aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
 							aData.html = aData.htmlTab;
-							aData.ids = ODPExtension.arrayUnique(ODPExtension.arrayMix(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || []))
-
+							aData.ids = ODPExtension.normalizeIDs(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
 							aData.domTree = ODPExtension.domTree(aDoc);
 							aData.hash = ODPExtension.md5(JSON.stringify(aData.domTree));
 
@@ -373,6 +373,8 @@
 							for (var id in tagsMedia)
 								aData.mediaCount += aDoc.getElementsByTagName(tagsMedia[id]).length;
 						}
+
+						ODPExtension.dispatchEvent('DOMContentLinkChecked', aDoc, aData.ids);
 
 						//frames
 						aData.hasFrameset = aDoc.getElementsByTagName('frameset').length;
@@ -473,8 +475,7 @@
 
 								aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
 								aData.html = aData.htmlTab;
-								aData.ids = ODPExtension.arrayUnique(ODPExtension.arrayMix(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || []))
-
+								aData.ids = ODPExtension.normalizeIDs(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
 								aData.domTree = ODPExtension.domTree(aDoc);
 								aData.hash = ODPExtension.md5(JSON.stringify(aData.domTree));
 
@@ -1061,7 +1062,7 @@
 		var externalContent = []
 		for (var id in aData.externalContent)
 			externalContent[externalContent.length] = aData.externalContent[id].url;
-		aData.ids = this.arrayUnique(this.arrayMix(aData.ids, (externalContent.join('\n')).match(/(pub|ua)-[^"'&\s]+/gmi) || []))
+		aData.ids = this.normalizeIDs(aData.ids, (externalContent.join('\n')).match(/(pub|ua)-[^"'&\s]+/gmi) || [])
 		var data = (aData.urlRedirections.join('\n') + '\n' + externalContent.join('\n') + '\n' + aData.headers + '\n' + aData.html).toLowerCase().replace(/\s+/g, ' ');
 		var breaky = false;
 		for (var name in array) {

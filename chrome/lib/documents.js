@@ -37,6 +37,41 @@
 			}
 		}
 	}
+	var documentGetIDsRegExp = /(pub|ua)-[^"'&\s]+/gmi
+	this.documentGetIDs = function(aDoc, ids){
+		var window = aDoc.defaultView.wrappedJSObject;
+		if(!ids)
+			ids = []
+		if (window.frames.length) {
+			for (var a = 0; a < window.frames.length; a++) {
+				if ( !! window.frames[a].google_ad_url) {
+					var idss = window.frames[a].google_ad_url.match(documentGetIDsRegExp)
+					for (var id in idss)
+						ids[ids.length] = idss[id]
+				}
+				if ( !! window.frames[a].src) {
+					var idss = window.frames[a].src.match(documentGetIDsRegExp)
+					for (var id in idss)
+						ids[ids.length] = idss[id]
+				}
+			}
+		}
+		if (window._uacct)
+			ids[ids.length] = window._uacct
+
+		return this.normalizeIDs(ids);
+	}
+	this.normalizeIDs = function(ids,ids2){
+		for(var id in ids2)
+			ids[ids.length] = ids2[id]
+		for(var id in ids)
+			ids[id] = ids[id].replace(/\:[^\:]+$/, '').toLowerCase()
+		for(var id in ids){
+			if(ids[id].indexOf('ua-') === 0)
+				ids[id] = ids[id].replace(/^(ua-[0-9]+)-[0-9]+$/i, '$1');
+		}
+		return this.arrayUnique(ids)
+	}
 	//gets the title of the  aTab-REVIEW
 	this.documentGetTitle = function(aDoc) {
 		return this.trim(this.stripTags(this.htmlEntityDecode(String(aDoc.title))));

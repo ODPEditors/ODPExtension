@@ -26,7 +26,6 @@
 		<menuitem locked="true" label="DomainTools: Reverse IP" class="menuitem-iconic" value="https://reverseip.domaintools.com/search/?q={IP}" image="chrome://ODPExtension/content/features/context-url-tools/img/domaintools.png"/>
 		<menuseparator locked="true"/>
 		<menuitem locked="true" label="Copy to Clipboard" class="menuitem-iconic" value="command_clipboard"/>
-		<menuseparator locked="true"/>
 
 	</menupopup>
 

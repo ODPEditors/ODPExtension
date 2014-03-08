@@ -28,7 +28,7 @@ var ODPExtension = {};
 		this.__DIRECTORY_SEPARATOR__ = '/';
 	}
 	this.__LINE__ = '\n';
-
+	this.windowID = Date.now();
 	/*this function local variables*/
 	var debugingThisFile = false; //sets debuging on/off for this JavaScript file
 	//console

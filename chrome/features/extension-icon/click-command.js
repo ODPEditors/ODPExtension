@@ -2,7 +2,7 @@
 
 	//handle the posibles commands on the extension icon clicks
 
-	this.extensionIconClickCommand = function(aCommand) {
+	this.extensionIconClickCommand = function(aCommand, aData) {
 		if (!this.preferenceGet('enabled') &&
 			aCommand != 'extensionToggle' &&
 			aCommand != 'openDContextMenu' &&
@@ -91,11 +91,28 @@
 
 					break;
 				}
+			case 'clipboard':
+				{
+					this.copyToClipboard(aData);
+
+					break;
+				}
 			case 'checkHTTPStatus':
 				{
 					this.linkChecker();
 					break;
 				}
+			case 'rdfFindSitesDomain':
+				{
+					this.rdfFindSitesDomain(aData);
+					break;
+				}
+			case 'rdfFindSitesSubdomain':
+				{
+					this.rdfFindSitesSubdomain(aData);
+					break;
+				}
+
 			case 'openPreferences':
 				{
 					this.preferencesOpen();

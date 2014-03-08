@@ -10,7 +10,16 @@
 <popup id="contentAreaContextMenu">
 
 	<menu hidden="true" id="ODPExtension-context-url-tools-menu" label="&ODPExtension.ui.context.menu.url.tools;">
-		<menupopup id="ODPExtension-context-url-tools-menupopup" oncommand="ODPExtension.URLToolsOpen(event)" onclick="checkForMiddleClick(this, event)"/>
+		<menupopup id="ODPExtension-context-url-tools-menupopup" oncommand="ODPExtension.URLToolsOpen(event)" onclick="checkForMiddleClick(this, event)">
+			<menu locked="true" label="Built in tools">
+				<menupopup>
+					<menuitem label="Link Check" value="command_checkHTTPStatus"/>
+					<menuseparator/>
+					<menuitem label="Listings of domain" value="command_rdfFindSitesDomain"/>
+					<menuitem label="Listings of subdomain" value="command_rdfFindSitesSubdomain"/>
+				</menupopup>
+			</menu>
+		</menupopup>
 	</menu>
 </popup>
 

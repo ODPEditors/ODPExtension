@@ -44,6 +44,8 @@
 	<script src="related/rdfFindRelatedToDifferentLanguage.js" type="application/x-javascript"/>
 	<script src="related/rdfFindRelatedToHere.js" type="application/x-javascript"/>
 	<script src="related/rdfFindRelatedToHereToAny.js" type="application/x-javascript"/>
+	<script src="sites/rdfFindSitesDomain.js" type="application/x-javascript"/>
+	<script src="sites/rdfFindSitesSubdomain.js" type="application/x-javascript"/>
 	<script src="rdfFind.js" type="application/x-javascript"/>
 	<script src="rdfParser.js" type="application/x-javascript"/>
 	<script src="rdfDatabase.js" type="application/x-javascript"/>

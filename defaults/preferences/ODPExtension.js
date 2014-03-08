@@ -85,6 +85,9 @@
 	pref('extensions.ODPExtension.advanced.urls.rdf', '');
 	pref('extensions.ODPExtension.locked.categories.txt.last.update', 'Never');
 
+	pref('extensions.ODPExtension.ui.show.ip', true);
+
+
 //languages display - ALL DONE
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.ca', false);
 pref('extensions.ODPExtension.ui.context.menu.translate.lang.display.zh-CN', false);

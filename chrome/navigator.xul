@@ -13,6 +13,7 @@
 <?xul-overlay href="chrome://ODPExtension/content/lib-external/@xul.xul"?>
 
 <!-- features -->
+<?xul-overlay href="chrome://ODPExtension/content/features/show-ip/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/add-site/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/browser/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/categories-txt/@xul.xul"?>

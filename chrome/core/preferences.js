@@ -84,6 +84,7 @@
 
 		//miscelanea - DONE
 		'ui.from.category.auto',
+		'ui.show.ip',
 
 		//url notes - DONE
 		'url.notes.form.submit',

@@ -26,6 +26,13 @@
 			}
 			urlTool = this.URLToolsApplyItem('WWW_DOMAIN', '', urlTool);
 		}
+		if (urlTool.indexOf('{SUBDOMAIN') != -1) {
+			var aSubdomain = this.getSubdomainFromURL(aURL);
+			if (aSubdomain != '') {
+				urlTool = this.URLToolsApplyItem('SUBDOMAIN', aSubdomain, urlTool);
+			}
+			urlTool = this.URLToolsApplyItem('SUBDOMAIN', '', urlTool);
+		}
 
 		if (urlTool.indexOf('{DOMAIN') != -1) {
 			var aSubdomain = this.removeWWW(this.getSubdomainFromURL(aURL));

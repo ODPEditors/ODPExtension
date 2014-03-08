@@ -53,7 +53,7 @@
 		for (var urlTool in urlTools) {
 			for (var id in links) {
 				if (urlTools[urlTool].indexOf('command_') === 0) {
-					this.extensionIconClickCommand(urlTools[urlTool].replace('command_', ''));
+					this.extensionIconClickCommand(urlTools[urlTool].replace('command_', ''),  links[id]);
 					break;
 				} else if (links[id] != '') {
 					tools[tools.length] = this.URLToolsApply(urlTools[urlTool], links[id]);

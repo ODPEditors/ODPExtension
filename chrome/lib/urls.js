@@ -77,6 +77,7 @@
 
 			while (nsRecord.hasMore()) {
 				IP = nsRecord.getNextAddrAsString();
+				this.dispatchEvent('IPResolved', aDomain, IP)
 				return IP;
 			}
 		} catch (e) {}
@@ -97,7 +98,9 @@
 			DNS.asyncResolve(aDomain, null, {
 				onLookupComplete: function (aRequest, aRecord, aStatus) {
 					while (aRecord && aRecord.hasMore()) {
-						aFunction(aRecord.getNextAddrAsString())
+						var ip = aRecord.getNextAddrAsString()
+						ODPExtension.dispatchEvent('IPResolved', aDomain, ip)
+						aFunction(ip)
 						return null
 					}
 					aFunction('')

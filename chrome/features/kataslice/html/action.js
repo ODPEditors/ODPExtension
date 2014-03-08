@@ -123,6 +123,14 @@ function action(type){
 				})
 			});
 			break;
+		case 'translate': //open uri
+			items.each(function(d) {
+				var item = d3.select(this)
+				ODP.stringTranslate(d.title+' - '+d.description, function(aData){
+					$(item[0]).find('.tools > .translate').html('<small>'+ODP.h(aData)+'</small>');
+				})
+			});
+			break;
 		case 'edit': //open edit page
 			items.each(function(d) {
 				if (d.area == 'unrev')

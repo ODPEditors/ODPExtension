@@ -30,10 +30,10 @@ function entrySync(item) {
 
 function entryClick(item, event) {
 	item = $(item);
-	if ($(event.originalTarget).parents('.tools').length)
+	var entry = entryGetItem(item)
+	if (entry.hasClass('selected') && $(event.originalTarget).parents('.tools').length)
 		return
 
-	var entry = entryGetItem(item)
 	lastSelectedData = entryGetData(item);
 	var lastSelectedIsSsame = false
 	var targetIsContentEditable = $(event.originalTarget).attr('contenteditable');

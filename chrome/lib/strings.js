@@ -217,6 +217,18 @@
 			lang = 'Unknown';
 		return this.ucFirst(lang);
 	}
+	this.stringTranslate = function(text, aFunction, sourceLanguage, targetLanguage){
+
+		if(!sourceLanguage)
+			sourceLanguage = 'auto'
+		if(!targetLanguage)
+			targetLanguage = 'en'
+
+		ODPExtension.readURL('http://translate.google.com/translate_a/t?client=t&text='+this.encodeUTF8(text)+'&hl=en&sl='+sourceLanguage+'&tl='+targetLanguage+'&ie=UTF-8&oe=UTF-8&otf=1&ssel=0&tsel=0&uptl=en&alttl=hi&sc=1', false, false, false, function (aData) {
+			aData = aData.split('","')[0].replace(/^\[\[\[\"/, '')
+			aFunction(aData)
+		}, false, false);
+	}
 	var stringCompressor =  new Components.utils.Sandbox("about:blank");
 	this.compress = function(aString) {
 		if (!stringCompressor.loaded) {

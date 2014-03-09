@@ -1,4 +1,4 @@
-(function() {
+(function () {
 	//sets debuging on/off for this JavaScript file
 
 	var debugingThisFile = true;
@@ -7,7 +7,7 @@
 	var focusedURLLast = '';
 
 	//updates the content when switching tabs
-	this.addListener('onLocationChangeNotDocumentLoad', function(aLocation) {
+	this.addListener('onLocationChangeNotDocumentLoad', function (aLocation) {
 		var aDoc = ODPExtension.documentGetFocused();
 		if (ODPExtension.editingFormURLExists(aDoc)) {
 			focusedURL = (ODPExtension.getElementNamed('newurl', aDoc) || ODPExtension.getElementNamed('url', aDoc)).value;
@@ -17,7 +17,7 @@
 		ODPExtension.listingGetInformation(focusedURL);
 	});
 
-	this.addListener('onLocationChange', function(aLocation) {
+	this.addListener('onLocationChange', function (aLocation) {
 		var aDoc = ODPExtension.documentGetFocused();
 		if (ODPExtension.editingFormURLExists(aDoc)) {
 			focusedURL = (ODPExtension.getElementNamed('newurl', aDoc) || ODPExtension.getElementNamed('url', aDoc)).value;
@@ -25,7 +25,7 @@
 		}
 	});
 	var db, query_domain_count, query_domain_select, query_slice, query_drop, query_create;
-	this.addListener('databaseReady', function() {
+	this.addListener('databaseReady', function () {
 
 		db = ODPExtension.rdfDatabaseOpen();
 		if (db.exists) {
@@ -37,9 +37,7 @@
 
 			query_domain_count = db.query(' select count(u.id) from uris u, hosts h where h.host = :domain and h.id = u.domain_id');
 			query_domain_select = db.query(' select 1 ' + select + ' from  hosts h, uris u, categories c where ' + where_domain);
-			db.aConnection.executeSimpleSQL('create temporary table uris_temp_'+ODPExtension.windowID+' as select * from uris limit 1 ');
-
-			query_drop = db.query('drop table if exists uris_temp_'+ODPExtension.windowID+' ');
+			db.aConnection.executeSimpleSQL('create temporary table uris_temp_' + ODPExtension.windowID + ' as select * from uris limit 1 ');
 
 			query_slice = db.query(' \
 			                       \
@@ -49,7 +47,7 @@
 									SELECT  \
 											0 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
+											 hosts h, uris_temp_' + ODPExtension.windowID + ' u, categories c \
 										where  \
 											' + where_subdomain + ' and \
 											 u.path = :path \
@@ -58,7 +56,7 @@
 										select * from(SELECT  \
 											1 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
+											 hosts h, uris_temp_' + ODPExtension.windowID + ' u, categories c \
 										where  \
 											' + where_subdomain + ' and \
 											 u.path = "" limit 2 ) \
@@ -66,7 +64,7 @@
 										select * from(SELECT  \
 											1 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
+											 hosts h, uris_temp_' + ODPExtension.windowID + ' u, categories c \
 										where  \
 											' + where_domain + ' and \
 											 u.path = "" limit 2 ) \
@@ -75,7 +73,7 @@
 										SELECT  \
 											2 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
+											 hosts h, uris_temp_' + ODPExtension.windowID + ' u, categories c \
 										where  \
 											' + where_subdomain + ' and \
 											u.path GLOB :path_glob \
@@ -84,7 +82,7 @@
 										SELECT  \
 											3 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
+											 hosts h, uris_temp_' + ODPExtension.windowID + ' u, categories c \
 										where  \
 											' + where_subdomain + ' and \
 											u.path GLOB :path_no_hash \
@@ -93,7 +91,7 @@
 										SELECT  \
 											3 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
+											 hosts h, uris_temp_' + ODPExtension.windowID + ' u, categories c \
 										where  \
 											' + where_subdomain + ' and \
 											u.path GLOB :path_no_vars \
@@ -102,7 +100,7 @@
 										SELECT  \
 											4 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
+											 hosts h, uris_temp_' + ODPExtension.windowID + ' u, categories c \
 										where  \
 											' + where_subdomain + ' and \
 											u.path GLOB :path_no_file_name \
@@ -112,7 +110,7 @@
 										SELECT  \
 											 5 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
+											 hosts h, uris_temp_' + ODPExtension.windowID + ' u, categories c \
 										where  \
 											' + where_subdomain + ' and \
 											u.path GLOB :path_parent_folder \
@@ -122,7 +120,7 @@
 										SELECT  \
 											6 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
+											 hosts h, uris_temp_' + ODPExtension.windowID + ' u, categories c \
 										where  \
 											' + where_subdomain + ' and \
 											u.path GLOB :path_first_folder \
@@ -132,7 +130,7 @@
 										SELECT  \
 											7 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
+											 hosts h, uris_temp_' + ODPExtension.windowID + ' u, categories c \
 										where  \
 											' + where_subdomain + ' and u.path = "" \
 									\
@@ -141,7 +139,7 @@
 										SELECT  \
 											8 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
+											 hosts h, uris_temp_' + ODPExtension.windowID + ' u, categories c \
 										where  \
 											' + where_subdomain + ' \
 									\
@@ -150,7 +148,7 @@
 										SELECT  \
 											9 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
+											 hosts h, uris_temp_' + ODPExtension.windowID + ' u, categories c \
 										where  \
 											' + where_domain + ' and u.path = "" \
 									\
@@ -161,7 +159,7 @@
 										SELECT  \
 											10 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
+											 hosts h, uris_temp_' + ODPExtension.windowID + ' u, categories c \
 										where  \
 											' + where_domain + ' and h.id != u.subdomain_id and path = "" \
 									\
@@ -170,7 +168,7 @@
 										SELECT  \
 											11 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
+											 hosts h, uris_temp_' + ODPExtension.windowID + ' u, categories c \
 										where  \
 											' + where_domain + ' and h.id != u.subdomain_id \
 									\
@@ -179,7 +177,7 @@
 										SELECT  \
 											12 ' + select + '   \
 										FROM  \
-											 hosts h, uris_temp_'+ODPExtension.windowID+' u, categories c \
+											 hosts h, uris_temp_' + ODPExtension.windowID + ' u, categories c \
 										where  \
 											' + where_domain + ' \
 									group by site_id  order by sorting asc LIMIT 200 \
@@ -187,12 +185,14 @@
 									/* 13 - url = urlFullDomain or url = urlFullDomain/ - exaclty this domain */ \
 							 \
 						   ');
+			query_drop = db.query('drop table if exists uris_temp_' + ODPExtension.windowID + ' ');
+
 		}
 
 	});
 
 	var panel;
-	this.addListener('userInterfaceLoad', function() {
+	this.addListener('userInterfaceLoad', function () {
 		panel = ODPExtension.getElement('panel');
 		panel_move = ODPExtension.getElement('panel-move');
 	});
@@ -201,31 +201,31 @@
 		cacheDomainsWithNOListings = [],
 		_listingGetInformationTimeout = false
 		_listingGetInformationTimeoutQuery = false
-		this.listingGetInformation = function(aLocation) {
+		this.listingGetInformation = function (aLocation) {
 			clearTimeout(_listingGetInformationTimeout)
-			_listingGetInformationTimeout = setTimeout(function(){
+			_listingGetInformationTimeout = setTimeout(function () {
 				ODPExtension._listingGetInformation(aLocation);
 			}, 20);
 		}
-		this._listingGetInformation = function(aLocation) {
+	this._listingGetInformation = function (aLocation) {
 
-			if (aLocation == focusedURLLast)
-				return;
-			focusedURLLast = aLocation;
+		if (aLocation == focusedURLLast)
+			return;
+		focusedURLLast = aLocation;
 
-			if (!this.preferenceGet('ui.informative.panel') || !this.preferenceGet('enabled') || !db.exists) {
-				//listing check disabled
-				this.listingInformation = '';
-				this.panelShow(false);
-				this.extensionIconUpdateStatus();
-				return;
-			} else if (!db.tableExists('uris')) {
-				this.listingInformation = 'error';
-				this.panelShow(false);
-				this.extensionIconUpdateStatus();
-				return;
-			}
-			/*else if (this.cantLeakURL(aLocation)) { //currently the data is local
+		if (!this.preferenceGet('ui.informative.panel') || !this.preferenceGet('enabled') || !db.exists) {
+			//listing check disabled
+			this.listingInformation = '';
+			this.panelShow(false);
+			this.extensionIconUpdateStatus();
+			return;
+		} else if (!db.tableExists('uris')) {
+			this.listingInformation = 'error';
+			this.panelShow(false);
+			this.extensionIconUpdateStatus();
+			return;
+		}
+		/*else if (this.cantLeakURL(aLocation)) { //currently the data is local
 			//private URI
 			this.listingInformation = '';
 			panel.setAttribute('hidden', true);
@@ -233,73 +233,73 @@
 			return;
 		}*/
 
-			//update the icon status
-			this.listingInformationURL = this.decodeUTF8Recursive(aLocation);
-			this.listingInformation = 'loading';
-			this.extensionIconUpdateStatus();
+		//update the icon status
+		this.listingInformationURL = this.decodeUTF8Recursive(aLocation);
+		this.listingInformation = 'loading';
+		this.extensionIconUpdateStatus();
 
-			//get the data
-			var aLocationID = this.getURLID(aLocation);
-			aLocationID.path = this.shortURL(aLocationID.path)
-			aLocationID.path_no_hash = this.removeHash(aLocationID.path)
-			aLocationID.path_no_vars = this.removeVariables(aLocationID.path_no_hash)
-			aLocationID.path_no_file_name = this.removeFileName2(aLocationID.path_no_vars)
-			aLocationID.path_parent_folder = this.removeFileName2(aLocationID.path_no_file_name)
-			aLocationID.path_first_folder = this.removeFromTheFirstFolder2(aLocationID.path_parent_folder)
+		//get the data
+		var aLocationID = this.getURLID(aLocation);
+		aLocationID.path = this.shortURL(aLocationID.path)
+		aLocationID.path_no_hash = this.removeHash(aLocationID.path)
+		aLocationID.path_no_vars = this.removeVariables(aLocationID.path_no_hash)
+		aLocationID.path_no_file_name = this.removeFileName2(aLocationID.path_no_vars)
+		aLocationID.path_parent_folder = this.removeFileName2(aLocationID.path_no_file_name)
+		aLocationID.path_first_folder = this.removeFromTheFirstFolder2(aLocationID.path_parent_folder)
 
-			//ODPExtension.dump('query:' + aLocation);
+		//ODPExtension.dump('query:' + aLocation);
 
-			//check if the domain has few listings and is cached
-			if ( !! cacheDomainsWithListings[aLocationID.domain]) {
-				this.listingGetInformationLoaded(cacheDomainsWithListings[aLocationID.domain], aLocation, aLocationID);
-			}
-			//check if the domain has NO listing and is cached
-			else if ( !! cacheDomainsWithNOListings[aLocationID.domain]) {
-				this.listingGetInformationLoaded([], aLocation, aLocationID);
-			} else {
-				query_domain_count.params('domain', aLocationID.domain);
-				query_domain_count.execute(function(aData) {
-					if (aData[0]['count(u.id)'] < 1) {
-						if (cacheDomainsWithNOListings.length > 1000)
-							cacheDomainsWithNOListings = []
-						cacheDomainsWithNOListings[aLocationID.domain] = true;
-						ODPExtension.listingGetInformationLoaded([], aLocation, aLocationID);
-					} else if (aData[0]['count(u.id)'] < 30) {
-						query_domain_select.params('domain', aLocationID.domain);
-						query_domain_select.execute(function(aData) {
-							if (cacheDomainsWithListings.length > 50)
-								cacheDomainsWithListings = []
-							cacheDomainsWithListings[aLocationID.domain] = aData;
-							ODPExtension.listingGetInformationLoaded(aData, aLocation, aLocationID);
-						});
-					} else {
-						clearTimeout(_listingGetInformationTimeoutQuery)
-						_listingGetInformationTimeoutQuery = setTimeout(function(){
-							query_drop.execute(function(){
-								var query_create = db.query('create temporary table uris_temp_'+ODPExtension.windowID+' as select u.* from uris u, hosts h where h.host = "'+aLocationID.domain+'" and u.domain_id = h.id ');
-								query_create.execute(function(){
-									query_slice.params('domain', aLocationID.domain);
-									query_slice.params('subdomain', aLocationID.subdomain);
-									query_slice.params('path', aLocationID.path);
-									query_slice.params('path_glob', aLocationID.path + '*');
-									query_slice.params('path_no_hash', aLocationID.path_no_hash + '*');
-									query_slice.params('path_no_vars', aLocationID.path_no_vars + '*');
-									query_slice.params('path_no_file_name', aLocationID.path_no_file_name + '*');
-									query_slice.params('path_parent_folder', aLocationID.path_parent_folder + '*');
-									query_slice.params('path_first_folder', aLocationID.path_first_folder + '*');
-									query_slice.execute(function(aData) {
-										ODPExtension.listingGetInformationLoaded(aData, aLocation, aLocationID);
-										query_drop.execute(function(){})
-									});
-								})
-							});
-						}, 70);
-					}
-				});
-			}
+		//check if the domain has few listings and is cached
+		if ( !! cacheDomainsWithListings[aLocationID.domain]) {
+			this.listingGetInformationLoaded(cacheDomainsWithListings[aLocationID.domain], aLocation, aLocationID);
 		}
+		//check if the domain has NO listing and is cached
+		else if ( !! cacheDomainsWithNOListings[aLocationID.domain]) {
+			this.listingGetInformationLoaded([], aLocation, aLocationID);
+		} else {
+			query_domain_count.params('domain', aLocationID.domain);
+			query_domain_count.execute(function (aData) {
+				if (aData[0]['count(u.id)'] < 1) {
+					if (cacheDomainsWithNOListings.length > 1000)
+						cacheDomainsWithNOListings = []
+					cacheDomainsWithNOListings[aLocationID.domain] = true;
+					ODPExtension.listingGetInformationLoaded([], aLocation, aLocationID);
+				} else if (aData[0]['count(u.id)'] < 30) {
+					query_domain_select.params('domain', aLocationID.domain);
+					query_domain_select.execute(function (aData) {
+						if (cacheDomainsWithListings.length > 50)
+							cacheDomainsWithListings = []
+						cacheDomainsWithListings[aLocationID.domain] = aData;
+						ODPExtension.listingGetInformationLoaded(aData, aLocation, aLocationID);
+					});
+				} else {
+					clearTimeout(_listingGetInformationTimeoutQuery)
+					_listingGetInformationTimeoutQuery = setTimeout(function () {
+						query_drop.execute(function () {
+							var query_create = db.query('create temporary table uris_temp_' + ODPExtension.windowID + ' as select u.* from uris u, hosts h where h.host = "' + aLocationID.domain + '" and u.domain_id = h.id ');
+							query_create.execute(function () {
+								query_slice.params('domain', aLocationID.domain);
+								query_slice.params('subdomain', aLocationID.subdomain);
+								query_slice.params('path', aLocationID.path);
+								query_slice.params('path_glob', aLocationID.path + '*');
+								query_slice.params('path_no_hash', aLocationID.path_no_hash + '*');
+								query_slice.params('path_no_vars', aLocationID.path_no_vars + '*');
+								query_slice.params('path_no_file_name', aLocationID.path_no_file_name + '*');
+								query_slice.params('path_parent_folder', aLocationID.path_parent_folder + '*');
+								query_slice.params('path_first_folder', aLocationID.path_first_folder + '*');
+								query_slice.execute(function (aData) {
+									ODPExtension.listingGetInformationLoaded(aData, aLocation, aLocationID);
+									query_drop.execute(function () {})
+								});
+							})
+						});
+					}, 70);
+				}
+			});
+		}
+	}
 
-	this.listingGetInformationLoaded = function(aData, aLocation, aLocationID) {
+	this.listingGetInformationLoaded = function (aData, aLocation, aLocationID) {
 		//check if the retreived data is for this focused tab
 		if (aLocation == focusedURL && this.preferenceGet('enabled')) {
 

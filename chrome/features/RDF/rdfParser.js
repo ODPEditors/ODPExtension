@@ -56,7 +56,7 @@
 		]
 		var aConnection = this.rdfDatabaseOpen();
 
-			aConnection.aConnection.executeSimple('PRAGMA temp_store = 2');//2
+			aConnection.executeSimple('PRAGMA temp_store = 2');//2
 
 		this.dump('Cleaning database tables...');
 		try {

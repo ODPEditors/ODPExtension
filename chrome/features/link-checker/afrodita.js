@@ -35,7 +35,6 @@
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `match_hash` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `domain` TEXT NOT NULL DEFAULT "" ');}catch(e){}
-		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `domain_id` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `subdomain` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `ip` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `ns` TEXT NOT NULL DEFAULT "" ');}catch(e){}
@@ -44,6 +43,7 @@
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `language` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `word_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `str_length` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `media_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `frame_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `has_frameset` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
@@ -82,7 +82,36 @@
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `uri` ON `uris` (`uri`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `version` ON `uris` (`version`) ');
 
-		lc.executeSimple('	CREATE UNIQUE INDEX IF NOT EXISTS `version` ON `uris` (`version`,`uri`) ');
+		lc.executeSimple('	CREATE UNIQUE INDEX IF NOT EXISTS `uri_version` ON `uris` (`uri`,`version`) ');
+
+
+		lc.commit();
+
+//IMPORTING URIS
+
+		this.dump('Importing URIs for this RDF version...');
+
+		var rdf = this.rdfDatabaseOpen();
+		//rdf version
+		var version = rdf.query('PRAGMA user_version');
+		version = version.fetchObjects().user_version
+
+		var select = rdf.query('select distinct(u.uri) from uris u ');
+		var insert = lc.aConnection.createStatement(' insert or ignore into `uris` (`uri`,`version`) values (:uri, :version)');
+
+		var a = 0;
+		lc.begin();
+		var row
+		while(row = select.fetchObjects()){
+			insert.params['uri'] = row.uri;
+			insert.params['version'] = version;
+			insert.execute();
+		}
+		lc.commit();
+
+		ODPExtension.gc();
+
+		lc.begin();
 
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `checked` ON `uris` (`checked`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `processed` ON `uris` (`processed`) ');
@@ -100,7 +129,6 @@
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `match_hash` ON `uris` (`match_hash`) ');
 
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `domain` ON `uris` (`domain`) ');
-		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `domain_id` ON `uris` (`domain_id`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `subdomain` ON `uris` (`subdomain`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `ip` ON `uris` (`ip`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `ns` ON `uris` (`ns`) ');
@@ -109,6 +137,7 @@
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `language` ON `uris` (`language`) ');
 
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `word_count` ON `uris` (`word_count`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `str_length` ON `uris` (`str_length`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `media_count` ON `uris` (`media_count`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `frame_count` ON `uris` (`frame_count`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `has_frameset` ON `uris` (`has_frameset`) ');
@@ -143,33 +172,11 @@
 
 		lc.commit();
 
-//IMPORTING URIS
-
-		this.dump('Importing URIs for this RDF version...');
-
-		var rdf = this.rdfDatabaseOpen();
-		//rdf version
-		var version = rdf.query('PRAGMA user_version');
-		version = version.fetchObjects().user_version
-
-		var select = rdf.query('select distinct(u.uri), u.domain_id from uris u ');
-		var insert = lc.aConnection.createStatement(' insert or ignore into `uris` (`uri`,`domain_id`,`version`) values (:uri, :domain_id, :version)');
-
-		var a = 0;
-		lc.begin();
-		while(row = select.fetchObjects()){
-			insert.params['uri'] = row.uri;
-			insert.params['domain_id'] = row.domain_id;
-			insert.params['version'] = version;
-			insert.execute();
-		}
-		lc.commit();
-
 		ODPExtension.gc();
 
 //LINK CHECK
 
-		this._afrodita();
+		//this._afrodita();
 
 	}
 
@@ -180,7 +187,7 @@
 			var lc = this.linkCheckerDatabaseOpen();
 
 			var oRedirectionAlert = this.redirectionAlert();
-			var select = lc.query(' select id, uri from uris where `checked` = 0 group by domain_id order by RANDOM() ');
+			var select = lc.query(' select id, uri from uris where `checked` = 0 order by RANDOM()  ');
 			var update = lc.aConnection.createStatement(' update `uris` set `checked` = 1, \
 			                                            			\
 																	`finished_loading` = :finished_loading, \
@@ -205,6 +212,7 @@
 																	`language` = :language, \
 																	\
 																	`word_count` = :word_count, \
+																	`str_length` = :str_length, \
 																	`media_count` = :media_count, \
 																	`frame_count` = :frame_count, \
 																	`has_frameset` = :has_frameset, \
@@ -233,10 +241,10 @@
 																	`broken_content_count` = :broken_content_count, \
 																	`image_count` = :image_count, \
 																	`script_count` = :script_count, \
-																	`redirection_count` = :redirection_count \
+																	`redirection_count` = :redirection_count, \
 																	\
 																	`load_time` = :load_time \
-			 													where `uri` = :uri and `checked` = 0');
+			 													where `id` = :id ');
 
 			var row;
 			var progress = this.progress('link.cheker.' + oRedirectionAlert.id);
@@ -272,6 +280,7 @@
 						update.params['language'] = aData.language;
 
 						update.params['word_count'] = aData.wordCount;
+						update.params['str_length'] = aData.strLength;
 						update.params['media_count'] = aData.mediaCount;
 						update.params['frame_count'] = aData.frames;
 						update.params['has_frameset'] = aData.hasFrameset;
@@ -298,8 +307,8 @@
 						update.params['links_external_count'] = aData.linksExternal.length;
 
 						var broken = 0;
-						for(var id in aData.externalContent){
-							if(aData.externalContent[id].status != 200)
+						for(var i in aData.externalContent){
+							if(aData.externalContent[i].status != 200)
 								broken++
 						}
 						update.params['broken_included_content'] = Math.floor(100 * (broken/ aData.externalContent.length)) || 0;
@@ -310,7 +319,7 @@
 
 						update.params['load_time'] = ((ODPExtension.sqlDate(aData.dateEnd) - ODPExtension.sqlDate(aData.dateStart))/1000) || 0
 
-						update.params['uri'] = uri;
+						update.params['id'] = id;
 						update.execute();
 						aData = null
 					});
@@ -345,8 +354,6 @@
 	}*/
 
 /*
-
-
 	//	 DE LOS HASHES ABRI TODOS LOS >= a 40
 
 	//GROUP BY
@@ -368,10 +375,6 @@
 
 		//all name servers not blacklisted
 		SELECT distinct(c_ns), count(*) as total, uri, c_uri_last from uris u where c_checked = 1 and c_list_white = 0 and c_list_black = 0 group by c_ns order by total desc limit 1000
-
-
-
-	SELECT  count(*) as total from uris where c_checked = 1 and c_ns = ""
 
 	SELECT  count(*) as total from uris where c_checked = 1 and c_ns = ""
 

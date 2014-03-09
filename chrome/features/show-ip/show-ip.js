@@ -56,7 +56,6 @@
 				var aDomain = this.getSubdomainFromURL(this.documentGetLocation(aDoc))
 				var aDomainNOWWW = this.removeWWW(aDomain)
 				for (var id in ids) {
-					this.showIPDatabaseInsertID(aDomainNOWWW, ids[id])
 					this.showIPDatabaseInsertID(ids[id], aDomainNOWWW)
 				}
 				if ( !! cache[aDomain]) {
@@ -123,9 +122,9 @@
 
 			//with same id
 			var ids = this.documentGetIDs(this.documentGetFocused())
-			query_inclusive.params('name', aDomain)
-			while (row = database.fetchObjects(query_inclusive))
-				ids[ids.length] = row.value
+			query_inclusive_value.params('value', aDomain)
+			while (row = database.fetchObjects(query_inclusive_value))
+				ids[ids.length] = row.name
 			ids = this.normalizeIDs(ids);
 			for (var id in ids) {
 				query_exclusive.params('name', ids[id])
@@ -177,7 +176,7 @@
 
 	this.showIPDatabaseOpen = function () {
 		if (!database && this.shared.me) {
-			database = this.databaseGet('QC');
+			database = this.databaseGet('IDs');
 			database.executeSimple('PRAGMA temp_store = 3');
 			database.executeSimple('PRAGMA read_uncommitted = true');
 			database.executeSimple('PRAGMA journal_mode = memory');//memory
@@ -224,6 +223,7 @@
 			insert = database.query('INSERT INTO `ids` ( `name`, `value` ) VALUES (:name, :value) ');
 			query_exclusive = database.query('select * from ids where name = :name and value != :value order by value asc, name asc LIMIT 300');
 			query_inclusive = database.query('select * from ids where name = :name order by value asc, name asc LIMIT 300');
+			query_inclusive_value = database.query('select * from ids where value = :value order by value asc, name asc LIMIT 300');
 		}
 	}
 

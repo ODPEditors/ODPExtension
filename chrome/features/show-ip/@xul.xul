@@ -9,7 +9,7 @@
 
 <hbox id="urlbar-icons">
 
-	<label id="ODPExtension-toolbarbutton-show-ip" value="" onclick="ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_start');"/>
+	<label id="ODPExtension-toolbarbutton-show-ip" value="" onclick="ODPExtension.stopEvent(event);ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_start');"/>
 
 </hbox>
 

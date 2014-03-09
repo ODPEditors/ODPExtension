@@ -4,11 +4,11 @@
 
 	//when the link checker crashes, it does not close previous tabs
 	this.addListener('userInterfaceLoad', function () {
-		var tabs = gBrowser.tabContainer.childNodes;
+		var tabs = gBrowser.mTabContainer.childNodes;
 
 		var close = []
 		for(var a=0;a<tabs.length;a++){
-			if(tabs[a].hasAttribute('ODPLinkChecker'))
+			if(tabs[a].hasAttribute('ODPLinkChecker') || ODPExtension.browserGetFromTab(tabs[a]).hasAttribute('ODPLinkChecker'))
 				close[close.length] = tabs[a]
 		}
 		for(var id in close)
@@ -73,11 +73,11 @@
 				observerService.removeObserver(this, 'content-document-global-created', false);
 				observerService.removeObserver(this, 'http-on-opening-request', false);
 
-				delete(this.cache);
-				delete(this.cacheRedirects);
-				delete(this.itemsWorking);
-				delete(this.itemsDone);
-				delete(this.queue);
+				this.cache = null;
+				this.cacheRedirects = null;
+				this.itemsWorking = null;
+				this.itemsDone = null;
+				this.queue = null;
 			},
 			observe: function(aSubject, aTopic, aData) {
 				switch (aTopic) {
@@ -203,6 +203,7 @@
 						var cacheID = ODPExtension.sha256(aURL)
 						ODPExtension.fileWrite('/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID, ODPExtension.compress(JSON.stringify(aData)) );
 					}
+					oRedirectionAlert.cache[aURL] = null;
 					aFunction(aData, aURL);
 				});
 			},
@@ -268,13 +269,14 @@
 					aData.imageCount = 0;
 					aData.scriptCount = 0;
 					aData.wordCount = 0;
+					aData.strLength = 0;
 					aData.hasFrameset = 0;
 					aData.frames = 0;
 					aData.dateStart = ODPExtension.now();
 					aData.dateEnd = aData.dateStart;
 					aData.intrusivePopups = 0;
 					aData.finishedLoading = false;
-					aData.removeFromBrowserHistory = !ODPExtension.isVisitedURL(aURL);
+					//aData.removeFromBrowserHistory = !ODPExtension.isVisitedURL(aURL);
 
 				} else {
 					var aData = this.cache[aURL];
@@ -314,7 +316,7 @@
 					aTab.ODPExtensionURIsStatus = [];
 
 					var newTabBrowser = ODPExtension.browserGetFromTab(aTab);
-
+						newTabBrowser.setAttribute('ODPLinkChecker', true);
 					var timedout = -1;
 					//timedout = -1 | tab did not timedout
 					//timedout = 1 | tab timedout (did not fired DOM CONTENT LOAD)
@@ -451,6 +453,7 @@
 						aData.txt = ODPExtension.htmlSpecialCharsDecode(ODPExtension.stripTags(aDoc, ' ').replace(/[\t| ]+/g, ' ').replace(/\n\s+/g, '\n').replace(/\s+\n/g, '\n').trim());
 						aData.language = ODPExtension.detectLanguage(aData.txt);
 						aData.wordCount = aData.txt.split(' ').length
+						aData.strLength = aData.txt.length
 						if(aData.wordCount < 3 && aData.txt.length > 100)
 							aData.wordCount = aData.txt.length
 
@@ -459,8 +462,8 @@
 
 						//because the linkcheck runs in a tab, it add stuff to the browser history that shouldn't be added
 						//http://forums.mozillazine.org/viewtopic.php?p=9070125#p9070125
-						if (aData.removeFromBrowserHistory)
-							ODPExtension.removeURLFromBrowserHistory(aURL);
+						//if (aData.removeFromBrowserHistory)
+						//	ODPExtension.removeURLFromBrowserHistory(aURL);
 
 						ODPExtension.tabClose(aTab);
 

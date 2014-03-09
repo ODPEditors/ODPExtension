@@ -70,6 +70,7 @@
 			if(ids[id].indexOf('ua-') === 0)
 				ids[id] = ids[id].replace(/^(ua-[0-9]+)-[0-9]+$/i, '$1');
 		}
+		ids.sort()
 		return this.arrayUnique(ids)
 	}
 	//gets the title of the  aTab-REVIEW

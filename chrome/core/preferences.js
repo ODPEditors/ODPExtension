@@ -51,6 +51,7 @@
 		'link.checker.use.cache',
 		'link.checker.generate.graph',
 		'link.checker.hidden.tabs',
+		'link.checker.cache.result',
 
 		//privacy - DONE
 		'privacy.no.referrer',

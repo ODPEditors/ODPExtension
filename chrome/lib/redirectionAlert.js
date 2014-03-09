@@ -199,6 +199,10 @@
 			done: function(aFunction, aData, aURL) {
 				ODPExtension.getIPFromDomainAsync(aData.subdomain, function(aIP){
 					aData.ip = aIP
+					if (ODPExtension.preferenceGet('link.checker.cache.result')){
+						var cacheID = ODPExtension.sha256(aURL)
+						ODPExtension.fileWrite('/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID, ODPExtension.compress(JSON.stringify(aData)) );
+					}
 					aFunction(aData, aURL);
 				});
 			},
@@ -265,6 +269,7 @@
 					aData.dateStart = ODPExtension.now();
 					aData.dateEnd = aData.dateStart;
 					aData.intrusivePopups = 0;
+					aData.finishedLoading = false;
 					aData.removeFromBrowserHistory = !ODPExtension.isVisitedURL(aURL);
 
 				} else {
@@ -538,6 +543,7 @@
 									}
 
 									setTimeout(function() {
+										aData.finishedLoading = true;
 										onTabLoad()
 									}, 12000);
 
@@ -1064,7 +1070,7 @@
 				, 'comingSoon'
 				, 'suspended'
 
-				, 'dirty'
+				//, 'dirty'
 		]
 
 		var externalContent = []

@@ -9,6 +9,7 @@
 
 		if(!aCategory)
 			return
+
 //LC
 
 	this.dump('Creating database tables and statements...');
@@ -25,14 +26,14 @@
 
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `checked` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `processed` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
-
-		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `json` TEXT NOT NULL DEFAULT "" ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `finished_loading` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `date_start` DATETIME NOT NULL DEFAULT "0000-00-00 00:00:00" ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `date_end` DATETIME NOT NULL DEFAULT "0000-00-00 00:00:00" ');}catch(e){}
 
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `content_type` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `check_type` TEXT NOT NULL DEFAULT "" ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `site_type` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `hash` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 
@@ -51,6 +52,7 @@
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `intrusive_popups` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `is_download` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `statuses` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `status_delete` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `status_unreview` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `status_code` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
@@ -75,12 +77,15 @@
 		lc.executeSimple('	CREATE UNIQUE INDEX IF NOT EXISTS `version` ON `uris` (`version`,`uri`) ');
 
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `checked` ON `uris` (`checked`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `processed` ON `uris` (`processed`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `finished_loading` ON `uris` (`finished_loading`) ');
 
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `date_start` ON `uris` (`date_start`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `date_end` ON `uris` (`date_end`) ');
 
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `content_type` ON `uris` (`content_type`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `check_type` ON `uris` (`check_type`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `site_type` ON `uris` (`site_type`) ');
 
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `hash` ON `uris` (`hash`) ');
 
@@ -99,6 +104,7 @@
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `intrusive_popups` ON `uris` (`intrusive_popups`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `is_download` ON `uris` (`is_download`) ');
 
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `statuses` ON `uris` (`statuses`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `status_delete` ON `uris` (`status_delete`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `status_unreview` ON `uris` (`status_unreview`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `status_code` ON `uris` (`status_code`) ');
@@ -125,7 +131,7 @@
 		var version = rdf.query('PRAGMA user_version');
 		version = version.fetchObjects().user_version
 
-		var select = rdf.query('select distinct(u.uri) from uris u, categories c where c.category glob "'+aCategory+'*" and u.category_id = c.id group by u.uri ');
+		var select = rdf.query('select distinct(u.uri) from uris u ');
 		var insert = lc.aConnection.createStatement(' insert or ignore into `uris` (`uri`,`version`) values (:uri, :version)');
 
 		var a = 0;
@@ -141,9 +147,7 @@
 
 //LINK CHECK
 
-
 		this._afrodita();
-
 
 	}
 
@@ -156,13 +160,15 @@
 			var oRedirectionAlert = this.redirectionAlert();
 			var select = lc.query(' select id, uri from uris where `checked` = 0 order by RANDOM() ');
 			var update = lc.aConnection.createStatement(' update `uris` set `checked` = 1, \
-			                                            			`json` = :json, \
 			                                            			\
+																	`finished_loading` = :finished_loading, \
+																	 \
 																	`date_start` = :date_start, \
 																	`date_end` = :date_end, \
 																	\
 																	`content_type` = :content_type, \
 																	`check_type` = :check_type, \
+																	`site_type` = :site_type, \
 																	\
 																	`hash` = :hash, \
 																	\
@@ -181,6 +187,7 @@
 																	`intrusive_popups` = :intrusive_popups, \
 																	`is_download` = :is_download, \
 																	\
+																	`statuses` = :statuses, \
 																	`status_delete` = :status_delete, \
 																	`status_unreview` = :status_unreview, \
 																	`status_code` = :status_code, \
@@ -209,13 +216,14 @@
 						progress.remove();
 						progress.progress();
 
-						update.params['json'] = ODPExtension.compress(JSON.stringify(aData));
+						update.params['finished_loading'] = aData.status.finishedLoading ? 1 : 0;
 
 						update.params['date_start'] = aData.dateStart;
 						update.params['date_end'] = aData.dateEnd;
 
 						update.params['content_type'] = aData.contentType;
 						update.params['check_type'] = aData.checkType;
+						update.params['site_type'] = aData.siteType;
 
 						update.params['hash'] = aData.hash;
 
@@ -234,6 +242,7 @@
 						update.params['intrusive_popups'] = aData.intrusivePopups;
 						update.params['is_download'] = aData.isDownload ? 1 : 0;
 
+						update.params['statuses'] = aData.statuses.join(',');
 						update.params['status_delete'] = aData.status.canDelete ? 1 : 0;
 						update.params['status_unreview'] =  aData.status.canUnreview ? 1 : 0;
 						update.params['status_code'] = aData.status.code;

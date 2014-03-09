@@ -20,6 +20,7 @@
 	pref('extensions.ODPExtension.link.checker.use.cache', true);
 	pref('extensions.ODPExtension.link.checker.generate.graph', false);
 	pref('extensions.ODPExtension.link.checker.hidden.tabs', true);
+	pref('extensions.ODPExtension.link.checker.cache.result', false);
 
 //USER INTERFACE - DONE
 

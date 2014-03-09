@@ -1,4 +1,5 @@
 (function() {
+
 	//sets debuging on/off for this JavaScript file
 
 	var debugingThisFile = true;
@@ -92,26 +93,17 @@
 			item.style.setProperty('background-color', '#FFFFCC', 'important');
 		}
 
-		if (this.shared.me) {
-			item.innerHTML = '[' +
-				aData.statuses.join(', ') + ' | ' +
-				aData.status.code + ' | ' +
-				aData.status.errorString + ' | ' +
-				aData.ip + ' | ' +
-				aData.language + ' | ' +
-				aData.checkType +
-				'] ' + item.getAttribute('original_text');
-			item.setAttribute('note', '' + aData.statuses.join(', ') + ' | ' + aData.status.code + ' | ' + aData.status.errorString);
-			item.setAttribute('error', aData.status.code);
-			item.setAttribute('newurl', aData.urlRedirections[aData.urlRedirections.length - 1]);
-		} else {
-			item.innerHTML = '[' +
-
+		item.innerHTML = '[' +
+			aData.statuses.join(', ') + ' | ' +
 			aData.status.code + ' | ' +
-				aData.status.errorStringUserFriendly + ' | ' +
-				aData.language +
-				'] ' + item.getAttribute('original_text');
-		}
+			aData.status.errorString + ' | ' +
+			aData.ip + ' | ' +
+			aData.language + ' | ' +
+			aData.checkType +
+			'] ' + item.getAttribute('original_text');
+		item.setAttribute('note', '' + aData.statuses.join(', ') + ' | ' + aData.status.code + ' | ' + aData.status.errorString);
+		item.setAttribute('error', aData.status.code);
+		item.setAttribute('newurl', aData.urlRedirections[aData.urlRedirections.length - 1]);
 	}
 
 	this.linkCheckerDoneGraph = function(aResult) {

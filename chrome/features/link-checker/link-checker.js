@@ -103,7 +103,7 @@
 			'] ' + item.getAttribute('original_text');
 		item.setAttribute('note', '' + aData.statuses.join(', ') + ' | ' + aData.status.code + ' | ' + aData.status.errorString);
 		item.setAttribute('error', aData.status.code);
-		item.setAttribute('newurl', aData.urlRedirections[aData.urlRedirections.length - 1]);
+		item.setAttribute('newurl', aData.urlLast);
 	}
 
 	this.linkCheckerDoneGraph = function(aResult) {

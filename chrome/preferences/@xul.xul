@@ -89,6 +89,7 @@
 							<vbox flex="1">
 								<checkbox label="&ODPExtension.ui.from.category.auto;" id="ui.from.category.auto"/>
 								<checkbox label="Show listing information on urlbar (high contrast visual feedback)" id="ui.informative.panel.urlbar"/>
+								<checkbox label="Show website's IP in location bar" id="ui.show.ip"/>
 							</vbox>
 
 						</groupbox>

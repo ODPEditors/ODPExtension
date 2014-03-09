@@ -456,8 +456,6 @@
 						oRedirectionAlert.cache[aURL] = aTab = aDoc = newTabBrowser = null;
 
 						aData.dateEnd = ODPExtension.now();
-						if (debug)
-							ODPExtension.fileWrite('tito.txt', JSON.stringify(aData));
 
 						oRedirectionAlert.done(aFunction, aData, aURL)
 						//aFunction(aData, aURL)
@@ -642,9 +640,6 @@
 						oRedirectionAlert.cache[aURL] = null;
 
 						aData.dateEnd = ODPExtension.now();
-
-						if (debug)
-							ODPExtension.fileWrite('tito.txt', JSON.stringify(aData));
 
 						oRedirectionAlert.done(aFunction, aData, aURL)
 						//aFunction(aData, aURL)

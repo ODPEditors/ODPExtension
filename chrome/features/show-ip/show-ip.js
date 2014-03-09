@@ -15,15 +15,15 @@
 	var insert, query_inclusive, query_exclusive;
 
 	this.addListener('IPResolved', function (aDomain, aData) {
-		if (ODPExtension.preferenceGet('me'))
+		if (ODPExtension.shared.me)
 			ODPExtension.showIPDatabaseInsertID(aData, ODPExtension.removeWWW(aDomain));
 	});
 	this.addListener('databaseCreate', function () {
-		if (ODPExtension.preferenceGet('me'))
+		if (ODPExtension.shared.me)
 			ODPExtension.showIPDatabaseCreateTable();
 	});
 	this.addListener('databaseReady', function () {
-		if (ODPExtension.preferenceGet('me'))
+		if (ODPExtension.shared.me)
 			ODPExtension.showIPDatabaseStatements();
 	});
 
@@ -45,7 +45,7 @@
 	});
 
 	this.showIPOnDocumentLoaded = function (aDoc, aIDs) {
-		if (this.preferenceGet('me') && aDoc.defaultView) {
+		if (this.shared.me && aDoc.defaultView) {
 			var ids = []
 			for (var id in aIDs)
 				ids[ids.length] = aIDs[id]
@@ -89,7 +89,7 @@
 	}
 
 	this.showIPUpdateMenu = function (aEvent) {
-		if (ODPExtension.preferenceGet('me')) {
+		if (this.shared.me) {
 
 			this.removeChilds(menupopup);
 			var row, row2, items = [], added = 0;
@@ -176,7 +176,7 @@
 	}
 
 	this.showIPDatabaseOpen = function () {
-		if (!database && ODPExtension.preferenceGet('me')) {
+		if (!database && this.shared.me) {
 			database = this.databaseGet('IDs');
 			database.executeSimple('PRAGMA temp_store = 3');
 			database.executeSimple('PRAGMA read_uncommitted = true');
@@ -185,13 +185,13 @@
 		return database;
 	}
 	this.showIPDatabaseClose = function () {
-		if (database && ODPExtension.preferenceGet('me')) {
+		if (database && this.shared.me) {
 			database.close();
 			database = false;
 		}
 	}
 	this.showIPDatabaseInsertID = function (aName, aValue) {
-		if (ODPExtension.preferenceGet('me')) {
+		if (this.shared.me) {
 			insert.params('name', aName);
 			insert.params('value', aValue);
 
@@ -200,7 +200,7 @@
 	}
 
 	this.showIPDatabaseCreateTable = function () {
-		if (ODPExtension.preferenceGet('me')) {
+		if (ths.shared.me) {
 			var db = this.showIPDatabaseOpen()
 			db.create('\
 									CREATE TABLE IF NOT EXISTS \
@@ -220,7 +220,7 @@
 	}
 
 	this.showIPDatabaseStatements = function () {
-		if (ODPExtension.preferenceGet('me')) {
+		if (this.shared.me) {
 			insert = database.query('INSERT INTO `ids` ( `name`, `value` ) VALUES (:name, :value) ');
 			query_exclusive = database.query('select * from ids where name = :name and value != :value order by value asc, name asc LIMIT 300');
 			query_inclusive = database.query('select * from ids where name = :name order by value asc, name asc LIMIT 300');

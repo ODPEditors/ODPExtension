@@ -112,13 +112,14 @@
 		}
 	}
 
-	this.getDNSFromURL = function (aDomain) {
+	this.getDNSFromURL = function (aURL) {
+		var aDomain = this.getDomainFromURL(aURL)
 		var aData = {
 			ips: [],
 			hosts: []
 		};
 		try {
-			var nsRecord = this.service('dns').resolve(aDomain, Components.interfaces.nsIDNSService.RESOLVE_BYPASS_CACHE);
+			var nsRecord = this.service('dns').resolve(aDomain, Components.interfaces.nsIDNSService.RESOLVE_CANONICAL_NAME);
 			while (nsRecord.hasMore()) {
 				aData.ips.push(nsRecord.getNextAddrAsString());
 				aData.hosts.push(nsRecord.canonicalName);
@@ -742,11 +743,12 @@
 		}
 	}
 	var decodeUTF8RecursiveRegExp = /% +/g;
+	var IDNDecode = this.service('idn').convertToDisplayIDN
 	this.getURLID = function (aURL) {
 
 		var id = {}
 		id.uri = aURL;
-		id.subdomain = aURL.replace(getSubdomainFromURLRegExp, "$1").replace(removePortRegExp, '').toLowerCase();
+		id.subdomain = IDNDecode(aURL.replace(getSubdomainFromURLRegExp, "$1").replace(removePortRegExp, '').toLowerCase(), {});
 		id.schemaWWW = '';
 
 		var temp;
@@ -821,7 +823,7 @@
 		return aURL.replace(shortURLRegExp, '/');
 	}
 
-	var shortURLAggresiveRegExp = /\/(index|default|home|main|cms|blog|weblog|forum|forums|site|wordpress|web|homepage|welcome|main_page|wp|joomla|bbs|vb|\#\!|\#|phpbb2|portal|public|new|old|start|www|intro|html|php|php3|php4|php5)((_|-)?[0-9]{,2}\.[a-z]{2,4})?\/?\??$/i;
+	var shortURLAggresiveRegExp = /\/(index|default|home|main|cms|blog|weblog|forum|forums|site|wordpress|web|homepage|welcome|main_page|wp|joomla|bbs|vb|\#\!|\#|phpbb2|portal|public|new|old|start|www|intro|html|php|php3|php4|php5)((_|-)?[0-9]{0,2}\.[a-z]{2,4})?\/?\??$/i;
 	this.shortURLAggresive = function (aURL) {
 		return aURL.replace(shortURLAggresiveRegExp, '/');
 	}

@@ -71,6 +71,12 @@
 							.getService(Components.interfaces.mozIPersonalDictionary);
 						break;
 					}
+				case 'idn':
+					{
+						this.services[aName] = Components.classes["@mozilla.org/network/idn-service;1"]
+													.getService(Components.interfaces.nsIIDNService);
+						break
+					}
 			}
 		}
 		return this.services[aName];

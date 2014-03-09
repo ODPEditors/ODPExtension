@@ -254,6 +254,8 @@
 					aData.language = '';
 
 					aData.hash = '';
+					aData.match = '';
+					aData.matchHash = false;
 					aData.ids = [];
 
 					aData.title = '';
@@ -263,6 +265,8 @@
 					aData.linksInternal = []
 					aData.linksExternal = []
 					aData.mediaCount = 0;
+					aData.imageCount = 0;
+					aData.scriptCount = 0;
 					aData.wordCount = 0;
 					aData.hasFrameset = 0;
 					aData.frames = 0;
@@ -396,6 +400,8 @@
 						ODPExtension.dispatchEvent('DOMContentLinkChecked', aDoc, aData.ids);
 
 						//frames
+						aData.imageCount = aDoc.getElementsByTagName('img').length;
+						aData.scriptCount = aDoc.getElementsByTagName('script').length;
 						aData.hasFrameset = aDoc.getElementsByTagName('frameset').length;
 						aData.frames = aDoc.getElementsByTagName('iframe').length + aDoc.getElementsByTagName('frame').length;
 
@@ -871,7 +877,7 @@
 
 		var lastStatus = aData.statuses[aData.statuses.length - 1];
 
-		var urlMalformed = aData.urlLast.indexOf('https:///') != -1 || aData.urlLast.indexOf('http:///') != -1 || aData.subdomain.indexOf(',') !== -1 || aData.subdomain.indexOf('%') !== -1 || !this.isPublicURL(aData.urlLast);
+		var urlMalformed = aData.urlLast.indexOf('http') !== 0 || aData.urlLast.indexOf('https:///') === 0 || aData.urlLast.indexOf('http:///') === 0 || aData.subdomain.indexOf(',') !== -1 || aData.subdomain.indexOf('%') !== -1 || !this.isPublicURL(aData.urlLast);
 
 		//-6 BAd URL
 		if (false || urlMalformed || lastStatus == 414 // Request-URI Too Large - The URL (usually created by a GET form request) is too large for the server to handle. Check to see that a lot of garbage didn't somehow get pasted in after the URL.

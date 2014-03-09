@@ -5,11 +5,6 @@
 
 	this.afrodita = function() {
 
-		var aCategory = this.categoryGetFromURL(this.prompt('Starting category...'))
-
-		if(!aCategory)
-			return
-
 //LC
 
 	this.dump('Creating database tables and statements...');
@@ -36,8 +31,11 @@
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `site_type` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `hash` TEXT NOT NULL DEFAULT "" ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `match` TEXT NOT NULL DEFAULT "" ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `match_hash` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `domain` TEXT NOT NULL DEFAULT "" ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `domain_id` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `subdomain` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `ip` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `ns` TEXT NOT NULL DEFAULT "" ');}catch(e){}
@@ -47,7 +45,7 @@
 
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `word_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `media_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
-		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `frames` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `frame_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `has_frameset` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `intrusive_popups` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `is_download` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
@@ -56,6 +54,8 @@
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `status_delete` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `status_unreview` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `status_code` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `status_first` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `status_last` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `status_error` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `status_error_string` TEXT NOT NULL DEFAULT "" ');}catch(e){}
@@ -66,7 +66,15 @@
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `meta_description` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `uri_last` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `links_internal_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `links_external_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `broken_included_content` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `broken_content_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `image_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `script_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `redirection_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
+
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `load_time` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 
 		this.dump('Creating field indexes...');
 
@@ -88,8 +96,11 @@
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `site_type` ON `uris` (`site_type`) ');
 
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `hash` ON `uris` (`hash`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `match` ON `uris` (`match`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `match_hash` ON `uris` (`match_hash`) ');
 
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `domain` ON `uris` (`domain`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `domain_id` ON `uris` (`domain_id`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `subdomain` ON `uris` (`subdomain`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `ip` ON `uris` (`ip`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `ns` ON `uris` (`ns`) ');
@@ -99,7 +110,7 @@
 
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `word_count` ON `uris` (`word_count`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `media_count` ON `uris` (`media_count`) ');
-		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `frames` ON `uris` (`frames`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `frame_count` ON `uris` (`frame_count`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `has_frameset` ON `uris` (`has_frameset`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `intrusive_popups` ON `uris` (`intrusive_popups`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `is_download` ON `uris` (`is_download`) ');
@@ -108,6 +119,8 @@
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `status_delete` ON `uris` (`status_delete`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `status_unreview` ON `uris` (`status_unreview`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `status_code` ON `uris` (`status_code`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `status_first` ON `uris` (`status_first`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `status_last` ON `uris` (`status_last`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `status_error` ON `uris` (`status_error`) ');
 
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `status_error_string` ON `uris` (`status_error_string`) ');
@@ -118,7 +131,15 @@
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `meta_description` ON `uris` (`meta_description`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `uri_last` ON `uris` (`uri_last`) ');
 
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `links_internal_count` ON `uris` (`links_internal_count`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `links_external_count` ON `uris` (`links_external_count`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `broken_included_content` ON `uris` (`broken_included_content`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `broken_content_count` ON `uris` (`broken_content_count`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `image_count` ON `uris` (`image_count`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `script_count` ON `uris` (`script_count`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `redirection_count` ON `uris` (`redirection_count`) ');
+
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `load_time` ON `uris` (`load_time`) ');
 
 		lc.commit();
 
@@ -131,13 +152,14 @@
 		var version = rdf.query('PRAGMA user_version');
 		version = version.fetchObjects().user_version
 
-		var select = rdf.query('select distinct(u.uri) from uris u ');
-		var insert = lc.aConnection.createStatement(' insert or ignore into `uris` (`uri`,`version`) values (:uri, :version)');
+		var select = rdf.query('select distinct(u.uri), u.domain_id from uris u ');
+		var insert = lc.aConnection.createStatement(' insert or ignore into `uris` (`uri`,`domain_id`,`version`) values (:uri, :domain_id, :version)');
 
 		var a = 0;
 		lc.begin();
 		while(row = select.fetchObjects()){
 			insert.params['uri'] = row.uri;
+			insert.params['domain_id'] = row.domain_id;
 			insert.params['version'] = version;
 			insert.execute();
 		}
@@ -158,7 +180,7 @@
 			var lc = this.linkCheckerDatabaseOpen();
 
 			var oRedirectionAlert = this.redirectionAlert();
-			var select = lc.query(' select id, uri from uris where `checked` = 0 order by RANDOM() ');
+			var select = lc.query(' select id, uri from uris where `checked` = 0 group by domain_id order by RANDOM() ');
 			var update = lc.aConnection.createStatement(' update `uris` set `checked` = 1, \
 			                                            			\
 																	`finished_loading` = :finished_loading, \
@@ -171,6 +193,8 @@
 																	`site_type` = :site_type, \
 																	\
 																	`hash` = :hash, \
+																	`match` = :match, \
+																	`match_hash` = :match_hash, \
 																	\
 																	`domain` = :domain, \
 																	`subdomain` = :subdomain, \
@@ -182,7 +206,7 @@
 																	\
 																	`word_count` = :word_count, \
 																	`media_count` = :media_count, \
-																	`frames` = :frames, \
+																	`frame_count` = :frame_count, \
 																	`has_frameset` = :has_frameset, \
 																	`intrusive_popups` = :intrusive_popups, \
 																	`is_download` = :is_download, \
@@ -191,6 +215,8 @@
 																	`status_delete` = :status_delete, \
 																	`status_unreview` = :status_unreview, \
 																	`status_code` = :status_code, \
+																	`status_first` = :status_first, \
+																	`status_last` = :status_last, \
 																	`status_error` = :status_error, \
 																	\
 																	`status_error_string` = :status_error_string, \
@@ -201,7 +227,15 @@
 																	`meta_description` = :meta_description, \
 																	`uri_last` = :uri_last, \
 																	\
+																	`links_internal_count` = :links_internal_count, \
+																	`links_external_count` = :links_external_count, \
+																	`broken_included_content` = :broken_included_content, \
+																	`broken_content_count` = :broken_content_count, \
+																	`image_count` = :image_count, \
+																	`script_count` = :script_count, \
 																	`redirection_count` = :redirection_count \
+																	\
+																	`load_time` = :load_time \
 			 													where `uri` = :uri and `checked` = 0');
 
 			var row;
@@ -226,6 +260,8 @@
 						update.params['site_type'] = aData.siteType;
 
 						update.params['hash'] = aData.hash;
+						update.params['match'] = aData.hash;
+						update.params['match_hash'] = aData.matchHash;
 
 						update.params['domain'] = aData.domain;
 						update.params['subdomain'] = aData.subdomain;
@@ -237,7 +273,7 @@
 
 						update.params['word_count'] = aData.wordCount;
 						update.params['media_count'] = aData.mediaCount;
-						update.params['frames'] = aData.frames;
+						update.params['frame_count'] = aData.frames;
 						update.params['has_frameset'] = aData.hasFrameset;
 						update.params['intrusive_popups'] = aData.intrusivePopups;
 						update.params['is_download'] = aData.isDownload ? 1 : 0;
@@ -246,6 +282,8 @@
 						update.params['status_delete'] = aData.status.canDelete ? 1 : 0;
 						update.params['status_unreview'] =  aData.status.canUnreview ? 1 : 0;
 						update.params['status_code'] = aData.status.code;
+						update.params['status_first'] = aData.statuses[0];
+						update.params['status_last'] = aData.statuses[aData.statuses.length-1];
 						update.params['status_error'] = aData.status.error ? 1 : 0;
 
 						update.params['status_error_string'] = aData.status.errorString;
@@ -256,7 +294,21 @@
 						update.params['meta_description'] = aData.metaDescription;
 						update.params['uri_last'] = aData.urlLast;
 
+						update.params['links_internal_count'] = aData.linksInternal.length;
+						update.params['links_external_count'] = aData.linksExternal.length;
+
+						var broken = 0;
+						for(var id in aData.externalContent){
+							if(aData.externalContent[id].status != 200)
+								broken++
+						}
+						update.params['broken_included_content'] = Math.floor(100 * (broken/ aData.externalContent.length)) || 0;
+						update.params['broken_content_count'] = broken;
+						update.params['image_count'] = aData.imageCount;
+						update.params['script_count'] = aData.scriptCount;
 						update.params['redirection_count'] = aData.urlRedirections.length;
+
+						update.params['load_time'] = ((ODPExtension.sqlDate(aData.dateEnd) - ODPExtension.sqlDate(aData.dateStart))/1000) || 0
 
 						update.params['uri'] = uri;
 						update.execute();

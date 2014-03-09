@@ -10,8 +10,10 @@
 	this.rdfDatabaseOpen = function() {
 		if (!database) {
 			database = this.databaseGet('RDF');
-			database.executeSimple('PRAGMA temp_store = 3');//2
+			database.executeSimple('PRAGMA temp_store = 2');//2
 			database.executeSimple('PRAGMA read_uncommitted = true');
+			database.executeSimple('PRAGMA cache_spill = false');
+			database.executeSimple('PRAGMA secure_delete = false');
 			database.executeSimple('PRAGMA journal_mode = memory');//memory
 			//database.executeSimple('PRAGMA synchronous = 0');  does not free mem.
 			database.exists = database.tableExists('uris');

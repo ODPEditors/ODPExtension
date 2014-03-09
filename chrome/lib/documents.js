@@ -68,10 +68,32 @@
 			ids[id] = ids[id].replace(/\:[^\:]+$/, '').toLowerCase()
 		for(var id in ids){
 			if(ids[id].indexOf('ua-') === 0)
-				ids[id] = ids[id].replace(/^(ua-[0-9]+)-[0-9]+$/i, '$1');
+				ids[id] = ids[id].replace(/^(ua-[0-9]+)[^0-9].*$/i, '$1');
+			else if(ids[id].indexOf('pub-') === 0)
+				ids[id] = ids[id].slice(0, 20);
+			else if(ids[id].indexOf('ca-pub-') === 0)
+				ids[id] = ids[id].slice(0, 23);
 		}
-		ids.sort()
-		return this.arrayUnique(ids)
+		var blacklist = [
+			/^ua-[a-z]/i,
+			/^ua-[0-9]+\./,
+			/^pub-[a-z]/,
+			/^ca-pub-[a-z]/,
+		]
+		var found= false, id, i, _ids = [];
+		for(id in ids){
+			found = false
+			for(i in blacklist){
+				if(blacklist[i].test(ids[id])){
+					found = true
+					break;
+				}
+			}
+			if(!found)
+				_ids[_ids.length] = ids[id]
+		}
+		_ids.sort()
+		return this.arrayUnique(_ids)
 	}
 	//gets the title of the  aTab-REVIEW
 	this.documentGetTitle = function(aDoc) {

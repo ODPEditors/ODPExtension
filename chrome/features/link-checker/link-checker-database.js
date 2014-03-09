@@ -12,6 +12,7 @@
 			database = this.databaseGet('LinkChecker');
 			database.executeSimple('PRAGMA temp_store = 2');
 			database.executeSimple('PRAGMA secure_delete = false');
+			database.executeSimple('PRAGMA read_uncommitted = true');
 			database.executeSimple('PRAGMA journal_mode = memory');//memory
 			//database.executeSimple('PRAGMA synchronous = 0');  does not free mem.
 		}

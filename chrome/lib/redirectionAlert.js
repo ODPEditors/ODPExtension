@@ -256,7 +256,6 @@
 
 					aData.hash = '';
 					aData.match = '';
-					aData.matchHash = false;
 					aData.ids = [];
 
 					aData.title = '';
@@ -275,7 +274,7 @@
 					aData.dateStart = ODPExtension.now();
 					aData.dateEnd = aData.dateStart;
 					aData.intrusivePopups = 0;
-					aData.finishedLoading = false;
+					aData.loadingSuccess = false;
 					//aData.removeFromBrowserHistory = !ODPExtension.isVisitedURL(aURL);
 
 				} else {
@@ -317,6 +316,7 @@
 
 					var newTabBrowser = ODPExtension.browserGetFromTab(aTab);
 						newTabBrowser.setAttribute('ODPLinkChecker', true);
+
 					var timedout = -1;
 					//timedout = -1 | tab did not timedout
 					//timedout = 1 | tab timedout (did not fired DOM CONTENT LOAD)
@@ -552,7 +552,7 @@
 									}
 
 									setTimeout(function() {
-										aData.finishedLoading = true;
+										aData.loadingSuccess = true;
 										onTabLoad()
 									}, 12000);
 
@@ -873,6 +873,12 @@
 		aData.status.canDelete = false;
 		aData.status.canUnreview = false;
 		aData.status.suspicious = [];
+
+		aData.status.errorString = '';
+		aData.status.errorStringUserFriendly = '';
+
+		aData.status.match = '';
+		aData.status.matchHash = false;
 
 		//HTTP redirections to HTTPS are not perceived as a redirection, log it
 		if (aData.urlRedirections.length === 1 && aData.urlOriginal != aData.urlLast)

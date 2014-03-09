@@ -10,9 +10,10 @@
 	this.categoriesTXTDatabaseOpen = function() {
 		if (!database) {
 			database = this.databaseGet('CategoriesTXT');
-			database.executeSimple('PRAGMA temp_store = 3');
-			database.executeSimple('PRAGMA read_uncommitted = true');
+			database.executeSimple('PRAGMA temp_store = 2');
 			database.executeSimple('PRAGMA journal_mode = memory');//memory
+			database.executeSimple('PRAGMA read_uncommitted = true');
+
 			//database.executeSimple('PRAGMA synchronous = 0'); does not free mem.
 			database.exists = database.tableExists('categories_txt');
 		}

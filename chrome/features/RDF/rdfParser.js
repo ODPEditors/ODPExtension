@@ -55,8 +55,7 @@
 			, 'http://rdf.dmoz.org/rdf/ad-content.rdf.u8.gz'
 		]
 		var aConnection = this.rdfDatabaseOpen();
-
-			aConnection.executeSimple('PRAGMA temp_store = 2');//2
+			aConnection.executeSimple('PRAGMA cache_spill = true');//reenable cache
 
 		this.dump('Cleaning database tables...');
 		try {

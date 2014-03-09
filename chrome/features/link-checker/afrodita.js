@@ -18,10 +18,11 @@
 	this.dump('Creating database tables and statements...');
 
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `version` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `subdomain_id` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `checked` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `processed` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
-		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `finished_loading` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `loading_success` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `date_start` DATETIME NOT NULL DEFAULT "0000-00-00 00:00:00" ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `date_end` DATETIME NOT NULL DEFAULT "0000-00-00 00:00:00" ');}catch(e){}
@@ -65,11 +66,13 @@
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `meta_title` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `meta_description` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `uri_last` TEXT NOT NULL DEFAULT "" ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `uri_link_redirect` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `links_internal_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `links_external_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
-		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `broken_included_content` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
-		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `broken_content_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `included_total` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `included_broken` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `included_broken_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `image_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `script_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `redirection_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
@@ -81,8 +84,10 @@
 		//INDEX:
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `uri` ON `uris` (`uri`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `version` ON `uris` (`version`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `subdomain_id` ON `uris` (`subdomain_id`) ');
 
 		lc.executeSimple('	CREATE UNIQUE INDEX IF NOT EXISTS `uri_version` ON `uris` (`uri`,`version`) ');
+		lc.executeSimple('	CREATE UNIQUE INDEX IF NOT EXISTS `uri_subdomain_id_version` ON `uris` (`uri`,`subdomain_id`,`version`) ');
 
 
 		lc.commit();
@@ -96,14 +101,16 @@
 		var version = rdf.query('PRAGMA user_version');
 		version = version.fetchObjects().user_version
 
-		var select = rdf.query('select distinct(u.uri) from uris u ');
-		var insert = lc.aConnection.createStatement(' insert or ignore into `uris` (`uri`,`version`) values (:uri, :version)');
+		var select = rdf.query('select distinct(u.uri), u.subdomain_id from uris u, categories c where c.id = u.category_id and (c.category glob "World/*" or c.category glob "Kids*")');
+
+		var insert = lc.aConnection.createStatement(' insert or ignore into `uris` (`uri`,`subdomain_id`,`version`) values (:uri, :subdomain_id, :version)');
 
 		var a = 0;
 		lc.begin();
 		var row
 		while(row = select.fetchObjects()){
 			insert.params['uri'] = row.uri;
+			insert.params['subdomain_id'] = row.subdomain_id;
 			insert.params['version'] = version;
 			insert.execute();
 		}
@@ -115,7 +122,7 @@
 
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `checked` ON `uris` (`checked`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `processed` ON `uris` (`processed`) ');
-		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `finished_loading` ON `uris` (`finished_loading`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `loading_success` ON `uris` (`loading_success`) ');
 
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `date_start` ON `uris` (`date_start`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `date_end` ON `uris` (`date_end`) ');
@@ -159,11 +166,13 @@
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `meta_title` ON `uris` (`meta_title`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `meta_description` ON `uris` (`meta_description`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `uri_last` ON `uris` (`uri_last`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `uri_link_redirect` ON `uris` (`uri_link_redirect`) ');
 
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `links_internal_count` ON `uris` (`links_internal_count`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `links_external_count` ON `uris` (`links_external_count`) ');
-		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `broken_included_content` ON `uris` (`broken_included_content`) ');
-		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `broken_content_count` ON `uris` (`broken_content_count`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `included_total` ON `uris` (`included_total`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `included_broken` ON `uris` (`included_broken`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `included_broken_count` ON `uris` (`included_broken_count`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `image_count` ON `uris` (`image_count`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `script_count` ON `uris` (`script_count`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `redirection_count` ON `uris` (`redirection_count`) ');
@@ -187,10 +196,16 @@
 			var lc = this.linkCheckerDatabaseOpen();
 
 			var oRedirectionAlert = this.redirectionAlert();
-			var select = lc.query(' select id, uri from uris where `checked` = 0 order by RANDOM()  ');
+			var select = lc.query(' select distinct(subdomain_id), id, uri from uris where `checked` = 0 group by subdomain_id order by RANDOM()  ');
+/*
+			select count(distinct(uri)) from uris
+			select count(distinct(subdomain_id)), id, uri from uris
+			select distinct(subdomain_id), id, uri from uris
+
+*/
 			var update = lc.aConnection.createStatement(' update `uris` set `checked` = 1, \
 			                                            			\
-																	`finished_loading` = :finished_loading, \
+																	`loading_success` = :loading_success, \
 																	 \
 																	`date_start` = :date_start, \
 																	`date_end` = :date_end, \
@@ -234,11 +249,13 @@
 																	`meta_title` = :meta_title, \
 																	`meta_description` = :meta_description, \
 																	`uri_last` = :uri_last, \
+																	`uri_link_redirect` = :uri_link_redirect, \
 																	\
 																	`links_internal_count` = :links_internal_count, \
 																	`links_external_count` = :links_external_count, \
-																	`broken_included_content` = :broken_included_content, \
-																	`broken_content_count` = :broken_content_count, \
+																	`included_total` = :included_total, \
+																	`included_broken` = :included_broken, \
+																	`included_broken_count` = :included_broken_count, \
 																	`image_count` = :image_count, \
 																	`script_count` = :script_count, \
 																	`redirection_count` = :redirection_count, \
@@ -258,7 +275,7 @@
 						progress.remove();
 						progress.progress();
 
-						update.params['finished_loading'] = aData.status.finishedLoading ? 1 : 0;
+						update.params['loading_success'] = aData.loadingSuccess ? 1 : 0;
 
 						update.params['date_start'] = aData.dateStart;
 						update.params['date_end'] = aData.dateEnd;
@@ -268,8 +285,8 @@
 						update.params['site_type'] = aData.siteType;
 
 						update.params['hash'] = aData.hash;
-						update.params['match'] = aData.hash;
-						update.params['match_hash'] = aData.matchHash;
+						update.params['match'] = aData.match;
+						update.params['match_hash'] = aData.status.matchHash ? 1 : 0;
 
 						update.params['domain'] = aData.domain;
 						update.params['subdomain'] = aData.subdomain;
@@ -302,6 +319,14 @@
 						update.params['meta_title'] = aData.title;
 						update.params['meta_description'] = aData.metaDescription;
 						update.params['uri_last'] = aData.urlLast;
+						if( (aData.linksInternal.length + aData.linksExternal.length) == 1){
+							if(aData.linksInternal.length)
+								update.params['uri_link_redirect'] = aData.linksInternal[0].url;
+							else
+								update.params['uri_link_redirect'] = aData.linksExternal[0].url;
+						} else {
+							update.params['uri_link_redirect'] = '';
+						}
 
 						update.params['links_internal_count'] = aData.linksInternal.length;
 						update.params['links_external_count'] = aData.linksExternal.length;
@@ -311,8 +336,9 @@
 							if(aData.externalContent[i].status != 200)
 								broken++
 						}
-						update.params['broken_included_content'] = Math.floor(100 * (broken/ aData.externalContent.length)) || 0;
-						update.params['broken_content_count'] = broken;
+						update.params['included_total'] = aData.externalContent.length;
+						update.params['included_broken'] = Math.floor(100 * (broken/ aData.externalContent.length)) || 0;
+						update.params['included_broken_count'] = broken;
 						update.params['image_count'] = aData.imageCount;
 						update.params['script_count'] = aData.scriptCount;
 						update.params['redirection_count'] = aData.urlRedirections.length;
@@ -355,6 +381,8 @@
 
 /*
 	//	 DE LOS HASHES ABRI TODOS LOS >= a 40
+
+SELECT distinct(subdomain_id), count() as total , subdomain_id, host  FROM uris u, hosts h where h.id = u.subdomain_id group by subdomain_id order by total desc limit 1000
 
 	//GROUP BY
 

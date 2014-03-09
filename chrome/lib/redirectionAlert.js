@@ -2,6 +2,19 @@
 
 	var redirectionAlertID = 0;
 
+	//when the link checker crashes, it does not close previous tabs
+	this.addListener('userInterfaceLoad', function () {
+		var tabs = gBrowser.tabContainer.childNodes;
+
+		var close = []
+		for(var a=0;a<tabs.length;a++){
+			if(tabs[a].hasAttribute('ODPLinkChecker'))
+				close[close.length] = tabs[a]
+		}
+		for(var id in close)
+			ODPExtension.tabClose(close[id]);
+	});
+
 	var timeoutAfter = 60 * 1000; //60 seconds for the website to load
 	var tagsMedia = ['object', 'media', 'video', 'audio', 'embed'];
 	var tagsNoContent = ['noscript', 'noframes', 'style', 'script', 'frameset'];
@@ -285,6 +298,7 @@
 
 					var aTab = ODPExtension.tabOpen('about:blank', false, false, true);
 					aTab.setAttribute('hidden', ODPExtension.preferenceGet('link.checker.hidden.tabs'));
+					aTab.setAttribute('ODPLinkChecker', true);
 					aTab.ODPExtensionLinkChecker = true;
 					aTab.ODPExtensionOriginalURI = aURL;
 					aTab.ODPExtensionExternalContent = [];
@@ -618,7 +632,6 @@
 									aData.statuses[aData.statuses.length - 1] = -1;
 							}
 						}
-						//	oRedirectionAlert.onExamineResponse(oHttp);
 
 						aData.stop = true;
 

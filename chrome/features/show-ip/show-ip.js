@@ -178,8 +178,9 @@
 	this.showIPDatabaseOpen = function () {
 		if (!database && ODPExtension.preferenceGet('me')) {
 			database = this.databaseGet('IDs');
-			database.executeSimple('PRAGMA temp_store = 2');
-			database.executeSimple('PRAGMA journal_mode = memory');
+			database.executeSimple('PRAGMA temp_store = 3');
+			database.executeSimple('PRAGMA read_uncommitted = true');
+			database.executeSimple('PRAGMA journal_mode = memory');//memory
 		}
 		return database;
 	}

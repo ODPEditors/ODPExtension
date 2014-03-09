@@ -24,7 +24,7 @@
 			ODPExtension.listingGetInformation(focusedURL);
 		}
 	});
-	var db, query_domain_count, query_domain_select, query_slice;
+	var db, query_domain_count, query_domain_select, query_slice, query_drop, query_create;
 	this.addListener('databaseReady', function() {
 
 		db = ODPExtension.rdfDatabaseOpen();
@@ -38,6 +38,8 @@
 			query_domain_count = db.query(' select count(u.id) from uris u, hosts h where h.host = :domain and h.id = u.domain_id');
 			query_domain_select = db.query(' select 1 ' + select + ' from  hosts h, uris u, categories c where ' + where_domain);
 			db.aConnection.executeSimpleSQL('create temporary table uris_temp_'+ODPExtension.windowID+' as select * from uris limit 1 ');
+
+			query_drop = db.query('drop table if exists uris_temp_'+ODPExtension.windowID+' ');
 
 			query_slice = db.query(' \
 			                       \
@@ -196,8 +198,17 @@
 	});
 
 	var cacheDomainsWithListings = [],
-		cacheDomainsWithNOListings = []
+		cacheDomainsWithNOListings = [],
+		_listingGetInformationTimeout = false
+		_listingGetInformationTimeoutQuery = false
 		this.listingGetInformation = function(aLocation) {
+			clearTimeout(_listingGetInformationTimeout)
+			_listingGetInformationTimeout = setTimeout(function(){
+				ODPExtension._listingGetInformation(aLocation);
+			}, 20);
+		}
+		this._listingGetInformation = function(aLocation) {
+
 			if (aLocation == focusedURLLast)
 				return;
 			focusedURLLast = aLocation;
@@ -262,21 +273,27 @@
 							ODPExtension.listingGetInformationLoaded(aData, aLocation, aLocationID);
 						});
 					} else {
-						db.aConnection.executeSimpleSQL('drop table uris_temp_'+ODPExtension.windowID+' ');
-						db.aConnection.executeSimpleSQL('create temporary table uris_temp_'+ODPExtension.windowID+' as select u.* from uris u, hosts h where h.host = "'+aLocationID.domain+'" and u.domain_id = h.id ');
-
-						query_slice.params('domain', aLocationID.domain);
-						query_slice.params('subdomain', aLocationID.subdomain);
-						query_slice.params('path', aLocationID.path);
-						query_slice.params('path_glob', aLocationID.path + '*');
-						query_slice.params('path_no_hash', aLocationID.path_no_hash + '*');
-						query_slice.params('path_no_vars', aLocationID.path_no_vars + '*');
-						query_slice.params('path_no_file_name', aLocationID.path_no_file_name + '*');
-						query_slice.params('path_parent_folder', aLocationID.path_parent_folder + '*');
-						query_slice.params('path_first_folder', aLocationID.path_first_folder + '*');
-						query_slice.execute(function(aData) {
-							ODPExtension.listingGetInformationLoaded(aData, aLocation, aLocationID);
-						});
+						clearTimeout(_listingGetInformationTimeoutQuery)
+						_listingGetInformationTimeoutQuery = setTimeout(function(){
+							query_drop.execute(function(){
+								var query_create = db.query('create temporary table uris_temp_'+ODPExtension.windowID+' as select u.* from uris u, hosts h where h.host = "'+aLocationID.domain+'" and u.domain_id = h.id ');
+								query_create.execute(function(){
+									query_slice.params('domain', aLocationID.domain);
+									query_slice.params('subdomain', aLocationID.subdomain);
+									query_slice.params('path', aLocationID.path);
+									query_slice.params('path_glob', aLocationID.path + '*');
+									query_slice.params('path_no_hash', aLocationID.path_no_hash + '*');
+									query_slice.params('path_no_vars', aLocationID.path_no_vars + '*');
+									query_slice.params('path_no_file_name', aLocationID.path_no_file_name + '*');
+									query_slice.params('path_parent_folder', aLocationID.path_parent_folder + '*');
+									query_slice.params('path_first_folder', aLocationID.path_first_folder + '*');
+									query_slice.execute(function(aData) {
+										ODPExtension.listingGetInformationLoaded(aData, aLocation, aLocationID);
+										query_drop.execute(function(){})
+									});
+								})
+							});
+						}, 70);
 					}
 				});
 			}

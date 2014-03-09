@@ -177,7 +177,7 @@
 
 	this.showIPDatabaseOpen = function () {
 		if (!database && this.shared.me) {
-			database = this.databaseGet('IDs');
+			database = this.databaseGet('QC');
 			database.executeSimple('PRAGMA temp_store = 3');
 			database.executeSimple('PRAGMA read_uncommitted = true');
 			database.executeSimple('PRAGMA journal_mode = memory');//memory
@@ -200,7 +200,7 @@
 	}
 
 	this.showIPDatabaseCreateTable = function () {
-		if (ths.shared.me) {
+		if (this.shared.me) {
 			var db = this.showIPDatabaseOpen()
 			db.create('\
 									CREATE TABLE IF NOT EXISTS \

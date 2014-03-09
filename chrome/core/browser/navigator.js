@@ -7,7 +7,7 @@ var ODPExtension = {};
 
 // Extension controller
 
-(function() {
+(function () {
 	/*ODPExtension global variables*/
 	this.debugingGlobal = false; //it output to the console all calls to dump no matter what debugingThisFile value is
 	this.extensionHasBeenLoaded = false; //this one is useful to notify to the XPCOMponents that the extension is "usable"
@@ -46,26 +46,26 @@ var ODPExtension = {};
 	var popupShowingListeners = [];
 
 	//registerExtension - waiting for the browser to init the extension
-	this.registerExtension = function() {
+	this.registerExtension = function () {
 		this.dump('registerExtension', debugingThisFile);
 		window.addEventListener("load", ODPExtension.init, false);
 		window.addEventListener("unload", ODPExtension.unregisterExtension, false);
 	};
 	// init the extension, called when the browser has been loaded
-	this.init = function() {
+	this.init = function () {
 		ODPExtension.dump('init', debugingThisFile);
 		window.removeEventListener("load", ODPExtension.init, false); //load is not more needed
 		ODPExtension.addListener('browserInstantiated', ODPExtension.registerTheListeners);
 		ODPExtension.initLoadListeners();
 	};
 	//register this extension to the "TheListeners" component
-	this.registerTheListeners = function() {
+	this.registerTheListeners = function () {
 		var theListeners = Components.classes['@particle.universe.tito/TheListeners;7']
 			.getService().wrappedJSObject;
 		theListeners.registerExtension('ODPExtension', 'development@dmoz.org');
 	}
 	//unregisterExtension - removing extension from browser, listeners, menus, vars, etcs
-	this.unregisterExtension = function() {
+	this.unregisterExtension = function () {
 		ODPExtension.dump('unregisterExtension', debugingThisFile);
 		window.removeEventListener("unload", ODPExtension.unregisterExtension, false);
 		ODPExtension.removeListeners(true);
@@ -74,27 +74,29 @@ var ODPExtension = {};
 		return null;
 	};
 	//adding listeners waiting for the browser to load
-	this.addListener = function(aListener, aFunction) {
+	this.addListener = function (aListener, aFunction) {
 		this.dump('addListener:' + aListener + ':' + aFunction, debugingThisFile);
 		if (!listeners[aListener])
 			listeners[aListener] = [];
 		listeners[aListener][listeners[aListener].length] = aFunction;
 	};
 	//start a complex listener
-	this.startComplexListener = function(aListener) {
+	this.startComplexListener = function (aListener) {
 		var theListeners = Components.classes['@particle.universe.tito/TheListeners;7']
 			.getService().wrappedJSObject;
 		theListeners.addComplexListener(aListener, 'ODPExtension');
 	}
 	//stop a complex listener
-	this.stopComplexListener = function(aListener) {
+	this.stopComplexListener = function (aListener) {
 		var theListeners = Components.classes['@particle.universe.tito/TheListeners;7']
 			.getService().wrappedJSObject;
-		theListeners.removeComplexListener(aListener, 'ODPExtension');
+		try {
+			theListeners.removeComplexListener(aListener, 'ODPExtension');
+		} catch (e) {}
 	}
 
 	//removes a listener from the array of listeners
-	this.removeListener = function(aListener, aFunction) {
+	this.removeListener = function (aListener, aFunction) {
 		this.dump('removeListener', debugingThisFile);
 		for (var id in listeners[aListener]) {
 			if (listeners[aListener][id].toSource() == aFunction.toSource()) {
@@ -105,12 +107,12 @@ var ODPExtension = {};
 		}
 	};
 	//adds aFunction to the array of functions to be called when the extension is unregistered
-	this.addShutDown = function(aFunction) {
+	this.addShutDown = function (aFunction) {
 		this.dump('addShutDown:' + aFunction, debugingThisFile);
 		shutdown[shutdown.length] = aFunction;
 	}
 	//executing listeners - automatically init the BASIC listeners when the browser fully loaded
-	this.initLoadListeners = function() {
+	this.initLoadListeners = function () {
 		this.dump('initLoadListeners', debugingThisFile);
 		//browser instantiated -
 		//called just when a new instance of firefox is created (no window, many windows can be from one instance)
@@ -177,11 +179,9 @@ var ODPExtension = {};
 			}
 		}
 
-
-
 		this.extensionHasBeenLoaded = true;
 	};
-	this.initListeners = function() {
+	this.initListeners = function () {
 		this.dump('initListeners', debugingThisFile);
 		//dumb protection
 		callsToInitListeners++;
@@ -201,21 +201,21 @@ var ODPExtension = {};
 			this.dump('initListeners:onLocationChange', debugingThisFile);
 
 			urlBarListener = {
-				QueryInterface: function(aIID) {
+				QueryInterface: function (aIID) {
 					if (aIID.equals(Components.interfaces.nsIWebProgressListener) ||
 						aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
 						aIID.equals(Components.interfaces.nsISupports))
 						return this;
 					throw Components.results.NS_NOINTERFACE;
 				},
-				onLocationChange: function(aProgress, aRequest, aURI) {
+				onLocationChange: function (aProgress, aRequest, aURI) {
 					//ODPExtension.dump('onLocationChange:onLocationChange', true);
 					ODPExtension.dispatchOnLocationChange(false);
 				},
-				onStateChange: function(aWebProgress, aRequest, aFlag, aStatus) {},
-				onProgressChange: function(aWebProgress, aRequest, curSelf, maxSelf, curTot, maxTot) {},
-				onStatusChange: function(aWebProgress, aRequest, aStatus, aMessage) {},
-				onSecurityChange: function(aWebProgress, aRequest, aState) {}
+				onStateChange: function (aWebProgress, aRequest, aFlag, aStatus) {},
+				onProgressChange: function (aWebProgress, aRequest, curSelf, maxSelf, curTot, maxTot) {},
+				onStatusChange: function (aWebProgress, aRequest, aStatus, aMessage) {},
+				onSecurityChange: function (aWebProgress, aRequest, aState) {}
 			};
 			gBrowser.addProgressListener(urlBarListener);
 			/* REGISTRATION of this "event" CONTINUE IN THE NEXT IF OR ELSE IF*/
@@ -281,7 +281,7 @@ var ODPExtension = {};
 		}
 	};
 	//this is just cool. dispatch an event of this 'core'
-	this.dispatchEvent = function() {
+	this.dispatchEvent = function () {
 		//this.dump('dispatchEvent:'+arguments[0], debugingThisFile);
 
 		var aListener = arguments[0];
@@ -300,7 +300,7 @@ var ODPExtension = {};
 	}
 
 	//this is just cool. dispatch an event of this 'core'
-	this.dispatchGlobalEvent = function() {
+	this.dispatchGlobalEvent = function () {
 		this.dump('dispatchGlobalEvent:' + arguments[0], debugingThisFile);
 
 		var aListener = arguments[0];
@@ -314,7 +314,7 @@ var ODPExtension = {};
 	}
 
 	//notifies to other instances of this extension that aFunction needs to be called
-	this.notifyOtherInstances = function() {
+	this.notifyOtherInstances = function () {
 		this.dump('notifyOtherInstances', debugingThisFile);
 
 		var aFunction = arguments[0];
@@ -331,7 +331,7 @@ var ODPExtension = {};
 		}
 	}
 	//notifies to all the instances of this extension that aFunction needs to be called
-	this.notifyInstances = function() {
+	this.notifyInstances = function () {
 		this.dump('notifyInstances', debugingThisFile);
 
 		var aFunction = arguments[0];
@@ -345,7 +345,7 @@ var ODPExtension = {};
 		}
 	}
 	//notifies to the instance of this extension in the focused window that aFunction needs to be called
-	this.notifyFocused = function() {
+	this.notifyFocused = function () {
 		this.dump('notifyFocused', debugingThisFile);
 
 		var aFunction = arguments[0];
@@ -365,7 +365,7 @@ var ODPExtension = {};
 				This will listen the DOMContentLoaded and the urlBarListener but it will don't do nothing with the content(document) of the tab it self. (to work with document see DOMContentLoadedNoFrames or DOMContentLoadedWithFrames)
 				Listening to "TabOpen","TabMove","TabClose","TabSelect" is not necesary beacuse urlBarListener is fired with this events and back/forward calls !important;
 			*/
-	this.dispatchOnLocationChange = function(focusedDocumentHasBeenLoaded) {
+	this.dispatchOnLocationChange = function (focusedDocumentHasBeenLoaded) {
 		var aDoc = window.top.getBrowser().browsers[window.top.getBrowser().mTabBox.selectedIndex].contentDocument;
 		var aLocation = String(aDoc.location);
 
@@ -390,7 +390,7 @@ var ODPExtension = {};
 
 	}
 	//fires the listener fireDOMContentLoaded
-	this.dispatchDOMContentLoaded = function(event) {
+	this.dispatchDOMContentLoaded = function (event) {
 		//ODPExtension.dump('dispatchDOMContentLoaded', debugingThisFile);
 
 		var aDoc = event.originalTarget;
@@ -434,7 +434,7 @@ var ODPExtension = {};
 		}
 	}
 	//fires the listener popupshowing for the tabContextMenu
-	this.dispatchtabContextMenuShowing = function(event) {
+	this.dispatchtabContextMenuShowing = function (event) {
 		if (event.originalTarget == event.currentTarget) {
 			ODPExtension.dump('dispatchtabContextMenuShowing', debugingThisFile);
 
@@ -445,7 +445,7 @@ var ODPExtension = {};
 		}
 	}
 	//fires when the title of a document change
-	this.dispatchDOMTitleChanged = function(event) {
+	this.dispatchDOMTitleChanged = function (event) {
 		ODPExtension.dump('dispatchDOMTitleChanged', debugingThisFile);
 
 		var aDoc = event.originalTarget;
@@ -464,7 +464,7 @@ var ODPExtension = {};
 
 	}
 	//fires the listener popupshowing for the contentAreaContextMenu
-	this.dispatchContentAreaContextMenuShowing = function(event) {
+	this.dispatchContentAreaContextMenuShowing = function (event) {
 		//this.stack('asd');
 		if (event.originalTarget == event.currentTarget) {
 			ODPExtension.dump('dispatchContentAreaContextMenuShowing', debugingThisFile);
@@ -477,7 +477,7 @@ var ODPExtension = {};
 	}
 
 	//remove the listeners added by the extension
-	this.removeListeners = function(theWindowWasClosed) {
+	this.removeListeners = function (theWindowWasClosed) {
 		this.dump('removeListeners', debugingThisFile);
 		//dumb protection
 		callsToRemoveListeners++;
@@ -542,12 +542,14 @@ var ODPExtension = {};
 				this.dump('removeListeners:onModifyRequest', debugingThisFile);
 				var theListeners = Components.classes['@particle.universe.tito/TheListeners;7']
 					.getService().wrappedJSObject;
-				theListeners.removeComplexListener('onModifyRequest', 'ODPExtension');
+				try {
+					theListeners.removeComplexListener('onModifyRequest', 'ODPExtension');
+				} catch (e) {}
 			}
 		}
 	}
 	//calling functions that remove things added by the extension
-	this.shutDown = function() {
+	this.shutDown = function () {
 		this.dump('shutDown', debugingThisFile);
 		for (var id in shutdown) {
 			this.dump('shutDown:' + shutdown[id], debugingThisFile);
@@ -555,22 +557,22 @@ var ODPExtension = {};
 		}
 	}
 	//sets to null this add-on
-	this.destroy = function() {
+	this.destroy = function () {
 		this.dump('destroy', debugingThisFile);
 		this.dump('exit', debugingThisFile);
 		if (debugingThisFile)
 			ODPExtension.alert('ODPExtension completed the shutdown on this window. Time to look the error console if there is any errors. Looks like the window will be closed');
 	}
 	//output to the console messages
-	this.dump = function(something, debugingThisFile, aTitle) {
+	this.dump = function (something, debugingThisFile, aTitle) {
 		if (!aTitle)
 			aTitle = '';
 		else
 			aTitle = aTitle + ':';
-		if (debugingThisFile || this.debugingGlobal || typeof(debugingThisFile) == 'undefined') {
-			if (typeof(something) == 'string' || typeof(something) == 'number')
+		if (debugingThisFile || this.debugingGlobal || typeof (debugingThisFile) == 'undefined') {
+			if (typeof (something) == 'string' || typeof (something) == 'number')
 				consoleService.logStringMessage('ODPExtension:' + aTitle + something);
-			else if (typeof(something) == 'undefined')
+			else if (typeof (something) == 'undefined')
 				consoleService.logStringMessage('ODPExtension:' + aTitle + 'undefined');
 			else if (something == null)
 				consoleService.logStringMessage('ODPExtension:' + aTitle + 'null');
@@ -583,32 +585,32 @@ var ODPExtension = {};
 		}
 	};
 	//output to the console an error
-	this.error = function(aMsg) {
+	this.error = function (aMsg) {
 		var stack = new Error().stack
 
 		ODPExtension.errorString = 'ODPExtension : ' + aMsg + "\n\n" + stack;
-		setTimeout(function() {
+		setTimeout(function () {
 			throw new Error('ODPExtension : ' + aMsg) + "\n\n" + stack;
 		}, 0);
 	};
-	this.getError = function() {
+	this.getError = function () {
 		var error = String(ODPExtension.errorString)
 		ODPExtension.errorString = null
 		return error;
 	}
 	//output to the console the stack
-	this.stack = function(aMsg) {
+	this.stack = function (aMsg) {
 		var stack = new Error().stack
 		aMsg = new Error('ODPExtension : ' + aMsg) + "\n\n" + stack;
 		throw aMsg;
 	};
 	//restarts the browser
-	this.restart = function() {
+	this.restart = function () {
 		Components.classes["@mozilla.org/toolkit/app-startup;1"]
 			.getService(Components.interfaces.nsIAppStartup)
 			.quit(Components.interfaces.nsIAppStartup.eRestart | Components.interfaces.nsIAppStartup.eAttemptQuit);
 	}
-	this.gc = function() {
+	this.gc = function () {
 		for (var i = 0; i < 2; i++) {
 
 			Components.utils.forceGC();

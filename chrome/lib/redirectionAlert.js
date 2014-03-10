@@ -1,5 +1,7 @@
 (function() {
 
+	this.linkCheckerRunningInstances = 0;
+
 	var redirectionAlertID = 0;
 
 	//when the link checker crashes, it does not close previous tabs
@@ -46,7 +48,7 @@
 				this.cacheRedirects = [];
 				this.itemsWorking = 0;
 				this.itemsDone = 0;
-
+				ODPExtension.linkCheckerRunningInstances++
 				this.itemsNetworking = 0;
 				this.queue = []
 
@@ -81,6 +83,7 @@
 				this.itemsWorking = null;
 				this.itemsDone = null;
 				this.queue = null;
+				ODPExtension.linkCheckerRunningInstances--
 			},
 			observe: function(aSubject, aTopic, aData) {
 				switch (aTopic) {
@@ -185,11 +188,23 @@
 				}
 				this.cache[originalURI].isDownload = oHttp.channelIsForDownload || false;
 				this.cache[originalURI].requestMethod = oHttp.requestMethod || 'GET';
+
 				//detect downloads
 				try {
 					var contentDispositionHeader = oHttp.contentDispositionHeader;
 					this.cache[originalURI].isDownload = true;
 				} catch (e) {}
+
+
+				var disp = "";
+				try {
+					disp = oHttp.getResponseHeader("Content-Disposition");
+				} catch (e) { }
+				if (oHttp.loadFlags & Components.interfaces.nsIChannel.LOAD_DOCUMENT_URI && /^\s*attachment/i.test(disp)){
+					oHttp.setResponseHeader("Content-Disposition", disp.replace(/^\s*attachment/i, "inline"), false);
+					this.cache[originalURI].isDownload = true;
+				}
+
 				if (this.cache[originalURI].isDownload || (oHttp.contentType.trim() != '' && contentTypesTxt.indexOf(oHttp.contentType) === -1)) {
 					this.cache[originalURI].isDownload = true;
 					this.cache[originalURI].contentType = oHttp.contentType;

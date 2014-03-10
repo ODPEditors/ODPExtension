@@ -146,6 +146,16 @@
 			},
 			onExamineResponse: function(oHttp) {
 
+				//cancel downloads
+				var disp = "", isDownload = false;
+				try {
+					disp = oHttp.getResponseHeader("Content-Disposition");
+				} catch (e) { }
+				if (oHttp.loadFlags & Components.interfaces.nsIChannel.LOAD_DOCUMENT_URI && /^\s*attachment/i.test(disp)){
+					oHttp.setResponseHeader("Content-Disposition", disp.replace(/^\s*attachment/i, "inline"), false);
+					isDownload = true;
+				}
+
 				//skiping the examinations of requests NOT related to our redirection alert
 				if (!this.cache[oHttp.originalURI.spec]) {
 					if (!this.cacheRedirects[oHttp.originalURI.spec]) {
@@ -158,10 +168,10 @@
 				} else {
 					var originalURI = oHttp.originalURI.spec;
 				}
+
 				if (this.cache[originalURI].stop == true) {
 					//resolving: this item was already checked to the end but all the request are still on examination
 					//so: if you open a new tab with this item.url, that information willl be appended as a redirection (this return avoids this)
-
 					return;
 				}
 
@@ -195,17 +205,7 @@
 					this.cache[originalURI].isDownload = true;
 				} catch (e) {}
 
-
-				var disp = "";
-				try {
-					disp = oHttp.getResponseHeader("Content-Disposition");
-				} catch (e) { }
-				if (oHttp.loadFlags & Components.interfaces.nsIChannel.LOAD_DOCUMENT_URI && /^\s*attachment/i.test(disp)){
-					oHttp.setResponseHeader("Content-Disposition", disp.replace(/^\s*attachment/i, "inline"), false);
-					this.cache[originalURI].isDownload = true;
-				}
-
-				if (this.cache[originalURI].isDownload || (oHttp.contentType.trim() != '' && contentTypesTxt.indexOf(oHttp.contentType) === -1)) {
+				if (isDownload || this.cache[originalURI].isDownload || (oHttp.contentType.trim() != '' && contentTypesTxt.indexOf(oHttp.contentType) === -1)) {
 					this.cache[originalURI].isDownload = true;
 					this.cache[originalURI].contentType = oHttp.contentType;
 					oHttp.cancel(Components.results.NS_BINDING_ABORTED);

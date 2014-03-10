@@ -156,6 +156,13 @@
 					isDownload = true;
 				}
 
+				//detect downloads
+				try {
+					var contentDispositionHeader = oHttp.contentDispositionHeader;
+					isDownload = true;
+					oHttp.cancel(Components.results.NS_BINDING_ABORTED);
+				} catch (e) {}
+
 				//skiping the examinations of requests NOT related to our redirection alert
 				if (!this.cache[oHttp.originalURI.spec]) {
 					if (!this.cacheRedirects[oHttp.originalURI.spec]) {
@@ -414,8 +421,8 @@
 						var links = ODPExtension.getAllLinksItems(aDoc);
 						for (var i = 0, length = links.length; i < length; i++) {
 							var link = links[i];
-							if (link.href && link.href != '' && link.href.indexOf('http') === 0) {
-								var aDomain = ODPExtension.getDomainFromURL(link.href)
+							if (link.href && link.href != '' && String(link.href).indexOf('http') === 0) {
+								var aDomain = ODPExtension.getDomainFromURL(String(link.href))
 								if (aDomain != aData.domain)
 									aData.linksExternal[aData.linksExternal.length] = {
 										url: String(link.href),

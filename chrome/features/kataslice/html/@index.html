@@ -162,10 +162,10 @@
 						contenteditable="true"
 
 						onkeypress="return entryKeyPress(this, event)"
-						onblur="entryOnBlurOnInput(this, event)"
-						oninput="entryOnBlurOnInput(this, event)"
+						onblur="entryBlurOrInput(this, event)"
+						onfocus="entryFocus(this, event)"
+						oninput="entryBlurOrInput(this, event)"
 
-						onfocus="entryOnFocus(this, event)"
 						onmousedown="this.focus()"
 						onpaste="entryPaste(this, event)">{title}</span>
 					<div class="description-container"><span
@@ -174,10 +174,10 @@
 						contenteditable="true"
 
 						onkeypress="return entryKeyPress(this, event)"
-						onblur="entryOnBlurOnInput(this, event)"
-						oninput="entryOnBlurOnInput(this, event)"
+						onblur="entryBlurOrInput(this, event)"
+						onfocus="entryFocus(this, event)"
+						oninput="entryBlurOrInput(this, event)"
 
-						onfocus="entryOnFocus(this, event)"
 						onmousedown="this.focus()"
 						onpaste="entryPaste(this, event)">{description}</span></div>
 					<div class="clear"></div>
@@ -187,10 +187,10 @@
 						contenteditable="true"
 
 						onkeypress="return entryKeyPress(this, event)"
-						onblur="entryOnBlurOnInput(this, event)"
-						oninput="entryOnBlurOnInput(this, event)"
+						onblur="entryBlurOrInput(this, event)"
+						onfocus="entryFocus(this, event)"
+						oninput="entryBlurOrInput(this, event)"
 
-						onfocus="entryOnFocus(this, event)"
 						onmousedown="this.focus()"
 						onpaste="entryPaste(this, event)">{url}</span>
 					</div>
@@ -202,10 +202,11 @@
 							contenteditable="true"
 
 							onkeypress="return entryKeyPress(this, event)"
-							onblur="entryOnBlurOnInput(this, event)"
-							oninput="entryOnBlurOnInput(this, event)"
+							onblur="entryBlurOrInput(this, event)"
+							onfocus="entryFocus(this, event)"
+							oninput="entryBlurOrInput(this, event)"
 
-							onfocus="entryOnFocus(this, event)"
+
 							onmousedown="this.focus()"
 							onpaste="entryPaste(this, event)">{category}</span>
 					</div>

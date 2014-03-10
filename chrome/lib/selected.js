@@ -206,13 +206,13 @@
 			var length = a.length;
 			for (var i = 0; i < length; i++) {
 				if (a[i].href)
-					links[links.length] = a[i].href;
+					links[links.length] = String(a[i].href);
 			}
 			var a = aDoc.getElementsByTagName("area");
 			var length = a.length;
 			for (var i = 0; i < length; i++) {
 				if (a[i].href)
-					links[links.length] = a[i].href;
+					links[links.length] = String(a[i].href);
 			}
 		})
 		return links;

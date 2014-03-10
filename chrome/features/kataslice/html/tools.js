@@ -10,11 +10,11 @@ function toolSearchEngine(item, event) {
 
 function _toolSearchEngine(item, event) {
 	var text = $(item).val();
-	item = entryGetItem(item);
-	var d = entryGetData(item);
+	var entry = itemGetEntry(item);
+	var d = entryGetData(entry);
 
 	var template = _.template($(".tpl-list-item-tool-se").html());
-	var container = $(item.find('.tools').find('.search-engine'))
+	var container = $(entry.find('.tools').find('.search-engine'))
 
 	if (text == '')
 		text = d.title

@@ -390,6 +390,9 @@
 //NEW
 
 /*
+	//all already checked
+	select count() from uris where checked = 1
+
 	//GROUP by error type
 	SELECT distinct(status_error_string), count(*) as total, uri from  uris where checked = 1 group by status_error_string
 

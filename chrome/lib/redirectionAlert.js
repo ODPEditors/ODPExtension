@@ -11,8 +11,9 @@
 			if(tabs[a].hasAttribute('ODPLinkChecker') || ODPExtension.browserGetFromTab(tabs[a]).hasAttribute('ODPLinkChecker'))
 				close[close.length] = tabs[a]
 		}
-		for(var id in close)
+		for(var id in close){
 			ODPExtension.tabClose(close[id]);
+		}
 	});
 
 	var timeoutAfter = 60 * 1000; //60 seconds for the website to load
@@ -30,7 +31,7 @@
 	'video/mpeg', 'video/quicktime', 'video/x-ms-asf', 'video/x-ms-wmv', 'video/x-msvideo', //video
 	'application/x-unknown-content-type', '']
 
-	var debug = true;
+	var debug = false;
 
 	this.redirectionAlert = function() {
 		function RedirectionAlert() {

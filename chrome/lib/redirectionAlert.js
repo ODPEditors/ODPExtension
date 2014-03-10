@@ -30,7 +30,7 @@
 	'video/mpeg', 'video/quicktime', 'video/x-ms-asf', 'video/x-ms-wmv', 'video/x-msvideo', //video
 	'application/x-unknown-content-type', '']
 
-	var debug = false;
+	var debug = true;
 
 	this.redirectionAlert = function() {
 		function RedirectionAlert() {
@@ -127,7 +127,11 @@
 								var domWin = notificationCallbacks.getInterface(Components.interfaces.nsIDOMWindow);
 								var aTab = ODPExtension.tabGetFromChromeDocument(domWin);
 								if (aTab && !! aTab.ODPExtensionExternalContent) {
-									if(/\.css(\?.*)?$/.test(aSubject.originalURI.spec) || ODPExtension.isGarbage(aSubject.originalURI.spec)){
+									if(/\.css(\?.*)?$/.test(aSubject.URI.spec) || ODPExtension.isGarbage(aSubject.URI.spec)){
+										aTab.ODPExtensionExternalContent[aTab.ODPExtensionExternalContent.length] = {
+											url: aSubject.URI.spec,
+											status: 200
+										};
 										aSubject.cancel(Components.results.NS_BINDING_ABORTED);
 									}
 								}

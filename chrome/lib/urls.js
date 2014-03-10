@@ -194,12 +194,15 @@
 			case 'maps.googleapis.com':
 			case 'partner.googleadservices.com':
 
+			case 'connect.facebook.com':
+			case 'connect.facebook.net':
 			case 'api.facebook.com':
 			case 'static.ak.facebook.com':
 			case 's-static.ak.facebook.com':
 
 			case 'advertising.microsoft.com':
 			case 'api.tweetmeme.com':
+			case 'a.disquscdn.com':
 			case 'mediacdn.disqus.com':
 			case 'assets.tumblr.com':
 				return true;
@@ -219,6 +222,8 @@
 			aURL.indexOf('https://www.google.com/ads') === 0 ||
 			aURL.indexOf('http://www.google.com/ads') === 0 ||
 			aURL.indexOf('https://www.facebook.com/connect') === 0 ||
+			aURL.indexOf('http://www.google-analytics.com/ga.js') === 0 ||
+			aURL.indexOf('https://www.google-analytics.com/ga.js') === 0 ||
 			aURL.indexOf('http://analytics.') === 0 ||
 			aURL.indexOf('http://ad.') === 0 ||
 			aURL.indexOf('http://ads.') === 0 ||

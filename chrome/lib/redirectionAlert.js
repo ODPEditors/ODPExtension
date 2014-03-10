@@ -54,7 +54,8 @@
 				observerService.addObserver(this, "http-on-examine-merged-response", false);
 				observerService.addObserver(this, "http-on-examine-cached-response", false);
 				observerService.addObserver(this, 'content-document-global-created', false);
-				observerService.addObserver(this, 'http-on-opening-request', false);
+				//observerService.addObserver(this, 'http-on-opening-request', false);
+				observerService.addObserver(this, 'http-on-modify-request', false);
 			},
 			unLoad: function() {
 				var self = this;
@@ -71,7 +72,8 @@
 				observerService.removeObserver(this, "http-on-examine-merged-response", false);
 				observerService.removeObserver(this, "http-on-examine-cached-response", false);
 				observerService.removeObserver(this, 'content-document-global-created', false);
-				observerService.removeObserver(this, 'http-on-opening-request', false);
+				//observerService.removeObserver(this, 'http-on-opening-request', false);
+				observerService.removeObserver(this, 'http-on-modify-request', false);
 
 				this.cache = null;
 				this.cacheRedirects = null;
@@ -115,11 +117,22 @@
 							}
 						}
 						break;
-					case 'http-on-opening-request':
+					//case 'http-on-opening-request':
+					case 'http-on-modify-request':
 						aSubject.QueryInterface(Components.interfaces.nsIHttpChannel);
-						if(/\.css$/.test(aSubject.URI.spec) || ODPExtension.isGarbage(aSubject.URI.spec)){
-							aSubject.cancel(Components.results.NS_BINDING_ABORTED);
-						}
+
+						try {
+							var notificationCallbacks = aSubject.notificationCallbacks ? aSubject.notificationCallbacks : aSubject.loadGroup.notificationCallbacks;
+							if (!notificationCallbacks) {} else {
+								var domWin = notificationCallbacks.getInterface(Components.interfaces.nsIDOMWindow);
+								var aTab = ODPExtension.tabGetFromChromeDocument(domWin);
+								if (aTab && !! aTab.ODPExtensionExternalContent) {
+									if(/\.css(\?.*)?$/.test(aSubject.originalURI.spec) || ODPExtension.isGarbage(aSubject.originalURI.spec)){
+										aSubject.cancel(Components.results.NS_BINDING_ABORTED);
+									}
+								}
+							}
+						} catch (e) {}
 						break;
 				}
 			},
@@ -204,7 +217,8 @@
 						ODPExtension.fileWrite('/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID, ODPExtension.compress(JSON.stringify(aData)) );
 					}
 					oRedirectionAlert.cache[aURL] = null;
-					//ODPExtension.dump(aData)
+					if(debug)
+						ODPExtension.dump(aData)
 					aFunction(aData, aURL);
 				});
 			},
@@ -221,7 +235,6 @@
 				this.itemsWorking++;
 				this.itemsNetworking++;
 
-				//ODPExtension.dump('check:function:'+aURL);
 				if (typeof(letsTryAgainIfFail) == 'undefined')
 					letsTryAgainIfFail = 1;
 

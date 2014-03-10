@@ -166,39 +166,45 @@
 	//returns true if the aDomain is garbage
 	this.isGarbageDomain = function (aDomain) {
 		switch (aDomain) {
-		case 'googlesyndication.com':
-		case 'doubleclick.net':
-		case 'fbcdn.net':
-		case 'sharethis.com':
-		case 'scorecardresearch.com':
-
-			return true;
-		default:
-			return false;
+			case 'googlesyndication.com':
+			case 'doubleclick.net':
+			case 'fbcdn.net':
+			case 'googleadservices.com':
+			case 'sharethis.com':
+			case 'scorecardresearch.com':
+			case 'adnxs.com':
+				return true;
+			default:
+				return false;
 		}
 	}
 	//returns true if the aSubdomain is garbage
 	this.isGarbageSubdomain = function (aSubdomain) {
 		switch (aSubdomain) {
-		case 'googleads.g.doubleclick.net':
-		case 'pagead2.googlesyndication.com':
+			case 'googleads.g.doubleclick.net':
+			case 'pagead2.googlesyndication.com':
 
-		case 'plus.google.com':
-		case 'apis.google.com':
-		case 'adwords.google.com':
-		case 'services.google.com':
-		case 'accounts.google.com':
+			case 'plus.google.com':
+			case 'apis.google.com':
+			case 'adwords.google.com':
+			case 'services.google.com':
+			case 'accounts.google.com':
+			case 'fonts.googleapis.com':
+			case 'maps.google.com':
+			case 'maps.googleapis.com':
+			case 'partner.googleadservices.com':
 
-		case 'api.facebook.com':
-		case 'static.ak.facebook.com':
-		case 's-static.ak.facebook.com':
+			case 'api.facebook.com':
+			case 'static.ak.facebook.com':
+			case 's-static.ak.facebook.com':
 
-		case 'advertising.microsoft.com':
-		case 'api.tweetmeme.com':
-		case 'mediacdn.disqus.com':
-			return true;
-		default:
-			return false;
+			case 'advertising.microsoft.com':
+			case 'api.tweetmeme.com':
+			case 'mediacdn.disqus.com':
+			case 'assets.tumblr.com':
+				return true;
+			default:
+				return false;
 		}
 	}
 	//returns true if the URL is garbage
@@ -208,6 +214,17 @@
 			this.isGarbageDomain(this.getDomainFromURL(aURL)) ||
 			aURL.indexOf('http://www.google.com/url?') === 0 ||
 			aURL.indexOf('https://www.google.com/url?') === 0 ||
+			aURL.indexOf('https://maps.google.') === 0 ||
+			aURL.indexOf('http://maps.google.') === 0 ||
+			aURL.indexOf('https://www.google.com/ads') === 0 ||
+			aURL.indexOf('http://www.google.com/ads') === 0 ||
+			aURL.indexOf('https://www.facebook.com/connect') === 0 ||
+			aURL.indexOf('http://analytics.') === 0 ||
+			aURL.indexOf('http://ad.') === 0 ||
+			aURL.indexOf('http://ads.') === 0 ||
+			aURL.indexOf('https://analytics.') === 0 ||
+			aURL.indexOf('https://ad.') === 0 ||
+			aURL.indexOf('https://ads.') === 0 ||
 			aURL.indexOf('tweetmeme.com/button') != -1 ||
 			aURL.indexOf('youtube.com/embed') != -1 ||
 			aURL.indexOf('facebook.com/plugins') != -1 ||
@@ -218,6 +235,7 @@
 			aURL.indexOf('facebook.com/xd_') != -1 ||
 			aURL.indexOf('addthis.com/static') != -1 ||
 			aURL.indexOf('.twitter.com/widgets') != -1 ||
+			aURL.indexOf('.amazon.com/widgets') != -1 ||
 			aURL.indexOf('gmodules.com/gadgets') != -1
 
 		)

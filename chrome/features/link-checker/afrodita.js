@@ -42,6 +42,7 @@
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `ids` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `language` TEXT NOT NULL DEFAULT "" ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `headers` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `word_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `str_length` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
@@ -65,6 +66,11 @@
 
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `meta_title` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `meta_description` TEXT NOT NULL DEFAULT "" ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `meta_keywords` TEXT NOT NULL DEFAULT "" ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `meta_author` TEXT NOT NULL DEFAULT "" ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `meta_copyright` TEXT NOT NULL DEFAULT "" ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `meta_robots` TEXT NOT NULL DEFAULT "" ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `meta_generator` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `uri_last` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `uri_link_redirect` TEXT NOT NULL DEFAULT "" ');}catch(e){}
 
@@ -76,6 +82,8 @@
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `image_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `script_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `redirection_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `rss_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
+		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `atom_count` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 
 		try{lc.executeSimple('ALTER TABLE `uris` ADD COLUMN `load_time` INTEGER NOT NULL DEFAULT 0 ');}catch(e){}
 
@@ -142,6 +150,7 @@
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `ids` ON `uris` (`ids`) ');
 
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `language` ON `uris` (`language`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `headers` ON `uris` (`headers`) ');
 
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `word_count` ON `uris` (`word_count`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `str_length` ON `uris` (`str_length`) ');
@@ -165,6 +174,11 @@
 
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `meta_title` ON `uris` (`meta_title`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `meta_description` ON `uris` (`meta_description`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `meta_keywords` ON `uris` (`meta_keywords`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `meta_author` ON `uris` (`meta_author`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `meta_copyright` ON `uris` (`meta_copyright`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `meta_robots` ON `uris` (`meta_robots`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `meta_generator` ON `uris` (`meta_generator`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `uri_last` ON `uris` (`uri_last`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `uri_link_redirect` ON `uris` (`uri_link_redirect`) ');
 
@@ -176,6 +190,8 @@
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `image_count` ON `uris` (`image_count`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `script_count` ON `uris` (`script_count`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `redirection_count` ON `uris` (`redirection_count`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `rss_count` ON `uris` (`rss_count`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `atom_count` ON `uris` (`atom_count`) ');
 
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `load_time` ON `uris` (`load_time`) ');
 
@@ -196,7 +212,7 @@
 			var lc = this.linkCheckerDatabaseOpen();
 
 			var oRedirectionAlert = this.redirectionAlert();
-			var select = lc.query(' select distinct(subdomain_id), id, uri from uris where `checked` = 0 group by subdomain_id order by RANDOM()  ');
+			var select = lc.query(' select distinct(subdomain_id), id, uri from uris where `checked` = 0 group by subdomain_id order by RANDOM() limit 50000 ');
 /*
 			select count(distinct(uri)) from uris
 			select count(distinct(subdomain_id)), id, uri from uris
@@ -225,6 +241,7 @@
 																	`ids` = :ids, \
 																	\
 																	`language` = :language, \
+																	`headers` = :headers, \
 																	\
 																	`word_count` = :word_count, \
 																	`str_length` = :str_length, \
@@ -248,6 +265,11 @@
 																	\
 																	`meta_title` = :meta_title, \
 																	`meta_description` = :meta_description, \
+																	`meta_keywords` = :meta_keywords, \
+																	`meta_author` = :meta_author, \
+																	`meta_copyright` = :meta_copyright, \
+																	`meta_robots` = :meta_robots, \
+																	`meta_generator` = :meta_generator, \
 																	`uri_last` = :uri_last, \
 																	`uri_link_redirect` = :uri_link_redirect, \
 																	\
@@ -259,6 +281,8 @@
 																	`image_count` = :image_count, \
 																	`script_count` = :script_count, \
 																	`redirection_count` = :redirection_count, \
+																	`rss_count` = :rss_count, \
+																	`atom_count` = :atom_count, \
 																	\
 																	`load_time` = :load_time \
 			 													where `id` = :id ');
@@ -285,7 +309,7 @@
 						update.params['site_type'] = aData.siteType;
 
 						update.params['hash'] = aData.hash;
-						update.params['match'] = aData.match;
+						update.params['match'] = aData.status.match;
 						update.params['match_hash'] = aData.status.matchHash ? 1 : 0;
 
 						update.params['domain'] = aData.domain;
@@ -295,6 +319,7 @@
 						update.params['ids'] =  aData.ids.join(',');
 
 						update.params['language'] = aData.language;
+						update.params['headers'] = aData.headers;
 
 						update.params['word_count'] = aData.wordCount;
 						update.params['str_length'] = aData.strLength;
@@ -318,6 +343,11 @@
 
 						update.params['meta_title'] = aData.title;
 						update.params['meta_description'] = aData.metaDescription;
+						update.params['meta_keywords'] = aData.metaKeywords;
+						update.params['meta_author'] = aData.metaAuthor;
+						update.params['meta_copyright'] = aData.metaCopyright;
+						update.params['meta_robots'] = aData.metaRobots;
+						update.params['meta_generator'] = aData.metaGenerator;
 						update.params['uri_last'] = aData.urlLast;
 						if( (aData.linksInternal.length + aData.linksExternal.length) == 1){
 							if(aData.linksInternal.length)
@@ -342,11 +372,13 @@
 						update.params['image_count'] = aData.imageCount;
 						update.params['script_count'] = aData.scriptCount;
 						update.params['redirection_count'] = aData.urlRedirections.length;
+						update.params['rss_count'] = aData.metaRSS.length;
+						update.params['atom_count'] = aData.metaAtom.length;
 
 						update.params['load_time'] = ((ODPExtension.sqlDate(aData.dateEnd) - ODPExtension.sqlDate(aData.dateStart))/1000) || 0
 
 						update.params['id'] = id;
-						update.execute();
+						update.executeAsync();
 						aData = null
 					});
 				})(row.id, row.uri);
@@ -355,7 +387,26 @@
 
 	//console.log('Tabs loading content: Tabs opened:'+gBrowser.tabContainer.childNodes.length)
 
-//SELECT CONTNET contentTypes
+//NEW
+
+/*
+	//GROUP by error type
+	SELECT distinct(status_error_string), count(*) as total, uri from  uris where checked = 1 group by status_error_string
+
+	//select these not ok
+	select status_error_string, uri,match from uris where checked = 1 and status_error_string != "OK" and status_error_string != "Redirect OK" and status_error_string != "Redirect" and status_error_string != "Redirect OK Candidate 4 Autofix" order by status_error_string asc
+
+	//set to recheck
+	update uris set checked = 0 where checked = 1 and (status_error_string = "Tiny Page" or  status_error_string = "No Content"  or  status_error_string = "Hacked"   or  status_error_string = "Empty Page"  or  status_error_string = "Gone" or  status_error_string = "Parked" )
+
+
+*/
+
+
+
+
+
+
 /*
 	var db = ODPExtension.rdfDatabaseOpen();
 	var select = db.query(' select * from uris where `checked` = 1 order by id desc limit 20');

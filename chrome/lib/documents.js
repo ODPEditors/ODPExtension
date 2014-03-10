@@ -42,21 +42,21 @@
 		var window = aDoc.defaultView.wrappedJSObject;
 		if(!ids)
 			ids = []
-		if (window.frames.length) {
+		if (window && window.frames.length) {
 			for (var a = 0; a < window.frames.length; a++) {
-				if ( !! window.frames[a].google_ad_url) {
+				if ( window.frames && window.frames[a] && !! window.frames[a].google_ad_url) {
 					var idss = window.frames[a].google_ad_url.match(documentGetIDsRegExp)
 					for (var id in idss)
 						ids[ids.length] = idss[id]
 				}
-				if ( !! window.frames[a].src) {
+				if ( window.frames && window.frames[a] && !! window.frames[a].src) {
 					var idss = window.frames[a].src.match(documentGetIDsRegExp)
 					for (var id in idss)
 						ids[ids.length] = idss[id]
 				}
 			}
 		}
-		if (window._uacct)
+		if (!!window._uacct)
 			ids[ids.length] = window._uacct
 
 		return this.normalizeIDs(ids);

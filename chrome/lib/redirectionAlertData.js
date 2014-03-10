@@ -33,7 +33,6 @@
 				,'domainname='
 				,'godaddy.com/parked'
 				,'google.ads.domains'
-				,'adnxs.com/'
 				//,'google.com/adsense/domains/caf.js'
 				,'href="http://searchdiscovered.com'//src="http://searchdiscovered.com
 				,'href="http://searchresultsguide.com'
@@ -177,7 +176,7 @@
 				,'miarroba.com/error'
 				,'msngroupsclosure'
 				,'Unavailable Tripod Directory'
-				,'>Just another WordPress site<'
+				//,'>Just another WordPress site<'
 				,'Welcome to WordPress. This is your first post'
 				,'<h1>Este blog solo admite a lectores invitados'
 				, 'Sorry, the site you requested has been disabled'
@@ -373,6 +372,7 @@
 			canUnreview: true,
 			body:[''
 				,"<b>Fatal error</b>:  require_once("
+				,'Cache_Lite : Unable to write cache file'
 				,'(using password: YES)'
 				,'<a href=\'function.include\'>function.include</a>'
 				,'<b>Fatal error</b>:  Allowed memory size'
@@ -590,7 +590,7 @@
 			canUnreview: true,
 			body:[''
 				,'<title>Hacked By '
-				,'HaCked By'
+				//,'title>HaCked By'
 			],
 			hash:[''
 				, ''
@@ -610,7 +610,6 @@
 				,'<div class="relHdr">Related Searches</div>'
 				,'<frame name="pp"'
 				,'<frame src="http://domain.dot.tk/p/?d='
-				,'<html lang="ja"'
 				,'<title>"Domain-Name.bz"'
 				,'Below are sponsored listings for goods and services related to'
 				,'class="resMain"><h2>Sponsored listings for'

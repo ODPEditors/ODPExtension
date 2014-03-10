@@ -117,7 +117,7 @@
 						break;
 					case 'http-on-opening-request':
 						aSubject.QueryInterface(Components.interfaces.nsIHttpChannel);
-						if(ODPExtension.isGarbage(aSubject.URI.spec)){
+						if(/\.css$/.test(aSubject.URI.spec) || ODPExtension.isGarbage(aSubject.URI.spec)){
 							aSubject.cancel(Components.results.NS_BINDING_ABORTED);
 						}
 						break;
@@ -204,6 +204,7 @@
 						ODPExtension.fileWrite('/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID, ODPExtension.compress(JSON.stringify(aData)) );
 					}
 					oRedirectionAlert.cache[aURL] = null;
+					//ODPExtension.dump(aData)
 					aFunction(aData, aURL);
 				});
 			},
@@ -259,11 +260,22 @@
 					aData.ids = [];
 
 					aData.title = '';
-					aData.metaDescription = '';
 
 					aData.externalContent = [];
 					aData.linksInternal = []
 					aData.linksExternal = []
+
+					aData.metaRSS = []
+					aData.metaAtom = []
+					aData.metaOpenSearch = []
+
+					aData.metaAuthor = ''
+					aData.metaCopyright = ''
+					aData.metaRobots = ''
+					aData.metaGenerator = ''
+					aData.metaDescription = '';
+					aData.metaKeywords = '';
+
 					aData.mediaCount = 0;
 					aData.imageCount = 0;
 					aData.scriptCount = 0;
@@ -401,9 +413,11 @@
 
 						ODPExtension.dispatchEvent('DOMContentLinkChecked', aDoc, aData.ids);
 
-						//frames
+						//count
 						aData.imageCount = aDoc.getElementsByTagName('img').length;
 						aData.scriptCount = aDoc.getElementsByTagName('script').length;
+
+						//frames
 						aData.hasFrameset = aDoc.getElementsByTagName('frameset').length;
 						aData.frames = aDoc.getElementsByTagName('iframe').length + aDoc.getElementsByTagName('frame').length;
 
@@ -427,6 +441,63 @@
 						else if(ODPExtension.urlFlagsHashFlash.indexOf(aData.hash) !== -1)
 							aData.siteType = 'flash';
 
+						var meta = aDoc.getElementsByTagName('link')
+						for (var i = 0; i < meta.length; i++) {
+							if(meta[i].hasAttribute('type')){
+								var type = meta[i].getAttribute('type').toLowerCase().trim()
+								switch(type){
+									case 'application/rss+xml':{
+										aData.metaRSS[aData.metaRSS.length] = {
+												url:meta[i].href,
+												title:meta[i].getAttribute('title')
+										}
+										break;
+									}
+									case 'application/atom+xml':{
+										aData.metaAtom[aData.metaAtom.length] =  {
+												url:meta[i].href,
+												title:meta[i].getAttribute('title')
+										}
+										break;
+									}
+									case 'application/opensearchdescription+xml':{
+										aData.metaOpenSearch[aData.metaOpenSearch.length] =  {
+												url:meta[i].href,
+												title:meta[i].getAttribute('title')
+										}
+										break;
+									}
+								}
+							}
+						}
+						var meta = aDoc.getElementsByTagName('meta')
+						for (var i = 0; i < meta.length; i++) {
+							if(meta[i].hasAttribute('name')){
+								var name = meta[i].getAttribute('name').toLowerCase().trim()
+								switch(name){
+									case 'author':{
+										aData.metaAuthor = meta[i].getAttribute('content')
+										break;
+									}
+									case 'copyright':{
+										aData.metaCopyright = meta[i].getAttribute('content')
+										break;
+									}
+									case 'robots':{
+										aData.metaRobots = meta[i].getAttribute('content')
+										break;
+									}
+									case 'generator':{
+										aData.metaGenerator = meta[i].getAttribute('content')
+										break;
+									}
+									case 'keywords':{
+										aData.metaKeywords = meta[i].getAttribute('content')
+										break;
+									}
+								}
+							}
+						}
 
 						//clone doc, do not touch the doc in the tab
 						aDoc = aDoc.cloneNode(true);
@@ -454,8 +525,6 @@
 						aData.language = ODPExtension.detectLanguage(aData.txt);
 						aData.wordCount = aData.txt.split(' ').length
 						aData.strLength = aData.txt.length
-						if(aData.wordCount < 3 && aData.txt.length > 100)
-							aData.wordCount = aData.txt.length
 
 						ODPExtension.disableTabFeatures(ODPExtension.windowGetFromTab(aTab), aTab, aData)
 						ODPExtension.urlFlag(aData);
@@ -520,7 +589,7 @@
 									if (!ODPExtension.preferenceGet('link.checker.use.cache'))
 										newTabBrowser.loadURIWithFlags(aURI, newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | newTabBrowser.webNavigation.LOAD_ANONYMOUS | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
 									else
-										newTabBrowser.loadURIWithFlags(aURI, newTabBrowser.webNavigation.LOAD_ANONYMOUS | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
+										newTabBrowser.loadURI(aURI);
 								} else {
 
 									oRedirectionAlert.itemsNetworking--;
@@ -554,7 +623,7 @@
 									setTimeout(function() {
 										aData.loadingSuccess = true;
 										onTabLoad()
-									}, 12000);
+									}, 18000);
 
 								}
 							}
@@ -577,7 +646,7 @@
 					if (!ODPExtension.preferenceGet('link.checker.use.cache'))
 						newTabBrowser.loadURIWithFlags(aURL, newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | newTabBrowser.webNavigation.LOAD_ANONYMOUS | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
 					else
-						newTabBrowser.loadURIWithFlags(aURL, newTabBrowser.webNavigation.LOAD_ANONYMOUS | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
+						newTabBrowser.loadURI(aURL);
 					setTimeout(function() {
 						if (timedout === -1) {
 							timedout = 1;
@@ -977,8 +1046,7 @@
 
 			//-8 	Empty Page
 		} else if (false  //nothing
-		  || (aData.hash == '869a4716516c5ef5f369913fa60d71b8' && aData.wordCount < 20)
-
+		  || (aData.hash == '869a4716516c5ef5f369913fa60d71b8' && aData.wordCount < 20 && aData.strLength < 70)
 		) {
 			aData.status.code = -8;
 			aData.statuses.push(aData.status.code);
@@ -991,12 +1059,12 @@
 		} else if (false  //nothing
 		  || (
 		      	aData.checkType != 'Attachment'
-		      	&&  aData.wordCount < 20
+		      	&& aData.wordCount < 20
+		      	&& aData.strLength < 70
 		      	&&  !aData.hasFrameset
-				&&  (
- 		      		aData.mediaCount.length < 1
- 		      		|| ( aData.linksExternal.length + aData.linksInternal.length ) < 1)
- 		      	) // few words, no media content
+				&&  aData.mediaCount < 1
+				&&  (aData.linksExternal.length + aData.linksInternal.length ) < 1
+ 		      ) // few words, no media content
 		) {
 			aData.status.code = -8;
 			aData.statuses.push(aData.status.code);

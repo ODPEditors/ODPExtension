@@ -27,11 +27,11 @@ function onCategoryChange() {
 	});
 }
 
-var groups = ['domain', 'subdomain', 'user', 'ip', 'type', 'category', 'type_colour'],
+var groups = ['domain', 'subdomain', 'user', 'ip', 'type', 'category', 'type_colour', 'action'],
 	columns = ['subdomain', 'title', 'description', 'category', 'user', 'date', 'ip', 'type', 'colour', 'action'],
 	columns_changes = ['title', 'description', 'category', 'type', 'action', 'url', 'note'],
 	by = [],
-	byCount = [];
+	byCount = []
 
 //create page
 
@@ -194,6 +194,8 @@ function filterAdd(key, value, event) {
 	item.html((filters[key][k].negation ? '<b><i class="negation">!</i></b> ' : '') + ODP.h(anchor))
 
 	update();
+	chartsRenderBar();
+
 }
 
 function filterRemove(item) {
@@ -201,6 +203,7 @@ function filterRemove(item) {
 	ODP.removeElement(item);
 
 	update();
+	chartsRenderBar();
 }
 
 var filterFreeTextTimeout = false;
@@ -269,11 +272,12 @@ function chartsRenderBar() {
 
 	//bars group
 	timer.start('bar');
-	var bar, bars = ['domain', 'user', 'ip', 'category'];
-	var group, colours;
+	var bar, bars = ['domain', 'user', 'ip', 'category', 'action'];
+	var group, colours
 	for (var i in bars) {
 
-		$('.bars .' + bars[i]).empty();
+		$('.bars .' + bars[i]).remove();
+		$('.bars').append('<div class="' + bars[i]+'"></div>');
 
 		group = byCount[bars[i]].top(Infinity)
 		colours = ODP.generateColours(group.length)

@@ -174,8 +174,9 @@
 	}
 	this.foreachFrameFrame = function(frame, aFunction) {
 		var frames = frame.frames;
-		if(!frames.done){
+		if(!frames.done && !frame.done){
 			frames.done = true
+			frame.done = true
 			for (var i = 0; i < frames.length; i++) {
 				if (!frames[i] || !frames[i].document)
 					continue;

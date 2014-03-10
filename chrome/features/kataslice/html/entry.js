@@ -22,6 +22,9 @@ function entrySync(item) {
 	var v = item.text().trim();
 
 	if (lastSelectedData[k] != v || (lastSelectedData['new_' + k] && lastSelectedData['new_' + k] != v)) {
+		ODP.dump('------------------------');
+		ODP.dump(lastSelectedData)
+		ODP.dump(v)
 		lastSelectedData['new_' + k] = v;
 		lastSelectedEntry.addClass('pending');
 		entryUpdatePendingCounter();
@@ -36,7 +39,7 @@ function entryClick(item, event) {
 
 	lastSelectedData = entryGetData(item);
 	var lastSelectedIsSsame = false
-	var targetIsContentEditable = $(event.originalTarget).attr('contenteditable');
+	var targetIsContentEditable = $(event.originalTarget).attr('contenteditable') || $(event.originalTarget).prop("tagName") == 'INPUT';
 
 	//remove spellcheck from lastSelectedEntry item
 	if (lastSelectedEntry && lastSelectedEntry.attr('id') != entry.attr('id')) {
@@ -89,6 +92,15 @@ function entryOnFocus(item, event) {
 	if (!entry.hasClass('selected')) {
 		lastSelectedData = entryGetData(item);
 		lastSelectedEntry = entry
+	}
+}
+
+function entryKeyPressBody(item, event) {
+	if (event.keyCode == event.DOM_VK_RETURN) {
+		var items = listGetSelected()
+			items.each(function(d) {
+				ODP.tabOpen(d.new_url || d.url, true)
+			});
 	}
 }
 

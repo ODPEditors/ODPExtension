@@ -21,15 +21,15 @@ function action(type){
 	switch (actionType) {
 		case 'unreview': //unreview
 			items.each(function(d) {
-				d.new_action = 'U';
-				d3.select(this).attr('action', 'U');
+				d.new_action = 'unreviewed';
+				d3.select(this).attr('action', 'unreviewed');
 				d3.select(this).classed('pending', true);
 			});
 			break;
 		case 'publish': //publish
 			items.each(function(d) {
-				d.new_action = 'P';
-				d3.select(this).attr('action', 'P');
+				d.new_action = 'reviewed';
+				d3.select(this).attr('action', 'reviewed');
 				d3.select(this).classed('pending', true);
 			});
 			break;
@@ -38,8 +38,8 @@ function action(type){
 			if(note){
 				items.each(function(d) {
 					d.new_note = note;
-					d.new_action = 'D';
-					d3.select(this).attr('action', 'D');
+					d.new_action = 'deleted';
+					d3.select(this).attr('action', 'deleted');
 					d3.select(this).classed('pending', true);
 
 				});
@@ -48,8 +48,8 @@ function action(type){
 		case 'delete-duplicate': //delete
 			items.each(function(d) {
 				d.new_note = 'Duplicated';
-				d.new_action = 'D';
-				d3.select(this).attr('action', 'D');
+				d.new_action = 'deleted';
+				d3.select(this).attr('action', 'deleted');
 				d3.select(this).classed('pending', true);
 
 			});
@@ -57,8 +57,8 @@ function action(type){
 		case 'hijacked': //delete
 			items.each(function(d) {
 				d.new_note = 'Hijacked';
-				d.new_action = 'D';
-				d3.select(this).attr('action', 'D');
+				d.new_action = 'deleted';
+				d3.select(this).attr('action', 'deleted');
 				d3.select(this).classed('pending', true);
 
 			});
@@ -66,32 +66,32 @@ function action(type){
 		case 'gone': //delete
 			items.each(function(d) {
 				d.new_note = 'Gone';
-				d.new_action = 'D';
-				d3.select(this).attr('action', 'D');
+				d.new_action = 'deleted';
+				d3.select(this).attr('action', 'deleted');
 				d3.select(this).classed('pending', true);
 			});
 			break;
 		case 'poor': //delete
 			items.each(function(d) {
 				d.new_note = 'Poor';
-				d.new_action = 'D';
-				d3.select(this).attr('action', 'D');
+				d.new_action = 'deleted';
+				d3.select(this).attr('action', 'deleted');
 				d3.select(this).classed('pending', true);
 			});
 			break;
 		case 'no-content': //delete
 			items.each(function(d) {
 				d.new_note = 'No content';
-				d.new_action = 'D';
-				d3.select(this).attr('action', 'D');
+				d.new_action = 'deleted';
+				d3.select(this).attr('action', 'deleted');
 				d3.select(this).classed('pending', true);
 			});
 			break;
 		case 'MFA': //delete
 			items.each(function(d) {
 				d.new_note = 'MFA';
-				d.new_action = 'D';
-				d3.select(this).attr('action', 'D');
+				d.new_action = 'deleted';
+				d3.select(this).attr('action', 'deleted');
 				d3.select(this).classed('pending', true);
 			});
 			break;
@@ -133,9 +133,9 @@ function action(type){
 			break;
 		case 'edit': //open edit page
 			items.each(function(d) {
-				if (d.area == 'unrev')
+				if (d.area == 'unreviewed')
 					ODP.tabOpen('http://www.dmoz.org/editors/editunrev/editurl?urlsubId=' + d.site_id + '&cat=' + ODP.encodeUTF8(d.category) + '&offset=5000', false, false, true)
-				else if (d.area == 'rev')
+				else if (d.area == 'reviewed')
 					ODP.tabOpen('http://www.dmoz.org/editors/editurl/edit?urlId=' + d.site_id + '&cat=' + ODP.encodeUTF8(d.category) + '&offset=5000', false, false, true)
 				else if (d.area == 'new')
 					ODP.tabOpen('http://www.dmoz.org/editors/editurl/add?url=' + d.new_url + '&cat=' + ODP.encodeUTF8(d.new_category), false, false, true)
@@ -172,7 +172,13 @@ function action(type){
 				var item = d3.select(this)
 				oRedirectionAlert.check(d.url, function(aData, aURL) {
 					ODP.dump(aData)
+					ODP.fileWrite('tito', JSON.stringify(aData))
 				});
+			});
+			break
+		case 'site-data-dump': //link checked
+			items.each(function(d) {
+				ODP.dump(d)
 			});
 			break
 		case 'link-check': //link checked

@@ -21,7 +21,7 @@
 	<link type="text/css" media="all" rel="stylesheet" href="@tools.css"/>
 
 </head>
-<body loading="true">
+<body loading="true" onkeypress="entryKeyPressBody(this, event)">
 <div class="loading" style="opacity:.3">Loading.. <br>please wait</div>
 <header>
 	<div class="title"><b class="no-selection">KataSlice</b> - <div class="categories inline-block"></div></div>
@@ -49,6 +49,7 @@
 			<li class="click" onclick="listSortBy(this)">domain</li>
 			<li class="click" onclick="listSortBy(this)">subdomain</li>
 			<li class="click" onclick="listSortBy(this)">category</li>
+			<li class="click" onclick="listSortBy(this)">title</li>
 		</ul>
 
 		<ul class="menu" type="selection"><b class="no-selection ignore"><span class="narrow">With</span> selection</b>
@@ -68,6 +69,7 @@
 
 			<li class="click" onclick="action(this)" action="link-check">link check</li>
 			<li class="click" onclick="action(this)" action="link-check-dump">link check dump</li>
+			<li class="click" onclick="action(this)" action="site-data-dump">site data dump</li>
 			<li class="click" onclick="action(this)" action="translate">translate</li>
 
 			<hr>
@@ -130,7 +132,7 @@
 		<div class="clear"></div>
 
 		<div class="list-no-results" results="false">There are no results.</div>
-		<div class="list"></div>
+		<div class="list" ></div>
 		<div class="clear"></div>
 
 	</div>
@@ -151,7 +153,7 @@
 					<span class="icons">
 						<span class="deleted" title="Deleted"></span>
 						<span class="unreviewed" title="Unreviewed"></span>
-						<span class="published" title="Published"></span>
+						<span class="reviewed" title="Reviewed"></span>
 						<span class="modified" title="Modified"></span>
 					</span>
 					<span

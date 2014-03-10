@@ -1,8 +1,8 @@
 body {
 	background-color: rgb(210, 210, 210);
 	overflow-x: hidden;
-	padding-top: 53px;
-	;
+	padding-top: 26px;
+	margin-top:27px;
 }
 body[loading="true"] {
 }
@@ -228,16 +228,16 @@ body[loading="true"] .totals{
 	/*action*/
 	.icons .deleted,
 	.icons .unreviewed,
-	.icons .published{
+	.icons .reviewed{
 		display: none;
 	}
-	.item[action="D"] .icons .deleted{
+	.item[action="deleted"] .icons .deleted{
 		display: inherit;
 	}
-	.item[action="P"] .icons .published{
+	.item[action="reviewed"] .icons .reviewed{
 		display: inherit;
 	}
-	.item[action="U"] .icons .unreviewed{
+	.item[action="unreviewed"] .icons .unreviewed{
 		display: inherit;
 	}
 

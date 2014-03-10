@@ -19,9 +19,9 @@ function sync() {
 		var site = changed[id];
 		(function(site) {
 			setTimeout(function() {
-				if (site.area == 'unrev')
+				if (site.area == 'unreviewed')
 					edit(site, 'http://www.dmoz.org/editors/editunrev/editurl?urlsubId=' + site.site_id + '&cat=' + ODP.encodeUTF8(site.category) + '&offset=5000')
-				else if (site.area == 'rev')
+				else if (site.area == 'reviewed')
 					edit(site, 'http://www.dmoz.org/editors/editurl/edit?urlId=' + site.site_id + '&cat=' + ODP.encodeUTF8(site.category) + '&offset=5000')
 				else if (site.area == 'new')
 					edit(site, 'http://www.dmoz.org/editors/editurl/add?url=' + site.new_url + '&cat=' + ODP.encodeUTF8(site.new_category))
@@ -76,7 +76,7 @@ function edit(site, url) {
 			else {
 
 				//clean error
-				if (site.type == 'error' && aDoc.getElementById('resolve') != null && (!site.new_url || site.new_url == site.url) && (site.new_action || site.action) != 'D') {
+				if (site.type == 'error' && aDoc.getElementById('resolve') != null && (!site.new_url || site.new_url == site.url) && (site.new_action || site.action) != 'deleted') {
 
 					aDoc.getElementById('resolve').click()
 
@@ -108,12 +108,18 @@ function edit(site, url) {
 
 						//click operation
 						var action = site.new_action || site.action
-						if (action == 'U')
+						if (action == 'unreviewed'){
 							ODP.getElementNamedWithValue('operation', 'unrev', aDoc).click()
-						else if (action == 'P')
+							site.area = 'unreviewed'
+						}
+						else if (action == 'reviewed') {
 							(ODP.getElementNamedWithValue('operation', 'update', aDoc) || ODP.getElementNamedWithValue('operation', 'grant', aDoc)).click()
-						else if (action == 'D')
+							site.area = 'reviewed'
+						}
+						else if (action == 'deleted'){
 							(ODP.getElementNamedWithValue('operation', 'delete', aDoc) || ODP.getElementNamedWithValue('operation', 'deny', aDoc)).click()
+							site.area = 'deleted'
+						}
 						site.action = action
 
 						//sent

@@ -113,8 +113,8 @@
 						break;
 				}
 				site.type_colour = site.type + '-' + site.colour;
-				site.area = 'unrev';
-				site.action = 'U'; // U = unrev, P = publish, D = delete
+				site.area = 'unreviewed';
+				site.action = 'unreviewed'; // unreviewed, reviewed, deleted
 				site.id = site.area + '-' + site.site_id;
 				aSites[aSites.length] = site;
 
@@ -207,8 +207,8 @@
 						break;
 				}
 				site.type_colour = site.type + '-' + site.colour;
-				site.area = 'unrev';
-				site.action = 'U'; // U = unrev, P = publish, D = delete
+				site.area = 'unreviewed';
+				site.action = 'unreviewed'; // unreviewed, reviewed, deleted
 				site.id = site.area + '-' + site.site_id;
 
 				site.kK = false
@@ -289,8 +289,8 @@
 						break;
 				}
 				site.type_colour = site.type + '-' + site.colour;
-				site.area = 'rev';
-				site.action = 'P'; // U = unrev, P = publish, D = delete
+				site.area = 'reviewed';
+				site.action = 'reviewed'; // unreviewed, reviewed, deleted
 				site.id = site.area + '-' + site.site_id;
 
 				if (site.description.indexOf('[') != -1 && this.categoryIsKidsAndTeens(site.category)) {
@@ -304,6 +304,16 @@
 					site.kT = false
 					site.kMT = false
 				}
+
+				site.rss = false
+				site.atom = false
+				site.pdf = false
+
+				site.rss = /\[rss\]$/i.test(site.description)
+				site.atom = /\[atom\]$/i.test(site.description)
+				site.pdf = /\[pdf\]$/i.test(site.description)
+
+				site.description = site.description.replace(/\[(rss|atom|pdf)\]$/i, '').trim()
 
 				site.cool = elements[id].innerHTML.indexOf('</a></strong>') != -1
 				site.isKT = this.categoryIsKidsAndTeens(site.category)

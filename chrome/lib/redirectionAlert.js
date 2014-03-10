@@ -989,6 +989,8 @@
 		aData.status.match = '';
 		aData.status.matchHash = false;
 
+		aData.urlLast = aData.urlLast.replace(/\/+$/, '/');
+
 		//HTTP redirections to HTTPS are not perceived as a redirection, log it
 		if (aData.urlRedirections.length === 1 && aData.urlOriginal != aData.urlLast)
 			aData.urlRedirections.push(aData.urlLast)
@@ -1086,7 +1088,7 @@
 
 			//-8 	Empty Page
 		} else if (false  //nothing
-		  || (aData.hash == '869a4716516c5ef5f369913fa60d71b8' && aData.wordCount < 20 && aData.strLength < 70)
+		  || (aData.hash == '869a4716516c5ef5f369913fa60d71b8' && aData.wordCount < 20 && aData.strLength < 150)
 		) {
 			aData.status.code = -8;
 			aData.statuses.push(aData.status.code);
@@ -1100,7 +1102,7 @@
 		  || (
 		      	aData.checkType != 'Attachment'
 		      	&& aData.wordCount < 20
-		      	&& aData.strLength < 70
+		      	&& aData.strLength < 150
 		      	&&  !aData.hasFrameset
 				&&  aData.mediaCount < 1
 				&&  (aData.linksExternal.length + aData.linksInternal.length ) < 1
@@ -1254,11 +1256,11 @@
 		oldURL = this.removeWWW(this.removeSchema(this.shortURLAggresive(oldURL))).replace(/\/+$/, '').toLowerCase().replace(/-|_/g, '').trim();
 		newURL = this.removeSchema(newURL)
 								.replace(/\/+$/, '')
-								.replace(/^www\./, '') // if http://www.tld/ redirects to http://www9.tld/ shouldn't be corrected [we only remove the wwww]
+								.replace(/^www\./, '') // if http://www.tld/ redirects to http://www9.tld/ shouldn't be corrected [we only remove the www]
 								.toLowerCase().replace(/-|_/g, '')
 								.trim();
 		if(newURL.indexOf('/') != -1)
-			newURL = newURL.replace(/\..{3,4}$/,'') // example when http://tld/folder/ redirects to http://tld/folder.htm
+			newURL = newURL.replace(/\.[a-z]{3,4}$/,'') // example when http://tld/folder/ redirects to http://tld/folder.htm
 
 		//remove tld, ttp://www.tld1/ redirects to http://www.tld2/ must be corrected
 		oldURL = oldURL.split('/')

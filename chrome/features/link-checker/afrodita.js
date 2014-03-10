@@ -393,6 +393,12 @@
 	//all already checked
 	select count() from uris where checked = 1
 
+	//redirect autofix
+	select uri, uri_last from uris where checked = 1 and processed = 0 and status_error_string = "Redirect OK Candidate 4 Autofix" order by date_start asc
+
+	//mark autofix done
+	update uris set processed = 1 where checked = 1 and status_error_string = "Redirect OK Candidate 4 Autofix"
+
 	//GROUP by error type
 	SELECT distinct(status_error_string), count(*) as total, uri from  uris where checked = 1 group by status_error_string
 

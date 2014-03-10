@@ -2,6 +2,7 @@ function sync() {
 
 	var items = listGetVisible();
 	var changed = []
+	var columns_changes = ['title', 'description', 'category', 'type', 'action', 'url', 'note']
 
 	items.each(function(d) {
 		for (var id in columns_changes) {
@@ -16,22 +17,22 @@ function sync() {
 
 	var timer = 0;
 	for (var id in changed) {
-		var site = changed[id];
-		(function(site) {
+		var d = changed[id];
+		(function(d) {
 			setTimeout(function() {
-				if (site.area == 'unreviewed')
-					edit(site, 'http://www.dmoz.org/editors/editunrev/editurl?urlsubId=' + site.site_id + '&cat=' + ODP.encodeUTF8(site.category) + '&offset=5000')
-				else if (site.area == 'reviewed')
-					edit(site, 'http://www.dmoz.org/editors/editurl/edit?urlId=' + site.site_id + '&cat=' + ODP.encodeUTF8(site.category) + '&offset=5000')
-				else if (site.area == 'new')
-					edit(site, 'http://www.dmoz.org/editors/editurl/add?url=' + site.new_url + '&cat=' + ODP.encodeUTF8(site.new_category))
+				if (d.area == 'unreviewed')
+					edit(d, 'http://www.dmoz.org/editors/editunrev/editurl?urlsubId=' + d.site_id + '&cat=' + ODP.encodeUTF8(d.category) + '&offset=5000')
+				else if (d.area == 'reviewed')
+					edit(d, 'http://www.dmoz.org/editors/editurl/edit?urlId=' + d.site_id + '&cat=' + ODP.encodeUTF8(d.category) + '&offset=5000')
+				else if (d.area == 'new')
+					edit(d, 'http://www.dmoz.org/editors/editurl/add?url=' + d.new_url + '&cat=' + ODP.encodeUTF8(d.new_category))
 			}, timer += 1200);
-		})(site);
+		})(d);
 	}
 
 }
 
-function edit(site, url) {
+function edit(d, url) {
 
 	var aTab = ODP.tabOpen(url, false, false, true)
 
@@ -76,7 +77,7 @@ function edit(site, url) {
 			else {
 
 				//clean error
-				if (site.type == 'error' && aDoc.getElementById('resolve') != null && (!site.new_url || site.new_url == site.url) && (site.new_action || site.action) != 'deleted') {
+				if (d.type == 'error' && aDoc.getElementById('resolve') != null && (!d.new_url || d.new_url == d.url) && (d.new_action || d.action) != 'deleted') {
 
 					aDoc.getElementById('resolve').click()
 
@@ -85,42 +86,42 @@ function edit(site, url) {
 
 					if (ODP.editingFormURLExists(aDoc)) {
 
-						if (site.new_url && site.new_url != site.url) {
-							(ODP.getElementNamed('newurl', aDoc) || ODP.getElementNamed('url', aDoc)).value = site.new_url;
-							site.url = site.new_url
+						if (d.new_url && d.new_url != d.url) {
+							(ODP.getElementNamed('newurl', aDoc) || ODP.getElementNamed('url', aDoc)).value = d.new_url;
+							d.url = d.new_url
 						}
-						if (site.new_title && site.new_title != site.title) {
-							(ODP.getElementNamed('newtitle', aDoc) || ODP.getElementNamed('title', aDoc)).value = site.new_title;
-							site.title = site.new_title
+						if (d.new_title && d.new_title != d.title) {
+							(ODP.getElementNamed('newtitle', aDoc) || ODP.getElementNamed('title', aDoc)).value = d.new_title;
+							d.title = d.new_title
 						}
-						if (site.new_description && site.new_description != site.description) {
-							(ODP.getElementNamed('newdesc', aDoc) || ODP.getElementNamed('desc', aDoc)).value = site.new_description;
-							site.description = site.new_description
+						if (d.new_description && d.new_description != d.description) {
+							(ODP.getElementNamed('newdesc', aDoc) || ODP.getElementNamed('desc', aDoc)).value = d.new_description;
+							d.description = d.new_description
 						}
-						if (site.new_category && site.new_category != site.category) {
-							(ODP.getElementNamed('typecat', aDoc) || ODP.getElementNamed('cat', aDoc)).value = site.new_category;
-							site.category = site.new_category
+						if (d.new_category && d.new_category != d.category) {
+							(ODP.getElementNamed('typecat', aDoc) || ODP.getElementNamed('cat', aDoc)).value = d.new_category;
+							d.category = d.new_category
 						}
-						if (site.new_note && site.new_note != '') {
-							(ODP.getElementNamed('newnote', aDoc) || ODP.getElementNamed('note', aDoc)).value = site.new_note;
-							site.note = site.new_note
+						if (d.new_note && d.new_note != '') {
+							(ODP.getElementNamed('newnote', aDoc) || ODP.getElementNamed('note', aDoc)).value = d.new_note;
+							d.note = d.new_note
 						}
 
 						//click operation
-						var action = site.new_action || site.action
+						var action = d.new_action || d.action
 						if (action == 'unreviewed'){
 							ODP.getElementNamedWithValue('operation', 'unrev', aDoc).click()
-							site.area = 'unreviewed'
+							d.area = 'unreviewed'
 						}
 						else if (action == 'reviewed') {
 							(ODP.getElementNamedWithValue('operation', 'update', aDoc) || ODP.getElementNamedWithValue('operation', 'grant', aDoc)).click()
-							site.area = 'reviewed'
+							d.area = 'reviewed'
 						}
 						else if (action == 'deleted'){
 							(ODP.getElementNamedWithValue('operation', 'delete', aDoc) || ODP.getElementNamedWithValue('operation', 'deny', aDoc)).click()
-							site.area = 'deleted'
+							d.area = 'deleted'
 						}
-						site.action = action
+						d.action = action
 
 						//sent
 						var inputs = aDoc.getElementsByTagName('input');

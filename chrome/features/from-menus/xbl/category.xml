@@ -47,10 +47,8 @@
 
 					  	  <xul:menuitem action="edit_cat_updates" label="&ODPExtension.from.category.updates;"/>
 					  	  <xul:menuitem action="edit_cat_greenbusts" label="&ODPExtension.from.category.greenbusts;"/>
-				  		<xul:menuseparator/>
 
-				  		<xul:menuitem action="edit_cat_kataslice_rev" disabled="true" label="KataSlice"/>
-				  		<xul:menuitem action="edit_cat_kataslice_rev_recursive" disabled="true" label="KataSlice (recursive)"/>
+
 				  	</xul:menupopup>
 			    </xul:menu>
 			    <xul:menu action="edit_cat_unreview" label="&ODPExtension.from.category.unreview;">
@@ -79,10 +77,8 @@
 			  		<!--xul:menuseparator/-->
 			  		<!--xul:menuitem action="command_editor_produced_tool_Redbust" label="Redbust"/>
 			  		<xul:menuitem action="command_editor_produced_tool_PNF" label="PNF"/-->
-			  		<xul:menuseparator/>
 
-			  		<xul:menuitem action="edit_cat_kataslice_unrev" disabled="true" label="KataSlice"/>
-			  		<xul:menuitem action="edit_cat_kataslice_unrev_recursive" disabled="true" label="KataSlice (recursive)"/>
+
 			  	</xul:menupopup>
 			    </xul:menu>
 			    <xul:menuseparator/>

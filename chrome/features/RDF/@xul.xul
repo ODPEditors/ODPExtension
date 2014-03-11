@@ -4,7 +4,8 @@
 	<script src="_api/rdfGetCategoryAltlangsIDsToCategoryIDs.js" type="application/x-javascript"/>
 	<script src="_api/rdfGetCategoryFromCategoryID.js" type="application/x-javascript"/>
 	<script src="_api/rdfGetCategoryFromCategoryPath.js" type="application/x-javascript"/>
-	<script src="_api/rdfGetCategoryRelatedCategoriesFromCategoryPath.js" type="application/x-javascript"/>
+	<script src="_api/rdfGetCategoryLinksToCategoryID.js" type="application/x-javascript"/>
+	<script src="_api/rdfGetCategoryRelatedCategoriesFromCategoryID.js" type="application/x-javascript"/>
 	<script src="_api/rdfGetCategorySubcategoriesFromCategoryPath.js" type="application/x-javascript"/>
 	<script src="_api/rdfGetCategorySubcategoriesRecursiveFromCategoryPath.js" type="application/x-javascript"/>
 	<script src="altlangs/rdfFindAltlangsCategoriesWithoutIncoming.js" type="application/x-javascript"/>
@@ -39,6 +40,7 @@
 	<script src="links/rdfFindLinksToHere.js" type="application/x-javascript"/>
 	<script src="links/rdfFindLinksToHereToAny.js" type="application/x-javascript"/>
 	<script src="links/rdfFindLinksToHereToAnyWithInvalidName.js" type="application/x-javascript"/>
+	<script src="related/rdfFindRelatedAndLinksMissing.js" type="application/x-javascript"/>
 	<script src="related/rdfFindRelatedFromHere.js" type="application/x-javascript"/>
 	<script src="related/rdfFindRelatedFromHereFromAny.js" type="application/x-javascript"/>
 	<script src="related/rdfFindRelatedToDifferentLanguage.js" type="application/x-javascript"/>

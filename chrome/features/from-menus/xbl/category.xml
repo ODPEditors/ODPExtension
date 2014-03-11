@@ -127,6 +127,8 @@
 					<xul:menuitem action="rdf_find_related_to_here" label="Find related categories to here"/>
 					<xul:menuitem action="rdf_find_related_from_here_or_from_any" label="Find related categories from here or from any of its subcategories"/>
 					<xul:menuitem action="rdf_find_related_to_here_or_to_any" label="Find related categories to here or to any of its subcategories"/>
+					<xul:menuseparator/>
+					<xul:menuitem action="rdf_find_missing_relcats_and_links" label="Find missing relcats and @links"/>
 				</xul:menupopup>
 			  </xul:menu>
 
@@ -147,6 +149,8 @@
 						<xul:menuitem action="rdf_find_links_to_here" label="Find @links to here"/>
 						<xul:menuitem action="rdf_find_links_from_here_or_from_any" label="Find @links from here or from any of its subcategories"/>
 						<xul:menuitem action="rdf_find_links_to_here_or_to_any" label="Find @links to here or to any of its subcategories"/>
+						<xul:menuseparator/>
+						<xul:menuitem action="rdf_find_missing_relcats_and_links" label="Find missing relcats and @links"/>
 					</xul:menupopup>
 				</xul:menu>
 			  <xul:menuseparator/>

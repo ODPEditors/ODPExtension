@@ -102,6 +102,12 @@ table {
 	text-transform: uppercase;
 	margin-left: 12px;
 }
+hr{
+	height: 1px;
+	padding: 0px;
+	border: 0px none;
+	background-color: gray;
+}
 .sidebar hr {
 	border: 0px;
 	padding: 0px;
@@ -170,6 +176,12 @@ table {
 }
 .sidebar ul:hover b {
 	opacity: 1;
+}
+.green{
+	color: green;
+}
+.red{
+	color: red;
 }
 /* elements genric */
 h1, h2, h3, h4, h5 {

@@ -482,6 +482,8 @@
 				this.rdfFindLinksToHere(aValue + '/');
 			else if (aCommand == 'rdf_find_links_to_here_or_to_any')
 				this.rdfFindLinksToHereToAny(aValue + '/');
+			else if (aCommand == 'rdf_find_missing_relcats_and_links')
+				this.rdfFindRelatedAndLinksMissing(aValue + '/');
 			else if (aCommand == 'rdf_find_links_from_here')
 				this.rdfFindLinksFromHere(aValue + '/');
 			else if (aCommand == 'rdf_find_links_from_here_or_from_any')

@@ -299,7 +299,138 @@
 			return aCategory.replace(/^([^\/]+)\/([^\/]+)\/([^\/]+)\/.*/, '$1 $2 $3');
 		else
 			return aCategory.split('/')[0];
-
+	}
+	this.categoryGetTop = function(aCategory) {
+		var language = this.getLanguageNameFromCategory(aCategory)
+		if(language == 'English')
+			return aCategory.split('/')[0]
+		else if (this.categoryIsAdult(aCategory))
+			return 'Adult/World/'+language+'/';
+		else if (this.categoryIsKidsAndTeens(aCategory))
+			return 'Kids_and_Teens/International/'+language+'/';
+		else
+			return 'World/'+language+'/';
+	}
+	this.categoryIsRegional = function(aCategory){
+			//Regional and altlangs
+			if(
+				aCategory.indexOf("Regional/") === 0 ||
+				aCategory.indexOf("World/Afrikaans/Streke/") === 0 ||
+				aCategory.indexOf("World/Arabic/إقليمـي/") === 0 ||
+				aCategory.indexOf("World/Aragonés/Rechional/") === 0 ||
+				aCategory.indexOf("World/Armenian/Շրջանային/") === 0 ||
+				aCategory.indexOf("World/Asturianu/Rexonal/") === 0 ||
+				aCategory.indexOf("World/Azerbaijani/Regional/") === 0 ||
+				aCategory.indexOf("World/Bahasa_Indonesia/Daerah/") === 0 ||
+				aCategory.indexOf("World/Bahasa_Melayu/Tempatan/") === 0 ||
+				aCategory.indexOf("World/Bangla/Ancholik/") === 0 ||
+				aCategory.indexOf("World/Bashkir/Региональ/") === 0 ||
+				aCategory.indexOf("World/Belarusian/Краіны_і_рэгіёны/") === 0 ||
+				aCategory.indexOf("World/Bosanski/Regionalno/") === 0 ||
+				aCategory.indexOf("World/Brezhoneg/Rannvroel/") === 0 ||
+				aCategory.indexOf("World/Bulgarian/Региони/") === 0 ||
+				aCategory.indexOf("World/Català/Regional/") === 0 ||
+				aCategory.indexOf("World/Česky/Státy_a_regiony/") === 0 ||
+				aCategory.indexOf("World/Chinese_Simplified/地区/") === 0 ||
+				aCategory.indexOf("World/Chinese_Traditional/區域/") === 0 ||
+				aCategory.indexOf("World/Cymraeg/Rhanbarthol/") === 0 ||
+				aCategory.indexOf("World/Dansk/Regional/") === 0 ||
+				aCategory.indexOf("World/Deutsch/Regional/") === 0 ||
+				aCategory.indexOf("World/Eesti/Regioonid/") === 0 ||
+				aCategory.indexOf("World/Español/Regional/") === 0 ||
+				aCategory.indexOf("World/Esperanto/Regionoj/") === 0 ||
+				aCategory.indexOf("World/Euskara/Non/") === 0 ||
+				aCategory.indexOf("World/Français/Régional/") === 0 ||
+				aCategory.indexOf("World/Frysk/Regionaal/") === 0 ||
+				aCategory.indexOf("World/Furlan/Regjonal/") === 0 ||
+				aCategory.indexOf("World/Gaeilge/Réigiúnach/") === 0 ||
+				aCategory.indexOf("World/Gàidhlig/Dùthchannan/") === 0 ||
+				aCategory.indexOf("World/Galego/Rexional/") === 0 ||
+				aCategory.indexOf("World/Greek/Κατά_Περιοχή/") === 0 ||
+				aCategory.indexOf("World/Gujarati/ક્ષેત્રીય/") === 0 ||
+				aCategory.indexOf("World/Hebrew/אזורי/") === 0 ||
+				aCategory.indexOf("World/Hindi/क्षेत्रीय/") === 0 ||
+				aCategory.indexOf("World/Hrvatski/Regionalno/") === 0 ||
+				aCategory.indexOf("World/Interlingua/Regional/") === 0 ||
+				aCategory.indexOf("World/Íslenska/Landshlutar/") === 0 ||
+				aCategory.indexOf("World/Italiano/Regionale/") === 0 ||
+				aCategory.indexOf("World/Japanese/地域/") === 0 ||
+				aCategory.indexOf("World/Kannada/ಪ್ರಾಂತೀಯ/") === 0 ||
+				aCategory.indexOf("World/Kaszëbsczi/Òbéńdowé/") === 0 ||
+				aCategory.indexOf("World/Kazakh/Региондық/") === 0 ||
+				aCategory.indexOf("World/Kiswahili/Mikoani/") === 0 ||
+				aCategory.indexOf("World/Korean/지역,국가/") === 0 ||
+				aCategory.indexOf("World/Kurdî/Herêmî/") === 0 ||
+				aCategory.indexOf("World/Kyrgyz/Региондук/") === 0 ||
+				aCategory.indexOf("World/Latviski/Valstis_un_reģioni/") === 0 ||
+				aCategory.indexOf("World/Lëtzebuergesch/Regionaal/") === 0 ||
+				aCategory.indexOf("World/Lietuvių/Regionai/") === 0 ||
+				aCategory.indexOf("World/Lingua_Latina/Regionatim/") === 0 ||
+				aCategory.indexOf("World/Magyar/Regionális/") === 0 ||
+				aCategory.indexOf("World/Makedonski/Регионално/") === 0 ||
+				aCategory.indexOf("World/Nederlands/Regionaal/") === 0 ||
+				aCategory.indexOf("World/Nordfriisk/Regionool/") === 0 ||
+				aCategory.indexOf("World/Norsk/Regionalt/") === 0 ||
+				aCategory.indexOf("World/Occitan/Regionau/") === 0 ||
+				aCategory.indexOf("World/Ossetian/Бæстæтæ_æмæ_регионтæ/") === 0 ||
+				aCategory.indexOf("World/O'zbekcha/Hududiy/") === 0 ||
+				aCategory.indexOf("World/Polski/Regionalne/") === 0 ||
+				aCategory.indexOf("World/Português/Regional/") === 0 ||
+				aCategory.indexOf("World/Română/Regional/") === 0 ||
+				aCategory.indexOf("World/Rumantsch/Regiunal/") === 0 ||
+				aCategory.indexOf("World/Russian/Страны_и_регионы/") === 0 ||
+				aCategory.indexOf("World/Sardu/Regionale/") === 0 ||
+				aCategory.indexOf("World/Seeltersk/Regionoal/") === 0 ||
+				aCategory.indexOf("World/Shqip/Rajonal/") === 0 ||
+				aCategory.indexOf("World/Sinhala/ප්‍රාදේශීය/") === 0 ||
+				aCategory.indexOf("World/Slovensko/Regije/") === 0 ||
+				aCategory.indexOf("World/Slovensky/Regionálne/") === 0 ||
+				aCategory.indexOf("World/Srpski/Regionalno/") === 0 ||
+				aCategory.indexOf("World/Suomi/Alueellinen/") === 0 ||
+				aCategory.indexOf("World/Svenska/Regionalt/") === 0 ||
+				aCategory.indexOf("World/Tagalog/Kapuluan/") === 0 ||
+				aCategory.indexOf("World/Taiwanese/地區/") === 0 ||
+				aCategory.indexOf("World/Tamil/வட்டாரம்/") === 0 ||
+				aCategory.indexOf("World/Tatarça/Ölkälär/") === 0 ||
+				aCategory.indexOf("World/Telugu/Praantheeyam/") === 0 ||
+				aCategory.indexOf("World/Thai/ภูมิภาค/") === 0 ||
+				aCategory.indexOf("World/Tiếng_Việt/Địa_phương/") === 0 ||
+				aCategory.indexOf("World/Türkçe/Bölgesel/") === 0 ||
+				aCategory.indexOf("World/Türkmençe/Regional/") === 0 ||
+				aCategory.indexOf("World/Ukrainian/Країни_та_реґіони/") === 0 ||
+				aCategory.indexOf("World/Uyghurche/Rayonluq/") === 0)
+			return true;
+		else
+			return false;
+	}
+	this.categoryIsAboutCountry = function(aCategory){
+		return this.categoryIsRegional(aCategory) && ( (aCategory.indexOf('Regional/') === 0 && this.subStrCount(aCategory, '/') > 3) || this.subStrCount(aCategory, '/') > 4 );
+	}
+	this.categoryGetCountryName = function(aCategory){
+		if(this.categoryIsRegional(aCategory)){
+			if(aCategory.indexOf('World/') === 0){
+				return aCategory.replace(/^World\/([^\/]+)\/([^\/]+)\/([^\/]+)\/([^\/]+)\/.*/, '$4');
+			} else if(aCategory.indexOf('Regional/') === 0){
+				return aCategory.replace(/^Regional\/([^\/]+)\/([^\/]+)\/.*/, '$2');
+			} else {
+				return  '';
+			}
+		} else {
+			return '';
+		}
+	}
+	this.categoryGetCountryContinentName = function(aCategory){
+		if(this.categoryIsRegional(aCategory)){
+			if(aCategory.indexOf('World/') === 0){
+				return aCategory.replace(/^World\/([^\/]+)\/([^\/]+)\/([^\/]+)\/([^\/]+)\/.*/, '$3');
+			} else if(aCategory.indexOf('Regional/') === 0){
+				return aCategory.replace(/^Regional\/([^\/]+)\/([^\/]+)\/.*/, '$1');
+			} else {
+				return  '';
+			}
+		} else {
+			return '';
+		}
 	}
 	//returns the editcat URL from a category name
 	this.categoryGetURLEdit = function(aCategory) {

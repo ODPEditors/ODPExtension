@@ -161,18 +161,7 @@
 			//try hard to cancel a download when linkchecking
 			cancelDownload:function(oHttp){
 				//cancel downloads
-				var disp = "", isDownload = false, regexp = /^\s*attachment/i;
-				try {
-					disp = oHttp.getResponseHeader("Content-Disposition");
-				} catch (e) { }
-
-				if (regexp.test(disp)){
-					try{
-						oHttp.setResponseHeader("Content-Disposition", disp.replace(regexp, "inline"), false);
-						oHttp.cancel(Components.results.NS_BINDING_ABORTED);
-						isDownload = true;
-					}catch(e) { }
-				}
+				var isDownload = false
 
 				if(!isDownload){
 					try {
@@ -204,6 +193,21 @@
 				if(!isDownload && oHttp.channelIsForDownload){
 					isDownload = true
 					oHttp.cancel(Components.results.NS_BINDING_ABORTED);
+				}
+
+				if(!isDownload){
+					var disp = "", regexp = /^\s*attachment/i;
+					try {
+						disp = oHttp.getResponseHeader("Content-Disposition");
+					} catch (e) { }
+
+					if (regexp.test(disp)){
+						try{
+							oHttp.setResponseHeader("Content-Disposition", disp.replace(regexp, "inline"), false);
+							oHttp.cancel(Components.results.NS_BINDING_ABORTED);
+							isDownload = true;
+						}catch(e) { }
+					}
 				}
 
 				return isDownload
@@ -291,7 +295,7 @@
 
 			},
 			check: function(aURL, aFunction) {
-				this.queue[this.queue.length] = [aURL, aFunction];
+				this.queue[this.queue.length] = [ODPExtension.IDNDecode(aURL), aFunction];
 				this.next();
 			},
 			done: function(aFunction, aData, aURL) {
@@ -637,6 +641,7 @@
 						oRedirectionAlert.cache[aURL] = aTab = aDoc = newTabBrowser = null;
 
 						aData.dateEnd = ODPExtension.now();
+						aData.loadTime = ((ODPExtension.sqlDate(aData.dateEnd) - ODPExtension.sqlDate(aData.dateStart))/1000) || 0
 
 						oRedirectionAlert.done(aFunction, aData, aURL)
 						//aFunction(aData, aURL)
@@ -829,6 +834,7 @@
 						oRedirectionAlert.cache[aURL] = null;
 
 						aData.dateEnd = ODPExtension.now();
+						aData.loadTime = ((ODPExtension.sqlDate(aData.dateEnd) - ODPExtension.sqlDate(aData.dateStart))/1000) || 0
 
 						oRedirectionAlert.done(aFunction, aData, aURL)
 						//aFunction(aData, aURL)

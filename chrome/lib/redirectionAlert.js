@@ -24,7 +24,7 @@
 	var tagsMedia = ['object', 'media', 'video', 'audio', 'embed'];
 	var tagsNoContent = ['noscript', 'noframes', 'style', 'script', 'frameset'];
 
-	var contentTypesTxt = ['application/atom+xml', 'application/atom', 'application/javascript', 'application/json', 'application/rdf+xml', 'application/rdf', 'application/rss+xml', 'application/rss', 'application/xhtml', 'application/xhtml+xml', 'application/xml', 'application/xml-dtd', 'application/html', 'text/css', 'text/csv', 'text/html', 'text/xhtml', 'text/javascript', 'text/plain', 'text/xml', 'text/json', 'text', 'html', 'xml', 'application/x-unknown-content-type', ''];
+	var contentTypesTxt = ['application/atom+xml', 'application/atom', 'application/javascript', 'application/json', 'application/rdf+xml', 'application/rdf', 'application/rss+xml', 'application/rss', 'application/xhtml', 'application/xhtml+xml', 'application/xml', 'application/xml-dtd', 'application/html', 'text/css', 'text/csv', 'text/html', 'text/xhtml', 'text/javascript', 'text/plain', 'text/xml', 'text/json', 'text', 'txt', 'html', 'xml', 'application/x-unknown-content-type', ''];
 	var contentTypesKnown = [
 	'application/atom+xml', 'application/atom', 'application/javascript', 'application/json', 'application/rdf+xml', 'application/rdf', 'application/rss+xml', 'application/rss', 'application/xhtml', 'application/xhtml+xml', 'application/xml', 'application/xml-dtd', 'application/html', 'text/css', 'text/csv', 'text/html', 'text/xhtml', 'text/javascript', 'text/plain', 'text/xml', 'text/json', 'text', 'html', 'xml', '', //txt
 	'application/x-bzip', 'application/x-bzip-compressed-tar', 'application/x-gzip', 'application/x-tar', 'application/x-tgz', 'application/zip', //compressed
@@ -158,26 +158,48 @@
 						break;
 				}
 			},
+			//try hard to cancel a download when linkchecking
 			cancelDownload:function(oHttp){
 				//cancel downloads
 				var disp = "", isDownload = false, regexp = /^\s*attachment/i;
 				try {
 					disp = oHttp.getResponseHeader("Content-Disposition");
 				} catch (e) { }
+
 				if (regexp.test(disp)){
 					try{
 						oHttp.setResponseHeader("Content-Disposition", disp.replace(regexp, "inline"), false);
+						oHttp.cancel(Components.results.NS_BINDING_ABORTED);
 						isDownload = true;
 					}catch(e) { }
 				}
 
-				//detect downloads
-				try {
-					var contentDispositionHeader = oHttp.contentDispositionHeader;
-					contentDispositionHeader = String(contentDispositionHeader).trim();
-					isDownload = true;
-					oHttp.cancel(Components.results.NS_BINDING_ABORTED);
-				} catch (e) {}
+				if(!isDownload){
+					try {
+						var contentDisposition = oHttp.contentDisposition;
+						contentDisposition = String(contentDisposition).trim();
+						isDownload = true;
+						oHttp.cancel(Components.results.NS_BINDING_ABORTED);
+					} catch (e) {}
+				}
+
+				if(!isDownload){
+					try {
+						var contentDispositionFilename = oHttp.contentDispositionFilename;
+						contentDispositionFilename = String(contentDispositionFilename).trim();
+						isDownload = true;
+						oHttp.cancel(Components.results.NS_BINDING_ABORTED);
+					} catch (e) {}
+				}
+
+				if(!isDownload){
+					try {
+						var contentDispositionHeader = oHttp.contentDispositionHeader;
+						contentDispositionHeader = String(contentDispositionHeader).trim();
+						isDownload = true;
+						oHttp.cancel(Components.results.NS_BINDING_ABORTED);
+					} catch (e) {}
+				}
 
 				if(!isDownload && oHttp.channelIsForDownload){
 					isDownload = true
@@ -1011,7 +1033,7 @@
 	this.disableTabFeaturesCounter = function(aFunction, aData) {
 		if ( !! aFunction && !! aFunction.toSource) {
 			var src = aFunction.toSource();
-			if (src.indexOf('return') != -1 || src.indexOf('alert') != -1)
+			if (src.indexOf('return') != -1 || src.indexOf('alert') != -1 || src.indexOf('confirm') != -1)
 				aData.intrusivePopups++;
 		}
 	}

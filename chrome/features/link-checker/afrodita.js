@@ -212,7 +212,7 @@
 			var lc = this.linkCheckerDatabaseOpen();
 
 			var oRedirectionAlert = this.redirectionAlert();
-			var select = lc.query(' select distinct(subdomain_id), id, uri from uris where `checked` = 0 group by subdomain_id order by RANDOM() limit 50000 ');
+			var select = lc.query(' select distinct(subdomain_id), id, uri from uris where `checked` = 0 group by subdomain_id order by RANDOM() limit 150000 ');
 /*
 			select count(distinct(uri)) from uris
 			select count(distinct(subdomain_id)), id, uri from uris
@@ -390,8 +390,21 @@
 //NEW
 
 /*
+
+
 	//all already checked
 	select count() from uris where checked = 1
+
+	//GROUP by error type
+	SELECT distinct(status_error_string), count(*) as total, uri from  uris where checked = 1 and processed = 0 group by status_error_string
+
+	//clear error by type
+	update uris set checked = 0, processed = 0 where checked = 1 and
+		(
+			status_error_string = "Bad URL"
+			 or  status_error_string = "Hijacked"
+			 or  status_error_string = "Unknown Error"
+		)
 
 	//redirect autofix
 	select uri, uri_last from uris where checked = 1 and processed = 0 and status_error_string = "Redirect OK Candidate 4 Autofix" order by date_start asc
@@ -399,14 +412,8 @@
 	//mark autofix done
 	update uris set processed = 1 where checked = 1 and status_error_string = "Redirect OK Candidate 4 Autofix"
 
-	//GROUP by error type
-	SELECT distinct(status_error_string), count(*) as total, uri from  uris where checked = 1 group by status_error_string
-
 	//select these not ok
 	select status_error_string, uri,match from uris where checked = 1 and status_error_string != "OK" and status_error_string != "Redirect OK" and status_error_string != "Redirect" and status_error_string != "Redirect OK Candidate 4 Autofix" order by status_error_string asc
-
-	//set to recheck
-	update uris set checked = 0 where checked = 1 and (status_error_string = "Tiny Page" or  status_error_string = "No Content"  or  status_error_string = "Hacked"   or  status_error_string = "Empty Page"  or  status_error_string = "Gone" or  status_error_string = "Parked" )
 
 
 */

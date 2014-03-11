@@ -18,10 +18,10 @@ var ODPExtension = {};
 	//NOTE: The new line separator should be used only when copying things to the clipboard or when contructing HTML for the user.
 	//Internal new lines should be \n
 	if (osVersion.indexOf('mac') != -1 || osVersion.indexOf('darwin') != -1 || osVersion.indexOf('leopard') != -1) {
-		this.__NEW_LINE__ = '\r';
+		this.__NEW_LINE__ = '\n';
 		this.__DIRECTORY_SEPARATOR__ = '/';
 	} else if (osVersion.indexOf('win') != -1) {
-		this.__NEW_LINE__ = '\r\n';
+		this.__NEW_LINE__ = '\n';
 		this.__DIRECTORY_SEPARATOR__ = '\\';
 	} else {
 		this.__NEW_LINE__ = '\n';

@@ -18,7 +18,9 @@
 		}
 	});
 
-	var timeoutAfter = 60 * 1000; //60 seconds for the website to load
+	var timeoutAfter = 80 * 1000; //seconds for the website to load
+	var gracePeriod = 6000; //seconds for the website to load
+	var watchingPeriod = 18000; //seconds to allow the website redirect
 	var tagsMedia = ['object', 'media', 'video', 'audio', 'embed'];
 	var tagsNoContent = ['noscript', 'noframes', 'style', 'script', 'frameset'];
 
@@ -53,12 +55,16 @@
 				this.queue = []
 
 				var observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
-				observerService.addObserver(this, "http-on-examine-response", false);
-				observerService.addObserver(this, "http-on-examine-merged-response", false);
-				observerService.addObserver(this, "http-on-examine-cached-response", false);
-				observerService.addObserver(this, 'content-document-global-created', false);
-				//observerService.addObserver(this, 'http-on-opening-request', false);
-				observerService.addObserver(this, 'http-on-modify-request', false);
+					//after server talks back
+					observerService.addObserver(this, "http-on-examine-response", false);
+					observerService.addObserver(this, "http-on-examine-merged-response", false);
+					observerService.addObserver(this, "http-on-examine-cached-response", false);
+					//DOMContent going to be parsed/rendered by the browser
+					observerService.addObserver(this, 'content-document-global-created', false);
+					//before talking to server
+					observerService.addObserver(this, 'http-on-modify-request', false);
+					//ignore
+					//observerService.addObserver(this, 'http-on-opening-request', false);
 			},
 			unLoad: function() {
 				var self = this;
@@ -71,12 +77,16 @@
 					return;
 
 				var observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
-				observerService.removeObserver(this, "http-on-examine-response", false);
-				observerService.removeObserver(this, "http-on-examine-merged-response", false);
-				observerService.removeObserver(this, "http-on-examine-cached-response", false);
-				observerService.removeObserver(this, 'content-document-global-created', false);
-				//observerService.removeObserver(this, 'http-on-opening-request', false);
-				observerService.removeObserver(this, 'http-on-modify-request', false);
+					//after server talks back
+					observerService.removeObserver(this, "http-on-examine-response", false);
+					observerService.removeObserver(this, "http-on-examine-merged-response", false);
+					observerService.removeObserver(this, "http-on-examine-cached-response", false);
+					//DOMContent going to be parsed/rendered by the browser
+					observerService.removeObserver(this, 'content-document-global-created', false);
+					//before talking to server
+					observerService.removeObserver(this, 'http-on-modify-request', false);
+					//ignore
+					//observerService.removeObserver(this, 'http-on-opening-request', false);
 
 				this.cache = null;
 				this.cacheRedirects = null;
@@ -87,6 +97,7 @@
 			},
 			observe: function(aSubject, aTopic, aData) {
 				switch (aTopic) {
+					//server talking back to us
 					case 'http-on-examine-response':
 					case 'http-on-examine-merged-response':
 					case 'http-on-examine-cached-response':
@@ -94,12 +105,13 @@
 						aSubject.QueryInterface(Components.interfaces.nsIHttpChannel);
 						// LISTEN for Tabs
 						// this piece allows to get the HTTP code of urls that redirects via metarefresh or JS
-						// allow to holds the urls of external content associated to a tab. !
+						// also, allows to holds the urls of external content associated to a tab. !
+						var aTab = false
 						try {
 							var notificationCallbacks = aSubject.notificationCallbacks ? aSubject.notificationCallbacks : aSubject.loadGroup.notificationCallbacks;
 							if (!notificationCallbacks) {} else {
 								var domWin = notificationCallbacks.getInterface(Components.interfaces.nsIDOMWindow);
-								var aTab = ODPExtension.tabGetFromChromeDocument(domWin);
+								aTab = ODPExtension.tabGetFromChromeDocument(domWin);
 								if (aTab && !! aTab.ODPExtensionExternalContent) {
 									aTab.ODPExtensionExternalContent[aTab.ODPExtensionExternalContent.length] = {
 										url: aSubject.URI.spec,
@@ -111,8 +123,9 @@
 						} catch (e) {}
 
 						// LISTEN for XMLHttpRequest
-						this.onExamineResponse(aSubject);
+						this.onExamineResponse(aSubject, aTab);
 						break;
+					//document going to be parsed/rendered by the browser
 					case 'content-document-global-created':
 						if (aSubject instanceof Components.interfaces.nsIDOMWindow) {
 							var aTab = ODPExtension.tabGetFromChromeDocument(aSubject);
@@ -121,6 +134,7 @@
 							}
 						}
 						break;
+					//before talking to server
 					//case 'http-on-opening-request':
 					case 'http-on-modify-request':
 						aSubject.QueryInterface(Components.interfaces.nsIHttpChannel);
@@ -144,28 +158,44 @@
 						break;
 				}
 			},
-			onExamineResponse: function(oHttp) {
-
+			cancelDownload:function(oHttp){
 				//cancel downloads
-				var disp = "", isDownload = false;
+				var disp = "", isDownload = false, regexp = /^\s*attachment/i;
 				try {
 					disp = oHttp.getResponseHeader("Content-Disposition");
 				} catch (e) { }
-				if (oHttp.loadFlags & Components.interfaces.nsIChannel.LOAD_DOCUMENT_URI && /^\s*attachment/i.test(disp)){
-					oHttp.setResponseHeader("Content-Disposition", disp.replace(/^\s*attachment/i, "inline"), false);
-					isDownload = true;
+				if (regexp.test(disp)){
+					try{
+						oHttp.setResponseHeader("Content-Disposition", disp.replace(regexp, "inline"), false);
+						isDownload = true;
+					}catch(e) { }
 				}
 
 				//detect downloads
 				try {
 					var contentDispositionHeader = oHttp.contentDispositionHeader;
+					contentDispositionHeader = String(contentDispositionHeader).trim();
 					isDownload = true;
 					oHttp.cancel(Components.results.NS_BINDING_ABORTED);
 				} catch (e) {}
 
+				if(!isDownload && oHttp.channelIsForDownload){
+					isDownload = true
+					oHttp.cancel(Components.results.NS_BINDING_ABORTED);
+				}
+
+				return isDownload
+			},
+			//after the server talks back
+			onExamineResponse: function(oHttp, aTab) {
+
+				var isDownload = false
 				//skiping the examinations of requests NOT related to our redirection alert
 				if (!this.cache[oHttp.originalURI.spec]) {
 					if (!this.cacheRedirects[oHttp.originalURI.spec]) {
+						if(aTab)
+							isDownload = this.cancelDownload(oHttp);
+
 						//this examination comes from a request (browser, extension, document) not related to the current process: checking the status of the this document/selected links
 						return;
 					} else {
@@ -173,10 +203,13 @@
 						var originalURI = this.cacheRedirects[oHttp.originalURI.spec];
 					}
 				} else {
+
 					var originalURI = oHttp.originalURI.spec;
 				}
 
 				if (this.cache[originalURI].stop == true) {
+					isDownload = this.cancelDownload(oHttp);
+
 					//resolving: this item was already checked to the end but all the request are still on examination
 					//so: if you open a new tab with this item.url, that information willl be appended as a redirection (this return avoids this)
 					return;
@@ -203,20 +236,23 @@
 						this.cache[originalURI].urlLast = lastURL;
 					}
 				}
-				this.cache[originalURI].isDownload = oHttp.channelIsForDownload || false;
 				this.cache[originalURI].requestMethod = oHttp.requestMethod || 'GET';
 
-				//detect downloads
-				try {
-					var contentDispositionHeader = oHttp.contentDispositionHeader;
-					this.cache[originalURI].isDownload = true;
-				} catch (e) {}
+				isDownload = this.cancelDownload(oHttp);
 
-				if (isDownload || this.cache[originalURI].isDownload || (oHttp.contentType.trim() != '' && contentTypesTxt.indexOf(oHttp.contentType) === -1)) {
-					this.cache[originalURI].isDownload = true;
+				//detect downloads
+				//this.cache[originalURI].isDownload = isDownload;
+
+				if (oHttp.contentType.trim() != '' && contentTypesTxt.indexOf(oHttp.contentType) === -1) {
 					this.cache[originalURI].contentType = oHttp.contentType;
-					oHttp.cancel(Components.results.NS_BINDING_ABORTED);
+					isDownload = true
+					if(!isDownload)//already canceled
+						oHttp.cancel(Components.results.NS_BINDING_ABORTED);
+				} else if(isDownload){
+					this.cache[originalURI].contentType = oHttp.contentType;
 				}
+
+				this.cache[originalURI].isDownload = isDownload;
 
 				//if the request is from XMLHttpRequester, the "Location:" header, maybe is not reflected in the redirections,
 				//then we need to get if from the responseHeaders.
@@ -464,11 +500,11 @@
 						aData.framesURLs = [];
 						var frames = aDoc.getElementsByTagName('iframe')
 						for (var i = 0; i < frames.length; i++) {
-							aData.framesURLs[aData.framesURLs.length] = frames[i].src;
+							aData.framesURLs[aData.framesURLs.length] = String(frames[i].src);
 						}
 						var frames = aDoc.getElementsByTagName('frame')
 						for (var i = 0; i < frames.length; i++) {
-							aData.framesURLs[aData.framesURLs.length] = frames[i].src;
+							aData.framesURLs[aData.framesURLs.length] = String(frames[i].src);
 						}
 
 						//"site type"
@@ -488,21 +524,21 @@
 								switch(type){
 									case 'application/rss+xml':{
 										aData.metaRSS[aData.metaRSS.length] = {
-												url:meta[i].href,
+												url:String(meta[i].href),
 												title:meta[i].getAttribute('title')
 										}
 										break;
 									}
 									case 'application/atom+xml':{
 										aData.metaAtom[aData.metaAtom.length] =  {
-												url:meta[i].href,
+												url:String(meta[i].href),
 												title:meta[i].getAttribute('title')
 										}
 										break;
 									}
 									case 'application/opensearchdescription+xml':{
 										aData.metaOpenSearch[aData.metaOpenSearch.length] =  {
-												url:meta[i].href,
+												url:String(meta[i].href),
 												title:meta[i].getAttribute('title')
 										}
 										break;
@@ -539,20 +575,20 @@
 							}
 						}
 
-						//clone doc, do not touch the doc in the tab
+						//CLONE DOC, DO NOT TOUCH THE DOC IN THE TAB
 						aDoc = aDoc.cloneNode(true);
 						for (var id in tagsMedia) {
 							var tags = aDoc.getElementsByTagName(tagsMedia[id]);
 							var i = tags.length;
 							while (i--) {
-								tags[i].parentNode && tags[i].parentNode.removeChild(tags[i]);
+								tags[i] && tags[i].parentNode && tags[i].parentNode.removeChild(tags[i]);
 							}
 						}
 						for (var id in tagsNoContent) {
 							var tags = aDoc.getElementsByTagName(tagsNoContent[id]);
 							var i = tags.length;
 							while (i--)
-								tags[i].parentNode.removeChild(tags[i]);
+								tags[i] && tags[i].parentNode && tags[i].parentNode.removeChild(tags[i]);
 						}
 						ODPExtension.removeComments(aDoc);
 
@@ -561,7 +597,7 @@
 						} catch (e) {
 							aDoc = new XMLSerializer().serializeToString(aDoc);
 						}
-						aData.txt = ODPExtension.htmlSpecialCharsDecode(ODPExtension.stripTags(aDoc, ' ').replace(/[\t| ]+/g, ' ').replace(/\n\s+/g, '\n').replace(/\s+\n/g, '\n').trim());
+						aData.txt = ODPExtension.htmlSpecialCharsDecode(ODPExtension.stripTags(aDoc, ' ').replace(/\r\n/g, '\n').replace(/[\t| ]+/g, ' ').replace(/\n\s+/g, '\n').replace(/\s+\n/g, '\n').trim());
 						aData.language = ODPExtension.detectLanguage(aData.txt);
 						aData.wordCount = aData.txt.split(' ').length
 						aData.strLength = aData.txt.length
@@ -595,6 +631,8 @@
 					function DOMContentLoaded(aEvent) {
 						oRedirectionAlert.next();
 
+						ODPExtension.disableTabFeatures(ODPExtension.windowGetFromTab(aTab), aTab, aData)
+
 						if (timedout === -1) {
 							var aDoc = aEvent.originalTarget;
 							if (!aDoc.defaultView)
@@ -603,7 +641,10 @@
 								var topDoc = aDoc.defaultView.top.document;
 
 							//its a frame
-							if (aDoc != topDoc) {} else {
+							if (aDoc != topDoc) {
+
+							//not a frame
+							} else {
 
 								timedout = 2;
 
@@ -630,6 +671,7 @@
 										newTabBrowser.loadURIWithFlags(aURI, newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | newTabBrowser.webNavigation.LOAD_ANONYMOUS | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
 									else
 										newTabBrowser.loadURI(aURI);
+
 								} else {
 
 									oRedirectionAlert.itemsNetworking--;
@@ -663,7 +705,7 @@
 									setTimeout(function() {
 										aData.loadingSuccess = true;
 										onTabLoad()
-									}, 18000);
+									}, watchingPeriod);
 
 								}
 							}
@@ -687,6 +729,7 @@
 						newTabBrowser.loadURIWithFlags(aURL, newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | newTabBrowser.webNavigation.LOAD_ANONYMOUS | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
 					else
 						newTabBrowser.loadURI(aURL);
+
 					setTimeout(function() {
 						if (timedout === -1) {
 							timedout = 1;
@@ -694,7 +737,7 @@
 							oRedirectionAlert.next();
 							onTabLoad();
 						}
-					}, timeoutAfter + 5000); //give 60 seconds to load, else, just forget it.
+					}, timeoutAfter + gracePeriod); //give time to load, else, just forget it.
 					return null;
 				};
 				Requester.onerror = Requester.onabort = function(TIMEDOUT) {
@@ -800,7 +843,7 @@
 						//ODPExtension.dump('aborted'+aURL);
 						Requester.onerror('TIMEDOUT');
 					}
-				}, timeoutAfter + 5000);
+				}, timeoutAfter + gracePeriod);
 				//ODPExtension.dump('check');
 			}
 		};
@@ -947,7 +990,7 @@
 
 			var v = aWin;
 			for (var id in events) {
-				if (v._eventTypes && v._eventTypes[events[id]]) {
+				if (v && v._eventTypes && v._eventTypes[events[id]]) {
 					var r = v._eventTypes[events[id]];
 					for (var s = 0; s < r.length; s++) {
 						ODPExtension.disableTabFeaturesCounter(r[events[id]], aData);

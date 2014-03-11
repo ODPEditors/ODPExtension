@@ -45,12 +45,12 @@
 		if (window && window.frames.length) {
 			for (var a = 0; a < window.frames.length; a++) {
 				if ( window.frames && window.frames[a] && !! window.frames[a].google_ad_url) {
-					var idss = window.frames[a].google_ad_url.match(documentGetIDsRegExp)
+					var idss = String(window.frames[a].google_ad_url).match(documentGetIDsRegExp)
 					for (var id in idss)
 						ids[ids.length] = idss[id]
 				}
 				if ( window.frames && window.frames[a] && !! window.frames[a].src) {
-					var idss = window.frames[a].src.match(documentGetIDsRegExp)
+					var idss = String(window.frames[a].src).match(documentGetIDsRegExp)
 					for (var id in idss)
 						ids[ids.length] = idss[id]
 				}

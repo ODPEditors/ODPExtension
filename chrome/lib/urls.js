@@ -167,6 +167,7 @@
 	this.isGarbageDomain = function (aDomain) {
 		switch (aDomain) {
 			case 'googlesyndication.com':
+			case 'google-analytics.com':
 			case 'doubleclick.net':
 			case 'fbcdn.net':
 			case 'googleadservices.com':
@@ -222,8 +223,6 @@
 			aURL.indexOf('https://www.google.com/ads') === 0 ||
 			aURL.indexOf('http://www.google.com/ads') === 0 ||
 			aURL.indexOf('https://www.facebook.com/connect') === 0 ||
-			aURL.indexOf('http://www.google-analytics.com/ga.js') === 0 ||
-			aURL.indexOf('https://www.google-analytics.com/ga.js') === 0 ||
 			aURL.indexOf('http://analytics.') === 0 ||
 			aURL.indexOf('http://ad.') === 0 ||
 			aURL.indexOf('http://ads.') === 0 ||

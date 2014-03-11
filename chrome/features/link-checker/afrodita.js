@@ -210,15 +210,25 @@
 		ODPExtension.gc();
 
 			var lc = this.linkCheckerDatabaseOpen();
+			var select = lc.query(' select distinct(subdomain_id), id, uri from uris where `checked` = 0 group by subdomain_id order by RANDOM() limit 150000 ');
+
+			var uris = []
+			while (row = select.fetchObjects()) {
+				uris[uris.length] = [row.id, row.uri]
+			}
+
+		ODPExtension.gc();
+
+		this.__afrodita(uris)
+
+	}
+
+	this.__afrodita = function(uris){
+
+		ODPExtension.gc();
 
 			var oRedirectionAlert = this.redirectionAlert();
-			var select = lc.query(' select distinct(subdomain_id), id, uri from uris where `checked` = 0 group by subdomain_id order by RANDOM() limit 150000 ');
-/*
-			select count(distinct(uri)) from uris
-			select count(distinct(subdomain_id)), id, uri from uris
-			select distinct(subdomain_id), id, uri from uris
-
-*/
+			var lc = this.linkCheckerDatabaseOpen();
 			var update = lc.aConnection.createStatement(' update `uris` set `checked` = 1, \
 			                                            			\
 																	`loading_success` = :loading_success, \
@@ -287,17 +297,11 @@
 																	`load_time` = :load_time \
 			 													where `id` = :id ');
 
-			var row;
-			var progress = this.progress('link.cheker.' + oRedirectionAlert.id);
-			progress.progress();
-
-			while (row = select.fetchObjects()) {
+			for(var a=0;a<uris.length;a++) {
 
 				(function(id, uri) {
-					progress.add();
+
 					oRedirectionAlert.check(uri, function(aData, aURL) {
-						progress.remove();
-						progress.progress();
 
 						update.params['loading_success'] = aData.loadingSuccess ? 1 : 0;
 
@@ -381,7 +385,7 @@
 						update.executeAsync();
 						aData = null
 					});
-				})(row.id, row.uri);
+				})(uris[a][0], uris[a][1]);
 			}
 	}
 

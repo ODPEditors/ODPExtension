@@ -557,6 +557,7 @@
 			body:[''
 				,"cgi-sys/suspendedpage.cgi"
 				,'<b>This Account Has Been Suspended</b>'
+				,'The web service to this account has been limited temporarily'
 				,'<title>Account Suspended</title>'
 				,'<title>Servicio suspendido.</title>'
 				,'<title>Sitio Suspendido</title>'

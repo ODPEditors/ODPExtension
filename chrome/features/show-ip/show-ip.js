@@ -194,7 +194,7 @@
 			insert.params('name', aName);
 			insert.params('value', aValue);
 
-			database.insertAsync(insert, true);
+			insert.executeAsync(true);
 		}
 	}
 

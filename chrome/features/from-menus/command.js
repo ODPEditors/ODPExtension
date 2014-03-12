@@ -591,13 +591,13 @@
 				this.categoryFinderQuery('', aValue)
 			else if (aCommand == 'search_find_subcategory')
 				this.categoryFinderQuery(searchFor, aValue);
-			 else if (aCommand == 'edit_cat_kataslice_unrev')
+			 else if (aCommand == 'kataslice_unreviewed')
 				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#rev=0&cat='+aValue, true);
-			 else if (aCommand == 'edit_cat_kataslice_rev')
+			 else if (aCommand == 'kataslice_reviewed')
 				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#rev=1&cat='+aValue, true);
-			 else if (aCommand == 'edit_cat_kataslice_unrev_recursive')
+			 else if (aCommand == 'kataslice_unreviewed_recursive')
 				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#rev=0&recursive=1&cat='+aValue, true);
-			 else if (aCommand == 'edit_cat_kataslice_rev_recursive')
+			 else if (aCommand == 'kataslice_reviewed_recursive')
 				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#rev=1&recursive=1&cat='+aValue, true);
 			//else if(aCommand=='search_find_subcategory_called')
 			//this.categoryFinderQuery(aValue+'/.*?'+searchFor+'([^/]*)?$', null, aValue);

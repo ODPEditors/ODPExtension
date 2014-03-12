@@ -1,5 +1,34 @@
 (function () {
 
+	this.addListener('userInterfaceLoad', function(aEnabled) {
+		if(ODPExtension.shared.me){
+			var menus = ['context-from-category',
+ 			'context-from-categories',
+ 			'extension-icon-from-category',
+ 			'from-category',
+ 			'tab-context-from-category',
+ 			'tab-context-multiple-from-category']
+ 			var elements = [
+ 			 				"kataslice_unreviewed",
+ 				 			"kataslice_unreviewed_recursive",
+ 				 			"kataslice_unreviewed_separator",
+ 				 			"kataslice_reviewed",
+ 				 			"kataslice_reviewed_recursive",
+ 				 			"kataslice_reviewed_separator"
+ 			]
+ 			for(var id in menus){
+ 				for(var i in elements){
+		 				document
+		 					.getAnonymousElementByAttribute(
+		 					                                ODPExtension.getElement(menus[id]).firstChild ||
+		 					                                ODPExtension.getElement(menus[id]),
+		 					                                "anonid", elements[i]
+		 					).removeAttribute('hidden');
+		 		}
+	 		}
+		}
+	});
+
 	this.kataslice = function (aCategory, reviewed, recursive, aFunction) {
 
 		if ( !! aCategory) {

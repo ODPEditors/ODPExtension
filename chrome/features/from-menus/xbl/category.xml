@@ -9,9 +9,9 @@
 <!-- actions in the menu starting with "command_" will not require a category -->
 
 <bindings xmlns="http://www.mozilla.org/xbl"
-          xmlns:html="http://www.w3.org/1999/xhtml"
-          xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-          xmlns:xbl="http://www.mozilla.org/xbl">
+		  xmlns:html="http://www.w3.org/1999/xhtml"
+		  xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+		  xmlns:xbl="http://www.mozilla.org/xbl">
 
 	<binding
 		id="from-category-xbl"
@@ -40,48 +40,54 @@
 			  <xul:menuitem anonid="ODPExtension-from-category-delete" hidden="true" action="command_delete" label="&ODPExtension.from.category.delete;"/>
 			  <xul:menuseparator/>
 			  <!-- <xul:menuitem action="tool_pub" label="Publish"/> -->
-			    <xul:menu action="edit_cat" label="&ODPExtension.from.category.edit;">
-				  	<xul:menupopup>
-				  		<xul:menuitem action="command_editor_produced_tool_Frog" label="Frog" style="font-weight:bold;"/>
-				  		<xul:menuseparator/>
+				<xul:menu action="edit_cat" label="&ODPExtension.from.category.edit;">
+					<xul:menupopup>
+						<xul:menuitem action="command_editor_produced_tool_Frog" label="Frog" style="font-weight:bold;"/>
+						<xul:menuseparator/>
 
-					  	  <xul:menuitem action="edit_cat_updates" label="&ODPExtension.from.category.updates;"/>
-					  	  <xul:menuitem action="edit_cat_greenbusts" label="&ODPExtension.from.category.greenbusts;"/>
+						  <xul:menuitem action="edit_cat_updates" label="&ODPExtension.from.category.updates;"/>
+						  <xul:menuitem action="edit_cat_greenbusts" label="&ODPExtension.from.category.greenbusts;"/>
 
+							<xul:menuseparator hidden="true" anonid="kataslice_reviewed_separator" action="kataslice_reviewed_separator"/>
+							<xul:menuitem hidden="true" anonid="kataslice_reviewed" action="kataslice_reviewed" label="Kataslice"/>
+							<xul:menuitem hidden="true" anonid="kataslice_reviewed_recursive" action="kataslice_reviewed_recursive" label="Kataslice (recursive)"/>
 
-				  	</xul:menupopup>
-			    </xul:menu>
-			    <xul:menu action="edit_cat_unreview" label="&ODPExtension.from.category.unreview;">
-			  	<xul:menupopup>
-			  		<xul:menuitem action="command_editor_produced_tool_Frog" label="Frog" style="font-weight:bold;"/>
-			  		<xul:menuseparator/>
+					</xul:menupopup>
+				</xul:menu>
+				<xul:menu action="edit_cat_unreview" label="&ODPExtension.from.category.unreview;">
+				<xul:menupopup>
+					<xul:menuitem action="command_editor_produced_tool_Frog" label="Frog" style="font-weight:bold;"/>
+					<xul:menuseparator/>
 
-			  	  <!--xul:menuitem action="edit_cat_unreview_power" label="&ODPExtension.from.category.power;"/>
-			  	  <xul:menuitem action="edit_cat_unreview_power_url" label="&ODPExtension.from.category.power.sort.url;"/>
-			  	  <xul:menuitem action="edit_cat_unreview_power_title" label="&ODPExtension.from.category.power.sort.title;"/>
-			  	  <xul:menuitem action="edit_cat_unreview_power_ip" label="&ODPExtension.from.category.power.sort.ip;"/>
-			  	  <xul:menuitem action="edit_cat_unreview_power_email" label="&ODPExtension.from.category.power.sort.email;"/>
-			  	  <xul:menuseparator/>
-			  	  <xul:menuitem action="edit_cat_unreview_super" label="&ODPExtension.from.category.super;"/>
-			  	  <xul:menuitem action="edit_cat_unreview_super_url" label="&ODPExtension.from.category.super.sort.url;"/>
-			  	  <xul:menuitem action="edit_cat_unreview_super_title" label="&ODPExtension.from.category.super.sort.title;"/>
-			  	  <xul:menuitem action="edit_cat_unreview_super_cat" label="&ODPExtension.from.category.super.sort.cat;"/>
-			  	  <xul:menuitem action="edit_cat_unreview_super_ip" label="&ODPExtension.from.category.super.sort.ip;"/>
-			  	  <xul:menuitem action="edit_cat_unreview_super_email" label="&ODPExtension.from.category.super.sort.email;"/>
-			  	  <xul:menuseparator/-->
-			  	  <xul:menuitem action="edit_cat_greenbusts" label="&ODPExtension.from.category.greenbusts;"/>
-			  		<xul:menuseparator/>
-			  	  <xul:menuitem action="edit_cat_errors" label="&ODPExtension.from.category.errors;"/>
-			  		<xul:menuseparator/>
-			  		<xul:menuitem action="command_editor_produced_tool_Tattle" label="Tattle"/>
-			  		<!--xul:menuseparator/-->
-			  		<!--xul:menuitem action="command_editor_produced_tool_Redbust" label="Redbust"/>
-			  		<xul:menuitem action="command_editor_produced_tool_PNF" label="PNF"/-->
+				  <!--xul:menuitem action="edit_cat_unreview_power" label="&ODPExtension.from.category.power;"/>
+				  <xul:menuitem action="edit_cat_unreview_power_url" label="&ODPExtension.from.category.power.sort.url;"/>
+				  <xul:menuitem action="edit_cat_unreview_power_title" label="&ODPExtension.from.category.power.sort.title;"/>
+				  <xul:menuitem action="edit_cat_unreview_power_ip" label="&ODPExtension.from.category.power.sort.ip;"/>
+				  <xul:menuitem action="edit_cat_unreview_power_email" label="&ODPExtension.from.category.power.sort.email;"/>
+				  <xul:menuseparator/>
+				  <xul:menuitem action="edit_cat_unreview_super" label="&ODPExtension.from.category.super;"/>
+				  <xul:menuitem action="edit_cat_unreview_super_url" label="&ODPExtension.from.category.super.sort.url;"/>
+				  <xul:menuitem action="edit_cat_unreview_super_title" label="&ODPExtension.from.category.super.sort.title;"/>
+				  <xul:menuitem action="edit_cat_unreview_super_cat" label="&ODPExtension.from.category.super.sort.cat;"/>
+				  <xul:menuitem action="edit_cat_unreview_super_ip" label="&ODPExtension.from.category.super.sort.ip;"/>
+				  <xul:menuitem action="edit_cat_unreview_super_email" label="&ODPExtension.from.category.super.sort.email;"/>
+				  <xul:menuseparator/-->
+				  <xul:menuitem action="edit_cat_greenbusts" label="&ODPExtension.from.category.greenbusts;"/>
+					<xul:menuseparator/>
+				  <xul:menuitem action="edit_cat_errors" label="&ODPExtension.from.category.errors;"/>
+					<xul:menuseparator/>
+					<xul:menuitem action="command_editor_produced_tool_Tattle" label="Tattle"/>
+					<!--xul:menuseparator/-->
+					<!--xul:menuitem action="command_editor_produced_tool_Redbust" label="Redbust"/>
+					<xul:menuitem action="command_editor_produced_tool_PNF" label="PNF"/-->
 
+					<xul:menuseparator hidden="true" anonid="kataslice_unreviewed_separator" action="kataslice_unreviewed_separator"/>
+					<xul:menuitem hidden="true" anonid="kataslice_unreviewed" action="kataslice_unreviewed" label="Kataslice"/>
+					<xul:menuitem hidden="true" anonid="kataslice_unreviewed_recursive" action="kataslice_unreviewed_recursive" label="Kataslice (recursive)"/>
 
-			  	</xul:menupopup>
-			    </xul:menu>
-			    <xul:menuseparator/>
+				</xul:menupopup>
+				</xul:menu>
+				<xul:menuseparator/>
 				<xul:menuitem action="tool_worldlinkerate" label="WorldLinkerate"/>
 			  <xul:menuitem action="rdf_find_hyperlinks_to_here" label="Hyper-Links to Here"/>
 
@@ -158,7 +164,7 @@
 			  <xul:menu action="edit_cat_desc" label="&ODPExtension.from.category.edit.description;">
 				<xul:menupopup>
 					<!--xul:menuitem disabled="true" label="Web" style="font-weight:bold;"/-->
-				 	<!--xul:menuitem action="search_in_cat_description" label="&ODPExtension.from.category.find.in.category.description;"/-->
+					<!--xul:menuitem action="search_in_cat_description" label="&ODPExtension.from.category.find.in.category.description;"/-->
 					<!--xul:menuitem action="command_editor_produced_tool_Cat_Descriptor" label="Cat Descriptor"/-->
 					<!--xul:menuseparator/-->
 					<xul:menuitem disabled="true" label="RDF" style="font-weight:bold;"/>

@@ -10,7 +10,7 @@
 			canDelete: true,
 			body:[''
 				,"domainname=referer_detect"
-				,"http://www.sedo.com/search/details.php4?domain="
+				//,"http://www.sedo.com/search/details.php4?domain="
 				,"script src=\"http://dsparking.com"
 				,'/?fp='
 				,'/parked/dns/'
@@ -30,7 +30,7 @@
 				,'domainpark/show_afd_ads.js'
 				,'domainredirect=1'
 				,'frame src="http://onlinefwd.com'
-				,'domainname='
+				//NO ,'domainname='
 				,'godaddy.com/parked'
 				,'google.ads.domains'
 				//,'google.com/adsense/domains/caf.js'
@@ -177,7 +177,7 @@
 				,'msngroupsclosure'
 				,'Unavailable Tripod Directory'
 				//,'>Just another WordPress site<'
-				,'Welcome to WordPress. This is your first post'
+				//,'Welcome to WordPress. This is your first post'
 				,'<h1>Este blog solo admite a lectores invitados'
 				, 'Sorry, the site you requested has been disabled'
 			],
@@ -315,7 +315,7 @@
 				,'The domain owner may currently be creating a great site for this domain'
 				,'This domain has just been registered for one of our customers'
 				,'This is a default template, indicating that the webmaster has not yet uploaded'
-				,'This is your first post. Edit or delete it'
+				//,'This is your first post. Edit or delete it'
 				,'To create a website, do one of the following'
 				,'You can access your hosting account control panel'
 				,'<h1>This domain name has been registered with '
@@ -534,7 +534,7 @@
 			errorStringUserFriendly: 'Coming Soon',
 			canUnreview: true,
 			body:[''
-				,'<p>coming soon</p>'
+				//,'<p>coming soon</p>'
 				,'<title>Coming Soon -'
 				,'<title>coming soon'
 				,'<title>This Web site coming soon</title'

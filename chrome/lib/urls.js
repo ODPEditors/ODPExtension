@@ -766,6 +766,13 @@
 	}
 	var decodeUTF8RecursiveRegExp = /% +/g;
 	var IDNDecode = this.service('idn').convertToDisplayIDN
+	this.IDNDecode = function(aURL){
+		try{
+			return IDNDecode(aURL, {})
+		} catch(e){
+			return aURL
+		}
+	}
 	this.getURLID = function (aURL) {
 
 		var id = {}

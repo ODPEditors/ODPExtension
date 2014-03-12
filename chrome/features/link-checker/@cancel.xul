@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<script type="application/x-javascript">
+		<![CDATA[
+			addEventListener('load', function () {
+				var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+					.getService(Components.interfaces.nsIWindowMediator);
+				var ODP = wm.getMostRecentWindow('navigator:browser').ODPExtension
+
+				if (ODP.linkCheckerRunningInstances > 0) {
+					if (
+						document.title.toLowerCase().indexOf('opening') != -1 ||
+						document.title.toLowerCase().indexOf('script') != -1 ||
+						document.title.toLowerCase().indexOf('download') != -1
+					) {
+						setTimeout(function(){
+							try {
+								document.documentElement.getButton("cancel").click();
+							} catch (e) {
+								document.documentElement.getButton("accept").click();
+							}
+						}, 2000);
+					}
+				}
+			}, true);
+		]]>
+	</script>
+
+</overlay>

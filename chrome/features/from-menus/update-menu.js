@@ -82,6 +82,16 @@
 	this.fromCategoryUpdateMenu = function(aEvent, fromWhere, cancelAutoPopup) {
 		//when the autopopup is openede because of the right double click
 		//we should prevent to the popup appears again if the new event is mouseup, because that mouse up is for hidding the popup, not for open again the popup
+
+		var tagName = aEvent.originalTarget.tagName || ''
+
+		switch(tagName){
+			case 'xul:scrollbarbutton':
+			case 'xul:slider':
+			case 'xul:thumb':
+				return;
+		}
+
 		if (this.fromCategoryLastEvent == 'dblclick' && aEvent.type == 'mouseup') {
 			this.fromCategoryLastEvent = '';
 

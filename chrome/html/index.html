@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+<script>
+var ODP
+	addEventListener('load', function() {
+		var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+			.getService(Components.interfaces.nsIWindowMediator);
+		var win = wm.getMostRecentWindow('navigator:browser');
+		ODP = win.ODPExtension;
+
+		document.body.innerHTML = ODP.fileRead(document.location.hash.replace(/^#/, ''), true)
+	}, false);
+</script>
+</body>
+</html>

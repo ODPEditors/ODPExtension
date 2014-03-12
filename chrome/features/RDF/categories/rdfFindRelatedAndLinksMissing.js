@@ -6,6 +6,7 @@
 	this.addListener('databaseReady', function () {
 
 		db = ODPExtension.rdfDatabaseOpen();
+
 		if (db.exists) {
 
 			query_subcategories = db.query(' \
@@ -27,26 +28,6 @@
 														`category` GLOB  :top \
 														and `depth` < :depth \
 														and `category_reversed` GLOB :name \
-												');
-			query_parents_same_name = db.query(' \
-												 	SELECT \
-														c.`category` \
-													FROM \
-														`categories` c , \
-														`related` r \
-													where \
-														r.`to` IN \
-														( \
-														 	SELECT \
-																c.`id` \
-															FROM \
-																`categories` c  \
-															WHERE \
-																c.`category` = :category \
-														 ) AND \
-														c.`id` = r.`from` \
-													order by \
-														r.`from` asc \
 												');
 		}
 	});
@@ -70,6 +51,9 @@
 
 			var result = ''
 			var current_relcats = this.rdfGetCategoryRelatedCategoriesFromCategoryID(row.id)
+			var current_relcats_formatted = []
+			for(var id in current_relcats)
+				current_relcats_formatted[id] = current_relcats[id].replace(/\/$/, '')
 			var isRegional = this.categoryIsRegional(row.category)
 			var isAboutACountry = this.categoryIsAboutCountry(row.category)
 			var countryName = this.categoryGetCountryName(row.category)
@@ -83,7 +67,6 @@
 				if (
 					isRegional && this.categoryIsRegional(relcat.category) && isAboutACountry && this.categoryIsAboutCountry(relcat.category) && countryName != this.categoryGetCountryName(relcat.category) &&
 					(
-
 						(
 							(relcat.category.indexOf('Regional/') === 0 && this.subStrCount(relcat.category.replace(name + '/', ''), '/') > 3) ||
 							relcat.category.indexOf('Regional/') !== 0 && this.subStrCount(relcat.category.replace(name, ''), '/') > 4
@@ -102,7 +85,18 @@
 				}
 
 				if (current_relcats.indexOf(relcat.category) == -1) {
-					result += '<br> -> ' + links + ' ' + relcat.category
+
+					result += '<br> ->  ' + links + ' <span class="click" onclick="var aTab = ODP.tabGetFocused();$(this).next().find(\'.submit\').click();ODP.tabSelect(aTab)">solve relcat</span> <form style="float:left;" action="http://www.dmoz.org/editors/editcat/editrelation?cat='+this.encodeUTF8(row.category)+'&type=related" method="post" target="_blank">'+
+									  '<input type="hidden" name="cat" value="'+row.category+'" />'+
+									  '<input type="hidden" name="type" value="related" />'+
+									  '<textarea style="display:none" name="related">'+
+										 (current_relcats_formatted.join("\n"))+
+									  '</textarea>'+
+									  '<textarea style="display:none" name="newrelated">'+
+										((current_relcats_formatted.join("\n"))+'\n'+relcat.category)+
+									  '</textarea>'+
+									  '<input type="submit" name="submit" class="submit" value="Update" style="display:none;"/>'+
+									'</form>' + relcat.category
 					allOK = false
 				} else {
 					result += '<br> -> ' + links + ' <span class="green">' + relcat.category + '</span>'
@@ -122,7 +116,7 @@
 
 		//display results
 		if (results > 0)
-			this.tabOpen(this.fileCreateTemporal(
+			this.tabOpen('chrome://ODPExtension/content/html/index.html#'+this.fileCreateTemporal(
 				'RDF.html',
 				aMsg,
 				'<div class="header">' + aMsg + '</div>' +

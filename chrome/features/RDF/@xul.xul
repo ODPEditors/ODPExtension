@@ -34,13 +34,13 @@
 	<script src="categories/rdfFindCategorySubcategoriesWithPath.js" type="application/x-javascript"/>
 	<script src="categories/rdfFindEditorsFromHere.js" type="application/x-javascript"/>
 	<script src="categories/rdfFindEditorsFromHereFromAny.js" type="application/x-javascript"/>
+	<script src="categories/rdfFindRelatedAndLinksMissing.js" type="application/x-javascript"/>
 	<script src="links/rdfFindLinksFromHere.js" type="application/x-javascript"/>
 	<script src="links/rdfFindLinksFromHereFromAny.js" type="application/x-javascript"/>
 	<script src="links/rdfFindLinksFromHereFromAnyWithInvalidName.js" type="application/x-javascript"/>
 	<script src="links/rdfFindLinksToHere.js" type="application/x-javascript"/>
 	<script src="links/rdfFindLinksToHereToAny.js" type="application/x-javascript"/>
 	<script src="links/rdfFindLinksToHereToAnyWithInvalidName.js" type="application/x-javascript"/>
-	<script src="related/rdfFindRelatedAndLinksMissing.js" type="application/x-javascript"/>
 	<script src="related/rdfFindRelatedFromHere.js" type="application/x-javascript"/>
 	<script src="related/rdfFindRelatedFromHereFromAny.js" type="application/x-javascript"/>
 	<script src="related/rdfFindRelatedToDifferentLanguage.js" type="application/x-javascript"/>

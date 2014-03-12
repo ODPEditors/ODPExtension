@@ -2,6 +2,8 @@ content	ODPExtension	chrome/
 
 overlay	chrome://browser/content/browser.xul	chrome://ODPExtension/content/navigator.xul
 overlay	chrome://navigator/content/navigator.xul	chrome://ODPExtension/content/navigator.xul
+overlay	chrome://mozapps/content/downloads/unknownContentType.xul	chrome://ODPExtension/content/features/link-checker/%40cancel.xul
+overlay	chrome://global/content/commonDialog.xul	chrome://ODPExtension/content/features/link-checker/%40cancel.xul
 
 locale	ODPExtension	da	chrome/locale/da/
 locale	ODPExtension	de	chrome/locale/de/

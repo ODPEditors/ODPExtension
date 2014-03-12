@@ -197,8 +197,6 @@
 
 		lc.commit();
 
-		ODPExtension.gc();
-
 //LINK CHECK
 
 		//this._afrodita();
@@ -206,8 +204,6 @@
 	}
 
 	this._afrodita = function() {
-
-		ODPExtension.gc();
 
 			var lc = this.linkCheckerDatabaseOpen();
 			var select = lc.query(' select distinct(subdomain_id), id, uri from uris where `checked` = 0 group by subdomain_id order by RANDOM() limit 150000 ');
@@ -217,15 +213,11 @@
 				uris[uris.length] = [row.id, row.uri]
 			}
 
-		ODPExtension.gc();
-
 		this.__afrodita(uris)
 
 	}
 
 	this.__afrodita = function(uris){
-
-		ODPExtension.gc();
 
 			var oRedirectionAlert = this.redirectionAlert();
 			var lc = this.linkCheckerDatabaseOpen();

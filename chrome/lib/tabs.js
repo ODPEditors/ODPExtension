@@ -78,7 +78,7 @@
 		return aTab;
 	}
 	//selects a tab
-	this.tabSelect = function(aTab) {
+	this.tabSelect = this.tabFocus = function(aTab) {
 		gBrowser.selectedTab = aTab;
 	}
 

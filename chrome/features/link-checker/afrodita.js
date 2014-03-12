@@ -370,6 +370,7 @@
 							if(aData.externalContent[i].status != 200)
 								broken++
 						}
+
 						update.params['included_total'] = aData.externalContent.length;
 						update.params['included_broken'] = Math.floor(100 * (broken/ aData.externalContent.length)) || 0;
 						update.params['included_broken_count'] = broken;
@@ -379,7 +380,7 @@
 						update.params['rss_count'] = aData.metaRSS.length;
 						update.params['atom_count'] = aData.metaAtom.length;
 
-						update.params['load_time'] = ((ODPExtension.sqlDate(aData.dateEnd) - ODPExtension.sqlDate(aData.dateStart))/1000) || 0
+						update.params['load_time'] = aData.loadTime
 
 						update.params['id'] = id;
 						update.executeAsync();
@@ -388,7 +389,6 @@
 				})(uris[a][0], uris[a][1]);
 			}
 	}
-
 
 	this.afroditaPlay = function(){
 

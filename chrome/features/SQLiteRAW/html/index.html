@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>SQLite RAW Query</title>
+
+	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/d3.v3.min.js"></script>
+	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/crossfilter.min.js"></script>
+	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/underscore-min.js"></script>
+	<script type="text/javascript" src="chrome://ODPExtension/content/html/js.js"></script>
+	<script type="text/javascript" src="js.js"></script>
+
+	<link type="text/css" media="all" rel="stylesheet" href="chrome://ODPExtension/content/html/@css.css"/>
+	<link type="text/css" media="all" rel="stylesheet" href="@css.css"/>
+
+</head>
+<body loading="true">
+<div class="loading" style="opacity:.3">Loading.. please wait</div>
+<header>
+	<div class="title"><b class="no-selection">SQLite RAW Queries</b> </div>
+	<div class="totals">
+		<span class="filtered">0</span> current view,
+		<span class="total">0</span> total,
+		<span class="selected">0</span> selected
+	</div>
+	<div class="clear"></div>
+</header>
+
+<div class="container">
+	<div class="sidebar no-selection">
+
+		<ul class="menu" type="visible">
+			<b class="no-selection ignore">Tools</b>
+			<li class="click" onclick="entryAction(this)" action="export_csv">Export as CSV</li>
+			<li class="click" onclick="entryAction(this)" action="copy_tabulated">Copy Tabulated</li>
+			<li class="click" onclick="entryAction(this)" action="copy_urls">Copy URLs</li>
+			<li class="click" onclick="entryAction(this)" action="copy_urls_with_new">Copy URLs with newURL</li>
+			<li class="click" onclick="entryAction(this)" action="copy_new_urls">Copy New URLs</li>
+			<li class="click" onclick="entryAction(this)" action="copy_txts">Copy TXTs</li>
+			<li class="click" onclick="entryAction(this)" action="open_urls">Open URLs</li>
+			<li class="click" onclick="entryAction(this)" action="open_urls_last">Open New URLs</li>
+		</ul>
+
+		<ul class="menu" type="selection">
+			<b class="no-selection ignore">Selection</b>
+			<li class="click" onclick="entryAction(this)" action="mark_recheck">Recheck</li>
+			<li class="click" onclick="entryAction(this)" action="mark_noted">Noted</li>
+			<li class="click" onclick="entryAction(this)" action="mark_done">Done</li>
+
+		</ul>
+
+		<ul class="menu" type="visible">
+			<b class="no-selection ignore">Visible</b>
+			<li class="click" onclick="entryAction(this)" action="mark_recheck">Recheck</li>
+			<li class="click" onclick="entryAction(this)" action="mark_noted">Noted</li>
+			<li class="click" onclick="entryAction(this)" action="mark_done">Done</li>
+		</ul>
+
+
+
+		<ul class="menu" type="visible">
+			<b class="no-selection ignore">Saved selections</b>
+			<li class="click"><a href="#SELECT distinct(status_error_string), count(*) as total, uri from uris where checked = 1 and processed = 0 group by status_error_string order by total desc">by status error string</a></li>
+		<hr>
+			<li class="click"><a href="#select count() from uris where checked = 1">how many checked ?</a></li>
+			<li class="click"><a href="#select count() from uris where checked = 0">how many remaining ?</a></li>
+			<li class="click"><a href="#select count() from uris where checked = 1 and processed = 1">how many processed ?</a></li>
+		</ul>
+
+	</div>
+
+	<div class="content">
+		<div class="clear"></div>
+
+		<div>
+			<textarea class="query textarea" placeholder="select * from ... limit 10"></textarea>
+			<br>
+			<button onclick="runQuery()">Refresh</button>
+		</div>
+
+	<div>
+		<div class="sort-by"><b class="no-selection ignore">Sort By</b>
+			<span class="links">
+
+			</span>
+		</div>
+		<div class="toggle"><b class="no-selection ignore">Toggle column</b>
+			<span class="links">
+
+			</span>
+		</div>
+	</div>
+
+
+		<div class="clear"></div>
+
+		<div class="filters-container">
+			<span class="filters no-selection">
+				<input
+					type="text"
+					class="filtertextbox"
+					placeholder="free text filter...   e.g: book paper -video"
+					onkeyup="filterFreeText(true)"
+					onblur="filterFreeText(true)"
+				>
+			</span>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+		<div class="list-no-results" results="false">There are no results.</div>
+		<div class="list"></div>
+		<div class="clear"></div>
+
+	</div>
+	<div class="clear"></div>
+</div>
+
+<div class="clear"></div>
+
+</body>
+</html>

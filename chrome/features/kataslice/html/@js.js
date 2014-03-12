@@ -16,7 +16,7 @@ addEventListener('load', function() {
 function onCategoryChange() {
 	aCategory = ODP.categoryGetFromURL(document.location.hash)
 
-	var reviewed = ODP.getHashParamFromURL(document.location, 'rev') == '1'
+	var reviewed = ODP.getHashParamFromURL(document.location, 'reviewed')
 	var recursive = ODP.getHashParamFromURL(document.location, 'recursive') == '1'
 
 	ODP.kataslice(aCategory, reviewed, recursive, function(aData) {

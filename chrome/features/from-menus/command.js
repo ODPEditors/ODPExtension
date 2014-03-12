@@ -592,13 +592,17 @@
 			else if (aCommand == 'search_find_subcategory')
 				this.categoryFinderQuery(searchFor, aValue);
 			 else if (aCommand == 'kataslice_unreviewed')
-				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#rev=0&cat='+aValue, true);
+				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#reviewed=0&cat='+aValue, true);
 			 else if (aCommand == 'kataslice_reviewed')
-				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#rev=1&cat='+aValue, true);
+				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#reviewed=1&cat='+aValue, true);
 			 else if (aCommand == 'kataslice_unreviewed_recursive')
-				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#rev=0&recursive=1&cat='+aValue, true);
+				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#reviewed=0&recursive=1&cat='+aValue, true);
 			 else if (aCommand == 'kataslice_reviewed_recursive')
-				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#rev=1&recursive=1&cat='+aValue, true);
+				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#reviewed=1&recursive=1&cat='+aValue, true);
+			 else if (aCommand == 'kataslice_recursive')
+				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#reviewed=2&recursive=1&cat='+aValue, true);
+			 else if (aCommand == 'kataslice')
+				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#reviewed=2&cat='+aValue, true);
 			//else if(aCommand=='search_find_subcategory_called')
 			//this.categoryFinderQuery(aValue+'/.*?'+searchFor+'([^/]*)?$', null, aValue);
 			else if (aCommand == 'find_dmoz')

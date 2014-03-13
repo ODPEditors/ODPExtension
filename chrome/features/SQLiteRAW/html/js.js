@@ -98,11 +98,21 @@ var by = [],
 `load_time` INTEG
 */
 
+/*
+	STATUSES
+		- checked 0 = not visited
+		- checked 1 = checked
+		- checked 3 = must check with priority
+		- processed = 0 not resolved
+		- processed = 1 solved
+		- processed = 2 noted in ODP
+*/
+
 	default_query = ' SELECT distinct(status_error_string), status_code, count(*) as total, uri from uris where checked = 1 and processed = 0 group by status_error_string order by total desc'
 
 	select = 'select status_code, status_error_string, id, uri, uri_last,match,match_hash, hash from uris where checked = 1 and processed = 0 and ',
 
-	limit = '  limit 500';
+	limit = '  limit 2500';
 
 //create page
 
@@ -130,7 +140,7 @@ function onQuery() {
 	var aQuery = decodeURIComponent(document.location.hash).trim().replace(/^#/, '')
 
 	if (aQuery != '') {
-		var db = ODP.linkCheckerDatabaseOpen();
+		var db = ODP.afroditaDatabaseOpen();
 		$('.query').val(aQuery)
 		try {
 			var query = db.query(aQuery.replace(/and\s?$/, ''))
@@ -361,7 +371,7 @@ function entryAction(type) {
 	var listType = el.parent().attr('type');
 	var actionType = el.attr('action');
 
-	var db = ODP.linkCheckerDatabaseOpen();
+	var db = ODP.afroditaDatabaseOpen();
 
 	switch (listType) {
 		case 'selection':
@@ -427,7 +437,7 @@ function entryAction(type) {
 		case 'mark_recheck':
 			items.each(function(d) {
 				if(d.id && String(d.id) != ''){
-					db.executeSimple('update uris set checked = 0 where id = "'+d.id+'"')
+					db.executeSimple('update uris set checked = 3 where id = "'+d.id+'"')
 				}
 			});
 			break;

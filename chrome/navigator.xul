@@ -39,6 +39,7 @@
 <?xul-overlay href="chrome://ODPExtension/content/features/RDF/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/kataslice/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/sisters-ancestors-childrens-categories/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/SQLiteRAW/@xul.xul"?>
 
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 

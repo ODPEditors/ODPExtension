@@ -3,13 +3,13 @@
 
 	var debugingThisFile = true;
 
-	this.afrodita = function() {
+	this.afroditaImportURLs = function() {
 
 //LC
 
 	this.dump('Creating database tables and statements...');
 
-	var lc = this.linkCheckerDatabaseOpen();
+	var lc = this.afroditaDatabaseOpen();
 		lc.begin();
 		lc.executeSimple('	CREATE TABLE IF NOT EXISTS `uris`  ( `id` INTEGER PRIMARY KEY NOT NULL, `uri` TEXT NOT NULL DEFAULT "")');
 
@@ -197,30 +197,35 @@
 
 		lc.commit();
 
-//LINK CHECK
-
-		//this._afrodita();
-
 	}
 
-	this._afrodita = function() {
+	this.afroditaContinue = function() {
 
-			var lc = this.linkCheckerDatabaseOpen();
-			var select = lc.query(' select distinct(subdomain_id), id, uri from uris where `checked` = 0 group by subdomain_id order by RANDOM() limit 150000 ');
-
+			var lc = this.afroditaDatabaseOpen();
 			var uris = []
+
+			// must check asap
+			var select = lc.query(' select distinct(subdomain_id), id, uri from uris where `checked` = 3 limit 150000 ');
+
 			while (row = select.fetchObjects()) {
 				uris[uris.length] = [row.id, row.uri]
 			}
 
-		this.__afrodita(uris)
+			//queue
+			var select = lc.query(' select distinct(subdomain_id), id, uri from uris where `checked` = 0 group by subdomain_id order by RANDOM() limit 150000 ');
+
+			while (row = select.fetchObjects()) {
+				uris[uris.length] = [row.id, row.uri]
+			}
+
+		this._afroditaContinue(uris)
 
 	}
 
-	this.__afrodita = function(uris){
+	this._afroditaContinue = function(uris){
 
 			var oRedirectionAlert = this.redirectionAlert();
-			var lc = this.linkCheckerDatabaseOpen();
+			var lc = this.afroditaDatabaseOpen();
 			var update = lc.aConnection.createStatement(' update `uris` set `checked` = 1, \
 			                                            			\
 																	`loading_success` = :loading_success, \
@@ -382,7 +387,7 @@
 			}
 	}
 
-	this.afroditaPlay = function(){
+	this.afroditaOpen = function(){
 
 		this.tabOpen('chrome://odpextension/content/features/SQLiteRAW/html/index.html');
 	}

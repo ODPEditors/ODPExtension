@@ -7,9 +7,9 @@
 
 	var database = false;
 
-	this.linkCheckerDatabaseOpen = function() {
+	this.afroditaDatabaseOpen = function() {
 		if (!database) {
-			database = this.databaseGet('LinkChecker');
+			database = this.databaseGet('Afrodita');
 			database.executeSimple('PRAGMA temp_store = 2');
 			database.executeSimple('PRAGMA secure_delete = false');
 			database.executeSimple('PRAGMA read_uncommitted = true');
@@ -18,7 +18,7 @@
 		}
 		return database;
 	}
-	this.linkCheckerDatabaseClose = function() {
+	this.afroditaDatabaseClose = function() {
 		if (database) {
 			database.close();
 			database = false;

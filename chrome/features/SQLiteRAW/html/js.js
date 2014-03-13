@@ -132,7 +132,7 @@ function runQuery() {
 	else if(document.location.hash == '')
 		document.location.hash = encodeURIComponent(encodeURIComponent(default_query))
 
-	//onQuery()
+	onQuery()
 }
 
 function onQuery() {

@@ -15,7 +15,6 @@
 			database.executeSimple('PRAGMA cache_spill = false');
 			database.executeSimple('PRAGMA secure_delete = false');
 			database.executeSimple('PRAGMA journal_mode = memory');//memory
-			//database.executeSimple('PRAGMA synchronous = 0');  does not free mem.
 			database.exists = database.tableExists('uris');
 		}
 		return database;

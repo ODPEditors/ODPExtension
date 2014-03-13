@@ -295,10 +295,10 @@
 
 			},
 			check: function(aURL, aFunction) {
-				this.queue[this.queue.length] = [ODPExtension.IDNDecode(aURL), aFunction];
+				this.queue[this.queue.length] = [ODPExtension.IDNDecode(aURL), aFunction, aURL];
 				this.next();
 			},
-			done: function(aFunction, aData, aURL) {
+			done: function(aFunction, aData, aURL, aOriginalURL) {
 				ODPExtension.getIPFromDomainAsync(aData.subdomain, function(aIP){
 					aData.ip = aIP
 					if (ODPExtension.preferenceGet('link.checker.cache.result')){
@@ -308,19 +308,19 @@
 					oRedirectionAlert.cache[aURL] = null;
 					if(debug)
 						ODPExtension.dump(aData)
-					aFunction(aData, aURL);
+					aFunction(aData, aOriginalURL);
 				});
 			},
 			next: function() {
 				if (this.itemsNetworking < ODPExtension.preferenceGet('link.checker.threads')) {
 					var next = this.queue.shift();
 					if ( !! next) {
-						this._check(next[0], next[1]);
+						this._check(next[0], next[1], next[2]);
 						this.next();
 					}
 				}
 			},
-			_check: function(aURL, aFunction, letsTryAgainIfFail) {
+			_check: function(aURL, aFunction, aOriginalURL, letsTryAgainIfFail) {
 				this.itemsWorking++;
 				this.itemsNetworking++;
 
@@ -643,7 +643,7 @@
 						aData.dateEnd = ODPExtension.now();
 						aData.loadTime = ((ODPExtension.sqlDate(aData.dateEnd) - ODPExtension.sqlDate(aData.dateStart))/1000) || 0
 
-						oRedirectionAlert.done(aFunction, aData, aURL)
+						oRedirectionAlert.done(aFunction, aData, aURL, aOriginalURL)
 						//aFunction(aData, aURL)
 
 						//aData = null;
@@ -782,7 +782,7 @@
 						aData.statuses = [];
 						aData.urlRedirections = [];
 
-						oRedirectionAlert._check(aURL, aFunction, 0);
+						oRedirectionAlert._check(aURL, aFunction, aOriginalURL, 0);
 					} else {
 						if (loaded)
 							return null;
@@ -836,7 +836,7 @@
 						aData.dateEnd = ODPExtension.now();
 						aData.loadTime = ((ODPExtension.sqlDate(aData.dateEnd) - ODPExtension.sqlDate(aData.dateStart))/1000) || 0
 
-						oRedirectionAlert.done(aFunction, aData, aURL)
+						oRedirectionAlert.done(aFunction, aData, aURL, aOriginalURL)
 						//aFunction(aData, aURL)
 
 						//aData = null;
@@ -1318,8 +1318,123 @@
 		if (aData.intrusivePopups > 1)
 			aData.status.suspicious.push('Window may has problems');
 	}
-	var redirectionOKAutoFixTLD = /(\.(blogspot|wordpress))?(\.(com|net|org|edu|gov|gub|mil|int|arpa|aero|biz|coop|info|museum|name|co|ac|ne|asia|jobs|mobi|pro|tel|travel))?(\.(ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bl|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mf|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw))?$/i;
+	var removeTLD = /(\.(blogspot|wordpress))?(\.(com|net|org|edu|gov|gub|mil|int|arpa|aero|biz|coop|info|museum|name|co|ac|ne|asia|jobs|mobi|pro|tel|travel))?(\.(ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bl|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mf|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw))?$/i;
 
+	var IDNDiacriticDigraphsFind = [
+		/à|á|â|ã|ä|å|ā|ă|ą|ǎ|ǟ|ǡ|ǻ|ȁ|ȃ|ȧ|ɐ|ɑ|ᶏ|ḁ|ạ|ả|ấ|ầ|ẩ|ẫ|ậ|ắ|ằ|ẳ|ẵ|ặ|ⱥ/gi,
+		/ƀ|ƃ|ɓ|ᵬ|ᶀ|ḃ|ḅ|ḇ/gi,
+		/ç|ć|ĉ|ċ|č|ƈ|ȼ|ɕ|ḉ/gi,
+		/ď|đ|ƌ|ȡ|ɖ|ɗ|ᵭ|ᶁ|ᶑ|ḋ|ḍ|ḏ|ḑ|ḓ|∂/gi,
+		/è|é|é|é|ê|ë|ē|ĕ|ė|ę|ě|ȅ|ȇ|ȩ|ɇ|е|ё|ᶒ|ḕ|ḗ|ḙ|ḛ|ḝ|ẹ|ẻ|ẽ|ế|ề|ể|ễ|ệ/gi,
+		/ƒ|ᵮ|ᶂ|ḟ/gi,
+		/ĝ|ğ|ġ|ģ|ǥ|ǧ|ǵ|ɠ|ᶃ|ḡ/gi,
+		/h|ĥ|ħ|ȟ|̱ẖ|ḣ|ḥ|ḧ|ḩ|ḫ|ⱨ/gi,
+		/i|ì|í|î|ï|ĩ|ī|ĭ|į|ı|ǐ|ȉ|ȋ|ɨ|̇|ї|ᵻ|ᶖ|ḭ|ḯ|ỉ|ị/gi,
+		/j|ĵ|ȷ|ɉ|ɟ|ʄ|ʝ|̌ǰ/gi,
+		/k|ķ|ƙ|ǩ|̂k̂|ќ|ᶄ|ḱ|ḳ|ḵ|ⱪ/gi,
+		/ĺ|ļ|ľ|ŀ|ł|ƚ|ȴ|ɫ|ɬ|ɭ|ᶅ|ḷ|ḹ|ḻ|ḽ|ⱡ/gi,
+		/ɱ|ᵯ|ᶆ|ḿ|ṁ|ṃ/gi,
+		/n|ñ|ń|ņ|ň|ŋ|ƞ|ǹ|ȵ|ɲ|ɳ|̈n̈|й|ᵰ|ᶇ|ṅ|ṇ|ṉ|ṋ/gi,
+		/o|ò|ó|ô|õ|ö|ø|ō|ŏ|ő|ơ|ǒ|ǫ|ǭ|ǿ|ȍ|ȏ|ȫ|ȭ|ȯ|ȱ|ɔ|ɵ|͘o͘|ṍ|ṏ|ṑ|ṓ|ọ|ỏ|ố|ồ|ổ|ỗ|ộ|ớ|ờ|ở|ỡ|ợ/gi,
+		/p|ƥ|̃p̃|ᵱ|ᵽ|ᶈ|ṕ|ṗ/gi,
+		/ƣ|ɋ|ʠ/gi,
+		/ŕ|ŗ|ř|ȑ|ȓ|ɍ|ɼ|ɽ|ɾ|ѓ|ᵲ|ᵳ|ᶉ|ṙ|ṛ|ṝ|ṟ/gi,
+		/s|s̩|ś|ŝ|ş|š|ș|ȿ|ʂ|̩|ᵴ|ᶊ|ṡ|ṣ|ṥ|ṧ|ṩ/gi,
+		/t|ţ|ť|ŧ|ƫ|ƭ|ț|ȶ|ʈ|̈ẗ|ᵵ|ṫ|ṭ|ṯ|ṱ|ⱦ/gi,
+		/ù|ú|û|ü|ũ|ū|ŭ|ů|ű|ų|ư|ǔ|ǖ|ǘ|ǚ|ǜ|ȕ|ȗ|ʉ|ᵾ|ᶙ|ṳ|ṵ|ṷ|ṹ|ṻ|ụ|ủ|ứ|ừ|ử|ữ|ự/gi,
+		/ʋ|ᶌ|ṽ|ṿ|ⱱ|ⱴ/gi,
+		/w|ŵ|̊ẘ|ẁ|ẃ|ẅ|ẇ|ẉ|ⱳ/gi,
+		/ᶍ|ẋ|ẍ/gi,
+		/y|ý|ÿ|ŷ|ƴ|ȳ|ɏ|ʏ|̊ẙ|ў|ẏ|ỳ|ỵ|ỷ|ỹ/gi,
+		/ź|ż|ž|ƶ|ȥ|ɀ|ʐ|ʑ|ᵶ|ᶎ|ẑ|ẓ|ẕ|ⱬ/gi,
+
+		//digraphs
+		/ß/gi,
+		/æ/gi,
+		/ĳ/gi,
+		/œ/gi,
+		/ǆ/gi,
+		/ǉ/gi,
+		/ǌ/gi,
+		/ǣ/gi,
+		/ǳ/gi,
+		/ǽ/gi,
+		/ȸ/gi,
+		/ȹ/gi,
+		/ɶ/gi,
+		/ʣ/gi,
+		/ʤ/gi,
+		/ʥ/gi,
+		/ʦ/gi,
+		/ʧ/gi,
+		/ʨ/gi,
+		/ʩ/gi,
+		/ʪ/gi,
+		/ʫ/gi,
+		/ᴁ/gi,
+		/ᴂ/gi,
+		/ᴔ/gi,
+		/ᵺ/gi,
+		/ﬁ/gi,
+		/ﬂ/gi
+	]
+	var IDNDiacriticDigraphsReplace = [
+		'a',
+		'b',
+		'c',
+		'd',
+		'e',
+		'f',
+		'g',
+		'h',
+		'i',
+		'j',
+		'k',
+		'l',
+		'm',
+		'n',
+		'o',
+		'p',
+		'q',
+		'r',
+		's',
+		't',
+		'u',
+		'v',
+		'w',
+		'x',
+		'y',
+		'z',
+
+		's',
+		'ae',
+		'ij',
+		'oe',
+		'dz',
+		'lj',
+		'nj',
+		'ae',
+		'dz',
+		'ae',
+		'db',
+		'qp',
+		'oe',
+		'dz',
+		'dezh',
+		'dz',
+		'ts',
+		'tesh',
+		'tc',
+		'feng',
+		'ls',
+		'lz',
+		'ae',
+		'ae',
+		'oe',
+		'th',
+		'fi',
+		'fl'
+	]
 	this.redirectionOKAutoFix = function(oldURL, newURL) {
 		if (oldURL == newURL)
 			return false;
@@ -1335,12 +1450,22 @@
 
 		//remove tld, ttp://www.tld1/ redirects to http://www.tld2/ must be corrected
 		oldURL = oldURL.split('/')
-		oldURL[0] = oldURL[0].replace(redirectionOKAutoFixTLD, '')
+		oldURL[0] = oldURL[0].replace(removeTLD, '')
 		oldURL = oldURL.join('/')
 
 		newURL = newURL.split('/')
-		newURL[0] = newURL[0].replace(redirectionOKAutoFixTLD, '')
+		newURL[0] = newURL[0].replace(removeTLD, '')
 		newURL = newURL.join('/')
+
+		//decode
+		oldURL = this.decodeUTF8Recursive(oldURL)
+		newURL = this.decodeUTF8Recursive(newURL)
+
+		//IDN decode
+		for(var id in IDNDiacriticDigraphsFind){
+			oldURL = oldURL.replace(IDNDiacriticDigraphsFind[id], IDNDiacriticDigraphsReplace[id])
+			newURL = newURL.replace(IDNDiacriticDigraphsFind[id], IDNDiacriticDigraphsReplace[id])
+		}
 
 		if (oldURL == newURL)
 			return true;

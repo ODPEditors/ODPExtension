@@ -128,16 +128,16 @@ function onLoad() {
 function runQuery() {
 
 	if ($('.query').val() != '' )
-		document.location.hash = $('.query').val();
+		document.location.hash = encodeURIComponent(encodeURIComponent($('.query').val()));
 	else if(document.location.hash == '')
-		document.location.hash = default_query
+		document.location.hash = encodeURIComponent(encodeURIComponent(default_query))
 
 	//onQuery()
 }
 
 function onQuery() {
 
-	var aQuery = decodeURIComponent(document.location.hash).trim().replace(/^#/, '')
+	var aQuery = decodeURIComponent(document.location.hash.trim().replace(/^#/, '')).trim()
 
 	if (aQuery != '') {
 		var db = ODP.afroditaDatabaseOpen();
@@ -261,12 +261,10 @@ function listRender() {
 			case 'html':
 				ODP.tabOpen('view-source:data:text/html;charset=UTF-8,' + ODP.encodeUTF8(JSON.parse(ODP.uncompress(d.value)).htmlTab), true);
 				break;
-			case 'uri':
-			case 'uri_last':
-				break;
 			default:
-				if(d3.event.altKey)
+				if(d3.event.ctrlKey && d3.event.originalTarget.tagName != 'A' && d.name.indexOf('(') == -1){
 					ODP.tabOpen('chrome://odpextension/content/features/SQLiteRAW/html/index.html#' + select + ' ' + d.name + ' = "' + (String(d.value).replace(/"/g, '\"')) + '" ' + limit, true);
+				}
 				break;
 
 		}

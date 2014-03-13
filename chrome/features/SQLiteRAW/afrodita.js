@@ -314,7 +314,6 @@
 
 			function batch_update() {
 
-				lc.begin()
 				var object;
 				while(object = transaction.pop()) {
 
@@ -400,10 +399,8 @@
 					update.params['load_time'] = aData.loadTime
 
 					update.params['id'] = object[0];
-					update.execute();
-
+					update.executeAsync();
 				}
-				lc.commit();
 				transaction = []
 			}
 			for(var a=0;a<uris.length;a++) {

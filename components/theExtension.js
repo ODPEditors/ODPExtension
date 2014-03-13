@@ -7,9 +7,9 @@ const nsITheExtension = Components.interfaces.nsITheExtension;
 const nsISupports = Components.interfaces.nsISupports;
 const nsIObserver = Components.interfaces.nsIObserver;
 
-const CLASS_ID = Components.ID("{97176570-9c94-11df-981c-0800200c9a66}");
+const CLASS_ID = Components.ID("{97176570-9c94-1337-981c-0800200c9a66}");
 const CLASS_NAME = "Gets the extension main object from places where maybe is not in the scope. Example inside a shared object from a window that was closed.";
-const CONTRACT_ID = "@particle.universe.tito/TheExtension;3";
+const CONTRACT_ID = "@particle.universe.odp.tito/TheExtension;3";
 
 function TheExtension() {
 	this.wrappedJSObject = this;

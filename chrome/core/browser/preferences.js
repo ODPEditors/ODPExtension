@@ -28,7 +28,7 @@
 	var pref; //a reference to preferencesManagerComponent.wrappedJSObject.prefs['ODPExtension']
 
 	/*the preference manager*/
-	var preferencesManagerComponent = Components.classes['@particle.universe.tito/PreferencesManager;7']
+	var preferencesManagerComponent = Components.classes['@particle.universe.odp.tito/PreferencesManager;7']
 		.getService().wrappedJSObject;
 
 	//this is the very first listener called by the extension

@@ -1,7 +1,7 @@
 (function() {
 	//returns true if a shared object created by a XPCOM exists (shared by all the windows of the same browser instance (profile))
 	this.sharedObjectExists = function(objectName) {
-		var sharedObjectComponent = Components.classes['@particle.universe.tito/SharedObject;3']
+		var sharedObjectComponent = Components.classes['@particle.universe.odp.tito/SharedObject;3']
 			.getService().wrappedJSObject;
 
 		return sharedObjectComponent.sharedObjectExists('ODPExtension.' + objectName);
@@ -36,7 +36,7 @@ PROBLEMATIC----------->>>>>>>>> ODPExtension.dump(anID+' takes '+diff+' ms');
 PROBLEM			when the window that holds "ODPExtension" is closed the complexVar still exists for other windows in a shared enviroment, but ODPExtension no exists anymore.
 	*/
 	this.sharedObjectGet = function(objectName, aDefault) {
-		var sharedObjectComponent = Components.classes['@particle.universe.tito/SharedObject;3']
+		var sharedObjectComponent = Components.classes['@particle.universe.odp.tito/SharedObject;3']
 			.getService().wrappedJSObject;
 		if (this.sharedObjectExists(objectName)) {
 			//this.dump('sharedObjectGet:The shared var "'+objectName+'" is a property of the XPCOM');

@@ -34,9 +34,9 @@ const nsITheListeners = Components.interfaces.nsITheListeners;
 const nsISupports = Components.interfaces.nsISupports;
 const nsIObserver = Components.interfaces.nsIObserver;
 
-const CLASS_ID = Components.ID("{84bcc1e0-9c94-11df-981c-0800200c9a66}");
+const CLASS_ID = Components.ID("{84bcc1e0-9c94-1337-981c-0800200c9a66}");
 const CLASS_NAME = "Setups some types of listeners/observers and notifies to the registered extensions of these events when needed";
-const CONTRACT_ID = "@particle.universe.tito/TheListeners;7";
+const CONTRACT_ID = "@particle.universe.odp.tito/TheListeners;7";
 
 function TheListeners() {
 	this.wrappedJSObject = this;

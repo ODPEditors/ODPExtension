@@ -15,18 +15,18 @@ locale	ODPExtension	ro	chrome/locale/ro/
 locale	ODPExtension	ru	chrome/locale/ru/
 locale	ODPExtension	tr	chrome/locale/tr/
 
-component	{aa5d0540-9c94-11df-981c-0800200c9a66}	components/preferencesManager.js
-contract	@particle.universe.tito/PreferencesManager;7	{aa5d0540-9c94-11df-981c-0800200c9a66}
-category	profile-after-change	PreferencesManager	@particle.universe.tito/PreferencesManager;7
+component	{aa5d0540-9c94-1337-981c-0800200c9a66}	components/preferencesManager.js
+contract	@particle.universe.odp.tito/PreferencesManager;7	{aa5d0540-9c94-1337-981c-0800200c9a66}
+category	profile-after-change	PreferencesManager	@particle.universe.odp.tito/PreferencesManager;7
 
-component	{a1805800-9c94-11df-981c-0800200c9a66}	components/sharedObject.js
-contract	@particle.universe.tito/SharedObject;3	{a1805800-9c94-11df-981c-0800200c9a66}
-category	profile-after-change	SharedObject	@particle.universe.tito/SharedObject;3
+component	{a1805800-9c94-1337-981c-0800200c9a66}	components/sharedObject.js
+contract	@particle.universe.odp.tito/SharedObject;3	{a1805800-9c94-1337-981c-0800200c9a66}
+category	profile-after-change	SharedObject	@particle.universe.odp.tito/SharedObject;3
 
-component	{97176570-9c94-11df-981c-0800200c9a66}	components/theExtension.js
-contract	@particle.universe.tito/TheExtension;3	{97176570-9c94-11df-981c-0800200c9a66}
-category	profile-after-change	TheExtension	@particle.universe.tito/TheExtension;3
+component	{97176570-9c94-1337-981c-0800200c9a66}	components/theExtension.js
+contract	@particle.universe.odp.tito/TheExtension;3	{97176570-9c94-1337-981c-0800200c9a66}
+category	profile-after-change	TheExtension	@particle.universe.odp.tito/TheExtension;3
 
-component	{84bcc1e0-9c94-11df-981c-0800200c9a66}	components/theListeners.js
-contract	@particle.universe.tito/TheListeners;7	{84bcc1e0-9c94-11df-981c-0800200c9a66}
-category	profile-after-change	TheListeners	@particle.universe.tito/TheListeners;7
+component	{84bcc1e0-9c94-1337-981c-0800200c9a66}	components/theListeners.js
+contract	@particle.universe.odp.tito/TheListeners;7	{84bcc1e0-9c94-1337-981c-0800200c9a66}
+category	profile-after-change	TheListeners	@particle.universe.odp.tito/TheListeners;7

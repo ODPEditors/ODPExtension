@@ -852,7 +852,7 @@
 				if (letsTryAgainIfFail === 0) {
 					Requester.setRequestHeader('Referer', aURL);
 				} else {
-					Requester.setRequestHeader('Referer', 'https://www.google.com/search?q=' + ODPExtension.encodeUTF8(aURL));
+					Requester.setRequestHeader('Referer', 'https://www.google.com/');
 				}
 				try{
 					Requester.send(null);

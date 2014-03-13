@@ -8,9 +8,9 @@ const nsIPreferencesManager = Components.interfaces.nsIPreferencesManager;
 const nsISupports = Components.interfaces.nsISupports;
 const nsIObserver = Components.interfaces.nsIObserver;
 
-const CLASS_ID = Components.ID("{aa5d0540-9c94-11df-981c-0800200c9a66}");
+const CLASS_ID = Components.ID("{aa5d0540-9c94-1337-981c-0800200c9a66}");
 const CLASS_NAME = "Manage preferences and the preferences observer of a browser instance for N add-ons";
-const CONTRACT_ID = "@particle.universe.tito/PreferencesManager;7";
+const CONTRACT_ID = "@particle.universe.odp.tito/PreferencesManager;7";
 
 function PreferencesManager() {
 	this.wrappedJSObject = this;
@@ -44,7 +44,7 @@ PreferencesManager.prototype = {
 			this.observers[anExtension] = {
 				//called when the preferences for anExtension change
 				observe: function(aSubject, aTopic, aPreferenceName) {
-					var PreferencesManager = Components.classes['@particle.universe.tito/PreferencesManager;7']
+					var PreferencesManager = Components.classes['@particle.universe.odp.tito/PreferencesManager;7']
 						.getService().wrappedJSObject;
 
 					if (aTopic == "nsPref:changed") {

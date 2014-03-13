@@ -60,7 +60,7 @@ var ODPExtension = {};
 	};
 	//register this extension to the "TheListeners" component
 	this.registerTheListeners = function () {
-		var theListeners = Components.classes['@particle.universe.tito/TheListeners;7']
+		var theListeners = Components.classes['@particle.universe.odp.tito/TheListeners;7']
 			.getService().wrappedJSObject;
 		theListeners.registerExtension('ODPExtension', 'development@dmoz.org');
 	}
@@ -82,13 +82,13 @@ var ODPExtension = {};
 	};
 	//start a complex listener
 	this.startComplexListener = function (aListener) {
-		var theListeners = Components.classes['@particle.universe.tito/TheListeners;7']
+		var theListeners = Components.classes['@particle.universe.odp.tito/TheListeners;7']
 			.getService().wrappedJSObject;
 		theListeners.addComplexListener(aListener, 'ODPExtension');
 	}
 	//stop a complex listener
 	this.stopComplexListener = function (aListener) {
-		var theListeners = Components.classes['@particle.universe.tito/TheListeners;7']
+		var theListeners = Components.classes['@particle.universe.odp.tito/TheListeners;7']
 			.getService().wrappedJSObject;
 		try {
 			theListeners.removeComplexListener(aListener, 'ODPExtension');
@@ -540,7 +540,7 @@ var ODPExtension = {};
 			//onModifyRequest
 			if (listeners['onModifyRequest']) {
 				this.dump('removeListeners:onModifyRequest', debugingThisFile);
-				var theListeners = Components.classes['@particle.universe.tito/TheListeners;7']
+				var theListeners = Components.classes['@particle.universe.odp.tito/TheListeners;7']
 					.getService().wrappedJSObject;
 				try {
 					theListeners.removeComplexListener('onModifyRequest', 'ODPExtension');

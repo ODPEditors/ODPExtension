@@ -18,7 +18,7 @@
 			// our custom database handler
 			var object = {};
 			//reference to extension code
-			object.theExtension = Components.classes['@particle.universe.tito/TheExtension;3']
+			object.theExtension = Components.classes['@particle.universe.odp.tito/TheExtension;3']
 				.getService().wrappedJSObject;
 			//init the connection
 			object.aDatabase = aDatabase;

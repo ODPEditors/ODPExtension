@@ -30,7 +30,7 @@
 		} else {
 			var object = {};
 			//reference to extension code
-			object.theExtension = Components.classes['@particle.universe.tito/TheExtension;3']
+			object.theExtension = Components.classes['@particle.universe.odp.tito/TheExtension;3']
 				.getService().wrappedJSObject;
 			object.timers = [];
 			object.start = function(anID) {

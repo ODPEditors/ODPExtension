@@ -7,9 +7,9 @@ const nsISharedObject = Components.interfaces.nsISharedObject;
 const nsISupports = Components.interfaces.nsISupports;
 const nsIObserver = Components.interfaces.nsIObserver;
 
-const CLASS_ID = Components.ID("{a1805800-9c94-11df-981c-0800200c9a66}");
+const CLASS_ID = Components.ID("{a1805800-9c94-1337-981c-0800200c9a66}");
 const CLASS_NAME = "Shares objects of N add-ons between windows of the same browser instance";
-const CONTRACT_ID = "@particle.universe.tito/SharedObject;3";
+const CONTRACT_ID = "@particle.universe.odp.tito/SharedObject;3";
 
 function SharedObject() {
 	this.wrappedJSObject = this;

@@ -259,11 +259,11 @@ function listRender() {
 
 		switch (d.name) {
 			case 'html':
-				ODP.tabOpen('view-source:data:text/html;charset=UTF-8,' + ODP.encodeUTF8(JSON.parse(ODP.uncompress(d.value)).htmlTab), true);
+				ODP.tabOpen('view-source:data:text/html;charset=UTF-8,' + ODP.encodeUTF8(JSON.parse(ODP.uncompress(d.value)).htmlTab), false);
 				break;
 			default:
 				if(d3.event.ctrlKey && d3.event.originalTarget.tagName != 'A' && d.name.indexOf('(') == -1){
-					ODP.tabOpen('chrome://odpextension/content/features/SQLiteRAW/html/index.html#' + select + ' ' + d.name + ' = "' + (String(d.value).replace(/"/g, '\"')) + '" ' + limit, true);
+					ODP.tabOpen('chrome://odpextension/content/features/SQLiteRAW/html/index.html#' + select + ' ' + d.name + ' = "' + (String(d.value).replace(/"/g, '\"')) + '" ' + limit, false);
 				}
 				break;
 

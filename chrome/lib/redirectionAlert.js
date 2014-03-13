@@ -812,7 +812,7 @@
 								aData.statuses.push(-1337)
 							} else {
 								try {
-									aData.statuses.push(ODPExtension.createTCPErrorFromFailedXHR(Requester));
+									aData.statuses.push(ODPExtension.createTCPErrorFromFailedXHR(Requester, aData));
 								} catch (e) {
 									try {
 										aData.statuses.push(Requester.status);
@@ -882,7 +882,7 @@
 		return oRedirectionAlert;
 	}
 	//https://developer.mozilla.org/en-US/docs/How_to_check_the_security_state_of_an_XMLHTTPRequest_over_SSL
-	this.createTCPErrorFromFailedXHR = function(xhr) {
+	this.createTCPErrorFromFailedXHR = function(xhr, aData) {
 		var status = xhr.channel.QueryInterface(Components.interfaces.nsIRequest).status;
 
 		var errType;
@@ -1090,8 +1090,8 @@
 			//-401  SSL Error
 		} else if (false || aData.statuses.indexOf('SecurityProtocol') != -1 || aData.statuses.indexOf('SecurityCertificate') != -1 || aData.statuses.indexOf('SecurityExpiredCertificateError') != -1 || aData.statuses.indexOf('SecurityRevokedCertificateError') != -1 || aData.statuses.indexOf('SecurityUntrustedCertificateIssuerError') != -1 || aData.statuses.indexOf('SecurityInadequateKeyUsageError') != -1 || aData.statuses.indexOf('SecurityCertificateSignatureAlgorithmDisabledError') != -1 || aData.statuses.indexOf('SecurityError') != -1 || aData.statuses.indexOf('SecurityNoCertificateError') != -1 || aData.statuses.indexOf('SecurityBadCertificateError') != -1 || aData.statuses.indexOf('SecurityUnsupportedCertificateTypeError') != -1 || aData.statuses.indexOf('SecurityUnsupportedTLSVersionError') != -1 || aData.statuses.indexOf('SecurityCertificateDomainMismatchError') != -1 || aData.statuses.indexOf('SecurityCertificateDomainMismatchError') != -1) {
 			aData.status.code = -401;
-			aData.status.errorString = 'SSL Error: ' + aData.statuses.join(',');
-			aData.status.errorStringUserFriendly = 'SSL Error';
+			aData.status.errorString = 'SSL Error: ' + lastStatus;
+			aData.status.errorStringUserFriendly = 'SSL Error: ' + lastStatus;
 			aData.status.canUnreview = true;
 
 			//-4 	Can't connect 	We can't connect to the HTTP server. The server is there but it didn't want to talk to Robozilla on the specified port.

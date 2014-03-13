@@ -295,7 +295,7 @@
 
 			},
 			check: function(aURL, aFunction) {
-				this.queue[this.queue.length] = [ODPExtension.IDNDecode(aURL), aFunction, aURL];
+				this.queue[this.queue.length] = [ODPExtension.IDNDecodeURL(aURL), aFunction, aURL];
 				this.next();
 			},
 			done: function(aFunction, aData, aURL, aOriginalURL) {
@@ -303,7 +303,7 @@
 					aData.ip = aIP
 					if (ODPExtension.preferenceGet('link.checker.cache.result')){
 						var cacheID = ODPExtension.sha256(aURL)
-						ODPExtension.fileWrite('/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID, ODPExtension.compress(JSON.stringify(aData)) );
+						ODPExtension.fileWriteAsync('/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID, ODPExtension.compress(JSON.stringify(aData)) );
 					}
 					oRedirectionAlert.cache[aURL] = null;
 					if(debug)
@@ -389,6 +389,7 @@
 					aData.dateEnd = aData.dateStart;
 					aData.intrusivePopups = 0;
 					aData.loadingSuccess = false;
+					aData.note = [];
 					//aData.removeFromBrowserHistory = !ODPExtension.isVisitedURL(aURL);
 
 				} else {
@@ -644,9 +645,6 @@
 						aData.loadTime = ((ODPExtension.sqlDate(aData.dateEnd) - ODPExtension.sqlDate(aData.dateStart))/1000) || 0
 
 						oRedirectionAlert.done(aFunction, aData, aURL, aOriginalURL)
-						//aFunction(aData, aURL)
-
-						//aData = null;
 
 						oRedirectionAlert.next();
 
@@ -751,7 +749,6 @@
 					newTabBrowser.webNavigation.allowWindowControl = false;
 					newTabBrowser.webNavigation.allowSubframes = true;
 
-					//newTabBrowser.loadURI(aURL);
 					if (!ODPExtension.preferenceGet('link.checker.use.cache'))
 						newTabBrowser.loadURIWithFlags(aURL, newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | newTabBrowser.webNavigation.LOAD_ANONYMOUS | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
 					else
@@ -837,9 +834,7 @@
 						aData.loadTime = ((ODPExtension.sqlDate(aData.dateEnd) - ODPExtension.sqlDate(aData.dateStart))/1000) || 0
 
 						oRedirectionAlert.done(aFunction, aData, aURL, aOriginalURL)
-						//aFunction(aData, aURL)
 
-						//aData = null;
 						oRedirectionAlert.next();
 						oRedirectionAlert.itemsDone++;
 						if (oRedirectionAlert.itemsDone == oRedirectionAlert.itemsWorking)
@@ -1321,33 +1316,6 @@
 	var removeTLD = /(\.(blogspot|wordpress))?(\.(com|net|org|edu|gov|gub|mil|int|arpa|aero|biz|coop|info|museum|name|co|ac|ne|asia|jobs|mobi|pro|tel|travel))?(\.(ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bl|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mf|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw))?$/i;
 
 	var IDNDiacriticDigraphsFind = [
-		/à|á|â|ã|ä|å|ā|ă|ą|ǎ|ǟ|ǡ|ǻ|ȁ|ȃ|ȧ|ɐ|ɑ|ᶏ|ḁ|ạ|ả|ấ|ầ|ẩ|ẫ|ậ|ắ|ằ|ẳ|ẵ|ặ|ⱥ/gi,
-		/ƀ|ƃ|ɓ|ᵬ|ᶀ|ḃ|ḅ|ḇ/gi,
-		/ç|ć|ĉ|ċ|č|ƈ|ȼ|ɕ|ḉ/gi,
-		/ď|đ|ƌ|ȡ|ɖ|ɗ|ᵭ|ᶁ|ᶑ|ḋ|ḍ|ḏ|ḑ|ḓ|∂/gi,
-		/è|é|é|é|ê|ë|ē|ĕ|ė|ę|ě|ȅ|ȇ|ȩ|ɇ|е|ё|ᶒ|ḕ|ḗ|ḙ|ḛ|ḝ|ẹ|ẻ|ẽ|ế|ề|ể|ễ|ệ/gi,
-		/ƒ|ᵮ|ᶂ|ḟ/gi,
-		/ĝ|ğ|ġ|ģ|ǥ|ǧ|ǵ|ɠ|ᶃ|ḡ/gi,
-		/h|ĥ|ħ|ȟ|̱ẖ|ḣ|ḥ|ḧ|ḩ|ḫ|ⱨ/gi,
-		/i|ì|í|î|ï|ĩ|ī|ĭ|į|ı|ǐ|ȉ|ȋ|ɨ|̇|ї|ᵻ|ᶖ|ḭ|ḯ|ỉ|ị/gi,
-		/j|ĵ|ȷ|ɉ|ɟ|ʄ|ʝ|̌ǰ/gi,
-		/k|ķ|ƙ|ǩ|̂k̂|ќ|ᶄ|ḱ|ḳ|ḵ|ⱪ/gi,
-		/ĺ|ļ|ľ|ŀ|ł|ƚ|ȴ|ɫ|ɬ|ɭ|ᶅ|ḷ|ḹ|ḻ|ḽ|ⱡ/gi,
-		/ɱ|ᵯ|ᶆ|ḿ|ṁ|ṃ/gi,
-		/n|ñ|ń|ņ|ň|ŋ|ƞ|ǹ|ȵ|ɲ|ɳ|̈n̈|й|ᵰ|ᶇ|ṅ|ṇ|ṉ|ṋ/gi,
-		/o|ò|ó|ô|õ|ö|ø|ō|ŏ|ő|ơ|ǒ|ǫ|ǭ|ǿ|ȍ|ȏ|ȫ|ȭ|ȯ|ȱ|ɔ|ɵ|͘o͘|ṍ|ṏ|ṑ|ṓ|ọ|ỏ|ố|ồ|ổ|ỗ|ộ|ớ|ờ|ở|ỡ|ợ/gi,
-		/p|ƥ|̃p̃|ᵱ|ᵽ|ᶈ|ṕ|ṗ/gi,
-		/ƣ|ɋ|ʠ/gi,
-		/ŕ|ŗ|ř|ȑ|ȓ|ɍ|ɼ|ɽ|ɾ|ѓ|ᵲ|ᵳ|ᶉ|ṙ|ṛ|ṝ|ṟ/gi,
-		/s|s̩|ś|ŝ|ş|š|ș|ȿ|ʂ|̩|ᵴ|ᶊ|ṡ|ṣ|ṥ|ṧ|ṩ/gi,
-		/t|ţ|ť|ŧ|ƫ|ƭ|ț|ȶ|ʈ|̈ẗ|ᵵ|ṫ|ṭ|ṯ|ṱ|ⱦ/gi,
-		/ù|ú|û|ü|ũ|ū|ŭ|ů|ű|ų|ư|ǔ|ǖ|ǘ|ǚ|ǜ|ȕ|ȗ|ʉ|ᵾ|ᶙ|ṳ|ṵ|ṷ|ṹ|ṻ|ụ|ủ|ứ|ừ|ử|ữ|ự/gi,
-		/ʋ|ᶌ|ṽ|ṿ|ⱱ|ⱴ/gi,
-		/w|ŵ|̊ẘ|ẁ|ẃ|ẅ|ẇ|ẉ|ⱳ/gi,
-		/ᶍ|ẋ|ẍ/gi,
-		/y|ý|ÿ|ŷ|ƴ|ȳ|ɏ|ʏ|̊ẙ|ў|ẏ|ỳ|ỵ|ỷ|ỹ/gi,
-		/ź|ż|ž|ƶ|ȥ|ɀ|ʐ|ʑ|ᵶ|ᶎ|ẑ|ẓ|ẕ|ⱬ/gi,
-
 		//digraphs
 		/ß/gi,
 		/æ/gi,
@@ -1376,36 +1344,37 @@
 		/ᴔ/gi,
 		/ᵺ/gi,
 		/ﬁ/gi,
-		/ﬂ/gi
+		/ﬂ/gi,
+
+		//Diacritic
+		/à|á|â|ã|ä|å|ā|ă|ą|ǎ|ǟ|ǡ|ǻ|ȁ|ȃ|ȧ|ɐ|ɑ|ᶏ|ḁ|ạ|ả|ấ|ầ|ẩ|ẫ|ậ|ắ|ằ|ẳ|ẵ|ặ|ⱥ/gi,
+		/ƀ|ƃ|ɓ|ᵬ|ᶀ|ḃ|ḅ|ḇ/gi,
+		/ç|ć|ĉ|ċ|č|ƈ|ȼ|ɕ|ḉ/gi,
+		/ď|đ|ƌ|ȡ|ɖ|ɗ|ᵭ|ᶁ|ᶑ|ḋ|ḍ|ḏ|ḑ|ḓ|∂/gi,
+		/è|é|é|é|ê|ë|ē|ĕ|ė|ę|ě|ȅ|ȇ|ȩ|ɇ|е|ё|ᶒ|ḕ|ḗ|ḙ|ḛ|ḝ|ẹ|ẻ|ẽ|ế|ề|ể|ễ|ệ/gi,
+		/ƒ|ᵮ|ᶂ|ḟ/gi,
+		/ĝ|ğ|ġ|ģ|ǥ|ǧ|ǵ|ɠ|ᶃ|ḡ/gi,
+		/h|ĥ|ħ|ȟ|̱ẖ|ḣ|ḥ|ḧ|ḩ|ḫ|ⱨ/gi,
+		/i|ì|í|î|ï|ĩ|ī|ĭ|į|ı|ǐ|ȉ|ȋ|ɨ|̇|ї|ᵻ|ᶖ|ḭ|ḯ|ỉ|ị/gi,
+		/j|ĵ|ȷ|ɉ|ɟ|ʄ|ʝ|̌ǰ/gi,
+		/k|ķ|ƙ|ǩ|̂k̂|ќ|ᶄ|ḱ|ḳ|ḵ|ⱪ/gi,
+		/ĺ|ļ|ľ|ŀ|ł|ƚ|ȴ|ɫ|ɬ|ɭ|ᶅ|ḷ|ḹ|ḻ|ḽ|ⱡ/gi,
+		/ɱ|ᵯ|ᶆ|ḿ|ṁ|ṃ/gi,
+		/n|ñ|ń|ņ|ň|ŋ|ƞ|ǹ|ȵ|ɲ|ɳ|̈n̈|й|ᵰ|ᶇ|ṅ|ṇ|ṉ|ṋ/gi,
+		/o|ò|ó|ô|õ|ö|ø|ō|ŏ|ő|ơ|ǒ|ǫ|ǭ|ǿ|ȍ|ȏ|ȫ|ȭ|ȯ|ȱ|ɔ|ɵ|͘o͘|ṍ|ṏ|ṑ|ṓ|ọ|ỏ|ố|ồ|ổ|ỗ|ộ|ớ|ờ|ở|ỡ|ợ/gi,
+		/p|ƥ|̃p̃|ᵱ|ᵽ|ᶈ|ṕ|ṗ/gi,
+		/ƣ|ɋ|ʠ/gi,
+		/ŕ|ŗ|ř|ȑ|ȓ|ɍ|ɼ|ɽ|ɾ|ѓ|ᵲ|ᵳ|ᶉ|ṙ|ṛ|ṝ|ṟ/gi,
+		/s|s̩|ś|ŝ|ş|š|ș|ȿ|ʂ|̩|ᵴ|ᶊ|ṡ|ṣ|ṥ|ṧ|ṩ/gi,
+		/t|ţ|ť|ŧ|ƫ|ƭ|ț|ȶ|ʈ|̈ẗ|ᵵ|ṫ|ṭ|ṯ|ṱ|ⱦ/gi,
+		/ù|ú|û|ü|ũ|ū|ŭ|ů|ű|ų|ư|ǔ|ǖ|ǘ|ǚ|ǜ|ȕ|ȗ|ʉ|ᵾ|ᶙ|ṳ|ṵ|ṷ|ṹ|ṻ|ụ|ủ|ứ|ừ|ử|ữ|ự/gi,
+		/ʋ|ᶌ|ṽ|ṿ|ⱱ|ⱴ/gi,
+		/w|ŵ|̊ẘ|ẁ|ẃ|ẅ|ẇ|ẉ|ⱳ/gi,
+		/ᶍ|ẋ|ẍ/gi,
+		/y|ý|ÿ|ŷ|ƴ|ȳ|ɏ|ʏ|̊ẙ|ў|ẏ|ỳ|ỵ|ỷ|ỹ/gi,
+		/ź|ż|ž|ƶ|ȥ|ɀ|ʐ|ʑ|ᵶ|ᶎ|ẑ|ẓ|ẕ|ⱬ/gi
 	]
 	var IDNDiacriticDigraphsReplace = [
-		'a',
-		'b',
-		'c',
-		'd',
-		'e',
-		'f',
-		'g',
-		'h',
-		'i',
-		'j',
-		'k',
-		'l',
-		'm',
-		'n',
-		'o',
-		'p',
-		'q',
-		'r',
-		's',
-		't',
-		'u',
-		'v',
-		'w',
-		'x',
-		'y',
-		'z',
-
 		's',
 		'ae',
 		'ij',
@@ -1433,7 +1402,34 @@
 		'oe',
 		'th',
 		'fi',
-		'fl'
+		'fl',
+
+		'a',
+		'b',
+		'c',
+		'd',
+		'e',
+		'f',
+		'g',
+		'h',
+		'i',
+		'j',
+		'k',
+		'l',
+		'm',
+		'n',
+		'o',
+		'p',
+		'q',
+		'r',
+		's',
+		't',
+		'u',
+		'v',
+		'w',
+		'x',
+		'y',
+		'z'
 	]
 	this.redirectionOKAutoFix = function(oldURL, newURL) {
 		if (oldURL == newURL)
@@ -1445,8 +1441,14 @@
 								.replace(/^www\./, '') // if http://www.tld/ redirects to http://www9.tld/ shouldn't be corrected [we only remove the www]
 								.toLowerCase().replace(/-|_/g, '')
 								.trim();
+		if (oldURL == newURL)
+			return true;
+
 		if(newURL.indexOf('/') != -1)
 			newURL = newURL.replace(/\.[a-z]{3,4}$/,'') // example when http://tld/folder/ redirects to http://tld/folder.htm
+
+		if (oldURL == newURL)
+			return true;
 
 		//remove tld, ttp://www.tld1/ redirects to http://www.tld2/ must be corrected
 		oldURL = oldURL.split('/')
@@ -1457,9 +1459,14 @@
 		newURL[0] = newURL[0].replace(removeTLD, '')
 		newURL = newURL.join('/')
 
+		if (oldURL == newURL)
+			return true;
 		//decode
 		oldURL = this.decodeUTF8Recursive(oldURL)
 		newURL = this.decodeUTF8Recursive(newURL)
+
+		if (oldURL == newURL)
+			return true;
 
 		//IDN decode
 		for(var id in IDNDiacriticDigraphsFind){

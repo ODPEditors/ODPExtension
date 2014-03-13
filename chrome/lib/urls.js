@@ -493,7 +493,7 @@
 		Requester.onload = function () {
 			if (Requester.responseText == -1 || Requester.responseText == null || Requester.responseText == '') {} else {
 				if (aCacheID !== null && aCacheID !== false)
-					ODPExtension.fileWrite(cachedFile, Requester.responseText);
+					ODPExtension.fileWriteAsync(cachedFile, Requester.responseText);
 				if (aFunction) {
 					(function () {
 						aFunction(Requester.responseText,
@@ -766,18 +766,28 @@
 	}
 	var decodeUTF8RecursiveRegExp = /% +/g;
 	var IDNDecode = this.service('idn').convertToDisplayIDN
-	this.IDNDecode = function(aURL){
+	this.IDNDecodeURL = function(aURL){
 		try{
-			return IDNDecode(aURL, {})
+			aURL = aURL.split('/')
+			aURL[2] = IDNDecode(aURL[2], {})
+			aURL = aURL.join('/')
 		} catch(e){
-			return aURL
 		}
+		return aURL
 	}
+	this.IDNDecodeDomain = function(aDomain){
+		try{
+			return IDNDecode(aDomain, {})
+		} catch(e){
+		}
+		return aDomain
+	}
+	var IDNDecodeDomain = this.IDNDecodeDomain
 	this.getURLID = function (aURL) {
 
 		var id = {}
 		id.uri = aURL;
-		id.subdomain = IDNDecode(aURL.replace(getSubdomainFromURLRegExp, "$1").replace(removePortRegExp, '').toLowerCase(), {});
+		id.subdomain = IDNDecodeDomain(aURL.replace(getSubdomainFromURLRegExp, "$1").replace(removePortRegExp, '').toLowerCase(), {});
 		id.schemaWWW = '';
 
 		var temp;

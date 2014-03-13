@@ -223,6 +223,8 @@
 		while (row = select.fetchObjects()) {
 			uris[uris.length] = [row.id, row.uri]
 		}
+		select.finalize();
+
 	}
 	this.afroditaGetQueue = function(uris) {
 
@@ -233,6 +235,7 @@
 		while (row = select.fetchObjects()) {
 			uris[uris.length] = [row.id, row.uri]
 		}
+		select.finalize();
 	}
 
 	this._afroditaContinue = function(uris){
@@ -307,94 +310,109 @@
 																	`load_time` = :load_time \
 			 													where `id` = :id ');
 
+		var transaction = []
+
+			function batch_update() {
+
+				lc.begin()
+				var object;
+				while(object = transaction.pop()) {
+
+					var aData = object[1]
+
+					update.params['loading_success'] = aData.loadingSuccess ? 1 : 0;
+
+					update.params['date_start'] = aData.dateStart;
+					update.params['date_end'] = aData.dateEnd;
+
+					update.params['content_type'] = aData.contentType;
+					update.params['check_type'] = aData.checkType;
+					update.params['site_type'] = aData.siteType;
+
+					update.params['hash'] = aData.hash;
+					update.params['match'] = aData.status.match;
+					update.params['match_hash'] = aData.status.matchHash ? 1 : 0;
+
+					update.params['domain'] = aData.domain;
+					update.params['subdomain'] = aData.subdomain;
+					update.params['ip'] = aData.ip;
+					update.params['ns'] = aData.ns;
+					update.params['ids'] =  aData.ids.join(',');
+
+					update.params['language'] = aData.language;
+					update.params['headers'] = aData.headers;
+
+					update.params['word_count'] = aData.wordCount;
+					update.params['str_length'] = aData.strLength;
+					update.params['media_count'] = aData.mediaCount;
+					update.params['frame_count'] = aData.frames;
+					update.params['has_frameset'] = aData.hasFrameset;
+					update.params['intrusive_popups'] = aData.intrusivePopups;
+					update.params['is_download'] = aData.isDownload ? 1 : 0;
+
+					update.params['statuses'] = aData.statuses.join(',');
+					update.params['status_delete'] = aData.status.canDelete ? 1 : 0;
+					update.params['status_unreview'] =  aData.status.canUnreview ? 1 : 0;
+					update.params['status_code'] = aData.status.code;
+					update.params['status_first'] = aData.statuses[0];
+					update.params['status_last'] = aData.statuses[aData.statuses.length-1];
+					update.params['status_error'] = aData.status.error ? 1 : 0;
+
+					update.params['status_error_string'] = aData.status.errorString;
+
+					update.params['status_suspicious'] = aData.status.suspicious.join('\n');
+
+					update.params['meta_title'] = aData.title;
+					update.params['meta_description'] = aData.metaDescription;
+					update.params['meta_keywords'] = aData.metaKeywords;
+					update.params['meta_author'] = aData.metaAuthor;
+					update.params['meta_copyright'] = aData.metaCopyright;
+					update.params['meta_robots'] = aData.metaRobots;
+					update.params['meta_generator'] = aData.metaGenerator;
+					update.params['uri_last'] = aData.urlLast;
+					if( (aData.linksInternal.length + aData.linksExternal.length) == 1){
+						if(aData.linksInternal.length)
+							update.params['uri_link_redirect'] = aData.linksInternal[0].url;
+						else
+							update.params['uri_link_redirect'] = aData.linksExternal[0].url;
+					} else {
+						update.params['uri_link_redirect'] = '';
+					}
+
+					update.params['links_internal_count'] = aData.linksInternal.length;
+					update.params['links_external_count'] = aData.linksExternal.length;
+
+					var broken = 0;
+					for(var i in aData.externalContent){
+						if(aData.externalContent[i].status != 200)
+							broken++
+					}
+
+					update.params['included_total'] = aData.externalContent.length;
+					update.params['included_broken'] = Math.floor(100 * (broken/ aData.externalContent.length)) || 0;
+					update.params['included_broken_count'] = broken;
+					update.params['image_count'] = aData.imageCount;
+					update.params['script_count'] = aData.scriptCount;
+					update.params['redirection_count'] = aData.urlRedirections.length;
+					update.params['rss_count'] = aData.metaRSS.length;
+					update.params['atom_count'] = aData.metaAtom.length;
+
+					update.params['load_time'] = aData.loadTime
+
+					update.params['id'] = object[0];
+					update.execute();
+
+				}
+				lc.commit();
+				transaction = []
+			}
 			for(var a=0;a<uris.length;a++) {
-
 				(function(id, uri) {
-
 					oRedirectionAlert.check(uri, function(aData, aURL) {
-
-						update.params['loading_success'] = aData.loadingSuccess ? 1 : 0;
-
-						update.params['date_start'] = aData.dateStart;
-						update.params['date_end'] = aData.dateEnd;
-
-						update.params['content_type'] = aData.contentType;
-						update.params['check_type'] = aData.checkType;
-						update.params['site_type'] = aData.siteType;
-
-						update.params['hash'] = aData.hash;
-						update.params['match'] = aData.status.match;
-						update.params['match_hash'] = aData.status.matchHash ? 1 : 0;
-
-						update.params['domain'] = aData.domain;
-						update.params['subdomain'] = aData.subdomain;
-						update.params['ip'] = aData.ip;
-						update.params['ns'] = aData.ns;
-						update.params['ids'] =  aData.ids.join(',');
-
-						update.params['language'] = aData.language;
-						update.params['headers'] = aData.headers;
-
-						update.params['word_count'] = aData.wordCount;
-						update.params['str_length'] = aData.strLength;
-						update.params['media_count'] = aData.mediaCount;
-						update.params['frame_count'] = aData.frames;
-						update.params['has_frameset'] = aData.hasFrameset;
-						update.params['intrusive_popups'] = aData.intrusivePopups;
-						update.params['is_download'] = aData.isDownload ? 1 : 0;
-
-						update.params['statuses'] = aData.statuses.join(',');
-						update.params['status_delete'] = aData.status.canDelete ? 1 : 0;
-						update.params['status_unreview'] =  aData.status.canUnreview ? 1 : 0;
-						update.params['status_code'] = aData.status.code;
-						update.params['status_first'] = aData.statuses[0];
-						update.params['status_last'] = aData.statuses[aData.statuses.length-1];
-						update.params['status_error'] = aData.status.error ? 1 : 0;
-
-						update.params['status_error_string'] = aData.status.errorString;
-
-						update.params['status_suspicious'] = aData.status.suspicious.join('\n');
-
-						update.params['meta_title'] = aData.title;
-						update.params['meta_description'] = aData.metaDescription;
-						update.params['meta_keywords'] = aData.metaKeywords;
-						update.params['meta_author'] = aData.metaAuthor;
-						update.params['meta_copyright'] = aData.metaCopyright;
-						update.params['meta_robots'] = aData.metaRobots;
-						update.params['meta_generator'] = aData.metaGenerator;
-						update.params['uri_last'] = aData.urlLast;
-						if( (aData.linksInternal.length + aData.linksExternal.length) == 1){
-							if(aData.linksInternal.length)
-								update.params['uri_link_redirect'] = aData.linksInternal[0].url;
-							else
-								update.params['uri_link_redirect'] = aData.linksExternal[0].url;
-						} else {
-							update.params['uri_link_redirect'] = '';
+						transaction[transaction.length] = [id, aData]
+						if(transaction.length % 100 === 0){
+							batch_update();
 						}
-
-						update.params['links_internal_count'] = aData.linksInternal.length;
-						update.params['links_external_count'] = aData.linksExternal.length;
-
-						var broken = 0;
-						for(var i in aData.externalContent){
-							if(aData.externalContent[i].status != 200)
-								broken++
-						}
-
-						update.params['included_total'] = aData.externalContent.length;
-						update.params['included_broken'] = Math.floor(100 * (broken/ aData.externalContent.length)) || 0;
-						update.params['included_broken_count'] = broken;
-						update.params['image_count'] = aData.imageCount;
-						update.params['script_count'] = aData.scriptCount;
-						update.params['redirection_count'] = aData.urlRedirections.length;
-						update.params['rss_count'] = aData.metaRSS.length;
-						update.params['atom_count'] = aData.metaAtom.length;
-
-						update.params['load_time'] = aData.loadTime
-
-						update.params['id'] = id;
-						update.executeAsync();
-						aData = null
 					});
 				})(uris[a][0], uris[a][1]);
 			}

@@ -156,7 +156,7 @@ function action(type){
 					temp[temp.length]= d.url
 				});
 				temp = ODP.arrayUnique(temp);
-				ODP.fileWrite('link-checker-false-positives.txt', ODP.fileRead('link-checker-false-positives.txt')+'\n'+(temp.join('\n')) )
+				ODP.fileWriteAsync('link-checker-false-positives.txt', ODP.fileRead('link-checker-false-positives.txt')+'\n'+(temp.join('\n')) )
 
 			break;
 		case 'webarchive':
@@ -172,7 +172,7 @@ function action(type){
 				var item = d3.select(this)
 				oRedirectionAlert.check(d.url, function(aData, aURL) {
 					ODP.dump(aData)
-					ODP.fileWrite('tito', JSON.stringify(aData))
+					ODP.fileWriteAsync('tito', JSON.stringify(aData))
 				});
 			});
 			break

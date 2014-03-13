@@ -1,4 +1,5 @@
 (function() {
+
 	//sets debuging on/off for this JavaScript file
 
 	var debugingThisFile = true;
@@ -96,7 +97,6 @@
 
 		lc.executeSimple('	CREATE UNIQUE INDEX IF NOT EXISTS `uri_version` ON `uris` (`uri`,`version`) ');
 		lc.executeSimple('	CREATE UNIQUE INDEX IF NOT EXISTS `uri_subdomain_id_version` ON `uris` (`uri`,`subdomain_id`,`version`) ');
-
 
 		lc.commit();
 
@@ -201,25 +201,38 @@
 
 	this.afroditaContinue = function() {
 
-			var lc = this.afroditaDatabaseOpen();
-			var uris = []
-
-			// must check asap
-			var select = lc.query(' select distinct(subdomain_id), id, uri from uris where `checked` = 3 limit 150000 ');
-
-			while (row = select.fetchObjects()) {
-				uris[uris.length] = [row.id, row.uri]
-			}
-
-			//queue
-			var select = lc.query(' select distinct(subdomain_id), id, uri from uris where `checked` = 0 group by subdomain_id order by RANDOM() limit 150000 ');
-
-			while (row = select.fetchObjects()) {
-				uris[uris.length] = [row.id, row.uri]
-			}
+		var uris = [];
+		this.afroditaGetASAP(uris)
+		this.afroditaGetQueue(uris)
 
 		this._afroditaContinue(uris)
+	}
+	this.afroditaContinueASAP = function() {
 
+		var uris = [];
+		this.afroditaGetASAP(uris)
+		this._afroditaContinue(uris)
+	}
+
+	this.afroditaGetASAP = function(uris) {
+
+		var lc = this.afroditaDatabaseOpen(), row;
+
+		// must check asap
+		var select = lc.query(' select id, uri from uris where `checked` = 3 order by RANDOM() limit 150000 ');
+		while (row = select.fetchObjects()) {
+			uris[uris.length] = [row.id, row.uri]
+		}
+	}
+	this.afroditaGetQueue = function(uris) {
+
+		var lc = this.afroditaDatabaseOpen(), row;
+
+		//queue
+		var select = lc.query(' select distinct(subdomain_id), id, uri from uris where `checked` = 0 group by subdomain_id order by RANDOM() limit 150000 ');
+		while (row = select.fetchObjects()) {
+			uris[uris.length] = [row.id, row.uri]
+		}
 	}
 
 	this._afroditaContinue = function(uris){

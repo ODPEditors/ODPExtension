@@ -1,12 +1,17 @@
 (function() {
 
-	if(!this.shared.linkCheckerRunningInstances)
-		this.shared.linkCheckerRunningInstances = 0
-
 	var redirectionAlertID = 0;
+
+	//broadcast we are running
+	this.addListener('preferencesLoadGlobal', function () {
+
+		if(!ODPExtension.shared.linkCheckerRunningInstances)
+			ODPExtension.shared.linkCheckerRunningInstances = 0
+	});
 
 	//when the link checker crashes, it does not close previous tabs
 	this.addListener('userInterfaceLoad', function () {
+
 		var tabs = gBrowser.mTabContainer.childNodes;
 
 		var close = []
@@ -364,6 +369,7 @@
 					aData.language = '';
 
 					aData.hash = '';
+					aData.hashKnown = false;
 					aData.match = '';
 					aData.ids = [];
 
@@ -549,8 +555,10 @@
 							aData.siteType = 'rss';
 						else if(aData.htmlTab.indexOf('xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns') !== -1)
 							aData.siteType = 'rdf';
-						else if(ODPExtension.urlFlagsHashFlash.indexOf(aData.hash) !== -1)
+						else if(ODPExtension.urlFlagsHashFlash.indexOf(aData.hash) !== -1){
 							aData.siteType = 'flash';
+							aData.hashKnown = true;
+						}
 
 						var meta = aDoc.getElementsByTagName('link')
 						for (var i = 0; i < meta.length; i++) {
@@ -683,7 +691,6 @@
 							} else {
 
 								timedout = 2;
-
 
 								aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
 								aData.html = aData.htmlTab;
@@ -1303,8 +1310,10 @@
 						aData.status.errorString = this['urlFlags'][array[name]]['errorString'];
 						aData.status.errorStringUserFriendly = this['urlFlags'][array[name]]['errorStringUserFriendly'];
 						aData.status.match = string;
-						if (aData.hash != '' && this['urlFlags'][array[name]]['hash'].indexOf(aData.hash) != -1)
+						if (aData.hash != '' && this['urlFlags'][array[name]]['hash'].indexOf(aData.hash) != -1){
 							aData.status.matchHash = true;
+							aData.hashKnown = true;
+						}
 
 						breaky = true;
 						break;
@@ -1318,14 +1327,21 @@
 		//suspicious
 		if (contentTypesKnown.indexOf(aData.contentType) == -1)
 			aData.status.suspicious.push('Unknown content type: ' + aData.contentType);
-		if (aData.hash != '' && this.urlFlagsHash.indexOf(aData.hash) != -1)
+		if (aData.hash != '' && this.urlFlagsHash.indexOf(aData.hash) != -1){
 			aData.status.suspicious.push('Document may has problems');
-/*		if (aData.hasFrameset > 0 && this.urlFlagsHashFrameset.indexOf(aData.hash) === -1 )
-			aData.status.suspicious.push('Document has a frameset');*/
+			aData.hashKnown = true;
+		}
+		if (aData.hasFrameset > 0 && this.urlFlagsHashFrameset.indexOf(aData.hash) === -1 ){
+			//aData.status.suspicious.push('Document has a frameset');
+			aData.hashKnown = true;
+		}
 		if (aData.intrusivePopups > 1)
 			aData.status.suspicious.push('Window may has problems');
 	}
-	var removeTLD = /(\.(blogspot|wordpress))?(\.(com|net|org|edu|gov|gub|mil|int|arpa|aero|biz|coop|info|museum|name|co|ac|ne|asia|jobs|mobi|pro|tel|travel))?(\.(ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bl|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mf|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw))?$/i;
+	//free.fr blogspot.tld wordpress.com
+	var removeTLD = /(\.(website|web|jimdo|pagespersoorange|e\.telefonica|free|blogspot|wordpress))?(\.(aero|arpa|asia|biz|cat|co|com|coop|edu|gb|gob|gouv|gov|gub|gv|info|int|jobs|mil|mobi|museum|name|ne|net|org|post|pro|tel|travel))?(\.(ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bl|bm|bn|bo|bq|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cw|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mf|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|ss|st|su|sv|sx|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|cat|yu|za|zm|zw|мон|рф|срб|укр|қаз|الاردن|الجزائر|السعودية|المغرب|امارات|ایران|بھارت|تونس|سودان|سورية|عمان|فلسطين|قطر|مصر|مليسيا|پاکستان|भारत|বাংলা|ভারত|ਭਾਰਤ|ભારત|இந்தியா|இலங்கை|சிங்கப்பூர்|భారత్|ලංකා|ไทย|გე|中国|中國|台湾|台灣|新加坡|香港|한국))?$/i;
+
+	var removeFreeHost = /^(sites\.google\.com\/site\/|sites\.google\.com\/a\/|users.skynet.be\/)/i;
 
 	var IDNDiacriticDigraphsFind = [
 		//digraphs
@@ -1453,16 +1469,23 @@
 								.replace(/^www\./, '') // if http://www.tld/ redirects to http://www9.tld/ shouldn't be corrected [we only remove the www]
 								.toLowerCase().replace(/-|_/g, '')
 								.trim();
+
 		if (oldURL == newURL)
 			return true;
 
-		if(newURL.indexOf('/') != -1)
+		if(newURL.indexOf('/') != -1)//only for files and folder, not TLDs
 			newURL = newURL.replace(/\.[a-z]{3,4}$/,'') // example when http://tld/folder/ redirects to http://tld/folder.htm
 
 		if (oldURL == newURL)
 			return true;
 
-		//remove tld, ttp://www.tld1/ redirects to http://www.tld2/ must be corrected
+		oldURL = oldURL.replace(removeFreeHost, '')
+		newURL = newURL.replace(removeFreeHost, '')
+
+		if (oldURL == newURL)
+			return true;
+
+		//remove tld, http://www.well.tld1/ redirects to http://www.well.tld2/ must be corrected, or http://myusername.freehost.tld1/ to http://myusername.tld1/
 		oldURL = oldURL.split('/')
 		oldURL[0] = oldURL[0].replace(removeTLD, '')
 		oldURL = oldURL.join('/')
@@ -1473,6 +1496,13 @@
 
 		if (oldURL == newURL)
 			return true;
+
+		oldURL = oldURL.replace(/\./g, '').replace(/\,/g, '')
+		newURL = newURL.replace(/\./g, '').replace(/\,/g, '')
+
+		if (oldURL == newURL)
+			return true;
+
 		//decode
 		oldURL = this.decodeUTF8Recursive(oldURL)
 		newURL = this.decodeUTF8Recursive(newURL)

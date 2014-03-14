@@ -24,7 +24,7 @@
 			ODPExtension.listingGetInformation(focusedURL);
 		}
 	});
-	var db, query_domain_count, query_domain_select, query_slice, query_drop, query_create;
+	var db, query_domain_count, query_domain_select, query_slice, query_create, query_update, query_delete;
 	this.addListener('databaseReady', function () {
 
 		db = ODPExtension.rdfDatabaseOpen();
@@ -37,8 +37,13 @@
 
 			query_domain_count = db.query(' select count(u.id) from uris u, hosts h where h.host = :domain and h.id = u.domain_id');
 			query_domain_select = db.query(' select 1 ' + select + ' from  hosts h, uris u, categories c where ' + where_domain);
-			db.query('create temporary table uris_temp_' + ODPExtension.windowID + ' as select * from uris limit 1 ').execute()
-			query_create = db.query('create temporary table if not exists uris_temp_' + ODPExtension.windowID + ' as select u.* from uris u, hosts h where h.host = :host and u.domain_id = h.id ');
+
+			//temporary table
+			query_create = db.query('create temporary table if not exists uris_temp_' + ODPExtension.windowID + ' as select * from uris limit 1 ')
+			query_create.execute()
+
+			query_update = db.query('insert or ignore into uris_temp_' + ODPExtension.windowID + ' select u.* from uris u, hosts h where h.host = :host and u.domain_id = h.id ');
+			query_delete = db.query('delete from uris_temp_' + ODPExtension.windowID + ' ');
 
 			query_slice = db.query(' \
 			                       \
@@ -144,7 +149,7 @@
 										where  \
 											' + where_subdomain + ' \
 									\
-					/* 8 - url LIKE %.urlDomain or url LIKE %.urlDomain - exaclty subdomains of this current domain/subdomain \
+							/* 8 - url LIKE %.urlDomain or url LIKE %.urlDomain - exaclty subdomains of this current domain/subdomain \
 									UNION \
 										SELECT  \
 											9 ' + select + '   \
@@ -153,7 +158,7 @@
 										where  \
 											' + where_domain + ' and u.path = "" \
 									\
-					*/ \
+							*/ \
 									/* 9 - url LIKE %.urlDomain/% - listings of the subdomains of this domain/subdomain */ \
 									/* 10 - url LIKE %.urlFullDomain or url LIKE %.urlFullDomain/ - exactly subdomains of this domain */ \
 									UNION \
@@ -186,8 +191,6 @@
 									/* 13 - url = urlFullDomain or url = urlFullDomain/ - exaclty this domain */ \
 							 \
 						   ');
-			query_drop = db.query('drop table if exists uris_temp_' + ODPExtension.windowID + ' ');
-
 		}
 
 	});
@@ -200,6 +203,7 @@
 
 	var cacheDomainsWithListings = [],
 		cacheDomainsWithNOListings = [],
+		cacheDomainsWithManyListings = [],
 		_listingGetInformationTimeout = false
 		_listingGetInformationTimeoutQuery = false
 		this.listingGetInformation = function (aLocation) {
@@ -276,9 +280,10 @@
 				} else {
 					clearTimeout(_listingGetInformationTimeoutQuery)
 					_listingGetInformationTimeoutQuery = setTimeout(function () {
-						query_drop.execute(function () {
-							query_create.params('host', aLocationID.domain);
-							query_create.execute(function () {
+						if(!cacheDomainsWithManyListings[aLocationID.domain]){
+							query_update.params('host', aLocationID.domain);
+							query_update.execute(function () {
+								cacheDomainsWithManyListings[aLocationID.domain] = true;
 								query_slice.params('domain', aLocationID.domain);
 								query_slice.params('subdomain', aLocationID.subdomain);
 								query_slice.params('path', aLocationID.path);
@@ -290,10 +295,30 @@
 								query_slice.params('path_first_folder', aLocationID.path_first_folder + '*');
 								query_slice.execute(function (aData) {
 									ODPExtension.listingGetInformationLoaded(aData, aLocation, aLocationID);
-									query_drop.execute(function () {})
+									if(cacheDomainsWithManyListings.length % 20 === 0){
+										cacheDomainsWithManyListings = []
+										query_delete.execute(function () {})
+									}
 								});
 							})
-						});
+						} else {
+							query_slice.params('domain', aLocationID.domain);
+							query_slice.params('subdomain', aLocationID.subdomain);
+							query_slice.params('path', aLocationID.path);
+							query_slice.params('path_glob', aLocationID.path + '*');
+							query_slice.params('path_no_hash', aLocationID.path_no_hash + '*');
+							query_slice.params('path_no_vars', aLocationID.path_no_vars + '*');
+							query_slice.params('path_no_file_name', aLocationID.path_no_file_name + '*');
+							query_slice.params('path_parent_folder', aLocationID.path_parent_folder + '*');
+							query_slice.params('path_first_folder', aLocationID.path_first_folder + '*');
+							query_slice.execute(function (aData) {
+								ODPExtension.listingGetInformationLoaded(aData, aLocation, aLocationID);
+								if(cacheDomainsWithManyListings.length % 20 === 0){
+									cacheDomainsWithManyListings = []
+									query_delete.execute(function () {})
+								}
+							});
+						}
 					}, 70);
 				}
 			});

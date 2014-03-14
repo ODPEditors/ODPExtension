@@ -49,6 +49,7 @@
 			<li class="click" onclick="entryAction(this)" action="mark_recheck">Recheck</li>
 			<li class="click" onclick="entryAction(this)" action="mark_noted">Noted</li>
 			<li class="click" onclick="entryAction(this)" action="mark_done">Done</li>
+			<li class="click" onclick="entryAction(this)" action="whitelist_hash">WhiteList Hash</li>
 
 		</ul>
 
@@ -57,17 +58,21 @@
 			<li class="click" onclick="entryAction(this)" action="mark_recheck">Recheck</li>
 			<li class="click" onclick="entryAction(this)" action="mark_noted">Noted</li>
 			<li class="click" onclick="entryAction(this)" action="mark_done">Done</li>
+			<li class="click" onclick="entryAction(this)" action="whitelist_hash">WhiteList Hash</li>
 		</ul>
 
-
-
 		<ul class="menu" type="visible">
+
 			<b class="no-selection ignore">Saved selections</b>
 			<li class="click"><a href="#SELECT distinct(status_error_string), count(*) as total, uri from uris where checked = 1 and processed = 0 group by status_error_string order by total desc">by status error string</a></li>
+
 		<hr>
+
 			<li class="click"><a href="#select count() from uris where checked = 1">how many checked ?</a></li>
 			<li class="click"><a href="#select count() from uris where checked = 0">how many remaining ?</a></li>
 			<li class="click"><a href="#select count() from uris where checked = 1 and processed = 1">how many processed ?</a></li>
+			<li class="click"><a href="#SELECT distinct(hash), status_code, count(*) as total, uri, content_type from uris where checked = 1 and hash_known = 0 group by hash order by total desc limit 30">by hash</a></li>
+
 		</ul>
 
 	</div>

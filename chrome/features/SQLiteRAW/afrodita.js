@@ -82,12 +82,11 @@
 							`redirection_count` INTEGER NOT NULL DEFAULT 0 , \
 							`rss_count` INTEGER NOT NULL DEFAULT 0 , \
 							`atom_count` INTEGER NOT NULL DEFAULT 0 , \
+							`hash_known` INTEGER NOT NULL DEFAULT 0 , \
 							\
 							`load_time` INTEGER NOT NULL DEFAULT 0,  \
 							`bayes` TEXT NOT NULL DEFAULT ""  \
 						 )');
-
-
 
 	this.dump('Creating database tables and statements...');
 
@@ -198,6 +197,7 @@
 
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `load_time` ON `uris` (`load_time`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `bayes` ON `uris` (`bayes`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `hash_known` ON `uris` (`hash_known`) ');
 
 		lc.commit();
 
@@ -310,6 +310,7 @@
 																`redirection_count` = :redirection_count, \
 																`rss_count` = :rss_count, \
 																`atom_count` = :atom_count, \
+																`hash_known` = :hash_known, \
 																\
 																`load_time` = :load_time \
 															where `uri` = :uri ');
@@ -327,6 +328,7 @@
 
 			update.params['hash'] = aData.hash;
 			update.params['match'] = aData.status.match;
+			update.params['hash_known'] = aData.hashKnown || 0;
 			update.params['match_hash'] = aData.status.matchHash ? 1 : 0;
 
 			update.params['domain'] = aData.domain;

@@ -26,76 +26,75 @@ var by = [],
 	aTotal = 0,
 
 /*
+`version`
+`subdomain_id`
 
-`version` INTEG
-`subdomain_id` INTEG
+`checked`
+`processed`
+`loading_success`
 
-`checked` INTEG
-`processed` INTEG
-`loading_success` INTEG
+`date_start`
+`date_end`
 
-`date_start` DATETIME NOT NULL DEFAULT
-`date_end` DATETIME NOT NULL DEFAULT
+`content_type`
+`check_type`
+`site_type`
 
-`content_type` TEX
-`check_type` TEX
-`site_type` TEX
+`hash`
+`match`
+`match_hash`
 
-`hash` TEX
-`match` TEX
-`match_hash` INTEG
+`domain`
+`subdomain`
+`ip`
+`ns`
+`ids`
 
-`domain` TEX
-`subdomain` TEX
-`ip` TEX
-`ns` TEX
-`ids` TEX
+`language`
+`headers`
 
-`language` TEX
-`headers` TEX
+`word_count`
+`str_length`
+`media_count`
+`frame_count`
+`has_frameset`
+`intrusive_popups`
+`is_download`
 
-`word_count` INTEG
-`str_length` INTEG
-`media_count` INTEG
-`frame_count` INTEG
-`has_frameset` INTEG
-`intrusive_popups` INTEG
-`is_download` INTEG
+`statuses`
+`status_delete`
+`status_unreview`
+`status_code`
+`status_first`
+`status_last`
+`status_error`
 
-`statuses` TEX
-`status_delete` INTEG
-`status_unreview` INTEG
-`status_code` INTEG
-`status_first` INTEG
-`status_last` INTEG
-`status_error` INTEG
+`status_error_string`
 
-`status_error_string` TEX
+`status_suspicious`
 
-`status_suspicious` TEX
+`meta_title`
+`meta_description`
+`meta_keywords`
+`meta_author`
+`meta_copyright`
+`meta_robots`
+`meta_generator`
+`uri_last`
+`uri_link_redirect`
 
-`meta_title` TEX
-`meta_description` TEX
-`meta_keywords` TEX
-`meta_author` TEX
-`meta_copyright` TEX
-`meta_robots` TEX
-`meta_generator` TEX
-`uri_last` TEX
-`uri_link_redirect` TEX
+`links_internal_count`
+`links_external_count`
+`included_total`
+`included_broken`
+`included_broken_count`
+`image_count`
+`script_count`
+`redirection_count`
+`rss_count`
+`atom_count`
 
-`links_internal_count` INTEG
-`links_external_count` INTEG
-`included_total` INTEG
-`included_broken` INTEG
-`included_broken_count` INTEG
-`image_count` INTEG
-`script_count` INTEG
-`redirection_count` INTEG
-`rss_count` INTEG
-`atom_count` INTEG
-
-`load_time` INTEG
+`load_time`
 */
 
 /*
@@ -103,6 +102,7 @@ var by = [],
 		- checked 0 = not visited
 		- checked 1 = checked
 		- checked 3 = must check with priority
+		- checked 4 = must ignore and do not edit
 		- processed = 0 not resolved
 		- processed = 1 solved
 		- processed = 2 noted in ODP
@@ -110,9 +110,9 @@ var by = [],
 
 	default_query = ' SELECT distinct(status_error_string), status_code, count(*) as total, uri from uris where checked = 1 and processed = 0 group by status_error_string order by total desc'
 
-	select = 'select status_code, status_error_string, id, uri, uri_last,match,match_hash, hash from uris where checked = 1 and processed = 0 and ',
+	select = 'select status_code, status_error_string, id, uri, uri_last,match,match_hash, hash, hash_known, content_type, site_type from uris where checked = 1 and processed = 0 and ',
 
-	limit = '  limit 2500';
+	limit = '  limit 5000';
 
 //create page
 
@@ -451,6 +451,13 @@ function entryAction(type) {
 			items.each(function(d) {
 				if(d.id && String(d.id) != ''){
 					db.executeSimple('update uris set processed = 1 where id = "'+d.id+'"')
+				}
+			});
+			break;
+		case 'whitelist_hash':
+			items.each(function(d) {
+				if(d.hash && String(d.hash) != ''){
+					db.executeSimple('update uris set hash_known = 1 , match_hash = 1 where hash = "'+d.hash+'"')
 				}
 			});
 			break;

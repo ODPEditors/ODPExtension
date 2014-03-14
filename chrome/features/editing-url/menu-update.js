@@ -20,7 +20,7 @@
 	this.editingFormURLMenuUpdate = function() {
 		//if the rigth clicked document is framed..
 		if (gContextMenu && gContextMenu.inFrame) {
-			var aSubdomain = this.getSubdomainFromURL(this.string(gContextMenu.target.ownerDocument.location.href));
+			var aSubdomain = this.getSubdomainFromURL(this.IDNDecodeURL(this.string(gContextMenu.target.ownerDocument.location.href)));
 			var aDoc = gContextMenu.target.ownerDocument;
 		} else {
 			var aDoc = this.documentGetFocused();

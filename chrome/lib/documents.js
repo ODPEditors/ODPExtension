@@ -1,7 +1,7 @@
 (function() {
 	//returns the current focused location-TODO:REVIEW
 	this.documentFocusedGetLocation = function() {
-		return String(window.top.getBrowser().browsers[window.top.getBrowser().mTabBox.selectedIndex].contentDocument.location);
+		return this.IDNDecodeURL(String(window.top.getBrowser().browsers[window.top.getBrowser().mTabBox.selectedIndex].contentDocument.location));
 	}
 	//returns the current focused document-REVIEW
 	this.documentGetFocused = function() {
@@ -13,7 +13,7 @@
 	}
 	//returns a location for a document
 	this.documentGetLocation = function(aDoc) {
-		return String(aDoc.location);
+		return this.IDNDecodeURL(String(aDoc.location));
 	}
 	//returns the  content of the meta description of a document
 	this.documentGetMetaDescription = function(aDoc) {

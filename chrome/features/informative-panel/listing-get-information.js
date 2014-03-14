@@ -10,7 +10,7 @@
 	this.addListener('onLocationChangeNotDocumentLoad', function (aLocation) {
 		var aDoc = ODPExtension.documentGetFocused();
 		if (ODPExtension.editingFormURLExists(aDoc)) {
-			focusedURL = (ODPExtension.getElementNamed('newurl', aDoc) || ODPExtension.getElementNamed('url', aDoc)).value;
+			focusedURL = ODPExtension.IDNDecodeURL(ODPExtension.string((ODPExtension.getElementNamed('newurl', aDoc) || ODPExtension.getElementNamed('url', aDoc)).value));
 		} else {
 			focusedURL = aLocation;
 		}
@@ -20,7 +20,7 @@
 	this.addListener('onLocationChange', function (aLocation) {
 		var aDoc = ODPExtension.documentGetFocused();
 		if (ODPExtension.editingFormURLExists(aDoc)) {
-			focusedURL = (ODPExtension.getElementNamed('newurl', aDoc) || ODPExtension.getElementNamed('url', aDoc)).value;
+			focusedURL = ODPExtension.IDNDecodeURL(ODPExtension.string((ODPExtension.getElementNamed('newurl', aDoc) || ODPExtension.getElementNamed('url', aDoc)).value));
 			ODPExtension.listingGetInformation(focusedURL);
 		}
 	});
@@ -37,7 +37,8 @@
 
 			query_domain_count = db.query(' select count(u.id) from uris u, hosts h where h.host = :domain and h.id = u.domain_id');
 			query_domain_select = db.query(' select 1 ' + select + ' from  hosts h, uris u, categories c where ' + where_domain);
-			db.aConnection.executeSimpleSQL('create temporary table uris_temp_' + ODPExtension.windowID + ' as select * from uris limit 1 ');
+			db.query('create temporary table uris_temp_' + ODPExtension.windowID + ' as select * from uris limit 1 ').execute()
+			query_create = db.query('create temporary table if not exists uris_temp_' + ODPExtension.windowID + ' as select u.* from uris u, hosts h where h.host = :host and u.domain_id = h.id ');
 
 			query_slice = db.query(' \
 			                       \
@@ -276,7 +277,7 @@
 					clearTimeout(_listingGetInformationTimeoutQuery)
 					_listingGetInformationTimeoutQuery = setTimeout(function () {
 						query_drop.execute(function () {
-							var query_create = db.query('create temporary table uris_temp_' + ODPExtension.windowID + ' as select u.* from uris u, hosts h where h.host = "' + aLocationID.domain + '" and u.domain_id = h.id ');
+							query_create.params('host', aLocationID.domain);
 							query_create.execute(function () {
 								query_slice.params('domain', aLocationID.domain);
 								query_slice.params('subdomain', aLocationID.subdomain);
@@ -330,7 +331,8 @@
 			//this.dump(aData);
 			//looking for the most close url
 			for (var i = 0; i < aData.length; i++) {
-				var siteURLWWW = this.decodeUTF8Recursive(this.removeSchema(this.shortURL(aData[i].uri).replace(/\/+$/, ''))).toLowerCase();
+
+				var siteURLWWW = this.decodeUTF8Recursive(this.removeSchema(this.shortURL(this.IDNDecodeURL(aData[i].uri)).replace(/\/+$/, ''))).toLowerCase();
 				var siteURLNoWWW = this.removeWWW(siteURLWWW);
 
 				if (

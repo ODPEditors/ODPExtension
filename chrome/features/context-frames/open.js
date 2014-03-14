@@ -11,7 +11,7 @@
 	}
 
 	this.frameOpenSelected = function(aEvent) {
-		this.tabOpenCheckForBehavior(this.string(gContextMenu.target.ownerDocument.location.href), aEvent, 'frame.selected');
+		this.tabOpenCheckForBehavior(this.IDNDecodeURL(this.string(gContextMenu.target.ownerDocument.location.href)), aEvent, 'frame.selected');
 	}
 	return null;
 

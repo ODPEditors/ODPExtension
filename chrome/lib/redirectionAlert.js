@@ -113,11 +113,12 @@
 								var domWin = notificationCallbacks.getInterface(Components.interfaces.nsIDOMWindow);
 								aTab = ODPExtension.tabGetFromChromeDocument(domWin);
 								if (aTab && !! aTab.ODPExtensionExternalContent) {
+									var decoded = ODPExtension.IDNDecodeURL(aSubject.URI.spec)
 									aTab.ODPExtensionExternalContent[aTab.ODPExtensionExternalContent.length] = {
-										url: aSubject.URI.spec,
+										url: decoded,
 										status: aSubject.responseStatus
 									};
-									aTab.ODPExtensionURIsStatus[aSubject.URI.spec] = aSubject.responseStatus;
+									aTab.ODPExtensionURIsStatus[decoded] = aSubject.responseStatus;
 								}
 							}
 						} catch (e) {}
@@ -145,9 +146,10 @@
 								var domWin = notificationCallbacks.getInterface(Components.interfaces.nsIDOMWindow);
 								var aTab = ODPExtension.tabGetFromChromeDocument(domWin);
 								if (aTab && !! aTab.ODPExtensionExternalContent) {
-									if(/\.css(\?.*)?$/.test(aSubject.URI.spec) || ODPExtension.isGarbage(aSubject.URI.spec)){
+									var decoded = ODPExtension.IDNDecodeURL(aSubject.URI.spec)
+									if(/\.css(\?.*)?$/.test(decoded) || ODPExtension.isGarbage(decoded)){
 										aTab.ODPExtensionExternalContent[aTab.ODPExtensionExternalContent.length] = {
-											url: aSubject.URI.spec,
+											url: decoded,
 											status: 200
 										};
 										aSubject.cancel(Components.results.NS_BINDING_ABORTED);
@@ -216,9 +218,11 @@
 			onExamineResponse: function(oHttp, aTab) {
 
 				var isDownload = false
+				var decodedOriginalURI = ODPExtension.IDNDecodeURL(oHttp.originalURI.spec)
+				var decodedURI = ODPExtension.IDNDecodeURL(oHttp.URI.spec)
 				//skiping the examinations of requests NOT related to our redirection alert
-				if (!this.cache[oHttp.originalURI.spec]) {
-					if (!this.cacheRedirects[oHttp.originalURI.spec]) {
+				if (!this.cache[decodedOriginalURI]) {
+					if (!this.cacheRedirects[decodedOriginalURI]) {
 						if(aTab)
 							isDownload = this.cancelDownload(oHttp);
 
@@ -226,11 +230,11 @@
 						return;
 					} else {
 						//resolving: from where this redirection come from - this resolve when a redirect redirect again to another place
-						var originalURI = this.cacheRedirects[oHttp.originalURI.spec];
+						var originalURI = this.cacheRedirects[decodedOriginalURI];
 					}
 				} else {
 
-					var originalURI = oHttp.originalURI.spec;
+					var originalURI = decodedOriginalURI;
 				}
 
 				if (this.cache[originalURI].stop == true) {
@@ -248,16 +252,16 @@
 
 				//DO NOT EDIT:
 				this.cache[originalURI].statuses.push(responseStatus);
-				this.cache[originalURI].urlRedirections.push(oHttp.URI.spec);
-				if (originalURI != oHttp.URI.spec) {
-					this.cacheRedirects[oHttp.URI.spec] = originalURI;
-					this.cache[originalURI].urlLast = oHttp.URI.spec;
+				this.cache[originalURI].urlRedirections.push(decodedURI);
+				if (originalURI != decodedURI) {
+					this.cacheRedirects[decodedURI] = originalURI;
+					this.cache[originalURI].urlLast = decodedURI;
 				} else {
 					var lastURL = '';
 					try {
-						lastURL = oHttp.URI.resolve(oHttp.getResponseHeader('Location'))
+						lastURL = ODPExtension.IDNDecodeURL(oHttp.URI.resolve(oHttp.getResponseHeader('Location')))
 					} catch (e) {}
-					if (lastURL != '' && lastURL != oHttp.URI.spec) {
+					if (lastURL != '' && lastURL != decodedURI) {
 						this.cacheRedirects[lastURL] = originalURI;
 						this.cache[originalURI].urlLast = lastURL;
 					}
@@ -309,6 +313,7 @@
 					if(debug)
 						ODPExtension.dump(aData)
 					aFunction(aData, aOriginalURL);
+					aData = null
 				});
 			},
 			next: function() {
@@ -484,23 +489,24 @@
 						var links = ODPExtension.getAllLinksItems(aDoc);
 						for (var i = 0, length = links.length; i < length; i++) {
 							var link = links[i];
-							if (link.href && link.href != '' && String(link.href).indexOf('http') === 0) {
-								var aDomain = ODPExtension.getDomainFromURL(String(link.href))
+							var href = ODPExtension.IDNDecodeURL(ODPExtension.string(link.href))
+							if (href && href != '' && href.indexOf('http') === 0) {
+								var aDomain = ODPExtension.getDomainFromURL(href)
 								if (aDomain != aData.domain)
 									aData.linksExternal[aData.linksExternal.length] = {
-										url: String(link.href),
+										url: href,
 										anchor: link.innerHTML,
 										domain: aDomain
 								};
 								else
 									aData.linksInternal[aData.linksInternal.length] = {
-										url: String(link.href),
+										url: href,
 										anchor: link.innerHTML,
 										domain: aDomain
 								};
 							}
 						}
-						link = links = null
+						link = links = href = length = null
 
 						if (!aDoc.mediaCounted) {
 							aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
@@ -527,12 +533,13 @@
 						aData.framesURLs = [];
 						var frames = aDoc.getElementsByTagName('iframe')
 						for (var i = 0; i < frames.length; i++) {
-							aData.framesURLs[aData.framesURLs.length] = String(frames[i].src);
+							aData.framesURLs[aData.framesURLs.length] = ODPExtension.IDNDecodeURL(ODPExtension.string(frames[i].src));
 						}
 						var frames = aDoc.getElementsByTagName('frame')
 						for (var i = 0; i < frames.length; i++) {
-							aData.framesURLs[aData.framesURLs.length] = String(frames[i].src);
+							aData.framesURLs[aData.framesURLs.length] = ODPExtension.IDNDecodeURL(ODPExtension.string(frames[i].src));
 						}
+						frames = null
 
 						//"site type"
 						if(aData.htmlTab.indexOf('xmlns=\'http://www.w3.org/2005/Atom\'') !== -1 || aData.htmlTab.indexOf('xmlns="http://www.w3.org/2005/Atom"') !== -1)
@@ -548,24 +555,25 @@
 						for (var i = 0; i < meta.length; i++) {
 							if(meta[i].hasAttribute('type')){
 								var type = meta[i].getAttribute('type').toLowerCase().trim()
+								var href = ODPExtension.IDNDecodeURL(ODPExtension.string(meta[i].href))
 								switch(type){
 									case 'application/rss+xml':{
 										aData.metaRSS[aData.metaRSS.length] = {
-												url:String(meta[i].href),
+												url:href,
 												title:meta[i].getAttribute('title')
 										}
 										break;
 									}
 									case 'application/atom+xml':{
 										aData.metaAtom[aData.metaAtom.length] =  {
-												url:String(meta[i].href),
+												url:href,
 												title:meta[i].getAttribute('title')
 										}
 										break;
 									}
 									case 'application/opensearchdescription+xml':{
 										aData.metaOpenSearch[aData.metaOpenSearch.length] =  {
-												url:String(meta[i].href),
+												url:href,
 												title:meta[i].getAttribute('title')
 										}
 										break;
@@ -601,6 +609,7 @@
 								}
 							}
 						}
+						meta = type = href = name = null
 
 						//CLONE DOC, DO NOT TOUCH THE DOC IN THE TAB
 						aDoc = aDoc.cloneNode(true);
@@ -618,6 +627,7 @@
 								tags[i] && tags[i].parentNode && tags[i].parentNode.removeChild(tags[i]);
 						}
 						ODPExtension.removeComments(aDoc);
+						tags = i = id = null
 
 						try {
 							aDoc = new XMLSerializer().serializeToString(aDoc.body);
@@ -726,6 +736,7 @@
 											}
 										}
 									}
+									id = tags = i = null
 
 									setTimeout(function() {
 										aData.loadingSuccess = true;

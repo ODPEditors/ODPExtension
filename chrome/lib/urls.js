@@ -34,7 +34,7 @@
 		}
 
 		if (aLocation != '')
-			return aLocation;
+			return this.IDNDecodeURL(aLocation);
 		else
 			aLocation = this.documentFocusedGetLocation();
 
@@ -765,10 +765,14 @@
 		}
 	}
 	var decodeUTF8RecursiveRegExp = /% +/g;
-	var IDNDecode = this.service('idn').convertToDisplayIDN
+	var idn = this.service('idn')
+	var IDNDecode = idn.convertACEtoUTF8
+	var IDNIsAce = idn.isACE
 	this.IDNDecodeURL = function(aURL){
 		try{
 			aURL = aURL.split('/')
+			if(!IDNIsAce(aURL[2]))
+				return aURL.join('/')
 			aURL[2] = IDNDecode(aURL[2], {})
 			aURL = aURL.join('/')
 		} catch(e){
@@ -777,7 +781,8 @@
 	}
 	this.IDNDecodeDomain = function(aDomain){
 		try{
-			return IDNDecode(aDomain, {})
+			if(IDNIsAce(aDomain))
+				return IDNDecode(aDomain, {})
 		} catch(e){
 		}
 		return aDomain
@@ -787,7 +792,7 @@
 
 		var id = {}
 		id.uri = aURL;
-		id.subdomain = IDNDecodeDomain(aURL.replace(getSubdomainFromURLRegExp, "$1").replace(removePortRegExp, '').toLowerCase(), {});
+		id.subdomain = IDNDecodeDomain(aURL.replace(getSubdomainFromURLRegExp, "$1").replace(removePortRegExp, '').toLowerCase());
 		id.schemaWWW = '';
 
 		var temp;

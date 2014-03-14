@@ -30,7 +30,7 @@
 			for (var i = 0; i < this.listingInformationData.length; i++) {
 				aSite = this.listingInformationData[i];
 
-				urlPretty = this.decodeUTF8Recursive(aSite.uri).replace(/\/$/, '');
+				urlPretty = this.decodeUTF8Recursive(this.IDNDecodeURL(aSite.uri)).replace(/\/$/, '');
 				tooltiptext = aSite.title + '\n' + urlPretty + '\n' + this.categoryAbbreviate(aSite.category) + '\n' + aSite.description;
 
 				title = this.getElement('panel-related-titles-' + i);

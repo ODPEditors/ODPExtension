@@ -36,7 +36,7 @@
 		//this.dump('privacyRemoveReferrer', debugingThisFile);
 		if (aSubject.referrer) {
 			//the referrer
-			var aReferrerURI = this.decodeUTF8Recursive(this.string(aSubject.referrer.spec));
+			var aReferrerURI = this.decodeUTF8Recursive(this.IDNDecodeURL(this.string(aSubject.referrer.spec)));
 
 			//for each private ODP domain
 

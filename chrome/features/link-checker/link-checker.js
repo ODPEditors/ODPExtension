@@ -27,10 +27,11 @@
 	}
 	//general blacklisting..
 	this.linkCheckerItem = function(item, oRedirectionAlert, aResult) {
-		if (!item.href || this.isGarbage(item.href) || !this.canFollowURL(item.href, this.focusedURL) || !this.isVisible(item))
+		var href = this.IDNDecodeURL(this.string(item.href))
+		if (!href || this.isGarbage(href) || !this.canFollowURL(href, this.focusedURL) || !this.isVisible(item))
 			return;
 
-		var tooltiptext = this.decodeUTF8Recursive(item.href);
+		var tooltiptext = this.decodeUTF8Recursive(href);
 		item.setAttribute('tooltiptext', tooltiptext);
 		item.setAttribute('title', tooltiptext);
 		if (!item.hasAttribute('original_text'))
@@ -46,7 +47,7 @@
 		item.style.removeProperty('background-color');
 		item.style.removeProperty('color');
 
-		oRedirectionAlert.check(item.href, function(aData, aURL) {
+		oRedirectionAlert.check(href, function(aData, aURL) {
 			ODPExtension.linkCheckerCheckDone(aData, aURL, item, oRedirectionAlert, aResult);
 		});
 	}

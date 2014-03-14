@@ -150,10 +150,11 @@
 	}
 	//general blacklisting..
 	this.listingsHighlightItem = function (item, progress) {
-		if (!item.href || this.isGarbage(item.href) || !this.canFollowURL(item.href, this.focusedURL))
+		var href = this.IDNDecodeURL(this.string(item.href))
+		if (!href || this.isGarbage(href) || !this.canFollowURL(href, this.focusedURL))
 			return;
 
-		var tooltiptext = this.decodeUTF8Recursive(item.href);
+		var tooltiptext = this.decodeUTF8Recursive(href);
 		item.setAttribute('tooltiptext', tooltiptext);
 		item.setAttribute('title', tooltiptext);
 		if (!item.hasAttribute('original_text'))
@@ -184,7 +185,7 @@
 		item.style.setProperty('color', 'black', 'important');
 		item.style.setProperty('background-color', '#FFFFCC', 'important');
 
-		var aLocation = item.href;
+		var aLocation = this.IDNDecodeURL(this.string(item.href));
 
 		//get the data
 		var aLocationID = this.getURLID(aLocation);
@@ -209,18 +210,18 @@
 			var responseURL = '',
 				responseCategory = '',
 				results = 0,
-				itemSubdomain = ODPExtension.removeWWW(ODPExtension.getSubdomainFromURL(item.href)),
-				itemDomain = ODPExtension.getDomainFromURL(item.href);
+				itemSubdomain = ODPExtension.removeWWW(ODPExtension.getSubdomainFromURL(aLocation)),
+				itemDomain = ODPExtension.getDomainFromURL(aLocation);
 			var foundDomain = false;
 
 			for (var id = 0; id < aData.length; id++) {
 
-				responseURL = aData[id].uri;
+				responseURL = ODPExtension.IDNDecodeURL(aData[id].uri);
 				responseCategory = aData[id].category;
 
-				var tooltiptext = ODPExtension.categoryTitle(ODPExtension.categoryAbbreviate(responseCategory + '\n' + aData[id].uri + '\n' + aData[id].title + '\n' + aData[id].description))
+				var tooltiptext = ODPExtension.categoryTitle(ODPExtension.categoryAbbreviate(responseCategory + '\n' + responseURL + '\n' + aData[id].title + '\n' + aData[id].description))
 
-				if (ODPExtension.decodeUTF8Recursive(ODPExtension.removeSchema(ODPExtension.shortURL(item.href).replace(/\/+$/, ''))).replace(/\/$/, '').toLowerCase() == ODPExtension.decodeUTF8Recursive(ODPExtension.removeSchema(ODPExtension.shortURL(responseURL).replace(/\/+$/, ''))).replace(/\/$/, '').toLowerCase()) {
+				if (ODPExtension.decodeUTF8Recursive(ODPExtension.removeSchema(ODPExtension.shortURL(aLocation).replace(/\/+$/, ''))).replace(/\/$/, '').toLowerCase() == ODPExtension.decodeUTF8Recursive(ODPExtension.removeSchema(ODPExtension.shortURL(responseURL).replace(/\/+$/, ''))).replace(/\/$/, '').toLowerCase()) {
 					item.style.setProperty('color', 'white', 'important');
 					item.style.setProperty('background-color', '#669933', 'important');
 					item.setAttribute('title', tooltiptext);

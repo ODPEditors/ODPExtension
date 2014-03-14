@@ -102,7 +102,7 @@
 				var listed_in_tmp = [];
 				for (var i = 4; i < aDoc.getElementsByTagName("a").length; i++) {
 					if (aDoc.getElementsByTagName("a").item(i).hasAttribute('href')) {
-						var link_href = aDoc.getElementsByTagName("a").item(i).getAttribute('href');
+						var link_href = this.IDNDecodeURL(this.string(aDoc.getElementsByTagName("a").item(i).getAttribute('href')));
 						if (
 							link_href.indexOf('import') != -1 &&
 							link_href.indexOf('cat=') != -1 &&
@@ -125,9 +125,9 @@
 
 
 			try {
-				var url = this.getElementNamed('newurl', aDoc).value; //new site, not added yet.
+				var url = this.IDNDecodeURL(this.string(this.getElementNamed('newurl', aDoc).value)); //new site, not added yet.
 			} catch (e) {
-				var url = this.getElementNamed('url', aDoc).value; ///unreview or editing
+				var url = this.IDNDecodeURL(this.string(this.getElementNamed('url', aDoc).value)); ///unreview or editing
 			}
 
 			var typecat = this.categoryGetFromURL(this.getElementNamed('typecat', aDoc).value);
@@ -285,7 +285,7 @@
 				var count = 0;
 				for (var i = 4; i < aDoc.getElementsByTagName("a").length; i++) {
 					if (aDoc.getElementsByTagName("a").item(i).hasAttribute('href')) {
-						var link_href = aDoc.getElementsByTagName("a").item(i).getAttribute('href');
+						var link_href = this.IDNDecodeURL(this.string(aDoc.getElementsByTagName("a").item(i).getAttribute('href')));
 						if (
 							link_href.indexOf('import') != -1 &&
 							link_href.indexOf('cat=') != -1 &&
@@ -309,9 +309,9 @@
 
 			var url = this.getElementNamed('url', aDoc).value;
 			try {
-				var newurl = this.getElementNamed('newurl', aDoc).value;
+				var newurl = this.IDNDecodeURL(this.string(this.getElementNamed('newurl', aDoc).value));
 			} catch (e) {
-				var newurl = url;
+				var newurl = this.IDNDecodeURL(this.string(url));
 			}
 			var cat = this.getElementNamed('cat', aDoc).value;
 			var typecat = this.categoryGetFromURL(this.getElementNamed('typecat', aDoc).value);

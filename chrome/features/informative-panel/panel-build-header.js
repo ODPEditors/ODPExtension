@@ -13,7 +13,7 @@
 	this.panelInformationBuildHeader = function(aSelected) {
 		var aSite = this.listingInformationData[aSelected];
 
-		var urlPretty = this.decodeUTF8Recursive(aSite.uri);
+		var urlPretty = this.decodeUTF8Recursive(this.IDNDecodeURL(aSite.uri));
 
 		 if (this.categoryIsRTL(aSite.category)) {
 			title.setAttribute('direction', 'rtl');

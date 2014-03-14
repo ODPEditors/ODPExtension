@@ -44,7 +44,7 @@
 						var html = parsing[id].innerHTML;
 
 						var aResult = {};
-						aResult.url = ODPExtension.htmlEntityDecode(ODPExtension.select('.r a', html)[0].getAttribute('href'));
+						aResult.url = ODPExtension.IDNDecodeURL(ODPExtension.string(ODPExtension.htmlEntityDecode(ODPExtension.select('.r a', html)[0].getAttribute('href'))));
 						aResult.title = ODPExtension.htmlEntityDecode(ODPExtension.htmlEntityDecode(ODPExtension.stripTags(ODPExtension.select('.r a', html)[0].innerHTML).trim()));
 						aResult.description = ODPExtension.htmlEntityDecode(ODPExtension.htmlEntityDecode(ODPExtension.stripTags(ODPExtension.select('.st', html)[0].innerHTML).trim()));
 

@@ -37,7 +37,7 @@
 		for (var id in windows) {
 			var window = windows[id];
 			for (var i = 0; i < window.gBrowser.tabContainer.childNodes.length; i++) {
-				urls[urls.length] = this.string(window.gBrowser.getBrowserForTab(window.gBrowser.tabContainer.childNodes[i]).currentURI.spec);
+				urls[urls.length] = this.IDNDecodeURL(this.string(window.gBrowser.getBrowserForTab(window.gBrowser.tabContainer.childNodes[i]).currentURI.spec));
 			}
 		}
 		return urls;

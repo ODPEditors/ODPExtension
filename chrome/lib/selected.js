@@ -84,7 +84,7 @@
 		if (!link)
 			return '';
 		else
-			return this.string(link.href);
+			return this.IDNDecodeURL(this.string(link.href));
 	};
 	//returns the A tags of the selected link
 	this.getSelectedLinkItem = function() {
@@ -116,7 +116,7 @@
 		var items = this.getSelectedLinksItems();
 		for (var id in items) {
 			if (items[id].href)
-				links[links.length] = String(items[id].href);
+				links[links.length] = this.IDNDecodeURL(this.string(items[id].href));
 		}
 		if (!links || !links.length) {
 			var link = this.getSelectedLinkURL()
@@ -206,13 +206,13 @@
 			var length = a.length;
 			for (var i = 0; i < length; i++) {
 				if (a[i].href)
-					links[links.length] = String(a[i].href);
+					links[links.length] = ODPExtension.IDNDecodeURL(ODPExtension.string(a[i].href));
 			}
 			var a = aDoc.getElementsByTagName("area");
 			var length = a.length;
 			for (var i = 0; i < length; i++) {
 				if (a[i].href)
-					links[links.length] = String(a[i].href);
+					links[links.length] = ODPExtension.IDNDecodeURL(ODPExtension.string(a[i].href));
 			}
 		})
 		return links;

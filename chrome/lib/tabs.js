@@ -49,10 +49,11 @@
 	//gets the current URI from aTab-REVIEW
 	this.tabGetLocation = function(aTab) {
 		if (aTab.hasAttribute('permaTabUrl'))
-			return String(aTab.getAttribute('permaTabUrl'));
+			return this.IDNDecodeURL(String(aTab.getAttribute('permaTabUrl')));
 		else {
-			if (this.browserGetFromTab(aTab) && this.browserGetFromTab(aTab).currentURI && this.browserGetFromTab(aTab).currentURI.spec)
-				return String(this.browserGetFromTab(aTab).currentURI.spec);
+			var browser = this.browserGetFromTab(aTab)
+			if (browser && browser.currentURI && browser.currentURI.spec)
+				return this.IDNDecodeURL(String(browser.currentURI.spec));
 			else
 				return '';
 		}

@@ -367,7 +367,7 @@ var ODPExtension = {};
 			*/
 	this.dispatchOnLocationChange = function (focusedDocumentHasBeenLoaded) {
 		var aDoc = window.top.getBrowser().browsers[window.top.getBrowser().mTabBox.selectedIndex].contentDocument;
-		var aLocation = String(aDoc.location);
+		var aLocation = this.IDNDecodeURL(this.string(aDoc.location));
 
 		if (focusedDocumentHasBeenLoaded || aLocation != focusedLocation) {
 			this.dump('dispatchOnLocationChange:aLocation:' + aLocation + ':focusedDocumentHasBeenLoaded:' + focusedDocumentHasBeenLoaded, debugingThisFile);

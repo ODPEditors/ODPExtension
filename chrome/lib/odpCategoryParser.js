@@ -63,7 +63,7 @@
 			try {
 				var site = {}
 				site.site_id = elements[id].getElementsByTagName('a')[0].href.split('urlsubId=')[1].split('&')[0];
-				site.url = elements[id].getElementsByTagName('a')[1].href;
+				site.url = this.IDNDecodeURL(elements[id].getElementsByTagName('a')[1].href);
 				site.url_id = this.getURLID(site.url);
 				site.domain = site.url_id.domain;
 				site.subdomain = site.url_id.subdomain;
@@ -157,7 +157,7 @@
 			try {
 				var site = {}
 				site.site_id = elements[id].getElementsByTagName('a')[0].href.split('urlsubId=')[1].split('&')[0];
-				site.url = elements[id].getElementsByTagName('a')[1].href;
+				site.url = this.IDNDecodeURL(this.string(elements[id].getElementsByTagName('a')[1].href));
 				site.url_id = this.getURLID(site.url);
 				site.domain = site.url_id.domain;
 				site.subdomain = site.url_id.subdomain;
@@ -239,7 +239,7 @@
 			try {
 				var site = {}
 				site.site_id = elements[id].getElementsByTagName('a')[0].href.split('urlId=')[1].split('&')[0];
-				site.url = elements[id].getElementsByTagName('a')[1].href;
+				site.url = this.IDNDecodeURL(this.string(elements[id].getElementsByTagName('a')[1].href));
 				site.url_id = this.getURLID(site.url);
 				site.domain = site.url_id.domain;
 				site.subdomain = site.url_id.subdomain;

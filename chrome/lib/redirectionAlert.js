@@ -1,6 +1,7 @@
 (function() {
 
-	this.linkCheckerRunningInstances = 0;
+	if(!this.shared.linkCheckerRunningInstances)
+		this.shared.linkCheckerRunningInstances = 0
 
 	var redirectionAlertID = 0;
 
@@ -50,7 +51,7 @@
 				this.cacheRedirects = [];
 				this.itemsWorking = 0;
 				this.itemsDone = 0;
-				ODPExtension.linkCheckerRunningInstances++
+				ODPExtension.shared.linkCheckerRunningInstances++
 				this.itemsNetworking = 0;
 				this.queue = []
 
@@ -93,7 +94,7 @@
 				this.itemsWorking = null;
 				this.itemsDone = null;
 				this.queue = null;
-				ODPExtension.linkCheckerRunningInstances--
+				ODPExtension.shared.linkCheckerRunningInstances--
 			},
 			observe: function(aSubject, aTopic, aData) {
 				switch (aTopic) {

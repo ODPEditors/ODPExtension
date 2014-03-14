@@ -8,7 +8,7 @@
 					.getService(Components.interfaces.nsIWindowMediator);
 				var ODP = wm.getMostRecentWindow('navigator:browser').ODPExtension
 
-				if (ODP.linkCheckerRunningInstances > 0) {
+				if (ODP.shared.linkCheckerRunningInstances > 0) {
 					if (
 						document.title.toLowerCase().indexOf('opening') != -1 ||
 						document.title.toLowerCase().indexOf('script') != -1 ||
@@ -17,6 +17,12 @@
 						setTimeout(function(){
 							try {
 								document.documentElement.getButton("cancel").click();
+								setTimeout(function(){
+									try {
+										document.documentElement.getButton("cancel").click();
+									} catch (e) {
+									}
+								}, 3000);
 							} catch (e) {
 								document.documentElement.getButton("accept").click();
 							}

@@ -15,7 +15,10 @@
 		if (aString == '')
 			return;
 
-		this.alert('Looks like: '+this.detectLanguage(aString));
+		this.detectLanguage(aString, function(aData){
+			ODPExtension.alert('Looks like: '+(aData));
+		});
+
 	}
 
 	return null;

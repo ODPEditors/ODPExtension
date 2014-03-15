@@ -778,10 +778,17 @@ LanguageDetect.prototype = {
 }
 
 var detect = new LanguageDetect();
-this.detectLanguage = function(aString){
+var detectLanguage = function(aString){
 	var lang = detect.detect(aString, 1)[0];
 	if(!lang)
 		return 'Unknown';
 	else
 		return lang[0];
+}
+
+onmessage = function (aData) {
+	postMessage({
+		"id": aData.data.id,
+		"aData": detectLanguage(aData.data.aData)
+	});
 }

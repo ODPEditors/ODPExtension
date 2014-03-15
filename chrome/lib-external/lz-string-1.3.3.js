@@ -11,6 +11,20 @@
 //var encodedData = window.btoa("Hello, world"); // encode a string
 //var decodedData = window.atob(encodedData); // decode the string
 
+onmessage = function (aData) {
+	if(aData.data.type == 'compress') {
+		postMessage({
+			"id": aData.data.id,
+			"aData": LZString.compressToUTF16(aData.data.aData)
+		});
+	} else {
+		postMessage({
+			"id": aData.data.id,
+			"aData": LZString.decompressFromUTF16(aData.data.aData)
+		});
+	}
+}
+
 this.LZString = {
 
 

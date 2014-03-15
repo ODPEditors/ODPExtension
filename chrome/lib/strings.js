@@ -1,6 +1,6 @@
 (function() {
 	//decodes a string
-	this.decodeUTF8 = function(aString) {
+	this.decodeUTF8 = function (aString) {
 		if (aString.indexOf('%') == -1)
 			return aString;
 		try {
@@ -15,7 +15,7 @@
 	};
 	//decodes all chars encoded in a string
 	var decodeUTF8RecursiveRegExp = /% +/g;
-	this.decodeUTF8Recursive = function(aString) //recursion was optimized
+	this.decodeUTF8Recursive = function (aString) //recursion was optimized
 	{
 		while (aString.indexOf('%') != -1) {
 			aString = aString.replace(decodeUTF8RecursiveRegExp, '%');
@@ -37,7 +37,7 @@
 		return aString;
 	};
 	//encodes a URI - Example: converts this http://www.dmoz.org/World/Español/ to  http://www.dmoz.org/World/Espa%C3%B1ol/
-	this.encodeURI = function(aURI) {
+	this.encodeURI = function (aURI) {
 		try {
 			return encodeURI(aURI);
 		} catch (e) {
@@ -45,7 +45,7 @@
 		}
 	};
 	//encodes a string
-	this.encodeUTF8 = function(aString) {
+	this.encodeUTF8 = function (aString) {
 		try {
 			return encodeURIComponent(aString);
 		} catch (e) {
@@ -57,25 +57,25 @@
 		}
 	};
 	//fix the puntuation for a String
-	this.fixPuntuation = function(aString) {
+	this.fixPuntuation = function (aString) {
 		return this.trim(
 			this.string(aString)
 
-		.replace(/ +/g, ' ') //REGEXP 1
-		.replace(/(( *,+ *| *,+ *\.+|,+ *|,+|\.+ *,+)+)/g, ', ') //REGEXP 2
-		.replace(/((,* *\.+ *\.*)+)/g, '. ') //REGEXP 3
+			.replace(/ +/g, ' ') //REGEXP 1
+			.replace(/(( *,+ *| *,+ *\.+|,+ *|,+|\.+ *,+)+)/g, ', ') //REGEXP 2
+			.replace(/((,* *\.+ *\.*)+)/g, '. ') //REGEXP 3
 
-		.replace(/ +/g, ' ') //REGEXP 1
-		.replace(/(( *,+ *| *,+ *\.+|,+ *|,+|\.+ *,+)+)/g, ', ') //REGEXP 2
-		.replace(/((,* *\.+ *\.*)+)/g, '. ') //REGEXP 3
+			.replace(/ +/g, ' ') //REGEXP 1
+			.replace(/(( *,+ *| *,+ *\.+|,+ *|,+|\.+ *,+)+)/g, ', ') //REGEXP 2
+			.replace(/((,* *\.+ *\.*)+)/g, '. ') //REGEXP 3
 
-		.replace(/ +/g, ' ') //REGEXP 1
-		.replace(/(( *,+ *| *,+ *\.+|,+ *|,+|\.+ *,+)+)/g, ', ') //REGEXP 2
-		.replace(/((,* *\.+ *\.*)+)/g, '. ') //REGEXP 3
+			.replace(/ +/g, ' ') //REGEXP 1
+			.replace(/(( *,+ *| *,+ *\.+|,+ *|,+|\.+ *,+)+)/g, ', ') //REGEXP 2
+			.replace(/((,* *\.+ *\.*)+)/g, '. ') //REGEXP 3
 
 		).replace(/^\.* *,+ */, '').replace(/\.* *,+ *\.*$/, '.');
 	};
-	this.htmlEntityDecode = function(aString) {
+	this.htmlEntityDecode = function (aString) {
 		//ODPExtension.dump(typeof(aString))
 		if (aString.indexOf('&') != -1) {
 			var aTemp = aString.replace('&amp;', '&').replace('&nbsp;', ' ').replace('&iexcl;', '¡').replace('&cent;', '¢').replace('&pound;', '£').replace('&curren;', '¤').replace('&yen;', '¥').replace('&brvbar;', '¦').replace('&sect;', '§').replace('&uml;', '¨').replace('&copy;', '©').replace('&ordf;', 'ª').replace('&laquo;', '«').replace('&not;', '¬').replace('&shy;', '­').replace('&reg;', '®').replace('&macr;', '¯').replace('&deg;', '°').replace('&plusmn;', '±').replace('&sup2;', '²').replace('&sup3;', '³').replace('&acute;', '´').replace('&micro;', 'µ').replace('&para;', '¶').replace('&middot;', '·').replace('&cedil;', '¸').replace('&sup1;', '¹').replace('&ordm;', 'º').replace('&raquo;', '»').replace('&frac14;', '¼').replace('&frac12;', '½').replace('&frac34;', '¾').replace('&iquest;', '¿').replace('&Agrave;', 'À').replace('&Aacute;', 'Á').replace('&Acirc;', 'Â').replace('&Atilde;', 'Ã').replace('&Auml;', 'Ä').replace('&Aring;', 'Å').replace('&AElig;', 'Æ').replace('&Ccedil;', 'Ç').replace('&Egrave;', 'È').replace('&Eacute;', 'É').replace('&Ecirc;', 'Ê').replace('&Euml;', 'Ë').replace('&Igrave;', 'Ì').replace('&Iacute;', 'Í').replace('&Icirc;', 'Î').replace('&Iuml;', 'Ï').replace('&ETH;', 'Ð').replace('&Ntilde;', 'Ñ').replace('&Ograve;', 'Ò').replace('&Oacute;', 'Ó').replace('&Ocirc;', 'Ô').replace('&Otilde;', 'Õ').replace('&Ouml;', 'Ö').replace('&times;', '×').replace('&Oslash;', 'Ø').replace('&Ugrave;', 'Ù').replace('&Uacute;', 'Ú').replace('&Ucirc;', 'Û').replace('&Uuml;', 'Ü').replace('&Yacute;', 'Ý').replace('&THORN;', 'Þ').replace('&szlig;', 'ß').replace('&agrave;', 'à').replace('&aacute;', 'á').replace('&acirc;', 'â').replace('&atilde;', 'ã').replace('&auml;', 'ä').replace('&aring;', 'å').replace('&aelig;', 'æ').replace('&ccedil;', 'ç');
@@ -107,7 +107,7 @@
 			return aString;
 	};
 	//Encodes HTML special chars
-	this.htmlSpecialCharsEncode = this.h = function(aString) {
+	this.htmlSpecialCharsEncode = this.h = function (aString) {
 		if (!aString)
 			return '';
 		return aString.split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;').split("'").join('&apos;');
@@ -115,7 +115,7 @@
 	//matchs a regular expresion
 	this.matchCompiled = [];
 
-	this.match = function(aString, aREGEXP) {
+	this.match = function (aString, aREGEXP) {
 		if (aREGEXP == '') {
 			return false;
 		}
@@ -131,11 +131,11 @@
 		}
 	};
 	//replaces new lines with space characters
-	this.removeNewLines = function(aString) {
+	this.removeNewLines = function (aString) {
 		return this.trim(aString).split('\r').join(' ').split('\n').join(' ').split('\t').join(' ');
 	};
 	//returns true if aString has bad spelling
-	this.spellError = function(aString, aDictionary) {
+	this.spellError = function (aString, aDictionary) {
 		if (!aString || aString.length == 1)
 			return false;
 
@@ -148,14 +148,14 @@
 
 		if (
 			spell.mPersonalDictionary.check(aString, aDictionary) || // if the user has added the word as correct to the personal dictionary
-		spell.spellCheckEngine.check(aString, aDictionary) // if the word doens't have an spell error by looking at the normal dictionary
+			spell.spellCheckEngine.check(aString, aDictionary) // if the word doens't have an spell error by looking at the normal dictionary
 		)
 			return false;
 		else
 			return true;
 	};
 	//returns the list of dictionaries
-	this.spellGetDictionaryList = function() {
+	this.spellGetDictionaryList = function () {
 		var a = {};
 
 		var spell = this.service('spell').spellCheckEngine;
@@ -164,7 +164,7 @@
 		return String(a.value).split(',');
 	};
 	//cast an object toString avoids null errors
-	this.string = function(aString) {
+	this.string = function (aString) {
 		if (!aString)
 			return '';
 		else
@@ -172,7 +172,7 @@
 	};
 	//stripTags from a string
 	var stripTagsRegExp = /<[^>]*>/g;
-	this.stripTags = function(aString, aReplacement) {
+	this.stripTags = function (aString, aReplacement) {
 		if (!aString)
 			return '';
 		if (!aReplacement)
@@ -181,7 +181,7 @@
 			return aString.replace(stripTagsRegExp, aReplacement);
 	};
 	//Count the number of substring occurrences
-	this.subStrCount = function(aString, aStringToCount) {
+	this.subStrCount = function (aString, aStringToCount) {
 		var a = 0;
 		var pos = aString.indexOf(aStringToCount);
 		while (pos != -1) {
@@ -193,52 +193,98 @@
 	//trims a string
 	var trimStart = /^\s+/;
 	var trimEnd = /\s+$/
-	this.trim = function(aString) {
+	this.trim = function (aString) {
 		if (!aString)
 			return '';
 		return aString.replace(trimStart, '').replace(trimEnd, '');
 	};
 	//returns the string with the first char in uppercase
-	this.ucFirst = function(aString) {
+	this.ucFirst = function (aString) {
 		if (!aString)
 			return '';
 		return aString.substring(0, 1).toUpperCase() + aString.substring(1, aString.length);
 	};
-	var detectLanguageLoaded =  new Components.utils.Sandbox("about:blank");
-	this.detectLanguage = function(aString) {
-		if (!detectLanguageLoaded.loaded) {
-			detectLanguageLoaded.console = console;
-			Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-				.getService(Components.interfaces.mozIJSSubScriptLoader)
-				.loadSubScript("chrome://ODPExtension/content/lib-external/LanguageDetect.js", detectLanguageLoaded, "UTF-8");
-		}
-		var lang = detectLanguageLoaded.detectLanguage(aString.slice(0, 4096));
-		if (!lang)
-			lang = 'Unknown';
-		return this.ucFirst(lang);
-	}
-	this.stringTranslate = function(text, aFunction, sourceLanguage, targetLanguage){
 
-		if(!sourceLanguage)
+	var detectLanguageWorkerThread = -1
+	var detectLanguageWorkerMaxThreads = 15
+	var detectLanguageWorkerListeners = []
+	var detectLanguageWorkers = [new Worker("chrome://ODPExtension/content/lib-external/LanguageDetect.js")]
+	var detectLanguageWorkersOnMessage = function (aEvent) {
+		if (detectLanguageWorkerListeners[aEvent.data.id])
+			detectLanguageWorkerListeners[aEvent.data.id](ODPExtension.ucFirst(aEvent.data.aData));
+		delete detectLanguageWorkerListeners[aEvent.data.id];
+	};
+	detectLanguageWorkers[0].onmessage = detectLanguageWorkersOnMessage
+	this.detectLanguage = function (aString, aCallback) {
+		//move of thread
+		if(detectLanguageWorkerThread>detectLanguageWorkerMaxThreads)
+			detectLanguageWorkerThread = 0
+		else
+			detectLanguageWorkerThread++
+		var workerThread = String(detectLanguageWorkerThread)
+		//save the listener
+		detectLanguageWorkerListeners.push(aCallback)
+		var id = detectLanguageWorkerListeners.length - 1;
+		//spawn the worker
+		if(!detectLanguageWorkers[workerThread]){
+			detectLanguageWorkers[workerThread] = new Worker("chrome://ODPExtension/content/lib-external/LanguageDetect.js");
+			detectLanguageWorkers[workerThread].onmessage = detectLanguageWorkersOnMessage
+		}
+		//post message
+		detectLanguageWorkers[workerThread].postMessage({
+			"id": id,
+			"aData": aString.slice(0, 4096)
+		})
+	}
+
+	this.stringTranslate = function (text, aFunction, sourceLanguage, targetLanguage) {
+
+		if (!sourceLanguage)
 			sourceLanguage = 'auto'
-		if(!targetLanguage)
+		if (!targetLanguage)
 			targetLanguage = 'en'
 
-		ODPExtension.readURL('http://translate.google.com/translate_a/t?client=t&text='+this.encodeUTF8(text)+'&hl=en&sl='+sourceLanguage+'&tl='+targetLanguage+'&ie=UTF-8&oe=UTF-8&otf=1&ssel=0&tsel=0&uptl=en&alttl=hi&sc=1', false, false, false, function (aData) {
+		ODPExtension.readURL('http://translate.google.com/translate_a/t?client=t&text=' + this.encodeUTF8(text) + '&hl=en&sl=' + sourceLanguage + '&tl=' + targetLanguage + '&ie=UTF-8&oe=UTF-8&otf=1&ssel=0&tsel=0&uptl=en&alttl=hi&sc=1', false, false, false, function (aData) {
 			aData = aData.split('","')[0].replace(/^\[\[\[\"/, '')
 			aFunction(aData)
 		}, false, false);
 	}
-	var stringCompressor =  new Components.utils.Sandbox("about:blank");
-	this.compress = function(aString) {
-		if (!stringCompressor.loaded) {
-			Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-				.getService(Components.interfaces.mozIJSSubScriptLoader)
-				.loadSubScript("chrome://ODPExtension/content/lib-external/lz-string-1.3.3.js", stringCompressor, "UTF-8");
+
+	var compressWorkerThread = -1
+	var compressWorkerMaxThreads = 15
+	var compressWorkerListeners = []
+	var compressWorkers = [new Worker("chrome://ODPExtension/content/lib-external/lz-string-1.3.3.js")]
+	var compressWorkersOnMessage = function (aEvent) {
+		if (compressWorkerListeners[aEvent.data.id])
+			compressWorkerListeners[aEvent.data.id](aEvent.data.aData);
+		delete compressWorkerListeners[aEvent.data.id];
+	};
+	compressWorkers[0].onmessage = compressWorkersOnMessage
+	this.compress = function (aString, aCallback) {
+		//move of thread
+		if(compressWorkerThread>compressWorkerMaxThreads)
+			compressWorkerThread = 0
+		else
+			compressWorkerThread++
+		var workerThread = String(compressWorkerThread)
+		//save the listener
+		compressWorkerListeners.push(aCallback)
+		var id = compressWorkerListeners.length - 1;
+		//spawn the worker
+		if(!compressWorkers[workerThread]){
+			compressWorkers[workerThread] = new Worker("chrome://ODPExtension/content/lib-external/lz-string-1.3.3.js");
+			compressWorkers[workerThread].onmessage = compressWorkersOnMessage
 		}
-		return stringCompressor.LZString.compressToUTF16(aString);
+		//post message
+		compressWorkers[workerThread].postMessage({
+			"id": id,
+			"aData": aString,
+			"type": 'compress'
+		})
 	}
-	this.uncompress = function(aString) {
+
+	var stringCompressor = new Components.utils.Sandbox("about:blank");
+	this.uncompress = function (aString) {
 		if (!stringCompressor.loaded) {
 			Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
 				.getService(Components.interfaces.mozIJSSubScriptLoader)
@@ -248,47 +294,47 @@
 	}
 
 	// !! http://stackoverflow.com/questions/11434747/javascript-library-to-align-tab-separated-data-like-elastictabstops/11437399#11437399
-	this.tabs = function(aData){
+	this.tabs = function (aData) {
 		var align;
-		align = function(d) {
-		  var b, l, o, pad;
-		  b = [];
-		  l = [];
-		  d.split('\n').forEach(function(c) {
-		    var a;
-		    a = [];
-		    c.split(/(\t+|\s\s+)/).forEach(function(d) {
-		      if (d.match(/\w/)) {
-		        a.push(d.toString());
-		        if ((l[a.length - 1] != null) < d.length) {
-		          return l[a.length - 1] = d.length;
-		        }
-		      }
-		    });
-		    return b.push(a);
-		  });
-		  pad = function(txt, len) {
-		    while (txt.length < len) {
-		      txt += " ";
-		    }
-		    return txt;
-		  };
-		  o = "\n";
-		  b.forEach(function(d) {
-		    d.forEach(function(j, i) {
-		      o += pad(j.toString(), l[i]);
-		      return o += "\t";
-		    });
-		    return o += "\n";
-		  });
-		  return o;
+		align = function (d) {
+			var b, l, o, pad;
+			b = [];
+			l = [];
+			d.split('\n').forEach(function (c) {
+				var a;
+				a = [];
+				c.split(/(\t+|\s\s+)/).forEach(function (d) {
+					if (d.match(/\w/)) {
+						a.push(d.toString());
+						if ((l[a.length - 1] != null) < d.length) {
+							return l[a.length - 1] = d.length;
+						}
+					}
+				});
+				return b.push(a);
+			});
+			pad = function (txt, len) {
+				while (txt.length < len) {
+					txt += " ";
+				}
+				return txt;
+			};
+			o = "\n";
+			b.forEach(function (d) {
+				d.forEach(function (j, i) {
+					o += pad(j.toString(), l[i]);
+					return o += "\t";
+				});
+				return o += "\n";
+			});
+			return o;
 		};
 		var txt = '';
-		for(var id in aData){
-			for(var i in aData[id]){
-				txt += aData[id][i]+'\t';
+		for (var id in aData) {
+			for (var i in aData[id]) {
+				txt += aData[id][i] + '\t';
 			}
-			txt +='\n';
+			txt += '\n';
 		}
 		return align(txt);
 	}

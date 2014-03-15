@@ -23,6 +23,7 @@ onmessage = function (aData) {
 			"aData": LZString.decompressFromUTF16(aData.data.aData)
 		});
 	}
+	aData = null
 }
 
 this.LZString = {

@@ -311,15 +311,21 @@
 			done: function(aFunction, aData, aURL, aOriginalURL) {
 				ODPExtension.getIPFromDomainAsync(aData.subdomain, function(aIP){
 					aData.ip = aIP
-					if (ODPExtension.preferenceGet('link.checker.cache.result')){
-						var cacheID = ODPExtension.sha256(aURL)
-						ODPExtension.fileWriteAsync('/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID, ODPExtension.compress(JSON.stringify(aData)) );
-					}
-					oRedirectionAlert.cache[aURL] = null;
-					if(debug)
-						ODPExtension.dump(aData)
-					aFunction(aData, aOriginalURL);
-					aData = null
+					ODPExtension.detectLanguage(aData.txt.slice(0, 4096), function(aLanguage){
+						aData.language = aLanguage;
+
+						if (ODPExtension.preferenceGet('link.checker.cache.result')){
+							var cacheID = ODPExtension.sha256(aURL)
+							ODPExtension.compress(JSON.stringify(aData), function(aCompressedData){
+								ODPExtension.fileWriteAsync('/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID, aCompressedData);
+							});
+						}
+						oRedirectionAlert.cache[aURL] = null;
+						if(debug)
+							ODPExtension.dump(aData)
+						aFunction(aData, aOriginalURL);
+						aData = null
+					});
 				});
 			},
 			next: function() {
@@ -548,15 +554,24 @@
 						}
 						frames = null
 
-						//"site type"
-						if(aData.htmlTab.indexOf('xmlns=\'http://www.w3.org/2005/Atom\'') !== -1 || aData.htmlTab.indexOf('xmlns="http://www.w3.org/2005/Atom"') !== -1)
-							aData.siteType = 'atom';
-						else if(aData.htmlTab.indexOf('<rss version="') !== -1)
-							aData.siteType = 'rss';
-						else if(aData.htmlTab.indexOf('xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns') !== -1)
-							aData.siteType = 'rdf';
-						else if(ODPExtension.urlFlagsHashFlash.indexOf(aData.hash) !== -1){
+						//site "type"
+						if(ODPExtension.urlFlagsHashFlash.indexOf(aData.hash) !== -1){
 							aData.siteType = 'flash';
+							aData.hashKnown = true;
+						} else if(aData.hash == 'fc0ca0e30d7f2673fa08c0482ed3f152') {
+							aData.siteType = 'pdf';
+							aData.hashKnown = true;
+						} else if(aData.hash == '869a4716516c5ef5f369913fa60d71b8') {
+							aData.siteType = 'txt';
+							aData.contentType = 'text/plain';
+							aData.hashKnown = true;
+						} else if(aData.hash == '4829ce6bb0951e966681fe2011b87ace'){//browser viewer
+							if(aData.htmlRequester.indexOf('xmlns=\'http://www.w3.org/2005/Atom\'') !== -1 || aData.htmlRequester.indexOf('type="application/atom+xml"') !== -1)
+								aData.siteType = 'atom';
+							else if(aData.htmlRequester.indexOf('<rss') !== -1)
+								aData.siteType = 'rss';
+							else if(aData.htmlRequester.indexOf('xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns') !== -1)
+								aData.siteType = 'rdf';
 							aData.hashKnown = true;
 						}
 
@@ -644,7 +659,6 @@
 							aDoc = new XMLSerializer().serializeToString(aDoc);
 						}
 						aData.txt = ODPExtension.htmlSpecialCharsDecode(ODPExtension.stripTags(aDoc, ' ').replace(/\r\n/g, '\n').replace(/[\t| ]+/g, ' ').replace(/\n\s+/g, '\n').replace(/\s+\n/g, '\n').trim());
-						aData.language = ODPExtension.detectLanguage(aData.txt);
 						aData.wordCount = aData.txt.split(' ').length
 						aData.strLength = aData.txt.length
 
@@ -869,7 +883,11 @@
 					Requester.channel.loadFlags |= Components.interfaces.nsIRequest.LOAD_ANONYMOUS | Components.interfaces.nsIRequest.LOAD_FLAGS_BYPASS_HISTORY
 
 				if (letsTryAgainIfFail === 0) {
-					Requester.setRequestHeader('Referer', aURL);
+					try{
+						Requester.setRequestHeader('Referer', aURL);
+					}catch(e){
+						Requester.setRequestHeader('Referer', ODPExtension.IDNEncodeURL(aURL));
+					}
 				} else {
 					Requester.setRequestHeader('Referer', 'https://www.google.com/');
 				}
@@ -1026,6 +1044,8 @@
 		aWindow.wrappedJSObject.alert = aWindow.wrappedJSObject.focus = aWindow.alert = aWindow.wrappedJSObject.onbeforeunload = aWindow.wrappedJSObject.beforeunload = aWindow.onbeforeunload = aWindow.beforeunload = aWindow.focus = noop
 		aWindow.wrappedJSObject.prompt = aWindow.prompt = notempty
 		aWindow.wrappedJSObject.confirm =  aWindow.confirm = yesop
+		aWindow.console.log = aWindow.console.debug = aWindow.console.error = aWindow.console.dir = aWindow.console.exception = aWindow.console.info = aWindow.console.warn = aWindow.console.trace = noop
+		aWindow.wrappedJSObject.console.log = aWindow.wrappedJSObject.console.debug = aWindow.wrappedJSObject.console.error = aWindow.wrappedJSObject.console.dir = aWindow.wrappedJSObject.console.exception = aWindow.wrappedJSObject.console.info = aWindow.wrappedJSObject.console.warn = aWindow.wrappedJSObject.console.trace = noop
 
 		this.foreachFrame(aWindow.wrappedJSObject, function(aDoc) {
 			var aWin = aDoc.defaultView;
@@ -1048,6 +1068,7 @@
 			aWin.alert = aWin.onbeforeunload = aWin.beforeunload = aWin.focus = noop;
 			aWin.prompt = notempty
 			aWin.confirm = yesop
+			aWin.console.log = aWin.console.debug = aWin.console.error = aWin.console.dir = aWin.console.exception = aWin.console.info = aWin.console.warn = aWin.console.trace = noop
 		});
 	}
 	this.disableTabFeaturesCounter = function(aFunction, aData) {
@@ -1082,10 +1103,15 @@
 
 		var lastStatus = aData.statuses[aData.statuses.length - 1];
 
-		var urlMalformed = aData.urlLast.indexOf('http') !== 0 || aData.urlLast.indexOf('https:///') === 0 || aData.urlLast.indexOf('http:///') === 0 || aData.subdomain.indexOf(',') !== -1 || aData.subdomain.indexOf('%') !== -1 || !this.isPublicURL(aData.urlLast);
-
 		//-6 BAd URL
-		if (false || urlMalformed || lastStatus == 414 // Request-URI Too Large - The URL (usually created by a GET form request) is too large for the server to handle. Check to see that a lot of garbage didn't somehow get pasted in after the URL.
+		if (false ||
+		    	aData.urlLast.indexOf('http') !== 0 ||
+		    	aData.urlLast.indexOf('https:///') === 0 ||
+		    	aData.urlLast.indexOf('http:///') === 0 ||
+		    	aData.subdomain.indexOf(',') !== -1 ||
+		    	aData.subdomain.indexOf('%') !== -1 ||
+		    	!this.isPublicURL(aData.urlLast)
+		 || lastStatus == 414 // Request-URI Too Large - The URL (usually created by a GET form request) is too large for the server to handle. Check to see that a lot of garbage didn't somehow get pasted in after the URL.
 		|| lastStatus == 413 // Request Entity Too Large - The server is refusing to process a request because the request entity is larger than the server is willing or able to process. Should never occur for Robozilla.
 		//|| lastStatus == 400 // Bad Request	Usually occurs due to a space in the URL or other malformed URL syntax. Try converting spaces to %20 and see if that fixes the error.
 		) {
@@ -1173,7 +1199,8 @@
 
 			//-8 	Empty Page
 		} else if (false  //nothing
-		  || (aData.hash == '869a4716516c5ef5f369913fa60d71b8' && aData.wordCount < 20 && aData.strLength < 150)
+		  || (
+		      (aData.hash == '869a4716516c5ef5f369913fa60d71b8')  && aData.wordCount < 20 && aData.strLength < 150)
 		) {
 			aData.status.code = -8;
 			aData.statuses.push(aData.status.code);
@@ -1270,6 +1297,7 @@
 				, 'serverPage'
 
 				, 'requiresLogin'
+				//, 'messageFromOwner'
 				, 'noContent'
 
 				, 'pageErrors'
@@ -1283,38 +1311,58 @@
 				//, 'dirty'
 		]
 
-		var externalContent = []
+		var externalContent = ''
 		for (var id in aData.externalContent)
-			externalContent[externalContent.length] = aData.externalContent[id].url;
-		aData.ids = this.normalizeIDs(aData.ids, (externalContent.join('\n')).match(/(pub|ua)-[^"'&\s]+/gmi) || [])
-		var data = (aData.urlRedirections.join('\n') + '\n' + externalContent.join('\n') + '\n' + aData.headers + '\n' + aData.html).toLowerCase().replace(/\s+/g, ' ');
+			externalContent += aData.externalContent[id].url+' ';
+		aData.ids = this.normalizeIDs(aData.ids, (externalContent).match(/(pub|ua)-[^"'&\s]+/gmi) || [])
+		var data = (aData.urlRedirections.join('\n') + '\n' + externalContent + '\n' + aData.headers + '\n' + aData.html).toLowerCase().replace(/\s+/g, ' ');
 		var breaky = false;
 		for (var name in array) {
 			if (array[name] != '') {
 
 				//bodyMatch
-				for (var id in this['urlFlags'][array[name]]['body']) {
-					string = this['urlFlags'][array[name]]['body'][id].replace(/\s+/g, ' ').trim();
-					if ( (string != '' && (data.indexOf(string.toLowerCase().trim()) != -1)) || (aData.hash != '' && this['urlFlags'][array[name]]['hash'].indexOf(aData.hash) != -1)) {
+				var flag = this['urlFlags'][array[name]]
+
+				if (aData.hash != '' && flag['hash'].indexOf(aData.hash) != -1) {
+					aData.status.error = true;
+
+					if(! flag['errorCodeApplyOnOKOnly'] || ( flag['errorCodeApplyOnOKOnly'] && aData.status.code == 200)) {
+						aData.status.code = flag['errorCode'];
+						aData.statuses.push(aData.status.code);
+					}
+
+					if (flag['canDelete'])
+						aData.status.canDelete = true;
+					if (flag['canUnreview'])
+						aData.status.canUnreview = true;
+
+					aData.status.errorString = flag['errorString'];
+					aData.status.errorStringUserFriendly = flag['errorStringUserFriendly'];
+					//aData.status.match = string;
+					aData.status.matchHash = true;
+					aData.hashKnown = true;
+					breaky = true;
+					break;
+				}
+
+				for (var id in flag['body']) {
+					var string = flag['body'][id].replace(/\s+/g, ' ').toLowerCase().trim();
+					if (string != '' && data.indexOf(string) != -1  ) {
 						aData.status.error = true;
 
-						if(! this['urlFlags'][array[name]]['errorCodeApplyOnOKOnly'] || ( this['urlFlags'][array[name]]['errorCodeApplyOnOKOnly'] && aData.status.code == 200)) {
-							aData.status.code = this['urlFlags'][array[name]]['errorCode'];
+						if(! flag['errorCodeApplyOnOKOnly'] || ( flag['errorCodeApplyOnOKOnly'] && aData.status.code == 200)) {
+							aData.status.code = flag['errorCode'];
 							aData.statuses.push(aData.status.code);
 						}
 
-						if (this['urlFlags'][array[name]]['canDelete'])
+						if (flag['canDelete'])
 							aData.status.canDelete = true;
-						if (this['urlFlags'][array[name]]['canUnreview'])
+						if (flag['canUnreview'])
 							aData.status.canUnreview = true;
-						aData.status.errorString = this['urlFlags'][array[name]]['errorString'];
-						aData.status.errorStringUserFriendly = this['urlFlags'][array[name]]['errorStringUserFriendly'];
-						aData.status.match = string;
-						if (aData.hash != '' && this['urlFlags'][array[name]]['hash'].indexOf(aData.hash) != -1){
-							aData.status.matchHash = true;
-							aData.hashKnown = true;
-						}
 
+						aData.status.errorString = flag['errorString'];
+						aData.status.errorStringUserFriendly = flag['errorStringUserFriendly'];
+						aData.status.match = string;
 						breaky = true;
 						break;
 					}
@@ -1324,17 +1372,23 @@
 			}
 		}
 
-		//suspicious
+		//Unknown content type
 		if (contentTypesKnown.indexOf(aData.contentType) == -1)
 			aData.status.suspicious.push('Unknown content type: ' + aData.contentType);
+		//just flag
 		if (aData.hash != '' && this.urlFlagsHash.indexOf(aData.hash) != -1){
 			aData.status.suspicious.push('Document may has problems');
 			aData.hashKnown = true;
 		}
-		if (aData.hasFrameset > 0 && this.urlFlagsHashFrameset.indexOf(aData.hash) === -1 ){
-			//aData.status.suspicious.push('Document has a frameset');
+		//framset
+		if (aData.hash != '' && this.urlFlagsHashFrameset.indexOf(aData.hash) != -1 ){
 			aData.hashKnown = true;
 		}
+		//Known
+		if (aData.hash != '' && this.urlFlagsHashKnown.indexOf(aData.hash) != -1 ){
+			aData.hashKnown = true;
+		}
+
 		if (aData.intrusivePopups > 1)
 			aData.status.suspicious.push('Window may has problems');
 	}

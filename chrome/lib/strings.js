@@ -206,9 +206,9 @@
 	};
 
 	var detectLanguageWorkerThread = -1
-	var detectLanguageWorkerMaxThreads = 15
+	var detectLanguageWorkerMaxThreads = 4
 	var detectLanguageWorkerListeners = []
-	var detectLanguageWorkers = [new Worker("chrome://ODPExtension/content/lib-external/LanguageDetect.js")]
+	var detectLanguageWorkers = [new Worker ("chrome://ODPExtension/content/lib-external/LanguageDetect.js")]
 	var detectLanguageWorkersOnMessage = function (aEvent) {
 		if (detectLanguageWorkerListeners[aEvent.data.id])
 			detectLanguageWorkerListeners[aEvent.data.id](ODPExtension.ucFirst(aEvent.data.aData));
@@ -251,7 +251,7 @@
 	}
 
 	var compressWorkerThread = -1
-	var compressWorkerMaxThreads = 15
+	var compressWorkerMaxThreads = 4
 	var compressWorkerListeners = []
 	var compressWorkers = [new Worker("chrome://ODPExtension/content/lib-external/lz-string-1.3.3.js")]
 	var compressWorkersOnMessage = function (aEvent) {

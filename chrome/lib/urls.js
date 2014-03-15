@@ -767,6 +767,7 @@
 	var decodeUTF8RecursiveRegExp = /% +/g;
 	var idn = this.service('idn')
 	var IDNDecode = idn.convertACEtoUTF8
+	var IDNEncode = idn.convertUTF8toACE
 	var IDNIsAce = idn.isACE
 	this.IDNDecodeURL = function(aURL){
 		try{
@@ -774,6 +775,15 @@
 			if(!IDNIsAce(aURL[2]))
 				return aURL.join('/')
 			aURL[2] = IDNDecode(aURL[2], {})
+			aURL = aURL.join('/')
+		} catch(e){
+		}
+		return aURL
+	}
+	this.IDNEncodeURL = function(aURL){
+		try{
+			aURL = aURL.split('/')
+			aURL[2] = IDNEncode(aURL[2], {})
 			aURL = aURL.join('/')
 		} catch(e){
 		}

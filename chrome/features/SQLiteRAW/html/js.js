@@ -110,9 +110,9 @@ var by = [],
 
 	default_query = ' SELECT distinct(status_error_string), status_code, count(*) as total, uri from uris where checked = 1 and processed = 0 group by status_error_string order by total desc'
 
-	select = 'select status_code, status_error_string, id, uri, uri_last,match,match_hash, hash, hash_known, content_type, site_type from uris where checked = 1 and processed = 0 and ',
+	select = 'select status_code, status_error_string, id, uri, uri as html, uri_last,match,match_hash, hash, hash_known, content_type, site_type, str_length, word_count from uris where checked = 1 and processed = 0 and ',
 
-	limit = '  limit 5000';
+	limit = '  limit 6000';
 
 //create page
 
@@ -127,7 +127,7 @@ function onLoad() {
 
 function runQuery() {
 
-	if ($('.query').val() != '' )
+	if ($('.query').val() != '' && $('.query').val().trim().indexOf('update') !== 0)
 		document.location.hash = encodeURIComponent(encodeURIComponent($('.query').val()));
 	else if(document.location.hash == '')
 		document.location.hash = encodeURIComponent(encodeURIComponent(default_query))
@@ -135,20 +135,33 @@ function runQuery() {
 	onQuery()
 }
 
+var lastQuery = ''
 function onQuery() {
 
 	var aQuery = decodeURIComponent(document.location.hash.trim().replace(/^#/, '')).trim()
-
-	if (aQuery != '') {
+	if (aQuery != '' && lastQuery != aQuery) {
+		lastQuery = aQuery
+		setTimeout(function(){
+			lastQuery = ''
+		}, 2000)
 		var db = ODP.afroditaDatabaseOpen();
 		$('.query').val(aQuery)
 		try {
-			var query = db.query(aQuery.replace(/and\s?$/, ''))
+			aQuery = aQuery.replace(/and\s?$/, '')
+			aQuery = aQuery.trim()
+			if(aQuery.indexOf('limit') === -1 && aQuery.toLowerCase().indexOf('update') !== 0)
+				aQuery = aQuery+' '+limit
+			var query = db.query(aQuery)
+			if(aQuery.toLowerCase().indexOf('update') === 0){
+				query.execute()
+				return
+			}
 		} catch (e) {
 			alert(ODP.getError())
 		}
 
 		var row = query.fetchObjects();
+
 		aColumns = []
 		aColumnsTitles = []
 		aTotal = 0;
@@ -171,15 +184,15 @@ function onQuery() {
 					.replace(/^c /i, ''))
 			}
 		}
-
+/*
 		$('.sort-by .links').empty()
 		for (var id in aColumns){
 			$('.sort-by .links').append('<span class="click" onclick="listSortBy(this)" order="desc" name="' + ODP.h(aColumns[id].name) + '">' + ODP.h(aColumns[id].title) + '</span>, ')
-		}
+		}*/
 
 		$('.toggle .links').empty()
 		for (var id in aColumns){
-			$('.toggle .links').append('<span class="click" onclick="listToggleColumn(this)" name="' + ODP.h(aColumns[id].name) + '">' + ODP.h(aColumns[id].title) + '</span>, ')
+			$('.toggle .links').append('<span class="click" onclick="listToggleColumn(this)" column="' + ODP.h(aColumns[id].name) + '">' + ODP.h(aColumns[id].title) + '</span>, ')
 		}
 
 		aData = []
@@ -226,6 +239,12 @@ function listRender() {
 		.enter()
 		.append("th")
 		.attr("column", function(column){ return column.name; })
+		.attr("order", 'desc')
+		.attr("class", 'click no-select')
+		.on('click', function(d){
+			ODP.dump(d3.select(this))
+			listSortBy(d3.select(this)[0][0])
+		})
 		.text(function(column) {
 		return column.title;
 	})
@@ -259,7 +278,8 @@ function listRender() {
 
 		switch (d.name) {
 			case 'html':
-				ODP.tabOpen('view-source:data:text/html;charset=UTF-8,' + ODP.encodeUTF8(JSON.parse(ODP.uncompress(d.value)).htmlTab), false);
+				//ODP.tabOpen('view-source:data:text/html;charset=UTF-8,' + ODP.encodeUTF8(JSON.parse(ODP.uncompress(d.value)).htmlTab), false);
+				ODP.tabOpen('view-source:'+d.value, false);
 				break;
 			default:
 				if(d3.event.ctrlKey && d3.event.originalTarget.tagName != 'A' && d.name.indexOf('(') == -1){
@@ -271,12 +291,13 @@ function listRender() {
 	})
 	.html(function(d) {
 		var value = String(d.value);
-		if (value.indexOf('http') === 0)
-			return '<a href="' + ODP.h(value) + '" target="_blank">' + ODP.h(value) + '</a>';
-		else if (d.name == 'txt')
+
+		if (d.name == 'txt')
 			return ODP.h(JSON.parse(ODP.uncompress(d.value)).txt.slice(0, 255))
 		else if (d.name == 'html' || value.indexOf('<html') != -1)
 			return '<a>view-source</a>';
+		else if (value.indexOf('http') === 0)
+			return '<a href="' + ODP.h(value) + '" target="_blank">' + ODP.h(value) + '</a>';
 		else
 			return ODP.h(value).trim();
 	});
@@ -303,14 +324,14 @@ function updateTotals() {
 }
 
 function listToggleColumn(item){
-	$('td[column="'+item.getAttribute('name')+'"]').toggle()
-	$('th[column="'+item.getAttribute('name')+'"]').toggle()
+	$('td[column="'+item.getAttribute('column')+'"]').toggle()
+	$('th[column="'+item.getAttribute('column')+'"]').toggle()
 }
 function listSortBy(item, by, order) {
 
 	if ( !! item) {
 		item = $(item);
-		by = item.attr('name')
+		by = item.attr('column')
 		order = item.attr('order')
 		if (order == 'asc')
 			item.attr('order', 'desc');
@@ -390,7 +411,7 @@ function entryAction(type) {
 
 		case 'copy_urls':
 			items.each(function(d) {
-				copy[copy.length] = d['uri'];
+				copy[copy.length] = d.uri;
 			});
 			break;
 
@@ -402,7 +423,12 @@ function entryAction(type) {
 
 		case 'open_urls':
 			items.each(function(d) {
-				ODP.tabOpen(d['uri']);
+				ODP.tabOpen(d.uri);
+			});
+			break;
+		case 'open_view_source':
+			items.each(function(d) {
+				ODP.tabOpen('view-source:'+d.uri, false);
 			});
 			break;
 		case 'open_urls_new':
@@ -458,6 +484,14 @@ function entryAction(type) {
 			items.each(function(d) {
 				if(d.hash && String(d.hash) != ''){
 					db.executeSimple('update uris set hash_known = 1 , match_hash = 1 where hash = "'+d.hash+'"')
+				}
+			});
+			break;
+		case 'dump_site':
+			items.each(function(d) {
+				if(d.hash && String(d.hash) != ''){
+					var cacheID = ODP.sha256(d.uri)
+					ODP.dump(JSON.parse(ODP.uncompress(ODP.fileRead('/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID))));
 				}
 			});
 			break;

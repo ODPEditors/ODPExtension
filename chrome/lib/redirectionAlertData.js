@@ -184,6 +184,7 @@
 			hash:[''
 				, '6c8402f9f7e9546f88da141b9fc7a20f' //no content
 				, 'e9924c39cb66daf0105e2d96dbca1029'
+				,'c014207ca2fd20525e4139d2ca1802c5'
 			]
 		}
 
@@ -335,16 +336,19 @@
 				,'This is the default index page of your website.'
 				,'This domain is not configured on this service.'
 				,'le informamos que el mismo ya esta registrado y no ha sido delegado aun a los servidores correspondientes'
+				,'Diese Seite kann nicht aufgerufen werden, da die Webseite derzeit keine Unterseiten hat'
 			],
 			hash:[''
 				, '99914b932bd37a50b983c5e7c90ae93b' // total empty
 				, '9e102d813ede6f725f3012777abac235' //yahoo empty group
 				, '135fe587263d965f48cf470017c0dc7d' //image only
+				,'1407918bdcb1a5518ba70eba71b8b112' //image only
 				, 'edc9bf9f5ea4615503c92d4736eb3e28' //empty
 				, 'e91ba74ca066091f908764402be64276'
 				, '6e0c15e36db89f8186af64b348378121'
 				, '52e34692785bfe13338ff091cfaf16d3'
 				, '743efa7d6721920d02c7b4be073194b0'
+				,'94fa9a68095a6339670013a6223b9c7f'
 			]
 		}
 
@@ -376,6 +380,19 @@
 				,'(using password: YES)'
 				,'<a href=\'function.include\'>function.include</a>'
 				,'<b>Fatal error</b>:  Allowed memory size'
+				,'Unable to connect to database'
+				,'Could not connect to server localhost '
+				,'An SQL error has occurred. Please see error.log for details'
+				,'DB_DataObject Error: Connect failed'
+				,'Error displaying the error page'//LOL
+				,'Fatal error: Access to undeclared static property'
+				,'Fatal error: Internal Zend error '
+				,'Lost connection to MySQL server '
+				,'MySQL connection error'
+				,'Mysql Server baglantisi saglanamiyor'
+				,'application is too busy right now.'
+				,'Serwis zosta³ zablokowany' //service has been locked
+				,'This site is no longer operational'
 				,'<b>Fatal error</b>:  Cannot redeclare'
 				,'Cannot modify header information - headers already sent by'
 				,'<b>Parse error</b>:  syntax error'
@@ -383,7 +400,8 @@
 				,'header already sent.'
 				,'Unable to select database'
 				,'We were able to connect to the MySQL database server'
-
+				,'INSERT command denied to user'
+				,'marked as crashed and should be repaired '
 				,'Microsoft OLE DB Provider for SQL Server'
 				,'[an error occurred while processing this directive]'
 				,'Cannot open database'
@@ -453,6 +471,7 @@
 				, 'fac8191e5f8990631d6cbf4197101734'
 				, 'c6136172b1a7a79b747eed504e0ec911'
 				, '49f1dfa122e446428c432abf92a52609'
+				,'467512538e6a22798d1728e950bf77c1'
 				, '1600d88822b00ca68778ba224b080406'
 				,'4144b914435d933bf2a65a3bffa67e0b'
 
@@ -471,6 +490,7 @@
 				,"Estamos trabajando. Pronto estaremos de vuelta"
 				,"Pagina en mantenimiento"
 				,'Siti en mantenança'
+				,'le site est en maintenance revenez '
 				,'está en construcción :)'
 				,'Diese Homepage wird derzeit gewartet'
 				,'sito in ricostruzione'
@@ -481,6 +501,8 @@
 				,'<title>Cette page est en construction</title>'
 				,'<title>Sitio fuera de línea'
 				,'<title>Under Construction</title>'
+				,'服务器维护中，请稍候访问'//server maintenance
+				,'论坛维护升级，暂停访问'//Forum maintenance upgrades, suspend access
 				,'sistema de foros se encuentra cerrado temporalmente'
 				,'<title>Web Page Under Construction</title>'
 				,'Be project</b> està en construcció'
@@ -597,6 +619,24 @@
 				, ''
 			]
 		}
+		, messageFromOwner: {
+			errorCode: -8,
+			errorCodeApplyOnOKOnly: false,
+			errorString: 'Website Message',
+			errorStringUserFriendly: 'Message from website owner',
+			canUnreview: false,
+			body:[],
+			bodyIfMatchHash:[''
+				,'puedes visitar la nueva url'
+				,'moved to new location'
+				,'moved to a new location'
+				,'visit new website location'
+				,'url moved to'
+			],
+			hash:[''
+				, '869a4716516c5ef5f369913fa60d71b8'
+			]
+		}
 
 		, hijacked: {
 			errorCode: -8,
@@ -654,12 +694,22 @@
 		, '118c9a447d2f83dc72fb23295bbec3ab'
 		, '386aca97ed361cead74c01de619b68f3'
 		, '6179ff4d515590c835aec633e099887a'
+		,'dfc9cbec3f47864a283a4795b737948d'
 		, '3d807b4fb6a5c1fa97008f063d8baa43'
+		,'7e1f3343e0d6908cd3fc3ff7dfea4041'
 		, '1a3620478142eff409bd425e3363b51a'
+		,'d3519e204991d97dbb703babb46c986a'
+		,'44568b9a99485442459fa3f39554b880'
 		, 'cd2f727b4ff1a9e1897226585de85ce8'
 		, 'cac0753c1ae11591f2878a62e6279c7d'
 		, 'aa5075340317818fb79b7f4dde337287'
 		, 'ce4e359b9a13e1f9ef6c7fa3e70d2f02'
+		,'01ea428a177a06cd85a5ae1843261ae4'
+		,'57f2edf8c9eadbe04e5717007bdbec83'
+		,'29502e8b8dd4f30cf03dbf0719258bf3'
+		,'b299d877d793c1a929594aa12cb488b4'
+		,'c64c6638612f3db40d6220d189488127'
+		,'69e33e142674045fa0f766a917fb2a66'
 		, 'de4922f768901d3bcde3ccaacad26a79'
 		, '2387cd8ca910156d970c1c115f2b9fe1'
 		, 'dd1d4c14ab10bdc45348cc6182ce60a4'
@@ -755,13 +805,16 @@
 		, 'dce7fa62d88418279b6a198168664ef9'
 		, '2a1e4efe12134d3441e80706fe34a515'
 		, '4b2d344b0a2bd1c043f337d65ee22ab6'
+		,'8cf659b49c725a1cbec3ab656ab6dd43'
 		, '7b7c4e6bc3f58cd8850936fadfe79971'
 		, '32455c23283b48ac9ad18c871c01b74e'
 		, '8ae5521b76f70faca8efe6dc97089caf'
+		,'8b7486ff7e071c242862d5437f275628'
 		, '6ddbdb662342d041b4aabb0397f031a6'
 		, '672c1d7ce1578935eaa4c2f29aae9186'
 		, 'f17350088611962e835fa6a04446890f'
 		, '677b9a65d4e97b563930227d4f9accc3'
+		,'bdd6d9249f2275e7bcc4f114a3109fa9'
 		,'af52f7695d3f5610fda87fc410f555cb'
 	]
 
@@ -795,6 +848,12 @@
 		,'1a1268f68889a94692871acbbaf03c78'
 		,'0d6c72099b668bd0d802ece8d40d366d'
 		,'014c909b899a8151cc085ec07b444abb'
+	]
+
+	this.urlFlagsHashKnown= [''
+		,'be6e318e14ca5aa7e1227808be2f15c9' //design
+		,'fc0ca0e30d7f2673fa08c0482ed3f152'//pdf
+		,'4829ce6bb0951e966681fe2011b87ace'//rss/atom/xml/rdf
 	]
 	return null;
 

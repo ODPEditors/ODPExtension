@@ -10,6 +10,9 @@
 
 				if (ODP.shared.linkCheckerRunningInstances > 0) {
 					if (
+						document.title.toLowerCase().indexOf('authentication') != -1 ||
+						document.title.toLowerCase().indexOf('installation') != -1 ||
+						document.title.toLowerCase().indexOf('subscribe') != -1 ||
 						document.title.toLowerCase().indexOf('opening') != -1 ||
 						document.title.toLowerCase().indexOf('script') != -1 ||
 						document.title.toLowerCase().indexOf('download') != -1
@@ -17,14 +20,7 @@
 						setTimeout(function(){
 							try {
 								document.documentElement.getButton("cancel").click();
-								setTimeout(function(){
-									try {
-										document.documentElement.getButton("cancel").click();
-									} catch (e) {
-									}
-								}, 3000);
 							} catch (e) {
-								document.documentElement.getButton("accept").click();
 							}
 						}, 1000);
 					}

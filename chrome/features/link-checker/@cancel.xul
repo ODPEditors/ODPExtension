@@ -3,19 +3,22 @@
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<script type="application/x-javascript">
 		<![CDATA[
-			addEventListener('load', function () {
-				var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-					.getService(Components.interfaces.nsIWindowMediator);
-				var ODP = wm.getMostRecentWindow('navigator:browser').ODPExtension
+			function linkCheckerRunningCancelDialog(){
+				removeEventListener('load', linkCheckerRunningCancelDialog, false);
 
-				if (ODP.shared.linkCheckerRunningInstances > 0) {
+				var title = document.title.toLowerCase()
+				if (Components.classes["@mozilla.org/appshell/window-mediator;1"]
+								.getService(Components.interfaces.nsIWindowMediator)
+								.getMostRecentWindow('navigator:browser')
+								.ODPExtension.shared.linkCheckerRunningInstances > 0) {
 					if (
-						document.title.toLowerCase().indexOf('authentication') != -1 ||
-						document.title.toLowerCase().indexOf('installation') != -1 ||
-						document.title.toLowerCase().indexOf('subscribe') != -1 ||
-						document.title.toLowerCase().indexOf('opening') != -1 ||
-						document.title.toLowerCase().indexOf('script') != -1 ||
-						document.title.toLowerCase().indexOf('download') != -1
+						title.indexOf('authentication') != -1 ||
+						title.indexOf('installation') != -1 ||
+						title.indexOf('subscribe') != -1 ||
+						title.indexOf('opening') != -1 ||
+						title.indexOf('print') != -1 ||
+						title.indexOf('script') != -1 ||
+						title.indexOf('download') != -1
 					) {
 						setTimeout(function(){
 							try {
@@ -25,7 +28,9 @@
 						}, 1000);
 					}
 				}
-			}, true);
+			}
+
+			addEventListener('load', linkCheckerRunningCancelDialog, false);
 		]]>
 	</script>
 

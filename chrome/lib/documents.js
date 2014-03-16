@@ -78,7 +78,7 @@
 			/^ua-[a-z]/i,
 			/^ua-[0-9]+\./,
 			/^pub-[a-z]/,
-			/^ca-pub-[a-z]/,
+			/^ca-pub-[a-z]/
 		]
 		var found= false, id, i, _ids = [];
 		for(id in ids){

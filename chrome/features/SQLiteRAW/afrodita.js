@@ -31,6 +31,7 @@
 							`site_type` TEXT NOT NULL DEFAULT "" , \
 							\
 							`hash` TEXT NOT NULL DEFAULT "" , \
+							`original_hash` TEXT NOT NULL DEFAULT "" , \
 							`match` TEXT NOT NULL DEFAULT "" , \
 							`match_hash` INTEGER NOT NULL DEFAULT 0 , \
 							`domain` TEXT NOT NULL DEFAULT "" , \
@@ -87,6 +88,7 @@
 							`load_time` INTEGER NOT NULL DEFAULT 0,  \
 							`bayes` TEXT NOT NULL DEFAULT ""  \
 						 )');
+	//alter table uris add column `original_hash` TEXT NOT NULL DEFAULT ""
 
 	this.dump('Creating database tables and statements...');
 
@@ -198,6 +200,7 @@
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `load_time` ON `uris` (`load_time`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `bayes` ON `uris` (`bayes`) ');
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `hash_known` ON `uris` (`hash_known`) ');
+		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `original_hash` ON `uris` (`original_hash`) ');
 
 		lc.commit();
 
@@ -258,6 +261,7 @@
 																`site_type` = :site_type, \
 																\
 																`hash` = :hash, \
+																`original_hash` = :original_hash, \
 																`match` = :match, \
 																`match_hash` = :match_hash, \
 																\
@@ -327,6 +331,7 @@
 			update.params['site_type'] = aData.siteType;
 
 			update.params['hash'] = aData.hash;
+			update.params['original_hash'] = aData.hashOriginal;
 			update.params['match'] = aData.status.match;
 			update.params['hash_known'] = aData.hashKnown || 0;
 			update.params['match_hash'] = aData.status.matchHash ? 1 : 0;

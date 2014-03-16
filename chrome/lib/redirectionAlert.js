@@ -404,6 +404,7 @@
 					aData.wordCount = 0;
 					aData.strLength = 0;
 					aData.hasFrameset = 0;
+					aData.historyChanges = 0;
 					aData.frames = 0;
 					aData.dateStart = ODPExtension.now();
 					aData.dateEnd = aData.dateStart;
@@ -714,11 +715,13 @@
 
 								if(ODPExtension.redirectionAlertWatchDoc(aDoc, aTabBrowser, aData, timedout, oRedirectionAlert)){
 
+									aData.historyChanges++
+
 									oRedirectionAlert.next();
 
 									setTimeout(function() {
 										var currentDoc = ODPExtension.documentGetFromTab(aTab)
-										if(aDoc != currentDoc){
+										if(aDoc != currentDoc && aData.historyChanges < 20){
 
 											oRedirectionAlert.itemsNetworking++;
 
@@ -734,7 +737,7 @@
 													oRedirectionAlert.itemsNetworking--;
 													onTabLoad();
 												}
-											}, timeoutAfter + gracePeriod); //give time to load, else, just forget it.
+											}, timeoutAfter + watchingPeriod + gracePeriod); //give time to load, else, just forget it.
 
 											DOMContentLoaded({originalTarget:currentDoc})
 										} else {
@@ -772,7 +775,7 @@
 							oRedirectionAlert.itemsNetworking--;
 							onTabLoad();
 						}
-					}, timeoutAfter + gracePeriod); //give time to load, else, just forget it.
+					}, timeoutAfter + watchingPeriod + gracePeriod); //give time to load, else, just forget it.
 					return null;
 				};
 				Requester.onerror = Requester.onabort = function(TIMEDOUT) {

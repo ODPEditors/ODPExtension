@@ -11,12 +11,12 @@
 		delete workers[aEvent.data.idWorker];
 	};
 
-	this.worker = function(aURL, aMessage, aCallback){
+	this.worker = function(aURL, aMessage, aFunction){
 		//move of thread
 		thread++
 		var _thread = String(thread)
 		//save the listener
-		listeners.push(aCallback)
+		listeners.push(aFunction)
 		var id = listeners.length - 1;
 		aMessage.idWorker = _thread
 		aMessage.id = id

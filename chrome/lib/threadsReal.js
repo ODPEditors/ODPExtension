@@ -13,20 +13,20 @@
 	this.currentThread = function () {
 		return mThreads.currentThread;
 	}
-	//run a aCallback into the main thread
-	this.runMain = function (aCallback) {
-		this.runThread(aCallback, mMainThread);
+	//run a aFunction into the main thread
+	this.runMain = function (aFunction) {
+		this.runThread(aFunction, mMainThread);
 	}
-	//run a aCallback into the main thread and wait for return
-	this.runMainAndWait = function (aCallback) {
-		this.runThreadAndWait(aCallback, mMainThread);
+	//run a aFunction into the main thread and wait for return
+	this.runMainAndWait = function (aFunction) {
+		this.runThreadAndWait(aFunction, mMainThread);
 	}
 
-	//executes aCallback into the selected thread
-	this.runThread = function (aCallback, aThread) {
+	//executes aFunction into the selected thread
+	this.runThread = function (aFunction, aThread) {
 		aThread.dispatch({
 				run: function () {
-					aCallback();
+					aFunction();
 				},
 				QueryInterface: function (iid) {
 					if (iid.equals(Components.interfaces.nsIRunnable) ||
@@ -40,11 +40,11 @@
 		);
 	}
 
-	//executes aCallback into the selected thread and wait for return
-	this.runThreadAndWait = function (aCallback, aThread) {
+	//executes aFunction into the selected thread and wait for return
+	this.runThreadAndWait = function (aFunction, aThread) {
 		aThread.dispatch({
 				run: function () {
-					aCallback();
+					aFunction();
 				},
 				QueryInterface: function (iid) {
 					if (iid.equals(Components.interfaces.nsIRunnable) ||

@@ -77,8 +77,15 @@
 		var blacklist = [
 			/^ua-[a-z]/i,
 			/^ua-[0-9]+\./,
+			/^ua-[^0-9]/,
+			/^ua-[0-9]{1,3}$/,
 			/^pub-[a-z]/,
-			/^ca-pub-[a-z]/
+			/^pub-[^0-9]/,
+			/^ca-pub-[a-z]/,
+			/^ca-pub-[^0-9]/,
+			/^pub-0+$/,
+			/^ca-pub-0+$/,
+			/^ua-0+$/
 		]
 		var found= false, id, i, _ids = [];
 		for(id in ids){

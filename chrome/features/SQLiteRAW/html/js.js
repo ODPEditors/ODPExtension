@@ -278,7 +278,7 @@ function listRender() {
 
 		switch (d.name) {
 			case 'html':
-				//ODP.tabOpen('view-source:data:text/html;charset=UTF-8,' + ODP.encodeUTF8(JSON.parse(ODP.uncompress(d.value)).htmlTab), false);
+				//ODP.tabOpen('view-source:data:text/html;charset=UTF-8,' + ODP.encodeUTF8(JSON.parse(ODP.uncompressSync(d.value)).htmlTab), false);
 				ODP.tabOpen('view-source:'+d.value, false);
 				break;
 			default:
@@ -293,7 +293,7 @@ function listRender() {
 		var value = String(d.value);
 
 		if (d.name == 'txt')
-			return ODP.h(JSON.parse(ODP.uncompress(d.value)).txt.slice(0, 255))
+			return ODP.h(JSON.parse(ODP.uncompressSync(d.value)).txt.slice(0, 255))
 		else if (d.name == 'html' || value.indexOf('<html') != -1)
 			return '<a>view-source</a>';
 		else if (value.indexOf('http') === 0)
@@ -417,7 +417,7 @@ function entryAction(type) {
 
 		case 'copy_txts':
 			items.each(function(d) {
-				copy[copy.length] = JSON.parse(ODP.uncompress(d['txt'])).txt.trim()
+				copy[copy.length] = JSON.parse(ODP.uncompressSync(d['txt'])).txt.trim()
 			});
 			break;
 
@@ -491,7 +491,7 @@ function entryAction(type) {
 			items.each(function(d) {
 				if(d.hash && String(d.hash) != ''){
 					var cacheID = ODP.sha256(d.uri)
-					ODP.dump(JSON.parse(ODP.uncompress(ODP.fileRead('/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID))));
+					ODP.dump(JSON.parse(ODP.uncompressSync(ODP.fileRead('/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID))));
 				}
 			});
 			break;

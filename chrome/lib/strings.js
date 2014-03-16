@@ -239,13 +239,24 @@
 	}
 
 	var stringCompressor = new Components.utils.Sandbox("about:blank");
-	this.uncompress = function (aString) {
+	this.uncompressSync = function (aString) {
 		if (!stringCompressor.loaded) {
 			Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
 				.getService(Components.interfaces.mozIJSSubScriptLoader)
 				.loadSubScript("chrome://ODPExtension/content/lib-external/lz-string-1.3.3.js", stringCompressor, "UTF-8");
+			stringCompressor.loaded = true;
 		}
 		return stringCompressor.LZString.decompressFromUTF16(aString);
+	}
+	this.uncompress = function (aString) {
+		this.worker(
+		            "chrome://ODPExtension/content/lib-external/lz-string-1.3.3.js",
+		           {
+	           			"aData": aString,
+	           			"type": 'uncompress'
+		           	},
+            		aFunction
+		)
 	}
 
 	// !! http://stackoverflow.com/questions/11434747/javascript-library-to-align-tab-separated-data-like-elastictabstops/11437399#11437399

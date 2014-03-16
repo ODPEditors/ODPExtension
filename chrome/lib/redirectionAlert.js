@@ -712,13 +712,15 @@
 							//not a frame
 							} else {
 
-								oRedirectionAlert.itemsNetworking--;
-								oRedirectionAlert.next();
-
 								if(ODPExtension.redirectionAlertWatchDoc(aDoc, aTabBrowser, aData, timedout, oRedirectionAlert)){
+
+									oRedirectionAlert.next();
+
 									setTimeout(function() {
 										var currentDoc = ODPExtension.documentGetFromTab(aTab)
 										if(aDoc != currentDoc){
+
+											oRedirectionAlert.itemsNetworking++;
 
 											//ODPExtension.dump('the document is different')
 											aData.statuses.push('meta/js');
@@ -727,9 +729,9 @@
 											clearTimeout(timedout.timer)
 											timedout.timer = setTimeout(function() {
 												if (timedout.status === -1) {
+													ODPExtension.dump('timeoud1')
 													timedout.status = 1;
 													oRedirectionAlert.itemsNetworking--;
-													oRedirectionAlert.next();
 													onTabLoad();
 												}
 											}, timeoutAfter + gracePeriod); //give time to load, else, just forget it.
@@ -765,18 +767,18 @@
 
 					timedout.timer = setTimeout(function() {
 						if (timedout.status === -1) {
+							ODPExtension.dump('timeoud2')
 							timedout.status = 1;
 							oRedirectionAlert.itemsNetworking--;
-							oRedirectionAlert.next();
 							onTabLoad();
 						}
 					}, timeoutAfter + gracePeriod); //give time to load, else, just forget it.
 					return null;
 				};
 				Requester.onerror = Requester.onabort = function(TIMEDOUT) {
+					oRedirectionAlert.itemsNetworking--;
 					oRedirectionAlert.next();
 
-					oRedirectionAlert.itemsNetworking--;
 					aData.checkType = 'XMLHttpRequestError'
 					//ODPExtension.dump('Requester.onerror');
 					//ODPExtension.dump(TIMEDOUT);
@@ -867,12 +869,9 @@
 				} else {
 					Requester.setRequestHeader('Referer', 'https://www.google.com/');
 				}
-				try{
-					Requester.send(null);
-				}catch(e){
-					//NS_ERROR_NO_CONTENT:
-					Requester.onerror('ABORTED');
-				}
+				//Just dont try and catch this.. try{
+				Requester.send(null);
+				//}catch(e){}
 				//in some situations, timeout is maybe ignored, but neither onload, onerror nor onabort are called
 				timer = setTimeout(function() {
 					if (!loaded) {
@@ -1078,7 +1077,6 @@
 	}
 	this.redirectionAlertWatchDoc = function(aDoc, aTabBrowser, aData, timedout, oRedirectionAlert){
 
-
 		aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
 		aData.html = aData.htmlTab;
 		aData.ids = ODPExtension.normalizeIDs(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
@@ -1098,7 +1096,6 @@
 		if(aURI != '') {
 
 			timedout.status = -1
-			oRedirectionAlert.itemsNetworking++;
 
 			aData.statuses.push('framed');
 			if (!ODPExtension.preferenceGet('link.checker.use.cache'))
@@ -1111,6 +1108,7 @@
 		} else {
 
 			timedout.status = 2;
+			oRedirectionAlert.itemsNetworking--;
 
 			aDoc.mediaCounted = true;
 			aData.mediaCount = 0
@@ -1430,7 +1428,7 @@
 			aData.hashKnown = true;
 		}
 
-		if (aData.intrusivePopups > 2)
+		if (aData.intrusivePopups > 1)
 			aData.status.suspicious.push('Window may has problems');
 	}
 	//free.fr blogspot.tld wordpress.com

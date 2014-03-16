@@ -11,7 +11,7 @@
 //var encodedData = window.btoa("Hello, world"); // encode a string
 //var decodedData = window.atob(encodedData); // decode the string
 
-onmessage = function (aData) {
+this.onmessage = function (aData) {
 	if(aData.data.type == 'compress') {
 		postMessage({
 			"id": aData.data.id,
@@ -26,6 +26,7 @@ onmessage = function (aData) {
 		});
 	}
 	aData = null
+	close()
 }
 
 this.LZString = {

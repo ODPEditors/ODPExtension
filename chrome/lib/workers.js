@@ -6,9 +6,9 @@
 	var workerOnMessage = function (aEvent) {
 		if (listeners[aEvent.data.id])
 			listeners[aEvent.data.id](aEvent.data.aData);
-		delete listeners[aEvent.data.id];
-		workers[aEvent.data.idWorker].terminate();
-		delete workers[aEvent.data.idWorker];
+		listeners[aEvent.data.id] = null
+		//workers[aEvent.data.idWorker].terminate();
+		workers[aEvent.data.idWorker] = null
 	};
 
 	this.worker = function(aURL, aMessage, aFunction){
@@ -21,7 +21,7 @@
 		aMessage.idWorker = _thread
 		aMessage.id = id
 		//spawn the worker
-		workers[_thread] = new Worker(aURL);
+		workers[_thread] = new ChromeWorker(aURL);
 		workers[_thread].onmessage = workerOnMessage
 		workers[_thread].postMessage(aMessage)
 	}

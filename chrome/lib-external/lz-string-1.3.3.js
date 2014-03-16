@@ -15,11 +15,13 @@ onmessage = function (aData) {
 	if(aData.data.type == 'compress') {
 		postMessage({
 			"id": aData.data.id,
+			"idWorker": aData.data.idWorker,
 			"aData": LZString.compressToUTF16(aData.data.aData)
 		});
 	} else {
 		postMessage({
 			"id": aData.data.id,
+			"idWorker": aData.data.idWorker,
 			"aData": LZString.decompressFromUTF16(aData.data.aData)
 		});
 	}

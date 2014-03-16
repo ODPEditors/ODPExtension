@@ -31,6 +31,7 @@
  onmessage = function (aData) {
  	postMessage({
  		"id": aData.data.id,
+ 		"idWorker": aData.data.idWorker,
  		"aData": detectLanguage(aData.data.aData)
  	});
  	aData = null
@@ -791,6 +792,6 @@ var detectLanguage = function(aString){
 	if(!lang)
 		return 'Unknown';
 	else
-		return lang[0];
+		return lang[0].substring(0, 1).toUpperCase() + lang[0].substring(1, lang[0].length);
 }
 

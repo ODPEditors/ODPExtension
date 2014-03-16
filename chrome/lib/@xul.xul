@@ -32,4 +32,5 @@
 	<script src="toolbars.js" type="application/x-javascript"/>
 	<script src="urls.js" type="application/x-javascript"/>
 	<script src="windows.js" type="application/x-javascript"/>
+	<script src="workers.js" type="application/x-javascript"/>
 </overlay>

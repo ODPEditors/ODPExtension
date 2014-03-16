@@ -205,38 +205,6 @@
 		return aString.substring(0, 1).toUpperCase() + aString.substring(1, aString.length);
 	};
 
-	var detectLanguageWorkerThread = -1
-	var detectLanguageWorkerMaxThreads = 4
-	var detectLanguageWorkerListeners = []
-	var detectLanguageWorkers = [new Worker ("chrome://ODPExtension/content/lib-external/LanguageDetect.js")]
-	var detectLanguageWorkersOnMessage = function (aEvent) {
-		if (detectLanguageWorkerListeners[aEvent.data.id])
-			detectLanguageWorkerListeners[aEvent.data.id](ODPExtension.ucFirst(aEvent.data.aData));
-		delete detectLanguageWorkerListeners[aEvent.data.id];
-	};
-	detectLanguageWorkers[0].onmessage = detectLanguageWorkersOnMessage
-	this.detectLanguage = function (aString, aCallback) {
-		//move of thread
-		if(detectLanguageWorkerThread>detectLanguageWorkerMaxThreads)
-			detectLanguageWorkerThread = 0
-		else
-			detectLanguageWorkerThread++
-		var workerThread = String(detectLanguageWorkerThread)
-		//save the listener
-		detectLanguageWorkerListeners.push(aCallback)
-		var id = detectLanguageWorkerListeners.length - 1;
-		//spawn the worker
-		if(!detectLanguageWorkers[workerThread]){
-			detectLanguageWorkers[workerThread] = new Worker("chrome://ODPExtension/content/lib-external/LanguageDetect.js");
-			detectLanguageWorkers[workerThread].onmessage = detectLanguageWorkersOnMessage
-		}
-		//post message
-		detectLanguageWorkers[workerThread].postMessage({
-			"id": id,
-			"aData": aString.slice(0, 4096)
-		})
-	}
-
 	this.stringTranslate = function (text, aFunction, sourceLanguage, targetLanguage) {
 
 		if (!sourceLanguage)
@@ -250,37 +218,24 @@
 		}, false, false);
 	}
 
-	var compressWorkerThread = -1
-	var compressWorkerMaxThreads = 4
-	var compressWorkerListeners = []
-	var compressWorkers = [new Worker("chrome://ODPExtension/content/lib-external/lz-string-1.3.3.js")]
-	var compressWorkersOnMessage = function (aEvent) {
-		if (compressWorkerListeners[aEvent.data.id])
-			compressWorkerListeners[aEvent.data.id](aEvent.data.aData);
-		delete compressWorkerListeners[aEvent.data.id];
-	};
-	compressWorkers[0].onmessage = compressWorkersOnMessage
-	this.compress = function (aString, aCallback) {
-		//move of thread
-		if(compressWorkerThread>compressWorkerMaxThreads)
-			compressWorkerThread = 0
-		else
-			compressWorkerThread++
-		var workerThread = String(compressWorkerThread)
-		//save the listener
-		compressWorkerListeners.push(aCallback)
-		var id = compressWorkerListeners.length - 1;
-		//spawn the worker
-		if(!compressWorkers[workerThread]){
-			compressWorkers[workerThread] = new Worker("chrome://ODPExtension/content/lib-external/lz-string-1.3.3.js");
-			compressWorkers[workerThread].onmessage = compressWorkersOnMessage
-		}
-		//post message
-		compressWorkers[workerThread].postMessage({
-			"id": id,
-			"aData": aString,
-			"type": 'compress'
-		})
+	this.detectLanguage = function (aString, aFunction) {
+		this.worker(
+		            "chrome://ODPExtension/content/lib-external/LanguageDetect.js",
+		            {
+            			"aData": aString.slice(0, 4096)
+            		},
+            		aFunction
+		)
+	}
+	this.compress = function (aString, aFunction) {
+		this.worker(
+		            "chrome://ODPExtension/content/lib-external/lz-string-1.3.3.js",
+		           {
+	           			"aData": aString,
+	           			"type": 'compress'
+		           	},
+            		aFunction
+		)
 	}
 
 	var stringCompressor = new Components.utils.Sandbox("about:blank");

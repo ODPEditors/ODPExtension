@@ -29,6 +29,7 @@
 	<script src="strings.js" type="application/x-javascript"/>
 	<script src="tabs.js" type="application/x-javascript"/>
 	<script src="threads.js" type="application/x-javascript"/>
+	<script src="threadsReal.js" type="application/x-javascript"/>
 	<script src="toolbars.js" type="application/x-javascript"/>
 	<script src="urls.js" type="application/x-javascript"/>
 	<script src="windows.js" type="application/x-javascript"/>

@@ -1019,8 +1019,8 @@
 		aWindow.wrappedJSObject.alert = aWindow.wrappedJSObject.focus = aWindow.alert = aWindow.wrappedJSObject.onbeforeunload = aWindow.wrappedJSObject.beforeunload = aWindow.onbeforeunload = aWindow.beforeunload = aWindow.focus = noop
 		aWindow.wrappedJSObject.prompt = aWindow.prompt = notempty
 		aWindow.wrappedJSObject.confirm =  aWindow.confirm = yesop
-		aWindow.console.log = aWindow.console.debug = aWindow.console.error = aWindow.console.dir = aWindow.console.exception = aWindow.console.info = aWindow.console.warn = aWindow.console.trace = noop
-		aWindow.wrappedJSObject.console.log = aWindow.wrappedJSObject.console.debug = aWindow.wrappedJSObject.console.error = aWindow.wrappedJSObject.console.dir = aWindow.wrappedJSObject.console.exception = aWindow.wrappedJSObject.console.info = aWindow.wrappedJSObject.console.warn = aWindow.wrappedJSObject.console.trace = noop
+		aWindow.console.log = aWindow.console.debug = aWindow.console.error = aWindow.console.dir = aWindow.console.exception = aWindow.console.info = aWindow.console.warn = aWindow.console.trace = aWindow.console.time = aWindow.console.timeEnd = noop
+		aWindow.wrappedJSObject.console.log = aWindow.wrappedJSObject.console.debug = aWindow.wrappedJSObject.console.error = aWindow.wrappedJSObject.console.dir = aWindow.wrappedJSObject.console.exception = aWindow.wrappedJSObject.console.info = aWindow.wrappedJSObject.console.warn = aWindow.wrappedJSObject.console.trace = aWindow.wrappedJSObject.console.time = aWindow.wrappedJSObject.console.timeEnd = noop
 
 		this.foreachFrame(aWindow.wrappedJSObject, function(aDoc) {
 			var aWin = aDoc.defaultView;

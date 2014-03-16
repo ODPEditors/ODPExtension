@@ -7,6 +7,12 @@ overlay	chrome://global/content/commonDialog.xul	chrome://ODPExtension/content/f
 overlay	chrome://global/content/printdialog.xul	chrome://ODPExtension/content/features/link-checker/%40cancel.xul
 overlay	chrome://mozapps/content/handling/dialog.xul	chrome://ODPExtension/content/features/link-checker/%40cancel.xul
 overlay	chrome://mozapps/content/xpinstall/xpinstallConfirm.xul	chrome://ODPExtension/content/features/link-checker/%40cancel.xul
+overlay	chrome://browser/content/places/bookmarkProperties.xul	chrome://ODPExtension/content/features/link-checker/%40cancel.xul
+overlay	chrome://browser/content/places/bookmarkProperties2.xul	chrome://ODPExtension/content/features/link-checker/%40cancel.xul
+overlay	chrome://browser/content/places/editBookmarkOverlay.xul	chrome://ODPExtension/content/features/link-checker/%40cancel.xul
+overlay	chrome://global/content/appPicker.xul	chrome://ODPExtension/content/features/link-checker/%40cancel.xul
+overlay	chrome://global/content/dialogOverlay.xul	chrome://ODPExtension/content/features/link-checker/%40cancel.xul
+overlay	chrome://global/content/selectDialog.xul	chrome://ODPExtension/content/features/link-checker/%40cancel.xul
 
 locale	ODPExtension	da	chrome/locale/da/
 locale	ODPExtension	de	chrome/locale/de/

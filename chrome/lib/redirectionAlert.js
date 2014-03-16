@@ -713,7 +713,7 @@
 							//not a frame
 							} else {
 
-								if(ODPExtension.redirectionAlertWatchDoc(aDoc, aTabBrowser, aData, timedout, oRedirectionAlert)){
+								if(ODPExtension.redirectionAlertWatchDoc(aDoc, aTabBrowser, aData, timedout, oRedirectionAlert, aTab, aURL)){
 
 									aData.historyChanges++
 
@@ -1078,47 +1078,56 @@
 			}
 		}
 	}
-	this.redirectionAlertWatchDoc = function(aDoc, aTabBrowser, aData, timedout, oRedirectionAlert){
+	this.redirectionAlertWatchDoc = function(aDoc, aTabBrowser, aData, timedout, oRedirectionAlert, aTab, aOriginalURL){
 
-		aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
-		aData.html = aData.htmlTab;
-		aData.ids = ODPExtension.normalizeIDs(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
-		aData.domTree = ODPExtension.domTree(aDoc);
-		aData.hash = ODPExtension.md5(JSON.stringify(aData.domTree));
-		if(aData.hashOriginal == '')
-			aData.hashOriginal = aData.hash;
 
-		//Check for framed redirects
-		var aURI = '';
-
-		if(ODPExtension.urlFlagsHashFramesetRedirect.indexOf(aData.hash) !== -1 && aDoc.getElementsByTagName('frame')[0] && aDoc.getElementsByTagName('frame')[0].src)
-			aURI = aDoc.getElementsByTagName('frame')[0].src;
-		else if(ODPExtension.urlFlagsHashFramesetRedirect.indexOf(aData.hash) !== -1 && aDoc.getElementsByTagName('iframe')[0] && aDoc.getElementsByTagName('iframe')[0].src)
-			aURI = aDoc.getElementsByTagName('iframe')[0].src;
-
-		if(aURI != '') {
-
+		if('http://get.adobe.com/flashplayer/' == ODPExtension.tabGetLocation(aTab)){
 			timedout.status = -1
-
-			aData.statuses.push('framed');
-			if (!ODPExtension.preferenceGet('link.checker.use.cache'))
-				aTabBrowser.loadURIWithFlags(aURI, aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | aTabBrowser.webNavigation.LOAD_ANONYMOUS | aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
-			else
-				aTabBrowser.loadURI(aURI);
-
+			aTabBrowser.webNavigation.allowPlugins = true;
+			aTabBrowser.loadURI(aOriginalURL);
 			return false
-
 		} else {
 
-			timedout.status = 2;
-			oRedirectionAlert.itemsNetworking--;
+			aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
+			aData.html = aData.htmlTab;
+			aData.ids = ODPExtension.normalizeIDs(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
+			aData.domTree = ODPExtension.domTree(aDoc);
+			aData.hash = ODPExtension.md5(JSON.stringify(aData.domTree));
+			if(aData.hashOriginal == '')
+				aData.hashOriginal = aData.hash;
 
-			aDoc.mediaCounted = true;
-			aData.mediaCount = 0
-			for (var id in tagsMedia)
-				aData.mediaCount += aDoc.getElementsByTagName(tagsMedia[id]).length;
+			//Check for framed redirects
+			var aURI = '';
 
-			return true
+			if(ODPExtension.urlFlagsHashFramesetRedirect.indexOf(aData.hash) !== -1 && aDoc.getElementsByTagName('frame')[0] && aDoc.getElementsByTagName('frame')[0].src)
+				aURI = aDoc.getElementsByTagName('frame')[0].src;
+			else if(ODPExtension.urlFlagsHashFramesetRedirect.indexOf(aData.hash) !== -1 && aDoc.getElementsByTagName('iframe')[0] && aDoc.getElementsByTagName('iframe')[0].src)
+				aURI = aDoc.getElementsByTagName('iframe')[0].src;
+
+			if(aURI != '') {
+
+				timedout.status = -1
+
+				aData.statuses.push('framed');
+				if (!ODPExtension.preferenceGet('link.checker.use.cache'))
+					aTabBrowser.loadURIWithFlags(aURI, aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | aTabBrowser.webNavigation.LOAD_ANONYMOUS | aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
+				else
+					aTabBrowser.loadURI(aURI);
+
+				return false
+
+			} else {
+
+				timedout.status = 2;
+				oRedirectionAlert.itemsNetworking--;
+
+				aDoc.mediaCounted = true;
+				aData.mediaCount = 0
+				for (var id in tagsMedia)
+					aData.mediaCount += aDoc.getElementsByTagName(tagsMedia[id]).length;
+
+				return true
+			}
 		}
 	}
 	// comments of the error codes based or taken from http://www.dmoz.org/docs/en/errorcodes.html

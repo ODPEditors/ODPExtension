@@ -337,6 +337,7 @@
 					}
 				}
 			},
+
 			_check: function(aURL, aFunction, aOriginalURL, letsTryAgainIfFail) {
 				this.itemsWorking++;
 				this.itemsNetworking++;
@@ -375,6 +376,7 @@
 					aData.language = '';
 
 					aData.hash = '';
+					aData.hashOriginal = ''
 					aData.hashKnown = false;
 					aData.match = '';
 					aData.ids = [];
@@ -447,20 +449,22 @@
 					aTab.ODPExtensionExternalContent = [];
 					aTab.ODPExtensionURIsStatus = [];
 
-					var newTabBrowser = ODPExtension.browserGetFromTab(aTab);
-						newTabBrowser.setAttribute('ODPLinkChecker', true);
+					var aTabBrowser = ODPExtension.browserGetFromTab(aTab);
+						aTabBrowser.setAttribute('ODPLinkChecker', true);
 
-					var timedout = -1;
+					var timedout = {}
+						timedout.status = -1;
+						timedout.timer = false;
 					//timedout = -1 | tab did not timedout
 					//timedout = 1 | tab timedout (did not fired DOM CONTENT LOAD)
 					//timedout = 2 | tab did load (did fired DOM CONTENT LOAD)
 
 					function onTabLoad() {
+						timedout.status = 3;
+						aTabBrowser.removeEventListener("DOMContentLoaded", DOMContentLoaded, false);
+
 						oRedirectionAlert.next();
 
-						newTabBrowser.removeEventListener("DOMContentLoaded", DOMContentLoaded, false);
-
-						timedout = 3;
 						aData.checkType = 'aTab'
 						aData.externalContent = aTab.ODPExtensionExternalContent;
 
@@ -510,23 +514,25 @@
 										url: href,
 										anchor: link.innerHTML,
 										domain: aDomain
-								};
+									};
 								else
 									aData.linksInternal[aData.linksInternal.length] = {
 										url: href,
 										anchor: link.innerHTML,
 										domain: aDomain
-								};
+									};
 							}
 						}
 						link = links = href = length = null
 
-						if (!aDoc.mediaCounted) {
+						if (!aDoc.mediaCounted || !aData.loadingSuccess) {
 							aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
 							aData.html = aData.htmlTab;
 							aData.ids = ODPExtension.normalizeIDs(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
 							aData.domTree = ODPExtension.domTree(aDoc);
 							aData.hash = ODPExtension.md5(JSON.stringify(aData.domTree));
+							if(aData.hashOriginal == '')
+								aData.hashOriginal = aData.hash;
 
 							aData.mediaCount = 0;
 							for (var id in tagsMedia)
@@ -672,7 +678,7 @@
 
 						ODPExtension.tabClose(aTab);
 
-						oRedirectionAlert.cache[aURL] = aTab = aDoc = newTabBrowser = null;
+						oRedirectionAlert.cache[aURL] = aTab = aDoc = aTabBrowser = null;
 
 						aData.dateEnd = ODPExtension.now();
 						aData.loadTime = ((ODPExtension.sqlDate(aData.dateEnd) - ODPExtension.sqlDate(aData.dateStart))/1000) || 0
@@ -687,11 +693,13 @@
 					}
 
 					function DOMContentLoaded(aEvent) {
-						oRedirectionAlert.next();
 
 						ODPExtension.disableTabFeatures(ODPExtension.windowGetFromTab(aTab), aTab, aData)
+						ODPExtension.disableMedia(aEvent.originalTarget)
 
-						if (timedout === -1) {
+						oRedirectionAlert.next();
+
+						if (timedout.status === -1) {
 							var aDoc = aEvent.originalTarget;
 							if (!aDoc.defaultView)
 								var topDoc = aDoc;
@@ -704,92 +712,60 @@
 							//not a frame
 							} else {
 
-								timedout = 2;
+								oRedirectionAlert.itemsNetworking--;
+								oRedirectionAlert.next();
 
-								aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
-								aData.html = aData.htmlTab;
-								aData.ids = ODPExtension.normalizeIDs(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
-								aData.domTree = ODPExtension.domTree(aDoc);
-								aData.hash = ODPExtension.md5(JSON.stringify(aData.domTree));
-
-								//Check for framed redirects
-								var aURI = '';
-
-								if(ODPExtension.urlFlagsHashFramesetRedirect.indexOf(aData.hash) !== -1 && aDoc.getElementsByTagName('frame')[0] && aDoc.getElementsByTagName('frame')[0].src)
-									var aURI = aDoc.getElementsByTagName('frame')[0].src;
-								else if(ODPExtension.urlFlagsHashFramesetRedirect.indexOf(aData.hash) !== -1 && aDoc.getElementsByTagName('iframe')[0] && aDoc.getElementsByTagName('iframe')[0].src)
-									var aURI = aDoc.getElementsByTagName('iframe')[0].src;
-
-								if(aURI != ''){
-
-									timedout = -1
-									aData.statuses.push('framed');
-									if (!ODPExtension.preferenceGet('link.checker.use.cache'))
-										newTabBrowser.loadURIWithFlags(aURI, newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | newTabBrowser.webNavigation.LOAD_ANONYMOUS | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
-									else
-										newTabBrowser.loadURI(aURI);
-
-								} else {
-
-									oRedirectionAlert.itemsNetworking--;
-									oRedirectionAlert.next();
-
-									aDoc.mediaCounted = true;
-									for (var id in tagsMedia)
-										aData.mediaCount += aDoc.getElementsByTagName(tagsMedia[id]).length;
-
-									for (var id in tagsMedia) {
-										var tags = aDoc.getElementsByTagName(tagsMedia[id]);
-										var i = tags.length;
-										while (i--) {
-											try {
-												tags[i].pause();
-												try {
-													tags[i].stop();
-												} catch (e) {
-													try {
-														tags[i].stop();
-													} catch (e) {}
-												}
-											} catch (e) {
-												try {
-													tags[i].stop();
-												} catch (e) {}
-											}
-										}
-									}
-									id = tags = i = null
-
+								if(ODPExtension.redirectionAlertWatchDoc(aDoc, aTabBrowser, aData, timedout, oRedirectionAlert)){
 									setTimeout(function() {
-										aData.loadingSuccess = true;
-										onTabLoad()
-									}, watchingPeriod);
+										var currentDoc = ODPExtension.documentGetFromTab(aTab)
+										if(aDoc != currentDoc){
 
+											//ODPExtension.dump('the document is different')
+											aData.statuses.push('meta/js');
+											timedout.status = -1
+
+											clearTimeout(timedout.timer)
+											timedout.timer = setTimeout(function() {
+												if (timedout.status === -1) {
+													timedout.status = 1;
+													oRedirectionAlert.itemsNetworking--;
+													oRedirectionAlert.next();
+													onTabLoad();
+												}
+											}, timeoutAfter + gracePeriod); //give time to load, else, just forget it.
+
+											DOMContentLoaded({originalTarget:currentDoc})
+										} else {
+											aData.loadingSuccess = true;
+											onTabLoad()
+										}
+									}, watchingPeriod);
 								}
+
 							}
 						}
 					}
-					newTabBrowser.addEventListener("DOMContentLoaded", DOMContentLoaded, false);
+					aTabBrowser.addEventListener("DOMContentLoaded", DOMContentLoaded, false);
 
-					newTabBrowser.webNavigation.allowAuth = false;
-					newTabBrowser.webNavigation.allowImages = false;
+					aTabBrowser.webNavigation.allowAuth = false;
+					aTabBrowser.webNavigation.allowImages = false;
 					try {
-						newTabBrowser.webNavigation.allowMedia = false; //does not work
+						aTabBrowser.webNavigation.allowMedia = false; //does not work
 					} catch (e) {}
-					newTabBrowser.webNavigation.allowJavascript = true;
-					newTabBrowser.webNavigation.allowMetaRedirects = true;
-					newTabBrowser.webNavigation.allowPlugins = false;
-					newTabBrowser.webNavigation.allowWindowControl = false;
-					newTabBrowser.webNavigation.allowSubframes = true;
+					aTabBrowser.webNavigation.allowJavascript = true;
+					aTabBrowser.webNavigation.allowMetaRedirects = true;
+					aTabBrowser.webNavigation.allowPlugins = false;
+					aTabBrowser.webNavigation.allowWindowControl = false;
+					aTabBrowser.webNavigation.allowSubframes = true;
 
 					if (!ODPExtension.preferenceGet('link.checker.use.cache'))
-						newTabBrowser.loadURIWithFlags(aURL, newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | newTabBrowser.webNavigation.LOAD_ANONYMOUS | newTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
+						aTabBrowser.loadURIWithFlags(aURL, aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | aTabBrowser.webNavigation.LOAD_ANONYMOUS | aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
 					else
-						newTabBrowser.loadURI(aURL);
+						aTabBrowser.loadURI(aURL);
 
-					setTimeout(function() {
-						if (timedout === -1) {
-							timedout = 1;
+					timedout.timer = setTimeout(function() {
+						if (timedout.status === -1) {
+							timedout.status = 1;
 							oRedirectionAlert.itemsNetworking--;
 							oRedirectionAlert.next();
 							onTabLoad();
@@ -1078,7 +1054,72 @@
 				aData.intrusivePopups++;
 		}
 	}
+	this.disableMedia = function(aDoc){
+		for (var id in tagsMedia) {
+			var tags = aDoc.getElementsByTagName(tagsMedia[id]);
+			var i = tags.length;
+			while (i--) {
+				try {
+					tags[i].pause();
+					try {
+						tags[i].stop();
+					} catch (e) {
+						try {
+							tags[i].stop();
+						} catch (e) {}
+					}
+				} catch (e) {
+					try {
+						tags[i].stop();
+					} catch (e) {}
+				}
+			}
+		}
+	}
+	this.redirectionAlertWatchDoc = function(aDoc, aTabBrowser, aData, timedout, oRedirectionAlert){
 
+
+		aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
+		aData.html = aData.htmlTab;
+		aData.ids = ODPExtension.normalizeIDs(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
+		aData.domTree = ODPExtension.domTree(aDoc);
+		aData.hash = ODPExtension.md5(JSON.stringify(aData.domTree));
+		if(aData.hashOriginal == '')
+			aData.hashOriginal = aData.hash;
+
+		//Check for framed redirects
+		var aURI = '';
+
+		if(ODPExtension.urlFlagsHashFramesetRedirect.indexOf(aData.hash) !== -1 && aDoc.getElementsByTagName('frame')[0] && aDoc.getElementsByTagName('frame')[0].src)
+			aURI = aDoc.getElementsByTagName('frame')[0].src;
+		else if(ODPExtension.urlFlagsHashFramesetRedirect.indexOf(aData.hash) !== -1 && aDoc.getElementsByTagName('iframe')[0] && aDoc.getElementsByTagName('iframe')[0].src)
+			aURI = aDoc.getElementsByTagName('iframe')[0].src;
+
+		if(aURI != '') {
+
+			timedout.status = -1
+			oRedirectionAlert.itemsNetworking++;
+
+			aData.statuses.push('framed');
+			if (!ODPExtension.preferenceGet('link.checker.use.cache'))
+				aTabBrowser.loadURIWithFlags(aURI, aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | aTabBrowser.webNavigation.LOAD_ANONYMOUS | aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
+			else
+				aTabBrowser.loadURI(aURI);
+
+			return false
+
+		} else {
+
+			timedout.status = 2;
+
+			aDoc.mediaCounted = true;
+			aData.mediaCount = 0
+			for (var id in tagsMedia)
+				aData.mediaCount += aDoc.getElementsByTagName(tagsMedia[id]).length;
+
+			return true
+		}
+	}
 	// comments of the error codes based or taken from http://www.dmoz.org/docs/en/errorcodes.html
 	this.urlFlag = function(aData) {
 
@@ -1389,7 +1430,7 @@
 			aData.hashKnown = true;
 		}
 
-		if (aData.intrusivePopups > 1)
+		if (aData.intrusivePopups > 2)
 			aData.status.suspicious.push('Window may has problems');
 	}
 	//free.fr blogspot.tld wordpress.com

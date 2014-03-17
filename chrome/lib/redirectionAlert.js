@@ -1046,67 +1046,51 @@
 		return errName;
 	}
 
-	this.disableTabFeatures = function(aWindow, aTab, aData) {
+	this.disableTabFeatures = function(aWindoww, aTab, aData) {
 
-		var events = ['beforeunload', 'unbeforeunload']
-		var noop = function(){}
-		var yesop = function(){ return true; }
-		var notempty = function(){ return 'something'; }
+		var windows = this.arrayUnique([
+		                               	aWindoww,
+		                               	aWindoww.wrappedJSObject,
+		                               	this.windowGetFromTab(aTab),
+		                               	this.windowGetFromTab(aTab).wrappedJSObject])
 
-		this.disableTabFeaturesCounter(aWindow.onbeforeunload, aData);
-		this.disableTabFeaturesCounter(aWindow.beforeunload, aData);
-		this.disableTabFeaturesCounter(aWindow.wrappedJSObject.onbeforeunload, aData);
-		this.disableTabFeaturesCounter(aWindow.wrappedJSObject.beforeunload, aData);
+		for(var wwin in windows){
+			var aWindow = windows[wwin];
+			if(!aWindow)
+				continue
 
-		var v = aWindow.wrappedJSObject;
+			this.disableTabFeaturesWindow(aWindow);
+			this.foreachFrame(aWindow, function(aDoc) {
+				var aWindow = aDoc.defaultView;
+				if(!!aWindow)
+					ODPExtension.disableTabFeaturesWindow(aWindow);
+			});
+		}
+	}
+
+	var events = ['beforeunload', 'onbeforeunload', 'onunload', 'unload']
+	var noop = function(){ }
+	var yesop = function(){ return true; }
+	var notempty = function(){ return 'something'; }
+
+	this.disableTabFeaturesWindow = function(aWindow){
+		var v = aWindow;
 		for (var id in events) {
 			if (v._eventTypes && v._eventTypes[events[id]]) {
 				var r = v._eventTypes[events[id]];
 				for (var s = 0; s < r.length; s++) {
-					this.disableTabFeaturesCounter(r[events[id]], aData);
-					v.removeEventListener(events[id], r[events[id]], false);
-					v.removeEventListener(events[id], r[events[id]], true);
+					v.removeEventListener(events[id], r[s], false);
+					v.removeEventListener(events[id], r[s], true);
+					r[s] = noop
 				}
 				v._eventTypes[events[id]] = [];
 			}
 		}
-
-		aWindow.wrappedJSObject.alert = aWindow.wrappedJSObject.focus = aWindow.alert = aWindow.wrappedJSObject.onbeforeunload = aWindow.wrappedJSObject.beforeunload = aWindow.onbeforeunload = aWindow.beforeunload = aWindow.focus = noop
-		aWindow.wrappedJSObject.prompt = aWindow.prompt = notempty
-		aWindow.wrappedJSObject.confirm =  aWindow.confirm = yesop
+		aWindow.alert = aWindow.focus = noop
+		aWindow.onbeforeunload = aWindow.beforeunload = noop
+		aWindow.prompt = notempty
+		aWindow.confirm = yesop
 		aWindow.console.log = aWindow.console.debug = aWindow.console.error = aWindow.console.dir = aWindow.console.exception = aWindow.console.info = aWindow.console.warn = aWindow.console.trace = aWindow.console.time = aWindow.console.timeEnd = noop
-		aWindow.wrappedJSObject.console.log = aWindow.wrappedJSObject.console.debug = aWindow.wrappedJSObject.console.error = aWindow.wrappedJSObject.console.dir = aWindow.wrappedJSObject.console.exception = aWindow.wrappedJSObject.console.info = aWindow.wrappedJSObject.console.warn = aWindow.wrappedJSObject.console.trace = aWindow.wrappedJSObject.console.time = aWindow.wrappedJSObject.console.timeEnd = noop
-
-		this.foreachFrame(aWindow.wrappedJSObject, function(aDoc) {
-			var aWin = aDoc.defaultView;
-
-			var v = aWin;
-			for (var id in events) {
-				if (v && v._eventTypes && v._eventTypes[events[id]]) {
-					var r = v._eventTypes[events[id]];
-					for (var s = 0; s < r.length; s++) {
-						ODPExtension.disableTabFeaturesCounter(r[events[id]], aData);
-						v.removeEventListener(events[id], r[events[id]], false);
-						v.removeEventListener(events[id], r[events[id]], true);
-					}
-					v._eventTypes[events[id]] = [];
-				}
-			}
-			ODPExtension.disableTabFeaturesCounter(aWin.onbeforeunload, aData);
-			ODPExtension.disableTabFeaturesCounter(aWin.beforeunload, aData);
-
-			aWin.alert = aWin.onbeforeunload = aWin.beforeunload = aWin.focus = noop;
-			aWin.prompt = notempty
-			aWin.confirm = yesop
-			aWin.console.log = aWin.console.debug = aWin.console.error = aWin.console.dir = aWin.console.exception = aWin.console.info = aWin.console.warn = aWin.console.trace = noop
-		});
-	}
-	this.disableTabFeaturesCounter = function(aFunction, aData) {
-		if ( !! aFunction && !! aFunction.toSource) {
-			var src = aFunction.toSource();
-			if (src.indexOf('return') !== -1 || src.indexOf('alert') !== -1 || src.indexOf('confirm') !== -1)
-				aData.intrusivePopups++;
-		}
 	}
 	this.disableMedia = function(aDoc){
 		for (var id in tagsMedia) {

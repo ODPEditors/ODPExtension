@@ -24,22 +24,29 @@
 		}
 	});
 
-	var timeoutAfter = 80 * 1000; //seconds for the website to load
-	var gracePeriod = 6000; //seconds for the website to load
-	var watchingPeriod = 18000; //seconds to allow the website redirect
+	//var timeoutAfter = 80 * 1000; //seconds for the website to load
+	//var gracePeriod = 6000; //seconds for the website to load
+	//var watchingPeriod = 18000; //seconds to allow the website redirect
 	var tagsMedia = ['object', 'media', 'video', 'audio', 'embed'];
 	var tagsNoContent = ['noscript', 'noframes', 'style', 'script', 'frameset'];
 
 	var contentTypesTxt = ['application/atom+xml', 'application/atom', 'application/javascript', 'application/json', 'application/rdf+xml', 'application/rdf', 'application/rss+xml', 'application/rss', 'application/xhtml', 'application/xhtml+xml', 'application/xml', 'application/xml-dtd', 'application/html', 'text/css', 'text/csv', 'text/html', 'text/xhtml', 'text/javascript', 'text/plain', 'text/xml', 'text/json', 'text', 'txt', 'html', 'xml', 'application/x-unknown-content-type', ''];
 	var contentTypesKnown = [
-	'application/atom+xml', 'application/atom', 'application/javascript', 'application/json', 'application/rdf+xml', 'application/rdf', 'application/rss+xml', 'application/rss', 'application/xhtml', 'application/xhtml+xml', 'application/xml', 'application/xml-dtd', 'application/html', 'text/css', 'text/csv', 'text/html', 'text/xhtml', 'text/javascript', 'text/plain', 'text/xml', 'text/json', 'text', 'html', 'xml', '', //txt
-	'application/x-bzip', 'application/x-bzip-compressed-tar', 'application/x-gzip', 'application/x-tar', 'application/x-tgz', 'application/zip', //compressed
-	'application/pdf', 'application/msword', //documents
-	'application/x-shockwave-flash', 'application/ogg', //multimedia
-	'audio/mpeg', 'audio/x-mpegurl', 'audio/x-ms-wax', 'audio/x-ms-wma', 'audio/x-wav', //audio
-	'image/gif', 'image/jpeg', 'image/png', 'image/x-xbitmap', 'image/x-xpixmap', 'image/x-xwindowdump', //image
-	'video/mpeg', 'video/quicktime', 'video/x-ms-asf', 'video/x-ms-wmv', 'video/x-msvideo', //video
-	'application/x-unknown-content-type', '']
+	'application/atom+xml', 'application/atom', 'application/javascript', 'application/json', 'application/rdf+xml', 'application/rdf', 'application/rss+xml', 'application/rss', 'application/xhtml', 'application/xhtml+xml', 'application/xml', 'application/xml-dtd', 'application/html', 'text/css', 'text/csv', 'text/html', 'text/xhtml', 'text/javascript', 'text/plain', 'text/xml', 'text/json', 'text', 'html', 'xml',  //txt
+	, 'application/x-bzip', 'application/x-bzip-compressed-tar', 'application/x-gzip', 'application/x-tar', 'application/x-tgz', 'application/zip', //compressed
+	,'application/pdf', 'application/msword' //documents
+	,'application/x-shockwave-flash', 'application/ogg' //multimedia
+	,'audio/mpeg', 'audio/x-mpegurl', 'audio/x-ms-wax', 'audio/x-ms-wma', 'audio/x-wav' //audio
+	,'image/gif', 'image/jpeg', 'image/png', 'image/x-xbitmap', 'image/x-xpixmap', 'image/x-xwindowdump' //image
+	,'video/mpeg', 'video/quicktime', 'video/x-ms-asf', 'video/x-ms-wmv', 'video/x-msvideo' //video
+	,'application/x-unknown-content-type', 'application/octet-stream' //not known how knows
+	,'application/postscript'
+	,'application/vnd.ms-powerpoint' //word
+	,'application/vnd.google-earth.kml+xml'//GEO
+	, '']
+	var contentTypesCheckTab = [
+		'application/pdf'
+	]
 
 	var debug = false;
 
@@ -108,6 +115,7 @@
 					case 'http-on-examine-merged-response':
 					case 'http-on-examine-cached-response':
 
+						//ODPExtension.dump(aSubject)
 						aSubject.QueryInterface(Components.interfaces.nsIHttpChannel);
 						// LISTEN for Tabs
 						// this piece allows to get the HTTP code of urls that redirects via metarefresh or JS
@@ -259,6 +267,12 @@
 				//DO NOT EDIT:
 				this.cache[originalURI].statuses.push(responseStatus);
 				this.cache[originalURI].urlRedirections.push(decodedURI);
+				var self = this;
+				oHttp.visitResponseHeaders(function(header, value) {
+				   self.cache[originalURI].headers += header + ": " + value + "\r\n";
+				 });
+				this.cache[originalURI].headers += '\n\n'
+				this.cache[originalURI].contentCharset = oHttp.contentCharset
 				if (originalURI != decodedURI) {
 					this.cacheRedirects[decodedURI] = originalURI;
 					this.cache[originalURI].urlLast = decodedURI;
@@ -279,13 +293,13 @@
 				//detect downloads
 				//this.cache[originalURI].isDownload = isDownload;
 
-				if (oHttp.contentType.trim() != '' && contentTypesTxt.indexOf(oHttp.contentType) === -1) {
-					this.cache[originalURI].contentType = oHttp.contentType;
+				if (oHttp.contentType && oHttp.contentType.trim() != '' && contentTypesTxt.indexOf(oHttp.contentType) === -1) {
+					this.cache[originalURI].contentType = oHttp.contentType.replace(/;?\s*charset.*$/i, '');
 					isDownload = true
 					if(!isDownload)//already canceled
 						oHttp.cancel(Components.results.NS_BINDING_ABORTED);
 				} else if(isDownload){
-					this.cache[originalURI].contentType = oHttp.contentType;
+					this.cache[originalURI].contentType = oHttp.contentType.replace(/;?\s*charset.*$/i, '');
 				}
 
 				this.cache[originalURI].isDownload = isDownload;
@@ -309,6 +323,10 @@
 				this.next();
 			},
 			done: function(aFunction, aData, aURL, aOriginalURL) {
+
+				aData.dateEnd = ODPExtension.now();
+				aData.loadTime = ((ODPExtension.sqlDate(aData.dateEnd) - ODPExtension.sqlDate(aData.dateStart))/1000) || 0
+
 				ODPExtension.getIPFromDomainAsync(aData.subdomain, function(aIP){
 					aData.ip = aIP
 					ODPExtension.detectLanguage(aData.txt.slice(0, 4096), function(aLanguage){
@@ -355,6 +373,7 @@
 					aData.statuses = [];
 					aData.headers = '';
 					aData.contentType = '';
+					aData.contentCharset = ''//must be UTF8 in almost all cases. Unless the fallback encoding fails to encode to UTF8
 					aData.requestMethod = 'GET';
 
 					aData.urlRedirections = [];
@@ -406,6 +425,7 @@
 					aData.hasFrameset = 0;
 					aData.historyChanges = 0;
 					aData.frames = 0;
+					aData.framesURLs = [];
 					aData.dateStart = ODPExtension.now();
 					aData.dateEnd = aData.dateStart;
 					aData.intrusivePopups = 0;
@@ -427,40 +447,13 @@
 
 				var loaded = false;
 				var timer;
-				Requester.timeout = timeoutAfter;
+				Requester.timeout = ODPExtension.preferenceGet('link.checker.timeout');
 				Requester.onload = function() {
 					if (loaded)
 						return null;
 
-					aData.checkType = 'XMLHttpRequestSuccess'
-					loaded = true;
-					aData.stop = true;
-					aData.headers = Requester.getAllResponseHeaders();
-					aData.htmlRequester = Requester.responseText;
-					aData.html = Requester.responseText;
-					aData.ids = ODPExtension.normalizeIDs(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
-					aData.contentType = Requester.getResponseHeader('Content-Type');
-					//now get the response as UTF-8
-
-					var aTab = ODPExtension.tabOpen('about:blank', false, false, true);
-					aTab.setAttribute('hidden', ODPExtension.preferenceGet('link.checker.hidden.tabs'));
-					aTab.setAttribute('ODPLinkChecker', true);
-					aTab.ODPExtensionLinkChecker = true;
-					aTab.ODPExtensionOriginalURI = aURL;
-					aTab.ODPExtensionExternalContent = [];
-					aTab.ODPExtensionURIsStatus = [];
-
-					var aTabBrowser = ODPExtension.browserGetFromTab(aTab);
-						aTabBrowser.setAttribute('ODPLinkChecker', true);
-
-					var timedout = {}
-						timedout.status = -1;
-						timedout.timer = false;
-					//timedout = -1 | tab did not timedout
-					//timedout = 1 | tab timedout (did not fired DOM CONTENT LOAD)
-					//timedout = 2 | tab did load (did fired DOM CONTENT LOAD)
-
 					function onTabLoad() {
+
 						timedout.status = 3;
 						aTabBrowser.removeEventListener("DOMContentLoaded", DOMContentLoaded, false);
 
@@ -477,7 +470,7 @@
 							aDoc = ODPExtension.toDOM(aData.htmlRequester, aData.urlLast);
 						}
 
-						aData.contentType = aDoc.contentType;
+						aData.contentType = aDoc.contentType.replace(/;?\s*charset.*$/i, '');
 						//a tab may redirect to binary content
 						if (aData.contentType != '' && contentTypesTxt.indexOf(aData.contentType) === -1) {
 							aData.isDownload = true;
@@ -665,7 +658,9 @@
 						} catch (e) {
 							aDoc = new XMLSerializer().serializeToString(aDoc);
 						}
-						aData.txt = ODPExtension.htmlSpecialCharsDecode(ODPExtension.stripTags(aDoc, ' ').replace(/\r\n/g, '\n').replace(/[\t| ]+/g, ' ').replace(/\n\s+/g, '\n').replace(/\s+\n/g, '\n').trim());
+
+						aData.txt = ODPExtension.htmlSpecialCharsDecode(ODPExtension.stripTags(aDoc.replace(/<\/?(p|div|br)>/g, '\n'), ' ').replace(/\r\n/g, '\n').replace(/[\t| ]+/g, ' ').replace(/\n\s+/g, '\n').replace(/\s+\n/g, '\n').trim());
+
 						aData.wordCount = aData.txt.split(' ').length
 						aData.strLength = aData.txt.length
 
@@ -680,9 +675,6 @@
 						ODPExtension.tabClose(aTab);
 
 						oRedirectionAlert.cache[aURL] = aTab = aDoc = aTabBrowser = null;
-
-						aData.dateEnd = ODPExtension.now();
-						aData.loadTime = ((ODPExtension.sqlDate(aData.dateEnd) - ODPExtension.sqlDate(aData.dateStart))/1000) || 0
 
 						oRedirectionAlert.done(aFunction, aData, aURL, aOriginalURL)
 
@@ -719,6 +711,11 @@
 
 									oRedirectionAlert.next();
 
+									if(aData.isDownload)
+										var waitTime = 0
+									else
+										var waitTime = ODPExtension.preferenceGet('link.checker.watching.period')
+
 									setTimeout(function() {
 										var currentDoc = ODPExtension.documentGetFromTab(aTab)
 										if(aDoc != currentDoc && aData.historyChanges < 20){
@@ -732,53 +729,124 @@
 											clearTimeout(timedout.timer)
 											timedout.timer = setTimeout(function() {
 												if (timedout.status === -1) {
-													ODPExtension.dump('timeoud1')
+													//ODPExtension.dump('timedout 1')
 													timedout.status = 1;
 													oRedirectionAlert.itemsNetworking--;
 													onTabLoad();
 												}
-											}, timeoutAfter + watchingPeriod + gracePeriod); //give time to load, else, just forget it.
+											}, ODPExtension.preferenceGet('link.checker.timeout') + ODPExtension.preferenceGet('link.checker.watching.period') + ODPExtension.preferenceGet('link.checker.grace.period')); //give time to load, else, just forget it.
 
 											DOMContentLoaded({originalTarget:currentDoc})
 										} else {
 											aData.loadingSuccess = true;
 											onTabLoad()
 										}
-									}, watchingPeriod);
+									}, waitTime);
 								}
 
 							}
 						}
 					}
-					aTabBrowser.addEventListener("DOMContentLoaded", DOMContentLoaded, false);
 
-					aTabBrowser.webNavigation.allowAuth = false;
-					aTabBrowser.webNavigation.allowImages = false;
-					try {
-						aTabBrowser.webNavigation.allowMedia = false; //does not work
-					} catch (e) {}
-					aTabBrowser.webNavigation.allowJavascript = true;
-					aTabBrowser.webNavigation.allowMetaRedirects = true;
-					aTabBrowser.webNavigation.allowPlugins = false;
-					aTabBrowser.webNavigation.allowWindowControl = false;
-					aTabBrowser.webNavigation.allowSubframes = true;
+					//ODPExtension.dump(Requester);
+					aData.checkType = 'XMLHttpRequestSuccess'
+					loaded = true;
+					aData.stop = true;
 
-					if (!ODPExtension.preferenceGet('link.checker.use.cache'))
-						aTabBrowser.loadURIWithFlags(aURL, aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | aTabBrowser.webNavigation.LOAD_ANONYMOUS | aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
-					else
-						aTabBrowser.loadURI(aURL);
+					if(!aData.isDownload || contentTypesCheckTab.indexOf(aData.contentType) !== -1){
 
-					timedout.timer = setTimeout(function() {
-						if (timedout.status === -1) {
-							ODPExtension.dump('timeoud2')
-							timedout.status = 1;
-							oRedirectionAlert.itemsNetworking--;
-							onTabLoad();
+						aData.htmlRequester = Requester.responseText;
+						aData.html = Requester.responseText;
+
+						aData.ids = ODPExtension.normalizeIDs(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
+
+						aData.contentType = Requester.getResponseHeader('Content-Type').replace(/;?\s*charset.*$/i, '');
+						//now get the response as UTF-8
+
+						var aTab = ODPExtension.tabOpen('about:blank', false, false, true);
+						aTab.setAttribute('hidden', ODPExtension.preferenceGet('link.checker.hidden.tabs'));
+						aTab.setAttribute('ODPLinkChecker', true);
+						aTab.ODPExtensionLinkChecker = true;
+						aTab.ODPExtensionOriginalURI = aURL;
+						aTab.ODPExtensionExternalContent = [];
+						aTab.ODPExtensionURIsStatus = [];
+
+						var aTabBrowser = ODPExtension.browserGetFromTab(aTab);
+							aTabBrowser.setAttribute('ODPLinkChecker', true);
+
+						var timedout = {}
+							timedout.status = -1;
+							timedout.timer = false;
+						//timedout = -1 | tab did not timedout
+						//timedout = 1 | tab timedout (did not fired DOM CONTENT LOAD)
+						//timedout = 2 | tab did load (did fired DOM CONTENT LOAD)
+
+						//ODPExtension.dump(aData)
+						aTabBrowser.addEventListener("DOMContentLoaded", DOMContentLoaded, false);
+
+						aTabBrowser.webNavigation.allowAuth = false;
+						aTabBrowser.webNavigation.allowImages = false;
+						try {
+							aTabBrowser.webNavigation.allowMedia = false; //does not work
+						} catch (e) {}
+						aTabBrowser.webNavigation.allowJavascript = true;
+						aTabBrowser.webNavigation.allowMetaRedirects = true;
+						aTabBrowser.webNavigation.allowPlugins = false;
+						aTabBrowser.webNavigation.allowWindowControl = false;
+						aTabBrowser.webNavigation.allowSubframes = true;
+
+						if (!ODPExtension.preferenceGet('link.checker.use.cache'))
+							aTabBrowser.loadURIWithFlags(aURL, aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | aTabBrowser.webNavigation.LOAD_ANONYMOUS | aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
+						else
+							aTabBrowser.loadURI(aURL);
+
+						timedout.timer = setTimeout(function() {
+							if (timedout.status === -1) {
+								//ODPExtension.dump('timedout 2')
+								timedout.status = 1;
+								oRedirectionAlert.itemsNetworking--;
+								onTabLoad();
+							}
+						}, ODPExtension.preferenceGet('link.checker.timeout') + ODPExtension.preferenceGet('link.checker.watching.period') + ODPExtension.preferenceGet('link.checker.grace.period')); //give time to load, else, just forget it.
+
+					} else {
+
+						aData.checkType = 'Attachment'
+						aData.siteType = 'binary'
+
+						aData.htmlRequester = '';
+						aData.html = '';
+
+						if (aData.contentType == '') //the raw contentType sometimes has the "charset" and other stuff, only get it if is not already set.
+							aData.contentType = Requester.getResponseHeader('Content-Type').replace(/;?\s*charset.*$/i, '');
+						//now get the response as UTF-8
+
+						if(aData.headers==''){
+							aData.headers += Requester.getAllResponseHeaders();
+							aData.headers += '\n\n'
 						}
-					}, timeoutAfter + watchingPeriod + gracePeriod); //give time to load, else, just forget it.
+
+						aData.loadingSuccess = true;
+
+						aData.subdomain = ODPExtension.getSubdomainFromURL(aData.urlLast);
+						aData.domain = ODPExtension.getDomainFromURL(aData.urlLast);
+
+						ODPExtension.urlFlag(aData);
+
+						oRedirectionAlert.cache[aURL] = null;
+
+						oRedirectionAlert.done(aFunction, aData, aURL, aOriginalURL)
+
+						oRedirectionAlert.itemsNetworking--;
+						oRedirectionAlert.next();
+						oRedirectionAlert.itemsDone++;
+						if (oRedirectionAlert.itemsDone == oRedirectionAlert.itemsWorking)
+							oRedirectionAlert.unLoad();
+					}
+
 					return null;
 				};
-				Requester.onerror = Requester.onabort = function(TIMEDOUT) {
+				Requester.onerror = Requester.onabort = Requester.ontimeout = function(TIMEDOUT) {
 					oRedirectionAlert.itemsNetworking--;
 					oRedirectionAlert.next();
 
@@ -802,9 +870,11 @@
 						if (aData.isDownload) {
 							aData.checkType = 'Attachment'
 							if (aData.contentType == '') //the raw contentType sometimes has the "charset" and other stuff, only get it if is not already set.
-								aData.contentType = Requester.getResponseHeader('Content-Type');
-							aData.headers = Requester.getAllResponseHeaders();
-
+								aData.contentType = Requester.getResponseHeader('Content-Type').replace(/;?\s*charset.*$/i, '');
+							if(aData.headers==''){
+								aData.headers += Requester.getAllResponseHeaders();
+								aData.headers += '\n\n'
+							}
 						} else if (typeof(TIMEDOUT) != 'undefined' && TIMEDOUT === 'TIMEDOUT') {
 							aData.statuses.push(-5)
 							aData.checkType = 'XMLHttpRequestTimeout'
@@ -844,9 +914,6 @@
 						ODPExtension.urlFlag(aData);
 						oRedirectionAlert.cache[aURL] = null;
 
-						aData.dateEnd = ODPExtension.now();
-						aData.loadTime = ((ODPExtension.sqlDate(aData.dateEnd) - ODPExtension.sqlDate(aData.dateStart))/1000) || 0
-
 						oRedirectionAlert.done(aFunction, aData, aURL, aOriginalURL)
 
 						oRedirectionAlert.next();
@@ -881,7 +948,7 @@
 						//ODPExtension.dump('aborted'+aURL);
 						Requester.onerror('TIMEDOUT');
 					}
-				}, timeoutAfter + gracePeriod);
+				}, ODPExtension.preferenceGet('link.checker.timeout') + ODPExtension.preferenceGet('link.checker.grace.period'));
 				//ODPExtension.dump('check');
 			}
 		};

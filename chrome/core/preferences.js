@@ -12,7 +12,10 @@
 	this.preferences.ints = [
 		'ui.informative.panel.r', //DONE
 		'ui.informative.panel.b', //DONE
-		'link.checker.threads'
+		'link.checker.threads',
+		'link.checker.watching.period',
+		'link.checker.grace.period',
+		'link.checker.timeout'
 	];
 
 	this.preferences.colors = [];

@@ -242,7 +242,6 @@ function listRender() {
 		.attr("order", 'desc')
 		.attr("class", 'click no-select')
 		.on('click', function(d){
-			ODP.dump(d3.select(this))
 			listSortBy(d3.select(this)[0][0])
 		})
 		.text(function(column) {
@@ -468,7 +467,6 @@ function entryAction(type) {
 		case 'mark_noted':
 			items.each(function(d) {
 				if(d.id && String(d.id) != ''){
-					ODP.dump(d.id)
 					db.executeSimple('update uris set processed = 2 where id = "'+d.id+'"')
 				}
 			});
@@ -483,7 +481,7 @@ function entryAction(type) {
 		case 'whitelist_hash':
 			items.each(function(d) {
 				if(d.hash && String(d.hash) != ''){
-					db.executeSimple('update uris set hash_known = 1 , match_hash = 1 where hash = "'+d.hash+'"')
+					db.executeSimple('update uris set hash_known = 1 where hash = "'+d.hash+'"')
 				}
 			});
 			break;

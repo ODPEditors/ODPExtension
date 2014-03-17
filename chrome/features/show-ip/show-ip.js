@@ -212,6 +212,7 @@
 									) \
 			');
 			db.executeSimple('	CREATE INDEX IF NOT EXISTS `name` ON `ids` (`name`) ');
+			db.executeSimple('	CREATE INDEX IF NOT EXISTS `value` ON `ids` (`value`) ');
 			db.executeSimple('	CREATE UNIQUE INDEX IF NOT EXISTS `name_value` ON `ids` (`name`, `value`) ');
 
 			this.showIPDatabaseClose()

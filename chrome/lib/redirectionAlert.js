@@ -48,6 +48,8 @@
 		'application/pdf'
 	]
 
+	var includeBlock = /\.(css|ico|favicon)(\?.*)?$/i
+
 	var debug = false;
 
 	this.redirectionAlert = function() {
@@ -161,7 +163,7 @@
 								var aTab = ODPExtension.tabGetFromChromeDocument(domWin);
 								if (aTab && !! aTab.ODPExtensionExternalContent) {
 									var decoded = ODPExtension.IDNDecodeURL(aSubject.URI.spec)
-									if(/\.css(\?.*)?$/.test(decoded) || ( ODPExtension.isGarbage(decoded) && !ODPExtension.isGarbage(ODPExtension.tabGetLocation(aTab)) && !ODPExtension.isGarbage(aTab.ODPExtensionOriginalURI) ) ){
+									if(includeBlock.test(decoded) || ( ODPExtension.isGarbage(decoded) && !ODPExtension.isGarbage(ODPExtension.tabGetLocation(aTab)) && !ODPExtension.isGarbage(aTab.ODPExtensionOriginalURI) ) ){
 										aTab.ODPExtensionExternalContent[aTab.ODPExtensionExternalContent.length] = {
 											url: decoded,
 											status: 200
@@ -364,79 +366,75 @@
 				if (typeof(letsTryAgainIfFail) == 'undefined')
 					letsTryAgainIfFail = 1;
 
-				if (!this.cache[aURL]) {
-					this.cache[aURL] = {};
-					var aData = this.cache[aURL];
-					aData.stop = false;
+				this.cache[aURL] = {};
+				var aData = this.cache[aURL];
+				aData.stop = false;
 
-					aData.isDownload = false;
+				aData.isDownload = false;
 
-					aData.statuses = [];
-					aData.headers = '';
-					aData.contentType = '';
-					aData.contentCharset = ''//must be UTF8 in almost all cases. Unless the fallback encoding fails to encode to UTF8
-					aData.requestMethod = 'GET';
+				aData.statuses = [];
+				aData.headers = '';
+				aData.contentType = '';
+				aData.contentCharset = ''//must be UTF8 in almost all cases. Unless the fallback encoding fails to encode to UTF8
+				aData.requestMethod = 'GET';
 
-					aData.urlRedirections = [];
-					aData.urlOriginal = aURL;
-					aData.urlLast = aURL;
-					aData.domain = '';
-					aData.subdomain = '';
-					aData.ip = '';
-					aData.ns = '';
+				aData.urlRedirections = [];
+				aData.urlOriginal = aURL;
+				aData.urlLast = aURL;
+				aData.domain = '';
+				aData.subdomain = '';
+				aData.ip = '';
+				aData.ns = '';
 
-					aData.checkType = '';
-					aData.siteType = 'html'; //html, rss, atom, pdf, media, flash
+				aData.checkType = '';
+				aData.siteType = 'html'; //html, rss, atom, pdf, media, flash
 
-					aData.html = '';
-					aData.htmlRequester = '';
-					aData.htmlTab = '';
-					aData.domTree = '';
-					aData.txt = '';
-					aData.language = '';
+				aData.html = '';
+				aData.htmlRequester = '';
+				aData.htmlTab = '';
+				aData.domTree = '';
+				aData.txt = '';
+				aData.language = '';
 
-					aData.hash = '';
-					aData.hashOriginal = ''
-					aData.hashKnown = false;
-					aData.match = '';
-					aData.ids = [];
+				aData.hash = '';
+				aData.hashOriginal = ''
+				aData.hashKnown = false;
+				aData.match = '';
+				aData.ids = [];
 
-					aData.title = '';
+				aData.title = '';
 
-					aData.externalContent = [];
-					aData.linksInternal = []
-					aData.linksExternal = []
+				aData.externalContent = [];
+				aData.linksInternal = []
+				aData.linksExternal = []
 
-					aData.metaRSS = []
-					aData.metaAtom = []
-					aData.metaOpenSearch = []
+				aData.metaRSS = []
+				aData.metaAtom = []
+				aData.metaOpenSearch = []
 
-					aData.metaAuthor = ''
-					aData.metaCopyright = ''
-					aData.metaRobots = ''
-					aData.metaGenerator = ''
-					aData.metaDescription = '';
-					aData.metaKeywords = '';
+				aData.metaAuthor = ''
+				aData.metaCopyright = ''
+				aData.metaRobots = ''
+				aData.metaGenerator = ''
+				aData.metaDescription = '';
+				aData.metaKeywords = '';
 
-					aData.mediaCount = 0;
-					aData.imageCount = 0;
-					aData.scriptCount = 0;
-					aData.wordCount = 0;
-					aData.strLength = 0;
-					aData.hasFrameset = 0;
-					aData.historyChanges = 0;
-					aData.frames = 0;
-					aData.framesURLs = [];
-					aData.dateStart = ODPExtension.now();
-					aData.dateEnd = aData.dateStart;
-					aData.intrusivePopups = 0;
-					aData.loadingSuccess = false;
-					aData.note = [];
-					//aData.removeFromBrowserHistory = !ODPExtension.isVisitedURL(aURL);
+				aData.mediaCount = 0;
+				aData.imageCount = 0;
+				aData.scriptCount = 0;
+				aData.wordCount = 0;
+				aData.strLength = 0;
+				aData.hasFrameset = 0;
+				aData.historyChanges = 0;
+				aData.frames = 0;
+				aData.framesURLs = [];
+				aData.dateStart = ODPExtension.now();
+				aData.dateEnd = aData.dateStart;
+				aData.intrusivePopups = 0;
+				aData.loadingSuccess = false;
+				aData.note = [];
+				//aData.removeFromBrowserHistory = !ODPExtension.isVisitedURL(aURL);
 
-				} else {
-					var aData = this.cache[aURL];
-				}
 				var oRedirectionAlert = this;
 				var Requester = new XMLHttpRequest();
 				try {
@@ -558,16 +556,13 @@
 						frames = null
 
 						//site "type"
-						if(ODPExtension.urlFlagsHashFlash.indexOf(aData.hash) !== -1){
+						if(aData.hash != '' && ODPExtension.urlFlags['hasFlash'].indexOf(aData.hash) !== -1){
 							aData.siteType = 'flash';
-							aData.hashKnown = true;
 						} else if(aData.hash == 'fc0ca0e30d7f2673fa08c0482ed3f152') {
 							aData.siteType = 'pdf';
-							aData.hashKnown = true;
 						} else if(aData.hash == '869a4716516c5ef5f369913fa60d71b8') {
 							aData.siteType = 'txt';
 							aData.contentType = 'text/plain';
-							aData.hashKnown = true;
 						} else if(aData.hash == '4829ce6bb0951e966681fe2011b87ace'){//browser viewer
 							if(aData.htmlRequester.indexOf('xmlns=\'http://www.w3.org/2005/Atom\'') !== -1 || aData.htmlRequester.indexOf('type="application/atom+xml"') !== -1)
 								aData.siteType = 'atom';
@@ -575,7 +570,6 @@
 								aData.siteType = 'rss';
 							else if(aData.htmlRequester.indexOf('xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns') !== -1)
 								aData.siteType = 'rdf';
-							aData.hashKnown = true;
 						}
 
 						var meta = aDoc.getElementsByTagName('link')
@@ -852,9 +846,6 @@
 						oRedirectionAlert.itemsDone++;
 						clearTimeout(timer);
 
-						aData.statuses = [];
-						aData.urlRedirections = [];
-
 						oRedirectionAlert._check(aURL, aFunction, aOriginalURL, 0);
 
 					} else {
@@ -1113,7 +1104,7 @@
 	this.disableTabFeaturesCounter = function(aFunction, aData) {
 		if ( !! aFunction && !! aFunction.toSource) {
 			var src = aFunction.toSource();
-			if (src.indexOf('return') != -1 || src.indexOf('alert') != -1 || src.indexOf('confirm') != -1)
+			if (src.indexOf('return') !== -1 || src.indexOf('alert') !== -1 || src.indexOf('confirm') !== -1)
 				aData.intrusivePopups++;
 		}
 	}
@@ -1142,36 +1133,38 @@
 	this.redirectionAlertWatchDoc = function(aDoc, aTabBrowser, aData, timedout, oRedirectionAlert, aTab, aOriginalURL){
 
 
-		if('http://get.adobe.com/flashplayer/' == ODPExtension.tabGetLocation(aTab)){
+		if('http://get.adobe.com/flashplayer/' == this.tabGetLocation(aTab)){
 
 			timedout.status = -1
 			aTabBrowser.webNavigation.allowPlugins = true;
 			aTabBrowser.loadURI(aOriginalURL);
+
 			return false
+
 		} else {
 
 			aData.htmlTab = new XMLSerializer().serializeToString(aDoc);
 			aData.html = aData.htmlTab;
-			aData.ids = ODPExtension.normalizeIDs(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
-			aData.domTree = ODPExtension.domTree(aDoc);
-			aData.hash = ODPExtension.md5(JSON.stringify(aData.domTree));
+			aData.ids = this.normalizeIDs(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
+			aData.domTree = this.domTree(aDoc);
+			aData.hash = this.md5(JSON.stringify(aData.domTree));
 			if(aData.hashOriginal == '')
 				aData.hashOriginal = aData.hash;
 
 			//Check for framed redirects
 			var aURI = '';
 
-			if(ODPExtension.urlFlagsHashFramesetRedirect.indexOf(aData.hash) !== -1 && aDoc.getElementsByTagName('frame')[0] && aDoc.getElementsByTagName('frame')[0].src)
+			if(aData.hash != '' && this.urlFlags['hasFramesetRedirect'].indexOf(aData.hash) !== -1 && aDoc.getElementsByTagName('frame')[0] && aDoc.getElementsByTagName('frame')[0].src)
 				aURI = aDoc.getElementsByTagName('frame')[0].src;
-			else if(ODPExtension.urlFlagsHashFramesetRedirect.indexOf(aData.hash) !== -1 && aDoc.getElementsByTagName('iframe')[0] && aDoc.getElementsByTagName('iframe')[0].src)
+			else if(aData.hash != '' && this.urlFlags['hasFramesetRedirect'].indexOf(aData.hash) !== -1 && aDoc.getElementsByTagName('iframe')[0] && aDoc.getElementsByTagName('iframe')[0].src)
 				aURI = aDoc.getElementsByTagName('iframe')[0].src;
 
-			if(aURI != '') {
+			if(aURI && aURI != '') {
 
 				timedout.status = -1
 
 				aData.statuses.push('framed');
-				if (!ODPExtension.preferenceGet('link.checker.use.cache'))
+				if (!this.preferenceGet('link.checker.use.cache'))
 					aTabBrowser.loadURIWithFlags(aURI, aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | aTabBrowser.webNavigation.LOAD_ANONYMOUS | aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
 				else
 					aTabBrowser.loadURI(aURI);
@@ -1233,28 +1226,28 @@
 			aData.status.canUnreview = true;
 
 			//-1 	Unable to Resolve Host 	They didn't pay their bill for their Domain name.
-		} else if (false || aData.statuses.indexOf(-1) != -1 || aData.statuses.indexOf('DomainNotFound') != -1) {
+		} else if (false || aData.statuses.indexOf(-1) !== -1 || aData.statuses.indexOf('DomainNotFound') !== -1) {
 			aData.status.code = -1;
 			aData.status.errorString = 'Domain Not Found';
 			aData.status.errorStringUserFriendly = 'Does Not Work';
 			aData.status.canDelete = true;
 
 			//-401  SSL Error
-		} else if (false || aData.statuses.indexOf('SecurityProtocol') != -1 || aData.statuses.indexOf('SecurityCertificate') != -1 || aData.statuses.indexOf('SecurityExpiredCertificateError') != -1 || aData.statuses.indexOf('SecurityRevokedCertificateError') != -1 || aData.statuses.indexOf('SecurityUntrustedCertificateIssuerError') != -1 || aData.statuses.indexOf('SecurityInadequateKeyUsageError') != -1 || aData.statuses.indexOf('SecurityCertificateSignatureAlgorithmDisabledError') != -1 || aData.statuses.indexOf('SecurityError') != -1 || aData.statuses.indexOf('SecurityNoCertificateError') != -1 || aData.statuses.indexOf('SecurityBadCertificateError') != -1 || aData.statuses.indexOf('SecurityUnsupportedCertificateTypeError') != -1 || aData.statuses.indexOf('SecurityUnsupportedTLSVersionError') != -1 || aData.statuses.indexOf('SecurityCertificateDomainMismatchError') != -1 || aData.statuses.indexOf('SecurityCertificateDomainMismatchError') != -1) {
+		} else if (false || aData.statuses.indexOf('SecurityProtocol') !== -1 || aData.statuses.indexOf('SecurityCertificate') !== -1 || aData.statuses.indexOf('SecurityExpiredCertificateError') !== -1 || aData.statuses.indexOf('SecurityRevokedCertificateError') !== -1 || aData.statuses.indexOf('SecurityUntrustedCertificateIssuerError') !== -1 || aData.statuses.indexOf('SecurityInadequateKeyUsageError') !== -1 || aData.statuses.indexOf('SecurityCertificateSignatureAlgorithmDisabledError') !== -1 || aData.statuses.indexOf('SecurityError') !== -1 || aData.statuses.indexOf('SecurityNoCertificateError') !== -1 || aData.statuses.indexOf('SecurityBadCertificateError') !== -1 || aData.statuses.indexOf('SecurityUnsupportedCertificateTypeError') !== -1 || aData.statuses.indexOf('SecurityUnsupportedTLSVersionError') !== -1 || aData.statuses.indexOf('SecurityCertificateDomainMismatchError') !== -1 || aData.statuses.indexOf('SecurityCertificateDomainMismatchError') !== -1) {
 			aData.status.code = -401;
 			aData.status.errorString = 'SSL Error: ' + lastStatus;
 			aData.status.errorStringUserFriendly = 'SSL Error: ' + lastStatus;
 			aData.status.canUnreview = true;
 
 			//-4 	Can't connect 	We can't connect to the HTTP server. The server is there but it didn't want to talk to Robozilla on the specified port.
-		} else if (false || aData.statuses.indexOf(-4) != -1 || aData.statuses.indexOf('ConnectionRefused') != -1 || aData.statuses.indexOf('NetworkError') != -1) {
+		} else if (false || aData.statuses.indexOf(-4) !== -1 || aData.statuses.indexOf('ConnectionRefused') !== -1 || aData.statuses.indexOf('NetworkError') !== -1) {
 			aData.status.code = -4;
 			aData.status.errorString = 'Can\'t Connect';
 			aData.status.errorStringUserFriendly = 'Can\'t Connect';
 			aData.status.canUnreview = true;
 
 			//-5 	Timeout Robozilla connected OK, and sent the request but Robozilla timed out waiting to fetch the page. This happens sometimes on really busy servers.
-		} else if (false || aData.statuses.indexOf(-5) != -1 || aData.statuses.indexOf('NetworkTimeout') != -1 || lastStatus == 408 // Request Time-Out	- The server took longer than expected to return a page, and timed out. Similar to -5, but generated by the server, rather than Robozilla.
+		} else if (false || aData.statuses.indexOf(-5) !== -1 || aData.statuses.indexOf('NetworkTimeout') !== -1 || lastStatus == 408 // Request Time-Out	- The server took longer than expected to return a page, and timed out. Similar to -5, but generated by the server, rather than Robozilla.
 		|| lastStatus == 504 // Gateway Timeout - A server being used by this server has not responded in time.
 		) {
 			aData.status.code = -5;
@@ -1263,7 +1256,7 @@
 			aData.status.canUnreview = true;
 
 			//-1337 	Local Network error - probably the internet is gone
-		} else if (false || aData.statuses.indexOf(-1337) != -1 || aData.statuses.indexOf('NetworkInterrupt') != -1) {
+		} else if (false || aData.statuses.indexOf(-1337) !== -1 || aData.statuses.indexOf('NetworkInterrupt') !== -1) {
 			aData.status.code = -1337;
 			aData.status.errorString = 'Internet Gone!?';
 			aData.status.errorStringUserFriendly = 'Internet Gone!?';
@@ -1394,6 +1387,10 @@
 			aData.status.errorStringUserFriendly = 'Unknown Error';
 		}
 
+
+		if(!this.urlFlagsHashIndexes)
+			this.urlFlagsHashIndex();
+
 		//most important should go first (example, makes no sense to check for errors in a page that is just parked)
 		var array = [''
 				, 'pendingRenew'
@@ -1432,11 +1429,11 @@
 
 		for (var name in array) {
 			if (array[name] != '') {
-				var flag = this['urlFlags'][array[name]]
+				var flag = this.urlFlags[array[name]]
 
 				for (var id in flag['body']) {
 					var string = flag['body'][id].replace(/\s+/g, ' ').toLowerCase().trim();
-					if (string != '' && data.indexOf(string) != -1  ) {
+					if (string != '' && data.indexOf(string) !== -1  ) {
 						aData.status.error = true;
 
 						if(! flag['errorCodeApplyOnOKOnly'] || ( flag['errorCodeApplyOnOKOnly'] && aData.status.code == 200)) {
@@ -1460,56 +1457,106 @@
 					break;
 			}
 		}
+
 		if (!breaky) {
 
-			for (var name in array) {
-				if (array[name] != '') {
-					var flag = this['urlFlags'][array[name]]
+			if(aData.hash != ''){
+				for (var name in array) {
+					if (array[name] != '') {
+						var flag = this.urlFlags[array[name]]
 
-					if (aData.hash != '' && flag['hash'].indexOf(aData.hash) != -1) {
-						aData.status.error = true;
+						if (flag['hash'].indexOf(aData.hash) !== -1) {
+							aData.status.error = true;
 
-						if(! flag['errorCodeApplyOnOKOnly'] || ( flag['errorCodeApplyOnOKOnly'] && aData.status.code == 200)) {
-							aData.status.code = flag['errorCode'];
-							aData.statuses.push(aData.status.code);
+							if(! flag['errorCodeApplyOnOKOnly'] || ( flag['errorCodeApplyOnOKOnly'] && aData.status.code == 200)) {
+								aData.status.code = flag['errorCode'];
+								aData.statuses.push(aData.status.code);
+							}
+
+							if (flag['canDelete'])
+								aData.status.canDelete = true;
+							if (flag['canUnreview'])
+								aData.status.canUnreview = true;
+
+							aData.status.errorString = flag['errorString'];
+							aData.status.errorStringUserFriendly = flag['errorStringUserFriendly'];
+							//aData.status.match = string;
+							aData.status.matchHash = true;
+							breaky = true;
+							break;
 						}
-
-						if (flag['canDelete'])
-							aData.status.canDelete = true;
-						if (flag['canUnreview'])
-							aData.status.canUnreview = true;
-
-						aData.status.errorString = flag['errorString'];
-						aData.status.errorStringUserFriendly = flag['errorStringUserFriendly'];
-						//aData.status.match = string;
-						aData.status.matchHash = true;
-						aData.hashKnown = true;
-						breaky = true;
-						break;
 					}
 				}
 			}
 		}
 
-		//Unknown content type
-		if (contentTypesKnown.indexOf(aData.contentType) == -1)
-			aData.status.suspicious.push('Unknown content type: ' + aData.contentType);
-		//just flag
-		if (aData.hash != '' && this.urlFlagsHash.indexOf(aData.hash) != -1){
-			aData.status.suspicious.push('Document may has problems');
-			aData.hashKnown = true;
-		}
-		//framset
-		if (aData.hash != '' && this.urlFlagsHashFrameset.indexOf(aData.hash) != -1 ){
-			aData.hashKnown = true;
-		}
-		//Known
-		if (aData.hash != '' && this.urlFlagsHashKnown.indexOf(aData.hash) != -1 ){
-			aData.hashKnown = true;
-		}
+		if(aData.hash != '')
+			aData.hashKnown = this.urlFlagsHashIndexes.indexOf(aData.hash) !== -1 ? 1 : 0;
 
+		//Unknown content type
+		if (contentTypesKnown.indexOf(aData.contentType) === -1)
+			aData.status.suspicious.push('Unknown content type: ' + aData.contentType);
+		//just flag, something bad
+		if (aData.hash != '' && this.urlFlags['hash'].indexOf(aData.hash) !== -1)
+			aData.status.suspicious.push('Document may has problems');
+		//onbeforeunload
 		if (aData.intrusivePopups > 1)
 			aData.status.suspicious.push('Window may has problems');
+	}
+	this.urlFlagsHashIndex = function() {
+		var array = [''
+				, 'pendingRenew'
+
+				, 'forSale'
+				, 'parked'
+
+				, 'hacked'
+				, 'hijacked'
+
+				, 'gonePermanent'
+				, 'notFound'
+				, 'serverPage'
+
+				, 'requiresLogin'
+				//, 'messageFromOwner'
+				, 'noContent'
+
+				, 'pageErrors'
+				, 'serverErrors'
+
+				, 'underConstruction'
+
+				, 'comingSoon'
+				, 'suspended'
+
+				//, 'dirty'
+
+				,'hash'
+				,'hasFrameset'
+				,'hasFramesetRedirect'
+				,'hasFlash'
+				,'known'
+
+		]
+
+		this.urlFlagsHashIndexes = []
+		for(var name in array){
+			if(array[name]!=''){
+				if(this.urlFlags[array[name]]['hash']){
+					for(var id in this.urlFlags[array[name]]['hash']) {
+						if(this.urlFlags[array[name]]['hash'][id] != '')
+							this.urlFlagsHashIndexes[this.urlFlagsHashIndexes.length] = this.urlFlags[array[name]]['hash'][id]
+					}
+				} else {
+					for(var id in this.urlFlags[array[name]]) {
+						if(this.urlFlags[array[name]][id] != '')
+							this.urlFlagsHashIndexes[this.urlFlagsHashIndexes.length] = this.urlFlags[array[name]][id]
+					}
+				}
+			}
+		}
+
+		this.urlFlagsHashIndexes = this.arrayUnique(this.urlFlagsHashIndexes);
 	}
 	//free.fr blogspot.tld wordpress.com
 	var removeTLD = /(\.(website|web|jimdo|pagespersoorange|e\.telefonica|free|blogspot|wordpress))?(\.(aero|arpa|asia|biz|cat|co|com|coop|edu|gb|gob|gouv|gov|gub|gv|info|int|jobs|mil|mobi|museum|name|ne|net|org|post|pro|tel|travel))?(\.(ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bl|bm|bn|bo|bq|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cw|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mf|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|ss|st|su|sv|sx|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|cat|yu|za|zm|zw|мон|рф|срб|укр|қаз|الاردن|الجزائر|السعودية|المغرب|امارات|ایران|بھارت|تونس|سودان|سورية|عمان|فلسطين|قطر|مصر|مليسيا|پاکستان|भारत|বাংলা|ভারত|ਭਾਰਤ|ભારત|இந்தியா|இலங்கை|சிங்கப்பூர்|భారత్|ලංකා|ไทย|გე|中国|中國|台湾|台灣|新加坡|香港|한국))?$/i;
@@ -1646,7 +1693,7 @@
 		if (oldURL == newURL)
 			return true;
 
-		if(newURL.indexOf('/') != -1)//only for files and folder, not TLDs
+		if(newURL.indexOf('/') !== -1)//only for files and folder, not TLDs
 			newURL = newURL.replace(/\.[a-z]{3,4}$/,'') // example when http://tld/folder/ redirects to http://tld/folder.htm
 
 		if (oldURL == newURL)

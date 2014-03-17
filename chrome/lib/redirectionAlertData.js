@@ -79,15 +79,15 @@
 				//,"fastpark.net"
 				,'onmouseover="window.status=\'Aparcamiento De Dominios\' return true;" title="Aparcamiento De Dominios">'
 				,'parkingcrew.net/sale_form.php?domain_name'
-				, 'http://parking.redcoruna.com'
+				,'http://parking.redcoruna.com'
 				,'This user has not enabled any redirections'
 			],
 			hash:[''
-				, 'ddfcb201650fbd2309e015105029375a'
-				, '0ba0c55fb14068ab4240e3d87f0346e8'
-				, '108948d01ac637197aa4ec672a40d10f'
-				, 'b1946a29bbde65d8d59b3c19f6ba4232'
-				, '7eaf4263ac2fa0b95d86ebf6811ae76b'
+				,'ddfcb201650fbd2309e015105029375a'
+				,'0ba0c55fb14068ab4240e3d87f0346e8'
+				,'108948d01ac637197aa4ec672a40d10f'
+				,'b1946a29bbde65d8d59b3c19f6ba4232'
+				,'7eaf4263ac2fa0b95d86ebf6811ae76b'
 				,'4a11beadda8e2361d5893aadf2283832'
 			]
 		}
@@ -119,7 +119,7 @@
 				,'In case of trademark issues please contact the domain owner'
 			],
 			hash:[''
-				, ''
+				,''
 			]
 		}
 
@@ -144,7 +144,7 @@
 				,'es el titular de este dominio, contáctese por favor'
 			],
 			hash:[''
-				, '2f8db628f9473b665a9a47cf330c3fd0'
+				,'2f8db628f9473b665a9a47cf330c3fd0'
 				,'e2cc95cd393cd410b0c5dcdd81e84622'
 			]
 		}
@@ -180,11 +180,11 @@
 				//,'>Just another WordPress site<'
 				//,'Welcome to WordPress. This is your first post'
 				,'<h1>Este blog solo admite a lectores invitados'
-				, 'Sorry, the site you requested has been disabled'
+				,'Sorry, the site you requested has been disabled'
 			],
 			hash:[''
-				, '6c8402f9f7e9546f88da141b9fc7a20f' //no content
-				, 'e9924c39cb66daf0105e2d96dbca1029'
+				,'6c8402f9f7e9546f88da141b9fc7a20f' //no content
+				,'e9924c39cb66daf0105e2d96dbca1029'
 				,'c014207ca2fd20525e4139d2ca1802c5'
 			]
 		}
@@ -238,7 +238,7 @@
 				,'página solicitada o la página no existe.'
 			],
 			hash:[''
-				, 'a52b513d7244d40895231f5c8f4b4e0c' //galeon.com
+				,'a52b513d7244d40895231f5c8f4b4e0c' //galeon.com
 				,'b82f1348fe097a8d29ee16fa8db79e96'
 			]
 		}
@@ -298,7 +298,7 @@
 			hash:[''
 				,'293ed6f70104994a529c041e768eb909'//it works
 				,'c4b05565f1c0888a49f0391c20a2442b'
-				, 'b1946a29bbde65d8d59b3c19f6ba4232'
+				,'b1946a29bbde65d8d59b3c19f6ba4232'
 				,'3ec9f569e734cbbb4357483e1bcee710'
 			]
 		}
@@ -340,15 +340,15 @@
 				,'Diese Seite kann nicht aufgerufen werden, da die Webseite derzeit keine Unterseiten hat'
 			],
 			hash:[''
-				, '99914b932bd37a50b983c5e7c90ae93b' // total empty
-				, '9e102d813ede6f725f3012777abac235' //yahoo empty group
-				, '135fe587263d965f48cf470017c0dc7d' //image only
+				,'99914b932bd37a50b983c5e7c90ae93b' // total empty
+				,'9e102d813ede6f725f3012777abac235' //yahoo empty group
+				,'135fe587263d965f48cf470017c0dc7d' //image only
 				,'1407918bdcb1a5518ba70eba71b8b112' //image only
-				, 'edc9bf9f5ea4615503c92d4736eb3e28' //empty
-				, 'e91ba74ca066091f908764402be64276'
-				, '6e0c15e36db89f8186af64b348378121'
-				, '52e34692785bfe13338ff091cfaf16d3'
-				, '743efa7d6721920d02c7b4be073194b0'
+				,'edc9bf9f5ea4615503c92d4736eb3e28' //empty
+				,'e91ba74ca066091f908764402be64276'
+				,'6e0c15e36db89f8186af64b348378121'
+				,'52e34692785bfe13338ff091cfaf16d3'
+				,'743efa7d6721920d02c7b4be073194b0'
 				,'94fa9a68095a6339670013a6223b9c7f'
 				,'3ee42e9db9175a652a68eea2b8f9c2b4'
 			]
@@ -364,7 +364,7 @@
 			body:[''
 			],
 			hash:[''
-				, '60004349c15b40b5f3e1f2e11fe247ae'
+				,'60004349c15b40b5f3e1f2e11fe247ae'
 			]
 		}
 
@@ -462,19 +462,19 @@
 				,'<title>Runtime Error</title>'
 			],
 			hash:[''
-				, '590071db26ae1b0040854992f2bf3d55' // simil 404/500/xxx
-				, 'b4ff138acf7fdd7031c86ff9fbf48d70'
-				, '62dbee2f4c4a8d3ac210f693f79792ea' // simil 404/500/xxx
-				, '443783b65d23e45563ae17540ef5e2a4'
-				, '6c8402f9f7e9546f88da141b9fc7a20f'
-				, '95ceda08d46f0c6defaab26f48b3bacd'
-				, '4ba26d6933a2b3fcfc1a56f8b7342f68'
-				, '7c72e06c777b4311e7d28b3c0a161d22'
-				, 'fac8191e5f8990631d6cbf4197101734'
-				, 'c6136172b1a7a79b747eed504e0ec911'
-				, '49f1dfa122e446428c432abf92a52609'
+				,'590071db26ae1b0040854992f2bf3d55' // simil 404/500/xxx
+				,'b4ff138acf7fdd7031c86ff9fbf48d70'
+				,'62dbee2f4c4a8d3ac210f693f79792ea' // simil 404/500/xxx
+				,'443783b65d23e45563ae17540ef5e2a4'
+				,'6c8402f9f7e9546f88da141b9fc7a20f'
+				,'95ceda08d46f0c6defaab26f48b3bacd'
+				,'4ba26d6933a2b3fcfc1a56f8b7342f68'
+				,'7c72e06c777b4311e7d28b3c0a161d22'
+				,'fac8191e5f8990631d6cbf4197101734'
+				,'c6136172b1a7a79b747eed504e0ec911'
+				,'49f1dfa122e446428c432abf92a52609'
 				,'467512538e6a22798d1728e950bf77c1'
-				, '1600d88822b00ca68778ba224b080406'
+				,'1600d88822b00ca68778ba224b080406'
 				,'4144b914435d933bf2a65a3bffa67e0b'
 
 			]
@@ -536,7 +536,7 @@
 				,'Este Sitio se Encuentra en Mantenimiento'
 				,'Site Under Maintenance'
 				,'Sitio en mantenimiento.'
-				, 'SITIO TEMPORALMENTE EN CONSTRUCCION'
+				,'SITIO TEMPORALMENTE EN CONSTRUCCION'
 
 				,'we\'re currently undergoing maintenanc'
 				,' actualmente nuestro sitio web está bajo mantenimiento'
@@ -546,7 +546,7 @@
 				,'The site you are trying to view is either'
 			],
 			hash:[''
-				, 'c8badc7e23f3e90ca3aa35a34f2c926a'
+				,'c8badc7e23f3e90ca3aa35a34f2c926a'
 			]
 		}
 
@@ -567,7 +567,7 @@
 				,'>Coming Soon Plugin<'
 			],
 			hash:[''
-				, ''
+				,''
 			]
 		}
 
@@ -600,9 +600,9 @@
 				,'This account has been suspended'
 			],
 			hash:[''
-				, '8eb192eac8400242e57e007d0fd11a52'
-				, '43caffb4795a92dee310eacc211a2a09'
-				, '49fffef8d1e9159e8e763adfbc84f757'
+				,'8eb192eac8400242e57e007d0fd11a52'
+				,'43caffb4795a92dee310eacc211a2a09'
+				,'49fffef8d1e9159e8e763adfbc84f757'
 			]
 		}
 
@@ -618,7 +618,7 @@
 				//,'title>HaCked By'
 			],
 			hash:[''
-				, ''
+				,''
 			]
 		}
 		, messageFromOwner: {
@@ -636,7 +636,7 @@
 				,'url moved to'
 			],
 			hash:[''
-				, '869a4716516c5ef5f369913fa60d71b8'
+				,'869a4716516c5ef5f369913fa60d71b8'
 			]
 		}
 
@@ -665,7 +665,7 @@
 				,'traffic.ddc.com'
 			],
 			hash:[''
-				, ''
+				,''
 			]
 		}
 
@@ -683,209 +683,210 @@
 				,'casino'
 			],
 			hash:[''
-				, ''
+				,''
 			]
 		}
+
+		//frames >= 2
+		, hasFrameset: [''
+			,'5db7da424597447e08e86b3654c3c166'
+			,'118c9a447d2f83dc72fb23295bbec3ab'
+			,'386aca97ed361cead74c01de619b68f3'
+			,'6179ff4d515590c835aec633e099887a'
+			,'dfc9cbec3f47864a283a4795b737948d'
+			,'3d807b4fb6a5c1fa97008f063d8baa43'
+			,'7e1f3343e0d6908cd3fc3ff7dfea4041'
+			,'1a3620478142eff409bd425e3363b51a'
+			,'d3519e204991d97dbb703babb46c986a'
+			,'44568b9a99485442459fa3f39554b880'
+			,'cd2f727b4ff1a9e1897226585de85ce8'
+			,'cac0753c1ae11591f2878a62e6279c7d'
+			,'aa5075340317818fb79b7f4dde337287'
+			,'ce4e359b9a13e1f9ef6c7fa3e70d2f02'
+			,'01ea428a177a06cd85a5ae1843261ae4'
+			,'57f2edf8c9eadbe04e5717007bdbec83'
+			,'29502e8b8dd4f30cf03dbf0719258bf3'
+			,'b299d877d793c1a929594aa12cb488b4'
+			,'c64c6638612f3db40d6220d189488127'
+			,'69e33e142674045fa0f766a917fb2a66'
+			,'de4922f768901d3bcde3ccaacad26a79'
+			,'2387cd8ca910156d970c1c115f2b9fe1'
+			,'dd1d4c14ab10bdc45348cc6182ce60a4'
+			,'18de8ceccbda2f4faa4ce29d6308d050'
+			,'e94797bac59dff038fce73f8b8b5c25f'
+			,'a5e6963ceb677ad905062f067ee9da9b'
+			,'2097f0ceaae774266bf15a55100d0d63'
+			,'80bf68d4e33d7f9bd139afe548e34f00'
+			,'4c2f6938c2b62e498021a032eae67a89'
+			,'2ff9019c7b9815d9c01600fc14526b83'
+			,'620b48e533ee2e9ab60a5d8e317771f0'
+			,'397a2cf66fbbf509d7ea899c2580fe8c'
+			,'be5d26f3b154fdf5694550afb8bde79d'
+			,'0e0fef63a24a85fdc2e2dee95bc0c23f'
+			,'5bab3e30bd93eb26feeed89180177959'
+			,'f03f9950d7eed619a57b952b2d1e6691'
+			,'abf4fbcbf6c3d5b6c0e431ab60d963bf'
+			,'f1073770981f210a6b6b1feaa7b9ee09'
+			,'f6f908c8f15f0c1af990338502ca8e45'
+			,'11cda5241f6f2834abdbe65834f80df0'
+			,'9cd58131ed69d484ae4671f2b68590bd'
+			,'55ee0b761b8797d6ed5a06af150e443b'
+			,'8b964e99efecbc137a959b4827190544'
+			,'309368d60a1eee6b4e25e488a0b24c29'
+			,'bb0cd1034c1bfd45a763a4d625e3e964'
+			,'d60fdc42ce3026e77284a7c3413f64a9'
+			,'9262988f144b656d003fe3c0d75427d8'
+			,'2463ba8b1a54522277579137a801dc7e'
+			,'77545e41fec4ae94269f94f7c5647883'
+			,'7b309962a693cdedf411e62a9ded8d0b'
+			,'dd5aabc04187e7bce9fe14ca2fec1364'
+			,'658b54b76f0ec464fb4eafb4aa0f297b'
+			,'a2b38ecd0c440affd06e63057e531394'
+			,'5ee97e84a48f3b019e1688632aa94662'
+			,'b70a342f6ee04a12ed855438b6474151'
+			,'2463ba8b1a54522277579137a801dc7e'
+			,'dd5aabc04187e7bce9fe14ca2fec1364'
+			,'a5bb53077e10d6dacd927e9330cb41fb'
+			,'e0f0fe4cbcf48641b073b0687b0a45b5'
+			,'893f6a2196d1a98e9dd4f521f88dad0e'
+			,'6fa0599775aabdc767dd8ccce129ff4a'
+			,'7b309962a693cdedf411e62a9ded8d0b'
+			,'dbd8cfd83c9be698f2c7be1ad2f8b524'
+			,'d29552f01acf30d7f78960d469f4b993'
+			,'6c598fd0f1a7582993099c61a51d8737'
+			,'5241ce5fb52b95e288800c4c3c2ea6e7'
+			,'f9c6f14be4581605ae28302188ac85e9'
+			,'d60fdc42ce3026e77284a7c3413f64a9'
+			,'886c317a0d3144e7e77409ee70dd8f85'
+			,'81a05839016b88c59ee7c77ffba78df5'
+			,'56a00ade18bc4f6f91ca12b7ff48d5b6'
+			,'e5f7d669ddfacad7b769c22ce4db06c2'
+			,'e3b4bec86d20c0bcd7db28412e1539f8'
+			,'dae00eaa2043f499823f5c6af7b5a632'
+			,'987f198ca86ccf048819424430d58010'
+			,'8c5a42fb308886bd4dce8767f470a2a8'
+			,'53ec56fcfaa4040f5260ad5b410e4be9'
+			,'fc81ce421b6fe8594d1f8f6095946afa'
+			,'f4caa80a06a2430f5e837f0aa97a9de1'
+			,'f2bbb4163823045dc3f3c8ef30e2c321'
+			,'ef7fd3653620ffab749b3c5e44db3b85'
+			,'eee6c986f695463779935f12093b612b'
+			,'dafe4b9400d96ca3ad47ec2a07708c8b'
+			,'c8b68be060dde1f141e6a1321c98c54f'
+			,'c71de894bc66a2fc0b60554e7f48db7b'
+			,'aed1df3fb0a96623fde2e62b9c97438c'
+			,'2998a8a8ad46f428e671b5f5f561f716'
+			,'13e1b440408bcc4b922ac6a4698797e8'
+			,'f7f8f38ae8fa4b861cec77dc919000a0'
+			,'f2ddec01d75222819c284e6d665d34db'
+			,'f153fe771d6af89cde5d763b69b0075e'
+			,'d42fca241c061416bd53f3ac6ea26d98'
+			,'89d9a072cce30957d08c66ad37a5fe84'
+			,'897178d192fa139e83981becd70c18a6'
+			,'886b087f26078a476fe3aae9cfb5169d'
+			,'635a538ede957977d93e020764b91786'
+			,'5e82fb1b30616662e33b231cee46d971'
+			,'55b080285a892e20ee5af5ac814126d3'
+			,'39f68b3e011a1423b6fe6d51065444fb'
+			,'20fb2a2280fdfdc483e2a1c43d724bf0'
+			,'20a7f12e8ccdc4e3a84e430d7210798c'
+			//
+		]
+		//redirect
+		, hasFramesetRedirect : [''
+			,'0a4a9c4a62cbbcb1b41336ad4b3bae8c'
+			,'12a692eea1ed3bafab391965a7d0fe5f'
+			,'14aa75367bf3766186ce672f910dc9b9'
+			,'16a287493258aba2dcabe0a1c051b57b'
+			,'a08e7d1e3185d454f18f91f148e23b8f'
+			,'1a7fc69f06acc2befc980d9a8c313ce9'
+			,'1f6abc0f29b0b0cc7e7dc694f11730ba'
+			,'21828827b4e5f0fef59df13be49e3c22'
+			,'23d982ba6b6f8847235e48a790e81ea2'
+			,'2a1e4efe12134d3441e80706fe34a515'
+			,'b3b6de1ba3d3c284e5f8b0024b1a47ca'
+			,'32455c23283b48ac9ad18c871c01b74e'
+			,'37bf7b32ca7f80645cd9c5ce1c87d8ec'
+			,'8c362dae12126c41c448132e011079e9'
+			,'4b2d344b0a2bd1c043f337d65ee22ab6'
+			,'ef69fbdb04d5c9c54a77743294bbce0a'
+			,'4c852154a2855b68dfb5908e6be750ac'
+			,'4e5a9065522e9f307a8ec2292c9f0826'
+			,'524a0d52c48a8bfabc60554c4fa67281'
+			,'c353e6d9585c5dfc47cc0c3c4463e4e7'
+			,'64ea41a1dab5ef2701c794e7a44d84fe'
+			,'7b50091125fb2f5b7ff2c5dcef3e60aa'
+			,'332fb7f763a598b36ae56e326a6926c6'
+			,'6722a9580e8a336bc688cd3bdfac48ff'
+			,'76b314ad940f64e0f49342d607e8df2b'
+			,'672c1d7ce1578935eaa4c2f29aae9186'
+			,'677b9a65d4e97b563930227d4f9accc3'
+			,'6ddbdb662342d041b4aabb0397f031a6'
+			,'745a7e6e166e63ed28fdf654f414fad7'
+			,'7b7c4e6bc3f58cd8850936fadfe79971'
+			,'8711b6134ef80ab03303eaa23a446bba'
+			,'8ae5521b76f70faca8efe6dc97089caf'
+			,'8b7486ff7e071c242862d5437f275628'
+			,'8cf659b49c725a1cbec3ab656ab6dd43'
+			,'8d269106884c064e33ccead1e259812c'
+			,'9795639982c288ea5cd64d455fa69075'
+			,'a13e6f2bb4f1c652bf4229a6b0fe27af'
+			,'a2335c30660623f4a428e99f8059eb65'
+			,'a64a2fd3b940e83aa514db019b08bc7d'
+			,'a9d3faea8da3adf870dd69563e82f695'
+			,'acfc9a393c0cf1e034a739bc5e737278'
+			,'af52f7695d3f5610fda87fc410f555cb'
+			,'bdd6d9249f2275e7bcc4f114a3109fa9'
+			,'beac15c0b3d7e145d801cb3d0122e384'
+			,'c3f0a0873e3c26fc956aed4ba6d5a3dc'
+			,'c52e6b14d49a39488d161bea83dc9418'
+			,'c71308ffd13780a39417309bc981b36c'
+			,'dce7fa62d88418279b6a198168664ef9'
+			,'e24dc7cab01b1c90e495b59afe320c59'
+			,'eb3ebcd5ce5f19d3c2e36080a6fc058c'
+			,'f17350088611962e835fa6a04446890f'
+		]
+		//known flash
+		, hasFlash:[''
+			,'446057675417b2d3295a46d07c22d43a'
+			,'621d2ab9b6a84e3997bb4ca4d059489a'
+			,'6aaa599df6535baafd6d1abeefa0a07c'
+			,'5667f108ba37421a176c9edc2286da01'
+			,'1889350528b3cd3a8a1d324fef02ba0a'
+			,'54f382e6ab90ad35450522c32c8b0f5d'
+			,'c247925bb986992dfbde496de9f29493'
+			,'434ecdc65952825dcb7192d8bf840798'
+			,'ed3563c38ce1b556631313d0f4f14537'
+			,'369811f46d61e66071a858da0c8d93e6'
+			,'f2e8c4578ed47359cc128f931ae90fc3'
+			,'f2bb54f522975301c86fd8d99143e7cf'
+			,'40efdc616dca7b9bebff64864e56ee43'
+			,'fcc45ded2a69f0fea753cac107f56572'
+			,'8cc270e6db4daff6e971c9ceec2ef4f4'
+			,'5b79621a2ebb7a0a7600b42be2248a70'
+			,'3e91096e13ee2e0ea55b1c0fd3bc97b3'
+			,'0fe6e75217560d3b97f36cdbd76eb818'
+			,'07eff20cd42cfaa46ca92ddaaad5020a'
+			,'ef3e6d5b0e3c6f1160871509d0486f6f'
+			,'a92b58c1a3a269655a9440a192ad7c22'
+			,'7551fb3c8286055fd45b783832650be6'
+			,'63525e08e78152436af2ec886d7e8c09'
+			,'24a3468c708f61617d1899bacb5fa315'
+			,'4aee39aef93da1eb6a8833977cadff7d'
+			,'1a1268f68889a94692871acbbaf03c78'
+			,'0d6c72099b668bd0d802ece8d40d366d'
+			,'014c909b899a8151cc085ec07b444abb'
+		]
+		//just known
+		, known : [''
+			,'be6e318e14ca5aa7e1227808be2f15c9' //design
+			,'fc0ca0e30d7f2673fa08c0482ed3f152'//pdf
+			,'4829ce6bb0951e966681fe2011b87ace'//rss/atom/xml/rdf
+		]
+		, hash:[''] //bad boy
+
 	};
 
-	this.urlFlagsHash = [''];
-
-	this.urlFlagsHashFrameset = [''
-		//frames >= 2
-		, '5db7da424597447e08e86b3654c3c166'
-		, '118c9a447d2f83dc72fb23295bbec3ab'
-		, '386aca97ed361cead74c01de619b68f3'
-		, '6179ff4d515590c835aec633e099887a'
-		,'dfc9cbec3f47864a283a4795b737948d'
-		, '3d807b4fb6a5c1fa97008f063d8baa43'
-		,'7e1f3343e0d6908cd3fc3ff7dfea4041'
-		, '1a3620478142eff409bd425e3363b51a'
-		,'d3519e204991d97dbb703babb46c986a'
-		,'44568b9a99485442459fa3f39554b880'
-		, 'cd2f727b4ff1a9e1897226585de85ce8'
-		, 'cac0753c1ae11591f2878a62e6279c7d'
-		, 'aa5075340317818fb79b7f4dde337287'
-		, 'ce4e359b9a13e1f9ef6c7fa3e70d2f02'
-		,'01ea428a177a06cd85a5ae1843261ae4'
-		,'57f2edf8c9eadbe04e5717007bdbec83'
-		,'29502e8b8dd4f30cf03dbf0719258bf3'
-		,'b299d877d793c1a929594aa12cb488b4'
-		,'c64c6638612f3db40d6220d189488127'
-		,'69e33e142674045fa0f766a917fb2a66'
-		, 'de4922f768901d3bcde3ccaacad26a79'
-		, '2387cd8ca910156d970c1c115f2b9fe1'
-		, 'dd1d4c14ab10bdc45348cc6182ce60a4'
-		, '18de8ceccbda2f4faa4ce29d6308d050'
-		, 'e94797bac59dff038fce73f8b8b5c25f'
-		, 'a5e6963ceb677ad905062f067ee9da9b'
-		, '2097f0ceaae774266bf15a55100d0d63'
-		, '80bf68d4e33d7f9bd139afe548e34f00'
-		, '4c2f6938c2b62e498021a032eae67a89'
-		, '2ff9019c7b9815d9c01600fc14526b83'
-		, '620b48e533ee2e9ab60a5d8e317771f0'
-		, '397a2cf66fbbf509d7ea899c2580fe8c'
-		, 'be5d26f3b154fdf5694550afb8bde79d'
-		, '0e0fef63a24a85fdc2e2dee95bc0c23f'
-		, '5bab3e30bd93eb26feeed89180177959'
-		, 'f03f9950d7eed619a57b952b2d1e6691'
-		, 'abf4fbcbf6c3d5b6c0e431ab60d963bf'
-		, 'f1073770981f210a6b6b1feaa7b9ee09'
-		, 'f6f908c8f15f0c1af990338502ca8e45'
-		, '11cda5241f6f2834abdbe65834f80df0'
-		, '9cd58131ed69d484ae4671f2b68590bd'
-		, '55ee0b761b8797d6ed5a06af150e443b'
-		, '8b964e99efecbc137a959b4827190544'
-		, '309368d60a1eee6b4e25e488a0b24c29'
-		, 'bb0cd1034c1bfd45a763a4d625e3e964'
-		, 'd60fdc42ce3026e77284a7c3413f64a9'
-		, '9262988f144b656d003fe3c0d75427d8'
-		, '2463ba8b1a54522277579137a801dc7e'
-		, '77545e41fec4ae94269f94f7c5647883'
-		, '7b309962a693cdedf411e62a9ded8d0b'
-		, 'dd5aabc04187e7bce9fe14ca2fec1364'
-		, '658b54b76f0ec464fb4eafb4aa0f297b'
-		, 'a2b38ecd0c440affd06e63057e531394'
-		, '5ee97e84a48f3b019e1688632aa94662'
-		, 'b70a342f6ee04a12ed855438b6474151'
-		, '2463ba8b1a54522277579137a801dc7e'
-		, 'dd5aabc04187e7bce9fe14ca2fec1364'
-		, 'a5bb53077e10d6dacd927e9330cb41fb'
-		, 'e0f0fe4cbcf48641b073b0687b0a45b5'
-		, '893f6a2196d1a98e9dd4f521f88dad0e'
-		, '6fa0599775aabdc767dd8ccce129ff4a'
-		, '7b309962a693cdedf411e62a9ded8d0b'
-		, 'dbd8cfd83c9be698f2c7be1ad2f8b524'
-		, 'd29552f01acf30d7f78960d469f4b993'
-		, '6c598fd0f1a7582993099c61a51d8737'
-		, '5241ce5fb52b95e288800c4c3c2ea6e7'
-		, 'f9c6f14be4581605ae28302188ac85e9'
-		, 'd60fdc42ce3026e77284a7c3413f64a9'
-		, '886c317a0d3144e7e77409ee70dd8f85'
-		, '81a05839016b88c59ee7c77ffba78df5'
-		, '56a00ade18bc4f6f91ca12b7ff48d5b6'
-		, 'e5f7d669ddfacad7b769c22ce4db06c2'
-		, 'e3b4bec86d20c0bcd7db28412e1539f8'
-		, 'dae00eaa2043f499823f5c6af7b5a632'
-		, '987f198ca86ccf048819424430d58010'
-		,'8c5a42fb308886bd4dce8767f470a2a8'
-		, '53ec56fcfaa4040f5260ad5b410e4be9'
-		, 'fc81ce421b6fe8594d1f8f6095946afa'
-		, 'f4caa80a06a2430f5e837f0aa97a9de1'
-		,'f2bbb4163823045dc3f3c8ef30e2c321'
-		,'ef7fd3653620ffab749b3c5e44db3b85'
-		,'eee6c986f695463779935f12093b612b'
-		,'dafe4b9400d96ca3ad47ec2a07708c8b'
-		,'c8b68be060dde1f141e6a1321c98c54f'
-		,'c71de894bc66a2fc0b60554e7f48db7b'
-		, 'aed1df3fb0a96623fde2e62b9c97438c'
-		,'2998a8a8ad46f428e671b5f5f561f716'
-		, '13e1b440408bcc4b922ac6a4698797e8'
-		,'f7f8f38ae8fa4b861cec77dc919000a0'
-		,'f2ddec01d75222819c284e6d665d34db'
-		,'f153fe771d6af89cde5d763b69b0075e'
-		,'d42fca241c061416bd53f3ac6ea26d98'
-		,'89d9a072cce30957d08c66ad37a5fe84'
-		,'897178d192fa139e83981becd70c18a6'
-		,'886b087f26078a476fe3aae9cfb5169d'
-		,'635a538ede957977d93e020764b91786'
-		,'5e82fb1b30616662e33b231cee46d971'
-		,'55b080285a892e20ee5af5ac814126d3'
-		,'39f68b3e011a1423b6fe6d51065444fb'
-		,'20fb2a2280fdfdc483e2a1c43d724bf0'
-		,'20a7f12e8ccdc4e3a84e430d7210798c'
-		//
-	]
-
-	this.urlFlagsHashFramesetRedirect = [''
-		,'0a4a9c4a62cbbcb1b41336ad4b3bae8c'
-		,'12a692eea1ed3bafab391965a7d0fe5f'
-		,'14aa75367bf3766186ce672f910dc9b9'
-		,'16a287493258aba2dcabe0a1c051b57b'
-		,'a08e7d1e3185d454f18f91f148e23b8f'
-		,'1a7fc69f06acc2befc980d9a8c313ce9'
-		,'1f6abc0f29b0b0cc7e7dc694f11730ba'
-		,'21828827b4e5f0fef59df13be49e3c22'
-		,'23d982ba6b6f8847235e48a790e81ea2'
-		,'2a1e4efe12134d3441e80706fe34a515'
-		,'b3b6de1ba3d3c284e5f8b0024b1a47ca'
-		,'32455c23283b48ac9ad18c871c01b74e'
-		,'37bf7b32ca7f80645cd9c5ce1c87d8ec'
-		,'8c362dae12126c41c448132e011079e9'
-		,'4b2d344b0a2bd1c043f337d65ee22ab6'
-		,'ef69fbdb04d5c9c54a77743294bbce0a'
-		,'4c852154a2855b68dfb5908e6be750ac'
-		,'4e5a9065522e9f307a8ec2292c9f0826'
-		,'524a0d52c48a8bfabc60554c4fa67281'
-		,'c353e6d9585c5dfc47cc0c3c4463e4e7'
-		,'64ea41a1dab5ef2701c794e7a44d84fe'
-		,'7b50091125fb2f5b7ff2c5dcef3e60aa'
-		,'332fb7f763a598b36ae56e326a6926c6'
-		,'6722a9580e8a336bc688cd3bdfac48ff'
-		,'76b314ad940f64e0f49342d607e8df2b'
-		,'672c1d7ce1578935eaa4c2f29aae9186'
-		,'677b9a65d4e97b563930227d4f9accc3'
-		,'6ddbdb662342d041b4aabb0397f031a6'
-		,'745a7e6e166e63ed28fdf654f414fad7'
-		,'7b7c4e6bc3f58cd8850936fadfe79971'
-		,'8711b6134ef80ab03303eaa23a446bba'
-		,'8ae5521b76f70faca8efe6dc97089caf'
-		,'8b7486ff7e071c242862d5437f275628'
-		,'8cf659b49c725a1cbec3ab656ab6dd43'
-		,'8d269106884c064e33ccead1e259812c'
-		,'9795639982c288ea5cd64d455fa69075'
-		,'a13e6f2bb4f1c652bf4229a6b0fe27af'
-		,'a2335c30660623f4a428e99f8059eb65'
-		,'a64a2fd3b940e83aa514db019b08bc7d'
-		,'a9d3faea8da3adf870dd69563e82f695'
-		,'acfc9a393c0cf1e034a739bc5e737278'
-		,'af52f7695d3f5610fda87fc410f555cb'
-		,'bdd6d9249f2275e7bcc4f114a3109fa9'
-		,'beac15c0b3d7e145d801cb3d0122e384'
-		,'c3f0a0873e3c26fc956aed4ba6d5a3dc'
-		,'c52e6b14d49a39488d161bea83dc9418'
-		,'c71308ffd13780a39417309bc981b36c'
-		,'dce7fa62d88418279b6a198168664ef9'
-		,'e24dc7cab01b1c90e495b59afe320c59'
-		,'eb3ebcd5ce5f19d3c2e36080a6fc058c'
-		,'f17350088611962e835fa6a04446890f'
-	]
-
-	this.urlFlagsHashFlash = [''
-		, '446057675417b2d3295a46d07c22d43a'
-		, '621d2ab9b6a84e3997bb4ca4d059489a'
-		, '6aaa599df6535baafd6d1abeefa0a07c'
-		, '5667f108ba37421a176c9edc2286da01'
-		, '1889350528b3cd3a8a1d324fef02ba0a'
-		, '54f382e6ab90ad35450522c32c8b0f5d'
-		, 'c247925bb986992dfbde496de9f29493'
-		, '434ecdc65952825dcb7192d8bf840798'
-		, 'ed3563c38ce1b556631313d0f4f14537'
-		, '369811f46d61e66071a858da0c8d93e6'
-		, 'f2e8c4578ed47359cc128f931ae90fc3'
-		, 'f2bb54f522975301c86fd8d99143e7cf'
-		, '40efdc616dca7b9bebff64864e56ee43'
-		, 'fcc45ded2a69f0fea753cac107f56572'
-		, '8cc270e6db4daff6e971c9ceec2ef4f4'
-		, '5b79621a2ebb7a0a7600b42be2248a70'
-		, '3e91096e13ee2e0ea55b1c0fd3bc97b3'
-		, '0fe6e75217560d3b97f36cdbd76eb818'
-		, '07eff20cd42cfaa46ca92ddaaad5020a'
-		, 'ef3e6d5b0e3c6f1160871509d0486f6f'
-		,'a92b58c1a3a269655a9440a192ad7c22'
-		,'7551fb3c8286055fd45b783832650be6'
-		,'63525e08e78152436af2ec886d7e8c09'
-		,'24a3468c708f61617d1899bacb5fa315'
-		,'4aee39aef93da1eb6a8833977cadff7d'
-		,'1a1268f68889a94692871acbbaf03c78'
-		,'0d6c72099b668bd0d802ece8d40d366d'
-		,'014c909b899a8151cc085ec07b444abb'
-	]
-
-	this.urlFlagsHashKnown= [''
-		,'be6e318e14ca5aa7e1227808be2f15c9' //design
-		,'fc0ca0e30d7f2673fa08c0482ed3f152'//pdf
-		,'4829ce6bb0951e966681fe2011b87ace'//rss/atom/xml/rdf
-	]
 	return null;
 
 }).apply(ODPExtension);

@@ -143,23 +143,12 @@
 			aWindow;
 		if (aTab.ownerDocument && aTab.ownerDocument instanceof XULDocument)
 			aWindow = this.windowGetFromTab(aTab);
-		else {
-			try {
-				aWindow = aTab.defaultView.top;
-			} catch (e) {
-				try {
-					ODPExtension.dump('getAllLinksItems fallo con 1 ' + aTab.location);
-					//ODPExtension.dump('getAllLinksItems fallo con 1 ' + aTab.defaultView.document.location);
-				} catch (e) {
-					//ODPExtension.dump('getAllLinksItems fallo con 2 ' + aTab.location);
-				}
-				try {
-					aWindow = aTab.defaultView;
-				} catch (e) {
-					return [];
-				}
-			}
-		}
+		else if(aTab instanceof Window)
+			aWindow = aTab
+		else if(aTab.defaultView && aTab.defaultView.top && aTab.defaultView.top instanceof Window)
+			aWindow = aTab.defaultView.top
+		else if(aTab.defaultView instanceof Window)
+			aWindow = aTab.defaultView
 
 		this.foreachFrame(aWindow, function(aDoc) {
 			var a = aDoc.getElementsByTagName("a");
@@ -182,24 +171,12 @@
 			aWindow;
 		if (aTab.ownerDocument && aTab.ownerDocument instanceof XULDocument)
 			aWindow = this.windowGetFromTab(aTab);
-		else {
-			try {
-				aWindow = aTab.defaultView.top;
-			} catch (e) {
-				try {
-					ODPExtension.dump('getAllLinksHrefs fallo con 1 ' + aTab.location);
-					//ODPExtension.dump('getAllLinksHrefs fallo con 1 ' + aTab.top);
-					//ODPExtension.dump('getAllLinksHrefs fallo con 1 ' + aTab.defaultView.document.location);
-				} catch (e) {
-					//ODPExtension.dump('getAllLinksHrefs fallo con 2 ' + aTab.location);
-				}
-				try {
-					aWindow = aTab.defaultView;
-				} catch (e) {
-					return [];
-				}
-			}
-		}
+		else if(aTab instanceof Window)
+			aWindow = aTab
+		else if(aTab.defaultView && aTab.defaultView.top && aTab.defaultView.top instanceof Window)
+			aWindow = aTab.defaultView.top
+		else if(aTab.defaultView instanceof Window)
+			aWindow = aTab.defaultView
 
 		this.foreachFrame(aWindow, function(aDoc) {
 			var a = aDoc.getElementsByTagName("a");

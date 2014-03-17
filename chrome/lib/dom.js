@@ -200,13 +200,18 @@
 			}
 		}
 	}
-	this.foreachFrameFrameWindow = function(frame, aFunction) {
+	this.foreachFrameFrameWindow = function(frame, aFunction, done) {
+		if(!done)
+			var done = []
 		var frames = frame.frames;
-		for (var i = 0; i < frames.length; i++) {
-			if (!frames[i])
-				continue;
-			aFunction(frames[i]);
-			this.foreachFrameFrameWindow(frames[i], aFunction);
+		if(done.indexOf(frames) === -1){
+			done.push(frames)
+			for (var i = 0; i < frames.length; i++) {
+				if (!frames[i])
+					continue;
+				aFunction(frames[i]);
+				this.foreachFrameFrameWindow(frames[i], aFunction, done);
+			}
 		}
 	}
 	//shortcut for document.getElementById

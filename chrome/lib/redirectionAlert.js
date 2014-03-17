@@ -161,7 +161,7 @@
 								var aTab = ODPExtension.tabGetFromChromeDocument(domWin);
 								if (aTab && !! aTab.ODPExtensionExternalContent) {
 									var decoded = ODPExtension.IDNDecodeURL(aSubject.URI.spec)
-									if(/\.css(\?.*)?$/.test(decoded) || ODPExtension.isGarbage(decoded)){
+									if(/\.css(\?.*)?$/.test(decoded) || ( ODPExtension.isGarbage(decoded) && !ODPExtension.isGarbage(ODPExtension.tabGetLocation(aTab)) && !ODPExtension.isGarbage(aTab.ODPExtensionOriginalURI) ) ){
 										aTab.ODPExtensionExternalContent[aTab.ODPExtensionExternalContent.length] = {
 											url: decoded,
 											status: 200
@@ -335,7 +335,7 @@
 						if (ODPExtension.preferenceGet('link.checker.cache.result')){
 							var cacheID = ODPExtension.sha256(aURL)
 							ODPExtension.compress(JSON.stringify(aData), function(aCompressedData){
-								ODPExtension.fileWriteAsync('/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID, aCompressedData);
+								ODPExtension.fileWrite('/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID, aCompressedData);
 							});
 						}
 						oRedirectionAlert.cache[aURL] = null;
@@ -359,6 +359,7 @@
 			_check: function(aURL, aFunction, aOriginalURL, letsTryAgainIfFail) {
 				this.itemsWorking++;
 				this.itemsNetworking++;
+				this.next();
 
 				if (typeof(letsTryAgainIfFail) == 'undefined')
 					letsTryAgainIfFail = 1;
@@ -449,15 +450,17 @@
 				var timer;
 				Requester.timeout = ODPExtension.preferenceGet('link.checker.timeout');
 				Requester.onload = function() {
+
 					if (loaded)
 						return null;
 
 					function onTabLoad() {
 
+						oRedirectionAlert.itemsNetworking--;
+						oRedirectionAlert.next();
+
 						timedout.status = 3;
 						aTabBrowser.removeEventListener("DOMContentLoaded", DOMContentLoaded, false);
-
-						oRedirectionAlert.next();
 
 						aData.checkType = 'aTab'
 						aData.externalContent = aTab.ODPExtensionExternalContent;
@@ -678,8 +681,6 @@
 
 						oRedirectionAlert.done(aFunction, aData, aURL, aOriginalURL)
 
-						oRedirectionAlert.next();
-
 						oRedirectionAlert.itemsDone++;
 						if (oRedirectionAlert.itemsDone == oRedirectionAlert.itemsWorking)
 							oRedirectionAlert.unLoad();
@@ -689,8 +690,6 @@
 
 						ODPExtension.disableTabFeatures(ODPExtension.windowGetFromTab(aTab), aTab, aData)
 						ODPExtension.disableMedia(aEvent.originalTarget)
-
-						oRedirectionAlert.next();
 
 						if (timedout.status === -1) {
 							var aDoc = aEvent.originalTarget;
@@ -709,8 +708,6 @@
 
 									aData.historyChanges++
 
-									oRedirectionAlert.next();
-
 									if(aData.isDownload)
 										var waitTime = 0
 									else
@@ -720,8 +717,6 @@
 										var currentDoc = ODPExtension.documentGetFromTab(aTab)
 										if(aDoc != currentDoc && aData.historyChanges < 20){
 
-											oRedirectionAlert.itemsNetworking++;
-
 											//ODPExtension.dump('the document is different')
 											aData.statuses.push('meta/js');
 											timedout.status = -1
@@ -729,9 +724,8 @@
 											clearTimeout(timedout.timer)
 											timedout.timer = setTimeout(function() {
 												if (timedout.status === -1) {
-													//ODPExtension.dump('timedout 1')
+
 													timedout.status = 1;
-													oRedirectionAlert.itemsNetworking--;
 													onTabLoad();
 												}
 											}, ODPExtension.preferenceGet('link.checker.timeout') + ODPExtension.preferenceGet('link.checker.watching.period') + ODPExtension.preferenceGet('link.checker.grace.period')); //give time to load, else, just forget it.
@@ -760,7 +754,7 @@
 
 						aData.ids = ODPExtension.normalizeIDs(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
 
-						aData.contentType = Requester.getResponseHeader('Content-Type').replace(/;?\s*charset.*$/i, '');
+						aData.contentType = (Requester.getResponseHeader('Content-Type') || '').replace(/;?\s*charset.*$/i, '');
 						//now get the response as UTF-8
 
 						var aTab = ODPExtension.tabOpen('about:blank', false, false, true);
@@ -802,14 +796,15 @@
 
 						timedout.timer = setTimeout(function() {
 							if (timedout.status === -1) {
-								//ODPExtension.dump('timedout 2')
 								timedout.status = 1;
-								oRedirectionAlert.itemsNetworking--;
 								onTabLoad();
 							}
 						}, ODPExtension.preferenceGet('link.checker.timeout') + ODPExtension.preferenceGet('link.checker.watching.period') + ODPExtension.preferenceGet('link.checker.grace.period')); //give time to load, else, just forget it.
 
 					} else {
+
+						oRedirectionAlert.itemsNetworking--;
+						oRedirectionAlert.next();
 
 						aData.checkType = 'Attachment'
 						aData.siteType = 'binary'
@@ -837,8 +832,6 @@
 
 						oRedirectionAlert.done(aFunction, aData, aURL, aOriginalURL)
 
-						oRedirectionAlert.itemsNetworking--;
-						oRedirectionAlert.next();
 						oRedirectionAlert.itemsDone++;
 						if (oRedirectionAlert.itemsDone == oRedirectionAlert.itemsWorking)
 							oRedirectionAlert.unLoad();
@@ -847,6 +840,7 @@
 					return null;
 				};
 				Requester.onerror = Requester.onabort = Requester.ontimeout = function(TIMEDOUT) {
+
 					oRedirectionAlert.itemsNetworking--;
 					oRedirectionAlert.next();
 
@@ -862,6 +856,7 @@
 						aData.urlRedirections = [];
 
 						oRedirectionAlert._check(aURL, aFunction, aOriginalURL, 0);
+
 					} else {
 						if (loaded)
 							return null;
@@ -916,12 +911,11 @@
 
 						oRedirectionAlert.done(aFunction, aData, aURL, aOriginalURL)
 
-						oRedirectionAlert.next();
 						oRedirectionAlert.itemsDone++;
 						if (oRedirectionAlert.itemsDone == oRedirectionAlert.itemsWorking)
 							oRedirectionAlert.unLoad();
 					}
-					oRedirectionAlert.next();
+
 					return null;
 				};
 				Requester.open("GET", aURL, true);
@@ -1149,6 +1143,7 @@
 
 
 		if('http://get.adobe.com/flashplayer/' == ODPExtension.tabGetLocation(aTab)){
+
 			timedout.status = -1
 			aTabBrowser.webNavigation.allowPlugins = true;
 			aTabBrowser.loadURI(aOriginalURL);
@@ -1186,7 +1181,6 @@
 			} else {
 
 				timedout.status = 2;
-				oRedirectionAlert.itemsNetworking--;
 
 				aDoc.mediaCounted = true;
 				aData.mediaCount = 0
@@ -1435,33 +1429,10 @@
 		aData.ids = this.normalizeIDs(aData.ids, (externalContent).match(/(pub|ua)-[^"'&\s]+/gmi) || [])
 		var data = (aData.urlRedirections.join('\n') + '\n' + externalContent + '\n' + aData.headers + '\n' + aData.html).toLowerCase().replace(/\s+/g, ' ');
 		var breaky = false;
+
 		for (var name in array) {
 			if (array[name] != '') {
-
-				//bodyMatch
 				var flag = this['urlFlags'][array[name]]
-
-				if (aData.hash != '' && flag['hash'].indexOf(aData.hash) != -1) {
-					aData.status.error = true;
-
-					if(! flag['errorCodeApplyOnOKOnly'] || ( flag['errorCodeApplyOnOKOnly'] && aData.status.code == 200)) {
-						aData.status.code = flag['errorCode'];
-						aData.statuses.push(aData.status.code);
-					}
-
-					if (flag['canDelete'])
-						aData.status.canDelete = true;
-					if (flag['canUnreview'])
-						aData.status.canUnreview = true;
-
-					aData.status.errorString = flag['errorString'];
-					aData.status.errorStringUserFriendly = flag['errorStringUserFriendly'];
-					//aData.status.match = string;
-					aData.status.matchHash = true;
-					aData.hashKnown = true;
-					breaky = true;
-					break;
-				}
 
 				for (var id in flag['body']) {
 					var string = flag['body'][id].replace(/\s+/g, ' ').toLowerCase().trim();
@@ -1487,6 +1458,36 @@
 				}
 				if (breaky)
 					break;
+			}
+		}
+		if (!breaky) {
+
+			for (var name in array) {
+				if (array[name] != '') {
+					var flag = this['urlFlags'][array[name]]
+
+					if (aData.hash != '' && flag['hash'].indexOf(aData.hash) != -1) {
+						aData.status.error = true;
+
+						if(! flag['errorCodeApplyOnOKOnly'] || ( flag['errorCodeApplyOnOKOnly'] && aData.status.code == 200)) {
+							aData.status.code = flag['errorCode'];
+							aData.statuses.push(aData.status.code);
+						}
+
+						if (flag['canDelete'])
+							aData.status.canDelete = true;
+						if (flag['canUnreview'])
+							aData.status.canUnreview = true;
+
+						aData.status.errorString = flag['errorString'];
+						aData.status.errorStringUserFriendly = flag['errorStringUserFriendly'];
+						//aData.status.match = string;
+						aData.status.matchHash = true;
+						aData.hashKnown = true;
+						breaky = true;
+						break;
+					}
+				}
 			}
 		}
 

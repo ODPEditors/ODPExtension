@@ -127,15 +127,17 @@
 				ids[ids.length] = row.name
 			ids = this.normalizeIDs(ids);
 			for (var id in ids) {
-				query_exclusive.params('name', ids[id])
-				query_exclusive.params('value', aDomain)
-				while (row = database.fetchObjects(query_exclusive)) {
-					var add = this.create("menuitem");
-					add.setAttribute('class', 'menuitem-iconic');
-					add.setAttribute("label", row.name + ' ' + row.value);
-					add.setAttribute("value", 'http://' + row.value);
-					items[items.length] = add
-					added++;
+				if(ids[id] != ip){
+					query_exclusive.params('name', ids[id])
+					query_exclusive.params('value', aDomain)
+					while (row = database.fetchObjects(query_exclusive)) {
+						var add = this.create("menuitem");
+						add.setAttribute('class', 'menuitem-iconic');
+						add.setAttribute("label", row.name + ' ' + row.value);
+						add.setAttribute("value", 'http://' + row.value);
+						items[items.length] = add
+						added++;
+					}
 				}
 			}
 			if (items.length) {

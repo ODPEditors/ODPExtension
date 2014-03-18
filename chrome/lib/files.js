@@ -140,8 +140,9 @@
 		var why_not_a_simple_fopen_fwrite = Components.classes["@mozilla.org/intl/converter-output-stream;1"].createInstance(Components.interfaces.nsIConverterOutputStream);
 
 		why_not_a_simple_fopen_fwrite.init(WriteStream, "utf-8", 0, 0xFFFD); // U+FFFD = replacement character
+		var head;
 		if (aData.indexOf('<!DOCTYPE') != -1 || aName.indexOf('.html') == -1) {} else {
-			var head = '<!DOCTYPE HTML><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' + this.htmlSpecialCharsEncode(aTitle) + '</title>';
+			head = '<!DOCTYPE HTML><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' + this.htmlSpecialCharsEncode(aTitle) + '</title>';
 			if (!this.fileCreateTemporalHead) {} else
 				head += this.fileCreateTemporalHead;
 
@@ -151,7 +152,9 @@
 		why_not_a_simple_fopen_fwrite.close();
 		WriteStream.close();
 
-		var path = file.path;
+		var path = String(file.path);
+
+		aName = aTitle = aData = file = WriteStream = why_not_a_simple_fopen_fwrite = head = null
 
 		return path;
 	}

@@ -4,6 +4,16 @@
 
 	var debugingThisFile = true;
 
+	this.addListener('DOMContentLoadedNoFrames', function (aDoc) {
+		if(aDoc && aDoc.location && (
+		   	aDoc.location.href && String(aDoc.location.href).indexOf('https://translate.google.') == 0 ||
+		   	String(aDoc.location.href).indexOf('http://translate.google.') == 0)){
+			var aElement = aDoc.getElementById('source');
+			if(aElement)
+				aElement.setAttribute('spellcheck', true);
+		}
+	});
+
 	//translate the selected text or ask the user for input
 	//it also replaces the "_" for " " nice for translate category names
 

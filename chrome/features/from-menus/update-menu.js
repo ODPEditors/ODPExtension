@@ -54,6 +54,15 @@
 		ODPExtension.fromCategoryUpdateMenu(event, 'context-from-category');
 		ODPExtension.getElement('from-category').hidePopup();
 	});
+
+	// this will(should) avoid open the menu when clicking a link
+	this.addListener('onLocationChange', function(event) {
+		ODPExtension.getElement('from-category').hidePopup();
+	});
+	this.addListener('onTabAdded', function(event) {
+		ODPExtension.getElement('from-category').hidePopup();
+	});
+
 	//in tabs
 	this.addListener('tabContextMenuShowing', function(event) {
 		// this will update the label of the "from category" menu on context menu
@@ -354,6 +363,7 @@
 		) {
 			//hide elements no realtive to the HTML
 			document.getAnonymousElementByAttribute(thePopupContainer, "anonid", "ODPExtension-from-category-paste").setAttribute('hidden', true);
+			document.getAnonymousElementByAttribute(thePopupContainer, "anonid", "ODPExtension-from-category-paste-category").setAttribute('hidden', true);
 			document.getAnonymousElementByAttribute(thePopupContainer, "anonid", "ODPExtension-from-category-cut").setAttribute('hidden', true);
 			document.getAnonymousElementByAttribute(thePopupContainer, "anonid", "ODPExtension-from-category-delete").setAttribute('hidden', true);
 			document.getAnonymousElementByAttribute(thePopupContainer, "anonid", "ODPExtension-from-category-copy-selection").setAttribute('hidden', true);
@@ -362,10 +372,13 @@
 		}
 		else {
 			//check for clipboard to show paste menuitem
-			if (clipboard && this.focusedElementIsTextbox())
+			if (clipboard && this.focusedElementIsTextbox()){
 				document.getAnonymousElementByAttribute(thePopupContainer, "anonid", "ODPExtension-from-category-paste").setAttribute('hidden', false);
-			else
+				document.getAnonymousElementByAttribute(thePopupContainer, "anonid", "ODPExtension-from-category-paste-category").setAttribute('hidden', false);
+			} else {
 				document.getAnonymousElementByAttribute(thePopupContainer, "anonid", "ODPExtension-from-category-paste").setAttribute('hidden', true);
+				document.getAnonymousElementByAttribute(thePopupContainer, "anonid", "ODPExtension-from-category-paste-category").setAttribute('hidden', true);
+			}
 
 			//check for selection to show cut and delete menuitem
 			if (selectedTextInsideInput) {

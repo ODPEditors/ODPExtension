@@ -464,8 +464,10 @@
 	}
 	//stopPropagation and preventDefault
 	this.stopEvent = function(event) {
-		event.stopPropagation();
-		event.preventDefault();
+		if(event && event.stopPropagation && event.preventDefault){
+			event.stopPropagation();
+			event.preventDefault();
+		}
 	}
 	//returns the tag name of a node in upper case
 	this.tagName = function(aNode) {

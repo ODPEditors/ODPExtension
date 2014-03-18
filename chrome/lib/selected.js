@@ -45,6 +45,16 @@
 
 		return aTextSelection;
 	};
+	//returns the selected text of a focused element (if any)
+	this.getFocusedElement = function(aDoc) {
+		//if aDoc is not set, use the "firefox"(aka chrome document)
+		if(!aDoc)
+			aDoc = document;
+		if (!document.commandDispatcher || !document.commandDispatcher.focusedElement)
+			return '';
+
+		return document.commandDispatcher.focusedElement;
+	};
 	//returns the selection that the browser is returning looking in every frame until something found
 	//this function should be used when is called from an element that makes the window lose focus
 	this.getFramesSelectionRecursive = function(win) {

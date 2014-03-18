@@ -28,6 +28,10 @@
 		var inSelectedTab = (aCategories.length == 1);
 
 		//add site
+
+		if(this[aCommand])
+			return this[aCommand](aCategories)
+
 		if (aCommand == 'add-site') {
 			this.openURL('http://www.dmoz.org/editors/editurl/add?url=' + this.encodeUTF8(this.fromCategorySecondaryValue) + '&cat=' + this.encodeUTF8(aCategories[0]), true, false, true);
 			return;

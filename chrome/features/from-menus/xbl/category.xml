@@ -37,6 +37,7 @@
 				</xul:menupopup>
 			  </xul:menu>
 			  <xul:menuitem anonid="ODPExtension-from-category-paste" hidden="true" action="command_paste" label="&ODPExtension.from.category.paste;"/>
+			  <xul:menuitem anonid="ODPExtension-from-category-paste-category" hidden="true" action="pasteCategoryPaste" label="Paste Category"/>
 			  <xul:menuitem anonid="ODPExtension-from-category-delete" hidden="true" action="command_delete" label="&ODPExtension.from.category.delete;"/>
 			  <xul:menuseparator/>
 			  <!-- <xul:menuitem action="tool_pub" label="Publish"/> -->

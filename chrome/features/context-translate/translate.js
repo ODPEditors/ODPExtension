@@ -5,9 +5,8 @@
 	var debugingThisFile = true;
 
 	this.addListener('DOMContentLoadedNoFrames', function (aDoc) {
-		if(aDoc && aDoc.location && (
-		   	aDoc.location.href && String(aDoc.location.href).indexOf('https://translate.google.') == 0 ||
-		   	String(aDoc.location.href).indexOf('http://translate.google.') == 0)){
+		var aLocation = ODPExtension.documentGetLocation(aDoc)
+		if(aLocation != '' && ( aLocation.indexOf('https://translate.google.') == 0 || aLocation.indexOf('http://translate.google.') == 0)){
 			var aElement = aDoc.getElementById('source');
 			if(aElement)
 				aElement.setAttribute('spellcheck', true);
@@ -37,7 +36,7 @@
 		} else {
 
 			if (aString.indexOf('http') === 0)
-				this.tabOpenCheckForBehavior('https://translate.google.com/translate?sl=auto&tl=' + aEvent.originalTarget.getAttribute('value') + '&js=n&prev=_t&hl=en&ie=UTF-8&u=' + this.encodeUTF8(aString),
+				this.tabOpenCheckForBehavior('http://translate.google.com/translate?sl=auto&tl=' + aEvent.originalTarget.getAttribute('value') + '&js=n&prev=_t&hl=en&ie=UTF-8&u=' + this.encodeUTF8(aString),
 					aEvent,
 					'translate');
 

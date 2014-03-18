@@ -15,7 +15,5 @@
 	<popup id="contentAreaContextMenu">
 		<menuseparator id="ODPExtension-context-separator"/>
 	</popup>
-	<keyset id="mainKeyset">
-		<key key=" " modifiers="accel" oncommand="ODPExtension.categoryBrowserOpen();"/>
-	</keyset>
+
 </overlay>

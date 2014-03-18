@@ -30,100 +30,104 @@
 
 <window id="main-window">
 
-			<menupopup
-				id="ODPExtension-category-browser"
-				onpopuphidden="ODPExtension.categoryBrowserOnPopupHidden(event);"
-				onpopupshowing="ODPExtension.categoryBrowserOnPopupShowing(event);"
-				onmouseover="ODPExtension.categoryBrowserNavigate(event);"
-				onmouseout="ODPExtension.categoryBrowserNavigate(event);"
-				onmouseup="ODPExtension.stopEvent(event);ODPExtension.categoryBrowserClick(event)"
-				ondblclick="ODPExtension.stopEvent(event)"
-				context="ODPExtension-from-category"
-				class="ODPExtension-category-browser ODPExtension-crop"
-				crop="end"
-				ignorekeys="true"
-				resultsbelow="ODPExtension-category-browser-categories-search"
-			>
-				<menuseparator locked="true"/>
-				<menuitem locked="true" label="&ODPExtension.reset.menu;" onmouseup="ODPExtension.categoryBrowserMenuUpdate();/*setTimeout(function(){ODPExtension.getElement('category-browser').openPopup();},0);*/"/>
-				<menuseparator locked="true"/>
-				<menu locked="true" protected="true" label="Top">
+	<keyset id="mainKeyset">
+		<key key=" " modifiers="accel" oncommand="ODPExtension.pasteCategory();"/>
+	</keyset>
+
+	<menupopup
+		id="ODPExtension-category-browser"
+		onpopuphidden="ODPExtension.categoryBrowserOnPopupHidden(event);"
+		onpopupshowing="ODPExtension.categoryBrowserOnPopupShowing(event);"
+		onmouseover="ODPExtension.categoryBrowserNavigate(event);"
+		onmouseout="ODPExtension.categoryBrowserNavigate(event);"
+		onmouseup="ODPExtension.stopEvent(event);ODPExtension.categoryBrowserClick(event)"
+		ondblclick="ODPExtension.stopEvent(event)"
+		context="ODPExtension-from-category"
+		class="ODPExtension-category-browser ODPExtension-crop"
+		crop="end"
+		ignorekeys="true"
+		resultsbelow="ODPExtension-category-browser-categories-search"
+	>
+		<menuseparator locked="true"/>
+		<menuitem locked="true" label="&ODPExtension.reset.menu;" onmouseup="ODPExtension.categoryBrowserMenuUpdate();/*setTimeout(function(){ODPExtension.getElement('category-browser').openPopup();},0);*/"/>
+		<menuseparator locked="true"/>
+		<menu locked="true" protected="true" label="Top">
+			<menupopup>
+				<menuitem value="Kids_and_Teens" label="Kids &amp; Teens"/>
+				<menuseparator/>
+				<menuitem value="World/Arabic" label="Arabic"/>
+				<menuitem value="World/Bahasa_Indonesia" label="Bahasa Indonesia"/>
+				<menuitem value="World/Bulgarian" label="Bulgarian"/>
+				<menuitem value="World/Català" label="Català"/>
+				<menuitem value="World/Česky" label="Česky"/>
+				<menuitem value="World/Chinese_Simplified" label="Chinese Simplified"/>
+				<menuitem value="World/Chinese_Traditional" label="Chinese Traditional"/>
+				<menuitem value="World/Dansk" label="Dansk"/>
+				<menuitem value="World/Deutsch" label="Deutsch"/>
+				<menu label="English">
 					<menupopup>
-						<menuitem value="Kids_and_Teens" label="Kids &amp; Teens"/>
-						<menuseparator/>
-						<menuitem value="World/Arabic" label="Arabic"/>
-						<menuitem value="World/Bahasa_Indonesia" label="Bahasa Indonesia"/>
-						<menuitem value="World/Bulgarian" label="Bulgarian"/>
-						<menuitem value="World/Català" label="Català"/>
-						<menuitem value="World/Česky" label="Česky"/>
-						<menuitem value="World/Chinese_Simplified" label="Chinese Simplified"/>
-						<menuitem value="World/Chinese_Traditional" label="Chinese Traditional"/>
-						<menuitem value="World/Dansk" label="Dansk"/>
-						<menuitem value="World/Deutsch" label="Deutsch"/>
-						<menu label="English">
-							<menupopup>
-								<menuitem value="Arts" label="Arts"/>
-								<menuitem value="Business" label="Business"/>
-								<menuitem value="Computers" label="Computers"/>
-								<menuitem value="Games" label="Games"/>
-								<menuitem value="Health" label="Health"/>
-								<menuitem value="Home" label="Home"/>
-								<menuitem value="News" label="News"/>
-								<menuitem value="Recreation" label="Recreation"/>
-								<menuitem value="Reference" label="Reference"/>
-								<menuitem value="Regional" label="Regional"/>
-								<menuitem value="Science" label="Science"/>
-								<menuitem value="Shopping" label="Shopping"/>
-								<menuitem value="Society" label="Society"/>
-								<menuitem value="Sports" label="Sports"/>
-							</menupopup>
-						</menu>
-						<menuitem value="World/Español" label="Español"/>
-						<menuitem value="World/Esperanto" label="Esperanto"/>
-						<menuitem value="World/Français" label="Français"/>
-						<menuitem value="World/Galego" label="Galego"/>
-						<menuitem value="World/Greek" label="Greek"/>
-						<menuitem value="World/Hrvatski" label="Hrvatski"/>
-						<menuitem value="World/Italiano" label="Italiano"/>
-						<menuitem value="World/Japanese" label="日本語"/>
-						<menuitem value="World/Korean" label="Korean"/>
-						<menuitem value="World/Latviski" label="Latviski"/>
-						<menuitem value="World/Lietuvių" label="Lietuvių"/>
-						<menuitem value="World/Magyar" label="Magyar"/>
-						<menuitem value="World/Nederlands" label="Nederlands"/>
-						<menuitem value="World/Norsk" label="Norsk"/>
-						<menuitem value="World/Polski" label="Polski"/>
-						<menuitem value="World/Português" label="Português"/>
-						<menuitem value="World/Română" label="Română"/>
-						<menuitem value="World/Russian" label="Русский"/>
-						<menuitem value="World/Slovensko" label="Slovensko"/>
-						<menuitem value="World/Slovensky" label="Slovensky"/>
-						<menuitem value="World/Srpski" label="Srpski"/>
-						<menuitem value="World/Suomi" label="Suomi"/>
-						<menuitem value="World/Svenska" label="Svenska"/>
-						<menuitem value="World/Thai" label="Thai"/>
-						<menuitem value="World/Tiếng_Việt" label="Tiếng Việt"/>
-						<menuitem value="World/Türkçe" label="Türkçe"/>
-						<menuitem value="World/Ukrainian" label="Ukrainian"/>
-						<menuseparator/>
-						<menuitem value="World" label="World"/>
-						<menuseparator/>
-						<menuitem value="Test" label="Test"/>
-						<menuitem value="Bookmarks" label="Bookmarks"/>
-						<menuseparator/>
-						<menuitem value="Netscape" label="Netscape"/>
-						<menuseparator/>
-						<menuitem value="Adult" label="Adult"/>
+						<menuitem value="Arts" label="Arts"/>
+						<menuitem value="Business" label="Business"/>
+						<menuitem value="Computers" label="Computers"/>
+						<menuitem value="Games" label="Games"/>
+						<menuitem value="Health" label="Health"/>
+						<menuitem value="Home" label="Home"/>
+						<menuitem value="News" label="News"/>
+						<menuitem value="Recreation" label="Recreation"/>
+						<menuitem value="Reference" label="Reference"/>
+						<menuitem value="Regional" label="Regional"/>
+						<menuitem value="Science" label="Science"/>
+						<menuitem value="Shopping" label="Shopping"/>
+						<menuitem value="Society" label="Society"/>
+						<menuitem value="Sports" label="Sports"/>
 					</menupopup>
 				</menu>
-				<menu protected="true" locked="true" label="This browsing session categories">
-					<menupopup id="ODPExtension-category-browser-session-categories"><menuitem locked="true" hidden="true"/></menupopup>
-				</menu>
-				<menuseparator id="ODPExtension-category-browser-categories-clipboard" locked="true"/>
-				<menuseparator id="ODPExtension-category-browser-categories-opened" locked="true"/>
-				<menuseparator id="ODPExtension-category-browser-categories-search" hidden="true" locked="true"/>
-				<menuseparator id="ODPExtension-category-browser-categories-history" locked="true"/>
+				<menuitem value="World/Español" label="Español"/>
+				<menuitem value="World/Esperanto" label="Esperanto"/>
+				<menuitem value="World/Français" label="Français"/>
+				<menuitem value="World/Galego" label="Galego"/>
+				<menuitem value="World/Greek" label="Greek"/>
+				<menuitem value="World/Hrvatski" label="Hrvatski"/>
+				<menuitem value="World/Italiano" label="Italiano"/>
+				<menuitem value="World/Japanese" label="日本語"/>
+				<menuitem value="World/Korean" label="Korean"/>
+				<menuitem value="World/Latviski" label="Latviski"/>
+				<menuitem value="World/Lietuvių" label="Lietuvių"/>
+				<menuitem value="World/Magyar" label="Magyar"/>
+				<menuitem value="World/Nederlands" label="Nederlands"/>
+				<menuitem value="World/Norsk" label="Norsk"/>
+				<menuitem value="World/Polski" label="Polski"/>
+				<menuitem value="World/Português" label="Português"/>
+				<menuitem value="World/Română" label="Română"/>
+				<menuitem value="World/Russian" label="Русский"/>
+				<menuitem value="World/Slovensko" label="Slovensko"/>
+				<menuitem value="World/Slovensky" label="Slovensky"/>
+				<menuitem value="World/Srpski" label="Srpski"/>
+				<menuitem value="World/Suomi" label="Suomi"/>
+				<menuitem value="World/Svenska" label="Svenska"/>
+				<menuitem value="World/Thai" label="Thai"/>
+				<menuitem value="World/Tiếng_Việt" label="Tiếng Việt"/>
+				<menuitem value="World/Türkçe" label="Türkçe"/>
+				<menuitem value="World/Ukrainian" label="Ukrainian"/>
+				<menuseparator/>
+				<menuitem value="World" label="World"/>
+				<menuseparator/>
+				<menuitem value="Test" label="Test"/>
+				<menuitem value="Bookmarks" label="Bookmarks"/>
+				<menuseparator/>
+				<menuitem value="Netscape" label="Netscape"/>
+				<menuseparator/>
+				<menuitem value="Adult" label="Adult"/>
 			</menupopup>
+		</menu>
+		<menu protected="true" locked="true" label="This browsing session categories">
+			<menupopup id="ODPExtension-category-browser-session-categories"><menuitem locked="true" hidden="true"/></menupopup>
+		</menu>
+		<menuseparator id="ODPExtension-category-browser-categories-clipboard" locked="true"/>
+		<menuseparator id="ODPExtension-category-browser-categories-opened" locked="true"/>
+		<menuseparator id="ODPExtension-category-browser-categories-search" hidden="true" locked="true"/>
+		<menuseparator id="ODPExtension-category-browser-categories-history" locked="true"/>
+	</menupopup>
 
 </window>
 </overlay>

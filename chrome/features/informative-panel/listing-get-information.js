@@ -11,6 +11,8 @@
 		var aDoc = ODPExtension.documentGetFocused();
 		if (ODPExtension.editingFormURLExists(aDoc)) {
 			focusedURL = ODPExtension.IDNDecodeURL(ODPExtension.string((ODPExtension.getElementNamed('newurl', aDoc) || ODPExtension.getElementNamed('url', aDoc)).value));
+		} else if(aLocation.indexOf('u=') !== -1 && (aLocation.indexOf('https://translate.google.') === 0 || aLocation.indexOf('http://translate.google.') === 0) ) {
+			focusedURL = ODPExtension.decodeUTF8(aLocation.split('u=')[1]);
 		} else {
 			focusedURL = aLocation;
 		}
@@ -19,10 +21,14 @@
 
 	this.addListener('onLocationChange', function (aLocation) {
 		var aDoc = ODPExtension.documentGetFocused();
+
 		if (ODPExtension.editingFormURLExists(aDoc)) {
 			focusedURL = ODPExtension.IDNDecodeURL(ODPExtension.string((ODPExtension.getElementNamed('newurl', aDoc) || ODPExtension.getElementNamed('url', aDoc)).value));
 			ODPExtension.listingGetInformation(focusedURL);
+		} else if(aLocation.indexOf('u=')!==-1 && (aLocation.indexOf('https://translate.google.') === 0 || aLocation.indexOf('http://translate.google.') === 0) ){
+				ODPExtension.listingGetInformation(ODPExtension.decodeUTF8(aLocation.split('u=')[1]));
 		}
+
 	});
 	var db, query_domain_count, query_domain_select, query_slice, query_create, query_update, query_delete;
 	this.addListener('databaseReady', function () {

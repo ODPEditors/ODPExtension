@@ -337,7 +337,7 @@
 						if (ODPExtension.preferenceGet('link.checker.cache.result')){
 							var cacheID = ODPExtension.sha256(aURL)
 							ODPExtension.compress(JSON.stringify(aData), function(aCompressedData){
-								ODPExtension.fileWrite('/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID, aCompressedData);
+								ODPExtension.fileWriteAsync('/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID, aCompressedData);
 							});
 						}
 						oRedirectionAlert.cache[aURL] = null;
@@ -718,7 +718,6 @@
 											clearTimeout(timedout.timer)
 											timedout.timer = setTimeout(function() {
 												if (timedout.status === -1) {
-
 													timedout.status = 1;
 													onTabLoad();
 												}

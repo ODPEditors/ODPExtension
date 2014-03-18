@@ -116,6 +116,7 @@
 		//sets msg
 		aMsg = aMsg.replace('{CATEGORY}', aCategory).replace('{RESULTS}', results);
 
+
 		//display results
 		if (results > 0)
 			this.tabOpen(this.fileCreateTemporal(
@@ -126,6 +127,9 @@
 				'</ol></pre>'), true);
 		else
 			this.notifyTab(aMsg, 8);
+
+		subs = altlangsMix = aComparator = aTmp = altlangs = newCategories = oldCategories = item = id = id2 = aData = results = null
+
 	}
 	return null;
 

@@ -30,7 +30,7 @@
 									');
 
 		if (!anArrayResults)
-			anArrayResults = [];
+			var anArrayResults = [];
 
 		var row;
 		for (var i = 0; row = db.fetchObjects(query); i++) {

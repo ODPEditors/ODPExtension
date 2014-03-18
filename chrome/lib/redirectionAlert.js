@@ -1053,19 +1053,22 @@
 		                               	aWindoww.wrappedJSObject,
 		                               	this.windowGetFromTab(aTab),
 		                               	this.windowGetFromTab(aTab).wrappedJSObject])
-
+		var done = []
 		for(var wwin in windows){
 			var aWindow = windows[wwin];
 			if(!aWindow)
 				continue
-
+			done.push(aWindow)
 			this.disableTabFeaturesWindow(aWindow);
 			this.foreachFrame(aWindow, function(aDoc) {
-				var aWindow = aDoc.defaultView;
-				if(!!aWindow)
-					ODPExtension.disableTabFeaturesWindow(aWindow);
+				var aWindowww = aDoc.defaultView;
+				if(!!aWindowww && done.indexOf(aWindowww) === -1){
+					done.push(aWindowww)
+					ODPExtension.disableTabFeaturesWindow(aWindowww);
+				}
 			});
 		}
+		windows = done = wwin = null
 	}
 
 	var events = ['beforeunload', 'onbeforeunload', 'onunload', 'unload']
@@ -1074,16 +1077,17 @@
 	var notempty = function(){ return 'something'; }
 
 	this.disableTabFeaturesWindow = function(aWindow){
-		var v = aWindow;
 		for (var id in events) {
-			if (v._eventTypes && v._eventTypes[events[id]]) {
-				var r = v._eventTypes[events[id]];
-				for (var s = 0; s < r.length; s++) {
-					v.removeEventListener(events[id], r[s], false);
-					v.removeEventListener(events[id], r[s], true);
+			var event = events[id]
+			if (aWindow._eventTypes && aWindow._eventTypes[event]) {
+				var r = aWindow._eventTypes[event];
+				var length = r.length
+				for (var s = 0; s < length; s++) {
+					aWindow.removeEventListener(event, r[s], false);
+					aWindow.removeEventListener(event, r[s], true);
 					r[s] = noop
 				}
-				v._eventTypes[events[id]] = [];
+				aWindow._eventTypes[event] = [];
 			}
 		}
 		aWindow.alert = aWindow.focus = noop

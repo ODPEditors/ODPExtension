@@ -14,7 +14,7 @@
 		var aString = this.getSelectedTextOrPrompt(false);
 
 		if (aString != '' && aString.indexOf('http') !== 0) {
-			this.tabOpenCheckForBehavior('http://translate.google.com/',
+			this.tabOpenCheckForBehavior('https://translate.google.com/',
 				aEvent,
 				'translate',
 				'text=' + this.encodeUTF8(aString.replace(/_/g, ' ').replace(/\//g, ' / ').replace(/World\//g, ' ')) + '&langpair=auto|' + aEvent.originalTarget.getAttribute('value') + '&ie=UTF-8&oe=UTF-8');
@@ -31,7 +31,7 @@
 				aString = this.focusedURL;
 			}
 			if (aString != '')
-				this.tabOpenCheckForBehavior('http://translate.google.com/translate?sl=auto&tl=' + aEvent.originalTarget.getAttribute('value') + '&js=n&prev=_t&hl=en&ie=UTF-8&u=' + this.encodeUTF8(aString),
+				this.tabOpenCheckForBehavior('https://translate.google.com/translate?sl=auto&tl=' + aEvent.originalTarget.getAttribute('value') + '&js=n&prev=_t&hl=en&ie=UTF-8&u=' + this.encodeUTF8(aString),
 					aEvent,
 					'translate');
 		}

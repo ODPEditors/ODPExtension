@@ -238,6 +238,12 @@
 			  </xul:menu-->
 			  <xul:menuseparator/>
 			<xul:menuitem action="command_editors_mimizu" label="Editors"/>
+		  <xul:menu label="Sites">
+			<xul:menupopup>
+				<xul:menuitem disabled="true" label="RDF" style="font-weight:bold;"/>
+				<xul:menuitem action="rdfFindSitesCooled" label="Cooled sites"/>
+			</xul:menupopup>
+		  </xul:menu>
 			  <!--
 			  <xul:menu label="Editors">
 				<xul:menupopup>

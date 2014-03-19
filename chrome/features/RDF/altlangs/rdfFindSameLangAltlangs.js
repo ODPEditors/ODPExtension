@@ -50,7 +50,7 @@
 			'RDF.html',
 			aMsg.replace('{CATEGORY}', '').replace('{RESULTS}', ''),
 			'<div class="header">' + aMsg.replace('{CATEGORY}', '').replace('{RESULTS}','') + '</div>' +
-			'<pre style="background-color:white !important;padding:2px;">' + aData +
+			'<pre>' + aData +
 			'</pre>'), true);
 
 	}

@@ -8,15 +8,14 @@
 		db = ODPExtension.rdfDatabaseOpen();
 		if (db.exists){
 			//sql query
-			query = db.query(' SELECT u.uri, u.description, u.title, c.category FROM uris u, hosts h, categories c where h.host = :host and h.id = u.subdomain_id and c.id = u.category_id order by h.host asc, u.uri asc');
+			query = db.query(' SELECT u.uri, u.description, u.title, c.category FROM uris u, categories c where u.category_id in (select id from categories where category GLOB :category) and u.cool = 1 and c.id = u.category_id order by c.category asc, u.uri asc');
 		}
 	});
-	this.rdfFindSitesSubdomain = function(aURL) {
+	this.rdfFindSitesCooled = function(aCategory) {
 
-		var aDomain =  this.removeWWW(this.getSubdomainFromURL(aURL))
-		var aMsg = 'Sites from subdomain "{DOMAIN}" ({RESULTS})'; //informative msg and title of document
+		var aMsg = 'Sites cooled in "{CATEGORY}" ({RESULTS})'; //informative msg and title of document
 
-		query.params('host', aDomain);
+		query.params('category', aCategory+'*');
 
 		var urls = []
 
@@ -34,7 +33,7 @@
 		aData += this.__LINE__+this.__LINE__+(urls.join(this.__LINE__))
 
 		//sets msg
-		aMsg = aMsg.replace('{DOMAIN}', aDomain).replace('{RESULTS}', results);
+		aMsg = aMsg.replace('{CATEGORY}', aCategory).replace('{RESULTS}', results);
 
 		//display results
 		if (results > 0)
@@ -42,7 +41,7 @@
 				'RDF.html',
 				aMsg,
 				'<div class="header">' + aMsg + '</div>' +
-				'<pre><ul>' + aData +
+				'<pre style="background-color:white !important;"><ul>' + aData +
 				'</pre>'), true);
 		else
 			this.notifyTab(aMsg, 8);

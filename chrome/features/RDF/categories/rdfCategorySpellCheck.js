@@ -45,7 +45,7 @@
 				aMsg,
 				'<div class="header">' + aMsg + '</div>' +
 				'<div class="informative">You may want to suggest the words that are not recognized (but correct) to the dictionary maintainers by looking into the URLs on "Install dictionary" links at <a href="https://addons.mozilla.org/en-US/firefox/language-tools/">&lt;https://addons.mozilla.org/en-US/firefox/language-tools/&gt;</a></div>' +
-				'<pre style="background-color:white !important;padding:2px;">' + aData +
+				'<pre>' + aData +
 				'</pre>'), true);
 		else
 			this.notifyTab(aMsg, 8);

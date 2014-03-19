@@ -31,7 +31,7 @@
 				'RDF.html',
 				aMsg,
 				'<div class="header">' + this.htmlSpecialCharsEncode(aMsg) + '</div>' +
-				'<pre style="background-color:white !important;padding:2px;">' + aData +
+				'<pre>' + aData +
 				'</pre>'), true);
 		else
 			this.notifyTab(aMsg, 8);

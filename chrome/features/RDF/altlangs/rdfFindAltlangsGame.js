@@ -120,7 +120,7 @@
 				'RDF.html',
 				'Worldlinkerator World Cup',
 				'<div class="header">Worldlinkerator World Cup!</div>' +
-				'<pre style="background-color:white !important;padding:2px;">' + aData +
+				'<pre>' + aData +
 				'</pre>'), true);
 		else
 			this.notifyTab(aMsg, 8);

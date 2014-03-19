@@ -22,6 +22,7 @@ body {
 	margin: 0;
 	border: 0;
 	overflow-y: scroll;
+	unicode-bidi:embed;
 }
 .clear {
 	float: none;
@@ -57,6 +58,14 @@ body {
 .narrow {
 	display: none;
 }
+}
+
+.rtl{
+	direction: rtl;
+
+}
+pre{
+	max-width: 99%;
 }
 .icons {
 	font-family: 'Flat-UI-Icons';

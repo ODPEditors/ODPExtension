@@ -79,7 +79,7 @@
 					id + '.html',
 					aMsg.replace('{CATEGORY}', aCategory).replace('{RESULTS}', aData[id].count),
 					'<div class="header">' + aMsg.replace('{CATEGORY}', aCategory).replace('{RESULTS}', aData[id].count) + '</div>' +
-					'<pre style="background-color:white !important;padding:2px;">' + aData[id].str +
+					'<pre>' + aData[id].str +
 					'</pre>'), true);
 		} else
 			this.notifyTab(aMsg, 8);

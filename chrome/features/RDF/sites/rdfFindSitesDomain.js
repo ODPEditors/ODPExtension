@@ -25,7 +25,7 @@
 			aData = '';
 		for (var results = 0; row = db.fetchObjects(query); results++) {
 			urls[urls.length] = row.uri
-			aData += '<li>[<a href="http://www.dmoz.org/editors/editurl/edit?url='+this.encodeUTF8(row.uri)+'&cat='+this.encodeUTF8(row.category)+'">edit</a>] - <a href="'+this.h(row.uri)+'">'+this.h(row.title)+'</a> - '+this.h(row.description)+'<br><small class="green">'+this.h(row.uri)+'</small><br><small>'+this.h(row.category)+'</small></li>'
+			aData += this.rdfTemplatedSite(row)
 			aData += this.__LINE__;
 		}
 
@@ -41,7 +41,7 @@
 				'RDF.html',
 				aMsg,
 				'<div class="header">' + aMsg + '</div>' +
-				'<pre style="background-color:white !important;padding:2px;"><ul>' + aData +
+				'<pre><ul>' + aData +
 				'</pre>'), true);
 		else
 			this.notifyTab(aMsg, 8);

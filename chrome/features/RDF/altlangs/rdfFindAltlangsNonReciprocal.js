@@ -123,7 +123,7 @@
 				'RDF.html',
 				aMsg,
 				'<div class="header">' + aMsg + '</div>' +
-				'<pre style="background-color:white !important;padding:2px;"><ol>' + aData +
+				'<pre><ol>' + aData +
 				'</ol></pre>'), true);
 		else
 			this.notifyTab(aMsg, 8);

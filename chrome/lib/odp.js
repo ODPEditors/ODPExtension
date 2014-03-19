@@ -32,6 +32,9 @@
 			aCategory = aCategory.replace(categoryCheckFormatRegExp3, '\n').replace(categoryCheckFormatRegExp4, '\n').split('\n')[0];
 		}
 
+		if (aCategory.indexOf('http') != -1)
+			aCategory = aCategory.split('http')[0];
+
 		//ending with
 		aCategory = aCategory
 			.replace(categoryCheckFormatRegExp1, '')

@@ -26,12 +26,12 @@
 			this.getElement('panel-related').setAttribute('hidden', false);
 
 			var aSite, title, uri, category, urlPretty, tooltiptext;
-
-			for (var i = 0; i < this.listingInformationData.length; i++) {
+			var length = this.listingInformationData.length
+			for (var i = 0; i < length; i++) {
 				aSite = this.listingInformationData[i];
 
 				urlPretty = this.decodeUTF8Recursive(this.IDNDecodeURL(aSite.uri)).replace(/\/$/, '');
-				tooltiptext = aSite.title + '\n' + urlPretty + '\n' + this.categoryAbbreviate(aSite.category) + '\n' + aSite.description;
+				tooltiptext = aSite.title + '\n' + urlPretty + '\n\n' + this.categoryAbbreviate(aSite.category) + '\n\n' + aSite.description;
 
 				title = this.getElement('panel-related-titles-' + i);
 				uri = this.getElement('panel-related-uris-' + i);

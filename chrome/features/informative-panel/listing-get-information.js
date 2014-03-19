@@ -335,8 +335,10 @@
 		//check if the retreived data is for this focused tab
 		if (aLocation == focusedURL && this.preferenceGet('enabled')) {
 
+			var length = aData.length
+
 			//validate the response
-			if (aData.length == 0) {
+			if (length == 0) {
 				this.listingInformation = 'nada';
 				this.extensionIconUpdateStatus();
 				this.panelShow(false);
@@ -358,10 +360,17 @@
 			var listed_other_uri = -1;
 			var aSelected = -1;
 
-			this.listingInformationData = aData;
-			//this.dump(aData);
 			//looking for the most close url
-			for (var i = 0; i < aData.length; i++) {
+			for (var i = 0; i < length; i++) {
+				aData[i].type = ''
+				if (aData[i].pdf)
+					aData[i].type = 'PDF'
+				if (aData[i].atom)
+					aData[i].type = 'Atom'
+				if (aData[i].rss)
+					aData[i].type = 'RSS'
+			}
+			for (var i = 0; i < length; i++) {
 
 				var siteURLWWW = this.decodeUTF8Recursive(this.removeSchema(this.shortURL(this.IDNDecodeURL(aData[i].uri)).replace(/\/+$/, ''))).toLowerCase();
 				var siteURLNoWWW = this.removeWWW(siteURLWWW);
@@ -372,7 +381,7 @@
 					siteURLWWW == focusedLocationNoWWW ||
 					siteURLNoWWW == focusedLocationWWW) {
 					listed_same_uri = i;
-					break;
+					break; //<----------------------------------- PLEASE NOTE
 				} else if (
 					siteURLWWW == focusedLocationDomain ||
 					siteURLNoWWW == focusedLocationDomain ||
@@ -382,14 +391,9 @@
 				} else {
 					listed_other_uri = i;
 				}
-				aData[i].type = ''
-				if (aData[i].pdf)
-					aData[i].type = 'PDF'
-				if (aData[i].atom)
-					aData[i].type = 'Atom'
-				if (aData[i].rss)
-					aData[i].type = 'RSS'
 			}
+
+			this.listingInformationData = aData;
 
 			if (listed_same_uri > -1) {
 				this.listingInformation = 'listed';

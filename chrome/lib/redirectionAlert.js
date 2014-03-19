@@ -337,7 +337,7 @@
 						if (ODPExtension.preferenceGet('link.checker.cache.result')){
 							var cacheID = ODPExtension.sha256(aURL)
 							ODPExtension.compress(JSON.stringify(aData), function(aCompressedData){
-								ODPExtension.fileWriteAsync('/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID, aCompressedData);
+								ODPExtension.fileWriteAsync('T:/ODPExtension/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID, aCompressedData, true);
 							});
 						}
 						oRedirectionAlert.cache[aURL] = null;

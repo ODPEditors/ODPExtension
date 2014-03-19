@@ -287,10 +287,10 @@
 		this.error('Can\'t write to the file "' + aFilePath + '"\nBrowser says: ' + e);
 		return null;
 	}
-	var NetUtil;
-	Components.utils.import("resource://gre/modules/NetUtil.jsm", NetUtil);
-	var FileUtils;
-	Components.utils.import("resource://gre/modules/FileUtils.jsm", FileUtils);
+	var NetUtil = {}
+	Components.utils['import']("resource://gre/modules/NetUtil.jsm", NetUtil);
+	var FileUtils = {}
+	Components.utils['import']("resource://gre/modules/FileUtils.jsm", FileUtils);
 
 	this.fileWriteAsync = function(aFilePath, aData, isSecure){
 		try {

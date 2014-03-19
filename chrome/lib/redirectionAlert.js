@@ -48,7 +48,7 @@
 		'application/pdf'
 	]
 
-	var includeBlock = /\.(css|ico|favicon)(\?.*)?$/i
+	var includeBlock = /\.(css|ico)(\?.*)?$/i
 
 	var debug = false;
 
@@ -449,13 +449,12 @@
 				Requester.timeout = ODPExtension.preferenceGet('link.checker.timeout');
 				Requester.onload = function() {
 
+					oRedirectionAlert.next();
+
 					if (loaded)
 						return null;
 
 					function onTabLoad() {
-
-						oRedirectionAlert.itemsNetworking--;
-						oRedirectionAlert.next();
 
 						timedout.status = 3;
 						aTabBrowser.removeEventListener("DOMContentLoaded", DOMContentLoaded, false);
@@ -671,6 +670,8 @@
 
 						ODPExtension.tabClose(aTab);
 
+						oRedirectionAlert.next();
+
 						oRedirectionAlert.cache[aURL] = aTab = aDoc = aTabBrowser = null;
 
 						oRedirectionAlert.done(aFunction, aData, aURL, aOriginalURL)
@@ -681,6 +682,8 @@
 					}
 
 					function DOMContentLoaded(aEvent) {
+
+						oRedirectionAlert.next();
 
 						ODPExtension.disableTabFeatures(ODPExtension.windowGetFromTab(aTab), aTab, aData)
 						ODPExtension.disableMedia(aEvent.originalTarget)
@@ -700,6 +703,9 @@
 
 								if(ODPExtension.redirectionAlertWatchDoc(aDoc, aTabBrowser, aData, timedout, oRedirectionAlert, aTab, aURL)){
 
+									oRedirectionAlert.itemsNetworking--;
+									oRedirectionAlert.next();
+
 									aData.historyChanges++
 
 									if(aData.isDownload)
@@ -711,6 +717,8 @@
 										var currentDoc = ODPExtension.documentGetFromTab(aTab)
 										if(aDoc != currentDoc && aData.historyChanges < 20){
 
+											oRedirectionAlert.itemsNetworking++;
+
 											//ODPExtension.dump('the document is different')
 											aData.statuses.push('meta/js');
 											timedout.status = -1
@@ -719,6 +727,8 @@
 											timedout.timer = setTimeout(function() {
 												if (timedout.status === -1) {
 													timedout.status = 1;
+													oRedirectionAlert.itemsNetworking--;
+													oRedirectionAlert.next();
 													onTabLoad();
 												}
 											}, ODPExtension.preferenceGet('link.checker.timeout') + ODPExtension.preferenceGet('link.checker.watching.period') + ODPExtension.preferenceGet('link.checker.grace.period')); //give time to load, else, just forget it.
@@ -790,6 +800,8 @@
 						timedout.timer = setTimeout(function() {
 							if (timedout.status === -1) {
 								timedout.status = 1;
+								oRedirectionAlert.itemsNetworking--;
+								oRedirectionAlert.next();
 								onTabLoad();
 							}
 						}, ODPExtension.preferenceGet('link.checker.timeout') + ODPExtension.preferenceGet('link.checker.watching.period') + ODPExtension.preferenceGet('link.checker.grace.period')); //give time to load, else, just forget it.
@@ -834,23 +846,25 @@
 				};
 				Requester.onerror = Requester.onabort = Requester.ontimeout = function(TIMEDOUT) {
 
-					oRedirectionAlert.itemsNetworking--;
-					oRedirectionAlert.next();
-
 					aData.checkType = 'XMLHttpRequestError'
 					//ODPExtension.dump('Requester.onerror');
 					//ODPExtension.dump(TIMEDOUT);
 					if (letsTryAgainIfFail == 1 && !aData.isDownload) {
 						//ODPExtension.dump('sending again..'+aURL);
-						oRedirectionAlert.itemsDone++;
 						clearTimeout(timer);
-
+						oRedirectionAlert.itemsDone++;
+						oRedirectionAlert.itemsNetworking--;
 						oRedirectionAlert._check(aURL, aFunction, aOriginalURL, 0);
 
 					} else {
+
 						if (loaded)
 							return null;
+
 						loaded = true;
+
+						oRedirectionAlert.itemsNetworking--;
+						oRedirectionAlert.next();
 
 						if (aData.isDownload) {
 							aData.checkType = 'Attachment'
@@ -1118,7 +1132,6 @@
 		}
 	}
 	this.redirectionAlertWatchDoc = function(aDoc, aTabBrowser, aData, timedout, oRedirectionAlert, aTab, aOriginalURL){
-
 
 		if('http://get.adobe.com/flashplayer/' == this.tabGetLocation(aTab)){
 

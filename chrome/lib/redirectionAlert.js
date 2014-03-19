@@ -683,10 +683,10 @@
 
 					function DOMContentLoaded(aEvent) {
 
-						oRedirectionAlert.next();
-
 						ODPExtension.disableTabFeatures(ODPExtension.windowGetFromTab(aTab), aTab, aData)
 						ODPExtension.disableMedia(aEvent.originalTarget)
+
+						oRedirectionAlert.next();
 
 						if (timedout.status === -1) {
 							var aDoc = aEvent.originalTarget;
@@ -863,6 +863,8 @@
 
 						loaded = true;
 
+						aData.stop = true;
+
 						oRedirectionAlert.itemsNetworking--;
 						oRedirectionAlert.next();
 
@@ -879,7 +881,6 @@
 							aData.checkType = 'XMLHttpRequestTimeout'
 						} else if (typeof(TIMEDOUT) != 'undefined' && TIMEDOUT === 'ABORTED') {
 							//oHttp.responseStatus = -5
-							aData.stop = true;
 							aData.checkType = 'XMLHttpRequestAbortMedia'
 						} else {
 							if (
@@ -904,8 +905,6 @@
 									aData.statuses[aData.statuses.length - 1] = -1;
 							}
 						}
-
-						aData.stop = true;
 
 						aData.subdomain = ODPExtension.getSubdomainFromURL(aData.urlLast);
 						aData.domain = ODPExtension.getDomainFromURL(aData.urlLast);

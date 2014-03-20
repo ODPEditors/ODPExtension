@@ -50,6 +50,10 @@
 
 	var includeBlock = /\.(css|ico)(\?.*)?$/i
 
+	var charsetReplace = /;?\s*charset.*$/i
+	var attachmentReplace = /^\s*attachment/i
+
+
 	var debug = false;
 
 	this.redirectionAlert = function() {
@@ -214,14 +218,14 @@
 				}
 
 				if(!isDownload){
-					var disp = "", regexp = /^\s*attachment/i;
+					var disp = ''
 					try {
 						disp = oHttp.getResponseHeader("Content-Disposition");
 					} catch (e) { }
 
-					if (regexp.test(disp)){
+					if (attachmentReplace.test(disp)){
 						try{
-							oHttp.setResponseHeader("Content-Disposition", disp.replace(regexp, "inline"), false);
+							oHttp.setResponseHeader("Content-Disposition", disp.replace(attachmentReplace, "inline"), false);
 							oHttp.cancel(Components.results.NS_BINDING_ABORTED);
 							isDownload = true;
 						}catch(e) { }
@@ -269,11 +273,11 @@
 				//DO NOT EDIT:
 				this.cache[originalURI].statuses.push(responseStatus);
 				this.cache[originalURI].urlRedirections.push(decodedURI);
-				var self = this;
+				var headers = '';
 				oHttp.visitResponseHeaders(function(header, value) {
-				   self.cache[originalURI].headers += header + ": " + value + "\r\n";
+				   headers += header + ": " + value + "\r\n";
 				 });
-				this.cache[originalURI].headers += '\n\n'
+				this.cache[originalURI].headers += headers+'\n\n'
 				this.cache[originalURI].contentCharset = oHttp.contentCharset
 				if (originalURI != decodedURI) {
 					this.cacheRedirects[decodedURI] = originalURI;
@@ -296,12 +300,12 @@
 				//this.cache[originalURI].isDownload = isDownload;
 
 				if (oHttp.contentType && oHttp.contentType.trim() != '' && contentTypesTxt.indexOf(oHttp.contentType) === -1) {
-					this.cache[originalURI].contentType = oHttp.contentType.replace(/;?\s*charset.*$/i, '');
+					this.cache[originalURI].contentType = oHttp.contentType.replace(charsetReplace, '');
 					isDownload = true
 					if(!isDownload)//already canceled
 						oHttp.cancel(Components.results.NS_BINDING_ABORTED);
 				} else if(isDownload){
-					this.cache[originalURI].contentType = oHttp.contentType.replace(/;?\s*charset.*$/i, '');
+					this.cache[originalURI].contentType = oHttp.contentType.replace(charsetReplace, '');
 				}
 
 				this.cache[originalURI].isDownload = isDownload;
@@ -470,7 +474,7 @@
 							aDoc = ODPExtension.toDOM(aData.htmlRequester, aData.urlLast);
 						}
 
-						aData.contentType = aDoc.contentType.replace(/;?\s*charset.*$/i, '');
+						aData.contentType = aDoc.contentType.replace(charsetReplace, '');
 						//a tab may redirect to binary content
 						if (aData.contentType != '' && contentTypesTxt.indexOf(aData.contentType) === -1) {
 							aData.isDownload = true;
@@ -545,11 +549,11 @@
 
 						aData.framesURLs = [];
 						var frames = aDoc.getElementsByTagName('iframe')
-						for (var i = 0; i < frames.length; i++) {
+						for (var i = 0, length = frames.length; i < length; i++) {
 							aData.framesURLs[aData.framesURLs.length] = ODPExtension.IDNDecodeURL(ODPExtension.string(frames[i].src));
 						}
 						var frames = aDoc.getElementsByTagName('frame')
-						for (var i = 0; i < frames.length; i++) {
+						for (var i = 0, length = frames.length; i < length; i++) {
 							aData.framesURLs[aData.framesURLs.length] = ODPExtension.IDNDecodeURL(ODPExtension.string(frames[i].src));
 						}
 						frames = null
@@ -572,7 +576,7 @@
 						}
 
 						var meta = aDoc.getElementsByTagName('link')
-						for (var i = 0; i < meta.length; i++) {
+						for (var i = 0, length = meta.length; i < length; i++) {
 							if(meta[i].hasAttribute('type')){
 								var type = meta[i].getAttribute('type').toLowerCase().trim()
 								var href = ODPExtension.IDNDecodeURL(ODPExtension.string(meta[i].href))
@@ -602,7 +606,7 @@
 							}
 						}
 						var meta = aDoc.getElementsByTagName('meta')
-						for (var i = 0; i < meta.length; i++) {
+						for (var i = 0, length = meta.length; i < length; i++) {
 							if(meta[i].hasAttribute('name')){
 								var name = meta[i].getAttribute('name').toLowerCase().trim()
 								switch(name){
@@ -757,7 +761,7 @@
 
 						aData.ids = ODPExtension.normalizeIDs(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
 
-						aData.contentType = (Requester.getResponseHeader('Content-Type') || '').replace(/;?\s*charset.*$/i, '');
+						aData.contentType = (Requester.getResponseHeader('Content-Type') || '').replace(charsetReplace, '');
 						//now get the response as UTF-8
 
 						var aTab = ODPExtension.tabOpen('about:blank', false, false, true);
@@ -818,7 +822,7 @@
 						aData.html = '';
 
 						if (aData.contentType == '') //the raw contentType sometimes has the "charset" and other stuff, only get it if is not already set.
-							aData.contentType = Requester.getResponseHeader('Content-Type').replace(/;?\s*charset.*$/i, '');
+							aData.contentType = Requester.getResponseHeader('Content-Type').replace(charsetReplace, '');
 						//now get the response as UTF-8
 
 						if(aData.headers==''){
@@ -871,7 +875,7 @@
 						if (aData.isDownload) {
 							aData.checkType = 'Attachment'
 							if (aData.contentType == '') //the raw contentType sometimes has the "charset" and other stuff, only get it if is not already set.
-								aData.contentType = Requester.getResponseHeader('Content-Type').replace(/;?\s*charset.*$/i, '');
+								aData.contentType = Requester.getResponseHeader('Content-Type').replace(charsetReplace, '');
 							if(aData.headers==''){
 								aData.headers += Requester.getAllResponseHeaders();
 								aData.headers += '\n\n'
@@ -1426,6 +1430,7 @@
 		var data = (aData.urlRedirections.join('\n') + '\n' + externalContent + '\n' + aData.headers + '\n' + aData.html).toLowerCase().replace(/\s+/g, ' ');
 		var breaky = false;
 
+		//body
 		for (var name in array) {
 			if (array[name] != '') {
 				var flag = this.urlFlags[array[name]]
@@ -1457,6 +1462,7 @@
 			}
 		}
 
+		//hash
 		if (!breaky) {
 
 			if(aData.hash != ''){
@@ -1487,6 +1493,42 @@
 					}
 				}
 			}
+		}
+
+		//url
+		if (!breaky) {
+
+			for (var name in array) {
+				if (array[name] != '') {
+					var flag = this.urlFlags[array[name]]
+
+					if (flag['urlLast']){
+						for (var id in flag['urlLast']) {
+							if(flag['urlLast'][id] != '' && flag['urlLast'][id].test(aData.urlLast)) {
+								aData.status.error = true;
+
+								if(! flag['errorCodeApplyOnOKOnly'] || ( flag['errorCodeApplyOnOKOnly'] && aData.status.code == 200)) {
+									aData.status.code = flag['errorCode'];
+									aData.statuses.push(aData.status.code);
+								}
+
+								if (flag['canDelete'])
+									aData.status.canDelete = true;
+								if (flag['canUnreview'])
+									aData.status.canUnreview = true;
+
+								aData.status.errorString = flag['errorString'];
+								aData.status.errorStringUserFriendly = flag['errorStringUserFriendly'];
+								breaky = true;
+								break;
+							}
+						}
+						if (breaky)
+							break;
+					}
+				}
+			}
+
 		}
 
 		if(aData.hash != '')
@@ -1678,67 +1720,105 @@
 		'y',
 		'z'
 	]
+	var removePuntuation = /\.|,|;|\:|'|"|\[|\{|\(|\]|\}|\)|\/|\~/g
+	var slash = '/'
+	var slashRemove = /\/+$/
+	var www = /^www\./i
+	var extension = /\.[a-z]{3,4}$/i
+
 	this.redirectionOKAutoFix = function(oldURL, newURL) {
 		if (oldURL == newURL)
 			return false;
 
-		oldURL = this.removeWWW(this.removeSchema(this.shortURLAggresive(oldURL))).replace(/\/+$/, '').toLowerCase().replace(/-|_/g, '').trim();
-		newURL = this.removeSchema(newURL)
-								.replace(/\/+$/, '')
-								.replace(/^www\./, '') // if http://www.tld/ redirects to http://www9.tld/ shouldn't be corrected [we only remove the www]
-								.toLowerCase().replace(/-|_/g, '')
-								.trim();
+		//https vs http | www. vs no www.
+		oldURL = this.removeSchema(oldURL)
+		// if http://www.tld/ redirects to http://www9.tld/ shouldn't be corrected [we only remove the www.] from the new URL
+		newURL = this.removeSchema(newURL).replace(www, '')
+		if(oldURL.replace(www, '') == newURL)
+			return true
 
+		//ASD vs asd
+		oldURL = oldURL.toLowerCase()
+		newURL = newURL.toLowerCase()
+		if(oldURL == newURL)
+			return true
+
+		var nothing = ''
+
+		//misc diff
+		oldURL = this.removeWWW(oldURL).replace(slashRemove, nothing).replace(/-|_/g, nothing).trim();
+		newURL = newURL.replace(slashRemove, nothing).replace(/-|_/g, nothing).trim();
 		if (oldURL == newURL)
 			return true;
 
-		if(newURL.indexOf('/') !== -1)//only for files and folder, not TLDs
-			newURL = newURL.replace(/\.[a-z]{3,4}$/,'') // example when http://tld/folder/ redirects to http://tld/folder.htm
+		//short url domain.tld/web/index.html vs domain.tld/web/
+		if(this.shortURLOne(oldURL).replace(slashRemove, nothing) == newURL)
+			return true
 
+		//short url domain.tld/web/index.html vs domain.tld/
+		oldURL = this.shortURLTwo(oldURL).replace(slashRemove, nothing)
+		if(oldURL == newURL)
+			return true
+
+		//when http://tld/folder/ redirects to http://tld/folder.htm
+		if(newURL.indexOf(slash) !== -1)//only for files and folder, not TLDs
+			newURL = newURL.replace(extension,nothing)
 		if (oldURL == newURL)
 			return true;
 
-		oldURL = oldURL.replace(removeFreeHost, '')
-		newURL = newURL.replace(removeFreeHost, '')
+		// when http://tld/file.html redirects to http://tld/file/
+		if(oldURL.indexOf(slash) !== -1)//only for files and folder, not TLDs
+			oldURL = oldURL.replace(extension,nothing)
+		if (oldURL == newURL)
+			return true;
 
+		// when sites.google.com/a/nick/ redirects to nick.tld or reversed
+		oldURL = oldURL.replace(removeFreeHost, nothing)
+		newURL = newURL.replace(removeFreeHost, nothing)
 		if (oldURL == newURL)
 			return true;
 
 		//remove tld, http://www.well.tld1/ redirects to http://www.well.tld2/ must be corrected, or http://myusername.freehost.tld1/ to http://myusername.tld1/
-		oldURL = oldURL.split('/')
-		oldURL[0] = oldURL[0].replace(removeTLD, '')
-		oldURL = oldURL.join('/')
+		oldURL = oldURL.split(slash)
+		oldURL[0] = oldURL[0].replace(removeTLD, nothing)
+		oldURL = oldURL.join(slash)
 
-		newURL = newURL.split('/')
-		newURL[0] = newURL[0].replace(removeTLD, '')
-		newURL = newURL.join('/')
-
-		if (oldURL == newURL)
-			return true;
-
-		oldURL = oldURL.replace(/\./g, '').replace(/\,/g, '')
-		newURL = newURL.replace(/\./g, '').replace(/\,/g, '')
+		newURL = newURL.split(slash)
+		newURL[0] = newURL[0].replace(removeTLD, nothing)
+		newURL = newURL.join(slash)
 
 		if (oldURL == newURL)
 			return true;
 
-		//decode
+		//when sub.do.main.tld redirects to subdomain.tld
+		oldURL = oldURL.replace(removePuntuation, nothing)
+		newURL = newURL.replace(removePuntuation, nothing)
+		if (oldURL == newURL)
+			return true;
+
+		//when domain.tld/Español redirects to domain.tld/Espa%C3%B1ol
 		oldURL = this.decodeUTF8Recursive(oldURL)
 		newURL = this.decodeUTF8Recursive(newURL)
-
 		if (oldURL == newURL)
 			return true;
 
-		//IDN decode
+		//after decoding
+		oldURL = oldURL.replace(removePuntuation, nothing)
+		newURL = newURL.replace(removePuntuation, nothing)
+		if (oldURL == newURL)
+			return true;
+
+		//IDN and Diacritic decode
+		//when dömain.tld redirects to domain.tld or reversed
+		//when domain.tld/földer redirects to domain.tld/folder or reversed
 		for(var id in IDNDiacriticDigraphsFind){
 			oldURL = oldURL.replace(IDNDiacriticDigraphsFind[id], IDNDiacriticDigraphsReplace[id])
 			newURL = newURL.replace(IDNDiacriticDigraphsFind[id], IDNDiacriticDigraphsReplace[id])
 		}
-
 		if (oldURL == newURL)
 			return true;
-		else
-			return false;
+
+		return false;
 	}
 
 	this.redirectionOK = function(oldURL, newURL) {

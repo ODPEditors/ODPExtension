@@ -189,7 +189,7 @@
 			case 'apis.google.com':
 			case 'adwords.google.com':
 			case 'services.google.com':
-			case 'accounts.google.com':
+			//case 'accounts.google.com':
 			case 'fonts.googleapis.com':
 			case 'maps.google.com':
 			case 'maps.googleapis.com':
@@ -871,15 +871,20 @@
 		return id;
 	}
 
-	//returns aURL in short mode, example http://domain.org/index.html will throw http://domain.org
+	//returns aURL in short mode, example http://domain.org/index.html will throw http://domain.org/
 	var shortURLRegExp = /\/(index|default|home|main|)(\.[a-z]{2,4})\/?$/i;
 	this.shortURL = function (aURL) {
 		return aURL.replace(shortURLRegExp, '/');
 	}
-
-	var shortURLAggresiveRegExp = /\/(index|default|home|main|cms|blog|weblog|forum|forums|site|wordpress|web|homepage|welcome|main_page|wp|joomla|bbs|vb|\#\!|\#|phpbb2|portal|public|new|old|start|www|intro|html|php|php3|php4|php5)((_|-)?[0-9]{0,2}\.[a-z]{2,4})?\/?\??$/i;
-	this.shortURLAggresive = function (aURL) {
-		return aURL.replace(shortURLAggresiveRegExp, '/');
+	// |
+	// http://domain.tld/#!cms/index3.php4/?
+	var shortURLOneRegExp = /\/(\#|\#\!)?[0-9]{0,2}(www|wp|wordpress|willkommen|wikistart|welkom|welcome|website|weblog|webhome|web|vb|top|startseite|startpage|start|splash|site|public_html|public|principal|presentation|presentacion|portal|portail|portada|phpbb2|php|oldindex|old|newindex|new|mainpage|mainframe|main_page|main|landingpage|landing|joomla|introduction|introductie|intro_old|intro_new|intro|inicio|inici|index|httpdocs|html|homesite|homepage|home|guest|frontpage|front|frame|forums|forum|font_content|enter|default|content|cms|blog|bienvenue|bienvenido|bbs|accueil|about)((_|-)?[0-9]{0,2}\.[a-z]{2,5})?\/?\??$/i;
+	this.shortURLOne = function (aURL) {
+		return aURL.replace(shortURLOneRegExp, '/');
+	}
+	var shortURLTwoRegExp = /\/(\#|\#\!)?[0-9]{0,2}(www|wp|wordpress|willkommen|wikistart|welkom|welcome|website|weblog|webhome|web|vb|top|startseite|startpage|start|splash|site|public_html|public|principal|presentation|presentacion|portal|portail|portada|phpbb2|php|oldindex|old|newindex|new|mainpage|mainframe|main_page|main|landingpage|landing|joomla|introduction|introductie|intro_old|intro_new|intro|inicio|inici|index|httpdocs|html|homesite|homepage|home|guest|frontpage|front|frame|forums|forum|font_content|enter|default|content|cms|blog|bienvenue|bienvenido|bbs|accueil|about)?\/?(www|wp|wordpress|willkommen|wikistart|welkom|welcome|website|weblog|webhome|web|vb|top|startseite|startpage|start|splash|site|public_html|public|principal|presentation|presentacion|portal|portail|portada|phpbb2|php|oldindex|old|newindex|new|mainpage|mainframe|main_page|main|landingpage|landing|joomla|introduction|introductie|intro_old|intro_new|intro|inicio|inici|index|httpdocs|html|homesite|homepage|home|guest|frontpage|front|frame|forums|forum|font_content|enter|default|content|cms|blog|bienvenue|bienvenido|bbs|accueil|about)?((_|-)?[0-9]{0,2}\.[a-z]{2,5})?\/?\??$/i;
+	this.shortURLTwo = function (aURL) {
+		return aURL.replace(shortURLTwoRegExp, '/');
 	}
 	var removeHashRegExp = /#.*$/i
 	this.removeHash = function (aURL) {

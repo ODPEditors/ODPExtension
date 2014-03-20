@@ -20,8 +20,10 @@
 	}
 	this.pasteCategoryPaste = function(aCategory){
 
-		if(!!anElement){
+		if(!!anElement) {
 			anElement.value = aCategory
+		} else {
+			this.copyToClipboard(aCategory)
 		}
 	}
 	return null;

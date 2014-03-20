@@ -886,7 +886,7 @@
 	this.shortURLTwo = function (aURL) {
 		return aURL.replace(shortURLTwoRegExp, '/');
 	}
-	var removeHashRegExp = /#.*$/i
+	var removeHashRegExp = /#.*$/
 	this.removeHash = function (aURL) {
 		return aURL.replace(removeHashRegExp, '');
 	}

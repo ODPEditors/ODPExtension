@@ -1604,38 +1604,7 @@
 
 	var removeFreeHost = /^(sites\.google\.com\/site\/|sites\.google\.com\/a\/|users.skynet.be\/)/i;
 
-	var IDNDiacriticDigraphsFind = [
-		//digraphs
-		/ß/gi,
-		/æ/gi,
-		/ĳ/gi,
-		/œ/gi,
-		/ǆ/gi,
-		/ǉ/gi,
-		/ǌ/gi,
-		/ǣ/gi,
-		/ǳ/gi,
-		/ǽ/gi,
-		/ȸ/gi,
-		/ȹ/gi,
-		/ɶ/gi,
-		/ʣ/gi,
-		/ʤ/gi,
-		/ʥ/gi,
-		/ʦ/gi,
-		/ʧ/gi,
-		/ʨ/gi,
-		/ʩ/gi,
-		/ʪ/gi,
-		/ʫ/gi,
-		/ᴁ/gi,
-		/ᴂ/gi,
-		/ᴔ/gi,
-		/ᵺ/gi,
-		/ﬁ/gi,
-		/ﬂ/gi,
-
-		//Diacritic
+	var IDNDiacriticFind = [
 		/à|á|â|ã|ä|å|ā|ă|ą|ǎ|ǟ|ǡ|ǻ|ȁ|ȃ|ȧ|ɐ|ɑ|ᶏ|ḁ|ạ|ả|ấ|ầ|ẩ|ẫ|ậ|ắ|ằ|ẳ|ẵ|ặ|ⱥ/gi,
 		/ƀ|ƃ|ɓ|ᵬ|ᶀ|ḃ|ḅ|ḇ/gi,
 		/ç|ć|ĉ|ċ|č|ƈ|ȼ|ɕ|ḉ/gi,
@@ -1663,7 +1632,66 @@
 		/y|ý|ÿ|ŷ|ƴ|ȳ|ɏ|ʏ|̊ẙ|ў|ẏ|ỳ|ỵ|ỷ|ỹ/gi,
 		/ź|ż|ž|ƶ|ȥ|ɀ|ʐ|ʑ|ᵶ|ᶎ|ẑ|ẓ|ẕ|ⱬ/gi
 	]
-	var IDNDiacriticDigraphsReplace = [
+	var IDNDiacriticReplace = [
+		'a',
+		'b',
+		'c',
+		'd',
+		'e',
+		'f',
+		'g',
+		'h',
+		'i',
+		'j',
+		'k',
+		'l',
+		'm',
+		'n',
+		'o',
+		'p',
+		'q',
+		'r',
+		's',
+		't',
+		'u',
+		'v',
+		'w',
+		'x',
+		'y',
+		'z'
+	]
+
+	var IDNDigraphsFind = [
+		/ß/gi,
+		/æ/gi,
+		/ĳ/gi,
+		/œ/gi,
+		/ǆ/gi,
+		/ǉ/gi,
+		/ǌ/gi,
+		/ǣ/gi,
+		/ǳ/gi,
+		/ǽ/gi,
+		/ȸ/gi,
+		/ȹ/gi,
+		/ɶ/gi,
+		/ʣ/gi,
+		/ʤ/gi,
+		/ʥ/gi,
+		/ʦ/gi,
+		/ʧ/gi,
+		/ʨ/gi,
+		/ʩ/gi,
+		/ʪ/gi,
+		/ʫ/gi,
+		/ᴁ/gi,
+		/ᴂ/gi,
+		/ᴔ/gi,
+		/ᵺ/gi,
+		/ﬁ/gi,
+		/ﬂ/gi
+	]
+	var IDNDigraphsReplace = [
 		's',
 		'ae',
 		'ij',
@@ -1691,34 +1719,19 @@
 		'oe',
 		'th',
 		'fi',
-		'fl',
+		'fl'
+	]
 
-		'a',
-		'b',
-		'c',
-		'd',
-		'e',
-		'f',
-		'g',
-		'h',
-		'i',
-		'j',
-		'k',
-		'l',
-		'm',
-		'n',
-		'o',
-		'p',
-		'q',
-		'r',
-		's',
-		't',
-		'u',
-		'v',
-		'w',
-		'x',
-		'y',
-		'z'
+	var IDNDigraphsLanguageIgnore = [
+		'ae',
+		'æ',
+		'ä',
+		'oe',
+		'ö',
+		'ue',
+		'ü',
+		'ß',
+		'ss'
 	]
 	var removePuntuation = /\.|,|;|\:|'|"|\[|\{|\(|\]|\}|\)|\/|\~/g
 	var slash = '/'
@@ -1790,6 +1803,18 @@
 		if (oldURL == newURL)
 			return true;
 
+		//IDN Digraphs Language Ignore decode
+		var oldURL2 = oldURL.split(slash)
+		var newURL2 = newURL.split(slash)
+		for(var id in IDNDigraphsLanguageIgnore){
+			oldURL2[0] = oldURL2[0].replace(IDNDigraphsLanguageIgnore[id], nothing)
+			newURL2[0] = newURL2[0].replace(IDNDigraphsLanguageIgnore[id], nothing)
+		}
+		oldURL2 = oldURL2.join(slash)
+		newURL2 = newURL2.join(slash)
+		if (oldURL2 == newURL2)
+			return true;
+
 		//when sub.do.main.tld redirects to subdomain.tld
 		oldURL = oldURL.replace(removePuntuation, nothing)
 		newURL = newURL.replace(removePuntuation, nothing)
@@ -1808,12 +1833,22 @@
 		if (oldURL == newURL)
 			return true;
 
-		//IDN and Diacritic decode
+		//IDN Digraphs Language Based decode
+		var oldURL2 = oldURL
+		var newURL2 = newURL
+		for(var id in IDNDigraphsFind){
+			oldURL2 = oldURL2.replace(IDNDigraphsFind[id], IDNDigraphsReplace[id])
+			newURL2 = newURL2.replace(IDNDigraphsFind[id], IDNDigraphsReplace[id])
+		}
+		if (oldURL2 == newURL2)
+			return true;
+
+		//IDN Diacritic decode
 		//when dömain.tld redirects to domain.tld or reversed
 		//when domain.tld/földer redirects to domain.tld/folder or reversed
-		for(var id in IDNDiacriticDigraphsFind){
-			oldURL = oldURL.replace(IDNDiacriticDigraphsFind[id], IDNDiacriticDigraphsReplace[id])
-			newURL = newURL.replace(IDNDiacriticDigraphsFind[id], IDNDiacriticDigraphsReplace[id])
+		for(var id in IDNDiacriticFind){
+			oldURL = oldURL.replace(IDNDiacriticFind[id], IDNDiacriticReplace[id])
+			newURL = newURL.replace(IDNDiacriticFind[id], IDNDiacriticReplace[id])
 		}
 		if (oldURL == newURL)
 			return true;

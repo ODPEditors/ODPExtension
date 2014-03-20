@@ -175,9 +175,12 @@
 		return dirname;
 	}
 	//returns true if a file exists
-	this.fileExists = function(aFilePath) {
+	this.fileExists = function(aFilePath, isSecure) {
 		try {
-			aFilePath = this.pathSanitize(this.extensionDirectory().path + '/' + aFilePath);
+			if(!isSecure)
+				aFilePath = this.pathSanitize(this.extensionDirectory().path + '/' + aFilePath);
+			else
+				aFilePath = this.pathSanitize(aFilePath);
 
 			var aFile = Components.classes["@mozilla.org/file/local;1"]
 				.createInstance(Components.interfaces.nsILocalFile);
@@ -195,27 +198,34 @@
 	//returns the content of a file
 	this.fileRead = function(aFilePath, useInsecure) {
 		try {
-			var aFile = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
-			if (!useInsecure)
-				aFile.initWithPath(this.pathSanitize(this.extensionDirectory().path + '/' + aFilePath));
-			else
-				aFile.initWithPath(this.pathSanitize(aFilePath));
+			if(!this.fileExists(aFilePath, useInsecure)){
+				this.error('File does not exists "' + aFilePath + '"');
+				return ''
+			} else {
 
-			var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
-			converter.charset = "UTF-8"; /* The character encoding you want, using UTF-8 here */
+				var aFile = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+				if (!useInsecure)
+					aFile.initWithPath(this.pathSanitize(this.extensionDirectory().path + '/' + aFilePath));
+				else
+					aFile.initWithPath(this.pathSanitize(aFilePath));
 
-			var is = Components.classes["@mozilla.org/network/file-input-stream;1"].createInstance(Components.interfaces.nsIFileInputStream);
-			is.init(aFile, 0x01, parseInt("0444", 8), 0);
 
-			var sis = Components.classes["@mozilla.org/scriptableinputstream;1"].createInstance(Components.interfaces.nsIScriptableInputStream);
-			sis.init(is);
+				var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
+				converter.charset = "UTF-8"; /* The character encoding you want, using UTF-8 here */
 
-			var aData = converter.ConvertToUnicode(sis.read(sis.available()));
+				var is = Components.classes["@mozilla.org/network/file-input-stream;1"].createInstance(Components.interfaces.nsIFileInputStream);
+				is.init(aFile, 0x01, parseInt("0444", 8), 0);
 
-			is.close();
-			sis.close();
+				var sis = Components.classes["@mozilla.org/scriptableinputstream;1"].createInstance(Components.interfaces.nsIScriptableInputStream);
+				sis.init(is);
 
-			return aData;
+				var aData = converter.ConvertToUnicode(sis.read(sis.available()));
+
+				is.close();
+				sis.close();
+				return aData;
+			}
+
 		} catch (e) {
 			this.error('Can\'t read the file "' + aFilePath + '"\nBrowser says: ' + e);
 			return false;

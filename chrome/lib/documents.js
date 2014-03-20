@@ -42,7 +42,7 @@
 		var window = aDoc.defaultView.wrappedJSObject;
 		if(!ids)
 			ids = []
-		if (window && window.frames.length) {
+		if (window && window.frames && window.frames.length) {
 			for (var a = 0; a < window.frames.length; a++) {
 				if ( window.frames && window.frames[a] && !! window.frames[a].google_ad_url) {
 					var idss = String(window.frames[a].google_ad_url).match(documentGetIDsRegExp)

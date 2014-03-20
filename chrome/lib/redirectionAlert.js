@@ -484,7 +484,6 @@
 				aData.intrusivePopups = 0;
 				aData.loadingSuccess = false;
 				aData.note = [];
-				aData.waitTime = false;
 				//aData.removeFromBrowserHistory = !ODPExtension.isVisitedURL(aURL);
 
 				var oRedirectionAlert = this;
@@ -764,7 +763,7 @@
 									else
 										var waitTime = ODPExtension.preferenceGet('link.checker.watching.period')
 
-									aData.waitTime = setTimeout(function() {
+									setTimeout(function() {
 										var currentDoc = ODPExtension.documentGetFromTab(aTab)
 										if(aDoc != currentDoc && aData.historyChanges < 20){
 

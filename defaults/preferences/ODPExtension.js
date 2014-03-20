@@ -16,7 +16,7 @@
 
 ///LINKCHECKER
 
-	pref('extensions.ODPExtension.link.checker.threads', 6);
+	pref('extensions.ODPExtension.link.checker.threads', 8);
 	pref('extensions.ODPExtension.link.checker.use.cache', true);
 	pref('extensions.ODPExtension.link.checker.generate.graph', false);
 	pref('extensions.ODPExtension.link.checker.hidden.tabs', true);

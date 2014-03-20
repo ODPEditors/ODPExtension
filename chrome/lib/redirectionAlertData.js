@@ -365,6 +365,9 @@
 			],
 			hash:[''
 				,'60004349c15b40b5f3e1f2e11fe247ae'
+			],
+			urlLast:['',
+				/ServiceLogin\?service=blogger.*ltmpl=private/i
 			]
 		}
 
@@ -450,6 +453,7 @@
 				,'<title>500 - Internal server error.</title>'
 				,'<title>Index of /'
 				,'<TITLE>Index of /</TITLE>'
+				,'title>301 Moved Permanently</title'
 				,'<TITLE>DOMAIN ERROR</TITLE>'
 				,'<A HREF="/cgi-bin/">cgi-bin</A>'
 				,'Access denied.'
@@ -476,6 +480,7 @@
 				,'467512538e6a22798d1728e950bf77c1'
 				,'1600d88822b00ca68778ba224b080406'
 				,'4144b914435d933bf2a65a3bffa67e0b'
+				,'207f8fa3d68c6857b8a4e90a6e34d350'
 
 			]
 		}
@@ -693,6 +698,7 @@
 			,'118c9a447d2f83dc72fb23295bbec3ab'
 			,'386aca97ed361cead74c01de619b68f3'
 			,'6179ff4d515590c835aec633e099887a'
+			,'590b81a71bd366cf7f169cc8e0d59004'
 			,'dfc9cbec3f47864a283a4795b737948d'
 			,'3d807b4fb6a5c1fa97008f063d8baa43'
 			,'7e1f3343e0d6908cd3fc3ff7dfea4041'
@@ -789,6 +795,7 @@
 			,'55b080285a892e20ee5af5ac814126d3'
 			,'39f68b3e011a1423b6fe6d51065444fb'
 			,'20fb2a2280fdfdc483e2a1c43d724bf0'
+			,'b1fb96ebd18f09dd95044ce8fa7faec4'
 			,'20a7f12e8ccdc4e3a84e430d7210798c'
 			,'078c3d303b069fb57a4766777fbe664f'
 			,'f103a6a91a640d470a56d79194c86975'

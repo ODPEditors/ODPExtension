@@ -21,7 +21,7 @@
 	pref('extensions.ODPExtension.link.checker.generate.graph', false);
 	pref('extensions.ODPExtension.link.checker.hidden.tabs', true);
 	pref('extensions.ODPExtension.link.checker.cache.result', false);
-	pref('extensions.ODPExtension.link.checker.watching.period', 18000);
+	pref('extensions.ODPExtension.link.checker.watching.period', 3000);
 	pref('extensions.ODPExtension.link.checker.grace.period', 6000);
 	pref('extensions.ODPExtension.link.checker.timeout', 80000);
 

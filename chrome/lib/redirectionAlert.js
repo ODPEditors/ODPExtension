@@ -53,6 +53,42 @@
 	var charsetReplace = /;?\s*charset.*$/i
 	var attachmentReplace = /^\s*attachment/i
 
+	var refreshAttemptedListener = {
+		QueryInterface: function (aIID) {
+			if (
+			    aIID.equals(Components.interfaces.nsIWebProgressListener) ||
+			    aIID.equals(Components.interfaces.nsIWebProgressListener2) ||
+				aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
+				aIID.equals(Components.interfaces.nsISupports))
+				return this;
+			throw Components.results.NS_NOINTERFACE;
+		},
+		onLocationChange: function (aProgress, aRequest, aURI) {},
+		onStateChange: function (aWebProgress, aRequest, aFlag, aStatus) {},
+		onProgressChange: function (aWebProgress, aRequest, curSelf, maxSelf, curTot, maxTot) {},
+		onStatusChange: function (aWebProgress, aRequest, aStatus, aMessage) {},
+		onSecurityChange: function (aWebProgress, aRequest, aState) {},
+		onProgressChange64: function (aWebProgress, aRequest, aCurSelfProgress,aMaxSelfProgress,aCurTotalProgress,aMaxTotalProgress) {},
+		onRefreshAttempted: function (aWebProgress, aNose, aRefreshURI, aMillis, aSameURI) {
+			var aTab = ODPExtension.tabGetFromChromeDocument(aNose.DOMWindow)
+			if(aTab && !! aTab.ODPaData) {
+				if(!aSameURI && aMillis < 20000){
+					var aData = aTab.ODPaData
+					aData.statuses.push('meta')
+					aData.urlLast = ODPExtension.IDNDecodeURL(aRefreshURI.spec)
+					aData.urlRedirections.push(aData.urlLast);
+
+					clearTimeout(aData.waitTime)
+					if (!ODPExtension.preferenceGet('link.checker.use.cache'))
+						aWebProgress.loadURIWithFlags(aRefreshURI.spec, aWebProgress.webNavigation.LOAD_FLAGS_BYPASS_PROXY | aWebProgress.webNavigation.LOAD_FLAGS_BYPASS_CACHE | aWebProgress.webNavigation.LOAD_ANONYMOUS | aWebProgress.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
+					else
+						aWebProgress.loadURI(aRefreshURI.spec);
+				} else if(aSameURI){
+					return false;
+				}
+			}
+		}
+	};
 
 	var debug = false;
 
@@ -84,6 +120,7 @@
 					observerService.addObserver(this, 'http-on-modify-request', false);
 					//ignore
 					//observerService.addObserver(this, 'http-on-opening-request', false);
+					gBrowser.addTabsProgressListener(refreshAttemptedListener);
 			},
 			unLoad: function() {
 				var self = this;
@@ -106,6 +143,8 @@
 					observerService.removeObserver(this, 'http-on-modify-request', false);
 					//ignore
 					//observerService.removeObserver(this, 'http-on-opening-request', false);
+					gBrowser.removeTabsProgressListener(refreshAttemptedListener);
+
 
 				this.cache = null;
 				this.cacheRedirects = null;
@@ -132,9 +171,9 @@
 							if (!notificationCallbacks) {} else {
 								var domWin = notificationCallbacks.getInterface(Components.interfaces.nsIDOMWindow);
 								aTab = ODPExtension.tabGetFromChromeDocument(domWin);
-								if (aTab && !! aTab.ODPExtensionExternalContent) {
+								if (aTab && !! aTab.ODPaData) {
 									var decoded = ODPExtension.IDNDecodeURL(aSubject.URI.spec)
-									aTab.ODPExtensionExternalContent[aTab.ODPExtensionExternalContent.length] = {
+									aTab.ODPaData.externalContent[aTab.ODPaData.externalContent.length] = {
 										url: decoded,
 										status: aSubject.responseStatus
 									};
@@ -150,8 +189,8 @@
 					case 'content-document-global-created':
 						if (aSubject instanceof Components.interfaces.nsIDOMWindow) {
 							var aTab = ODPExtension.tabGetFromChromeDocument(aSubject);
-							if (aTab && !! aTab.ODPExtensionLinkChecker) {
-								ODPExtension.disableTabFeatures(aSubject, aTab, this.cache[aTab.ODPExtensionOriginalURI]);
+							if (aTab && !! aTab.ODPaData) {
+								ODPExtension.disableTabFeatures(aSubject, aTab, aTab.ODPaData);
 							}
 						}
 						break;
@@ -165,10 +204,10 @@
 							if (!notificationCallbacks) {} else {
 								var domWin = notificationCallbacks.getInterface(Components.interfaces.nsIDOMWindow);
 								var aTab = ODPExtension.tabGetFromChromeDocument(domWin);
-								if (aTab && !! aTab.ODPExtensionExternalContent) {
+								if (aTab && !! aTab.ODPaData) {
 									var decoded = ODPExtension.IDNDecodeURL(aSubject.URI.spec)
-									if(includeBlock.test(decoded) || ( ODPExtension.isGarbage(decoded) && !ODPExtension.isGarbage(ODPExtension.tabGetLocation(aTab)) && !ODPExtension.isGarbage(aTab.ODPExtensionOriginalURI) ) ){
-										aTab.ODPExtensionExternalContent[aTab.ODPExtensionExternalContent.length] = {
+									if(includeBlock.test(decoded) || ( ODPExtension.isGarbage(decoded) && !ODPExtension.isGarbage(ODPExtension.tabGetLocation(aTab)) && !ODPExtension.isGarbage(aTab.ODPaData.urlOriginal) ) ){
+										aTab.ODPaData.externalContent[aTab.ODPaData.externalContent.length] = {
 											url: decoded,
 											status: 200
 										};
@@ -325,6 +364,7 @@
 
 			},
 			check: function(aURL, aFunction) {
+
 				this.queue[this.queue.length] = [ODPExtension.IDNDecodeURL(aURL), aFunction, aURL];
 				this.next();
 			},
@@ -464,7 +504,6 @@
 						aTabBrowser.removeEventListener("DOMContentLoaded", DOMContentLoaded, false);
 
 						aData.checkType = 'aTab'
-						aData.externalContent = aTab.ODPExtensionExternalContent;
 
 						var aDoc = ODPExtension.documentGetFromTab(aTab);
 
@@ -717,14 +756,15 @@
 									else
 										var waitTime = ODPExtension.preferenceGet('link.checker.watching.period')
 
-									setTimeout(function() {
+									aData.waitTime = setTimeout(function() {
 										var currentDoc = ODPExtension.documentGetFromTab(aTab)
-										if(aDoc != currentDoc && aData.historyChanges < 20){
+										if(aDoc != currentDoc && aData.historyChanges < 20 && aData.statuses[aData.statuses.length-1] !='meta'){
 
 											oRedirectionAlert.itemsNetworking++;
 
 											//ODPExtension.dump('the document is different')
-											aData.statuses.push('meta/js');
+											if (aData.urlRedirections[aData.urlRedirections.length - 1] != aData.urlLast)
+												aData.statuses.push('meta/js');
 											timedout.status = -1
 
 											clearTimeout(timedout.timer)
@@ -767,9 +807,7 @@
 						var aTab = ODPExtension.tabOpen('about:blank', false, false, true);
 						aTab.setAttribute('hidden', ODPExtension.preferenceGet('link.checker.hidden.tabs'));
 						aTab.setAttribute('ODPLinkChecker', true);
-						aTab.ODPExtensionLinkChecker = true;
-						aTab.ODPExtensionOriginalURI = aURL;
-						aTab.ODPExtensionExternalContent = [];
+						aTab.ODPaData = aData
 						aTab.ODPExtensionURIsStatus = [];
 
 						var aTabBrowser = ODPExtension.browserGetFromTab(aTab);

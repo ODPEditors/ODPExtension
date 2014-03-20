@@ -71,20 +71,27 @@
 		onProgressChange64: function (aWebProgress, aRequest, aCurSelfProgress,aMaxSelfProgress,aCurTotalProgress,aMaxTotalProgress) {},
 		onRefreshAttempted: function (aWebProgress, aNose, aRefreshURI, aMillis, aSameURI) {
 			var aTab = ODPExtension.tabGetFromChromeDocument(aNose.DOMWindow)
-			if(aTab && !! aTab.ODPaData) {
-				if(!aSameURI && aMillis < 20000){
-					var aData = aTab.ODPaData
-					aData.statuses.push('meta')
-					aData.urlLast = ODPExtension.IDNDecodeURL(aRefreshURI.spec)
-					aData.urlRedirections.push(aData.urlLast);
 
-					clearTimeout(aData.waitTime)
-					if (!ODPExtension.preferenceGet('link.checker.use.cache'))
-						aWebProgress.loadURIWithFlags(aRefreshURI.spec, aWebProgress.webNavigation.LOAD_FLAGS_BYPASS_PROXY | aWebProgress.webNavigation.LOAD_FLAGS_BYPASS_CACHE | aWebProgress.webNavigation.LOAD_ANONYMOUS | aWebProgress.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
-					else
-						aWebProgress.loadURI(aRefreshURI.spec);
-				} else if(aSameURI){
-					return false;
+			if(aTab && !! aTab.ODPaData) {
+				//if the refreshing document is a frame.
+				if(!aNose.DOMWindow || !aNose.DOMWindow.top || !aNose.DOMWindow.top.document || !aNose.document || aNose.DOMWindow.top.document != aNose.document){
+					//ignore the frame
+				} else {
+					//its our top document
+					if(!aSameURI && aMillis < 20000){
+						var aData = aTab.ODPaData
+						aData.statuses.push('meta')
+						aData.urlLast = ODPExtension.IDNDecodeURL(aRefreshURI.spec)
+						aData.urlRedirections.push(aData.urlLast);
+
+						clearTimeout(aData.waitTime)
+						if (!ODPExtension.preferenceGet('link.checker.use.cache'))
+							aWebProgress.loadURIWithFlags(aRefreshURI.spec, aWebProgress.webNavigation.LOAD_FLAGS_BYPASS_PROXY | aWebProgress.webNavigation.LOAD_FLAGS_BYPASS_CACHE | aWebProgress.webNavigation.LOAD_ANONYMOUS | aWebProgress.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
+						else
+							aWebProgress.loadURI(aRefreshURI.spec);
+					} else if(aSameURI){
+						return false;
+					}
 				}
 			}
 		}
@@ -477,6 +484,7 @@
 				aData.intrusivePopups = 0;
 				aData.loadingSuccess = false;
 				aData.note = [];
+				aData.waitTime = false;
 				//aData.removeFromBrowserHistory = !ODPExtension.isVisitedURL(aURL);
 
 				var oRedirectionAlert = this;

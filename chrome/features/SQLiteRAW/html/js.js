@@ -110,7 +110,7 @@ var by = [],
 
 	default_query = ' SELECT distinct(status_error_string), status_code, count(*) as total, uri from uris where checked = 1 and processed = 0 group by status_error_string order by total desc'
 
-	select = 'select status_code, status_error_string, id, uri, uri as html, uri_last,match,match_hash, hash, hash_known, content_type, site_type, str_length, word_count from uris where checked = 1 and processed = 0 and ',
+	select = 'select statuses, status_code, status_error_string, id, uri, uri as html, uri_last,match,match_hash, hash, hash_known, content_type, site_type, str_length, word_count, date_start from uris where checked = 1 and processed = 0 and ',
 
 	limit = '  limit 6000';
 
@@ -487,11 +487,28 @@ function entryAction(type) {
 			break;
 		case 'dump_site':
 			items.each(function(d) {
-				if(d.hash && String(d.hash) != ''){
+				if(d.uri && String(d.uri) != ''){
 					var cacheID = ODP.sha256(d.uri)
-					ODP.dump(JSON.parse(ODP.uncompressSync(ODP.fileRead('/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID))));
+					var content = ODP.fileRead('T:/ODPExtension/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID, true)
+					var uncompressed = ODP.uncompressSync(content)
+					var parsed = JSON.parse(uncompressed)
+					ODP.dump(parsed);
 				}
 			});
+			break;
+		case 'redirect_check':
+			var output = ''
+			items.each(function(d) {
+				if(d.id && String(d.id) != '' && !ODP.redirectionOKAutoFix(d.uri, d.uri_last)){
+					output += d.uri
+					output += '\n'
+					output += d.uri_last
+					output += '\n'
+					output += '\n'
+					//db.executeSimple('update uris set status_error_string = "Redirect OK Candidate 4 Autofix" where id = "'+d.id+'"')
+				}
+			});
+			ODP.fileWrite('tito.txt', output)
 			break;
 
 		default:

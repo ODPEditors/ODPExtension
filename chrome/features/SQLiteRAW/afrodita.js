@@ -226,7 +226,7 @@
 		var lc = this.afroditaDatabaseOpen(), row;
 
 		// must check asap
-		var select = lc.query(' select uri from uris where `checked` = 3 order by RANDOM() limit 60000 ');
+		var select = lc.query(' select uri from uris where `checked` = 3 order by RANDOM() limit 150000 ');
 		while (row = select.fetchObjects()) {
 			uris[uris.length] = row.uri
 		}
@@ -238,7 +238,7 @@
 		var lc = this.afroditaDatabaseOpen(), row;
 
 		//queue
-		var select = lc.query(' select distinct(subdomain_id), uri from uris where `checked` = 0 group by subdomain_id order by RANDOM() limit 60000 ');
+		var select = lc.query(' select distinct(subdomain_id), uri from uris where `checked` = 0 group by subdomain_id order by RANDOM() limit 150000 ');
 		while (row = select.fetchObjects()) {
 			uris[uris.length] = row.uri
 		}

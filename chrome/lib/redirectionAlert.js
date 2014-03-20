@@ -79,12 +79,12 @@
 				} else {
 					//its our top document
 					if(!aSameURI && aMillis < 20000){
+						aNose.document.ignoreMe = true;
 						var aData = aTab.ODPaData
-						aData.statuses.push('meta')
-						aData.urlLast = ODPExtension.IDNDecodeURL(aRefreshURI.spec)
-						aData.urlRedirections.push(aData.urlLast);
+							aData.statuses.push('meta')
+							aData.urlLast = ODPExtension.IDNDecodeURL(aRefreshURI.spec)
+							aData.urlRedirections.push(aData.urlLast);
 
-						clearTimeout(aData.waitTime)
 						if (!ODPExtension.preferenceGet('link.checker.use.cache'))
 							aWebProgress.loadURIWithFlags(aRefreshURI.spec, aWebProgress.webNavigation.LOAD_FLAGS_BYPASS_PROXY | aWebProgress.webNavigation.LOAD_FLAGS_BYPASS_CACHE | aWebProgress.webNavigation.LOAD_ANONYMOUS | aWebProgress.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
 						else
@@ -747,7 +747,7 @@
 								var topDoc = aDoc.defaultView.top.document;
 
 							//its a frame
-							if (aDoc != topDoc) {
+							if (aDoc != topDoc || aDoc.ignoreMe) {
 
 							//not a frame
 							} else {
@@ -766,7 +766,7 @@
 
 									aData.waitTime = setTimeout(function() {
 										var currentDoc = ODPExtension.documentGetFromTab(aTab)
-										if(aDoc != currentDoc && aData.historyChanges < 20 && aData.statuses[aData.statuses.length-1] !='meta'){
+										if(aDoc != currentDoc && aData.historyChanges < 20){
 
 											oRedirectionAlert.itemsNetworking++;
 

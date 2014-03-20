@@ -613,12 +613,14 @@
 
 					ODPExtension.gc();
 
-					ODPExtension.dispatchGlobalEvent('databaseReady');
-					ODPExtension.dispatchGlobalEvent('userInterfaceUpdate', ODPExtension.preferenceGet('enabled'))
+					//ODPExtension.dispatchGlobalEvent('databaseReady');
+					//ODPExtension.dispatchGlobalEvent('userInterfaceUpdate', ODPExtension.preferenceGet('enabled'))
 
 					ODPExtension.rdfParserComplete();
 
 					aConnection.executeSimple('PRAGMA "user_version" = ' + (ODPExtension.date().replace(/-/g, '')) + '');
+
+					ODPExtension.restart();
 
 				}
 				else {

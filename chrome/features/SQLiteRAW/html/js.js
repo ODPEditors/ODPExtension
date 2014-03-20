@@ -499,7 +499,7 @@ function entryAction(type) {
 		case 'redirect_check':
 			var output = ''
 			items.each(function(d) {
-				if(d.id && String(d.id) != '' && !ODP.redirectionOKAutoFix(d.uri, d.uri_last)){
+				if(d.id && String(d.id) != '' && ODP.redirectionOKAutoFix(d.uri, d.uri_last)){
 					output += d.uri
 					output += '\n'
 					output += d.uri_last

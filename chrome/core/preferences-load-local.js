@@ -26,10 +26,10 @@
 
 		//head of temporal files
 		this.readURL('chrome://odpextension/content/html/%40css.css', false, false,false, function(aCSS){
-			ODPExtension.fileCreateTemporalHead = '<style>'+aCSS+'</style>';
+			ODPExtension.fileCreateTemporalHead = '<!DOCTYPE HTML><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>{TITLE}</title><style>'+aCSS+'</style>';
 			ODPExtension.fileCreateTemporalHead += '<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>';
 			ODPExtension.readURL('chrome://odpextension/content/html/js.js', false, false,false, function(aJS){
-				ODPExtension.fileCreateTemporalHead += '<script>'+aJS+'</script>';
+				ODPExtension.fileCreateTemporalHead += '<script>'+aJS+'</script></head><body>';
 			}, true)
 		}, true)
 

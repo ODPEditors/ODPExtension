@@ -168,11 +168,10 @@
 		why_not_a_simple_fopen_fwrite.init(WriteStream, "utf-8", 0, 0xFFFD); // U+FFFD = replacement character
 		var head;
 		if (aData.indexOf('<!DOCTYPE') != -1 || aName.indexOf('.html') == -1) {} else {
-			head = '<!DOCTYPE HTML><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>' + this.htmlSpecialCharsEncode(aTitle) + '</title>';
 			if (!this.fileCreateTemporalHead) {} else
-				head += this.fileCreateTemporalHead;
+				head = this.fileCreateTemporalHead.replace('{TITLE}', this.htmlSpecialCharsEncode(aTitle));
 
-			aData = head + '</head><body>' + aData + '</body></html>';
+			aData = head.replace('{TITLE}','') + aData + '</body></html>';
 		}
 		why_not_a_simple_fopen_fwrite.writeString(aData);
 		why_not_a_simple_fopen_fwrite.close();

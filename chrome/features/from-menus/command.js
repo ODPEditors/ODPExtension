@@ -285,7 +285,7 @@
 
 				//copy
 				if (aCommand == 'copy') {
-					aData += aValue + '/' + this.__NEW_LINE__;
+					aData += aValue + this.__NEW_LINE__;
 				} else if (aCommand == 'copy_edit_cat') {
 					aData += 'http://www.dmoz.org/editors/editcat/index?cat=' + this.encodeUTF8(aValue + '/') + this.__NEW_LINE__;
 				} else if (aCommand == 'copy_worldlinkerate') {

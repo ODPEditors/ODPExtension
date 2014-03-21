@@ -242,6 +242,7 @@
 			<xul:menupopup>
 				<xul:menuitem disabled="true" label="RDF" style="font-weight:bold;"/>
 				<xul:menuitem action="rdfFindSitesCooled" label="Cooled sites"/>
+				<xul:menuitem action="rdfFindSitesCategory" label="Category sites"/>
 			</xul:menupopup>
 		  </xul:menu>
 			  <!--

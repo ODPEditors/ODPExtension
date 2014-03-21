@@ -51,6 +51,8 @@
 					'dmoz.org', 'danielmclean.id.au', 'dlugan.com', 'jtlabs.net', 'tubert.org', 'pmoz.info', 'mathmos.net', 'rpfuller.com', 'rpfuller.org', 'godzuki.com.uy'
 			];
 
+			shared.logs = [];
+
 			//building a reference
 			this.shared = this.sharedObjectGet('shared', shared);
 

@@ -1,4 +1,30 @@
 (function() {
+
+	var NetUtil = {}
+		Components.utils['import']("resource://gre/modules/NetUtil.jsm", NetUtil);
+	var FileUtils = {}
+		Components.utils['import']("resource://gre/modules/FileUtils.jsm", FileUtils);
+
+
+	this.log = function(aFileName, aStringLine) {
+		if(!this.shared.logs[aFileName]) {
+
+			var aFile = Components.classes["@mozilla.org/file/local;1"]
+				.createInstance(Components.interfaces.nsILocalFile);
+			aFile.initWithPath(this.pathSanitize(this.extensionDirectory().path+'/'+aFileName));
+
+			var WriteStream = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Components.interfaces.nsIFileOutputStream);
+			// use 0x02 | 0x10 to open file for appending.
+			WriteStream.init(aFile, 0x02 | 0x10 | 0x08, 0666, 0); // write, create, truncatefile,
+
+			var why_not_a_simple_fopen_fwrite = Components.classes["@mozilla.org/intl/converter-output-stream;1"].createInstance(Components.interfaces.nsIConverterOutputStream);
+
+			why_not_a_simple_fopen_fwrite.init(WriteStream, "utf-8", 0, 0xFFFD); // U+FFFD = replacement character
+			this.shared.logs[aFileName] = why_not_a_simple_fopen_fwrite
+		}
+		this.shared.logs[aFileName].writeString(aStringLine+'\n');
+		//	why_not_a_simple_fopen_fwrite.close();
+	}
 	//returns the directory for this extension
 	this.extensionDirectory = function() {
 		//if the user has chose an invalid profile folder
@@ -297,10 +323,7 @@
 		this.error('Can\'t write to the file "' + aFilePath + '"\nBrowser says: ' + e);
 		return null;
 	}
-	var NetUtil = {}
-	Components.utils['import']("resource://gre/modules/NetUtil.jsm", NetUtil);
-	var FileUtils = {}
-	Components.utils['import']("resource://gre/modules/FileUtils.jsm", FileUtils);
+
 
 	this.fileWriteAsync = function(aFilePath, aData, isSecure){
 		try {
@@ -324,7 +347,7 @@
 			var ostream = FileUtils.FileUtils.openSafeFileOutputStream(aFile)
 
 			var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].
-			                createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
+							createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
 			converter.charset = "UTF-8";
 			var istream = converter.convertToInputStream(aData);
 

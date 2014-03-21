@@ -266,6 +266,7 @@
 		}
 
 	}
+	//this function is VERY expensive
 	this.isVisible = function(aNode) {
 		return !(aNode && aNode.offsetWidth === 0 && aNode.offsetHeight === 0)
 	}

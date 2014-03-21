@@ -22,13 +22,14 @@
 		var items = this.getAllLinksItemsPreferSelected(this.tabGetFocused());
 		if (items.length > 0) {
 			for (var id in items)
-				this.linkCheckerItem(items[id], oRedirectionAlert, aResult);
+				this.linkCheckerItem(items[id], oRedirectionAlert, aResult, id);
 		}
 	}
 	//general blacklisting..
-	this.linkCheckerItem = function(item, oRedirectionAlert, aResult) {
+	this.linkCheckerItem = function(item, oRedirectionAlert, aResult, aNumber) {
 		var href = this.IDNDecodeURL(this.string(item.href))
-		if (!href || this.isGarbage(href) || !this.canFollowURL(href, this.focusedURL) || !this.isVisible(item))
+		if (!href || this.isGarbage(href) || !this.canFollowURL(href, this.focusedURL) ||
+		    		(aNumber < 300 && /*this function is very expensive, limit to first N items*/!this.isVisible(item)))
 			return;
 
 		var tooltiptext = this.decodeUTF8Recursive(href);

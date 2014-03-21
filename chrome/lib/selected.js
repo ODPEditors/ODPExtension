@@ -19,7 +19,7 @@
 			var items = document.commandDispatcher.focusedWindow.document.getElementsByTagNameNS("*", tagName);
 			var length = items.length;
 			if (items && length) {
-				for (var i = 0; i < length; i++) {
+				for (var i = 0; i < length && i < 10000; i++) {
 					if (aSelection.containsNode(items[i], true))
 						objs[objs.length] = items[i];
 				}
@@ -109,13 +109,15 @@
 	this.getSelectedLinksItems = function(forced) {
 		var links = [];
 		var lk = this.getBrowserSelectionObjects('a');
-		for (var a = 0; a < lk.length; a++) {
+		var length = lk.length
+		for (var a = 0; a < length; a++) {
 			if (lk[a].href) {
 				links[links.length] = lk[a];
 			}
 		}
 		var lk = this.getBrowserSelectionObjects('area');
-		for (var a = 0; a < lk.length; a++) {
+		var length = lk.length
+		for (var a = 0; a < length; a++) {
 			if (lk[a].href) {
 				links[links.length] = lk[a];
 			}

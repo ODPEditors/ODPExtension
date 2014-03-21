@@ -50,6 +50,8 @@
 		//if aDoc is not set, use the "firefox"(aka chrome document)
 		if(!aDoc)
 			aDoc = document;
+		if(aDoc.defaultView.getSelection() && aDoc.defaultView.getSelection().focusNode && aDoc.defaultView.getSelection().focusNode.parentNode)
+			return aDoc.defaultView.getSelection().focusNode.parentNode
 		if (!document.commandDispatcher || !document.commandDispatcher.focusedElement)
 			return '';
 

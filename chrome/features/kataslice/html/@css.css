@@ -4,10 +4,7 @@ body {
 	padding-top: 26px;
 	margin-top:27px;
 }
-body[loading="true"] {
-}
-body[loading="true"] .container ,
-body[loading="true"] .totals{
+body[loading="true"] .loading-hidden{
 	display: none;
 }
 .loading {
@@ -45,7 +42,7 @@ body[loading="true"] .totals{
 		width: 100%;
 		z-index: 90;
 	}
-	header .totals {
+	.header-totals{
 		float: right;
 		color: rgb(110, 110, 100);
 		font-family: 'Open Sans',Arial,Verdana,sans-serif;

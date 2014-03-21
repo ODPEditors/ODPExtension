@@ -24,8 +24,8 @@
 <body loading="true" onkeypress="entryKeyPressBody(this, event)">
 <div class="loading" style="opacity:.3">Loading.. <br>please wait</div>
 <header>
-	<div class="title"><b class="no-selection">KataSlice</b> - <div class="categories inline-block"></div></div>
-	<div class="totals">
+	<div class="title"><b class="no-selection">KataSlice</b> <span class="loading-hidden">-</span> <div class="categories inline-block"></div></div>
+	<div class="header-totals loading-hidden">
 		<span class="filtered">0</span> current view,
 		<span class="total">0</span> total,
 		<span class="selected">0</span> selected,
@@ -34,7 +34,7 @@
 	<div class="clear"></div>
 </header>
 
-<div class="container">
+<div class="container loading-hidden">
 	<div class="sidebar no-selection">
 
 		<div class="pie-types ignore">

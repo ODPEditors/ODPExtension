@@ -110,7 +110,7 @@ function update() {
 function updateTotals() {
 	timer.start('updateTotals');
 	listRowsVisible = ListBody.selectAll('.item:not(.filtered):not(.filtertextboxed)')
-	$('.totals .filtered').text(listRowsVisible.size())
+	$('.header-totals .filtered').text(listRowsVisible.size())
 
 	if (listRowsVisible.size() < 1)
 		$('.list-no-results').attr('results', false);
@@ -241,7 +241,7 @@ function chartsRenderBar() {
 	var xdata = crossfilter(data);
 
 	//total
-	$('.totals .total').text(xdata.size())
+	$('.header-totals .total').text(xdata.size())
 	$('.group-by-totals .none').text('(' + xdata.size() + ')')
 
 	//grouping by all

@@ -33,7 +33,7 @@
 //handy
 
 	function entryUpdatePendingCounter() {
-		$('.totals .pending').text($('.item.pending').length);
+		$('.header-totals .pending').text($('.item.pending').length);
 	}
 	var lastSelectedEntry = false;
 
@@ -87,7 +87,7 @@
 		else
 			entry.addClass('selected');
 
-		$('.totals .selected').text($('.item.selected').length);
+		$('.header-totals .selected').text($('.item.selected').length);
 	}
 
 	function entryBlurOrInput(item, event) {

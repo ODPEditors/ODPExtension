@@ -21,7 +21,10 @@
 	this.pasteCategoryPaste = function(aCategory){
 
 		if(!!anElement) {
-			anElement.value = aCategory
+			if(anElement.contentEditable)
+				anElement.innerHTML = aCategory
+			else
+				anElement.value = aCategory
 		} else {
 			this.copyToClipboard(aCategory)
 		}

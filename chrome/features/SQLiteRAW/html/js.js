@@ -489,7 +489,7 @@ function entryAction(type) {
 			items.each(function(d) {
 				if(d.uri && String(d.uri) != ''){
 					var cacheID = ODP.sha256(d.uri)
-					var content = ODP.fileRead('T:/ODPExtension/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID, true)
+					var content = ODP.fileRead(ODP.shared.storage+'/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID, true)
 					var uncompressed = ODP.uncompressSync(content)
 					var parsed = JSON.parse(uncompressed)
 					ODP.dump(parsed);

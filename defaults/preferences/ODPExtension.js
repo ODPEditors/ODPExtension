@@ -2,6 +2,7 @@
 
 	pref('extensions.development@dmoz.org.description', 'chrome://ODPExtension/locale/js.properties');
 	pref('extensions.ODPExtension.extension.directory', '');
+	pref('extensions.ODPExtension.storage', '');//an alternative storage for a huge amount of files, valid value absolute as "drive:/folder"
 
 //TOGGLES
 
@@ -24,6 +25,7 @@
 	pref('extensions.ODPExtension.link.checker.watching.period', 3000);
 	pref('extensions.ODPExtension.link.checker.grace.period', 6000);
 	pref('extensions.ODPExtension.link.checker.timeout', 80000);
+	pref('extensions.ODPExtension.link.checker.cache.use.cache.for.result', false);
 
 //USER INTERFACE - DONE
 

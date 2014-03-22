@@ -67,6 +67,12 @@
 		//correction of the extension directory
 		this.extensionDirectory();
 
+		var storage = this.preferenceGet('storage').replace(/\/$/, '').trim()
+		if(storage != '')
+			this.shared.storage = storage
+		else
+			this.shared.storage = this.extensionDirectory().path
+
 		this.dispatchEvent('preferencesLoadGlobal');
 	}
 

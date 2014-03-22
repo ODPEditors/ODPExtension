@@ -303,7 +303,8 @@
 					var originalURI = decodedOriginalURI;
 				}
 
-				if (this.cache[originalURI].stop == true) {
+				var aData = this.cache[originalURI]
+				if (aData.stop == true) {
 					isDownload = this.cancelDownload(oHttp);
 
 					//resolving: this item was already checked to the end but all the request are still on examination
@@ -317,17 +318,17 @@
 					responseStatus = -1;
 
 				//DO NOT EDIT:
-				this.cache[originalURI].statuses.push(responseStatus);
-				this.cache[originalURI].urlRedirections.push(decodedURI);
+				aData.statuses.push(responseStatus);
+				aData.urlRedirections.push(decodedURI);
 				var headers = '';
 				oHttp.visitResponseHeaders(function(header, value) {
 				   headers += header + ": " + value + "\r\n";
 				 });
-				this.cache[originalURI].headers += headers+'\n\n'
-				this.cache[originalURI].contentCharset = oHttp.contentCharset
+				aData.headers += headers+'\n\n'
+				aData.contentCharset = oHttp.contentCharset
 				if (originalURI != decodedURI) {
 					this.cacheRedirects[decodedURI] = originalURI;
-					this.cache[originalURI].urlLast = decodedURI;
+					aData.urlLast = decodedURI;
 				} else {
 					var lastURL = '';
 					try {
@@ -335,39 +336,39 @@
 					} catch (e) {}
 					if (lastURL != '' && lastURL != decodedURI) {
 						this.cacheRedirects[lastURL] = originalURI;
-						this.cache[originalURI].urlLast = lastURL;
+						aData.urlLast = lastURL;
 					}
 				}
-				this.cache[originalURI].requestMethod = oHttp.requestMethod || 'GET';
+				aData.requestMethod = oHttp.requestMethod || 'GET';
 
 				isDownload = this.cancelDownload(oHttp);
 
 				//detect downloads
-				//this.cache[originalURI].isDownload = isDownload;
+				//aData.isDownload = isDownload;
 
 				if (oHttp.contentType && oHttp.contentType.trim() != '' && contentTypesTxt.indexOf(oHttp.contentType) === -1) {
-					this.cache[originalURI].contentType = oHttp.contentType.replace(charsetReplace, '');
+					aData.contentType = oHttp.contentType.replace(charsetReplace, '');
 					isDownload = true
 					if(!isDownload)//already canceled
 						oHttp.cancel(Components.results.NS_BINDING_ABORTED);
 				} else if(isDownload){
-					this.cache[originalURI].contentType = oHttp.contentType.replace(charsetReplace, '');
+					aData.contentType = oHttp.contentType.replace(charsetReplace, '');
 				}
 
-				this.cache[originalURI].isDownload = isDownload;
+				aData.isDownload = isDownload;
 
 				//if the request is from XMLHttpRequester, the "Location:" header, maybe is not reflected in the redirections,
 				//then we need to get if from the responseHeaders.
 				//aData[URL] is equal to the original URI. But then,
 				//Since the redirectionn is not exposed, if we change the current Location to
-				//this.cache[originalURI].lastURL = oHttp.getResponseHeader('Location')
+				//aData.lastURL = oHttp.getResponseHeader('Location')
 				//we will inherit all the properties of the previous URL, such contenttype, etc.
 				//So, dont use this:
-				//this.cache[originalURI].remoteAddress = oHttp.remoteAddress || 0;
-				//this.cache[originalURI].remotePort = oHttp.remotePort || 0;
-				//this.cache[originalURI].contentLength = oHttp.contentLength || 0;
-				//this.cache[originalURI].contentType = oHttp.contentType || '';
-				//this.cache[originalURI].contentCharset = oHttp.contentCharset || '';
+				//aData.remoteAddress = oHttp.remoteAddress || 0;
+				//aData.remotePort = oHttp.remotePort || 0;
+				//aData.contentLength = oHttp.contentLength || 0;
+				//aData.contentType = oHttp.contentType || '';
+				//aData.contentCharset = oHttp.contentCharset || '';
 
 			},
 			check: function(aURL, aFunction) {
@@ -386,9 +387,9 @@
 						aData.language = aLanguage;
 
 						if (ODPExtension.preferenceGet('link.checker.cache.result')){
-							var cacheID = ODPExtension.sha256(aURL)
+							var cachedFile = aData.cachedFile
 							ODPExtension.compress(JSON.stringify(aData), function(aCompressedData){
-								ODPExtension.fileWriteAsync('T:/ODPExtension/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID, aCompressedData, true);
+								ODPExtension.fileWriteAsync(ODPExtension.shared.storage+cachedFile, aCompressedData, true);
 							});
 						}
 						oRedirectionAlert.cache[aURL] = null;
@@ -410,8 +411,25 @@
 			},
 
 			_check: function(aURL, aFunction, aOriginalURL, letsTryAgainIfFail) {
+
 				this.itemsWorking++;
 				this.itemsNetworking++;
+				var oRedirectionAlert = this;
+
+				//cached result
+				var cacheID = ODPExtension.sha256(aOriginalURL)
+				var cachedFile = '/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID;
+				if (ODPExtension.preferenceGet('link.checker.cache.use.cache.for.result')){
+					if(ODPExtension.fileExists(ODPExtension.shared.storage+cachedFile, true)){
+						ODPExtension.uncompress(ODPExtension.fileRead(ODPExtension.shared.storage+cachedFile, true), function(aUncompressedData){
+							aFunction(JSON.parse(aUncompressedData), aOriginalURL);
+							oRedirectionAlert.itemsWorking--;
+							oRedirectionAlert.itemsNetworking--;
+							oRedirectionAlert.next();
+						});
+						return
+					}
+				}
 				this.next();
 
 				if (typeof(letsTryAgainIfFail) == 'undefined')
@@ -421,6 +439,7 @@
 				var aData = this.cache[aURL];
 				aData.stop = false;
 
+				aData.cachedFile = cachedFile;
 				aData.isDownload = false;
 
 				aData.statuses = [];
@@ -486,7 +505,6 @@
 				aData.note = [];
 				//aData.removeFromBrowserHistory = !ODPExtension.isVisitedURL(aURL);
 
-				var oRedirectionAlert = this;
 				var Requester = new XMLHttpRequest();
 				try {
 					Requester.mozAnon = true;

@@ -19,7 +19,7 @@
 			var items = document.commandDispatcher.focusedWindow.document.getElementsByTagNameNS("*", tagName);
 			var length = items.length;
 			if (items && length) {
-				for (var i = 0; i < length && i < 10000; i++) {
+				for (var i = 0; i < length && i < 4000; i++) {
 					if (aSelection.containsNode(items[i], true))
 						objs[objs.length] = items[i];
 				}

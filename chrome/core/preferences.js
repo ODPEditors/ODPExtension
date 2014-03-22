@@ -21,6 +21,7 @@
 	this.preferences.colors = [];
 	this.preferences.strings = [
 		'extension.directory', //DONE
+		'storage', //DONE
 		'advanced.urls.rdf', //DONE
 		'locked.categories.txt.last.update', //DONE
 		'url.tools.urls' //DONE
@@ -55,6 +56,7 @@
 		'link.checker.generate.graph',
 		'link.checker.hidden.tabs',
 		'link.checker.cache.result',
+		'link.checker.cache.use.cache.for.result',
 
 		//privacy - DONE
 		'privacy.no.referrer',

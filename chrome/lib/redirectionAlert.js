@@ -72,7 +72,7 @@
 		onRefreshAttempted: function (aWebProgress, aNose, aRefreshURI, aMillis, aSameURI) {
 			var aTab = ODPExtension.tabGetFromChromeDocument(aNose.DOMWindow)
 
-			if(aTab && !! aTab.ODPaData) {
+			if(aTab && aTab.ODPaData) {
 				//if the refreshing document is a frame.
 				if(!aNose.DOMWindow || !aNose.DOMWindow.top || !aNose.DOMWindow.top.document || !aNose.document || aNose.DOMWindow.top.document != aNose.document){
 					//ignore the frame
@@ -178,7 +178,7 @@
 							if (!notificationCallbacks) {} else {
 								var domWin = notificationCallbacks.getInterface(Components.interfaces.nsIDOMWindow);
 								aTab = ODPExtension.tabGetFromChromeDocument(domWin);
-								if (aTab && !! aTab.ODPaData) {
+								if (aTab && aTab.ODPaData) {
 									var decoded = ODPExtension.IDNDecodeURL(aSubject.URI.spec)
 									aTab.ODPaData.externalContent[aTab.ODPaData.externalContent.length] = {
 										url: decoded,
@@ -196,7 +196,7 @@
 					case 'content-document-global-created':
 						if (aSubject instanceof Components.interfaces.nsIDOMWindow) {
 							var aTab = ODPExtension.tabGetFromChromeDocument(aSubject);
-							if (aTab && !! aTab.ODPaData) {
+							if (aTab && aTab.ODPaData) {
 								ODPExtension.disableTabFeatures(aSubject, aTab, aTab.ODPaData);
 							}
 						}
@@ -211,7 +211,7 @@
 							if (!notificationCallbacks) {} else {
 								var domWin = notificationCallbacks.getInterface(Components.interfaces.nsIDOMWindow);
 								var aTab = ODPExtension.tabGetFromChromeDocument(domWin);
-								if (aTab && !! aTab.ODPaData) {
+								if (aTab && aTab.ODPaData) {
 									var decoded = ODPExtension.IDNDecodeURL(aSubject.URI.spec)
 									if(includeBlock.test(decoded) || ( ODPExtension.isGarbage(decoded) && !ODPExtension.isGarbage(ODPExtension.tabGetLocation(aTab)) && !ODPExtension.isGarbage(aTab.ODPaData.urlOriginal) ) ){
 										aTab.ODPaData.externalContent[aTab.ODPaData.externalContent.length] = {
@@ -403,7 +403,7 @@
 			next: function() {
 				if (this.itemsNetworking < ODPExtension.preferenceGet('link.checker.threads')) {
 					var next = this.queue.shift();
-					if ( !! next) {
+					if (next) {
 						this._check(next[0], next[1], next[2]);
 						this.next();
 					}
@@ -423,7 +423,7 @@
 					if(ODPExtension.fileExists(ODPExtension.shared.storage+cachedFile, true)){
 						ODPExtension.uncompress(ODPExtension.fileRead(ODPExtension.shared.storage+cachedFile, true), function(aUncompressedData){
 							aFunction(JSON.parse(aUncompressedData), aOriginalURL);
-							oRedirectionAlert.itemsWorking--;
+							oRedirectionAlert.itemsDone++;
 							oRedirectionAlert.itemsNetworking--;
 							oRedirectionAlert.next();
 						});
@@ -1141,7 +1141,7 @@
 			this.disableTabFeaturesWindow(aWindow);
 			this.foreachFrame(aWindow, function(aDoc) {
 				var aWindowww = aDoc.defaultView;
-				if(!!aWindowww && done.indexOf(aWindowww) === -1){
+				if(aWindowww && done.indexOf(aWindowww) === -1){
 					done.push(aWindowww)
 					ODPExtension.disableTabFeaturesWindow(aWindowww);
 				}

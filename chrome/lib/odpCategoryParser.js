@@ -67,8 +67,8 @@
 				site.url_id = this.getURLID(site.url);
 				site.domain = site.url_id.domain;
 				site.subdomain = site.url_id.subdomain;
-				site.title = this.stripTags(this.htmlSpecialCharsDecode(this.select('input[name^="urlsub_title_"]', elements[id].innerHTML, aURI)[0].value));
-				site.description = this.stripTags(this.htmlSpecialCharsDecode(this.select('input[name^="urlsub_desc_"]', elements[id].innerHTML, aURI)[0].value));
+				site.title = this.stripTags(this.htmlSpecialCharsDecode(this.select('input[name^="urlsub_title_"]', elements[id].innerHTML, aURI)[0].value)).trim();
+				site.description = this.stripTags(this.htmlSpecialCharsDecode(this.select('input[name^="urlsub_desc_"]', elements[id].innerHTML, aURI)[0].value)).trim();
 				site.category = this.categoryGetFromURL(elements[id].getElementsByTagName('a')[2].href);
 				site.user = this.select('small', elements[id].innerHTML, aURI)[0].innerHTML;
 				try {
@@ -162,7 +162,7 @@
 				site.domain = site.url_id.domain;
 				site.subdomain = site.url_id.subdomain;
 				site.title = this.stripTags(this.htmlSpecialCharsDecode(elements[id].getElementsByTagName('a')[1].innerHTML)).trim();
-				site.description = this.stripTags(this.htmlSpecialCharsDecode(elements[id].innerHTML.split('<br>')[0].split('</a>')[2])).trim().replace(/^- +/, '');
+				site.description = this.stripTags(this.htmlSpecialCharsDecode(elements[id].innerHTML.split('<br>')[0].split('</a>')[2])).trim().replace(/^- +/, '').trim();
 				site.category = this.categoryGetFromURL(aURI);
 				site.user = this.select('small', elements[id].innerHTML, aURI)[0].innerHTML;
 				try {
@@ -228,6 +228,89 @@
 		return aSites
 	}
 
+	this.categoryParserGetCategoryUJSONSites = function(aData, aSites) {
+
+		for (var id in aData) {
+			var d = aData[id]
+			try {
+				var site = {}
+				site.site_id = d.id;
+				site.url = this.IDNDecodeURL(d.url);
+				site.url_id = this.getURLID(d.url);
+				site.domain = site.url_id.domain;
+				site.subdomain = site.url_id.subdomain;
+				site.title = d.title.trim();
+				site.description = d.description.trim();
+				site.category = d.category;
+				site.user = d.submitterEmail+' '+(d.lastEditorName || '').trim().toLowerCase();
+				try {
+					site.date = d.updateAt.split(' ')[0]
+					site.date = site.date.replace(/^- +/, '').slice(0, 10).trim();
+					if (/[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9][0-9]/.test(site.date))
+						site.date = site.date.slice(0, 4) + '-' + site.date.slice(5, 7) + '-' + site.date.slice(8, 10);
+					else if (/[0-9][0-9].[0-9][0-9].[0-9][0-9][0-9][0-9]/.test(site.date))
+						site.date = site.date.slice(6, 10) + '-' + site.date.slice(3, 5) + '-' + site.date.slice(0, 2);
+				}
+				catch (e) {
+					site.date = '1980-07-12';
+				}
+				site.date_object = this.sqlDate(site.date);
+				site.ip = d.submitterIP.trim();
+				if (site.user == '')
+					site.user = 'no user';
+				if (site.ip == '' || site.ip == '7' + '4.2' + '08' + '.18' + '0.10' + '6')
+					site.ip = 'no ip';
+				site.type = (d.httpStatus != 200 ? 'error' : 'public');
+				if(site.type == 'public'){
+					if(!d.lastEditorName){}
+					else
+						site.type = 'editor'
+				}
+				switch (site.type) {
+					case 'error':
+						site.colour = this.odpColourErrorD();
+						break;
+					case 'editor':
+						site.colour = this.odpColourEditorD();
+						break;
+					case 'public':
+						site.colour = this.odpColourPublicD();
+						break;
+					case 'xml':
+						site.colour = this.odpColourXMLD();
+						break;
+					case 'updates':
+						site.colour = this.odpColourPurpleD();
+						break;
+					case 'greenbust':
+						site.colour = this.odpColourGreenbustD();
+						break;
+					default:
+						site.colour = this.odpColourGreyD();
+						break;
+				}
+				site.type_colour = site.type + '-' + site.colour;
+				site.area = 'unreviewed';
+				site.action = 'unreviewed'; // unreviewed, reviewed, deleted
+				site.id = site.area + '-' + site.site_id;
+
+				site.kK = d.kids == 'true' ? true : false;
+				site.kT = d.teens == 'true' ? true : false;
+				site.kMT = d.mteens == 'true' ? true : false;
+
+				site.cool = d.cool == 'true' ? true : false;
+				site.isKT = this.categoryIsKidsAndTeens(site.category)
+
+				aSites[aSites.length] = site;
+
+			}
+			catch (e) {
+				throw e
+			}
+		}
+		return aSites
+	}
+
 	this.categoryParserGetCategoryL = function(aCategoryDocumentHTML, aURI, aSites) {
 		try{
 			var elements = this.select('li', aCategoryDocumentHTML.split('<ul class="edit">')[1].split('</ul>')[0], aURI);
@@ -244,7 +327,7 @@
 				site.domain = site.url_id.domain;
 				site.subdomain = site.url_id.subdomain;
 				site.title = this.stripTags(this.htmlSpecialCharsDecode(elements[id].getElementsByTagName('a')[1].innerHTML)).trim();
-				site.description = this.stripTags(this.htmlSpecialCharsDecode(elements[id].innerHTML.split('</a>')[2].replace(/&nbsp;/g, ' '))).trim().replace(/^- +/, '');
+				site.description = this.stripTags(this.htmlSpecialCharsDecode(elements[id].innerHTML.split('</a>')[2].replace(/&nbsp;/g, ' '))).trim().replace(/^- +/, '').trim();
 				site.category = this.categoryGetFromURL(aURI);
 				site.user = '' //this.select('small', elements[id].innerHTML, aURI)[0].innerHTML;
 				try {

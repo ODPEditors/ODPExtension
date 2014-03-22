@@ -126,6 +126,12 @@
 
 		}
 	}
+
+	this.katasliceJSON = function (aFunction) {
+		var aSites = []
+			this.categoryParserGetCategoryUJSONSites(JSON.parse(this.fileRead('urls.json')), aSites)
+		aFunction(aSites);
+	}
 	return null;
 
 }).apply(ODPExtension);

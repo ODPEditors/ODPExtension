@@ -18,13 +18,23 @@ function onCategoryChange() {
 
 	var reviewed = ODP.getHashParamFromURL(document.location, 'reviewed')
 	var recursive = ODP.getHashParamFromURL(document.location, 'recursive') == '1'
+	var json = ODP.getHashParamFromURL(document.location, 'json') == '1'
 
-	ODP.kataslice(aCategory, reviewed, recursive, function(aData) {
-		aSites = aData
-		timer.stop('onCategoryChange');
-		timer.display();
-		onCategoryLoad();
-	});
+	if(json) {
+		ODP.katasliceJSON(function(aData) {
+			aSites = aData
+			timer.stop('onCategoryChange');
+			timer.display();
+			onCategoryLoad();
+		});
+	} else {
+		ODP.kataslice(aCategory, reviewed, recursive, function(aData) {
+			aSites = aData
+			timer.stop('onCategoryChange');
+			timer.display();
+			onCategoryLoad();
+		});
+	}
 }
 
 var groups = ['domain', 'subdomain', 'user', 'ip', 'type', 'category', 'type_colour', 'action'],

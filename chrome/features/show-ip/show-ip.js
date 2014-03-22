@@ -193,7 +193,7 @@
 		}
 	}
 	this.showIPDatabaseInsertID = function (aName, aValue) {
-		if (this.shared.me) {
+		if (this.shared.me && aName != aValue) {
 			insert.params('name', aName);
 			insert.params('value', aValue);
 

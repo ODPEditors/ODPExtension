@@ -73,6 +73,8 @@
 		else
 			this.shared.storage = this.extensionDirectory().path
 
+		this.shared.dots = '…';
+
 		this.dispatchEvent('preferencesLoadGlobal');
 	}
 

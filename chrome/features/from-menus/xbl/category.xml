@@ -218,7 +218,7 @@
 			<xul:menuitem action="command_tool_spell_check" label="Spell check"/>
 
 			<xul:menuseparator hidden="true" anonid="kataslice_separator" action="kataslice_separator"/>
-			<xul:menuitem hidden="true" anonid="kataslice" action="kataslice" label="Kataslice"/>
+			<xul:menuitem hidden="true" anonid="kataslice" action="kataslice_" label="Kataslice"/>
 			<xul:menuitem hidden="true" anonid="kataslice_recursive" action="kataslice_recursive" label="Kataslice (recursive)"/>
 
 			  <xul:menuseparator/>

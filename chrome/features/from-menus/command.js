@@ -605,7 +605,7 @@
 				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#reviewed=1&recursive=1&cat='+aValue, true);
 			 else if (aCommand == 'kataslice_recursive')
 				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#reviewed=2&recursive=1&cat='+aValue, true);
-			 else if (aCommand == 'kataslice')
+			 else if (aCommand == 'kataslice_')
 				this.tabOpen('chrome://ODPExtension/content/features/kataslice/html/@index.html#reviewed=2&cat='+aValue, true);
 			//else if(aCommand=='search_find_subcategory_called')
 			//this.categoryFinderQuery(aValue+'/.*?'+searchFor+'([^/]*)?$', null, aValue);

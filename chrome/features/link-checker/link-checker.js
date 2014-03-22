@@ -69,7 +69,7 @@
 		else
 			tooltiptext = ODPExtension.decodeUTF8(aData.urlRedirections.join('\n') + '\n' + aData.status.suspicious.join('\n'))
 
-			item.setAttribute('title', tooltiptext.trim() + '\n' + aData.txt.slice(0, 255)+'...');
+			item.setAttribute('title', tooltiptext.trim() + '\n' + aData.txt.slice(0, 255)+'…');
 
 		if (aData.status.error && aData.status.canDelete) {
 			//red
@@ -101,6 +101,7 @@
 			aData.status.errorString + ' | ' +
 			aData.ip + ' | ' +
 			aData.language + ' | ' +
+			this.h(aData.title) + ' | ' +
 			aData.checkType +
 			'] ' + item.getAttribute('original_text');
 		item.setAttribute('note', '' + aData.statuses.join(', ') + ' | ' + aData.status.code + ' | ' + aData.status.errorString);

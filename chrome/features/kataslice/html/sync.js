@@ -20,12 +20,18 @@ function sync() {
 		var d = changed[id];
 		(function(d) {
 			setTimeout(function() {
-				if (d.area == 'unreviewed')
-					edit(d, 'http://www.dmoz.org/editors/editunrev/editurl?urlsubId=' + d.site_id + '&cat=' + ODP.encodeUTF8(d.category) + '&offset=5000')
-				else if (d.area == 'reviewed')
-					edit(d, 'http://www.dmoz.org/editors/editurl/edit?urlId=' + d.site_id + '&cat=' + ODP.encodeUTF8(d.category) + '&offset=5000')
-				else if (d.area == 'new')
-					edit(d, 'http://www.dmoz.org/editors/editurl/add?url=' + d.new_url + '&cat=' + ODP.encodeUTF8(d.new_category))
+				if (d.area == 'unreviewed'){
+					if(d.site_id && d.site_id != '')
+						edit(d, 'http://www.dmoz.org/editors/editunrev/editurl?urlsubId=' + d.site_id + '&cat=' + ODP.encodeUTF8(d.category) + '&offset=5000')
+					else
+						edit(d, 'http://www.godzuki.com.uy/mimizu/service/edit-url-unreview.php?url='+ODP.encodeUTF8(d.url)+'&cat=' + ODP.encodeUTF8(d.category))
+				} else if (d.area == 'reviewed'){
+					if(d.site_id && d.site_id != '')
+						edit(d, 'http://www.dmoz.org/editors/editurl/edit?urlId=' + d.site_id + '&cat=' + ODP.encodeUTF8(d.category) + '&offset=5000')
+					else
+						edit(d, 'http://www.godzuki.com.uy/mimizu/service/edit-url.php?url='+ODP.encodeUTF8(d.url)+'&cat=' + ODP.encodeUTF8(d.category))
+				} else if (d.area == 'new')
+					edit(d, 'http://www.dmoz.org/editors/editurl/add?url=' + ODP.encodeUTF8(d.new_url) + '&cat=' + ODP.encodeUTF8(d.new_category))
 			}, timer += 1200);
 		})(d);
 	}

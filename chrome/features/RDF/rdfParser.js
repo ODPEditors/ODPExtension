@@ -699,16 +699,17 @@
 		result.count = 0;
 		result.data = header_table[0];
 		//parsing
-
+		var added = ''
 		for (; cont = file[1].readLine(line);) {
-			value = this.trim(line.value);
-
+			value = added+this.trim(line.value);
+			added = ''
 			if (value.indexOf('<Topic') === 0) {
 				aTopic = value;
 				aTopic += '\n';
 				for (; cont = file[1].readLine(line);) {
 					value = this.trim(line.value);
 					if (value.indexOf('<Topic') === 0) {
+						added = value+'\n';
 						if (aTopic.indexOf(aQuery) != -1) {
 							result.data += aTopic;
 							result.count++;

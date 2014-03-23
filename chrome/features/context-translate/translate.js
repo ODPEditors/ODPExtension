@@ -25,18 +25,26 @@
 		if(!aURL)
 			aURL = this.focusedURL
 
+		var lang;
+		if(this.focusedCategory != '')
+			lang = this.getLanguageFromCategory(this.focusedCategory).code
+
+		if(!lang || lang == '')
+			lang = 'auto';
+
 		//the selected text
 		var aString = this.getSelectedTextOrPrompt(false, aURL);
 		if (aString != '' && aString.indexOf('http') !== 0) {
+
 			aString = aString.replace(/World\/[^\/]+\//g, ' ').replace(/_/g, ' ').replace(/\//g, ' / ').replace(/\[[^\]+]\]/gi, '').trim()
 			this.tabOpenCheckForBehavior('https://translate.google.com/',
 				aEvent,
 				'translate',
-				'text=' + this.encodeUTF8(aString) + '&langpair=auto|' + aEvent.originalTarget.getAttribute('value') + '&ie=UTF-8&oe=UTF-8');
+				'text=' + this.encodeUTF8(aString) + '&langpair='+lang+'|' + aEvent.originalTarget.getAttribute('value') + '&ie=UTF-8&oe=UTF-8');
 		} else {
 
 			if (aString.indexOf('http') === 0)
-				this.tabOpenCheckForBehavior('http'+(aString.indexOf('https') === 0 ? '' : '')+'://translate.google.com/translate?sl=auto&tl=' + aEvent.originalTarget.getAttribute('value') + '&js=n&prev=_t&hl=en&ie=UTF-8&u=' + this.encodeUTF8(aString)+'&sandbox=0&act=url',
+				this.tabOpenCheckForBehavior('http'+(aString.indexOf('https') === 0 ? '' : '')+'://translate.google.com/translate?sl='+lang+'&tl=' + aEvent.originalTarget.getAttribute('value') + '&js=n&prev=_t&hl=en&ie=UTF-8&u=' + this.encodeUTF8(aString)+'&sandbox=0&act=url',
 					aEvent,
 					'translate');
 

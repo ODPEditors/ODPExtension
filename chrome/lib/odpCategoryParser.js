@@ -68,7 +68,7 @@
 				site.domain = site.url_id.domain;
 				site.subdomain = site.url_id.subdomain;
 				site.title = this.stripTags(this.htmlSpecialCharsDecode(this.select('input[name^="urlsub_title_"]', elements[id].innerHTML, aURI)[0].value)).trim();
-				site.description = this.stripTags(this.htmlSpecialCharsDecode(this.select('input[name^="urlsub_desc_"]', elements[id].innerHTML, aURI)[0].value)).trim();
+				site.description = this.stripTags(this.htmlSpecialCharsDecode(this.select('input[name^="urlsub_desc_"]', elements[id].innerHTML, aURI)[0].value)).trim().replace('[Forward a Copy', '').trim();
 				site.category = this.categoryGetFromURL(elements[id].getElementsByTagName('a')[2].href);
 				site.user = this.select('small', elements[id].innerHTML, aURI)[0].innerHTML;
 				try {
@@ -162,7 +162,7 @@
 				site.domain = site.url_id.domain;
 				site.subdomain = site.url_id.subdomain;
 				site.title = this.stripTags(this.htmlSpecialCharsDecode(elements[id].getElementsByTagName('a')[1].innerHTML)).trim();
-				site.description = this.stripTags(this.htmlSpecialCharsDecode(elements[id].innerHTML.split('<br>')[0].split('</a>')[2])).trim().replace(/^- +/, '').trim();
+				site.description = this.stripTags(this.htmlSpecialCharsDecode(elements[id].innerHTML.split('<br>')[0].split('</a>')[2])).trim().replace(/^- +/, '').trim().replace('[Forward a Copy', '').trim();
 				site.category = this.categoryGetFromURL(aURI);
 				site.user = this.select('small', elements[id].innerHTML, aURI)[0].innerHTML;
 				try {
@@ -327,7 +327,7 @@
 				site.domain = site.url_id.domain;
 				site.subdomain = site.url_id.subdomain;
 				site.title = this.stripTags(this.htmlSpecialCharsDecode(elements[id].getElementsByTagName('a')[1].innerHTML)).trim();
-				site.description = this.stripTags(this.htmlSpecialCharsDecode(elements[id].innerHTML.split('</a>')[2].replace(/&nbsp;/g, ' '))).trim().replace(/^- +/, '').trim();
+				site.description = this.stripTags(this.htmlSpecialCharsDecode(elements[id].innerHTML.split('</a>')[2].replace(/&nbsp;/g, ' '))).trim().replace(/^- +/, '').trim().replace('[Forward a Copy', '').trim();
 				site.category = this.categoryGetFromURL(aURI);
 				site.user = '' //this.select('small', elements[id].innerHTML, aURI)[0].innerHTML;
 				try {

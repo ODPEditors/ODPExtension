@@ -20,7 +20,8 @@
 
 		if (!db.exists) {} else {
 			if(aWhere == ''){
-				this.notifyOnce('Warning: Searching for categories without restricting the search to a branch is super slow! (a minute~ or so)');
+				if(!this.confirm('Warning: Searching for categories without restricting the search to a branch is super slow! (a minute~ or so)'))
+					return;
 				var fetch_from = query_all;
 			} else {
 				query.params('category', aWhere.replace(/\/$/, '') + '*');

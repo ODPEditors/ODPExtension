@@ -619,9 +619,6 @@
 					ODPExtension.rdfParserComplete();
 
 					aConnection.executeSimple('PRAGMA "user_version" = ' + (ODPExtension.date().replace(/-/g, '')) + '');
-
-					ODPExtension.restart();
-
 				}
 				else {
 					ODPExtension.dump('Processing ' + url + '...');

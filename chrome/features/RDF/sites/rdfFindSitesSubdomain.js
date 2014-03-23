@@ -8,7 +8,7 @@
 		db = ODPExtension.rdfDatabaseOpen();
 		if (db.exists){
 			//sql query
-			query = db.query(' SELECT u.uri, u.description, u.title, c.category FROM uris u, hosts h, categories c where h.host = :host and h.id = u.subdomain_id and c.id = u.category_id order by h.host asc, u.uri asc');
+			query = db.query(' SELECT u.uri, u.description, u.title, c.category, u.mediadate, u.cool, u.rss, u.atom, u.pdf FROM uris u, hosts h, categories c where h.host = :host and h.id = u.subdomain_id and c.id = u.category_id order by h.host asc, u.uri asc');
 		}
 	});
 	this.rdfFindSitesSubdomain = function(aURL) {

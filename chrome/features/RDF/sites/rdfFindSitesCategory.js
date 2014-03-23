@@ -8,7 +8,7 @@
 		db = ODPExtension.rdfDatabaseOpen();
 		if (db.exists){
 			//sql query
-			query = db.query(' SELECT u.uri, u.description, u.title, c.category FROM uris u, categories c where u.category_id in (select id from categories where category GLOB :category) and c.id = u.category_id order by c.category asc, u.uri asc');
+			query = db.query(' SELECT u.uri, u.description, u.title, c.category, u.mediadate, u.cool, u.rss, u.atom, u.pdf FROM uris u, categories c where u.category_id in (select id from categories where category GLOB :category) and c.id = u.category_id order by c.category asc, u.uri asc');
 		}
 	});
 	this.rdfFindSitesCategory = function(aCategory) {

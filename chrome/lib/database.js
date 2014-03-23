@@ -276,6 +276,10 @@
 				queryReference.executeAsync = function(canFail) {
 					object.executeAsync(queryReference, canFail);
 				}
+				queryReference.delete = function() {
+					this.finalize();
+					queryReference = null;
+				}
 				return queryReference;
 			};
 			//'create' statements should use this function
@@ -388,6 +392,7 @@
 					this.queriesReferences[q.id].query.reset();
 				} catch (e) {}
 			}
+
 			//return rows of a query -while(row = fetch()) do something with row
 			object.fetchObjects = function(q, resetQuery) {
 				//gettin query reference

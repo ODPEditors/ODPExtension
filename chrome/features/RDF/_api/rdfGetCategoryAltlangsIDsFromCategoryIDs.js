@@ -38,6 +38,8 @@
 		for (var i = 0; row = db.fetchObjects(query); i++) {
 			anArrayResults[anArrayResults.length] = row.id;
 		}
+		query.delete();
+
 		return anArrayResults;
 	}
 	return null;

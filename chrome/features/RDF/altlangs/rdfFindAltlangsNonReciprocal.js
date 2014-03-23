@@ -27,7 +27,7 @@
 						*/
 				altlangsMix.push(subs[id].id);
 				altlangsMix = altlangsMix.sort(this.sortLocale);
-				var aComparator;
+				var aComparator = '';
 				var aTmp = String(altlangsMix);
 				while (true) //love it
 				{

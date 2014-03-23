@@ -416,7 +416,7 @@ function entryAction(type) {
 
 		case 'copy_txts':
 			items.each(function(d) {
-				copy[copy.length] = JSON.parse(ODP.uncompressSync(d['txt'])).txt.trim()
+				copy[copy.length] = JSON.parse(ODP.uncompressSync(d.txt)).txt.trim()
 			});
 			break;
 
@@ -432,7 +432,7 @@ function entryAction(type) {
 			break;
 		case 'open_urls_new':
 			items.each(function(d) {
-				ODP.tabOpen(d['uri_last']);
+				ODP.tabOpen(d.uri_last);
 			});
 			break;
 
@@ -448,13 +448,13 @@ function entryAction(type) {
 
 		case 'copy_urls_with_new':
 			items.each(function(d) {
-				copy[copy.length] = d['uri']+'\t'+d['uri_last'];
+				copy[copy.length] = d.uri+'\t'+d.uri_last;
 			});
 			break;
 
 		case 'copy_new_urls':
 			items.each(function(d) {
-				copy[copy.length] = $(this).find('a').attr('newurl');
+				copy[copy.length] = d.uri_last;
 			});
 			break;
 		case 'mark_recheck':
@@ -509,6 +509,13 @@ function entryAction(type) {
 				}
 			});
 			ODP.fileWrite('tito.txt', output)
+			break;
+		case 'redirect_update':
+			items.each(function(d) {
+				if(d.id && String(d.id) != '' && ODP.redirectionOKAutoFix(d.uri, d.uri_last)){
+					db.executeSimple('update uris set status_error_string = "Redirect OK Candidate 4 Autofix" where id = "'+d.id+'"')
+				}
+			});
 			break;
 
 		default:

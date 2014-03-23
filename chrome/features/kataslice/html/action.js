@@ -207,9 +207,9 @@ function action(type){
 							+ ' | ' + aData.status.errorString
 							+ ' | ' + aData.ip
 							+ ' | ' + aData.language
-							+ ' | ' + aData.checkType +
-							+ ' | ' + aData.title +
-							'  ')+(aData.urlLast != aData.urlOriginal ? '<br>'+ODP.h(aData.urlOriginal) +'<br>'+ ODP.h(aData.urlLast)+'<br>' : '')+' ] <span type="selection"><span class="click" onclick="action(this)" action="false-positive">false positive</span></small>'
+							+ ' | ' + aData.checkType
+							+ ' | ' + aData.title
+							+ '  ')+(aData.urlLast != aData.urlOriginal ? '<br>'+ODP.h(aData.urlOriginal) +'<br>'+ ODP.h(aData.urlLast)+'<br>' : '')+' ] <span type="selection"><span class="click" onclick="action(this)" action="false-positive">false positive</span></small>'
 					d.text += text
 
 					// redirect maybe be autofixed

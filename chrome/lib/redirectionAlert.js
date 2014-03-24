@@ -70,6 +70,9 @@
 		onSecurityChange: function (aWebProgress, aRequest, aState) {},
 		onProgressChange64: function (aWebProgress, aRequest, aCurSelfProgress,aMaxSelfProgress,aCurTotalProgress,aMaxTotalProgress) {},
 		onRefreshAttempted: function (aWebProgress, aNose, aRefreshURI, aMillis, aSameURI) {
+			if(debug)
+				ODPExtension.dump('onRefreshAttempted');
+
 			var aTab = ODPExtension.tabGetFromChromeDocument(aNose.DOMWindow)
 
 			if(aTab && aTab.ODPaData) {
@@ -168,7 +171,6 @@
 					case 'http-on-examine-response':
 					case 'http-on-examine-merged-response':
 					case 'http-on-examine-cached-response':
-
 						//ODPExtension.dump(aSubject)
 						aSubject.QueryInterface(Components.interfaces.nsIHttpChannel);
 						// LISTEN for Tabs
@@ -196,6 +198,7 @@
 						break;
 					//document going to be parsed/rendered by the browser
 					case 'content-document-global-created':
+
 						if (aSubject instanceof Components.interfaces.nsIDOMWindow) {
 							var aTab = ODPExtension.tabGetFromChromeDocument(aSubject);
 							if (aTab && aTab.ODPaData) {
@@ -206,8 +209,8 @@
 					//before talking to server
 					//case 'http-on-opening-request':
 					case 'http-on-modify-request':
-						aSubject.QueryInterface(Components.interfaces.nsIHttpChannel);
 
+						aSubject.QueryInterface(Components.interfaces.nsIHttpChannel);
 						try {
 							var notificationCallbacks = aSubject.notificationCallbacks ? aSubject.notificationCallbacks : aSubject.loadGroup.notificationCallbacks;
 							if (!notificationCallbacks) {} else {
@@ -230,6 +233,9 @@
 			},
 			//try hard to cancel a download when linkchecking
 			cancelDownload:function(oHttp){
+				if(debug)
+					ODPExtension.dump('cancelDownload');
+
 				//cancel downloads
 				var isDownload = false
 
@@ -284,6 +290,8 @@
 			},
 			//after the server talks back
 			onExamineResponse: function(oHttp, aTab) {
+				if(debug)
+					ODPExtension.dump('onExamineResponse');
 
 				var isDownload = false
 				var decodedOriginalURI = ODPExtension.IDNDecodeURL(oHttp.originalURI.spec)
@@ -379,6 +387,8 @@
 				this.next();
 			},
 			done: function(aFunction, aData, aURL, aOriginalURL) {
+				if(debug)
+					ODPExtension.dump('done');
 
 				aData.dateEnd = ODPExtension.now();
 				aData.loadTime = ((ODPExtension.sqlDate(aData.dateEnd) - ODPExtension.sqlDate(aData.dateStart))/1000) || 0
@@ -521,6 +531,8 @@
 				var timer;
 				Requester.timeout = ODPExtension.preferenceGet('link.checker.timeout');
 				Requester.onload = function() {
+					if(debug)
+						ODPExtension.dump('Requester.onload');
 
 					oRedirectionAlert.next();
 
@@ -528,6 +540,8 @@
 						return null;
 
 					function onTabLoad() {
+						if(debug)
+							ODPExtension.dump('onTabLoad');
 
 						timedout.status = 3;
 						aTabBrowser.removeEventListener("DOMContentLoaded", DOMContentLoaded, false);
@@ -754,6 +768,8 @@
 					}
 
 					function DOMContentLoaded(aEvent) {
+						if(debug)
+							ODPExtension.dump('DOMContentLoaded');
 
 						ODPExtension.disableTabFeatures(ODPExtension.windowGetFromTab(aTab), aTab, aData)
 						ODPExtension.disableMedia(aEvent.originalTarget)
@@ -916,9 +932,10 @@
 					return null;
 				};
 				Requester.onerror = Requester.onabort = Requester.ontimeout = function(TIMEDOUT) {
+					if(debug)
+						ODPExtension.dump('Requester.onerror');
 
 					aData.checkType = 'XMLHttpRequestError'
-					//ODPExtension.dump('Requester.onerror');
 					//ODPExtension.dump(TIMEDOUT);
 					if (letsTryAgainIfFail == 1 && !aData.isDownload) {
 						//ODPExtension.dump('sending again..'+aURL);
@@ -1028,6 +1045,9 @@
 	}
 	//https://developer.mozilla.org/en-US/docs/How_to_check_the_security_state_of_an_XMLHTTPRequest_over_SSL
 	this.createTCPErrorFromFailedXHR = function(xhr, aData) {
+		if(debug)
+			ODPExtension.dump('createTCPErrorFromFailedXHR');
+
 		var status = xhr.channel.QueryInterface(Components.interfaces.nsIRequest).status;
 
 		var errType;
@@ -1130,6 +1150,8 @@
 	}
 
 	this.disableTabFeatures = function(aWindoww, aTab, aData) {
+		if(debug)
+			ODPExtension.dump('disableTabFeatures');
 
 		var windows = this.arrayUnique([
 		                               	aWindoww,
@@ -1154,7 +1176,7 @@
 		windows = done = wwin = null
 	}
 
-	var events = ['beforeunload', 'onbeforeunload', 'onunload', 'unload']
+	var events = ['beforeunload', 'onbeforeunload', 'onunload', 'unload', 'onerror', 'error']
 	var noop = function(){ }
 	var yesop = function(){ return true; }
 	var notempty = function(){ return 'something'; }
@@ -1173,13 +1195,16 @@
 				aWindow._eventTypes[event] = [];
 			}
 		}
-		aWindow.alert = aWindow.focus = noop
+		aWindow.alert = aWindow.focus = aWindow.onerror = aWindow.error = noop
 		aWindow.onbeforeunload = aWindow.beforeunload = noop
 		aWindow.prompt = notempty
 		aWindow.confirm = yesop
 		aWindow.console.log = aWindow.console.debug = aWindow.console.error = aWindow.console.dir = aWindow.console.exception = aWindow.console.info = aWindow.console.warn = aWindow.console.trace = aWindow.console.time = aWindow.console.timeEnd = noop
 	}
 	this.disableMedia = function(aDoc){
+		if(debug)
+			ODPExtension.dump('disableMedia');
+
 		for (var id in tagsMedia) {
 			var tags = aDoc.getElementsByTagName(tagsMedia[id]);
 			var i = tags.length;
@@ -1202,6 +1227,8 @@
 		}
 	}
 	this.redirectionAlertWatchDoc = function(aDoc, aTabBrowser, aData, timedout, oRedirectionAlert, aTab, aOriginalURL){
+		if(debug)
+			ODPExtension.dump('redirectionAlertWatchDoc');
 
 		if('http://get.adobe.com/flashplayer/' == this.tabGetLocation(aTab)){
 

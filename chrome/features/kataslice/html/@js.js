@@ -96,12 +96,8 @@ function listRender() {
 	listRows = ListBody.selectAll("div").data(aSites).enter().append("div")
 	listRows
 		.attr('class', 'item')
-		.attr('id', function(d) {
-					return d.id;
-		}).attr('action', function(d) {
+		.attr('action', function(d) {
 			return d.action;
-		}).attr('index', function(d, k) {
-			return k;
 		}).html(function(d, i) {
 			return item(d);
 		})
@@ -288,7 +284,7 @@ function chartsRenderBar() {
 		$('.bars .' + bars[i]).remove();
 		$('.bars').append('<div class="' + bars[i]+'"></div>');
 
-		group = byCount[bars[i]].top(Infinity)
+		group = byCount[bars[i]].top(50)
 		colours = ODP.generateColours(group.length)
 
 		var t = 0
@@ -302,10 +298,10 @@ function chartsRenderBar() {
 			return 'width:' + (d.value / (t / 100)) + '%;background-color:' + colours[i] + ''
 		})
 		.attr('class', 'bar')
-		.on("mouseover", function(d, i) {
-			d3.select(this).attr('title', d.key + ' (' + d.value + ')\n\nCLICK: show only items that match this value.\nCTRL+CLICK: remove from the list items that match this value.');
+		.attr("title", function(d, i) {
+			return  d.key + ' (' + d.value + ')\n\nCLICK: show only items that match this value.\nCTRL+CLICK: remove from the list items that match this value.';
 		})
-			.on('click', function(d, i) {
+		.on('click', function(d, i) {
 			filterAdd(this.parentNode.getAttribute('key'), d.key, d3.event)
 		})
 		bar.append('div').attr('class', 'legend ignore').text(bars[i])

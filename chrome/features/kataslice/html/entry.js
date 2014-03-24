@@ -44,14 +44,15 @@
 		item = $(item);
 		var target = $(event.originalTarget)
 		var entry = itemGetEntry(item)
-		if (entry.hasClass('selected') && target.parents('.tools').length)
+
+		if (entry.hasClass('selected') && (target.parents('.tools').length || target.parents('.toolbar').length ))
 			return
 
 		var lastSelectedIsSsame = false
-		var targetIsContentEditable = target.attr('contenteditable') || target.prop("tagName") == 'INPUT';
+		var targetIsContentEditable = target.attr('contenteditable') || $(event.target).prop("tagName") == 'INPUT';
 
 		//remove spellcheck from lastSelectedEntry item
-		if (lastSelectedEntry && lastSelectedEntry.attr('id') != entry.attr('id')) {
+		if (lastSelectedEntry && lastSelectedEntry[0].__data__.id != entry[0].__data__.id) {
 			lastSelectedEntry.find('[contenteditable]').each(function () {
 				var input = $(this)
 				input.attr('contenteditable', false);
@@ -97,7 +98,7 @@
 		var entry = itemGetEntry(item)
 
 		//remove spellcheck from lastSelectedEntry item
-		if (lastSelectedEntry && lastSelectedEntry.attr('id') != entry.attr('id')) {
+		if (lastSelectedEntry && lastSelectedEntry[0].__data__.id != entry[0].__data__.id) {
 			lastSelectedEntry.find('[contenteditable]').each(function () {
 				var input = $(this)
 				input.attr('contenteditable', false);
@@ -126,15 +127,16 @@
 				});
 		}
 	}
-
 	function entryKeyPress(item, event) {
 		if (event.keyCode == event.DOM_VK_RETURN) {
 			var entry = itemGetEntry(item)
 			entrySync(item);
 			event.stopPropagation();
 			event.preventDefault();
-			var d = entryGetData(entry)
-			ODP.tabOpen(d.new_url || d.url, true)
+			var items = listGetSelected()
+			items.each(function(d) {
+				ODP.tabOpen(d.new_url || d.url, true)
+			});
 			return false;
 		} else {
 			return true;

@@ -242,7 +242,7 @@
 				site.title = d.title.trim();
 				site.description = d.description.trim();
 				site.category = d.category;
-				site.user = d.submitterEmail+' '+(d.lastEditorName || '').trim().toLowerCase();
+				site.user = (d.submitterEmail+' '+(d.lastEditorName || '')).trim().toLowerCase();
 				try {
 					site.date = d.updateAt.split(' ')[0]
 					site.date = site.date.replace(/^- +/, '').slice(0, 10).trim();

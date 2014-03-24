@@ -254,6 +254,10 @@
 		, 'wikipedia.org'
 		, 'espanoworld.com'
 		, 'youtube.com'
+		,'melodysoft.com'
+		,'linkedin.com'
+		,'yahoo.com'
+		,'infoguia.net'
 	]
 	this.isNoise = function (aURL) {
 		return noise.indexOf(this.getDomainFromURL(aURL)) != -1

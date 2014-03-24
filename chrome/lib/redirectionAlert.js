@@ -395,7 +395,7 @@
 
 				ODPExtension.getIPFromDomainAsync(aData.subdomain, function(aIP){
 					aData.ip = aIP
-					ODPExtension.detectLanguage(aData.txt.slice(0, 4096), function(aLanguage){
+					ODPExtension.detectLanguage(aData.txt.slice(0, 4096)/*UNICODE ERROR*/, function(aLanguage){
 						aData.language = aLanguage;
 
 						if (ODPExtension.preferenceGet('link.checker.cache.result')){

@@ -95,6 +95,8 @@ this.onmessage = function (aData) {
   this.string = string ? string.replace(/[~!@#$%^&*()_|+\-=?;:",.<>\{\}\[\]\\\/]/g, ' ') : '';
 };
 
+var regexAstralSymbols = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g;
+
 Parser.prototype = {
   /**
    * turn on/off padding the beginning of the sample string
@@ -135,8 +137,13 @@ Parser.prototype = {
    *
    * @access public
    */
+
   analyze: function () {
-    var len = this.string.length
+    var len = this.string
+	    // replace every surrogate pair with a BMP symbol
+	    .replace(regexAstralSymbols, '_')
+	    // then get the length
+	    .length
       , byteCounter = 0
       , a = ' ', b = ' '
       , dropone, c;
@@ -157,10 +164,10 @@ Parser.prototype = {
       // off, then set a variable that will be used to reduce this
       // trigram after parsing has finished
       if (!this.trigramPadStart) {
-        a = this.string.charAt(byteCounter++).toLowerCase();
+        a = this.string.at(byteCounter++).toLowerCase();
 
         if (a != ' ') {
-          b = this.string.charAt(byteCounter).toLowerCase();
+          b = this.string.at(byteCounter).toLowerCase();
           dropone = ' ' + a + b;
         }
 
@@ -174,7 +181,7 @@ Parser.prototype = {
     var unicodeChars = {};
 
     while (byteCounter < len) {
-      c = this.string.charAt(byteCounter++).toLowerCase();
+      c = this.string.at(byteCounter++).toLowerCase();
 
       // language trigram detection
       if (this.compileTrigram) {
@@ -188,7 +195,7 @@ Parser.prototype = {
       }
 
       if (this.compileUnicode) {
-        var charCode = c.charCodeAt(0);
+        var charCode = c.codePointAt(0);
 
         if (this.unicodeSkipAscii
           && c.match(/[a-z ]/i)
@@ -210,7 +217,7 @@ Parser.prototype = {
         , keysLength = keys.length;
 
       for (var i = keysLength; i--;) {
-        var unicode = keys[i].charCodeAt(0)
+        var unicode = keys[i].codePointAt(0)
           , count = unicodeChars[keys[i]]
           , search = this.unicodeBlockName(unicode, blocksCount)
           , blockName = search != -1 ? search[2] : '[Malformatted]';
@@ -796,3 +803,116 @@ var detectLanguage = function(aString){
 		return lang[0].substring(0, 1).toUpperCase() + lang[0].substring(1, lang[0].length);
 }
 
+/*! http://mths.be/at v0.1.0 by @mathias */
+if (!String.prototype.at) {
+	(function() {
+		'use strict'; // needed to support `apply`/`call` with `undefined`/`null`
+		var defineProperty = (function() {
+			// IE 8 only supports `Object.defineProperty` on DOM elements
+			try {
+				var object = {};
+				var $defineProperty = Object.defineProperty;
+				var result = $defineProperty(object, object, object) && $defineProperty;
+			} catch(error) {}
+			return result;
+		}());
+		var at = function(position) {
+			if (this == null) {
+				throw TypeError();
+			}
+			var string = String(this);
+			var size = string.length;
+			// `ToInteger`
+			var index = position ? Number(position) : 0;
+			if (index != index) { // better `isNaN`
+				index = 0;
+			}
+			// Account for out-of-bounds indices
+			// The odd lower bound is because the ToInteger operation is
+			// going to round `n` to `0` for `-1 < n <= 0`.
+			if (index <= -1 || index >= size) {
+				return '';
+			}
+			// Second half of `ToInteger`
+			index = index | 0;
+			// Get the first code unit and code unit value
+			var cuFirst = string.charCodeAt(index);
+			var cuSecond;
+			var nextIndex = index + 1;
+			var len = 1;
+			if ( // check if it’s the start of a surrogate pair
+				cuFirst >= 0xD800 && cuFirst <= 0xDBFF && // high surrogate
+				size > nextIndex // there is a next code unit
+			) {
+				cuSecond = string.charCodeAt(nextIndex);
+				if (cuSecond >= 0xDC00 && cuSecond <= 0xDFFF) { // low surrogate
+					len = 2;
+				}
+			}
+			return string.slice(index, index + len);
+		};
+		if (defineProperty) {
+			defineProperty(String.prototype, 'at', {
+				'value': at,
+				'configurable': true,
+				'writable': true
+			});
+		} else {
+			String.prototype.at = at;
+		}
+	}());
+}
+/*! http://mths.be/codepointat v0.1.0 by @mathias */
+if (!String.prototype.codePointAt) {
+	(function() {
+		'use strict'; // needed to support `apply`/`call` with `undefined`/`null`
+		var defineProperty = (function() {
+			// IE 8 only supports `Object.defineProperty` on DOM elements
+			try {
+				var object = {};
+				var $defineProperty = Object.defineProperty;
+				var result = $defineProperty(object, object, object) && $defineProperty;
+			} catch(error) {}
+			return result;
+		}());
+		var codePointAt = function(position) {
+			if (this == null) {
+				throw TypeError();
+			}
+			var string = String(this);
+			var size = string.length;
+			// `ToInteger`
+			var index = position ? Number(position) : 0;
+			if (index != index) { // better `isNaN`
+				index = 0;
+			}
+			// Account for out-of-bounds indices:
+			if (index < 0 || index >= size) {
+				return undefined;
+			}
+			// Get the first code unit
+			var first = string.charCodeAt(index);
+			var second;
+			if ( // check if it’s the start of a surrogate pair
+				first >= 0xD800 && first <= 0xDBFF && // high surrogate
+				size > index + 1 // there is a next code unit
+			) {
+				second = string.charCodeAt(index + 1);
+				if (second >= 0xDC00 && second <= 0xDFFF) { // low surrogate
+					// http://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae
+					return (first - 0xD800) * 0x400 + second - 0xDC00 + 0x10000;
+				}
+			}
+			return first;
+		};
+		if (defineProperty) {
+			defineProperty(String.prototype, 'codePointAt', {
+				'value': codePointAt,
+				'configurable': true,
+				'writable': true
+			});
+		} else {
+			String.prototype.codePointAt = codePointAt;
+		}
+	}());
+}

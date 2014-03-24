@@ -112,8 +112,9 @@
 				this.cacheRedirects = [];
 				this.itemsWorking = 0;
 				this.itemsDone = 0;
-				ODPExtension.shared.linkCheckerRunningInstances++
 				this.itemsNetworking = 0;
+				ODPExtension.shared.linkCheckerRunningInstances++
+				this.unLoadTimeout = false;
 				this.queue = []
 
 				var observerService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
@@ -131,7 +132,8 @@
 			},
 			unLoad: function() {
 				var self = this;
-				setTimeout(function() {
+				clearTimeout(this.unLoadTimeout)
+				this.unLoadTimeout = setTimeout(function() {
 					self._unLoad();
 				}, 20000);
 			},
@@ -426,6 +428,8 @@
 							oRedirectionAlert.itemsDone++;
 							oRedirectionAlert.itemsNetworking--;
 							oRedirectionAlert.next();
+							if (oRedirectionAlert.itemsDone == oRedirectionAlert.itemsWorking)
+								oRedirectionAlert.unLoad();
 						});
 						return
 					}

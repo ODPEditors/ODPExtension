@@ -169,6 +169,7 @@
 			case 'googlesyndication.com':
 			case 'google-analytics.com':
 			case 'doubleclick.net':
+			case 'gstatic.com':
 			case 'fbcdn.net':
 			case 'googleadservices.com':
 			case 'sharethis.com':
@@ -251,13 +252,14 @@
 	//this list just remove noise.
 	var noise = [
 		'facebook.com'
-		, 'wikipedia.org'
-		, 'espanoworld.com'
-		, 'youtube.com'
+		,'wikipedia.org'
+		,'espanoworld.com'
+		,'youtube.com'
 		,'melodysoft.com'
 		,'linkedin.com'
 		,'yahoo.com'
 		,'infoguia.net'
+		,'archive.is'
 	]
 	this.isNoise = function (aURL) {
 		return noise.indexOf(this.getDomainFromURL(aURL)) != -1

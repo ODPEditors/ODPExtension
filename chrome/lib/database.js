@@ -280,6 +280,9 @@
 					this.finalize();
 					queryReference = null;
 				}
+				queryReference.reset = function() {
+					object.reset(queryReference);
+				}
 				return queryReference;
 			};
 			//'create' statements should use this function

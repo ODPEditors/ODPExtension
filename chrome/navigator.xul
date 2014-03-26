@@ -23,7 +23,8 @@
 <?xul-overlay href="chrome://ODPExtension/content/features/category-navigator/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/context-frames/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/context-guess-language/@xul.xul"?>
-<?xul-overlay href="chrome://ODPExtension/content/features/context-open-links/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/context-tag-filter/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/context-links/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/context-paste-category/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/context-translate/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/context-url-tools/@xul.xul"?>

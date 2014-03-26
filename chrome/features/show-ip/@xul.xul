@@ -9,7 +9,12 @@
 
 <hbox id="urlbar-icons">
 
-	<label id="ODPExtension-toolbarbutton-show-ip" value="" onclick="ODPExtension.stopEvent(event);ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_start');"/>
+	<label
+		id="ODPExtension-toolbarbutton-show-ip"
+		value=""
+		tooltip="ODPExtension-show-ip-tooltip"
+		onclick="ODPExtension.stopEvent(event);ODPExtension.getBrowserElement(this.id+'-menupopup').openPopup(this, 'after_start');"
+		onmouseover="ODPExtension.showIPUpdateOver(event)"/>
 
 </hbox>
 
@@ -28,6 +33,10 @@
 		<menuitem locked="true" label="Copy to Clipboard" class="menuitem-iconic" value="command_clipboard"/>
 
 	</menupopup>
+
+	<tooltip id="ODPExtension-show-ip-tooltip" noautohide="true" orient="vertical" position="before_end" style="padding:2px;margin:50px;">
+		<vbox id="ODPExtension-show-ip-tooltip-data"/>
+	</tooltip>
 
 </window>
 

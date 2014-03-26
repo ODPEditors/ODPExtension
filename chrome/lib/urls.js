@@ -167,7 +167,7 @@
 	this.isGarbageDomain = function (aDomain) {
 		switch (aDomain) {
 			case 'googlesyndication.com':
-			case 'google-analytics.com':
+			//case 'google-analytics.com':
 			case 'doubleclick.net':
 			case 'gstatic.com':
 			case 'fbcdn.net':
@@ -260,9 +260,32 @@
 		,'yahoo.com'
 		,'infoguia.net'
 		,'archive.is'
+		,'google.com'
+		,'twitter.com'
+		,'wikipedia.org'
+		,'facebook.com'
+		,'youtube.com'
+		,'aol.com'
+		,'bing.com'
+		,'gigablast.com'
+		,'yahoo.com'
+		,'adobe.com'
+		,'blogger.com'
+		,'feedburner.com'
+		,'yippy.com'
+		,'ask.com'
+		,'univision.com'
+		,'creativecommons.org'
+		,'w3.org'
+		,'linkedin.com'
+		,'flickr.com'
+		,'slideshare.net'
 	]
-	this.isNoise = function (aURL) {
+	this.isNoiseURL = function (aURL) {
 		return noise.indexOf(this.getDomainFromURL(aURL)) != -1
+	}
+	this.isNoiseDomain = function (aDomain) {
+		return noise.indexOf(aDomain) != -1
 	}
 	//return true if the domain name is a ip address
 	var isIPAddressRegExp = /^([0-9]|\.)+$/;

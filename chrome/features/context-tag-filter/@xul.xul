@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+	<script src="tag-filter.js" type="application/x-javascript"/>
+
+	<popup id="contentAreaContextMenu">
+
+		<menuitem id="ODPExtension-tag-filter" label="Tag Filter" oncommand="ODPExtension.tagFilter(event);"/>
+
+	</popup>
+
+</overlay>

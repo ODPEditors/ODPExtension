@@ -31,6 +31,13 @@
 
 	});
 	var db, query_domain_count, query_domain_select, query_slice, query_create, query_update, query_delete;
+	/*this.addListener('databaseCreate', function () {
+		db = ODPExtension.rdfDatabaseOpen();
+		if (db.exists) {
+			query_create = db.query('create temporary table if not exists uris_temp_' + ODPExtension.windowID + ' as select * from uris limit 1 ')
+			query_create.execute()
+		}
+	});*/
 	this.addListener('databaseReady', function () {
 
 		db = ODPExtension.rdfDatabaseOpen();

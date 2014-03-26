@@ -25,7 +25,6 @@
 				this.linkCheckerItem(items[id], oRedirectionAlert, aResult, id);
 		}
 	}
-	//general blacklisting..
 	this.linkCheckerItem = function(item, oRedirectionAlert, aResult, aNumber) {
 		var href = this.IDNDecodeURL(this.string(item.href))
 		if (!href || this.isGarbage(href) || !this.canFollowURL(href, this.focusedURL) ||
@@ -112,13 +111,12 @@
 	this.linkCheckerDoneGraph = function(aResult) {
 
 		aResult.domain = (aResult.domain || 'graph').toUpperCase();
-		var blackListGraphLink = ['google.com', 'twitter.com', 'wikipedia.org', 'facebook.com', 'youtube.com', 'aol.com', 'bing.com', 'gigablast.com', 'yahoo.com', 'adobe.com', 'blogger.com', 'blogspot.com', 'feedburner.com', 'yippy.com', 'ask.com', 'univision.com', 'creativecommons.org', 'w3.org']
 
 		//trace links
 		var links = [];
 		for (var id in aResult.data) {
 			var site = aResult.data[id];
-			if (blackListGraphLink.indexOf(site.domain) != -1)
+			if (this.isNoiseDomain(site.domain))
 				continue;
 			links.push({
 				source: aResult.domain,
@@ -143,7 +141,7 @@
 		var links = [];
 		for (var id in aResult.data) {
 			var site = aResult.data[id];
-			if (blackListGraphLink.indexOf(site.domain) != -1)
+			if (this.isNoiseDomain(site.domain))
 				continue;
 			links.push({
 				source: aResult.domain,
@@ -151,7 +149,7 @@
 				type: "green"
 			});
 			for (var link in site.linksExternal) {
-				if (blackListGraphLink.indexOf(site.linksExternal[link].domain) == -1)
+				if (!this.isNoiseDomain(site.linksExternal[link].domain))
 					links.push({
 						source: site.domain,
 						target: site.linksExternal[link].domain,

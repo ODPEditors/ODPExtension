@@ -48,7 +48,7 @@
 						aResult.title = ODPExtension.htmlEntityDecode(ODPExtension.htmlEntityDecode(ODPExtension.stripTags(ODPExtension.select('.r a', html)[0].innerHTML).trim()));
 						aResult.description = ODPExtension.htmlEntityDecode(ODPExtension.htmlEntityDecode(ODPExtension.stripTags(ODPExtension.select('.st', html)[0].innerHTML).trim()));
 
-						if(!ODPExtension.isNoise(aResult.url))
+						if(!ODPExtension.isNoiseURL(aResult.url))
 						   results[results.length] = aResult;
 
 					} catch (e) {}

@@ -63,7 +63,9 @@ function edit(d, url) {
 		var html = ODP.documentGetFromTab(aTab).body.innerHTML;
 
 		if (
-			html.indexOf('history.back') != -1 || html.indexOf('There was a problem with your form:') != -1 || html.indexOf('connection reset') != -1) {
+			html.indexOf('history.back') != -1 ||
+			html.indexOf('There was a problem with your form:') != -1 ||
+			html.indexOf('connection reset') != -1) {
 			aTab.setAttribute('hidden', false);
 		}
 		else {

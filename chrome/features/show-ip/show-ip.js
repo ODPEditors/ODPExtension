@@ -4,11 +4,12 @@
 
 	var debugingThisFile = true;
 
-	var label, menupopup, cache = []
+	var label, tooltip, menupopup, cache = []
 		this.addListener('userInterfaceLoad', function () {
 			label = ODPExtension.getElement('toolbarbutton-show-ip');
 			menupopup = ODPExtension.getElement('toolbarbutton-show-ip-menupopup');
 			ODPExtension.moveNodeBelow(label, label.parentNode.firstChild)
+			tooltip = ODPExtension.getElement('show-ip-tooltip-data');
 		});
 
 	var database = false;
@@ -162,6 +163,17 @@
 			}
 		}
 
+	}
+
+	this.showIPUpdateOver = function (aEvent) {
+		if (this.shared.me) {
+			this.removeChilds(tooltip);
+			var label = this.create('label');
+
+			var ids = this.documentGetIDs(this.documentGetFocused())
+			label.setAttribute('value', ids.join('\n'));
+			tooltip.appendChild(label)
+		}
 	}
 	this.showIPMenuOpenAll = function () {
 		var items = []

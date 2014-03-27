@@ -9,6 +9,7 @@ function sync() {
 			var name = columns_changes[id]
 			var nameChanged = 'new_' + columns_changes[id]
 			if (d[nameChanged] && d[nameChanged] != d[name]) {
+				d.item = d3.select(this)
 				changed.push(d)
 				break;
 			}
@@ -35,7 +36,6 @@ function sync() {
 			}, timer += 1200);
 		})(d);
 	}
-
 }
 
 function edit(d, url) {
@@ -48,9 +48,8 @@ function edit(d, url) {
 	newTabBrowser.webNavigation.allowAuth = false;
 	newTabBrowser.webNavigation.allowImages = false;
 	try {
-		newTabBrowser.webNavigation.allowMedia = false; //does not work
-	}
-	catch (e) {}
+		newTabBrowser.webNavigation.allowMedia = false;
+	} catch (e) {}
 	newTabBrowser.webNavigation.allowJavascript = true;
 	newTabBrowser.webNavigation.allowMetaRedirects = true;
 	newTabBrowser.webNavigation.allowPlugins = false;
@@ -63,73 +62,75 @@ function edit(d, url) {
 		var html = ODP.documentGetFromTab(aTab).body.innerHTML;
 
 		if (
-			html.indexOf('history.back') != -1 ||
-			html.indexOf('There was a problem with your form:') != -1 ||
-			html.indexOf('connection reset') != -1) {
+			html.indexOf('history.back') != -1
+			|| html.indexOf('There was a problem with your form:') != -1
+			|| html.indexOf('connection reset') != -1
+			|| html.indexOf('deadlock') != -1
+		) {
 			aTab.setAttribute('hidden', false);
-		}
-		else {
+		} else {
 
 			if (aTab.hasAttribute('edited', true) && html.indexOf('<center>Update complete</center>') != -1) {
-				ODP.tabClose(aTab)
-				$('.item.pending').each(function(){
-					$(this).removeClass('pending');
-					entryUpdatePendingCounter();
-					return false;
-				});
 
-			}
-			else if (aTab.hasAttribute('edited', true)) {
+				//copy new values
+				if (d.new_url && d.new_url != d.url)
+					d.url = d.new_url
+				if (d.new_title && d.new_title != d.title)
+					d.title = d.new_title
+				if (d.new_description && d.new_description != d.description)
+					d.description = d.new_description
+				if (d.new_category && d.new_category != d.category)
+					d.category = d.new_category
+				if (d.new_note && d.new_note != '')
+					d.note = d.new_note
+
+				var action = d.new_action || d.action
+				if (action == 'unreviewed')
+					d.area = 'unreviewed'
+				else if (action == 'reviewed')
+					d.area = 'reviewed'
+				else if (action == 'deleted')
+					d.area = 'deleted'
+				d.action = action
+
+				ODP.tabClose(aTab)
+
+				d.item.classed('pending', false);
+
+				entryUpdatePendingCounter();
+
+			} else if (aTab.hasAttribute('edited', true)) {
 				aTab.setAttribute('hidden', false);
-			}
-			else {
+			} else {
 
 				//clean error
-				if (d.type == 'error' && aDoc.getElementById('resolve') != null && (!d.new_url || d.new_url == d.url) && (d.new_action || d.action) != 'deleted') {
+				if (d.type == 'error' && aDoc.getElementById('resolve') != null && (!d.new_url || d.new_url == d.url) && ( (d.new_action || d.action) != 'deleted')) {
 
 					aDoc.getElementById('resolve').click()
 
-				}
-				else {
+				} else {
 
 					if (ODP.editingFormURLExists(aDoc)) {
 
-						if (d.new_url && d.new_url != d.url) {
+						if (d.new_url && d.new_url != d.url)
 							(ODP.getElementNamed('newurl', aDoc) || ODP.getElementNamed('url', aDoc)).value = d.new_url;
-							d.url = d.new_url
-						}
-						if (d.new_title && d.new_title != d.title) {
+						if (d.new_title && d.new_title != d.title)
 							(ODP.getElementNamed('newtitle', aDoc) || ODP.getElementNamed('title', aDoc)).value = d.new_title;
-							d.title = d.new_title
-						}
-						if (d.new_description && d.new_description != d.description) {
+						if (d.new_description && d.new_description != d.description)
 							(ODP.getElementNamed('newdesc', aDoc) || ODP.getElementNamed('desc', aDoc)).value = d.new_description;
-							d.description = d.new_description
-						}
-						if (d.new_category && d.new_category != d.category) {
+						if (d.new_category && d.new_category != d.category)
 							(ODP.getElementNamed('typecat', aDoc) || ODP.getElementNamed('cat', aDoc)).value = d.new_category;
-							d.category = d.new_category
-						}
-						if (d.new_note && d.new_note != '') {
+						if (d.new_note && d.new_note != '')
 							(ODP.getElementNamed('newnote', aDoc) || ODP.getElementNamed('note', aDoc)).value = d.new_note;
-							d.note = d.new_note
-						}
 
 						//click operation
 						var action = d.new_action || d.action
-						if (action == 'unreviewed'){
+						if (action == 'unreviewed')
 							ODP.getElementNamedWithValue('operation', 'unrev', aDoc).click()
-							d.area = 'unreviewed'
-						}
-						else if (action == 'reviewed') {
+						else if (action == 'reviewed')
 							(ODP.getElementNamedWithValue('operation', 'update', aDoc) || ODP.getElementNamedWithValue('operation', 'grant', aDoc)).click()
-							d.area = 'reviewed'
-						}
-						else if (action == 'deleted'){
+						else if (action == 'deleted')
 							(ODP.getElementNamedWithValue('operation', 'delete', aDoc) || ODP.getElementNamedWithValue('operation', 'deny', aDoc)).click()
-							d.area = 'deleted'
-						}
-						d.action = action
 
 						//sent
 						var inputs = aDoc.getElementsByTagName('input');

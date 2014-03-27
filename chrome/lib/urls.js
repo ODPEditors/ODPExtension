@@ -280,6 +280,7 @@
 		,'linkedin.com'
 		,'flickr.com'
 		,'slideshare.net'
+		,'tripadvisor.es'
 	]
 	this.isNoiseURL = function (aURL) {
 		return noise.indexOf(this.getDomainFromURL(aURL)) != -1

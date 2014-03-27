@@ -18,6 +18,7 @@
 						title.indexOf('opening') != -1 ||
 						title.indexOf('print') != -1 ||
 						title.indexOf('script') != -1 ||
+						title.indexOf('launch') != -1 ||
 						title.indexOf('download') != -1
 					) {
 						document.documentElement.getButton("cancel").click();

@@ -39,19 +39,23 @@
 
 //events
 
-
+	function entryClickAction(item, event){
+		entryClick(item, event)
+		if(event.ctrlKey && !ODP.confirm('Action will be applied to all selected items. Are you sure?'))
+			return
+		action(item)
+	}
 	function entryClick(item, event) {
 		item = $(item);
 		var target = $(event.originalTarget)
 		var entry = itemGetEntry(item)
 
-		if (entry.hasClass('selected') && (target.parents('.tools').length || target.parents('.toolbar').length ))
+		if (entry.hasClass('selected') && $('.item.selected').length === 1 && (target.parents('.tools').length || target.parents('.toolbar').length ))
 			return
 
 		var lastSelectedIsSsame = false
 		var targetIsContentEditable = target.attr('contenteditable') || $(event.target).prop("tagName") == 'INPUT';
 
-		//remove spellcheck from lastSelectedEntry item
 		if (lastSelectedEntry && lastSelectedEntry[0].__data__.id != entry[0].__data__.id) {
 			lastSelectedEntry.find('[contenteditable]').each(function () {
 				var input = $(this)

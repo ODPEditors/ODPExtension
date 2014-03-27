@@ -12,7 +12,7 @@ function action(type){
 
 	setTimeout(function(){
 		_action(type)
-	},0);
+	}, 0);
 }
 function _action(type){
 	var el = $(type);
@@ -102,6 +102,14 @@ function _action(type){
 				d3.select(this).classed('pending', true);
 			});
 			break;
+		case 'works':
+			items.each(function(d) {
+				d.new_note = 'Works';
+				d.new_action = 'reviewed';
+				d3.select(this).attr('action', 'reviewed');
+				d3.select(this).classed('pending', true);
+			});
+			break;
 		case 'MFA': //delete
 			items.each(function(d) {
 				d.new_note = 'MFA';
@@ -176,7 +184,7 @@ function _action(type){
 			break;
 		case 'webarchive':
 			items.each(function(d) {
-				ODP.tabOpen('http://web.archive.org/'+(d.new_url || d.url));
+				ODP.tabOpen('http://web.archive.org/'+(d.new_url || d.url), false, false, true);
 			});
 			break
 		case 'link-check-dump': //link checked
@@ -191,7 +199,12 @@ function _action(type){
 				});
 			});
 			break
-		case 'site-data-dump': //link checked
+		case 'site-data-dump':
+			items.each(function(d) {
+				ODP.dump(d)
+			});
+			break
+		case 'move':
 			items.each(function(d) {
 				ODP.dump(d)
 			});

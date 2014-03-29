@@ -313,14 +313,6 @@
 		}
 		return align(txt);
 	}
-
-	var regexAstralSymbols = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g;
-	function stringLen(aString){
-		return aString// replace every surrogate pair with a BMP symbol
-			.replace(regexAstralSymbols, '_')
-			// then get the length
-			.length;
-	}
 	return null;
 
 }).apply(ODPExtension);

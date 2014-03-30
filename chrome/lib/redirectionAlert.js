@@ -50,9 +50,11 @@
 
 	var includeBlock = /\.(css|ico)(\?.*)?$/i
 
-	var charsetReplace = /;?\s*charset.*$/i
-	var attachmentReplace = /^\s*attachment/i
+	var replaceCharset = /;?\s*charset.*$/i
+	var replaceAttachment = /^\s*attachment/i
+	var replaceFragment = /#.*$/
 
+	var refreshAttemptedListenerAdded = 0
 	var refreshAttemptedListener = {
 		QueryInterface: function (aIID) {
 			if (
@@ -81,7 +83,7 @@
 					//ignore the frame
 				} else {
 					//its our top document
-					if(!aSameURI && aMillis < 20000){
+					if(!aSameURI && aMillis < 20000) {
 						aNose.document.ignoreMe = true;
 						var aData = aTab.ODPaData
 							aData.statuses.push('meta')
@@ -98,11 +100,12 @@
 				}
 			}
 		}
-	};
+	}
 
 	var debug = false;
 
 	this.redirectionAlert = function() {
+
 		function RedirectionAlert() {
 			return this;
 		}
@@ -131,7 +134,10 @@
 					observerService.addObserver(this, 'http-on-modify-request', false);
 					//ignore
 					//observerService.addObserver(this, 'http-on-opening-request', false);
-					gBrowser.addTabsProgressListener(refreshAttemptedListener);
+					if(refreshAttemptedListenerAdded === 0) {
+						refreshAttemptedListenerAdded++
+						gBrowser.addTabsProgressListener(refreshAttemptedListener);
+					}
 			},
 			unLoad: function() {
 				var self = this;
@@ -155,8 +161,9 @@
 					observerService.removeObserver(this, 'http-on-modify-request', false);
 					//ignore
 					//observerService.removeObserver(this, 'http-on-opening-request', false);
-					gBrowser.removeTabsProgressListener(refreshAttemptedListener);
-
+					refreshAttemptedListenerAdded--
+					if(refreshAttemptedListenerAdded===0)
+						gBrowser.removeTabsProgressListener(refreshAttemptedListener);
 
 				this.cache = null;
 				this.cacheRedirects = null;
@@ -189,6 +196,12 @@
 										status: aSubject.responseStatus
 									};
 									aTab.ODPExtensionURIsStatus[decoded] = aSubject.responseStatus;
+									if(ODPExtension.tabGetLocation(aTab).replace(replaceFragment, '') == decoded){
+										aTab.ODPaData.statuses.push(aSubject.responseStatus)
+										aTab.ODPaData.urlLast = decoded
+										aTab.ODPaData.urlRedirections.push(aTab.ODPaData.urlLast);
+									}
+
 								}
 							}
 						} catch (e) {}
@@ -277,9 +290,9 @@
 						disp = oHttp.getResponseHeader("Content-Disposition");
 					} catch (e) { }
 
-					if (attachmentReplace.test(disp)){
+					if (replaceAttachment.test(disp)){
 						try{
-							oHttp.setResponseHeader("Content-Disposition", disp.replace(attachmentReplace, "inline"), false);
+							oHttp.setResponseHeader("Content-Disposition", disp.replace(replaceAttachment, "inline"), false);
 							oHttp.cancel(Components.results.NS_BINDING_ABORTED);
 							isDownload = true;
 						}catch(e) { }
@@ -357,12 +370,12 @@
 				//aData.isDownload = isDownload;
 
 				if (oHttp.contentType && oHttp.contentType.trim() != '' && contentTypesTxt.indexOf(oHttp.contentType) === -1) {
-					aData.contentType = oHttp.contentType.replace(charsetReplace, '');
+					aData.contentType = oHttp.contentType.replace(replaceCharset, '');
 					isDownload = true
 					if(!isDownload)//already canceled
 						oHttp.cancel(Components.results.NS_BINDING_ABORTED);
 				} else if(isDownload){
-					aData.contentType = oHttp.contentType.replace(charsetReplace, '');
+					aData.contentType = oHttp.contentType.replace(replaceCharset, '');
 				}
 
 				aData.isDownload = isDownload;
@@ -382,7 +395,6 @@
 
 			},
 			check: function(aURL, aFunction) {
-
 				this.queue[this.queue.length] = [ODPExtension.IDNDecodeURL(aURL), aFunction, aURL];
 				this.next();
 			},
@@ -431,9 +443,9 @@
 				//cached result
 				var cacheID = ODPExtension.sha256(aOriginalURL)
 				var cachedFile = '/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID;
-				if (ODPExtension.preferenceGet('link.checker.cache.use.cache.for.result')){
-					if(ODPExtension.fileExists(ODPExtension.shared.storage+cachedFile, true)){
-						ODPExtension.uncompress(ODPExtension.fileRead(ODPExtension.shared.storage+cachedFile, true), function(aUncompressedData){
+				if (ODPExtension.preferenceGet('link.checker.cache.use.cache.for.result')) {
+					if(ODPExtension.fileExists(ODPExtension.shared.storage+cachedFile, true)) {
+						ODPExtension.uncompress(ODPExtension.fileRead(ODPExtension.shared.storage+cachedFile, true), function(aUncompressedData) {
 							aFunction(JSON.parse(aUncompressedData), aOriginalURL);
 							oRedirectionAlert.itemsDone++;
 							oRedirectionAlert.itemsNetworking--;
@@ -556,7 +568,7 @@
 							aDoc = ODPExtension.toDOM(aData.htmlRequester, aData.urlLast);
 						}
 
-						aData.contentType = aDoc.contentType.replace(charsetReplace, '');
+						aData.contentType = aDoc.contentType.replace(replaceCharset, '');
 						//a tab may redirect to binary content
 						if (aData.contentType != '' && contentTypesTxt.indexOf(aData.contentType) === -1) {
 							aData.isDownload = true;
@@ -571,10 +583,18 @@
 							//save the redirection
 							aData.urlRedirections.push(aData.urlLast);
 							//get the last status, if was meta/js redirect
-							if (!aTab.ODPExtensionURIsStatus[aData.urlLast]) {} else {
-								aData.statuses.push(aTab.ODPExtensionURIsStatus[aData.urlLast]);
+							if (!aTab.ODPExtensionURIsStatus[aData.urlLast.replace(replaceFragment, '')]) {} else {
+								aData.statuses.push(aTab.ODPExtensionURIsStatus[aData.urlLast.replace(replaceFragment, '')]);
+							}
+						}else {
+							if (aData.statuses[aData.statuses.length - 1] == 'meta' || aData.statuses[aData.statuses.length - 1] == 'meta/js') {
+								//get the last status, if was meta/js redirect
+								if (!aTab.ODPExtensionURIsStatus[aData.urlLast.replace(replaceFragment, '')]) {} else {
+									aData.statuses.push(aTab.ODPExtensionURIsStatus[aData.urlLast.replace(replaceFragment, '')]);
+								}
 							}
 						}
+
 
 						aData.subdomain = ODPExtension.getSubdomainFromURL(aData.urlLast);
 						aData.domain = ODPExtension.getDomainFromURL(aData.urlLast);
@@ -741,7 +761,7 @@
 							aDoc = new XMLSerializer().serializeToString(aDoc);
 						}
 
-						aData.txt = ODPExtension.htmlSpecialCharsDecode(ODPExtension.stripTags(aDoc.replace(/<\/?(p|div|br)>/g, '\n'), ' ').replace(/\r\n/g, '\n').replace(/[\t| ]+/g, ' ').replace(/\n\s+/g, '\n').replace(/\s+\n/g, '\n').trim());
+						aData.txt = ODPExtension.htmlSpecialCharsDecode(ODPExtension.stripTags(aDoc.replace(/<\/?(p|div|br)>/gi, '\n'), ' ').replace(/\r\n/g, '\n').replace(/[\t| ]+/g, ' ').replace(/\n\s+/g, '\n').replace(/\s+\n/g, '\n').trim());
 
 						aData.wordCount = aData.txt.split(' ').length
 						aData.strLength = aData.txt.length
@@ -846,7 +866,7 @@
 
 						aData.ids = ODPExtension.normalizeIDs(aData.ids, aData.html.match(/(pub|ua)-[^"'&\s]+/gmi) || [])
 
-						aData.contentType = (Requester.getResponseHeader('Content-Type') || '').replace(charsetReplace, '');
+						aData.contentType = (Requester.getResponseHeader('Content-Type') || '').replace(replaceCharset, '');
 						//now get the response as UTF-8
 
 						var aTab = ODPExtension.tabOpen('about:blank', false, false, true);
@@ -905,7 +925,8 @@
 						aData.html = '';
 
 						if (aData.contentType == '') //the raw contentType sometimes has the "charset" and other stuff, only get it if is not already set.
-							aData.contentType = Requester.getResponseHeader('Content-Type').replace(charsetReplace, '');
+							aData.contentType = (Requester.getResponseHeader('Content-Type') || '').replace(replaceCharset, '');
+
 						//now get the response as UTF-8
 
 						if(aData.headers==''){
@@ -959,7 +980,7 @@
 						if (aData.isDownload) {
 							aData.checkType = 'Attachment'
 							if (aData.contentType == '') //the raw contentType sometimes has the "charset" and other stuff, only get it if is not already set.
-								aData.contentType = Requester.getResponseHeader('Content-Type').replace(charsetReplace, '');
+								aData.contentType = (Requester.getResponseHeader('Content-Type') || '').replace(replaceCharset, '');
 							if(aData.headers==''){
 								aData.headers += Requester.getAllResponseHeaders();
 								aData.headers += '\n\n'
@@ -1230,7 +1251,7 @@
 		if(debug)
 			ODPExtension.dump('redirectionAlertWatchDoc');
 
-		if('http://get.adobe.com/flashplayer/' == this.tabGetLocation(aTab)){
+		if('http://get.adobe.com/flashplayer/' == this.tabGetLocation(aTab).replace(replaceFragment, '')){
 
 			timedout.status = -1
 			aTabBrowser.webNavigation.allowPlugins = true;
@@ -1261,6 +1282,7 @@
 				timedout.status = -1
 
 				aData.statuses.push('framed');
+				aData.urlRedirections.push(aURI);
 				if (!this.preferenceGet('link.checker.use.cache'))
 					aTabBrowser.loadURIWithFlags(aURI, aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_PROXY | aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_CACHE | aTabBrowser.webNavigation.LOAD_ANONYMOUS | aTabBrowser.webNavigation.LOAD_FLAGS_BYPASS_HISTORY, null, null);
 				else
@@ -1415,10 +1437,10 @@
 		} else if (false  //nothing
 		  || (
 		      	aData.checkType != 'Attachment'
-		      	&& aData.wordCount < 20
-		      	&& aData.strLength < 150
 		      	&&  !aData.hasFrameset
 				&&  aData.mediaCount < 1
+		      	&& aData.wordCount < 20
+		      	&& aData.strLength < 150
 				&&  (aData.linksExternal.length + aData.linksInternal.length ) < 1
  		      ) // few words, no media content
 		) {
@@ -1437,7 +1459,7 @@
 		|| aData.statuses.indexOf(302) !== -1 // Redirect Temporarily
 		//|| aData.statuses.indexOf(303) !== -1 // See Other
 		|| aData.statuses.indexOf('meta/js') !== -1 // meta/js redirect
-		|| aData.urlOriginal != aData.urlLast) && this.redirectionOKAutoFix(aData.urlOriginal, aData.urlLast)) {
+		|| aData.urlOriginal != aData.urlLast) && lastStatus == 200 && this.redirectionOKAutoFix(aData.urlOriginal, aData.urlLast)) {
 			aData.status.code = -1340;
 			aData.status.errorString = 'Redirect OK Candidate 4 Autofix';
 			aData.status.errorStringUserFriendly = 'OK';
@@ -1451,7 +1473,7 @@
 		|| aData.statuses.indexOf(302) !== -1 // Redirect Temporarily
 		//|| aData.statuses.indexOf(303) !== -1 // See Other
 		|| aData.statuses.indexOf('meta/js') !== -1 // meta/js redirect
-		|| aData.urlOriginal != aData.urlLast) && this.redirectionOK(aData.urlOriginal, aData.urlLast)) {
+		|| aData.urlOriginal != aData.urlLast) && lastStatus == 200 && this.redirectionOK(aData.urlOriginal, aData.urlLast)) {
 			aData.status.code = -1338;
 			aData.status.errorString = 'Redirect OK';
 			aData.status.errorStringUserFriendly = 'OK';

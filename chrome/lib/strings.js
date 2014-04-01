@@ -267,6 +267,12 @@
 			)
 		}
 	}
+	this.shortText = function(aText, aLen){
+		if(aText.length>aLen)
+			return aText.slice(0, aLen)+'…' /* UNICODE ERROR */
+		else
+			return aText
+	}
 
 	// !! http://stackoverflow.com/questions/11434747/javascript-library-to-align-tab-separated-data-like-elastictabstops/11437399#11437399
 	this.tabs = function (aData) {

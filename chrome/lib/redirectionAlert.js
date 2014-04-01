@@ -28,7 +28,7 @@
 	//var gracePeriod = 6000; //seconds for the website to load
 	//var watchingPeriod = 18000; //seconds to allow the website redirect
 	var tagsMedia = ['object', 'media', 'video', 'audio', 'embed'];
-	var tagsNoContent = ['noscript', 'noframes', 'style', 'script', 'frameset'];
+	var tagsNoContent = ['noscript', 'noframes', 'style', 'script'];
 
 	var contentTypesTxt = ['application/atom+xml', 'application/atom', 'application/javascript', 'application/json', 'application/rdf+xml', 'application/rdf', 'application/rss+xml', 'application/rss', 'application/xhtml', 'application/xhtml+xml', 'application/xml', 'application/xml-dtd', 'application/html', 'text/css', 'text/csv', 'text/html', 'text/xhtml', 'text/javascript', 'text/plain', 'text/xml', 'text/json', 'text', 'txt', 'html', 'xml', 'application/x-unknown-content-type', ''];
 	var contentTypesKnown = [
@@ -102,7 +102,7 @@
 		}
 	}
 
-	var debug = false;
+	var debug = true;
 
 	this.redirectionAlert = function() {
 
@@ -410,7 +410,7 @@
 					ODPExtension.detectLanguage(aData.txt.slice(0, 4096)/*UNICODE ERROR*/, function(aLanguage){
 						aData.language = aLanguage;
 
-						if (ODPExtension.preferenceGet('link.checker.cache.result')){
+						if (!debug && ODPExtension.preferenceGet('link.checker.cache.result')){
 							var cachedFile = aData.cachedFile
 							ODPExtension.compress(JSON.stringify(aData), function(aCompressedData){
 								ODPExtension.fileWriteAsync(ODPExtension.shared.storage+cachedFile, aCompressedData, true);
@@ -443,7 +443,7 @@
 				//cached result
 				var cacheID = ODPExtension.sha256(aOriginalURL)
 				var cachedFile = '/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID;
-				if (ODPExtension.preferenceGet('link.checker.cache.use.cache.for.result')) {
+				if (!debug && ODPExtension.preferenceGet('link.checker.cache.use.cache.for.result')) {
 					if(ODPExtension.fileExists(ODPExtension.shared.storage+cachedFile, true)) {
 						ODPExtension.uncompress(ODPExtension.fileRead(ODPExtension.shared.storage+cachedFile, true), function(aUncompressedData) {
 							aFunction(JSON.parse(aUncompressedData), aOriginalURL);
@@ -493,6 +493,7 @@
 				aData.language = '';
 
 				aData.hash = '';
+				aData.hashBody = '';
 				aData.hashOriginal = ''
 				aData.hashKnown = false;
 				aData.match = '';
@@ -647,17 +648,21 @@
 
 						//frames
 						aData.hasFrameset = aDoc.getElementsByTagName('frameset').length;
-						aData.frames = aDoc.getElementsByTagName('iframe').length + aDoc.getElementsByTagName('frame').length;
-
 						aData.framesURLs = [];
 						var frames = aDoc.getElementsByTagName('iframe')
 						for (var i = 0, length = frames.length; i < length; i++) {
-							aData.framesURLs[aData.framesURLs.length] = ODPExtension.IDNDecodeURL(ODPExtension.string(frames[i].src));
+							var url = ODPExtension.IDNDecodeURL(ODPExtension.string(frames[i].src))
+							if(url != '')
+								aData.framesURLs[aData.framesURLs.length] = url;
 						}
 						var frames = aDoc.getElementsByTagName('frame')
 						for (var i = 0, length = frames.length; i < length; i++) {
-							aData.framesURLs[aData.framesURLs.length] = ODPExtension.IDNDecodeURL(ODPExtension.string(frames[i].src));
+							var url = ODPExtension.IDNDecodeURL(ODPExtension.string(frames[i].src))
+							if(url != '')
+								aData.framesURLs[aData.framesURLs.length] = url;
 						}
+						aData.frames = aData.framesURLs.length;
+
 						frames = null
 
 						//site "type"
@@ -721,7 +726,7 @@
 										break;
 									}
 									case 'robots':{
-										aData.metaRobots = meta[i].getAttribute('content')
+										aData.metaRobots = meta[i].getAttribute('content').replace(/\s*,+\s*/g, ',').toLowerCase().trim().split(',').sort().join('').trim()
 										break;
 									}
 									case 'generator':{
@@ -753,6 +758,16 @@
 								tags[i] && tags[i].parentNode && tags[i].parentNode.removeChild(tags[i]);
 						}
 						ODPExtension.removeComments(aDoc);
+						try {
+							aData.hashBody = ODPExtension.md5(JSON.stringify(ODPExtension.domTree(aDoc.body)));
+						} catch (e) {
+							aData.hashBody = ODPExtension.md5(JSON.stringify(ODPExtension.domTree(aDoc)));
+						}
+						var tags = aDoc.getElementsByTagName('frameset');
+						var i = tags.length;
+						while (i--)
+							tags[i] && tags[i].parentNode && tags[i].parentNode.removeChild(tags[i]);
+
 						tags = i = id = null
 
 						try {
@@ -1269,13 +1284,44 @@
 			if(aData.hashOriginal == '')
 				aData.hashOriginal = aData.hash;
 
+			//only for hash_body
+			var aDoc2 = aDoc.cloneNode(true);
+			for (var id in tagsMedia) {
+				var tags = aDoc2.getElementsByTagName(tagsMedia[id]);
+				var i = tags.length;
+				while (i--) {
+					tags[i] && tags[i].parentNode && tags[i].parentNode.removeChild(tags[i]);
+				}
+			}
+			for (var id in tagsNoContent) {
+				var tags = aDoc2.getElementsByTagName(tagsNoContent[id]);
+				var i = tags.length;
+				while (i--) {
+					tags[i] && tags[i].parentNode && tags[i].parentNode.removeChild(tags[i]);
+				}
+			}
+			ODPExtension.removeComments(aDoc2);
+			try {
+				aData.hashBody = ODPExtension.md5(JSON.stringify(ODPExtension.domTree(aDoc2.body)));
+			} catch (e) {
+				aData.hashBody = ODPExtension.md5(JSON.stringify(ODPExtension.domTree(aDoc2)));
+			}
 			//Check for framed redirects
 			var aURI = '';
 
-			if(aData.hash != '' && this.urlFlags['hasFramesetRedirect'].indexOf(aData.hash) !== -1 && aDoc.getElementsByTagName('frame')[0] && aDoc.getElementsByTagName('frame')[0].src)
-				aURI = aDoc.getElementsByTagName('frame')[0].src;
-			else if(aData.hash != '' && this.urlFlags['hasFramesetRedirect'].indexOf(aData.hash) !== -1 && aDoc.getElementsByTagName('iframe')[0] && aDoc.getElementsByTagName('iframe')[0].src)
-				aURI = aDoc.getElementsByTagName('iframe')[0].src;
+			var frame = aDoc.getElementsByTagName('frame')[0]
+			var iframe = aDoc.getElementsByTagName('iframe')[0]
+			if(frame && frame.src && frame.src != '') {
+				if(aData.hash != '' && this.urlFlags['hasFramesetRedirect'].indexOf(aData.hash) !== -1)
+					aURI = frame.src;
+				else if(aData.hashBody != '' &&  this.urlFlags['hasFramesetRedirect'].indexOf(aData.hashBody) !== -1)
+					aURI = frame.src;
+			} else if(iframe && iframe.src && iframe.src != '') {
+				if(aData.hash != '' && this.urlFlags['hasFramesetRedirect'].indexOf(aData.hash) !== -1)
+					aURI = iframe.src;
+				else if(aData.hashBody != '' && this.urlFlags['hasFramesetRedirect'].indexOf(aData.hashBody) !== -1)
+					aURI = iframe.src;
+			}
 
 			if(aURI && aURI != '') {
 
@@ -1649,6 +1695,8 @@
 
 		if(aData.hash != '')
 			aData.hashKnown = this.urlFlagsHashIndexes.indexOf(aData.hash) !== -1 ? 1 : 0;
+		if(!aData.hashKnown && aData.hashBody != '')
+			aData.hashKnown = this.urlFlagsHashIndexes.indexOf(aData.hashBody) !== -1 ? 1 : 0;
 
 		//Unknown content type
 		if (contentTypesKnown.indexOf(aData.contentType) === -1)

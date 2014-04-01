@@ -64,11 +64,11 @@
 			return;
 		var tooltiptext;
 		if (this.shared.me)
-			tooltiptext = ODPExtension.decodeUTF8(aData.urlRedirections.join('\n') + '\n' + aData.status.suspicious.join('\n') + '\n' + (aData.status.match || ''))
+			tooltiptext = ODPExtension.decodeUTF8(aData.urlRedirections.join('\n') + '\n' + aData.hash + '\n' + aData.status.suspicious.join('\n') + '\n' + (aData.status.match || ''))
 		else
 			tooltiptext = ODPExtension.decodeUTF8(aData.urlRedirections.join('\n') + '\n' + aData.status.suspicious.join('\n'))
 
-			item.setAttribute('title', tooltiptext.trim() + '\n' + aData.txt.slice(0, 255)+'…');
+			item.setAttribute('title', (tooltiptext.replace(/\n+/g, '\n').trim() + '\n' + this.shortText(aData.txt, 255)).trim());
 
 		if (aData.status.error && aData.status.canDelete) {
 			//red

@@ -102,7 +102,7 @@
 		}
 	}
 
-	var debug = true;
+	var debug = false;
 
 	this.redirectionAlert = function() {
 

@@ -18,7 +18,7 @@
 		extends="chrome://global/content/bindings/popup.xml#popup"
 	>
 	  <content>
-	  	<xul:vbox context="">
+	  	<!--xul:vbox context=""-->
 			  <xul:menu action="cat_open" label="&ODPExtension.from.category.open;" style="font-weight: bold;">
 				<xul:menupopup>
 				  <xul:menuitem action="cat_open_desc" label="&ODPExtension.from.category.open.description;"/>
@@ -38,7 +38,7 @@
 				</xul:menupopup>
 			  </xul:menu>
 			  <xul:menuitem anonid="ODPExtension-from-category-paste" hidden="true" action="command_paste" label="&ODPExtension.from.category.paste;"/>
-			  <xul:menuitem anonid="ODPExtension-from-category-paste-category" hidden="true" action="pasteCategoryPaste" label="Paste Category"/>
+			  <xul:menuitem anonid="ODPExtension-from-category-paste-category" hidden="true" action="pasteCategory" label="Paste Category"/>
 			  <xul:menuitem anonid="ODPExtension-from-category-delete" hidden="true" action="command_delete" label="&ODPExtension.from.category.delete;"/>
 			  <xul:menuseparator/>
 			  <!-- <xul:menuitem action="tool_pub" label="Publish"/> -->
@@ -316,9 +316,9 @@
 			<xul:menuseparator anonid="ODPExtension-from-category-navigate-separator"/>
 			<xul:menu class="ODPExtension-menu-no-arrow" anonid="ODPExtension-from-category-navigate" label="&ODPExtension.from.category.navigate;" original_label="&ODPExtension.from.category.navigate;" direction="ltr" style="font-weight:bold;"/>
 			<xul:menu class="ODPExtension-menu-no-arrow" anonid="ODPExtension-from-category-navigate-parents" label="&ODPExtension.from.category.parents;" original_label="&ODPExtension.from.category.parents;" direction="ltr" style="font-weight:bold;"/>
-		</xul:vbox>
+		<!--/xul:vbox-->
 		<xul:arrowscrollbox class="popup-internal-box" flex="1" orient="vertical" smoothscroll="false">
-			<children includes="menupopup"/><children/>
+			<children includes="menupopup,popup,menu"/>
 		</xul:arrowscrollbox>
 	  </content>
 	</binding>

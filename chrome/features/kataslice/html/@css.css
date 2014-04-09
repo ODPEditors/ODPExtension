@@ -5,7 +5,7 @@
 		background-color: rgb(210, 210, 210);
 		overflow-x: hidden;
 		padding-top: 8px;
-		margin-top:27px;
+		margin-top:23px;
 	}
 	body[loading="true"] .loading-hidden{
 		display: none;
@@ -25,11 +25,14 @@
 		z-index: 100;
 	}
 
+/* content */
 	.content {
 		padding: 10px;
 		-moz-box-sizing: padding-box;
 		box-sizing: padding-box;
 		max-width: 85%;
+		margin-left: 15%;
+		padding-bottom: 0px;
 	}
 
 /* header */
@@ -62,22 +65,26 @@
 /* sidebar */
 
 	.sidebar {
-		float: right;
 		width: 15%;
+		left: 0px;
 	}
 	.sidebar .sort-by{
 		text-align: right;
 	}
 
-	.sidebar .sync{
-		background-image: url("img/sync.png");
+	.sidebar .footer{
 		position: absolute;
-		left: 5px;
-		height: 75px;
-		width: 75px;
-		bottom: 63px;
+		height: 100px;
+		bottom: 25px;
+		left: 7px;
+	}
+	.sidebar .footer .sync{
+		background-image: url("img/sync.png");
 		transition:all .3s;
 		opacity: .5;
+		width: 75px;
+		height: 75px;
+		display: inline-block;
 	}
 	.sidebar .sync:hover{
 		background-image: url("img/sync-colour.png");
@@ -119,6 +126,7 @@
 		font-family: 'Open Sans';
 		font-size: 0.9em;
 		line-height: 2.2em;
+		margin-left:5px;
 	}
 
 	.filters .and:after {
@@ -194,6 +202,8 @@
 	.list {
 		box-shadow: 0px 0px 12px -5px black;
 		background-color: rgb(252, 252, 252);
+		margin-right: -10px;
+		margin-left: -9px;
 	}
 	.list-no-results {
 		font-family: Open Sans;
@@ -210,7 +220,7 @@
 		display: inherit;
 	}
 
-/* entry text*/
+/* item */
 
 	.item.hidden,
 	.item.filtered,
@@ -234,117 +244,119 @@
 
 		padding-right: 20%;
 	}
-	/* item status */
-		.item:hover {
-			background-color: #F6F4D0 !important;
 
-			border-left-color:#F6F4D0;
-			border-right-color:#F6F4D0;
-			border-top-color:#F6F4D0;
-		}
-		.item.selected {
-			background-color: rgba(246, 244, 208, 0.45);
-			/*background-color: rgb(246, 246, 239);*/
-			border-left-color: rgb(93, 93, 93);
-			border-right-color: rgba(246, 244, 208, 0.45);
-			border-top-color: rgba(246, 244, 208, 0.45);;
-		}
-		.item.selected:hover{
-		}
-		.item.pending {
-			border-left-color: #669933 !important;
-		}
+/* item status */
 
-	/* action icons */
+	.item:hover {
+		background-color: #F6F4D0 !important;
 
-		.title:before{
-			margin: 0px 5px 0px 1px;
-			font-family: 'Flat-UI-Icons';
-			color: rgb(161, 161, 161);
-			font-size: .9em;
-		}
-		.item[action="deleted"] .title:before{
-			content: "\e032";
-			color: rgba(255, 0, 0, 0.70);
-		}
-		.item[action="reviewed"] .title:before{
-			content: "\e000";
-			color: #669933;
-		}
-		.item[action="unreviewed"] .title:before{
-			content: "\e011";
-		}
+		border-left-color:#F6F4D0;
+		border-right-color:#F6F4D0;
+		border-top-color:#F6F4D0;
+	}
+	.item.selected {
+		background-color: rgba(246, 244, 208, 0.45);
+		/*background-color: rgb(246, 246, 239);*/
+		border-left-color: rgb(93, 93, 93);
+		border-right-color: rgba(246, 244, 208, 0.45);
+		border-top-color: rgba(246, 244, 208, 0.45);;
+	}
+	.item.selected:hover{
+	}
+	.item.pending {
+		border-left-color: #669933 !important;
+	}
 
-	/* action status */
+/* action icons */
 
-		.item[status="red"]{
-			border-right-color: #EB6666;
-		}
-		.item[status="purple"]{
-			border-right-color: #6F6FFC;
-		}
-		.item[status="orange"]{
-			border-right-color: orange;
-		}
-		.item[status="green"]{
-			border-right-color: #669933;
-		}
-		.item[status="yellow"]{
-			border-right-color: #FFFFCC;
-		}
-		.item[status="red"]{
-			border-right-color: #EB6666;
-		}
+	.title:before{
+		margin: 0px 5px 0px 1px;
+		font-family: 'Flat-UI-Icons';
+		color: rgb(161, 161, 161);
+		font-size: .9em;
+	}
+	.item[action="deleted"] .title:before{
+		content: "\e032";
+		color: rgba(255, 0, 0, 0.70);
+	}
+	.item[action="reviewed"] .title:before{
+		content: "\e000";
+		color: #669933;
+	}
+	.item[action="unreviewed"] .title:before{
+		content: "\e011";
+	}
 
-	/* data */
+/* action status */
 
-		.title, .description, .url, .category {
-			/* editable content should be obvious by the cursor */
-			border:0px;
-			outline: none;
-			/*
-				1. triple click in an editable text should select just that text
-				2. adittionally, the "clickeable area" should be that surrounding the text, and not the complete line of the block.
-			*/
-			clear: both;
-			display: inline-block;
-		}
+	.item[status="red"]{
+		border-right-color: #EB6666;
+	}
+	.item[status="purple"]{
+		border-right-color: #6F6FFC;
+	}
+	.item[status="orange"]{
+		border-right-color: orange;
+	}
+	.item[status="green"]{
+		border-right-color: #669933;
+	}
+	.item[status="yellow"]{
+		border-right-color: #FFFFCC;
+	}
+	.item[status="red"]{
+		border-right-color: #EB6666;
+	}
 
-		.title {
-			color:rgb(13, 43, 95);
-			font-weight: bold;
-			font-size: .8em;
-		}
-		.title:after {
-			content: "-";
-			margin-left: 5px;
-			color:gray;
-		}
-		.description {
-			font-size: .8em;
-		}
-		.description:after {
-			/* fix browser glitch with empty description*/
-			content: ".";
-			color: transparent;
-		}
-		.url {
-			font-size: .8em;
-		}
-		.url:before {
-			content: attr(date);
-			color: rgb(140, 130, 130);
-			margin-right: 6px;
-		}
-		.category {
-			font-size: .7em;
-			color:gray;
-		}
-		.user {
-			float: right;
-			height: 0px;
-			color: gray;
-			font-size: .7em;
-			text-align: right;
-			margin-right: -25%;
-		}
+/* item data */
+
+	.title, .description, .url, .category {
+		/* editable content should be obvious by the cursor */
+		border:0px;
+		outline: none;
+		/*
+			1. triple click in an editable text should select just that text
+			2. adittionally, the "clickeable area" should be that surrounding the text, and not the complete line of the block.
+		*/
+		clear: both;
+		display: inline-block;
+	}
+
+	.title {
+		color:rgb(13, 43, 95);
+		font-weight: bold;
+		font-size: .8em;
+	}
+	.title:after {
+		content: "-";
+		margin-left: 5px;
+		color:gray;
+	}
+	.description {
+		font-size: .8em;
+	}
+	.description:after {
+		/* fix browser glitch with empty description*/
+		content: ".";
+		color: transparent;
+	}
+	.url {
+		font-size: .8em;
+	}
+	.url:before {
+		content: attr(date);
+		color: rgb(140, 130, 130);
+		margin-right: 6px;
+	}
+	.category {
+		font-size: .7em;
+		color:gray;
+	}
+	.user {
+		float: right;
+		height: 0px;
+		color: gray;
+		font-size: .7em;
+		text-align: right;
+		margin-right: -25%;
+	}

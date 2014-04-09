@@ -20,7 +20,7 @@
 <body loading="true" onkeypress="entryKeyPressBody(this, event)" onbeforeunload="return 'Are you sure?'">
 <div class="loading" style="opacity:.3">Collecting dataset.. <br>please wait</div>
 <header>
-	<div class="header-title"><b class="no-selection">KataSlice</b> <span class="loading-hidden">-</span> <div class="header-categories inline-block"></div></div>
+	<div class="header-title"><b class="no-selection">Slice</b> <span class="loading-hidden">-</span> <div class="header-categories inline-block"></div></div>
 	<div class="header-totals loading-hidden">
 		<span class="filtered">0</span> current view,
 		<span class="total">0</span> total,
@@ -50,52 +50,59 @@
 
 		<ul class="menu" type="selection"><b class="no-selection ignore"><span class="narrow">With</span> selection</b>
 
-			<li class="click" onclick="action(this)" action="publish">publish</li>
 
+			<li>
+				<span class="click" onclick="action(this)" action="publish">publish</span>,
+				<span class="click" onclick="action(this)" action="publish-works">works</span>
+			</li>
 			<hr>
 
-			<li class="click" onclick="action(this)" action="delete">delete</li>
-			<li class="click" onclick="action(this)" action="unreview">unreview</li>
+			<li>
+				<span class="click" onclick="action(this)" action="delete">delete</span>,
+				<span class="click" onclick="action(this)" action="delete-mfa">MFA</span>,
+				<span class="click" onclick="action(this)" action="delete-duplicate">duplicate</span>,
+				<span class="click" onclick="action(this)" action="delete-hijacked">hijacked</span>,
+				<span class="click" onclick="action(this)" action="delete-gone">gone</span>,
+				<span class="click" onclick="action(this)" action="delete-no-content">no content</span>,
+				<span class="click" onclick="action(this)" action="delete-poor">poor</span>
+			</li>
+			<hr>
 
+			<li class="click" onclick="action(this)" action="unreview">unreview</li>
+			<hr>
+
+			<li>
+				<span class="click" onclick="action(this)" action="open">open</span>,
+				<span class="click" onclick="action(this)" action="edit">edit</span>,
+				<span class="click" onclick="action(this)" action="open-category">open categories</span>
+			</li>
+			<hr>
+
+			<li>
+				<!--span class="click" onclick="action(this)" action="notes">notes</span>,-->
+				<span class="click" onclick="action(this)" action="webarchive">webarchive</span>,
+				<span class="click" onclick="action(this)" action="translate">translate</span>,
+				<span class="click" onclick="action(this)" action="link-check">link check</span>
+			</li>
 			<hr>
 
 			<li class="click" onclick="action(this)" action="note">add note</li>
-
 			<hr>
 
-			<li class="click" onclick="action(this)" action="link-check">link check</li>
-			<li class="click" onclick="action(this)" action="link-check-dump">link check dump</li>
-			<li class="click" onclick="action(this)" action="site-data-dump">site data dump</li>
-			<li class="click" onclick="action(this)" action="translate">translate</li>
-
+			<li>
+				<span class="click" onclick="action(this)" action="link-check-dump">dump check</span>,
+				<span class="click" onclick="action(this)" action="site-data-dump">dump site</span>
+			</li>
 			<hr>
 
-			<li class="click" onclick="action(this)" action="edit">edit</li>
-			<li class="click" onclick="action(this)" action="open">open</li>
-			<li class="click" onclick="action(this)" action="open-category">open categories</li>
+
+
 		</ul>
 
-		<ul class="menu" type="visible"><b class="no-selection ignore"><span class="narrow">With</span> visible</b>
-
-			 <li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="publish">publish</li>
-			<hr>
-
-			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="delete">delete</li>
-			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="unreview">unreview</li><hr>
-
-<!-- 			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="N">add note</li><hr>
- -->
-			<li class="click" onclick="action(this)" action="link-check">link check</li>
-			<li class="click" onclick="action(this)" action="listings">listing check</li>
-
-			<hr>
-
-			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="edit">edit</li>
-			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="open">open</li>
-			<li class="click" onclick="if(ODP.confirm('Are you sure?')) action(this)" action="open-categories">open categories</li>
-		</ul>
-
-		<div class="sync click" title="Synchronize edits" onclick="if(ODP.confirm('Are you sure?')) sync();"></div>
+		<div class="footer">
+			<span class="sync click" title="Synchronize edits" onclick="if(ODP.confirm('Are you sure?')) sync();"></span>
+			<span class="click">reload packages</span>
+		</div>
 
 	</div>
 	<div class="content">
@@ -201,28 +208,10 @@
 		-->
 
 		<!--div class="toolbar" type="selection">[
-					<span class="click" onclick="entryClickAction(this, event)" action="publish">publish</span> -
-					<span class="click" onclick="entryClickAction(this, event)" action="unreview">unreview</span> |
-					<span class="click" onclick="entryClickAction(this, event)" action="delete">delete</span> -
-					<span class="click" onclick="entryClickAction(this, event)" action="MFA">MFA</span> -
-					<span class="click" onclick="entryClickAction(this, event)" action="delete-duplicate">duplicate</span> -
-					<span class="click" onclick="entryClickAction(this, event)" action="hijacked">hijacked</span> -
-					<span class="click" onclick="entryClickAction(this, event)" action="gone">gone</span> |
-					<span class="click" onclick="entryClickAction(this, event)" action="poor">poor</span> -
-					<span class="click" onclick="entryClickAction(this, event)" action="no-content">no content</span> -
-					<span class="click" onclick="entryClickAction(this, event)" action="works">works</span> |
-					<span class="click" onclick="entryClickAction(this, event)" action="notes">notes</span> -
-					<span class="click" onclick="entryClickAction(this, event)" action="note">note</span> |
-					<span class="click" onclick="entryClickAction(this, event)" action="edit">edit</span> |
-					<span class="click" onclick="entryClickAction(this, event)" action="webarchive">webarchive</span> |
+
 					<input onkeyup="toolSearchEngine(this, event)" onclick="toolSearchEngine(this, event)" size="20" tabindex="99999999" value="{title}">
 				]</div>
-			<div class="tools">
-				<div class="link-checker"></div>
-				<div class="search-engine"></div>
-				<div class="listings"></div>
-				<div class="translate"></div>
-			</div>
+
 			<div class="clear"></div-->
 
 	<div class="tpl-list-item-tool-se">

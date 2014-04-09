@@ -9,14 +9,13 @@ function action(type){
 			- Selected entry is now 2
 			- Action is applied to desired entry 2
 	*/
-
 	setTimeout(function(){
 		_action(type)
 	}, 0);
 }
 function _action(type){
 	var el = $(type);
-	var listType = el.parent().attr('type');
+	var listType = el.parents('[type]').attr('type');
 	var actionType = el.attr('action');
 
 	switch (listType) {
@@ -28,7 +27,7 @@ function _action(type){
 			var items = listGetVisible();
 			break;
 		default:
-			alert('No items selected!');
+			alert('The selection is unknown, please select something');
 			return;
 	}
 
@@ -69,7 +68,7 @@ function _action(type){
 
 			});
 			break;
-		case 'hijacked': //delete
+		case 'delete-hijacked': //delete
 			items.each(function(d) {
 				d.new_note = 'Hijacked';
 				d.new_action = 'deleted';
@@ -78,7 +77,7 @@ function _action(type){
 
 			});
 			break;
-		case 'gone': //delete
+		case 'delete-gone': //delete
 			items.each(function(d) {
 				d.new_note = 'Gone';
 				d.new_action = 'deleted';
@@ -86,7 +85,7 @@ function _action(type){
 				d3.select(this).classed('pending', true);
 			});
 			break;
-		case 'poor': //delete
+		case 'delete-poor': //delete
 			items.each(function(d) {
 				d.new_note = 'Poor';
 				d.new_action = 'deleted';
@@ -94,7 +93,7 @@ function _action(type){
 				d3.select(this).classed('pending', true);
 			});
 			break;
-		case 'no-content': //delete
+		case 'delete-no-content': //delete
 			items.each(function(d) {
 				d.new_note = 'No content';
 				d.new_action = 'deleted';
@@ -102,7 +101,7 @@ function _action(type){
 				d3.select(this).classed('pending', true);
 			});
 			break;
-		case 'works':
+		case 'publish-works':
 			items.each(function(d) {
 				d.new_note = 'Works';
 				d.new_action = 'reviewed';
@@ -110,7 +109,7 @@ function _action(type){
 				d3.select(this).classed('pending', true);
 			});
 			break;
-		case 'MFA': //delete
+		case 'delete-mfa': //delete
 			items.each(function(d) {
 				d.new_note = 'MFA';
 				d.new_action = 'deleted';
@@ -206,7 +205,7 @@ function _action(type){
 			break
 		case 'move':
 			items.each(function(d) {
-				ODP.dump(d)
+				ODP.dump(d)//TODO
 			});
 			break
 		case 'link-check': //link checked

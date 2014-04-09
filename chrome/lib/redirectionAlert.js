@@ -714,26 +714,26 @@
 						}
 						var meta = aDoc.getElementsByTagName('meta')
 						for (var i = 0, length = meta.length; i < length; i++) {
-							if(meta[i].hasAttribute('name')){
+							if(meta[i].hasAttribute('name') && meta[i].hasAttribute('content')){
 								var name = meta[i].getAttribute('name').toLowerCase().trim()
-								switch(name){
-									case 'author':{
+								switch(name) {
+									case 'author' : {
 										aData.metaAuthor = meta[i].getAttribute('content')
 										break;
 									}
-									case 'copyright':{
+									case 'copyright' : {
 										aData.metaCopyright = meta[i].getAttribute('content')
 										break;
 									}
-									case 'robots':{
+									case 'robots' : {
 										aData.metaRobots = meta[i].getAttribute('content').replace(/\s*,+\s*/g, ',').toLowerCase().trim().split(',').sort().join('').trim()
 										break;
 									}
-									case 'generator':{
+									case 'generator' : {
 										aData.metaGenerator = meta[i].getAttribute('content')
 										break;
 									}
-									case 'keywords':{
+									case 'keywords' : {
 										aData.metaKeywords = meta[i].getAttribute('content')
 										break;
 									}

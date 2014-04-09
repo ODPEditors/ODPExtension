@@ -137,19 +137,19 @@ function _action(type){
 				ODP.subdomainGetListings(d.new_url || d.url, function(aData){
 					var txt = ''
 					for(var id in aData){
+						txt += '<hr>'
 						txt += ODP.h(aData[id].category)+'<br>'
 						txt += ODP.h(aData[id].uri)+'<br>'
-						txt += '<hr>'
 					}
-					$(item[0]).find('.tools > .listings').html('<small>'+txt+'</small>');
+					$(item[0]).append('<div><small>'+txt+'</small></div>');
 				})
 			});
 			break;
 		case 'translate': //open uri
 			items.each(function(d) {
 				var item = d3.select(this)
-				ODP.stringTranslate(d.title+' - '+d.description, function(aData){
-					$(item[0]).find('.tools > .translate').html('<small>'+ODP.h(aData)+'</small>');
+				ODP.stringTranslate((d.new_title || d.title)+' - '+(d.new_description || d.description), function(aData){
+					$(item[0]).append('<div><small>'+ODP.h(aData)+'</small></div>');
 				})
 			});
 			break;
@@ -204,9 +204,16 @@ function _action(type){
 			});
 			break
 		case 'move':
-			items.each(function(d) {
-				ODP.dump(d)//TODO
-			});
+			ODP.fromCategoryAction = function(aCategories){
+				items.each(function(d) {
+					d.new_category = aCategories[0]
+					var item = d3.select(this)
+					$(item[0]).find('.category').html(d.new_category);
+					item.classed('pending', true)
+				});
+			}
+			ODP.fromCategoryHideContextMenus();
+			ODP.categoryBrowserOpen();
 			break
 		case 'link-check': //link checked
 
@@ -228,7 +235,7 @@ function _action(type){
 						item.attr('status', 'yellow')
 
 					var text =
-						'<small>[' +
+						'[' +
 							ODP.h(aData.statuses.join(', ')
 							+ ' | ' + aData.status.code
 							+ ' | ' + aData.status.errorString
@@ -236,7 +243,7 @@ function _action(type){
 							+ ' | ' + aData.language
 							+ ' | ' + aData.checkType
 							+ ' | ' + aData.title
-							+ '  ')+(aData.urlLast != aData.urlOriginal ? '<br>'+ODP.h(aData.urlOriginal) +'<br>'+ ODP.h(aData.urlLast)+'<br>' : '')+' ] <span type="selection"><span class="click" onclick="action(this)" action="false-positive">false positive</span></small>'
+							+ '  ')+(aData.urlLast != aData.urlOriginal ? '<br>'+ODP.h(aData.urlOriginal) +'<br>'+ ODP.h(aData.urlLast)+'<br>' : '')+' ] <span type="selection"><span class="click" onclick="action(this)" action="false-positive">false positive</span>'
 					d.text += text
 
 					// redirect maybe be autofixed
@@ -246,7 +253,7 @@ function _action(type){
 						item.classed('pending', true)
 						entryUpdatePendingCounter();
 					}
-					$(item[0]).find('.tools > .link-checker').html(text);
+					$(item[0]).append('<div><small>'+text+'</small></div>');
 
 				});
 

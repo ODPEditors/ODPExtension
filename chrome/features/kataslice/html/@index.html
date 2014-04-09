@@ -83,10 +83,14 @@
 				<span class="click" onclick="action(this)" action="webarchive">webarchive</span>,
 				<span class="click" onclick="action(this)" action="translate">translate</span>,
 				<span class="click" onclick="action(this)" action="link-check">link check</span>
+				<span class="click" onclick="action(this)" action="listings">listings</span>
 			</li>
 			<hr>
 
 			<li class="click" onclick="action(this)" action="note">add note</li>
+			<hr>
+
+			<li class="click" onclick="action(this)" action="move">move</li>
 			<hr>
 
 			<li>
@@ -145,8 +149,8 @@
 
 <div class="templates" style="display:none">
 
+	<!--	<span class="user">{user}<br>{ip}</span>-->
 	<div class="tpl-list-item">
-		<span class="user">{user}<br>{ip}</span>
 		<span
 			class="title"
 			spellcheck="false"
@@ -199,20 +203,10 @@
 			onmousedown="this.focus()"
 			onpaste="entryPaste(this, event)">{category}</span>
 	</div>
-		<!--
 
-			<div class="right">
-
-			</div>
-
-		-->
-
-		<!--div class="toolbar" type="selection">[
-
-					<input onkeyup="toolSearchEngine(this, event)" onclick="toolSearchEngine(this, event)" size="20" tabindex="99999999" value="{title}">
-				]</div>
-
-			<div class="clear"></div-->
+	<!--
+		<input onkeyup="toolSearchEngine(this, event)" onclick="toolSearchEngine(this, event)" size="20" tabindex="99999999" value="{title}">
+	-->
 
 	<div class="tpl-list-item-tool-se">
 		<div class="tool-entry">

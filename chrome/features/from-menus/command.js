@@ -27,11 +27,13 @@
 
 		var inSelectedTab = (aCategories.length == 1);
 
-		//add site
+		if(typeof(aCommand) == 'function')
+			return aCommand(aCategories)
 
 		if(this[aCommand])
 			return this[aCommand](aCategories)
 
+		//add site
 		if (aCommand == 'add-site') {
 			this.openURL('http://www.dmoz.org/editors/editurl/add?url=' + this.encodeUTF8(this.fromCategorySecondaryValue) + '&cat=' + this.encodeUTF8(aCategories[0]), true, false, true);
 			return;
@@ -386,7 +388,7 @@
 			else if (aCommand == 'edit_cat_unreview_super_email')
 				this.openURL('http://www.dmoz.org/editors/editunrev/listurl?cat=' + this.encodeUTF8(aValue + '/') + '&mode=super&sort=email#unrevedit', true, false, inSelectedTab);
 			else if (aCommand == 'edit_cat_updates')
-				this.openURL('http://pmoz.info/hunt.php5?cat=' + this.encodeUTF8(aValue) + '&updates=on', true, false, inSelectedTab);
+				this.openURL('http://pmoz.info/hunt.php5?cat=' + this.encodeUTF8(aValue) + '&flags=on', true, false, inSelectedTab);
 			else if (aCommand == 'edit_cat_errors')
 				this.openURL('http://pmoz.info/hunt.php5?cat=' + this.encodeUTF8(aValue) + '&reds=on', true, false, inSelectedTab);
 			else if (aCommand == 'edit_cat_greenbusts')

@@ -46,18 +46,39 @@
 
 		return aTextSelection;
 	};
-	//returns the selected text of a focused element (if any)
+
 	this.getFocusedElement = function(aDoc) {
-		//if aDoc is not set, use the "firefox"(aka chrome document)
+		//if aDoc is not set, use the "firefox"(aka chrome) document
 		if(!aDoc)
 			aDoc = document;
-		if(aDoc.defaultView.getSelection() && aDoc.defaultView.getSelection().focusNode && aDoc.defaultView.getSelection().focusNode.parentNode)
-			return aDoc.defaultView.getSelection().focusNode.parentNode
-		if (!document.commandDispatcher || !document.commandDispatcher.focusedElement)
-			return '';
+		if (document.commandDispatcher && document.commandDispatcher.focusedElement)
+			return document.commandDispatcher.focusedElement
+		if (aDoc.commandDispatcher && aDoc.commandDispatcher.focusedElement)
+			return aDoc.commandDispatcher.focusedElement
+		if(aDoc.defaultView.getSelection() && aDoc.defaultView.getSelection().focusNode)
+			return aDoc.defaultView.getSelection().focusNode
 
-		return document.commandDispatcher.focusedElement;
+		return '';
 	};
+	this.getFocusedEditableElement = function (aDoc) {
+		var item = this.getFocusedElement(aDoc)
+		return function(aValue){
+
+			if(!item)
+				return false;
+			else if(item.contentEditable && item.contentEditable == 'true')
+				item.innerHTML = aValue;
+			else if(typeof(item.value) != 'undefined')
+				item.value = aValue;
+			else if(item.parentNode && item.parentNode.contentEditable && item.parentNode.contentEditable == 'true')
+				item.parentNode.innerHTML = aValue;
+			else if(item.parentNode && typeof(item.parentNode.value) != 'undefined')
+				item.parentNode.value = aValue;
+			else
+				return false;
+			return true;
+		}
+	}
 	//returns the selection that the browser is returning looking in every frame until something found
 	//this function should be used when is called from an element that makes the window lose focus
 	this.getFramesSelectionRecursive = function(win) {

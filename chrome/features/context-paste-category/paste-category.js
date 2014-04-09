@@ -5,13 +5,13 @@
 	var anElement
 
 	this.addListener('contextMenuShowing', function(event) {
-		anElement = ODPExtension.getFocusedElement(ODPExtension.documentGetFocused())
+		anElement = ODPExtension.getFocusedEditableElement(ODPExtension.documentGetFocused())
 	});
 
 	this.pasteCategory = function(aEvent) {
 		this.stopEvent(aEvent);
 
-		anElement = ODPExtension.getFocusedElement(ODPExtension.documentGetFocused())
+		anElement = ODPExtension.getFocusedEditableElement(ODPExtension.documentGetFocused())
 
 		this.fromCategoryAction = 'pasteCategoryPaste'
 
@@ -20,14 +20,9 @@
 	}
 	this.pasteCategoryPaste = function(aCategory){
 
-		if(!!anElement) {
-			if(anElement.contentEditable)
-				anElement.innerHTML = aCategory
-			else
-				anElement.value = aCategory
-		} else {
-			this.copyToClipboard(aCategory)
-		}
+		if(!anElement(aCategory[0]))
+			this.copyToClipboard(aCategory[0])
+
 	}
 	return null;
 

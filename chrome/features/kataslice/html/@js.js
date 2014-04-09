@@ -51,8 +51,8 @@ function onCategoryLoad() {
 	document.title = 'KS: ' + ODP.categoryTitleForLabel(ODP.categoryGetFromURL(aCategory));
 
 	//set category
-	$('.categories').text(ODP.categoryAbbreviate(ODP.categoryGetFromURL(aCategory)))
-	$('.categories').attr('category', aCategory)
+	$('.header-categories').text(ODP.categoryAbbreviate(ODP.categoryGetFromURL(aCategory)))
+	$('.header-categories').attr('category', aCategory)
 
 	//sort sites by date
 	timer.start('sortSitesByDate');
@@ -93,12 +93,16 @@ function listRender() {
 		.attr('sort-by', 'date')
 		.attr('sort-order', 'desc');
 
-	listRows = ListBody.selectAll("div").data(aSites).enter().append("div")
+	listRows = ListBody.selectAll("div").data(aSites).enter().append('div')
 	listRows
 		.attr('class', 'item')
 		.attr('action', function(d) {
 			return d.action;
-		}).html(function(d, i) {
+		})
+		.on('click', function(d) {
+			entryClick(this, d3.event);
+		})
+		.html(function(d, i) {
 			return item(d);
 		})
 
@@ -115,7 +119,7 @@ function update() {
 
 function updateTotals() {
 	timer.start('updateTotals');
-	listRowsVisible = ListBody.selectAll('.item:not(.filtered):not(.filtertextboxed)')
+	listRowsVisible = ListBody.selectAll('.item:not(.filtered):not(.filter-textboxed)')
 	$('.header-totals .filtered').text(listRowsVisible.size())
 
 	if (listRowsVisible.size() < 1)
@@ -200,7 +204,6 @@ function filterAdd(key, value, event) {
 
 	update();
 	chartsRenderBar();
-
 }
 
 function filterRemove(item) {
@@ -212,26 +215,25 @@ function filterRemove(item) {
 }
 
 var filterFreeTextTimeout = false;
-
 function filterFreeText(timedout) {
 	clearTimeout(filterFreeTextTimeout);
 	if ( !! timedout)
 		filterFreeTextTimeout = setTimeout(function() {
 			filterFreeTextFilter();
 			update()
-		}, 300);
+		}, 720);
 	else
 		filterFreeTextFilter();
 }
 
 function filterFreeTextFilter() {
-	var item = $('.filtertextbox');
+	var item = $('.filter-textbox');
 	var filterFreeTextLastText = item.val().trim();
 	ListBody.selectAll('.item:not(.filtered)').each(function(d) {
 		if (filterFreeTextLastText == '' || ODP.searchEngineSearch(filterFreeTextLastText, d.text))
-			d3.select(this).classed('filtertextboxed', false)
+			d3.select(this).classed('filter-textboxed', false)
 		else
-			d3.select(this).classed('filtertextboxed', true)
+			d3.select(this).classed('filter-textboxed', true)
 	});
 }
 
@@ -281,8 +283,8 @@ function chartsRenderBar() {
 	var group, colours
 	for (var i in bars) {
 
-		$('.bars .' + bars[i]).remove();
-		$('.bars').append('<div class="' + bars[i]+'"></div>');
+		$('.bars .bar-' + bars[i]).remove();
+		$('.bars').append('<div class="bar-' + bars[i]+'"></div>');
 
 		group = byCount[bars[i]].top(50)
 		colours = ODP.generateColours(group.length)
@@ -291,7 +293,7 @@ function chartsRenderBar() {
 		group.forEach(function(item) {
 			t += item.value
 		})
-		bar = d3.select('.bars .' + bars[i]).attr('key', bars[i])
+		bar = d3.select('.bars .bar-' + bars[i]).attr('key', bars[i])
 		bar.selectAll('div').data(group).enter()
 			.append("div")
 			.attr('style', function(d, i) {
@@ -304,7 +306,7 @@ function chartsRenderBar() {
 		.on('click', function(d, i) {
 			filterAdd(this.parentNode.getAttribute('key'), d.key, d3.event)
 		})
-		bar.append('div').attr('class', 'legend ignore').text(bars[i])
+		bar.append('div').attr('class', 'bars-legend ignore').text(bars[i])
 	}
 	timer.stop('bar');
 	timer.stop('chartsRenderBar');
@@ -355,17 +357,18 @@ function listSortBy(item, by, order) {
 		order = $('.list').attr('sort-order')
 	}
 
-	listRows.sort(function(a, b) {
-		if (order == 'desc')
+	if (order == 'desc')
+		listRows.sort(function(a, b) {
 			return d3.descending(a[by], b[by]);
-		else
+		});
+	else
+		listRows.sort(function(a, b) {
 			return d3.ascending(a[by], b[by]);
-	});
+		});
 }
 function listGetVisible() {
-	return ListBody.selectAll('.item:not(.filtered):not(.filtertextboxed)');
+	return ListBody.selectAll('.item:not(.filtered):not(.filter-textboxed)');
 }
-
-function listGetSelected(){
-	return ListBody.selectAll('.item.selected:not(.filtered):not(.filtertextboxed)');
+function listGetSelected() {
+	return ListBody.selectAll('.item.selected:not(.filtered):not(.filter-textboxed)');
 }

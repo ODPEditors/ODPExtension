@@ -28,7 +28,6 @@ body {
 	float: none;
 	clear: both;
 	display: block;
-	margin: 2px;
 }
 .click {
 	cursor: pointer;
@@ -203,7 +202,7 @@ h1, h2, h3, h4, h5 {
 	margin-top: 0px;
 }
 /* classes generic */
-header .title {
+.header-title {
 	font-family: 'Open Sans',Arial,Verdana,sans-serif;
 }
 /* forms */
@@ -219,7 +218,9 @@ header .title {
 	border: 1px solid rgba(0,0,0,.1);
 	padding: 4px;
 }
+
 /* elements -> TODO -> updated me!*/
+
 .header {
 	background-color: #669933;
 	color: white;

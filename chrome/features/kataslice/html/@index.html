@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 	<meta charset="utf-8">
 	<title>KS</title>
-
 	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/d3.v3.min.js"></script>
 	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/crossfilter.min.1.3.7.js"></script>
@@ -15,16 +13,14 @@
 	<script type="text/javascript" src="action.js"></script>
 	<script type="text/javascript" src="sync.js"></script>
 	<script type="text/javascript" src="tools.js"></script>
-
 	<link type="text/css" media="all" rel="stylesheet" href="chrome://ODPExtension/content/html/@css.css"/>
 	<link type="text/css" media="all" rel="stylesheet" href="@css.css"/>
 	<link type="text/css" media="all" rel="stylesheet" href="@tools.css"/>
-
 </head>
 <body loading="true" onkeypress="entryKeyPressBody(this, event)" onbeforeunload="return 'Are you sure?'">
-<div class="loading" style="opacity:.3">Loading.. <br>please wait</div>
+<div class="loading" style="opacity:.3">Collecting dataset.. <br>please wait</div>
 <header>
-	<div class="title"><b class="no-selection">KataSlice</b> <span class="loading-hidden">-</span> <div class="categories inline-block"></div></div>
+	<div class="header-title"><b class="no-selection">KataSlice</b> <span class="loading-hidden">-</span> <div class="header-categories inline-block"></div></div>
 	<div class="header-totals loading-hidden">
 		<span class="filtered">0</span> current view,
 		<span class="total">0</span> total,
@@ -106,12 +102,11 @@
 		<div class="clear"></div>
 
 		<div class="bars">
-			<div class="category"></div>
-			<div class="ip"></div>
-			<div class="user"></div>
-			<div class="domain"></div>
-		<div class="clear"></div>
-
+			<div class="bar-category"></div>
+			<div class="bar-ip"></div>
+			<div class="bar-user"></div>
+			<div class="bar-domain"></div>
+			<div class="clear"></div>
 		</div>
 
 		<div class="clear"></div>
@@ -121,7 +116,7 @@
 				active filters: <span class="current"></span>
 				<input
 					type="text"
-					class="filtertextbox"
+					class="filter-textbox"
 					placeholder="free text filter…   e.g: book paper -video"
 					onkeyup="filterFreeText(true)"
 					onblur="filterFreeText(true)"
@@ -144,78 +139,68 @@
 <div class="templates" style="display:none">
 
 	<div class="tpl-list-item">
-		<div
-			onclick="entryClick(this, event)"
-			category="{category}"
-			class="child">
-			<div class="data">
-				<div class="left">
-					<span class="icons">
-						<span class="deleted" title="Deleted"></span>
-						<span class="unreviewed" title="Unreviewed"></span>
-						<span class="reviewed" title="Reviewed"></span>
-						<span class="modified" title="Modified"></span>
-					</span>
-					<span
-						class="title"
-						spellcheck="false"
-						contenteditable="true"
+		<span class="user">{user}<br>{ip}</span>
+		<span
+			class="title"
+			spellcheck="false"
+			contenteditable="true"
 
-						onkeypress="return entryKeyPress(this, event)"
-						onblur="entryBlurOrInput(this, event)"
-						onfocus="entryFocus(this, event)"
-						oninput="entryBlurOrInput(this, event)"
+			onkeypress="return entryKeyPress(this, event)"
+			onblur="entryBlurOrInput(this, event)"
+			onfocus="entryFocus(this, event)"
+			oninput="entryBlurOrInput(this, event)"
 
-						onmousedown="this.focus()"
-						onpaste="entryPaste(this, event)">{title}</span>
-					<div class="description-container"><span
-						class="description"
-						spellcheck="false"
-						contenteditable="true"
+			onmousedown="this.focus()"
+			onpaste="entryPaste(this, event)">{title}</span>
+		<span
+			class="description"
+			spellcheck="false"
+			contenteditable="true"
 
-						onkeypress="return entryKeyPress(this, event)"
-						onblur="entryBlurOrInput(this, event)"
-						onfocus="entryFocus(this, event)"
-						oninput="entryBlurOrInput(this, event)"
+			onkeypress="return entryKeyPress(this, event)"
+			onblur="entryBlurOrInput(this, event)"
+			onfocus="entryFocus(this, event)"
+			oninput="entryBlurOrInput(this, event)"
 
-						onmousedown="this.focus()"
-						onpaste="entryPaste(this, event)">{description}</span></div>
-					<div class="clear"></div>
-					<div><span class="date no-selection">{date}</span> <span
-						class="url"
-						spellcheck="false"
-						contenteditable="true"
+			onmousedown="this.focus()"
+			onpaste="entryPaste(this, event)">{description}</span>
+		<div class="clear"></div>
+		<span
+			class="url"
+			date="{date}"
+			spellcheck="false"
+			contenteditable="true"
 
-						onkeypress="return entryKeyPress(this, event)"
-						onblur="entryBlurOrInput(this, event)"
-						onfocus="entryFocus(this, event)"
-						oninput="entryBlurOrInput(this, event)"
+			onkeypress="return entryKeyPress(this, event)"
+			onblur="entryBlurOrInput(this, event)"
+			onfocus="entryFocus(this, event)"
+			oninput="entryBlurOrInput(this, event)"
 
-						onmousedown="this.focus()"
-						onpaste="entryPaste(this, event)">{url}</span>
-					</div>
-					<div>
-						<span
-							class="category"
-							spellcheck="false"
-							spellcheckdisabled="true"
-							contenteditable="true"
+			onmousedown="this.focus()"
+			onpaste="entryPaste(this, event)">{url}</span>
+		<span
+			class="category"
+			spellcheck="false"
+			spellcheckdisabled="true"
+			contenteditable="true"
 
-							onkeypress="return entryKeyPress(this, event)"
-							onblur="entryBlurOrInput(this, event)"
-							onfocus="entryFocus(this, event)"
-							oninput="entryBlurOrInput(this, event)"
+			onkeypress="return entryKeyPress(this, event)"
+			onblur="entryBlurOrInput(this, event)"
+			onfocus="entryFocus(this, event)"
+			oninput="entryBlurOrInput(this, event)"
 
-							onmousedown="this.focus()"
-							onpaste="entryPaste(this, event)">{category}</span>
-					</div>
-				</div>
-				<div class="right">
-					{user}<br/>{ip}
-				</div>
+			onmousedown="this.focus()"
+			onpaste="entryPaste(this, event)">{category}</span>
+	</div>
+		<!--
+
+			<div class="right">
+
 			</div>
-			<div class="clear"></div>
-			<div class="toolbar" type="selection">[
+
+		-->
+
+		<!--div class="toolbar" type="selection">[
 					<span class="click" onclick="entryClickAction(this, event)" action="publish">publish</span> -
 					<span class="click" onclick="entryClickAction(this, event)" action="unreview">unreview</span> |
 					<span class="click" onclick="entryClickAction(this, event)" action="delete">delete</span> -
@@ -238,9 +223,7 @@
 				<div class="listings"></div>
 				<div class="translate"></div>
 			</div>
-			<div class="clear"></div>
-		</div>
-	</div>
+			<div class="clear"></div-->
 
 	<div class="tpl-list-item-tool-se">
 		<div class="tool-entry">

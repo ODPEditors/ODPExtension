@@ -1,36 +1,37 @@
-body {
-	background-color: rgb(210, 210, 210);
-	overflow-x: hidden;
-	padding-top: 26px;
-	margin-top:27px;
-}
-body[loading="true"] .loading-hidden{
-	display: none;
-}
-.loading {
-	background-color: rgba(0, 0, 0, 0.85);
-	width: 100%;
-	height: 100%;
-	position: fixed;
-	margin: 0px auto;
-	padding-top: 22%;
-	color: white;
-	font-size: 5em;
-	padding-left: 20%;
-	text-shadow: 0px 0px 14px black, 1px -2px 2px black;
-	opacity: .6;
-	z-index: 100;
-}
 
-.content {
-	padding: 10px;
-	-moz-box-sizing: padding-box;
-	box-sizing: padding-box;
-	float: left;
-	width: 85%;
-	max-width: 85%;
-	position: relative;
-}
+/* just an indent group for easy collapsing */
+
+	body {
+		background-color: rgb(210, 210, 210);
+		overflow-x: hidden;
+		padding-top: 26px;
+		margin-top:27px;
+	}
+	body[loading="true"] .loading-hidden{
+		display: none;
+	}
+	.loading {
+		background-color: rgba(0, 0, 0, .95);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		margin: 0px auto;
+		padding-top: 22%;
+		color: white;
+		font-size: 5em;
+		padding-left: 20%;
+		text-shadow: 0px 0px 14px black, 1px -2px 2px black;
+		opacity: .6;
+		z-index: 100;
+	}
+
+	.content {
+		padding: 10px;
+		-moz-box-sizing: padding-box;
+		box-sizing: padding-box;
+		max-width: 85%;
+	}
+
 /* header */
 
 	header {
@@ -49,11 +50,11 @@ body[loading="true"] .loading-hidden{
 		font-size: 1.1em;
 		padding-right: 20px;
 	}
-	header .title {
+	.header-title {
 		float: left;
 		font-size: 1.2em;
 	}
-	header .categories {
+	.header-categories {
 		font-size: .9em;
 	}
 
@@ -61,7 +62,7 @@ body[loading="true"] .loading-hidden{
 
 	.sidebar {
 		float: right;
-		width: 14.6%;
+		width: 15%;
 	}
 	.sidebar .sort-by{
 		text-align: right;
@@ -95,7 +96,7 @@ body[loading="true"] .loading-hidden{
 		position: relative;
 		box-shadow: 1px 2px 10px -5px black;
 	}
-	.bars .legend {
+	.bars-legend {
 		position: relative;
 		left: 9px;
 		color: black;
@@ -120,14 +121,14 @@ body[loading="true"] .loading-hidden{
 		line-height: 2.2em;
 	}
 	.filters .and:after {
-		content: " and";
+		content: "and";
 		margin-right: 1px;
 		margin-left: -16px;
 		font-style: italic;
 		color: grey;
 	}
 	.filters .or:after {
-		content: " or";
+		content: "or";
 		margin-right: -20px;
 		font-style: italic;
 		color: grey;
@@ -152,7 +153,7 @@ body[loading="true"] .loading-hidden{
 		display: inline-block;
 	}
 	.filters .current:after {
-		content: " …";
+		content: "…";
 	}
 	.filter {
 		border: 1px solid rgb(200, 200, 182);
@@ -171,7 +172,7 @@ body[loading="true"] .loading-hidden{
 	.filter .negation {
 		color: red;
 	}
-	.filtertextbox {
+	.filter-textbox {
 		width: 89px;
 		transition: width 0.3s ease 0s;
 		margin-left: 20px;
@@ -180,15 +181,15 @@ body[loading="true"] .loading-hidden{
 		margin-right: 1px;
 		box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, .4);
 	}
-	.filtertextbox:focus {
+	.filter-textbox:focus {
 		width: 300px;
 	}
+
 /* list */
 
 	.list {
-		font-size: .8em;
 		box-shadow: 0px 0px 12px -5px black;
-		background-color: white;
+		background-color: rgb(252, 252, 252);
 	}
 	.list-no-results {
 		font-family: Open Sans;
@@ -207,128 +208,139 @@ body[loading="true"] .loading-hidden{
 
 /* entry text*/
 
-	.item {
-
-		background-color: rgb(252, 252, 252);
-		border-left: 3px solid transparent;
-		border-right:6px solid transparent;
-
-		border-top: 1px solid transparent;
-		border-bottom: 1px solid rgb(238, 238, 238);
-
-	}
 	.item.hidden,
 	.item.filtered,
-	.item.filtertextboxed {
+	.item.filter-textboxed {
 		display: none;
 	}
-	/*action*/
-	.icons .deleted,
-	.icons .unreviewed,
-	.icons .reviewed{
-		display: none;
-	}
-	.item[action="deleted"] .icons .deleted{
-		display: inherit;
-	}
-	.item[action="reviewed"] .icons .reviewed{
-		display: inherit;
-	}
-	.item[action="unreviewed"] .icons .unreviewed{
-		display: inherit;
-	}
 
-	.item[status="red"]{
-		border-right:6px solid #EB6666;
-	}
-	.item[status="purple"]{
-		border-right:6px solid #6F6FFC;
-	}
-	.item[status="orange"]{
-		border-right:6px solid orange;
-	}
-	.item[status="green"]{
-		border-right:6px solid #669933;
-	}
-	.item[status="yellow"]{
-		border-right:6px solid #FFFFCC;
-	}
-	.item[status="red"]{
-		border-right:6px solid #EB6666;
-	}
+	.item {
+		padding: 5px 5px 7px 8px;
 
-	.item .child{
-		padding: 5px 5px;
-		border-bottom: 1px solid rgb(238, 238, 238);
-		transition: background-color .2s;
-		word-wrap: break-word;
-		word-break: break-all;
-		position: relative;
-	}
-	.item:hover {
-		background-color: rgb(247, 247, 247);
-	}
-	.item.selected {
-		background-color: rgb(246, 246, 239);
-		border-left: 3px solid black;
-		border-bottom: 1px solid rgba(0,0,0, .7);
-		border-top: 1px solid rgba(0,0,0, .7);
-		margin-top: -1px;
-		padding-top: 1px;
-	}
-	.item.pending {
-		border-left: 3px solid #669933 !important;
-	}
-	.item .left {
-		float: left;
-		display: block;
-		max-width: 80%;
-		width: 80%;
-	}
-	.item .left .url {
-		font-size: .9em;
-		display: inline-block;
-		border:0px;
-		outline: none;
-	}
-	.item .left .title {
-		font-weight: bold;
-		display: inline-block;
-		position: relative;
-		border:0px;
-				outline: none;
-	}
-	.item .left .title:after {
-		content: " - ";
-	}
-	.item .left .description-container {
-		display: inline;
-	}
-	.item .left .description {
-		position: relative;
-		display: inline-block;
-		left: 0;
-		border:0px;
-		outline: none;
-	}
-	.item .left .category {
-		position: relative;
-		display: inline-block;
-		left: 0;
-		border:0px;
-		outline: none;
+		background-color:;
+		transition: background-color .3s;
 
-		color: rgba(0,0,0,.6);
-		font-size: 10px;
-	}
-	.item .left .date {
-		color: rgb(140, 130, 130);
-	}
+		line-height: 1em;
 
-	.item .right {
-		color: rgba(0,0,0,.6);
-		float: right;
-		display: inline-block;
-		max-width: 20%;
-		text-align: right;
+		border-left: 3px solid rgb(252, 252, 252);
+		border-right: 6px solid rgb(252, 252, 252);
+
+		border-top: 1px solid rgb(252, 252, 252);
+		border-bottom: 1px solid rgb(230, 230, 230);
+
+		padding-right: 20%;
 	}
+	/* item status */
+		.item:hover {
+			background-color: #F6F4D0 !important;
+
+			border-left-color:#F6F4D0;
+			border-right-color:#F6F4D0;
+			border-top-color:#F6F4D0;
+		}
+		.item.selected {
+			background-color: rgba(246, 244, 208, 0.45);
+			/*background-color: rgb(246, 246, 239);*/
+			border-left-color: rgb(93, 93, 93);
+			border-right-color: rgba(246, 244, 208, 0.45);
+			border-top-color: rgba(246, 244, 208, 0.45);;
+		}
+		.item.selected:hover{
+		}
+		.item.pending {
+			border-left-color: #669933 !important;
+		}
+
+	/* action icons */
+
+		.title:before{
+			margin: 0px 5px 0px 1px;
+			font-family: 'Flat-UI-Icons';
+			color: rgb(161, 161, 161);
+			font-size: .9em;
+		}
+		.item[action="deleted"] .title:before{
+			content: "\e032";
+			color: rgba(255, 0, 0, 0.70);
+		}
+		.item[action="reviewed"] .title:before{
+			content: "\e000";
+			color: #669933;
+		}
+		.item[action="unreviewed"] .title:before{
+			content: "\e011";
+		}
+
+	/* action status */
+
+		.item[status="red"]{
+			border-right-color: #EB6666;
+		}
+		.item[status="purple"]{
+			border-right-color: #6F6FFC;
+		}
+		.item[status="orange"]{
+			border-right-color: orange;
+		}
+		.item[status="green"]{
+			border-right-color: #669933;
+		}
+		.item[status="yellow"]{
+			border-right-color: #FFFFCC;
+		}
+		.item[status="red"]{
+			border-right-color: #EB6666;
+		}
+
+	/* data */
+
+		.title, .description, .url, .category {
+			/* editable content should be obvious by the cursor */
+			border:0px;
+			outline: none;
+			/*
+				1. triple click in an editable text should select just that text
+				2. adittionally, the "clickeable area" should be that surrounding the text, and not the complete line of the block.
+			*/
+			clear: both;
+			display: inline-block;
+		}
+
+		.title {
+			color:rgb(13, 43, 95);
+			font-weight: bold;
+			font-size: .8em;
+		}
+		.title:after {
+			content: "-";
+			margin-left: 5px;
+			color:gray;
+		}
+		.description {
+			font-size: .8em;
+		}
+		.description:after {
+			/* fix browser glitch with empty description*/
+			content: ".";
+			color: transparent;
+		}
+		.url {
+			font-size: .8em;
+		}
+		.url:before {
+			content: attr(date);
+			color: rgb(140, 130, 130);
+			margin-right: 6px;
+		}
+		.category {
+			font-size: .7em;
+			color:gray;
+		}
+		.user {
+			float: right;
+			height: 0px;
+			color: gray;
+			font-size: .7em;
+			text-align: right;
+			margin-right: -25%;
+		}

@@ -43,7 +43,7 @@
 			else
 				var categories = [aCategory]
 
-			if (ODPExtension.shared.me) {
+			if (!ODPExtension.shared.me) {
 
 				var cache = 'kataslice';
 
@@ -131,6 +131,10 @@
 		var aSites = []
 			this.categoryParserGetCategoryUJSONSites(JSON.parse(this.fileRead('urls.json')), aSites)
 		aFunction(aSites);
+	}
+
+	this.katasliceCleanCache = function(){
+		this.fileRemove('/cached.request/kataslice/');
 	}
 	return null;
 

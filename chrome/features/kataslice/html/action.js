@@ -15,7 +15,7 @@ function action(type){
 }
 function _action(type){
 	var el = $(type);
-	var listType = el.parents('[type]').attr('type');
+	var listType = el.attr('type') || el.parents('[type]').attr('type');
 	var actionType = el.attr('action');
 
 	switch (listType) {
@@ -143,6 +143,23 @@ function _action(type){
 					}
 					$(item[0]).append('<div><small>'+txt+'</small></div>');
 				})
+			});
+			break;
+		case 'list-select-all':
+			//var items = listGetVisible();
+			items.each(function(d) {
+				var item = d3.select(this)
+				$(item[0]).addClass('selected')
+			});
+			break;
+		case 'list-select-invert':
+			//var items = listGetVisible();
+			items.each(function(d) {
+				var item = d3.select(this)
+				if(!$(item[0]).hasClass('selected'))
+					$(item[0]).addClass('selected')
+				else
+					$(item[0]).removeClass('selected')
 			});
 			break;
 		case 'translate': //open uri

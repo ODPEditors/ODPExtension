@@ -95,11 +95,16 @@
 
 			<li>
 				<span class="click" onclick="action(this)" action="link-check-dump">dump check</span>,
-				<span class="click" onclick="action(this)" action="site-data-dump">dump site</span>
+				<span class="click" onclick="action(this)" action="site-data-dump">dump site</span>,
+				<span class="click" onclick="if(ODP.confirm('Clean cache?')) ODP.katasliceCleanCache();">clean cache</span>
 			</li>
 			<hr>
 
-
+			<li>
+				<span class="click" onclick="action(this)" type="visible" action="list-select-all">select all</span>,
+				<span class="click" onclick="action(this)" type="visible" action="list-select-invert">invert selection</span>
+			</li>
+			<hr>
 
 		</ul>
 

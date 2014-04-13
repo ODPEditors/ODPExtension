@@ -76,6 +76,8 @@
 				item.parentNode.value = aValue;
 			else
 				return false;
+			if(item.focus)
+				item.focus();
 			return true;
 		}
 	}
@@ -374,6 +376,12 @@
 			items[id].innerHTML = this.encodeUTF8(items[id].innerHTML);
 		}
 	};
+
+	this.selectAll = function(aTextbox){
+		aTextbox.selectionStart = 0
+		aTextbox.selectionEnd = aTextbox.value.length
+		aTextbox.select()
+	}
 
 	return null;
 

@@ -82,6 +82,26 @@
 		gBrowser.selectedTab = aTab;
 	}
 
+	this.tabSaveData = function(aName, aValue) {
+		aName = aName.replace(/^ODPExtension-/, '')
+		var aTab = this.tabGetFocused();
+		if(!aTab.ODPExtensionData)
+			aTab.ODPExtensionData = []
+		aTab.ODPExtensionData[aName] = aValue
+	}
+
+	this.tabGetData = function(aName) {
+		aName = aName.replace(/^ODPExtension-/, '')
+		var aTab = this.tabGetFocused();
+		if(!aTab.ODPExtensionData)
+			return null
+		if(!!aTab.ODPExtensionData[aName])
+			return aTab.ODPExtensionData[aName]
+		else
+			return null
+	}
+
+
 	return null;
 
 }).apply(ODPExtension);

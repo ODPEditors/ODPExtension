@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE overlay SYSTEM "chrome://ODPExtension/locale/xul.dtd">
+
+<?xml-stylesheet href="@css.css" type="text/css"?>
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/x-javascript" src="panel.js"></script>
+<script type="application/x-javascript" src="panel-toggle.js"></script>
+
+<window id="main-window">
+
+	<keyset id="mainKeyset">
+		<key keycode="VK_F1" keytext="F1" oncommand="ODPExtension.panelFastAddToggleViaKey();"/>
+	</keyset>
+
+	<vbox level="top" id="ODPExtension-panel-fast-add" hidden="true" focused="false" onclick="if(this.getAttribute('focused') == 'false')ODPExtension.panelFastAddVisibilityShow(true);">
+
+		<textbox
+			emptytext="URL"
+			flex="1"
+			id="ODPExtension-panel-fast-add-url"
+			onkeypress="ODPExtension.panelFastAddKeyPress(this, event)"
+			onblur="ODPExtension.panelFastAddVisibilityHide();ODPExtension.tabSaveData(this.id, this.value)"
+			onfocus="ODPExtension.panelFastAddVisibilityShow();ODPExtension.selectAll(this)"
+		/>
+		<textbox
+			emptytext="Title"
+			flex="1"
+			id="ODPExtension-panel-fast-add-title"
+			onkeypress="ODPExtension.panelFastAddKeyPress(this, event)"
+			onblur="ODPExtension.panelFastAddVisibilityHide();ODPExtension.tabSaveData(this.id, this.value)"
+			onfocus="ODPExtension.panelFastAddVisibilityShow();ODPExtension.selectAll(this)"
+			spellcheck="true"
+		/>
+		<textbox
+			emptytext="Description"
+			flex="1"
+			multiline="true"
+			id="ODPExtension-panel-fast-add-description"
+			onkeypress="ODPExtension.panelFastAddKeyPress(this, event)"
+			onblur="ODPExtension.panelFastAddVisibilityHide();ODPExtension.tabSaveData(this.id, this.value)"
+			onfocus="ODPExtension.panelFastAddVisibilityShow();ODPExtension.selectAll(this)"
+			spellcheck="true"
+		/>
+		<textbox
+			emptytext="Category"
+			flex="1"
+			id="ODPExtension-panel-fast-add-category"
+			onkeypress="ODPExtension.panelFastAddKeyPress(this, event)"
+			onblur="ODPExtension.panelFastAddVisibilityHide();ODPExtension.tabSaveData(this.id, this.value)"
+			onfocus="ODPExtension.panelFastAddVisibilityShow();ODPExtension.selectAll(this)"
+		/>
+
+	</vbox>
+
+</window>
+
+</overlay>

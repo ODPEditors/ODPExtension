@@ -29,6 +29,10 @@
 
 //USER INTERFACE - DONE
 
+	//FAST ADD - DONE
+		pref('extensions.ODPExtension.ui.fast.add.panel.closed', true);
+
+
 	//CONTEXT MENU - DONE
 
 		pref('extensions.ODPExtension.ui.context.menu.translate', true);

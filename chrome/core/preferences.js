@@ -51,6 +51,8 @@
 		'last.enabled',
 		'toolbars.toggle',
 
+		'ui.fast.add.panel.closed',
+
 		//link checker
 		'link.checker.use.cache',
 		'link.checker.generate.graph',

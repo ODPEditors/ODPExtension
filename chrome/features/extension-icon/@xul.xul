@@ -46,6 +46,7 @@
 		<menuitem label="&ODPExtension.preferences;" oncommand="ODPExtension.preferencesOpen();"/>
 		<menuseparator/>
 		<menuitem label="&ODPExtension.toolbars.toggle;" oncommand="ODPExtension.toolbarsToggle();"/>
+		<menuitem label="Toggle Fast-add" oncommand="ODPExtension.panelFastAddToggle();"/>
 		<menuseparator/>
 		<menu label="More…">
 			<menupopup>

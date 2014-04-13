@@ -15,6 +15,7 @@
 <!-- features -->
 <?xul-overlay href="chrome://ODPExtension/content/features/show-ip/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/add-site/@xul.xul"?>
+<?xul-overlay href="chrome://ODPExtension/content/features/add-site-fast/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/browser/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/categories-txt/@xul.xul"?>
 <?xul-overlay href="chrome://ODPExtension/content/features/category-browser/@xul.xul"?>

@@ -1,0 +1,44 @@
+
+#ODPExtension-panel-fast-add {
+	-moz-appearance: none !important;
+	position: fixed !important;
+	bottom:300px;
+	left: 50px;
+
+	padding: 8px !important;
+	padding-right: 14px !important;
+	padding-top: 10px !important;
+	margin: 0px !important;
+	word-wrap: break-word !important;
+
+	background-color: white !important;
+	font-family: arial, sans-serif;
+	font-size: 11px;
+	color: black;
+	border-right: #669933 solid 3px;
+	border-top: #669933 solid 1px;
+	border-bottom: #669933 solid 2px;
+	border-left: #669933 solid 1px;
+	border-radius: 1px 14px;
+	width: 550px;
+	height: auto;
+	opacity: 1;
+	overflow: hidden;
+	transition: all .2s;
+}
+
+#ODPExtension-panel-fast-add > textbox {
+	width:100%;
+	padding: 2px;
+	font-size: 13px;
+}
+
+#ODPExtension-panel-fast-add[focused="false"]{
+	width: 35px;
+	height: 35px;
+	opacity: .4;
+}
+#ODPExtension-panel-fast-add[focused="false"] > textbox {
+	margin-top: 550px;
+}
+

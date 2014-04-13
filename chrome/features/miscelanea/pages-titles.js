@@ -13,25 +13,25 @@
 			var title = '';
 			if (
 				aLocation.indexOf('editcat/index') != -1)
-				title = 'EDIT';
+				title = 'E';
 			else if (
 				aLocation.indexOf('editurl/edit') != -1)
 				title = 'URL:L';
 			else if (
 				aLocation.indexOf('editurl/add') != -1)
-				title = 'ADD';
+				title = 'A';
 			else if (
 				aLocation.indexOf('editfaq.cgi') != -1)
 				title = 'FAQ';
 			else if (
 				aLocation.indexOf('editcat/desc') != -1)
-				title = 'DESC';
+				title = 'D';
 			else if (
 				aLocation.indexOf('log/search') != -1)
-				title = 'LOG';
+				title = 'L';
 			else if (
 				aLocation.indexOf('editunrev/editurl') != -1)
-				title = 'UNREV';
+				title = 'U';
 			else if (
 				aLocation.indexOf('editunrev/listurl') != -1)
 				title = 'URL:U';

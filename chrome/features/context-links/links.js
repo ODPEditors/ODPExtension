@@ -12,14 +12,14 @@
 
 	this.addListener('contextMenuShowing', function(event) {
 		links = ODPExtension.getSelectedLinksURLs();
+		links = ODPExtension.arrayUnique(links);
 		ODPExtension.getElement('open-links-new-tab').setAttribute('hidden', links.length < 2);
-		ODPExtension.getElement('copy-links-urls').setAttribute('hidden', links.length < 2);
+		ODPExtension.getElement('copy-links-urls').setAttribute('hidden', links.length < 1);
 	});
 
 	this.openSelectedLinks = function(aEvent) {
-		for(var id in links){
+		for(var id in links)
 			this.openURL(links[id], true);
-		}
 	}
 	this.copySelectedLinks = function(aEvent) {
 		this.copyToClipboard(links.join('\n'));

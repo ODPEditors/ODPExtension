@@ -75,6 +75,93 @@
 
 		).replace(/^\.* *,+ */, '').replace(/\.* *,+ *\.*$/, '.');
 	};
+
+	this.autoCorrect = function(aString, isTitle)  {
+		if(!aString)
+			aString = '';
+
+		if(isTitle) {
+			aString = aString.replace(/—/g, '-')
+			aString = aString.replace(/▶/g, '')
+			aString = aString
+							.replace(', la enciclopedia libre', '')
+							.replace(', the free encyclopedia', '')
+							.replace(', the free encyclopedia', '')
+
+			if(aString.indexOf(':')!=-1)
+				aString = aString.split(':').reverse().join(':')
+			else if(aString.indexOf('~') != -1)
+				aString = aString.split('~').reverse().join(':')
+			else if(aString.indexOf('|') != -1)
+				aString = aString.split('|').reverse().join(':')
+			else if(aString.indexOf('-') != -1)
+				aString = aString.split('-').reverse().join(':')
+
+			aString = aString
+							.split('|').join(':')
+							.split('-').join(':')
+			aString = aString.replace(/\.\s?com/i, '')
+			aString = aString.replace(/\.\s?net/i, '')
+			aString = aString.replace(/\.\s?org/i, '')
+		} else {
+			aString = aString.replace(/\|/g, ', ')
+		}
+
+		aString = aString.trim();
+		aString = aString
+						.replace(/\#/g, ', ')
+						.replace(/\*/g, ', ')
+						.replace(/(\{|\}|\[|\])/g, ', ')
+						.replace(/ -/g, ', ')
+						.replace(/-+/g, ' ')
+						.replace(/\t/g, ', ')
+						.replace(/\r/g, ', ')
+						.replace(/\n/g, ', ')
+						.replace(/\s*:\s*/g, ': ')
+						.replace(/\s/g, ' ').trim();
+
+
+		aString = aString.replace(/^\.+/, '')
+
+		aString = (aString + '.').replace(/\.+$/, '.').replace(/\s+/g, ' ')
+
+		aString = this.fixPuntuation(aString)
+
+		//fix sentence uppercase
+		aString = aString.split('. ');
+		if(aString.length>1){
+			for (var id in aString)
+				aString[id] = this.ucFirst(aString[id]);
+		}
+		aString = aString.join('. ');
+
+		//fix sentence comma
+		aString = aString.split(', ');
+		if(aString.length>1){
+			for (var id in aString)
+				aString[id] = this.lcFirst(aString[id]);
+		}
+		aString = aString.join(', ');
+
+		if(isTitle)
+			aString = aString.replace(/\.+$/, '')
+
+		aString = aString.replace(/^\.+/, '').trim()
+
+		//words
+		aString = aString
+						.replace(/javascript/ig, 'JavaScript')
+						.replace(/internet/ig, 'Internet')
+						.replace(/ & /ig, ' and ')
+						.replace(/. js/ig, '.js')
+						.trim()
+
+		if(isTitle)
+			return aString
+		else
+			return this.ucFirst(aString)
+
+	}
 	this.htmlEntityDecode = function (aString) {
 		//ODPExtension.dump(typeof(aString))
 		if (aString.indexOf('&') != -1) {
@@ -132,7 +219,7 @@
 	};
 	//replaces new lines with space characters
 	this.removeNewLines = function (aString) {
-		return this.trim(aString).split('\r').join(' ').split('\n').join(' ').split('\t').join(' ');
+		return this.trim(aString).replace(/\s+/g, ' ');
 	};
 	//returns true if aString has bad spelling
 	this.spellError = function (aString, aDictionary) {
@@ -203,6 +290,12 @@
 		if (!aString)
 			return '';
 		return aString.substring(0, 1).toUpperCase() + aString.substring(1, aString.length);
+	};
+	//returns the string with the first char in lowercase
+	this.lcFirst = function (aString) {
+		if (!aString)
+			return '';
+		return aString.substring(0, 1).toLowerCase() + aString.substring(1, aString.length);
 	};
 
 	this.stringTranslate = function (text, aFunction, sourceLanguage, targetLanguage) {

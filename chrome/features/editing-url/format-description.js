@@ -17,13 +17,7 @@
 		var anElement = this.getElementNamed('newdesc', aDoc) || this.getElementNamed('desc', aDoc);
 
 		if (!anElement) {} else {
-			var value = this.ucFirst(this.editingFormURLCleanChars(anElement.value).toLowerCase());
-
-			//fix sentence uppercase
-			value = value.split('. ');
-			for (var id in value)
-				value[id] = this.ucFirst(value[id]);
-			anElement.value = value.join('. ');
+			anElement.value = this.autoCorrect(anElement.value);
 		}
 	}
 	return null;

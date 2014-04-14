@@ -17,7 +17,7 @@
 	}
 	//returns the  content of the meta description of a document
 	this.documentGetMetaDescription = function(aDoc) {
-		return this.trim(this.stripTags(this.htmlEntityDecode(this.stripTags(this.documentGetRAWMetaDescription(aDoc), ' ')), ' '));
+		return this.trim(this.htmlEntityDecode(this.stripTags(this.documentGetRAWMetaDescription(aDoc), ' ')));
 	}
 	//returns the  content of the meta description of a document
 	this.documentGetRAWMetaDescription = function(aDoc) {

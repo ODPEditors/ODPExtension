@@ -32,6 +32,7 @@
 			onblur="ODPExtension.panelFastAddVisibilityHide();ODPExtension.tabSaveData(this.id, this.value)"
 			onfocus="ODPExtension.panelFastAddVisibilityShow();"
 			spellcheck="true"
+			onpaste="ODPExtension.panelFastAddOnPaste(this, event)"
 		/>
 		<textbox
 			emptytext="Description"
@@ -42,6 +43,8 @@
 			onblur="ODPExtension.panelFastAddVisibilityHide();ODPExtension.tabSaveData(this.id, this.value)"
 			onfocus="ODPExtension.panelFastAddVisibilityShow();"
 			spellcheck="true"
+			rows="4"
+			onpaste="ODPExtension.panelFastAddOnPaste(this, event)"
 		/>
 		<textbox
 			emptytext="Category"

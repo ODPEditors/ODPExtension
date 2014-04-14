@@ -2,11 +2,11 @@
 #ODPExtension-panel-fast-add {
 	-moz-appearance: none !important;
 	position: fixed !important;
-	bottom:300px;
+	top:200px;
 	left: 50px;
 
 	padding: 8px !important;
-	padding-right: 14px !important;
+	padding-right: 9px !important;
 	padding-top: 10px !important;
 	margin: 0px !important;
 	word-wrap: break-word !important;
@@ -21,22 +21,32 @@
 	border-left: #669933 solid 1px;
 	border-radius: 1px 14px;
 	width: 550px;
-	height: auto;
+	height:inherit;
 	opacity: 1;
 	overflow: hidden;
-	transition: all .2s;
+	transition: all .4s;
+	transition-timing-function: easeInOutBack;
+	-moz-box-sizing: padding-box;
+	box-sizing: padding-box;
 }
 
+#ODPExtension-panel-fast-add-url{
+	color:rgba(0,0,0,.8);
+}
 #ODPExtension-panel-fast-add > textbox {
-	width:100%;
-	padding: 2px;
+	width:98%;
+	padding: 4px;
 	font-size: 13px;
+	border: 1px solid rgba(0,0,0,.3);
+	-moz-appearance: none !important;
+	margin: 7px;
+	border-radius: 3px;
 }
 
 #ODPExtension-panel-fast-add[focused="false"]{
 	width: 35px;
 	height: 35px;
-	opacity: .4;
+	opacity: .6;
 }
 #ODPExtension-panel-fast-add[focused="false"] > textbox {
 	margin-top: 550px;

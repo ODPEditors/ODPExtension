@@ -41,17 +41,18 @@
 		ODPExtension.tabSaveData(aElement.id, aElement.value)
 
 		if (aEvent.keyCode == aEvent.DOM_VK_RETURN) {
+
+			this.stopEvent(aEvent);
+
 			switch (aEvent.currentTarget.id) {
 			case 'ODPExtension-panel-fast-add-url':
 				{
 					this.getElement('panel-fast-add-title').focus()
-					this.selectAll(this.getElement('panel-fast-add-title'))
 					break;
 				}
 			case 'ODPExtension-panel-fast-add-title':
 				{
 					this.getElement('panel-fast-add-description').focus()
-					this.selectAll(this.getElement('panel-fast-add-description'))
 					break;
 				}
 			case 'ODPExtension-panel-fast-add-description':
@@ -70,16 +71,29 @@
 
 					if (url != '' && title != '' && description != '' && category != '') {
 
+						description = this.ucFirst(description+'.').replace(/\.+$/, '.')
+						title = this.ucFirst(title).replace(/\.+$/, '')
+
 						lastCategory = category
-						ODPExtension.readURL('http://www.dmoz.org/editors/editurl/doadd?cat=' + this.encodeUTF8(category) + '&url=' + this.encodeUTF8(url) + '&title=' + this.encodeUTF8(title) + '&desc=' + this.encodeUTF8(description) + '&newnote=&contenttype=&newcat=&typecat=' + this.encodeUTF8(category) + '&catselectchild=--select--&mediadate=&operation=update&submit=Update', false, false, false, function (aData) {
+
+						if(aEvent.ctrlKey)
+							var action = 'unrev';
+						else
+							var action = 'update';
+
+						this.panelFastAddVisibilityHide();
+						ODPExtension.tabClose(ODPExtension.tabGetFocused())
+
+						ODPExtension.readURL('http://www.dmoz.org/editors/editurl/doadd?cat=' + this.encodeUTF8(category) + '&url=' + this.encodeUTF8(url) + '&title=' + this.encodeUTF8(title) + '&desc=' + this.encodeUTF8(description) + '&newnote=&contenttype=&newcat=&typecat=' + this.encodeUTF8(category) + '&catselectchild=--select--&mediadate=&operation='+action+'&submit=Update', false, false, false, function (aData) {
 
 							if (aData.indexOf('<form action="login"') != -1) {
 								ODPExtension.alert('You must be logged in to your dashboard to use this tool.');
+								ODPExtension.tabOpen(url, true)
 							} else if (aData.indexOf('javascript:history.back') != -1) {
 								ODPExtension.alert('Server busy.. or category too big, try again.')
+								ODPExtension.tabOpen(url, true)
 							} else {
-								ODPExtension.tabClose(ODPExtension.tabGetFocused())
-								ODPExtension.notifyTab('Site ' + url + ' added to ' + category)
+								ODPExtension.notifyTab('Site "' + url + '" added to "'+action+'" in "' + category+'"')
 							}
 						}, true, true);
 					}

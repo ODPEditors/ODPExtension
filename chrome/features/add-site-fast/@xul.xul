@@ -22,7 +22,7 @@
 			id="ODPExtension-panel-fast-add-url"
 			onkeypress="ODPExtension.panelFastAddKeyPress(this, event)"
 			onblur="ODPExtension.panelFastAddVisibilityHide();ODPExtension.tabSaveData(this.id, this.value)"
-			onfocus="ODPExtension.panelFastAddVisibilityShow();ODPExtension.selectAll(this)"
+			onfocus="ODPExtension.panelFastAddVisibilityShow();"
 		/>
 		<textbox
 			emptytext="Title"
@@ -30,7 +30,7 @@
 			id="ODPExtension-panel-fast-add-title"
 			onkeypress="ODPExtension.panelFastAddKeyPress(this, event)"
 			onblur="ODPExtension.panelFastAddVisibilityHide();ODPExtension.tabSaveData(this.id, this.value)"
-			onfocus="ODPExtension.panelFastAddVisibilityShow();ODPExtension.selectAll(this)"
+			onfocus="ODPExtension.panelFastAddVisibilityShow();"
 			spellcheck="true"
 		/>
 		<textbox
@@ -40,7 +40,7 @@
 			id="ODPExtension-panel-fast-add-description"
 			onkeypress="ODPExtension.panelFastAddKeyPress(this, event)"
 			onblur="ODPExtension.panelFastAddVisibilityHide();ODPExtension.tabSaveData(this.id, this.value)"
-			onfocus="ODPExtension.panelFastAddVisibilityShow();ODPExtension.selectAll(this)"
+			onfocus="ODPExtension.panelFastAddVisibilityShow();"
 			spellcheck="true"
 		/>
 		<textbox
@@ -49,7 +49,7 @@
 			id="ODPExtension-panel-fast-add-category"
 			onkeypress="ODPExtension.panelFastAddKeyPress(this, event)"
 			onblur="ODPExtension.panelFastAddVisibilityHide();ODPExtension.tabSaveData(this.id, this.value)"
-			onfocus="ODPExtension.panelFastAddVisibilityShow();ODPExtension.selectAll(this)"
+			onfocus="ODPExtension.panelFastAddVisibilityShow();"
 		/>
 
 	</vbox>

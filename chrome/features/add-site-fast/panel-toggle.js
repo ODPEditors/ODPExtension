@@ -28,7 +28,7 @@
 
 	this.panelFastAddShow = function (aHide) {
 		panel.setAttribute('hidden', !aHide);
-		panel.style.setProperty("bottom", '300px', "important");
+		panel.style.setProperty("top", '200px', "important");
 		panel.style.setProperty("left", '50px', "important");
 	}
 

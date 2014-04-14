@@ -153,6 +153,8 @@
 
 			<menuseparator/>
 			<menuitem oncommand="ODPExtension.rdfFind();" label="Find for a string in an RDF U8 file…"/>
+			<menuseparator/>
+			<menuitem oncommand="ODPExtension.clipboardOpenURLs();" label="Open URLs from the Clipboard"/>
 		</menupopup>
 		</menu>
 

@@ -19,16 +19,17 @@
 	//parse a category data (category public page HTML) and returns an array with all the subcategories
 	this.categoryParserGetCategorySubcategories = function(aCategoryDocumentHTML, anURI) {
 
+		var aCategory = this.categoryGetFromURL(anURI);
 		var categorySubcategories = [];
 
-		var elements = this.select('.dir-1 li', aCategoryDocumentHTML, anURI);
+		var elements = this.select('li a', aCategoryDocumentHTML, anURI);
 
 		for (var id in elements) {
-			if (elements[id].innerHTML.indexOf('>@') != -1) { /*its a link*/ }
-			else {
-				categorySubcategories[categorySubcategories.length] = this.categoryGetFromURL(this.select('a', elements[id].innerHTML, anURI)[0].getAttribute('href'));
-			}
+			var item = this.categoryGetFromURL(elements[id].href);
+			if(item.indexOf(aCategory) === 0 && this.subStrCount(item.replace(aCategory, ''), '/') === 1)
+				categorySubcategories[categorySubcategories.length] = item
 		}
+		categorySubcategories = this.arrayUnique(categorySubcategories);
 		return categorySubcategories;
 	}
 

@@ -17,7 +17,7 @@
 	<link type="text/css" media="all" rel="stylesheet" href="@css.css"/>
 	<link type="text/css" media="all" rel="stylesheet" href="@tools.css"/>
 </head>
-<body loading="true" onkeypress="entryKeyPressBody(this, event)" onbeforeunload="return 'Are you sure?'">
+<body loading="true" onkeypress="entryKeyPressBody(this, event)" onbeforeunload="return onUnload()">
 <div class="loading" style="opacity:.3">Collecting dataset.. <br>please wait</div>
 <header>
 	<div class="header-title"><b class="no-selection">Slice</b> <span class="loading-hidden">-</span> <div class="header-categories inline-block"></div></div>
@@ -59,6 +59,7 @@
 
 			<li>
 				<span class="click" onclick="action(this)" action="delete">delete</span>,
+				<span class="click" onclick="action(this)" action="delete-outdated">outdated</span>,
 				<span class="click" onclick="action(this)" action="delete-mfa">MFA</span>,
 				<span class="click" onclick="action(this)" action="delete-duplicate">duplicate</span>,
 				<span class="click" onclick="action(this)" action="delete-hijacked">hijacked</span>,
@@ -82,7 +83,7 @@
 				<!--span class="click" onclick="action(this)" action="notes">notes</span>,-->
 				<span class="click" onclick="action(this)" action="webarchive">webarchive</span>,
 				<span class="click" onclick="action(this)" action="translate">translate</span>,
-				<span class="click" onclick="action(this)" action="link-check">link check</span>
+				<span class="click" onclick="action(this)" action="link-check">link check</span>,
 				<span class="click" onclick="action(this)" action="listings">listings</span>
 			</li>
 			<hr>

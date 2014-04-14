@@ -7,13 +7,13 @@ addEventListener('load', function() {
 	var win = wm.getMostRecentWindow('navigator:browser');
 	ODP = win.ODPExtension;
 	timer = ODP.timer();
-	timer.start('onCategoryChange');
+	timer.start('onLoad');
 
-	onCategoryChange();
-	addEventListener("hashchange", onCategoryChange, false);
+	onLoad();
+	addEventListener("hashchange", onLoad, false);
 }, false);
 
-function onCategoryChange() {
+function onLoad() {
 	aCategory = ODP.categoryGetFromURL(document.location.hash)
 
 	var reviewed = ODP.getHashParamFromURL(document.location, 'reviewed')
@@ -23,18 +23,28 @@ function onCategoryChange() {
 	if(json) {
 		ODP.katasliceJSON(function(aData) {
 			aSites = aData
-			timer.stop('onCategoryChange');
+			timer.stop('onLoad');
 			timer.display();
 			onCategoryLoad();
 		});
 	} else {
 		ODP.kataslice(aCategory, reviewed, recursive, function(aData) {
 			aSites = aData
-			timer.stop('onCategoryChange');
+			timer.stop('onLoad');
 			timer.display();
 			onCategoryLoad();
 		});
 	}
+}
+function onUnload(){
+
+	var items = 0
+	listGetChanged().each(function(){
+		items++;
+	});
+	if(items>0)
+		return 'Are you sure?';
+
 }
 
 var groups = ['domain', 'subdomain', 'user', 'ip', 'type', 'category', 'type_colour', 'action'],
@@ -371,4 +381,7 @@ function listGetVisible() {
 }
 function listGetSelected() {
 	return ListBody.selectAll('.item.selected:not(.filtered):not(.filter-textboxed)');
+}
+function listGetChanged() {
+	return ListBody.selectAll('.item.pending:not(.filtered):not(.filter-textboxed)');
 }

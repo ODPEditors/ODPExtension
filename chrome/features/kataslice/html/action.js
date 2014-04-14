@@ -68,6 +68,15 @@ function _action(type){
 
 			});
 			break;
+		case 'delete-outdated': //delete
+			items.each(function(d) {
+				d.new_note = 'Outdated';
+				d.new_action = 'deleted';
+				d3.select(this).attr('action', 'deleted');
+				d3.select(this).classed('pending', true);
+
+			});
+			break;
 		case 'delete-hijacked': //delete
 			items.each(function(d) {
 				d.new_note = 'Hijacked';

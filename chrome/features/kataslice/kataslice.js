@@ -38,23 +38,10 @@
 
 			aCategory = this.categoryGetFromURL(aCategory)
 
-			if(recursive)
-				var categories = this.categoriesTXTQuery(aCategory, aCategory).categories;
-			else
-				var categories = [aCategory]
+			var categories = []
+				categories[categories.length] = aCategory
 
-			if (!ODPExtension.shared.me) {
-
-				var cache = 'kataslice';
-
-			} else {
-
-				var cache = false;
-				if (categories.length > 50) {
-					this.notifyTab('Too many categories: ' + categories.length + ', restricting to the first 50')
-					categories = categories.slice(0, 50)
-				}
-			}
+			var cache = false;
 
 			var aSites = []
 
@@ -99,6 +86,12 @@
 
 								var urlList = ODPExtension.categoryGetURLEdit(aCategory);
 								ODPExtension.readURL(urlList, cache, false, false, function (aData) {
+
+									if(recursive){
+										var subcategories = ODPExtension.categoryParserGetCategorySubcategories(aData, urlList)
+										for(var id in subcategories)
+											categories[categories.length] = subcategories[id]
+									}
 
 									if (aData.indexOf('<form action="login"') != -1) {
 										ODPExtension.alert('You must be logged in to your dashboard to use this tool.');

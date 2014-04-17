@@ -586,8 +586,7 @@ var ODPExtension = {};
 	};
 	//output to the console an error
 	this.error = function (aMsg) {
-		var stack = new Error().stack
-
+		var stack = new Error().stack.split('\n').slice(1, stack.length).join('\n')
 		ODPExtension.errorString = 'ODPExtension : ' + aMsg + "\n\n" + stack;
 		setTimeout(function () {
 			throw new Error('ODPExtension : ' + aMsg) + "\n\n" + stack;
@@ -600,7 +599,7 @@ var ODPExtension = {};
 	}
 	//output to the console the stack
 	this.stack = function (aMsg) {
-		var stack = new Error().stack
+		var stack = new Error().stack.split('\n').slice(1, stack.length).join('\n')
 		aMsg = new Error('ODPExtension : ' + aMsg) + "\n\n" + stack;
 		throw aMsg;
 	};

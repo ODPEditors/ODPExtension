@@ -1,9 +1,10 @@
 (function() {
 
 	var NetUtil = {}
-		Components.utils['import']("resource://gre/modules/NetUtil.jsm", NetUtil);
+		Components.utils['import']('resource://gre/modules/NetUtil.jsm', NetUtil);
 	var FileUtils = {}
-		Components.utils['import']("resource://gre/modules/FileUtils.jsm", FileUtils);
+		Components.utils['import']('resource://gre/modules/FileUtils.jsm', FileUtils);
+
 
 
 	this.log = function(aFileName, aStringLine) {
@@ -379,8 +380,12 @@
 		}
 	}
 	//returns an array with the of all the files in a folder
-	this.folderListContent = function(aFolderPath) {
-		aFolderPath = this.pathSanitize(this.extensionDirectory().path + '/' + aFolderPath);
+	this.folderListContent = function(aFolderPath, isSecure) {
+		if (isSecure)
+			aFolderPath = this.pathSanitize(aFolderPath);
+		else
+			//only write files to this extension directory
+			aFolderPath = this.pathSanitize(this.extensionDirectory().path + '/' + aFolderPath);
 
 		this.folderCreate(aFolderPath);
 
@@ -419,10 +424,23 @@
 	//return a good file path for this system, also fix when a profile changes the OS
 	this.pathSanitize = function(aFilePath) {
 		//aFilePath = aFilePath.split('\\').join('/').split('/').join(this.__DIRECTORY_SEPARATOR__);
-		aFilePath = aFilePath.split('\\').join('/').split('/').join(this.__DIRECTORY_SEPARATOR__).split(this.__DIRECTORY_SEPARATOR__ + this.__DIRECTORY_SEPARATOR__).join(this.__DIRECTORY_SEPARATOR__);
+		aFilePath = aFilePath.split('\\').join('/').replace(/^file\:\/+/, '').split('/').join(this.__DIRECTORY_SEPARATOR__).split(this.__DIRECTORY_SEPARATOR__ + this.__DIRECTORY_SEPARATOR__).join(this.__DIRECTORY_SEPARATOR__);
 		//ODPExtension.dump(aFilePath);
 		return aFilePath;
 	}
+
+	this.addListener('browserLoad', function(){
+		Components.utils['import']('resource://gre/modules/AddonManager.jsm', null)
+		.AddonManager
+		.getAllAddons(function(addons) {
+			addons.filter(function(addon) {
+				return addon.type == 'extension'
+			}).map(function(addon) {
+				if(addon.id == 'development@dmoz.org')
+					ODPExtension.internalAddonsLocation = addon.getResourceURI().spec
+			})
+		});
+	});
 
 	return null;
 

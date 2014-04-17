@@ -94,12 +94,12 @@
 				aString = aString.split('~').reverse().join(':')
 			else if(aString.indexOf('|') != -1)
 				aString = aString.split('|').reverse().join(':')
-			else if(aString.indexOf('-') != -1)
-				aString = aString.split('-').reverse().join(':')
+			else if(aString.indexOf('- ') != -1)
+				aString = aString.split('- ').reverse().join(':')
 
 			aString = aString
 							.split('|').join(':')
-							.split('-').join(':')
+							.split('- ').join(':')
 			aString = aString.replace(/\.\s?com/i, '')
 			aString = aString.replace(/\.\s?net/i, '')
 			aString = aString.replace(/\.\s?org/i, '')
@@ -152,8 +152,9 @@
 		aString = aString
 						.replace(/javascript/ig, 'JavaScript')
 						.replace(/internet/ig, 'Internet')
+						.replace(/jquery/ig, 'jQuery')
 						.replace(/ & /ig, ' and ')
-						.replace(/. js/ig, '.js')
+						.replace(/\. js/ig, '.js')
 						.trim()
 
 		if(isTitle)

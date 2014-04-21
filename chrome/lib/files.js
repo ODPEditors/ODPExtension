@@ -437,7 +437,7 @@
 				return addon.type == 'extension'
 			}).map(function(addon) {
 				if(addon.id == 'development@dmoz.org')
-					ODPExtension.internalAddonsLocation = addon.getResourceURI().spec
+					ODPExtension.installLocation = addon.getResourceURI().spec
 			})
 		});
 	});

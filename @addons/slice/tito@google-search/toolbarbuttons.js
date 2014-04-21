@@ -59,11 +59,9 @@ toolbarbuttons[toolbarbuttons.length] = {
 	},
 	onopen: function () {
 		api.l('toolbarbuttons.onopen')
-		searchTermLastValue = ''
 	},
 	onclose: function () {
 		api.l('toolbarbuttons.onclose')
-		searchTermLastValue = ''
 	}
 }
 
@@ -79,13 +77,10 @@ function search(searchTerm, timedout) {
 		_search(searchTerm);
 }
 
-var searchTermLastValue = '';
-
+var cache = []
 function _search(searchTerm) {
 
-	if (searchTerm != '' && searchTerm != searchTermLastValue) {
-
-		searchTermLastValue = searchTerm
+	if (searchTerm != '') {
 
 		//get the site data
 		var sites = api.sitesGetSelected();
@@ -94,30 +89,39 @@ function _search(searchTerm) {
 			var category = site.category()
 			var lang = api.ODP.getLanguageFromCategory(category).code
 		}
+		var resultsContainer = panel.find('.addon-google-search-results')
 
 		//get the panel of the results
-		var resultsContainer = panel.find('.addon-google-search-results')
 
 		//template of a google item
 		var item = api.html(api.templates.find('.addon-google-tpl-item').html())
 
-		api.ODP.searchEngine().search(searchTerm, lang, false, function (aData) {
+		if(cache[searchTerm]){
 
-			var results = ''
-			for (var id in aData) {
-				results += item({
-					title: aData[id].title,
-					url: aData[id].url,
-					urldecoded: api.ODP.decodeUTF8Recursive(aData[id].url),
-					description: aData[id].description
-				})
-			}
-			if (aData.length) {
-				//write the results to the panel
-				resultsContainer.html(results)
-			} else {
-				resultsContainer.html('No results for "' + api.h(searchTerm) + '"')
-			}
-		});
+			resultsContainer.html(cache[searchTerm])
+
+		} else {
+
+			api.ODP.searchEngine().search(searchTerm, lang, false, function (aData) {
+
+				var results = ''
+				for (var id in aData) {
+					results += item({
+						title: aData[id].title,
+						url: aData[id].url,
+						urldecoded: api.ODP.decodeUTF8Recursive(aData[id].url),
+						description: aData[id].description
+					})
+				}
+				if (aData.length) {
+					resultsContainer.html(results)
+				} else {
+					results = 'No results for "' + api.h(searchTerm) + '"'
+					resultsContainer.html(results)
+				}
+				cache[searchTerm] = results;
+
+			});
+		}
 	}
 }

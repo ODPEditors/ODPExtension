@@ -32,16 +32,22 @@
 		} else {
 			var aDoc = this.documentGetFocused();
 
-			if (document.commandDispatcher.focusedElement != this.getElement('panel-fast-add-url'))
+			try{
+				var placeholder = document.commandDispatcher.focusedElement.placeholder
+			}catch(e){
+				var placeholder = ''
+			}
+
+			if (placeholder != 'URL' || this.getElement('panel-fast-add-url').value == '')
 				this.getElement('panel-fast-add-url').value = this.tabGetData('panel-fast-add-url') || this.documentGetLocation(aDoc)
 
-			if (document.commandDispatcher.focusedElement != this.getElement('panel-fast-add-title'))
-				this.getElement('panel-fast-add-title').value = this.tabGetData('panel-fast-add-title') || this.autoCorrect(this.documentGetTitle(aDoc), true)
+			if (placeholder != 'Title' || this.getElement('panel-fast-add-title').value == '')
+				this.getElement('panel-fast-add-title').value = this.tabGetData('panel-fast-add-title') || this.autoCorrectTitle(this.documentGetTitle(aDoc), true)
 
-			if (document.commandDispatcher.focusedElement != this.getElement('panel-fast-add-note'))
+			if (placeholder != 'Editor Note' || this.getElement('panel-fast-add-note').value == '')
 				this.getElement('panel-fast-add-note').value = this.tabGetData('panel-fast-add-note') || ''
 
-			if (document.commandDispatcher.focusedElement != this.getElement('panel-fast-add-description')) {
+			if (placeholder != 'Description' || this.getElement('panel-fast-add-description').value == '') {
 
 				if (this.tabGetData('panel-fast-add-description')) {
 					this.getElement('panel-fast-add-description').value = this.tabGetData('panel-fast-add-description')
@@ -54,11 +60,11 @@
 							description = (description.join(' ')).trim();
 						}
 					}
-					this.getElement('panel-fast-add-description').value = this.autoCorrect(description);
+					this.getElement('panel-fast-add-description').value = this.autoCorrectDescription(description);
 				}
 			}
 
-			if (document.commandDispatcher.focusedElement != this.getElement('panel-fast-add-category'))
+			if (placeholder != 'Category' ||  this.getElement('panel-fast-add-category').value == '')
 				this.getElement('panel-fast-add-category').value = this.tabGetData('panel-fast-add-category') || lastCategory
 
 			if(this.categoryIsRTL(this.getElement('panel-fast-add-category').value)){
@@ -142,15 +148,15 @@
 
 							if (url != '' && title != '' && description != '' && category != '') {
 
-								description = this.ucFirst(description + '.').replace(/\s*\.+$/, '.').replace(/\s+/g, ' ').trim()
+								description = (description + '.').replace(/(\s*\.+)$/, '.').replace(/\s+/g, ' ').trim()
 								title = title.replace(/\.+$/, '').replace(/\s+/g, ' ').trim()
 
 								title = title.replace(/^\.+/, '').trim()
-								description = description.replace(/^\.+/, '').trim()
+								description = this.ucFirst(description.replace(/^\.+/, '').trim())
 
 								lastCategory = category
 
-								if (aEvent.ctrlKey)
+								if (aEvent.ctrlKey && this.confirm('Add to unreview?'))
 									var form_button = 'unrev';
 								else
 									var form_button = 'update';
@@ -168,7 +174,9 @@
 											ODPExtension.alert('Server busy.. or category too big, try again.')
 											ODPExtension.tabOpen(url, true)
 										} else {
-											ODPExtension.notifyTab('"' + url + '" added to "' + form_button + '" in "' + category + '"')
+											setTimeout(function(){
+												ODPExtension.notifyTab('"' + url + '" added to "' + form_button + '" in "' + category + '"')
+											}, 2500);
 										}
 									}, true, true);
 								} else {

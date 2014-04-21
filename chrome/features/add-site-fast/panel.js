@@ -9,11 +9,25 @@
 		ODPExtension.panelFastAddGetInformation();
 	});
 	this.addListener('userInterfaceLoad', function (aEnabled) {
-		ODPExtension.setAutocomplete(ODPExtension.getElement('panel-fast-add-category'));
+		setTimeout(function(){
+			try{
+				ODPExtension.setAutocomplete(ODPExtension.getElement('panel-fast-add-category'));
+				ODPExtension.setAutocomplete(ODPExtension.getElement('panel-fast-add-note'));
+			} catch(e) {
+				ODPExtension.setAutocomplete(ODPExtension.getElement('panel-fast-add-category'));
+				ODPExtension.setAutocomplete(ODPExtension.getElement('panel-fast-add-note'));
+			}
+		}, 0);
 	});
 
+	var panel
+	this.addListener('userInterfaceLoad', function () {
+		panel = ODPExtension.getElement('panel-fast-add');
+	});
+	var lastCategory = '';
+
 	this.panelFastAddGetInformation = function (aLocation) {
-		if (this.preferenceGet('ui.fast.add.panel.closed') || !this.preferenceGet('enabled')) {
+		if ( (this.preferenceGet('ui.fast.add.panel.closed') || !this.preferenceGet('enabled')) && !this.tabGetData('panel-fast-add-linked-function')) {
 			this.panelFastAddShow(false);
 		} else {
 			var aDoc = this.documentGetFocused();
@@ -23,6 +37,9 @@
 
 			if (document.commandDispatcher.focusedElement != this.getElement('panel-fast-add-title'))
 				this.getElement('panel-fast-add-title').value = this.tabGetData('panel-fast-add-title') || this.autoCorrect(this.documentGetTitle(aDoc), true)
+
+			if (document.commandDispatcher.focusedElement != this.getElement('panel-fast-add-note'))
+				this.getElement('panel-fast-add-note').value = this.tabGetData('panel-fast-add-note') || ''
 
 			if (document.commandDispatcher.focusedElement != this.getElement('panel-fast-add-description')) {
 
@@ -44,83 +61,124 @@
 			if (document.commandDispatcher.focusedElement != this.getElement('panel-fast-add-category'))
 				this.getElement('panel-fast-add-category').value = this.tabGetData('panel-fast-add-category') || lastCategory
 
-			this.panelFastAddShow(true);
+			if(this.categoryIsRTL(this.getElement('panel-fast-add-category').value)){
+				panel.setAttribute('dir', 'rtl')
+			} else {
+				panel.setAttribute('dir', 'ltr')
+			}
+
+			if(this.tabGetData('panel-fast-add-linked-function'))
+				panel.setAttribute('buttons', 'true')
+			else
+				panel.setAttribute('buttons', 'false')
+
+			if(this.getElement('panel-fast-add-url').value.indexOf('http') === 0 || this.tabGetData('panel-fast-add-linked-function'))
+				this.panelFastAddShow(true);
+			else
+				this.panelFastAddShow(false);
 		}
 	}
 
-	this.panelFastAddOnPaste = function(){
+	this.panelFastAddOnPaste = function() {
 		this.copyToClipboard(this.autoCorrect(this.getClipboard()))
 	}
 
-	var lastCategory = '';
-
 	this.panelFastAddKeyPress = function (aElement, aEvent) {
 
-		ODPExtension.tabSaveData(aElement.id, aElement.value)
+		ODPExtension.tabSaveData(aElement.id, aElement.value || aElement.getAttribute('value') || '')
 
-		if (aEvent.keyCode == aEvent.DOM_VK_RETURN) {
+		if (aEvent.keyCode == aEvent.DOM_VK_RETURN || aEvent.currentTarget.id == 'ODPExtension-panel-fast-add-action') {
 
 			this.stopEvent(aEvent);
 
 			switch (aEvent.currentTarget.id) {
-			case 'ODPExtension-panel-fast-add-url':
-				{
-					this.getElement('panel-fast-add-title').focus()
-					break;
-				}
-			case 'ODPExtension-panel-fast-add-title':
-				{
-					this.getElement('panel-fast-add-description').focus()
-					break;
-				}
-			case 'ODPExtension-panel-fast-add-description':
-				{
-					this.getElement('panel-fast-add-category').focus()
-					break;
-				}
-			case 'ODPExtension-panel-fast-add-category':
-				{
-					this.saveAutocomplete(this.getElement('panel-fast-add-category'));
-
-					var url = String(this.getElement('panel-fast-add-url').value).trim()
-					var title = String(this.getElement('panel-fast-add-title').value).trim()
-					var description = String(this.getElement('panel-fast-add-description').value).trim()
-					var category = String(this.getElement('panel-fast-add-category').value).trim()
-
-					if (url != '' && title != '' && description != '' && category != '') {
-
-						description = this.ucFirst(description + '.').replace(/\s*\.+$/, '.').replace(/\s+/g, ' ').trim()
-						title = title.replace(/\.+$/, '').replace(/\s+/g, ' ').trim()
-
-						title = title.replace(/^\.+/, '').trim()
-						description = description.replace(/^\.+/, '').trim()
-
-						lastCategory = category
-
-						if (aEvent.ctrlKey)
-							var action = 'unrev';
-						else
-							var action = 'update';
-
-						this.panelFastAddVisibilityHide();
-						ODPExtension.tabClose(ODPExtension.tabGetFocused())
-
-						ODPExtension.readURL('http://www.dmoz.org/editors/editurl/doadd?cat=' + this.encodeUTF8(category) + '&url=' + this.encodeUTF8(url) + '&title=' + this.encodeUTF8(title) + '&desc=' + this.encodeUTF8(description) + '&newnote=&contenttype=&newcat=&typecat=' + this.encodeUTF8(category) + '&catselectchild=--select--&mediadate=&operation=' + action + '&submit=Update', false, false, false, function (aData) {
-
-							if (aData.indexOf('<form action="login"') != -1) {
-								ODPExtension.alert('You must be logged in to your dashboard to use this tool.');
-								ODPExtension.tabOpen(url, true)
-							} else if (aData.indexOf('javascript:history.back') != -1) {
-								ODPExtension.alert('Server busy.. or category too big, try again.')
-								ODPExtension.tabOpen(url, true)
-							} else {
-								ODPExtension.notifyTab('"' + url + '" added to "' + action + '" in "' + category + '"')
-							}
-						}, true, true);
+				case 'ODPExtension-panel-fast-add-url':
+					{
+						this.getElement('panel-fast-add-title').focus()
+						break;
 					}
-					break;
-				}
+				case 'ODPExtension-panel-fast-add-title':
+					{
+						this.getElement('panel-fast-add-description').focus()
+						break;
+					}
+				case 'ODPExtension-panel-fast-add-description':
+					{
+						this.getElement('panel-fast-add-category').focus()
+						break;
+					}
+				case 'ODPExtension-panel-fast-add-category':
+				case 'ODPExtension-panel-fast-add-action':
+				case 'ODPExtension-panel-fast-add-note':
+					{
 
+						var aFunction = this.tabGetData('panel-fast-add-linked-function')
+
+						if(aFunction && (
+						          	 	aEvent.currentTarget.id == 'ODPExtension-panel-fast-add-category' ||
+						          	 	aEvent.currentTarget.id == 'ODPExtension-panel-fast-add-note'
+						) ) {
+
+							this.getElement('panel-fast-add-action').focus()
+
+						} else {
+
+							setTimeout(function(){
+								try{
+									ODPExtension.saveAutocomplete(ODPExtension.getElement('panel-fast-add-category'));
+									ODPExtension.saveAutocomplete(ODPExtension.getElement('panel-fast-add-note'));
+								}catch(e){
+									ODPExtension.saveAutocomplete(ODPExtension.getElement('panel-fast-add-category'));
+									ODPExtension.saveAutocomplete(ODPExtension.getElement('panel-fast-add-note'));
+								}
+							}, 0);
+
+							var url = String(this.getElement('panel-fast-add-url').value).trim()
+							var title = String(this.getElement('panel-fast-add-title').value).trim()
+							var description = String(this.getElement('panel-fast-add-description').value).trim()
+							var category = String(this.getElement('panel-fast-add-category').value).trim()
+							var note = String(this.getElement('panel-fast-add-note').value).trim()
+							var action = String(this.tabGetData('panel-fast-add-action')).trim()
+
+							if (url != '' && title != '' && description != '' && category != '') {
+
+								description = this.ucFirst(description + '.').replace(/\s*\.+$/, '.').replace(/\s+/g, ' ').trim()
+								title = title.replace(/\.+$/, '').replace(/\s+/g, ' ').trim()
+
+								title = title.replace(/^\.+/, '').trim()
+								description = description.replace(/^\.+/, '').trim()
+
+								lastCategory = category
+
+								if (aEvent.ctrlKey)
+									var form_button = 'unrev';
+								else
+									var form_button = 'update';
+
+								this.panelFastAddVisibilityHide();
+
+								if(!aFunction){
+									ODPExtension.tabClose(ODPExtension.tabGetFocused())
+									ODPExtension.readURL('http://www.dmoz.org/editors/editurl/doadd?cat=' + this.encodeUTF8(category) + '&url=' + this.encodeUTF8(url) + '&title=' + this.encodeUTF8(title) + '&desc=' + this.encodeUTF8(description) + '&newnote=&contenttype=&newcat=&typecat=' + this.encodeUTF8(category) + '&catselectchild=--select--&mediadate=&operation=' + form_button + '&submit=Update', false, false, false, function (aData) {
+
+										if (aData.indexOf('<form action="login"') != -1) {
+											ODPExtension.alert('You must be logged in to your dashboard to use this tool.');
+											ODPExtension.tabOpen(url, true)
+										} else if (aData.indexOf('javascript:history.back') != -1) {
+											ODPExtension.alert('Server busy.. or category too big, try again.')
+											ODPExtension.tabOpen(url, true)
+										} else {
+											ODPExtension.notifyTab('"' + url + '" added to "' + form_button + '" in "' + category + '"')
+										}
+									}, true, true);
+								} else {
+									aFunction(url, title, description, category, note, action);
+									ODPExtension.tabClose(ODPExtension.tabGetFocused())
+								}
+							}
+						}
+						break;
+					}
 			}
 		}
 	}

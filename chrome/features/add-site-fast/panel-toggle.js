@@ -16,9 +16,9 @@
 	this.panelFastAddToggle = function () {
 		var closed = this.preferenceGet('ui.fast.add.panel.closed')
 		if (closed) {
-			panel.setAttribute('hidden', false);
 			this.preferenceSet('ui.fast.add.panel.closed', false);
 			this.panelFastAddGetInformation();
+			panel.setAttribute('hidden', false);
 			this.getElement('panel-fast-add-description').focus()
 		} else {
 			panel.setAttribute('hidden', true);

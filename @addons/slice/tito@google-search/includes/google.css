@@ -1,0 +1,37 @@
+
+.addon-google-search{
+	margin-bottom:10px;
+	width: 630px;
+}
+.addon-google-search-input{
+	border: 1px solid rgba(218, 218, 218, 1);
+	width: 100%;
+	padding: 4px;
+}
+
+.addon-google-item{
+	padding:4px;
+	transition: background-color .3s;
+}
+.addon-google-item:hover{
+	background-color: rgba(91, 76, 167, 0.08);
+}
+.addon-google-item hr{
+	margin-bottom: 0px;
+}
+.addon-google-item-title-description{
+	max-height: 33px;
+	overflow: hidden;
+}
+.addon-google-item-title-description a{
+	text-decoration: none;
+}
+.addon-google-item-title-description a:after{
+	content: "—";
+	padding-right: 5px;
+	padding-left: 5px;
+}
+.addon-google-item-url{
+	max-height: 15px;
+	overflow: hidden;
+}

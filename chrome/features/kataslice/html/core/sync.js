@@ -4,33 +4,38 @@ function sync() {
 	var changed = []
 	var columns_changes = ['title', 'description', 'category', 'type', 'action', 'url', 'note']
 
-	items.each(function(d) {
+	items.each(function (d) {
+		var modified = false;
 		for (var id in columns_changes) {
 			var name = columns_changes[id]
 			var nameChanged = 'new_' + columns_changes[id]
-			if (d[nameChanged] && d[nameChanged] != d[name]) {
+			if (!d.syncing && d[nameChanged] && d[nameChanged] != d[name]) {
+				d.syncing = true
 				d.item = d3.select(this)
+				modified = true;
 				changed.push(d)
 				break;
 			}
 		}
+		if (!modified)
+			d3.select(this).classed('modified', false);
 	});
 
 	var timer = 0;
 	for (var id in changed) {
 		var d = changed[id];
-		(function(d) {
-			setTimeout(function() {
-				if (d.area == 'unreviewed'){
-					if(d.site_id && d.site_id != '')
+		(function (d) {
+			setTimeout(function () {
+				if (d.area == 'unreviewed') {
+					if (d.site_id && d.site_id != '')
 						edit(d, 'http://www.dmoz.org/editors/editunrev/editurl?urlsubId=' + d.site_id + '&cat=' + ODP.encodeUTF8(d.category) + '&offset=5000')
 					else
-						edit(d, 'http://www.godzuki.com.uy/mimizu/service/edit-url-unreview.php?url='+ODP.encodeUTF8(d.url)+'&cat=' + ODP.encodeUTF8(d.category))
-				} else if (d.area == 'reviewed'){
-					if(d.site_id && d.site_id != '')
+						edit(d, 'http://www.godzuki.com.uy/mimizu/service/edit-url-unreview.php?url=' + ODP.encodeUTF8(d.url) + '&cat=' + ODP.encodeUTF8(d.category))
+				} else if (d.area == 'reviewed') {
+					if (d.site_id && d.site_id != '')
 						edit(d, 'http://www.dmoz.org/editors/editurl/edit?urlId=' + d.site_id + '&cat=' + ODP.encodeUTF8(d.category) + '&offset=5000')
 					else
-						edit(d, 'http://www.godzuki.com.uy/mimizu/service/edit-url.php?url='+ODP.encodeUTF8(d.url)+'&cat=' + ODP.encodeUTF8(d.category))
+						edit(d, 'http://www.godzuki.com.uy/mimizu/service/edit-url.php?url=' + ODP.encodeUTF8(d.url) + '&cat=' + ODP.encodeUTF8(d.category))
 				} else if (d.area == 'new')
 					edit(d, 'http://www.dmoz.org/editors/editurl/add?url=' + ODP.encodeUTF8(d.new_url) + '&cat=' + ODP.encodeUTF8(d.new_category))
 			}, timer += 1200);
@@ -56,18 +61,16 @@ function edit(d, url) {
 	newTabBrowser.webNavigation.allowWindowControl = false;
 	newTabBrowser.webNavigation.allowSubframes = false;
 
-	newTabBrowser.addEventListener("DOMContentLoaded", function(aEvent) {
+	function DOMContentLoaded(aEvent) {
 
 		var aDoc = aEvent.originalTarget;
 		var html = ODP.documentGetFromTab(aTab).body.innerHTML;
 
 		if (
-			html.indexOf('history.back') != -1
-			|| html.indexOf('There was a problem with your form:') != -1
-			|| html.indexOf('connection reset') != -1
-			|| html.indexOf('deadlock') != -1
+			html.indexOf('history.back') != -1 || html.indexOf('There was a problem with your form:') != -1 || html.indexOf('connection reset') != -1 || html.indexOf('deadlock') != -1
 		) {
 			aTab.setAttribute('hidden', false);
+			newTabBrowser.removeEventListener("DOMContentLoaded", DOMContentLoaded, false);
 		} else {
 
 			if (aTab.hasAttribute('edited', true) && html.indexOf('<center>Update complete</center>') != -1) {
@@ -95,16 +98,17 @@ function edit(d, url) {
 
 				ODP.tabClose(aTab)
 
-				d.item.classed('pending', false);
-
-				entryUpdatePendingCounter();
+				d.item.classed('modified', false);
+				d.syncing = false;
+				updateTotalsModified();
 
 			} else if (aTab.hasAttribute('edited', true)) {
 				aTab.setAttribute('hidden', false);
+				newTabBrowser.removeEventListener("DOMContentLoaded", DOMContentLoaded, false);
 			} else {
 
 				//clean error
-				if (d.type == 'error' && aDoc.getElementById('resolve') != null && (!d.new_url || d.new_url == d.url) && ( (d.new_action || d.action) != 'deleted')) {
+				if (d.type == 'error' && aDoc.getElementById('resolve') != null && (!d.new_url || d.new_url == d.url) && ((d.new_action || d.action) != 'deleted')) {
 
 					aDoc.getElementById('resolve').click()
 
@@ -157,6 +161,6 @@ function edit(d, url) {
 				}
 			}
 		}
-
-	}, false);
+	}
+	newTabBrowser.addEventListener("DOMContentLoaded", DOMContentLoaded, false);
 }

@@ -2,35 +2,53 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>KS</title>
-	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/jquery-2.0.3.min.js"></script>
+	<title>Slice…</title>
+	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/jquery.min.js"></script>
 	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/d3.v3.min.js"></script>
-	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/crossfilter.min.1.3.7.js"></script>
+	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/crossfilter.min.js"></script>
 	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/underscore-min.js"></script>
+	<script type="text/javascript" src="chrome://ODPExtension/content/lib-external/odometer.min.js"></script>
 	<script type="text/javascript" src="chrome://ODPExtension/content/html/js.js"></script>
-	<script type="text/javascript" src="@js.js"></script>
-	<script type="text/javascript" src="entry.js"></script>
-	<script type="text/javascript" src="action.js"></script>
-	<script type="text/javascript" src="sync.js"></script>
-	<script type="text/javascript" src="tools.js"></script>
+	<script type="text/javascript" src="core/@@events.js"></script>
+	<script type="text/javascript" src="addons/@@apis.js"></script>
+	<script type="text/javascript" src="addons/@addons.js"></script>
+	<script type="text/javascript" src="addons/list.js"></script>
+	<script type="text/javascript" src="addons/site.js"></script>
+	<script type="text/javascript" src="addons/toolbarbutton.js"></script>
+	<script type="text/javascript" src="core/@chartsBars.js"></script>
+	<script type="text/javascript" src="core/@chartsPie.js"></script>
+	<script type="text/javascript" src="core/@filters.js"></script>
+	<script type="text/javascript" src="js.js"></script>
+	<script type="text/javascript" src="core/list.js"></script>
+	<script type="text/javascript" src="core/entry.js"></script>
+	<script type="text/javascript" src="core/action.js"></script>
+	<script type="text/javascript" src="core/sync.js"></script>
+	<script type="text/javascript" src="core/toolbar.js"></script>
+	<link type="text/css" media="all" rel="stylesheet" href="chrome://ODPExtension/content/lib-external/odometer-theme-default.css"/>
 	<link type="text/css" media="all" rel="stylesheet" href="chrome://ODPExtension/content/html/@css.css"/>
-	<link type="text/css" media="all" rel="stylesheet" href="@css.css"/>
-	<link type="text/css" media="all" rel="stylesheet" href="@tools.css"/>
+	<link type="text/css" media="all" rel="stylesheet" href="css.css"/>
 </head>
 <body loading="true" onkeypress="entryKeyPressBody(this, event)" onbeforeunload="return onUnload()">
-<div class="loading" style="opacity:.3">Collecting dataset.. <br>please wait</div>
+<div class="loading">Collecting dataset…<br>please wait</div>
 <header>
-	<div class="header-title"><b class="no-selection">Slice</b> <span class="loading-hidden">-</span> <div class="header-categories inline-block"></div></div>
-	<div class="header-totals loading-hidden">
-		<span class="filtered">0</span> current view,
-		<span class="total">0</span> total,
-		<span class="selected">0</span> selected,
-		<span class="pending">0</span> pending actions.
+	<div class="header-title"><b class="no-selection ignore">slice</b> <span class="loading-hidden-slow no-selection ignore narrow">-</span> <div class="header-categories inline-block narrow loading-hidden-slow"></div></div>
+	<span class="header-toolbar not-ignore no-selection loading-hidden-slow">
+		<span class="click no-underline header-toolbar-item" onclick="if(ODP.confirm('Are you sure?')) sync();" title="Synchronize edits"></span>
+		<span class="click no-underline header-toolbar-item" onclick="if(ODP.confirm('Are you sure?')) sync();" title="Feedback"></span>
+		<span class="click no-underline header-toolbar-item" onclick="if(ODP.confirm('Are you sure?')) sync();" title="Addons"></span>
+		<span class="click no-underline header-toolbar-item" onclick="if(ODP.confirm('Are you sure?')) sync();" title="Settings"></span>
+	</span>
+	<div class="header-totals loading-hidden-slow no-selection ignore">
+		<span class="odometer total-visible">0</span> visible,
+		<span class="odometer total-total">0</span> total,
+		<span class="odometer total-selected">0</span> selected,
+		<span class="odometer total-modified">0</span> <span class="not-ignore pending-actions no-selection" onclick="filterModified(event)">pending actions</span>
 	</div>
 	<div class="clear"></div>
 </header>
+<span class="header-toolbar-output"></span>
 
-<div class="container loading-hidden">
+<div class="loading-hidden">
 	<div class="sidebar no-selection">
 
 		<div class="pie-types ignore">
@@ -50,100 +68,48 @@
 
 		<ul class="menu" type="selection"><b class="no-selection ignore"><span class="narrow">With</span> selection</b>
 
-
 			<li>
-				<span class="click" onclick="action(this)" action="publish">publish</span>,
-				<span class="click" onclick="action(this)" action="publish-works">works</span>
+				<span class="click">???</span>
 			</li>
 			<hr>
 
-			<li>
-				<span class="click" onclick="action(this)" action="delete">delete</span>,
-				<span class="click" onclick="action(this)" action="delete-outdated">outdated</span>,
-				<span class="click" onclick="action(this)" action="delete-mfa">MFA</span>,
-				<span class="click" onclick="action(this)" action="delete-duplicate">duplicate</span>,
-				<span class="click" onclick="action(this)" action="delete-hijacked">hijacked</span>,
-				<span class="click" onclick="action(this)" action="delete-gone">gone</span>,
-				<span class="click" onclick="action(this)" action="delete-no-content">no content</span>,
-				<span class="click" onclick="action(this)" action="delete-poor">poor</span>
-			</li>
-			<hr>
-
-			<li class="click" onclick="action(this)" action="unreview">unreview</li>
-			<hr>
-
-			<li>
-				<span class="click" onclick="action(this)" action="open">open</span>,
-				<span class="click" onclick="action(this)" action="edit">edit</span>,
-				<span class="click" onclick="action(this)" action="open-category">open categories</span>
-			</li>
-			<hr>
-
-			<li>
-				<!--span class="click" onclick="action(this)" action="notes">notes</span>,-->
-				<span class="click" onclick="action(this)" action="webarchive">webarchive</span>,
-				<span class="click" onclick="action(this)" action="translate">translate</span>,
-				<span class="click" onclick="action(this)" action="link-check">link check</span>,
-				<span class="click" onclick="action(this)" action="listings">listings</span>
-			</li>
-			<hr>
-
-			<li class="click" onclick="action(this)" action="note">add note</li>
-			<hr>
-
-			<li class="click" onclick="action(this)" action="move">move</li>
-			<hr>
-
-			<li>
-				<span class="click" onclick="action(this)" action="link-check-dump">dump check</span>,
-				<span class="click" onclick="action(this)" action="site-data-dump">dump site</span>,
-				<span class="click" onclick="if(ODP.confirm('Clean cache?')) ODP.katasliceCleanCache();">clean cache</span>
-			</li>
-			<hr>
-
-			<li>
-				<span class="click" onclick="action(this)" type="visible" action="list-select-all">select all</span>,
-				<span class="click" onclick="action(this)" type="visible" action="list-select-invert">invert selection</span>
-			</li>
-			<hr>
 
 		</ul>
-
-		<div class="footer">
-			<span class="sync click" title="Synchronize edits" onclick="if(ODP.confirm('Are you sure?')) sync();"></span>
-			<span class="click">reload packages</span>
-		</div>
-
 	</div>
 	<div class="content">
 		<div class="clear"></div>
 
-		<div class="bars">
-			<div class="bar-category"></div>
-			<div class="bar-ip"></div>
-			<div class="bar-user"></div>
-			<div class="bar-domain"></div>
-			<div class="clear"></div>
-		</div>
+		<div class="bars no-selection"></div>
 
 		<div class="clear"></div>
+		<div class="toolbar not-ignore">
 
-		<div class="filters-container">
-			<span class="filters no-selection">
-				active filters: <span class="current"></span>
-				<input
-					type="text"
-					class="filter-textbox"
-					placeholder="free text filter…   e.g: book paper -video"
-					onkeyup="filterFreeText(true)"
-					onblur="filterFreeText(true)"
-				>
-			</span>
-			<div class="clear"></div>
+			<div class="filters-container">
+				<span class="filters no-selection ignore">
+					<span class="filters-label">active filters:</span> <span class="filters-current not-ignore"></span>
+					<input
+						type="text"
+						class="filter-textbox not-ignore"
+						placeholder="free text filter…   e.g: book paper -video"
+						onkeyup="filterTextbox(true)"
+						onblur="filterTextbox(true)"
+						value=""
+					>
+				</span>
+				<div class="clear"></div>
+			</div>
+
+			<div class="toolbarbuttons">
+				<span class="left"></span>
+				<span class="right">
+
+				</span>
+				<div class="clear"></div>
+			</div>
 		</div>
 		<div class="clear"></div>
 
-		<div class="list-no-results" results="false">There are no results.</div>
+		<div class="list-no-results no-selection ignore" results="false">There are no results.</div>
 		<div class="list" ></div>
 		<div class="clear"></div>
 
@@ -153,7 +119,7 @@
 
 <div class="clear"></div>
 
-<div class="templates" style="display:none">
+<div class="tpl">
 
 	<!--	<span class="user">{user}<br>{ip}</span>-->
 	<div class="tpl-list-item">
@@ -208,37 +174,6 @@
 
 			onmousedown="this.focus()"
 			onpaste="entryPaste(this, event)">{category}</span>
-	</div>
-
-	<!--
-		<input onkeyup="toolSearchEngine(this, event)" onclick="toolSearchEngine(this, event)" size="20" tabindex="99999999" value="{title}">
-	-->
-
-	<div class="tpl-list-item-tool-se">
-		<div class="tool-entry">
-			<div class="tool-text">
-				<a href="{url}" target="_blank" title="{url}" class="title click">{title}</a>
-				<span class="description">{description}</span>
-				<div class="clear"></div>
-			</div>
-			<span class="url">{url}</span>
-			<div class="clear"></div>
-		</div>
-	</div>
-
-	<div class="list-item-template-tool-notes">
-		<div class="tool-entry">
-			<div class="tool-text">
-				<a href="{url}" target="_blank" title="{url}" class="title click">{title}</a>
-				<span class="description">{description}</span>
-			</div>
-			<div>
-				<div>{note}</div>
-				<div>{date} - <a href="http://www.dmoz.org/editors/profile/view?editor={editor}" class="click" target="_blank">{editor}</a></div>
-				<div class="clear"></div>
-			</div>
-			<div class="clear"></div>
-		</div>
 	</div>
 
 </div>

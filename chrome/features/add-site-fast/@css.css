@@ -51,4 +51,10 @@
 #ODPExtension-panel-fast-add[focused="false"] > textbox {
 	margin-top: 550px;
 }
-
+#ODPExtension-panel-fast-add[buttons="false"] > #ODPExtension-panel-fast-add-buttons {
+	display: none;
+}
+#ODPExtension-panel-fast-add[dir="rtl"] *{
+	direction: rtl;
+	unicode-bidi: embed;
+}

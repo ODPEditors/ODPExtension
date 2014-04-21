@@ -41,7 +41,7 @@
 			var categories = []
 				categories[categories.length] = aCategory
 
-			var cache = false;
+			var cache = 'slice';
 
 			var aSites = []
 

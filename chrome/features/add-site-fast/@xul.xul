@@ -7,6 +7,7 @@
 
 <script type="application/x-javascript" src="panel.js"></script>
 <script type="application/x-javascript" src="panel-toggle.js"></script>
+<script type="application/x-javascript" src="panel-linked.js"></script>
 
 <window id="main-window">
 
@@ -54,6 +55,36 @@
 			onblur="ODPExtension.panelFastAddVisibilityHide();ODPExtension.tabSaveData(this.id, this.value)"
 			onfocus="ODPExtension.panelFastAddVisibilityShow();"
 		/>
+		<textbox
+			emptytext="Editor Note"
+			flex="1"
+			id="ODPExtension-panel-fast-add-note"
+			onkeypress="ODPExtension.panelFastAddKeyPress(this, event)"
+			onblur="ODPExtension.panelFastAddVisibilityHide();ODPExtension.tabSaveData(this.id, this.value)"
+			onfocus="ODPExtension.panelFastAddVisibilityShow();"
+			spellcheck="true"
+			onpaste="ODPExtension.panelFastAddOnPaste(this, event)"
+		/>
+		<hbox align="right" id="ODPExtension-panel-fast-add-buttons">
+			<button label="Publish"
+				id="ODPExtension-panel-fast-add-action"
+				oncommand="ODPExtension.tabSaveData(this.id, this.getAttribute('value'));ODPExtension.panelFastAddVisibilityHide();ODPExtension.panelFastAddKeyPress(this, event)"
+				value="published"
+				onblur="ODPExtension.panelFastAddVisibilityHide();"
+				onfocus="ODPExtension.panelFastAddVisibilityShow();"></button>
+			<button label="Unreview"
+				id="ODPExtension-panel-fast-add-action"
+				oncommand="ODPExtension.tabSaveData(this.id, this.getAttribute('value'));ODPExtension.panelFastAddVisibilityHide();ODPExtension.panelFastAddKeyPress(this, event);"
+				value="unreviewed"
+				onblur="ODPExtension.panelFastAddVisibilityHide();"
+				onfocus="ODPExtension.panelFastAddVisibilityShow();"></button>
+			<button label="Delete"
+				id="ODPExtension-panel-fast-add-action"
+				oncommand="if(ODPExtension.getElement('panel-fast-add-note').value == ''){ alert('To delete a site a reason must be provided, please write a reason.'); ODPExtension.getElement('panel-fast-add-note').focus() } else { ODPExtension.tabSaveData(this.id, this.getAttribute('value'));ODPExtension.panelFastAddVisibilityHide();ODPExtension.panelFastAddKeyPress(this, event); }"
+				value="deleted"
+				onblur="ODPExtension.panelFastAddVisibilityHide();"
+				onfocus="ODPExtension.panelFastAddVisibilityShow();"></button>
+		</hbox>
 
 	</vbox>
 

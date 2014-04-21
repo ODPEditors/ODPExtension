@@ -1,0 +1,27 @@
+
+<div class="addon-google-tpl-search">
+	<div class="addon-google-search">
+		<input
+			class="addon-google-search-input"
+			onkeyup="addon['tito@google-search'].search(this.value, true)"
+			onclick="addon['tito@google-search'].search(this.value, true)"
+			tabindex="99999999"
+		>
+	</div>
+	<hr>
+	<div class="addon-google-search-results">
+		Loading..
+	</div>
+</div>
+
+<div class="addon-google-tpl-item">
+
+	<div class="addon-google-item">
+		<div class="addon-google-item-title-description">
+			<a href="{url}" target="_blank" title="{urldecoded}">{title}</a><span>{description}</span>
+		</div>
+		<div class="green addon-google-item-url">{urldecoded}</div>
+		<hr>
+	</div>
+
+</div>

@@ -17,9 +17,13 @@ function entryGetData(item, event) {
 	return d3.select(item)[0][0][0].__data__;
 }
 
+function entryBlurOrInput(item, event) {
+	//l('entryBlurOrInput')
+	entrySync(item);
+}
 function entrySync(item) {
 	item = $(item);
-	var entry = itemGetEntry(item)
+	var entry = lastPreviousSelectedEntry = itemGetEntry(item)
 	var d = entryGetData(entry)
 	var k = item.attr('class');
 	var v = item.text().trim();
@@ -47,13 +51,21 @@ function entryClickAction(item, event) {
 
 function entryClick(item, event) {
 
+	//safe until proven guilty
+	var _return = true;
+
 	item = $(item);
 	var target = $(event.originalTarget)
 	var entry = itemGetEntry(item)
 	var toFocus;
 
-	if (entry.hasClass('selected') && $('.item.selected').length === 1 && (target.parents('.tools').length || target.parents('.toolbar').length))
+	if (entry.hasClass('selected') && total_selected === 1 && (target.parents('.tools').length || target.parents('.toolbar').length))
 		return
+
+	if(event.shiftKey && !entry.hasClass('selected')) {
+		_return = false;
+		ODP.stopEvent(event);
+	}
 
 	var lastSelectedIsSsame = false
 	var targetIsContentEditable = target.attr('contenteditable') || $(event.target).prop("tagName") == 'INPUT';
@@ -84,14 +96,15 @@ function entryClick(item, event) {
 
 	//select item(s)
 	if (event.shiftKey) {
-
 		var items = listGetVisible();
 		var itemCurrent = entryGetData(entry)
 		if (entryGetData(lastSelectedEntry).id != itemCurrent.id)
 			var itemPrevious = entryGetData(lastSelectedEntry)
 		else
 			var itemPrevious = entryGetData(lastPreviousSelectedEntry)
+
 		if (itemPrevious.id != itemCurrent.id) {
+
 			window.getSelection().removeAllRanges()
 			var found = 0
 			items.each(function (d) {
@@ -105,6 +118,9 @@ function entryClick(item, event) {
 				}
 			});
 			window.getSelection().removeAllRanges()
+
+		} else {
+
 		}
 	} else {
 		if (!event.ctrlKey)
@@ -118,13 +134,12 @@ function entryClick(item, event) {
 	if (toFocus)
 		toFocus.focus()
 
-	lastSelectedEntry = entry;
+	lastPreviousSelectedEntry = lastSelectedEntry = entry;
 	updateTotalsSelected();
+	return _return;
 }
 
-function entryBlurOrInput(item, event) {
-	entrySync(item);
-}
+
 
 function entryFocus(item, event) {
 
@@ -149,7 +164,9 @@ function entryFocus(item, event) {
 		}
 		input.attr('contenteditable', true);
 	});
-	lastPreviousSelectedEntry = lastSelectedEntry = entry;
+	setTimeout(function(){
+		lastSelectedEntry = entry;
+	}, 20);
 }
 
 function entryKeyPressBody(item, event) {

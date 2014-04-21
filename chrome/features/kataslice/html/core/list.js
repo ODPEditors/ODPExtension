@@ -23,8 +23,8 @@ var ListBody, listRowsAll
 				return ODP.categoryIsRTL(d.category) ? 'rtl' : 'ltr'
 			})
 			.on('click', function (d) {
-				entryClick(this, d3.event);
-			})
+				return entryClick(this, d3.event);
+			}, true) /** =>  CAPTURING */
 			.html(function (d, i) {
 				return item(d);
 			})

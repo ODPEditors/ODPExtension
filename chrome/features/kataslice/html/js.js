@@ -101,7 +101,9 @@ function onDataLoad() {
 			}
 		}
 	});
-	for(var a=0;a<10;a++){
+	for(var a=0;a<100;a++){
+
+		timer.start('toolbar reposition');
 		addons.forEach(function (addon) {
 			if (addon.enabled) {
 				if (addon.source.toolbarbuttons)
@@ -110,6 +112,8 @@ function onDataLoad() {
 					});
 			}
 		});
+		timer.stop('toolbar reposition');
+
 	}
 	addons.forEach(function (addon) {
 		if (addon.enabled) {
@@ -126,8 +130,8 @@ function onDataLoad() {
 	timer.start('setSitesText');
 	aSites.forEach(function (d) {
 		d.text = d.user + ' ' + d.ip + ' ' + d.title + ' ' + d.description + ' ' + d.category + ' ' + d.url;
-		d.title = ODP.htmlEntityDecode(d.title).replace(/\\/g, '').replace(/\s+/g, ' ').replace(/^\*|\.|-/, '').replace(/\*|\.|-$/, '').trim()
-		d.description = ODP.htmlEntityDecode(d.description).replace(/\\/g, '').replace(/\s+/g, ' ').replace(/^\*|\.|-/, '').replace(/\*|-$/, '').trim()
+		d.title = ODP.htmlEntityDecode(d.title).replace(/\\/g, '').replace(/\s+/g, ' ').replace(/^(\*|\.|-)/, '').replace(/(\*|\.|-)$/, '').trim()
+		d.description = ODP.htmlEntityDecode(d.description).replace(/\\/g, '').replace(/\s+/g, ' ').replace(/^(\*|\.|-)/, '').replace(/(\*|-)$/, '').trim()
 		if (d.title == '')
 			d.title = '(no title)'
 		if (d.description == '')

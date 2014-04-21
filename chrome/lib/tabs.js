@@ -64,17 +64,42 @@
 		else
 			return false;
 	}
+
 	//open a new tab with an URL that is already encoded example:http://www.dmoz.org/World/Espa%C3%B1ol/
+	var tabOpenTimeout = false;
+	var tabOpenTimeoutAllow = true;
 	this.tabOpen = function(aURL, selected, aPostData, inNoTree) {
-		if(!inNoTree)
+
+		var openInTree = false;
+		if(!inNoTree) {
+			if(tabOpenTimeoutAllow){
+				tabOpenTimeoutAllow = false;
+				openInTree = true
+			}
+			clearTimeout(tabOpenTimeout);
+			tabOpenTimeout = setTimeout(function(){
+				tabOpenTimeoutAllow = true;
+				ODPExtension.treeStyleTabInTreeOpenStop();
+			}, 350);
+		}
+
+		if(openInTree)
 			this.treeStyleTabInTreeOpenStart();
 
-		var aTab = gBrowser.addTab(aURL, null, null, this.postData(aPostData));
-		if (!selected) {} else
-			this.tabSelect(aTab);
+		if(typeof(aURL) == 'object') {
+			var aTab = []
+			for(var id in aURL){
+				aTab[aTab.length] = gBrowser.addTab(aURL[id], null, null, this.postData(aPostData));
+			}
+			if (!selected) {} else
+				this.tabSelect(aTab[0]);
+		} else {
+			var aTab = gBrowser.addTab(aURL, null, null, this.postData(aPostData));
+			if (!selected) {} else
+				this.tabSelect(aTab);
+		}
 
-		if(!inNoTree)
-			this.treeStyleTabInTreeOpenStop();
+
 		return aTab;
 	}
 	//selects a tab
@@ -82,17 +107,19 @@
 		gBrowser.selectedTab = aTab;
 	}
 
-	this.tabSaveData = function(aName, aValue) {
+	this.tabSaveData = function(aName, aValue, aTab) {
 		aName = aName.replace(/^ODPExtension-/, '')
-		var aTab = this.tabGetFocused();
+		if(!aTab)
+			aTab = this.tabGetFocused();
 		if(!aTab.ODPExtensionData)
 			aTab.ODPExtensionData = []
 		aTab.ODPExtensionData[aName] = aValue
 	}
 
-	this.tabGetData = function(aName) {
+	this.tabGetData = function(aName, aTab) {
 		aName = aName.replace(/^ODPExtension-/, '')
-		var aTab = this.tabGetFocused();
+		if(!aTab)
+			aTab = this.tabGetFocused();
 		if(!aTab.ODPExtensionData)
 			return null
 		if(!!aTab.ODPExtensionData[aName])

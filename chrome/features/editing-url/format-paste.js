@@ -7,7 +7,7 @@
 	//paste and formats a string in the "edit URL"
 
 	this.editingFormURLFormatPaste = function() {
-		var aString = this.autoCorrect(this.getClipboard());
+		var aString = this.autoCorrectDescription(this.getClipboard());
 		this.copyToClipboard(aString);
 		goDoCommand('cmd_paste');
 

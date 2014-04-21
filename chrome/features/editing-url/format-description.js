@@ -17,7 +17,7 @@
 		var anElement = this.getElementNamed('newdesc', aDoc) || this.getElementNamed('desc', aDoc);
 
 		if (!anElement) {} else {
-			anElement.value = this.autoCorrect(anElement.value);
+			anElement.value = this.autoCorrectDescription(anElement.value);
 		}
 	}
 	return null;

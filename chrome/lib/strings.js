@@ -76,54 +76,70 @@
 		).replace(/^\.* *,+ */, '').replace(/\.* *,+ *\.*$/, '.');
 	};
 
-	this.autoCorrect = function(aString, isTitle)  {
-		if(!aString)
-			aString = '';
+	this.autoCorrectTitle = function(aString)  {
+		aString = this.htmlEntityDecode(aString).replace(/—/g, '-')
+		aString = aString.replace(/▶/g, '')
+		aString = aString
+						.replace(', la enciclopedia libre', '')
+						.replace(', the free encyclopedia', '')
+						.replace(', the free encyclopedia', '')
 
-		if(isTitle) {
-			aString = aString.replace(/—/g, '-')
-			aString = aString.replace(/▶/g, '')
-			aString = aString
-							.replace(', la enciclopedia libre', '')
-							.replace(', the free encyclopedia', '')
-							.replace(', the free encyclopedia', '')
+		if(aString.indexOf(':')!=-1)
+			aString = aString.split(':').reverse().join(':')
+		else if(aString.indexOf('~') != -1)
+			aString = aString.split('~').reverse().join(':')
+		else if(aString.indexOf('|') != -1)
+			aString = aString.split('|').reverse().join(':')
+		else if(aString.indexOf('- ') != -1)
+			aString = aString.split('- ').reverse().join(':')
 
-			if(aString.indexOf(':')!=-1)
-				aString = aString.split(':').reverse().join(':')
-			else if(aString.indexOf('~') != -1)
-				aString = aString.split('~').reverse().join(':')
-			else if(aString.indexOf('|') != -1)
-				aString = aString.split('|').reverse().join(':')
-			else if(aString.indexOf('- ') != -1)
-				aString = aString.split('- ').reverse().join(':')
+		aString = aString
+						.split('|').join(':')
+						.split('- ').join(':')
+		aString = aString.replace(/\.\s?com/i, '')
+		aString = aString.replace(/\.\s?net/i, '')
+		aString = aString.replace(/\.\s?org/i, '')
+		aString = aString.replace(/\^www\.?/i, '')
 
-			aString = aString
-							.split('|').join(':')
-							.split('- ').join(':')
-			aString = aString.replace(/\.\s?com/i, '')
-			aString = aString.replace(/\.\s?net/i, '')
-			aString = aString.replace(/\.\s?org/i, '')
-		} else {
-			aString = aString.replace(/\|/g, ', ')
+		aString = aString.replace(/\s*:\s*/g, ': ')
+
+		aString = this.fixPuntuation(aString)
+
+		aString = this.autoCorrectWords(aString)
+
+		aString = aString.replace(/^\.+/, '').replace(/\.+$/, '').replace(/\s+/g, ' ')
+
+		aString = aString.trim().split(' ');
+		for(var id in aString){
+			if(aString[id].length>3){
+				aString[id] = this.ucFirst(aString[id]);
+			}
 		}
+		aString = aString.join(' ');
+		return aString
 
-		aString = aString.trim();
+
+	}
+	this.autoCorrectDescription = function(aString)  {
+		return this.ucFirst(this.autoCorrect(aString+'.'));
+	}
+
+	this.autoCorrect = function(aString) {
+
+		aString = this.htmlEntityDecode(aString).trim();
 		aString = aString
 						.replace(/\#/g, ', ')
 						.replace(/\*/g, ', ')
-						.replace(/(\{|\}|\[|\])/g, ', ')
-						.replace(/ -/g, ', ')
-						.replace(/-+/g, ' ')
+						.replace(/ -+/g, ', ')
 						.replace(/\t/g, ', ')
 						.replace(/\r/g, ', ')
 						.replace(/\n/g, ', ')
 						.replace(/\s*:\s*/g, ': ')
 						.replace(/\s/g, ' ').trim();
 
+		aString = aString.replace(/\|/g, ', ')
 
-		aString = aString.replace(/^\.+/, '')
-
-		aString = (aString + '.').replace(/\.+$/, '.').replace(/\s+/g, ' ')
+		aString = aString.replace(/^\.+/, '').replace(/\.+$/, '').replace(/\s+/g, ' ')
 
 		aString = this.fixPuntuation(aString)
 
@@ -135,11 +151,14 @@
 		}
 		aString = aString.join('. ');
 
-		if(isTitle)
-			aString = aString.replace(/\.+$/, '')
+		aString = aString.replace(/^\.+/, '').replace(/\.+$/, '').replace(/\s+/g, ' ')
 
-		aString = aString.replace(/^\.+/, '').trim()
+		aString = this.autoCorrectWords(aString)
 
+		return aString;
+	}
+
+	this.autoCorrectWords = function(aString){
 		//words
 		aString = aString
 						.replace(/javascript/ig, 'JavaScript')
@@ -148,19 +167,7 @@
 						.replace(/ & /ig, ' and ')
 						.replace(/\. js/ig, '.js')
 						.trim()
-
-
-		if(isTitle){
-			aString = aString.split(' ');
-			for(var id in aString){
-				if(aString[id].length>3){
-					aString[id] = this.ucFirst(aString[id]);
-				}
-			}
-			aString = aString.join(' ');
-			return aString
-		} else
-			return this.ucFirst(aString)
+		return aString
 
 	}
 	this.htmlEntityDecode = function (aString) {

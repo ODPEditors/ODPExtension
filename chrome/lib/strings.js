@@ -135,14 +135,6 @@
 		}
 		aString = aString.join('. ');
 
-		//fix sentence comma
-		aString = aString.split(', ');
-		if(aString.length>1){
-			for (var id in aString)
-				aString[id] = this.lcFirst(aString[id]);
-		}
-		aString = aString.join(', ');
-
 		if(isTitle)
 			aString = aString.replace(/\.+$/, '')
 
@@ -157,9 +149,17 @@
 						.replace(/\. js/ig, '.js')
 						.trim()
 
-		if(isTitle)
+
+		if(isTitle){
+			aString = aString.split(' ');
+			for(var id in aString){
+				if(aString[id].length>3){
+					aString[id] = this.ucFirst(aString[id]);
+				}
+			}
+			aString = aString.join(' ');
 			return aString
-		else
+		} else
 			return this.ucFirst(aString)
 
 	}
@@ -198,7 +198,7 @@
 	this.htmlSpecialCharsEncode = this.h = function (aString) {
 		if (!aString)
 			return '';
-		return aString.split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;').split("'").join('&apos;');
+		return String(aString).split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;').split("'").join('&apos;');
 	};
 	//matchs a regular expresion
 	this.matchCompiled = [];
@@ -323,7 +323,7 @@
 	}
 	this.compress = function (aString, aFunction) {
 		this.worker(
-			"chrome://ODPExtension/content/lib-external/lz-string-1.3.3.js",
+			"chrome://ODPExtension/content/lib-external/lz-string.js",
 		   {
 				"aData": aString,
 				"type": 'compress'
@@ -337,7 +337,7 @@
 		if (!stringCompressor.loaded) {
 			Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
 				.getService(Components.interfaces.mozIJSSubScriptLoader)
-				.loadSubScript("chrome://ODPExtension/content/lib-external/lz-string-1.3.3.js", stringCompressor, "UTF-8");
+				.loadSubScript("chrome://ODPExtension/content/lib-external/lz-string.js", stringCompressor, "UTF-8");
 			stringCompressor.loaded = true;
 		}
 		if(aString == ''){
@@ -352,7 +352,7 @@
 			aFunction('')
 		} else {
 			this.worker(
-				"chrome://ODPExtension/content/lib-external/lz-string-1.3.3.js",
+				"chrome://ODPExtension/content/lib-external/lz-string.js",
 				{
 					"aData": aString,
 					"type": 'uncompress'
@@ -361,11 +361,14 @@
 			)
 		}
 	}
-	this.shortText = function(aText, aLen){
-		if(aText.length>aLen)
-			return aText.slice(0, aLen)+'…' /* UNICODE ERROR */
-		else
-			return aText
+	this.shortText = function(aText, aLen, reversed){
+		if(aText.length>aLen) {
+			if(!reversed)
+				aText = aText.slice(0, aLen)+'…' /* UNICODE ERROR */
+			else
+				aText = '…'+(aText.slice(aText.length-aLen, aText.length)) /* UNICODE ERROR */
+		}
+		return aText
 	}
 
 	// !! http://stackoverflow.com/questions/11434747/javascript-library-to-align-tab-separated-data-like-elastictabstops/11437399#11437399

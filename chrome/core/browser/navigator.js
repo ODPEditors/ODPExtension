@@ -271,6 +271,13 @@ var ODPExtension = {};
 			window.addEventListener("DOMTitleChanged", ODPExtension.dispatchDOMTitleChanged, false);
 		}
 
+		if (listeners['tabClose']) {
+			gBrowser.tabContainer.addEventListener("TabClose", ODPExtension.dispatchTabClosed, false);
+		}
+		if (listeners['tabSelect']) {
+			gBrowser.tabContainer.addEventListener("TabSelect", ODPExtension.dispatchTabSelected, false);
+		}
+
 		//onListenersLoad
 		if (listeners['onListenersLoad']) {
 			this.dump('initListeners:onListenersLoad', debugingThisFile);
@@ -463,6 +470,23 @@ var ODPExtension = {};
 		}
 
 	}
+
+	//fires when the title of a document change
+	this.dispatchTabClosed = function (event) {
+		ODPExtension.dump('dispatchTabClosed', debugingThisFile);
+		for (var id in listeners['tabClose']) {
+			ODPExtension.dump('dispatchTabClosed:' + listeners['tabClose'][id], debugingThisFile);
+			listeners['tabClose'][id](event.originalTarget);
+		}
+	}
+	this.dispatchTabSelected = function (event) {
+		ODPExtension.dump('dispatchTabSelected', debugingThisFile);
+		for (var id in listeners['tabSelect']) {
+			ODPExtension.dump('dispatchTabSelected:' + listeners['tabSelect'][id], debugingThisFile);
+			listeners['tabSelect'][id](event.originalTarget);
+		}
+	}
+
 	//fires the listener popupshowing for the contentAreaContextMenu
 	this.dispatchContentAreaContextMenuShowing = function (event) {
 		//this.stack('asd');
@@ -530,6 +554,15 @@ var ODPExtension = {};
 		if (listeners['titleChange']) {
 			this.dump('removeListeners:DOMTitleChanged', debugingThisFile);
 			window.removeEventListener("DOMTitleChanged", ODPExtension.dispatchDOMTitleChanged, false);
+		}
+
+		if (listeners['tabClose']) {
+			this.dump('removeListeners:tabClose', debugingThisFile);
+			gBrowser.tabContainer.removeEventListener("TabClose", ODPExtension.dispatchTabClosed, false);
+		}
+		if (listeners['tabSelect']) {
+			this.dump('removeListeners:tabSelect', debugingThisFile);
+			gBrowser.tabContainer.removeEventListener("TabSelect", ODPExtension.dispatchTabSelected, false);
 		}
 
 		/* complex listeners */

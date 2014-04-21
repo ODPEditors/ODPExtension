@@ -12,6 +12,7 @@
 <script type="application/x-javascript" src="onpopuphidden.js"></script>
 <script type="application/x-javascript" src="onpopupshowing.js"></script>
 <script type="application/x-javascript" src="open.js"></script>
+<script type="application/x-javascript" src="prompt-for-category.js"></script>
 <script type="application/x-javascript" src="query-menu.js"></script>
 <script type="application/x-javascript" src="query-txt.js"></script>
 <script type="application/x-javascript" src="toolbarbutton.js"></script>
@@ -120,7 +121,7 @@
 				<menuitem value="Adult" label="Adult"/>
 			</menupopup>
 		</menu>
-		<menu protected="true" locked="true" label="This browsing session categories">
+		<menu protected="true" locked="true" label="This Browsing Session">
 			<menupopup id="ODPExtension-category-browser-session-categories"><menuitem locked="true" hidden="true"/></menupopup>
 		</menu>
 		<menuseparator id="ODPExtension-category-browser-categories-clipboard" locked="true"/>

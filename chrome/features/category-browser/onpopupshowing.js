@@ -69,12 +69,12 @@
 		aCategories = [];
 		for (var id in this.shared.categories.session.categories) {
 			aCategory = this.shared.categories.session.categories[id]
-			if(!unique[aCategory]){
-				unique[aCategory] = true;
+			/*if(!unique[aCategory]){
+				unique[aCategory] = true;*/
 				aCategories[aCategories.length] = aCategory;
-			}
+			/*}*/
 		}
-		if (aCategories > 0) {
+		if (aCategories.length > 0) {
 			this.removeChilds(this.getElement('category-browser-session-categories'));
 			this.getElement('category-browser-session-categories').parentNode.setAttribute('disabled', false);
 			this.categoryBrowserAppendCategoriesAfter(aCategories.sort(this.sortLocale), this.getElement('category-browser-session-categories').firstChild, true);

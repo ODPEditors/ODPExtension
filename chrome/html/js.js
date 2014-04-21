@@ -29,7 +29,7 @@ function pie(item, names, values, colours, tooltip, functions) {
 		.enter().append("path")
 		.style("fill", color)
 		.style("stroke", "rgba(180,180,180, .4)")
-		.style("stroke-width", "5")
+		.style("stroke-width", "3")
 		.text(function(g){ return values[names.indexOf(g)];})
 		.on('click', function(d){ functions[names.indexOf(d.data)](d.data); })
 		.attr('class', 'click not-ignore')
@@ -43,13 +43,14 @@ function pie(item, names, values, colours, tooltip, functions) {
 
 	path.data(pie.value(function(g) {
 		return values[names.indexOf(g)];
-	})(names)).transition()
+	})(names))
+		.transition()
 		.attrTween("d", function(d) {
-		var interpolate = d3.interpolate(this._current, d);
-		this._current = interpolate(0);
-		return function(t) {
-			return arc(interpolate(t));
-		};
-	});
+			var interpolate = d3.interpolate(this._current, d);
+			this._current = interpolate(0);
+			return function(t) {
+				return arc(interpolate(t));
+			};
+		});
 
 }

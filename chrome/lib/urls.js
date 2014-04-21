@@ -276,6 +276,7 @@
 		,'twitter.com'
 		,'univision.com'
 		,'w3.org'
+		,'w3schools.com'
 		,'wikipedia.org'
 		,'yahoo.com'
 		,'yippy.com'
@@ -284,7 +285,8 @@
 		,'vimeo.com'
 		,'foursquare.com'
 		,'instagram.com'
-		,'myspace.com'
+		,'myspace.com',
+		,'tripadvisor.com'
 	]
 	this.isNoiseURL = function (aURL) {
 		return noise.indexOf(this.getDomainFromURL(aURL)) != -1

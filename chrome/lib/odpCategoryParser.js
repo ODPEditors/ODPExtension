@@ -65,9 +65,9 @@
 				var site = {}
 				site.site_id = elements[id].getElementsByTagName('a')[0].href.split('urlsubId=')[1].split('&')[0];
 				site.url = this.IDNDecodeURL(elements[id].getElementsByTagName('a')[1].href);
-				site.url_id = this.getURLID(site.url);
-				site.domain = site.url_id.domain;
-				site.subdomain = site.url_id.subdomain;
+				var url_id = this.getURLID(site.url);
+				site.domain = url_id.domain;
+				site.subdomain = url_id.subdomain;
 				site.title = this.stripTags(this.htmlSpecialCharsDecode(this.select('input[name^="urlsub_title_"]', elements[id].innerHTML, aURI)[0].value)).trim();
 				site.description = this.stripTags(this.htmlSpecialCharsDecode(this.select('input[name^="urlsub_desc_"]', elements[id].innerHTML, aURI)[0].value)).trim().replace('[Forward a Copy', '').trim();
 				site.category = this.categoryGetFromURL(elements[id].getElementsByTagName('a')[2].href);
@@ -82,7 +82,6 @@
 				catch (e) {
 					site.date = '1980-07-12';
 				}
-				site.date_object = this.sqlDate(site.date);
 				site.ip = site.user.split(' ')[1].trim();
 				site.user = site.user.split(' ')[0].trim().toLowerCase();
 				if (site.user == '')
@@ -120,7 +119,9 @@
 				aSites[aSites.length] = site;
 
 			}
-			catch (e) {}
+			catch (e) {
+				this.error(e)
+			}
 		}
 		return aSites
 	}
@@ -159,9 +160,9 @@
 				var site = {}
 				site.site_id = elements[id].getElementsByTagName('a')[0].href.split('urlsubId=')[1].split('&')[0];
 				site.url = this.IDNDecodeURL(this.string(elements[id].getElementsByTagName('a')[1].href));
-				site.url_id = this.getURLID(site.url);
-				site.domain = site.url_id.domain;
-				site.subdomain = site.url_id.subdomain;
+				var url_id = this.getURLID(site.url);
+				site.domain = url_id.domain;
+				site.subdomain = url_id.subdomain;
 				site.title = this.stripTags(this.htmlSpecialCharsDecode(elements[id].getElementsByTagName('a')[1].innerHTML)).trim();
 				site.description = this.stripTags(this.htmlSpecialCharsDecode(elements[id].innerHTML.split('<br>')[0].split('</a>')[2])).trim().replace(/^- +/, '').trim().replace('[Forward a Copy', '').trim();
 				site.category = this.categoryGetFromURL(aURI);
@@ -176,7 +177,6 @@
 				catch (e) {
 					site.date = '1980-07-12';
 				}
-				site.date_object = this.sqlDate(site.date);
 				site.ip = site.user.split(' ')[1].trim();
 				site.user = site.user.split(' ')[0].trim().toLowerCase();
 				if (site.user == '')
@@ -223,7 +223,7 @@
 
 			}
 			catch (e) {
-				throw e
+				this.error(e)
 			}
 		}
 		return aSites
@@ -237,9 +237,9 @@
 				var site = {}
 				site.site_id = d.id;
 				site.url = this.IDNDecodeURL(d.url);
-				site.url_id = this.getURLID(d.url);
-				site.domain = site.url_id.domain;
-				site.subdomain = site.url_id.subdomain;
+				var url_id = this.getURLID(d.url);
+				site.domain = url_id.domain;
+				site.subdomain = url_id.subdomain;
 				site.title = d.title.trim();
 				site.description = d.description.trim();
 				site.category = d.category;
@@ -255,7 +255,6 @@
 				catch (e) {
 					site.date = '1980-07-12';
 				}
-				site.date_object = this.sqlDate(site.date);
 				site.ip = d.submitterIP.trim();
 				if (site.user == '')
 					site.user = 'no user';
@@ -306,7 +305,7 @@
 
 			}
 			catch (e) {
-				throw e
+				this.error(e)
 			}
 		}
 		return aSites
@@ -324,9 +323,9 @@
 				var site = {}
 				site.site_id = elements[id].getElementsByTagName('a')[0].href.split('urlId=')[1].split('&')[0];
 				site.url = this.IDNDecodeURL(this.string(elements[id].getElementsByTagName('a')[1].href));
-				site.url_id = this.getURLID(site.url);
-				site.domain = site.url_id.domain;
-				site.subdomain = site.url_id.subdomain;
+				var url_id = this.getURLID(site.url);
+				site.domain = url_id.domain;
+				site.subdomain = url_id.subdomain;
 				site.title = this.stripTags(this.htmlSpecialCharsDecode(elements[id].getElementsByTagName('a')[1].innerHTML)).trim();
 				site.description = this.stripTags(this.htmlSpecialCharsDecode(elements[id].innerHTML.split('</a>')[2].replace(/&nbsp;/g, ' '))).trim().replace(/^- +/, '').trim().replace('[Forward a Copy', '').trim();
 				site.category = this.categoryGetFromURL(aURI);
@@ -341,7 +340,6 @@
 				catch (e) {
 					site.date = '1980-07-12';
 				}
-				site.date_object = this.sqlDate(site.date);
 				site.ip = 'no ip' //site.user.split(' ')[1].trim();
 				site.user = 'no user' //site.user.split(' ')[0].trim().toLowerCase();
 				if (site.user == '')

@@ -107,13 +107,31 @@
 		gBrowser.selectedTab = aTab;
 	}
 
+	var tabSaveData = true;
+	var tabSaveDataTimeout = true;
+	this.addListener('tabSelect', function(){
+		tabSaveData = false;
+		clearTimeout(tabSaveDataTimeout)
+		tabSaveDataTimeout = setTimeout(function(){
+			tabSaveData = true;
+		}, 300);
+	});
+	this.addListener('tabClose', function(){
+		tabSaveData = false;
+		clearTimeout(tabSaveDataTimeout)
+		tabSaveDataTimeout = setTimeout(function(){
+			tabSaveData = true;
+		}, 300);
+	});
 	this.tabSaveData = function(aName, aValue, aTab) {
-		aName = aName.replace(/^ODPExtension-/, '')
-		if(!aTab)
-			aTab = this.tabGetFocused();
-		if(!aTab.ODPExtensionData)
-			aTab.ODPExtensionData = []
-		aTab.ODPExtensionData[aName] = aValue
+		if(tabSaveData) {
+			aName = aName.replace(/^ODPExtension-/, '')
+			if(!aTab)
+				aTab = this.tabGetFocused();
+			if(!aTab.ODPExtensionData)
+				aTab.ODPExtensionData = []
+			aTab.ODPExtensionData[aName] = aValue
+		}
 	}
 
 	this.tabGetData = function(aName, aTab) {

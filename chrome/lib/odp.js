@@ -286,6 +286,10 @@
 	this.categoryGetLastTwoChildName = function(aCategory) {
 		return aCategory.replace(/\/+$/, '').replace(/^.*\/([^\/]+\/[^\/]+)$/, "$1").replace(/^\//, '');
 	}
+	//returns the category name, the parent and its parent for the last child of a category
+	this.categoryGetLastThreeChildName = function(aCategory) {
+		return aCategory.replace(/\/+$/, '').replace(/^.*\/([^\/]+\/[^\/]+\/[^\/]+)$/, "$1").replace(/^\//, '');
+	}
 	//returns the parent category name for the category
 	this.categoryGetParent = function(aCategory) {
 		return aCategory.replace(/\/+$/, '').replace(/^(.+)\/[^\/]+$/, "$1");

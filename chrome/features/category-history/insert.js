@@ -11,6 +11,9 @@
 	this.categoryHistoryInsert = function(aCategory, aURL, aDate, noAsync) {
 		if (this.categoryIsBadEncoded(aCategory) || aCategory == '')
 			return;
+
+		aCategory = aCategory.replace(/\/?\*$/, '')
+
 		//this.dump('categoryHistoryInsert', debugingThisFile);
 		//this must be improved .. also modified when the new beta dmoz go live
 

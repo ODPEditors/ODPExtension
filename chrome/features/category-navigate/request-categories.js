@@ -1,11 +1,13 @@
 (function() {
+
 	var db, query;
 	this.addListener('databaseReady', function() {
 		db = ODPExtension.categoriesTXTDatabaseOpen();
 		if (db.exists)
 			query = db.query('select category from categories_txt where parent = (select id from categories_txt where category = :category)');
 	});
-	//obtains the categories for contruct the navegables menus
+
+	//obtains the categories to contruct the navegables menus
 	this.categoryBrowserNavigateRequestCategories = function(item) {
 		item.setAttribute('done', true);
 		item.removeAttribute('retrieving');
@@ -46,10 +48,11 @@
 					anArrayResults.push(row.category.replace(/\/$/, ''));
 				}
 			}
-			if (anArrayResults.length === 0)
+
+			/*if (anArrayResults.length === 0)
 				item.setAttribute('label', item.getAttribute('label') + '/');
-			else
-				ODPExtension.categoryBrowserNavigateBuildSubMenu(item, anArrayResults);
+			else*/
+			ODPExtension.categoryBrowserNavigateBuildSubMenu(item, anArrayResults);
 		}
 	}
 

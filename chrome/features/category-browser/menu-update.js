@@ -28,6 +28,9 @@
 		} else {
 			this.getElement('category-browser-categories-history').setAttribute('hidden', true);
 		}
+
+		this.removeDuplicateSeparators(this.getElement('category-browser'));
+
 	}
 	return null;
 

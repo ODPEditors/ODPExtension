@@ -292,6 +292,28 @@
 				anElement.removeChild(deletion[id]);
 		}
 	}
+	//removes all non locked childs from a node
+	this.removeDuplicateSeparators = function(anElement) {
+		if (anElement.hasChildNodes()) {
+			var deletion = []
+			var childNodes = anElement.childNodes;
+			var length = childNodes.length;
+			var lastTagName = '';
+			for (var a = 0; a < length; a++) {
+				if (childNodes[a].tagName == 'menuseparator' && !childNodes[a].hasAttribute('locked') && lastTagName == 'menuseparator')
+					deletion[deletion.length] = childNodes[a];
+				lastTagName = childNodes[a].tagName
+			}
+
+			for (var id in deletion)
+				anElement.removeChild(deletion[id]);
+
+			if(anElement.firstChild.tagName == 'menuseparator')
+				anElement.removeChild(anElement.firstChild);
+			if(anElement.lastChild.tagName == 'menuseparator')
+				anElement.removeChild(anElement.lastChild);
+		}
+	}
 	//removes all childs based on an attribute
 	this.removeChildsWithAttribute = function(anElement, aAttribute, aValue) {
 		if (anElement.hasChildNodes()) {

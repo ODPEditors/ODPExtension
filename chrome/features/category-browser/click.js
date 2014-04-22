@@ -36,16 +36,33 @@
 			//when user press click + ctrl in the first level of the menu popup is requesting that the category should be removed from the menu
 			//we first hide the element for the user, and when the popup is closed (onpopuphidding) the element is removed [ this is to avoid colission betewen the menu generator and the request of removal]
 
-			if (aEvent.ctrlKey && item.parentNode == aEvent.currentTarget) {
+			if (aEvent.ctrlKey) {
 				this.stopEvent(aEvent);
+
+				var aCategory = item.getAttribute('value')
+				this.removeDuplicateSeparators(item.parentNode)
 
 				//this.dump('click!!+aEvent.button+ctrl');
 				this.categoryBrowserRemoveChilds[this.categoryBrowserRemoveChilds.length] = item;
 				item.setAttribute('hidden', true);
+
 				//remove the element from the database
-				this.categoryHistoryDelete(item.getAttribute('value'));
+				this.categoryHistoryDelete(aCategory);
 				//this.dump('click!!+aEvent.button+ctrl:tagname'+item.tagName);
 				//when a "menuitem" is clicked the popuphide it selfs and we here want the popup open
+
+				//remove from the main popup
+				var anElement = aEvent.currentTarget;
+				var childNodes = anElement.childNodes;
+				var length = childNodes.length;
+				for (var a = 0; a < length; a++) {
+					if (childNodes[a].hasAttribute('value') && childNodes[a].getAttribute('value').indexOf(aCategory) === 0) {
+						childNodes[a].setAttribute('hidden', true);
+						this.categoryBrowserRemoveChilds[this.categoryBrowserRemoveChilds.length] = childNodes[a];
+					}
+				}
+				this.removeDuplicateSeparators(anElement)
+
 				if (this.tagName(item) == 'menuitem') {
 					/*aEvent.currentTarget.hidePopup();
 					aEvent.currentTarget.showPopup();*/

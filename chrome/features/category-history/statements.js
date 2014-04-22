@@ -12,7 +12,7 @@
 	this.categoryHistoryStatements = function() {
 		var db = this.categoriesHistoryDatabaseOpen();
 		this.insertCategoryHistory = db.query('INSERT INTO `categories_history` ( `categories_history_category` ) VALUES (:categories_history_category) ');
-		this.deleteCategoryHistory = db.query('DELETE FROM `categories_history` WHERE `categories_history_category` = :categories_history_category');
+		this.deleteCategoryHistory = db.query('DELETE FROM `categories_history` WHERE `categories_history_category` GLOB :categories_history_category');
 		this.updateCategoryHistory = db.query(' \
 															UPDATE \
 																`categories_history` \

@@ -22,7 +22,7 @@
 		var toRemove = [];
 		var item = aEvent.currentTarget;
 		for (var i = 0; i < item.childNodes.length; i++) {
-			if (i < 100 || item.childNodes[i].hasAttribute('anonid'))
+			if (i < 300 || item.childNodes[i].hasAttribute('anonid'))
 				continue;
 			toRemove[toRemove.length] = item.childNodes[i];
 

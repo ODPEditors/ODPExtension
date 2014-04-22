@@ -15,7 +15,7 @@
 		<xul:hbox context="">
 			<xul:textbox
 				style="width:170px;" class="ODPExtension-filter-textbox" anonid="ODPExtension-category-browser-textbox-data-xbl"
-				emptytext="&ODPExtension.search.ellipsis;"  type="search" timeout="500" flex="1"
+				emptytext="Filter… e.g: book paper -video or doc"  type="search" timeout="500" flex="1"
 				onmouseover="this.focus();"
 				oncommand="
 					if(this.hasAttribute('stop')) {

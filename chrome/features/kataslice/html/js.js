@@ -131,7 +131,7 @@ function onDataLoad() {
 	aSites.forEach(function (d) {
 		d.text = d.user + ' ' + d.ip + ' ' + d.title + ' ' + d.description + ' ' + d.category + ' ' + d.url;
 		d.title = ODP.htmlEntityDecode(d.title).replace(/\\/g, '').replace(/\s+/g, ' ').replace(/^(\*|\.|-)/, '').replace(/(\*|\.|-)$/, '').trim()
-		d.description = ODP.htmlEntityDecode(d.description).replace(/\\/g, '').replace(/\s+/g, ' ').replace(/^(\*|\.|-)/, '').replace(/(\*|-)$/, '').trim()
+		d.description = ODP.htmlEntityDecode(d.description).replace(/\\/g, '').replace(/\s+/g, ' ').replace(/^(\*|\.|-)/, '').replace(/(\*|-)$/, '').replace(/\s+\.$/, '.').trim()
 		if (d.title == '')
 			d.title = '(no title)'
 		if (d.description == '')
@@ -200,7 +200,17 @@ function update() {
 	}
 	function _updateTotalsModified() {
 		var size = total_modified = listGetModified().size();
+		var size_total = total_modified_total = listGetModifiedTotal().size();
 		ui_total_modified.text(size);
+
+		if(size != size_total && size_total != '0'){
+			ui_total_modified_total.show();
+			ui_total_modified_total.text(size_total)
+		} else {
+			ui_total_modified_total.hide();
+			ui_total_modified_total.text('')
+		}
+
 		if (size > 0)
 			ui_pending_actions.addClass('click')
 		else
@@ -235,11 +245,13 @@ var ui_content;
 var total_count
 var total_visible;
 var total_modified;
+var total_modified_total;
 var total_selected;
 
 add('onLoad', function () {
 	ui_total_visible = $('.total-visible')
-	ui_total_modified = $('.total-modified')
+	ui_total_modified = $('.total-modified')//the total of visible modified
+	ui_total_modified_total = $('.total-modified-total')//the total of all modification(including invisible)
 	ui_total_selected = $('.total-selected')
 
 	ui_content = $('.content')
@@ -247,3 +259,8 @@ add('onLoad', function () {
 });
 
 add('onLoad', onDataLoad);
+
+//when pasting, get the clipboard as pure text
+function onPaste() {
+	ODP.copyToClipboard(ODP.getClipboard().replace(/\s+/g, ' ').replace(/^\s+/, ''));
+}

@@ -115,6 +115,12 @@ function giveAPIs(source) {
 	source.api.categoryGetURLEdit = function (aURL) {
 		return ODP.categoryGetURLEdit(aURL);
 	}
+	source.api.getDomainFromURL = function (aURL) {
+		return ODP.getDomainFromURL(aURL);
+	}
+	source.api.getSubdomainFromURL = function (aURL) {
+		return ODP.getSubdomainFromURL(aURL);
+	}
 
 	source.api.ODP = ODP;
 }

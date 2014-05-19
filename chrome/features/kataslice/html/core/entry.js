@@ -188,7 +188,3 @@ function entryKeyPress(item, event) {
 	}
 }
 
-//when pasting, get the clipboard as pure text
-function entryPaste(item, event) {
-	ODP.copyToClipboard(ODP.getClipboard().replace(/\s+/g, ' ').replace(/^\s+/, ''));
-}

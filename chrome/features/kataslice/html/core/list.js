@@ -58,6 +58,14 @@ var ListBody, listRowsAll
 		timer.stop('listGetModified');
 		return list
 	}
+	function listGetModifiedTotal() {
+		l('listGetModified')
+
+		timer.start('listGetModified');
+		var list = ListBody.selectAll('.item.modified');
+		timer.stop('listGetModified');
+		return list
+	}
 
 	function listSortBy(item, by, order) {
 		l('listSortBy')

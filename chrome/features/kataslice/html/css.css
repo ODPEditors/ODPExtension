@@ -5,8 +5,10 @@
 		background-color: rgba(0, 0, 0, .60);
 
 		overflow-x: hidden;
-		margin-top: 54px;
+		margin-top: 94px;
 		text-rendering: optimizeLegibility;
+		padding-top: 49.1px; /* the .toolbar height*/
+
 	}
 	.loading-hidden{
 		opacity: 0;
@@ -77,6 +79,18 @@
 	.header-categories {
 		font-size: .9em;
 	}
+	.total-modified-total:before{
+		content: "/";
+		position: absolute;
+		left: 1px;
+		top: 1px;
+	}
+	.total-modified-total{
+		padding-left: 7px;
+	}
+	.total-modified-total:empty{
+		display: none;
+	}
 
 /* sidebar */
 
@@ -96,6 +110,8 @@
 	.pie-types {
 		opacity: 0.9;
 		float: left;
+		margin-left: 10px;
+		margin-top: 15px;
 	}
 
 /* bars */
@@ -213,7 +229,7 @@
 		font-weight: bolder;
 	}
 	.filter-textbox {
-		width: 89px;
+		width: 86px;
 		transition: width 0.3s ease 0s;
 		margin-left: 20px;
 		float: right;
@@ -233,6 +249,7 @@
 		margin-right: 0px;
 		margin-left: 0px;
 		margin-bottom: 30px;
+		margin-top: 30px;
 	}
 	.list-no-results {
 		font-family: Open Sans;
@@ -270,6 +287,7 @@
 
 		border-top: 1px solid rgb(252, 252, 252);
 		border-bottom: 1px solid rgb(230, 230, 230);
+		position: relative;
 	}
 
 /* item status */
@@ -292,6 +310,20 @@
 	.item.modified {
 		border-left-color: #669933;
 		border-right-color: rgba(218, 208, 181, 0.82);
+	}
+	.item.modified:after {
+		border-left-color: rgb(102, 153, 51);
+		border-right-color: rgba(218, 208, 181, 0.82);
+
+		content: " ";
+		background-color: rgba(218, 208, 181, 0.82);
+		right: 0px;
+		top: 0px;
+		position: absolute;
+		float: right;
+		min-height: 44px;
+		width: 9px;
+		opacity: .6;
 	}
 
 /* action icons */
@@ -530,16 +562,15 @@
 		width:100%;
 		user-select:none;
 		-moz-user-select:none;
-	}
-	.toolbar.sticky{
+
 		position: fixed !important;
 		top:32px;
-		z-index: inherit;
+		z-index: 1;
 		box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, .4);
 		width: 85%;
 		border-bottom: 0px dotted rgba(0,0,0,.12);
 	}
-	.toolbar.sticky .toolbarbuttons{
+	.toolbar .toolbarbuttons{
 		border-bottom: 1px solid rgba(0,0,0,.2);
 	}
 
@@ -675,6 +706,13 @@
 		animation-name: slidein;
 		animation-fill-mode: forwards;
 	}
+	.toolbarbutton-container:active > .toolbarbutton-menu-container > .toolbarbutton-menu{
+		visibility: hidden;
+		display: none;
+		animation-duration: 0s;
+		animation-name: slideout;
+		animation-fill-mode: forwards;
+	}
 	.toolbarbutton-container > .toolbarbutton-menu-container > .toolbarbutton-menu .toolbarbutton{
 		display: block;
 		text-align: left;
@@ -704,7 +742,16 @@
 	  to {
 		opacity: 1;
 		visibility: visible;
-
+	  }
+	}
+	@keyframes slideout {
+	  from {
+		opacity: 1;
+		visibility: visible;
+	   }
+	  to {
+		opacity: 0;
+		visibility: hidden;
 	  }
 	}
 

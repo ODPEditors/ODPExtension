@@ -1,4 +1,4 @@
-var toolbar, toolbar_position
+/*var toolbar, toolbar_position
 	add('onLoad', function () {
 		toolbar = $('.toolbar')
 		toolbar_position = toolbar.offset().top
@@ -15,4 +15,4 @@ $(window).scroll(function () {
 			toolbar.removeClass('sticky');
 		}
 	}
-});
+});*/

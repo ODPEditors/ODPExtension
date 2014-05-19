@@ -28,7 +28,10 @@
 	<link type="text/css" media="all" rel="stylesheet" href="chrome://ODPExtension/content/html/@css.css"/>
 	<link type="text/css" media="all" rel="stylesheet" href="css.css"/>
 </head>
-<body loading="true" onkeypress="entryKeyPressBody(this, event)" onbeforeunload="return onUnload()">
+<body loading="true"
+	onkeypress="entryKeyPressBody(this, event)"
+	onbeforeunload="return onUnload()"
+	onpaste="onPaste(this, event)">
 <div class="loading">Collecting dataset…<br>please wait</div>
 <header>
 	<div class="header-title"><b class="no-selection ignore">slice</b> <span class="loading-hidden-slow no-selection ignore narrow">-</span> <div class="header-categories inline-block narrow loading-hidden-slow"></div></div>
@@ -42,7 +45,7 @@
 		<span class="odometer total-visible">0</span> visible,
 		<span class="odometer total-total">0</span> total,
 		<span class="odometer total-selected">0</span> selected,
-		<span class="odometer total-modified">0</span> <span class="not-ignore pending-actions no-selection" onclick="filterModified(event)">pending actions</span>
+		<span class="odometer total-modified">0</span><span class="odometer total-modified-total"></span> <span class="not-ignore pending-actions no-selection" onclick="filterModified(event)">pending actions</span>
 	</div>
 	<div class="clear"></div>
 </header>
@@ -131,9 +134,7 @@
 			onkeypress="return entryKeyPress(this, event)"
 			onblur="entryBlurOrInput(this, event)"
 			onfocus="entryFocus(this, event)"
-			oninput="entryBlurOrInput(this, event)"
-
-			onpaste="entryPaste(this, event)">{title}</span>
+			oninput="entryBlurOrInput(this, event)">{title}</span>
 		<span
 			class="description"
 			spellcheck="false"
@@ -142,9 +143,7 @@
 			onkeypress="return entryKeyPress(this, event)"
 			onblur="entryBlurOrInput(this, event)"
 			onfocus="entryFocus(this, event)"
-			oninput="entryBlurOrInput(this, event)"
-
-			onpaste="entryPaste(this, event)">{description}</span>
+			oninput="entryBlurOrInput(this, event)">{description}</span>
 		<div class="clear"></div>
 		<span
 			class="url"
@@ -155,9 +154,7 @@
 			onkeypress="return entryKeyPress(this, event)"
 			onblur="entryBlurOrInput(this, event)"
 			onfocus="entryFocus(this, event)"
-			oninput="entryBlurOrInput(this, event)"
-
-			onpaste="entryPaste(this, event)">{url}</span>
+			oninput="entryBlurOrInput(this, event)">{url}</span>
 		<span
 			class="category"
 			spellcheck="false"
@@ -167,9 +164,7 @@
 			onkeypress="return entryKeyPress(this, event)"
 			onblur="entryBlurOrInput(this, event)"
 			onfocus="entryFocus(this, event)"
-			oninput="entryBlurOrInput(this, event)"
-
-			onpaste="entryPaste(this, event)">{category}</span>
+			oninput="entryBlurOrInput(this, event)">{category}</span>
 	</div>
 
 </div>

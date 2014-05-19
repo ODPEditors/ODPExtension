@@ -105,7 +105,7 @@ function toolbarbuttonSet(toolbarbutton, addon) {
 	}
 
 	if (toolbarbutton.onclick)
-		button.on('click', function (event) {
+		button.on('mousedown', function (event) {
 			if (toolbarbutton.opened && toolbarOutput.hash_panel)
 				toolbarbutton.close(event)
 			else {

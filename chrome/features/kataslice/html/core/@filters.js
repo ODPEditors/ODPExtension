@@ -28,7 +28,7 @@ function filterList() {
 				for (var id in orFilters) {
 					var test = orFilters[id].aFunction(d, d3.select(this)) == orFilters[id].v;
 					show = test && !orFilters[id].negation || !test && orFilters[id].negation;
-					if (show)
+					if (!show && orFilters[id].negation)
 						break;
 				}
 				if (!show)

@@ -1,7 +1,7 @@
 function _getItem(d, element) {
-	var columns = ['title', 'description', 'category', 'url']
+	var read_write = ['title', 'description', 'category', 'url']
 	var item = {}
-	for (var id in columns) {
+	for (var id in read_write) {
 		(function (k) {
 			item[k] = function (v, note) {
 				if (typeof (v) == 'undefined')
@@ -22,8 +22,9 @@ function _getItem(d, element) {
 			item['old' + ODP.ucFirst(k)] = function () {
 				return d[k]
 			}
-		})(columns[id])
+		})(read_write[id])
 	}
+
 	item.note = function (note) {
 		if (typeof (note) == 'undefined')
 			return d.new_note || d.note;
@@ -60,9 +61,11 @@ function _getItem(d, element) {
 	}
 
 	item.appendHTML = function (aHTML) {
+		d.text += ODP.stripTags(aHTML, ' ')
 		$(element[0]).append('<small><hr>' + aHTML + '</small>');
 	}
 	item.appendText = function (aText) {
+		d.text += aText
 		$(element[0]).append('<small><hr>' + ODP.h(aText) + '</small>');
 	}
 

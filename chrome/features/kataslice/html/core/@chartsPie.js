@@ -16,7 +16,9 @@ function chartsPie() {
 		c[c.length] = id.split('-')[1]
 		tooltip[tooltip.length] = names[names.length - 1] + ' (' + values[values.length - 1] + ')';
 		functions[functions.length] = function (d) {
-			filterAdd('type', d, d3.event);
+			filterAdd('type', function (d, e) {
+				return d['type']
+			}, d, d3.event, 'Site type', d)
 		}
 	}
 	pie(['.pie-type', 140], names, values, c, tooltip, functions);

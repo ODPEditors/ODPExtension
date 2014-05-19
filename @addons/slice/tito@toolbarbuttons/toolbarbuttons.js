@@ -179,9 +179,34 @@ toolbarbuttons[toolbarbuttons.length] = {
 	onopen: function () {},
 	onclose: function () {}
 }
+toolbarbuttons[toolbarbuttons.length] = {
+	title: 'add dot to description',
+	label: '', //optional
+	name: '',
+
+	icon: 'd', //copy and paste one from here: http://fortawesome.github.io/Font-Awesome/cheatsheet/
+	icon_color: '',
+
+	toolbar: 'main', //'main' or 'header' toolbar
+	position: 'right', //to the 'left' or to the 'right' of the toolbar
+	//insert_before: 'tito@toolbarbuttons-undo',
+	include_separator: false,
+
+	onclick: function (event) {
+		var items = api.sitesGetSelected();
+		items.forEach(function (item) {
+			var description = item.description().trim();
+			if(!/(\]|\)|\!|\?|\.|\'|\")$/.test(description))
+				item.description(description+'.')
+		});
+	},
+	onmouseover: function (event) {},
+	onmouseout: function (event) {},
+	onopen: function () {},
+	onclose: function () {}
+}
 
 /*
-
 	<!--span class="toolbarbutton" title="Duplicate"><i></i></span>
 	<span class="toolbarbutton separator">|</span-->
 	<span class="toolbarbutton" title="Import Feeds"><i></i></span>
@@ -193,4 +218,4 @@ toolbarbuttons[toolbarbuttons.length] = {
 	<span class="toolbarbutton" title="Sort"><i></i></span>
 	<span class="toolbarbutton separator">|</span>
 	<span class="toolbarbutton" title="Save and Exit"><i></i></span>
-	*/
+*/

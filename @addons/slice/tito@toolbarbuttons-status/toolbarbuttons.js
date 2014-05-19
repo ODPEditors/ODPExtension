@@ -70,13 +70,25 @@ toolbarbuttons[toolbarbuttons.length] = {
 	onclose: function () {}
 }
 
+var deletion_notes = [
+						'Duplicated',
+						'Outdated',
+						'Hijacked',
+						'Gone',
+						'Poor',
+						'MFA',
+						'Irrelevant',
+						'spam'
+					]
+
+	deletion_notes.forEach(function(value){
 		toolbarbuttons[toolbarbuttons.length] = {
-			label: 'Duplicated',
+			label: value,
 			parent: 'tito@toolbarbuttons-status-delete',
-			name: 'delete-duplicated',
+			name: 'delete-'+value,
 
 			onclick: function (event) {
-				var note = 'Duplicated', sites = api.sitesGetSelected();
+				var note = value, sites = api.sitesGetSelected();
 				if (sites.length) {
 					sites.forEach(function (site) {
 						site.deleted(note)
@@ -84,90 +96,8 @@ toolbarbuttons[toolbarbuttons.length] = {
 				}
 			}
 		}
-		toolbarbuttons[toolbarbuttons.length] = {
-			label: 'Outdated',
-			parent: 'tito@toolbarbuttons-status-delete',
-			name: 'delete-outdated',
+	});
 
-			onclick: function (event) {
-				var note = 'Outdated', sites = api.sitesGetSelected();
-				if (sites.length) {
-					sites.forEach(function (site) {
-						site.deleted(note)
-					});
-				}
-			}
-		}
-		toolbarbuttons[toolbarbuttons.length] = {
-			label: 'Hijacked',
-			parent: 'tito@toolbarbuttons-status-delete',
-			name: 'delete-hijacked',
-
-			onclick: function (event) {
-				var note = 'Hijacked', sites = api.sitesGetSelected();
-				if (sites.length) {
-					sites.forEach(function (site) {
-						site.deleted(note)
-					});
-				}
-			}
-		}
-		toolbarbuttons[toolbarbuttons.length] = {
-			label: 'Gone',
-			parent: 'tito@toolbarbuttons-status-delete',
-			name: 'delete-gone',
-
-			onclick: function (event) {
-				var note = 'Gone', sites = api.sitesGetSelected();
-				if (sites.length) {
-					sites.forEach(function (site) {
-						site.deleted(note)
-					});
-				}
-			}
-		}
-		toolbarbuttons[toolbarbuttons.length] = {
-			label: 'poor',
-			parent: 'tito@toolbarbuttons-status-delete',
-			name: 'delete-poor',
-
-			onclick: function (event) {
-				var note = 'poor', sites = api.sitesGetSelected();
-				if (sites.length) {
-					sites.forEach(function (site) {
-						site.deleted(note)
-					});
-				}
-			}
-		}
-		toolbarbuttons[toolbarbuttons.length] = {
-			label: 'No content',
-			parent: 'tito@toolbarbuttons-status-delete',
-			name: 'delete-no-content',
-
-			onclick: function (event) {
-				var note = 'No content', sites = api.sitesGetSelected();
-				if (sites.length) {
-					sites.forEach(function (site) {
-						site.deleted(note)
-					});
-				}
-			}
-		}
-		toolbarbuttons[toolbarbuttons.length] = {
-			label: 'mfa',
-			parent: 'tito@toolbarbuttons-status-delete',
-			name: 'delete-mfa',
-
-			onclick: function (event) {
-				var note = 'MFA', sites = api.sitesGetSelected();
-				if (sites.length) {
-					sites.forEach(function (site) {
-						site.deleted(note)
-					});
-				}
-			}
-		}
 
 toolbarbuttons[toolbarbuttons.length] = {
 	title: 'unreview selected sites',

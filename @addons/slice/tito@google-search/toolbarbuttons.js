@@ -39,7 +39,7 @@ toolbarbuttons[toolbarbuttons.length] = {
 			var category = site.category()
 
 			//search and open the panel
-			search(searchTerm)
+			search(searchTerm, api.getDomainFromURL(site.url()))
 			panel.find('.addon-google-search-input').val(searchTerm);
 
 		} else {
@@ -67,18 +67,18 @@ toolbarbuttons[toolbarbuttons.length] = {
 
 var searchTimeout = false;
 
-function search(searchTerm, timedout) {
+function search(searchTerm, aDomain, timedout) {
 	api.clearTimeout(searchTimeout);
 	if (timedout)
 		searchTimeout = api.setTimeout(function () {
-			_search(searchTerm);
+			_search(searchTerm, aDomain);
 		}, 720);
 	else
-		_search(searchTerm);
+		_search(searchTerm, aDomain);
 }
 
 var cache = []
-function _search(searchTerm) {
+function _search(searchTerm, aDomain) {
 
 	if (searchTerm != '') {
 
@@ -104,6 +104,7 @@ function _search(searchTerm) {
 
 			api.ODP.searchEngine().search(searchTerm, lang, false, function (aData) {
 
+				var duplicates = []
 				var results = ''
 				for (var id in aData) {
 					results += item({
@@ -112,14 +113,45 @@ function _search(searchTerm) {
 						urldecoded: api.ODP.decodeUTF8Recursive(aData[id].url),
 						description: aData[id].description
 					})
+					duplicates[aData[id].url] = true;
 				}
-				if (aData.length) {
-					resultsContainer.html(results)
+
+				if(!!aDomain){
+					api.ODP.searchEngine().search('site:'+aDomain+' '+searchTerm, lang, false, function (aData) {
+
+						for (var id in aData) {
+							if(!duplicates[aData[id].url])
+							{
+								duplicates[aData[id].url] = true
+								results += item({
+									title: aData[id].title,
+									url: aData[id].url,
+									urldecoded: api.ODP.decodeUTF8Recursive(aData[id].url),
+									description: aData[id].description
+								})
+							}
+						}
+						if (results != '') {
+							resultsContainer.html(results)
+						} else {
+							results = 'No results for "' + api.h(searchTerm) + '"'
+							resultsContainer.html(results)
+						}
+						cache[searchTerm] = results;
+
+					});
+
 				} else {
-					results = 'No results for "' + api.h(searchTerm) + '"'
-					resultsContainer.html(results)
+
+					if (aData.length) {
+						resultsContainer.html(results)
+					} else {
+						results = 'No results for "' + api.h(searchTerm) + '"'
+						resultsContainer.html(results)
+					}
+					cache[searchTerm] = results;
 				}
-				cache[searchTerm] = results;
+
 
 			});
 		}

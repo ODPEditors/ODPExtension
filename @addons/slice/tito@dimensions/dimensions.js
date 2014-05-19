@@ -66,3 +66,10 @@ dimensions[dimensions.length] = {
 		return (site['title'] && site['title'][0].toLowerCase() == site['title'][0]) ? 'Yes' : 'No';
 	}
 }
+dimensions[dimensions.length] = {
+	title: 'description ends with dot?',
+	barChart: true,
+	scope: function (site) {
+		return (site['description'] && site['description'].split('').reverse()[0] == '.') ? 'Yes' : 'No';
+	}
+}

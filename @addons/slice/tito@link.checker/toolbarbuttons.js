@@ -39,8 +39,6 @@ toolbarbuttons[toolbarbuttons.length] = {
 						'[' +
 						api.h(aData.statuses.join(', ') + ' | ' + aData.status.code + ' | ' + aData.status.errorString + ' | ' + aData.ip + ' | ' + aData.language + ' | ' + aData.checkType + ' | ' + aData.title + '  ') + (aData.urlLast != aData.urlOriginal ? '<br>' + api.h(aData.urlOriginal) + '<br>' + api.h(aData.urlLast) + '<br>' : '') + ' ] <span type="selection"><span class="click" onclick="action(this)" action="false-positive">false positive</span>'
 
-				//d.text += text
-
 				if (aData.status.code == -1340)
 					item.url(aData.urlLast)
 				item.appendHTML(text);

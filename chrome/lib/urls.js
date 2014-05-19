@@ -173,6 +173,7 @@
 			case 'fbcdn.net':
 			case 'googleadservices.com':
 			case 'sharethis.com':
+			case 'domaintools.com':
 			case 'scorecardresearch.com':
 			case 'adnxs.com':
 				return true;

@@ -47,7 +47,7 @@
 						<xul:menuitem action="command_editor_produced_tool_Frog" label="Frog" style="font-weight:bold;"/>
 						<xul:menuseparator/>
 
-						  <xul:menuitem action="edit_cat_updates" label="&ODPExtension.from.category.updates;"/>
+						  <xul:menuitem action="edit_cat_updates" label="&ODPExtension.from.category.updates; / Flags"/>
 						  <xul:menuitem action="edit_cat_greenbusts" label="&ODPExtension.from.category.greenbusts;"/>
 
 							<xul:menuseparator hidden="true" anonid="kataslice_reviewed_separator" action="kataslice_reviewed_separator"/>

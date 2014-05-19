@@ -1,0 +1,555 @@
+MISCELANEA
+
+	- pasar la base de datos de ids al rdf
+	- pasar la base de datos de linkchecker al rdfy
+	- Console listener para hacer un log de stack trace con todos los errores
+	- cliboard observer y remover los http://http://
+	- hidding referer sometimes does not work
+	- el linked pannel está mutando
+
+KATASLICE
+
+	BUGS
+	- si la nota es de borrado, y luego cambio a publish, no usar la nota. (linkear la nota con la accion)
+	- solo  cambiar el valor si es disinto; cuando pierde foco resetear estado
+	- no tiene progress metter
+	- mejorar el reporte de errores
+	- KT
+	- stack of edits, send these in threads
+
+	FILTROS
+	- nose los filtros están raros
+	- cambiar la seelecion cuando filtro y blabla
+
+	ADDONS
+	- remover odp de las addons
+	- loczationa
+
+	FEATURES
+	- add multiple sites to category
+	- buscar por titutli, url, o description como t:title d:description u: javier
+	- toggle list view (category, url, etc)
+	- add multipe tab handler
+	- down or up should select other entries
+
+	HERRAMIENTAS
+	- fetch frist sentence
+	- fetch meta titles
+	- fetch meta descriptions
+	- auto-tag pdf
+	- import new sites
+	- import feeds
+
+LinkChecker
+- cuando actualizo una URL, mostrar un mensaje si no la encuentra.(en @edit.php)
+- cuando cargo un sitio de google, no bloquearlo, si esta en el top document.
+- auto note
+- look for mod-rewrite
+- look for wildcards
+- YQL
+- bayes
+- save cahced of html hashed
+- save screenshots
+
+
+"I NEED AN EDITALL"
+	http://forums.dmoz.org/forum/viewtopic.php?t=240688&start=0&nposts=100000&highlight=editall
+	http://forums.dmoz.org/forum/viewtopic.php?t=926532&highlight=editall
+	http://forums.dmoz.org/forum/viewtopic.php?t=240725&highlight=editall
+	http://forums.dmoz.org/forum/viewtopic.php?t=914637&highlight=editall
+	http://forums.dmoz.org/forum/viewtopic.php?t=912176&highlight=editall
+	http://forums.dmoz.org/forum/viewtopic.php?t=904649&highlight=editall
+	http://forums.dmoz.org/forum/viewtopic.php?t=240707&highlight=editall
+	http://forums.dmoz.org/forum/viewtopic.php?t=902669&highlight=editall
+	http://forums.dmoz.org/forum/viewtopic.php?t=901406&highlight=editall
+	http://forums.dmoz.org/forum/viewtopic.php?t=240580&highlight=editall
+	http://forums.dmoz.org/forum/viewtopic.php?t=315596&highlight=editall
+	http://forums.dmoz.org/forum/viewtopic.php?t=240768&highlight=editall
+	http://forums.dmoz.org/forum/viewtopic.php?t=240675&start=0&nposts=100000&highlight=editall
+	http://forums.dmoz.org/forum/viewtopic.php?t=14689&start=0&nposts=100000&highlight=editall
+	http://forums.dmoz.org/forum/viewtopic.php?t=240697&highlight=editall
+	http://forums.dmoz.org/forum/viewtopic.php?t=240679&highlight=editall
+	http://forums.dmoz.org/forum/viewtopic.php?t=240572&highlight=editall
+	http://forums.dmoz.org/forum/viewtopic.php?t=240557&highlight=editall
+
+
+SQLITE
+
+
+	select status_code, status_error_string, id, uri, uri as html, statuses, uri_last,match,match_hash, hash, hash_known, content_type, site_type, str_length, word_count from uris where checked = 1 and processed = 0 and  status_error_string = "Redirect OK Candidate 4 Autofix" and replace(replace(uri, '/', ''), 'www.', '') !=  replace(replace(uri_last, '/', ''), 'www.', '') limit 8000
+
+		no https
+
+	select id,  uri,  uri_last from uris where checked = 1 and processed = 0 and  status_error_string = "Redirect OK Candidate 4 Autofix" and (replace(replace(replace(replace(uri, '/', ''), 'https', ''), 'http', ''), 'www.', '') != replace(replace(replace(replace(uri_last, '/', ''), 'https', ''), 'http', ''), 'www.', '')) limit 8000
+
+
+LinkChecker
+
+------ ver las urls que redireccionann a una url que está para checkear
+------ rss not marked as rss
+------ pdf not marked as pdf
+------ atom not marked as atom
+------ redirect autofixed
+------ redirect must review and correct
+------ pages with top links
+------ pages with top templates
+------ pages with top ids
+------ ssl errors
+------ js redirects
+------ framed redirects
+------ pages with all the included content broken
+------ slow pages
+------ pages that only link to facebook
+------ pages that only link to youtube
+------ pages that are contact cards
+------ the top included externals URLs
+------ the most linked sites
+------ the most hosts
+------ the most ns
+------ top hashes
+------ malformed urls, non public
+------ pages that are attachments of unknnow types
+------ pages that abuse of ads or popups
+------ pages that use the onbeforeunload
+------ awfull pages that link the same term a lot of times
+------ in the text rank the most used "lines"
+------ in the text rank the most used "titles"
+------ in the text rank the most used "meta descriptions"
+------ detect garbled pages
+------ stop words out of adult and gambling, viagra, etc
+------ un lenguaje en otro lenguaje
+------ urls que se pueden acortar removiendo el nombre del lenguaje, por ejemplo /es/ or /lang_es.html
+------ sitios duplicados en la misma categoría
+------ sitios duplicados en la misma o en la categoría anterior
+------ redirecciona a paywall
+------ top domain as a result of redirect
+------ BAYES
+------ check if root URL redirects to/deep/link.html, if that is true, then list root URL.
+
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+Despues:
+- solo link check si la url empieza con htttp
+- cuando crashea deja todas las pestañas del linkcheck abiertas
+- agregar colores a las flags
+- el soa
+
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+Ideas:
+- Save page screenshots (Firefox already save thumbs of the sites) and try to match these between sites to discover new possibles networks.? (Ambitious)
+- Use bayes theorem or even better ML, and probably discover new content to flag and networks. Math somewhat works and helps with so many data.
+- Recheck the whole thing with "Open DNS" as dns server, investigate and flag with the flags they provide for blocked content.
+- Have some fun testing if investigating density and frequency of words and word length helps discovering something.. by language.
+- Translate the content flags with Google Translate to catch non-working sites in other languages, and pick any of these that works.
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+Pasos antes de checkear links
+- flush DNS cache -> ipconfig /flushdns
+- Remover cache e historial del navegador
+- Apagar todos los plugins desde Tools -> Addons
+- ver si shared.me esta prendido
+- ver si show ip está prendido
+- ver si hide referer está apagado
+- contar los threads, maso 12
+- ver si el cache del link checker esta prendido
+- ver si cachear en archivos de texto el resultado del link checker
+- generate graph false,
+- hidden tabs false
+- menu frames false
+- informative panel apagado
+- limpiar cache, cookies, history, etc
+- Desconectar y conectar la internet
+- apagar los timeouts de javascripts
+- SET THe ENCODING TO uNIVERSAL DETECT
+- remove the "fixed header langauge" that firefox sent when added in -> content -> languages -> prefered
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+This may be of interest, FTR
+
+		Back in 2007 editor revr requested a "redirection alert" tool for ODPExtension, with some work I got something analysing web requests of the browser, displaying just 301, 302 and some other HTTP statuses.
+
+		I got illuminated by this request, to create at some point a "link checker via the browser" a Robozilla/QCTool, I believe is the best way to "link check" since you have full control of the browser, and the website will not notice that the request comes from a supposed "robot", because It actually opens a Tab as a human and is able to interact with the site, click things, type, move the mouse, execute JavaScript, click javascript links, etc, etc... You can't hide anything to this "robot" (a redirect, a frameset, a page modification, etc, nothing)
+
+		2013, the ODP Extension codebase, is really huge, has received 4 mayor refactor and updates. In the last version(4) I recovered the rudimentary link checker which was introduced somewhere at the end of version 1. (missed in version 2 and 3). I got it working some weeks ago and started to improve it, by adding a lot of detections mechanism and functions to get most of the data from a website. My goal is to link check the directory with this at full speed. The last week I got to a point on which I was ready to test and crawl a big branch. Then, I run the spider from top to bottom in the whole W/Español.
+
+		The main purpose of this somewhat big spidering was not to play Robozila(redify, etc) in the first run, but, to catch exceptions, learn new things by collecting data and analyse the incredible amount of different sites, outputs, servers, group by similar, see which things I missed and the like, you know. At first it was crashing, leaking memory, I corrected some things there, some things here, without any pressure and watching from time to time, many, many browser sessions.. With some accumulated bunch of tweaks, in the last run I was able to fetch 35.000 websites in the same browser session at constant memory, flawless, success!
+
+		Ok, still needs improvements,
+
+		Some data that I collect with this:
+		- The full redirection log, including some fictitious such "meta/js" redirects of any kind.
+		- The usual, headers, server ip, contentType, html, title, meta description, the detected language of the page using the Google Chrome: Compact Language Detector. - CLD was build with emscripten which introduced a lot unnecesary proceses and consumed most of the CPU. I replaced it with http://blog.fgribreau.com/2011/07/week-end-project-nodejs-language.html which was designed for JavaScript and runs super fast while at the same time is accurate.
+		- The amount of media content (video, audio, flash, pluginX)
+		- The URL of any external content (css, javascript, etc) hardcoded in the page or generated, this listen the real requests made by the Tab, does not miss any.
+		- The adsense and urchin ids. [need to learn some new 'services']
+		- all the internal and external links, in the document and in framed documents, including the frames of the frames :P
+		- The DOM tree without the #text nodes. To be able to catch websites with different content but with the same template
+		- Any SSL error, the list and codes is really huge, I save the String message and classify as code -401.
+		- Flag any malformed non-functional URL(some malformed URLs actually serve content), or no public URLs..
+		- Empty or tiny pages (no links, no flash, no video, etc), exceptions include strings for example, a page which total content is "Welcome!", etc. [note to self, this can be done better counting the amount of words.]
+		- Taking about flags, I flag content as , 'pendingRenew', 'forSale', 'parked', 'hacked', 'hijacked', 'gonePermanent', 'goneTemporal', 'serverPage', 'emptyMeaningNoContent', 'pageErrors', 'underConstruction'[something was there but now is broken], comingSoon'[something new may come], 'suspended'. As mentioned in another thread, most use the status code -8, which I don't like, because I'm unable to group by status code properly. I need to group by msgString.
+		- I introduced a status code "Internet Gone!?" for when the network is interrupted or my Internet connection is down. Note to self: Probably I just need to skip the save of this item run, but still I need the code to check for this. Razz
+		- I have three status codes for redirects,
+		- 1. Redirect must be fixed manually. (exampleone.net -> exampletwo.net or example.net/somefolder -> example.net/otherfolder)
+		- 2. Redirection is ok (example.net -> example.net/index.html)
+		- 3. Redirection can be autofixed. (example.net/index.html -> example.net/ or http://bank.com -> https://bank.com or example.net/nocaps -> example.net/NoCAPS), website.com.uy -> website.com, website.com -> website.com.uy
+		(I fixed a few of the redirection point 3 taking the opportunity of the running, knowing this is trivial, but I stopped because to change a URL my workaround with lack of API permissions is to delete the site and hand-add it.) [I probably have a good collection of these to correct now in the database]
+
+
+		Funny Challenges:
+		- Some binary files (pdf, mp4, zip, docs) that triggered a "download as file.pdf" window automatically, because the link checker actually opens a tab for the site. - Solved, there is a list of "Text" contentTypes, if the contentType of a file does not much this list the download is cancelled as soon as the headers are available. This still allows to link check the file, but without downloading it.
+		- Bug - Audio and video with autoplay that put music and voices in my ears! [even when I scan the Doc and click "pause" in these Wink] these few run in frames.
+		- I rewrite the JavaScript function onbeforeunload that many websites use to prevent the closing of the tab with the usual message "Are you sure you want to leave this site", but not in frames, yet. It turns to be so much harder, but, solved!, Not only a rewrite of the JavaScript function should be done, also we should removeEventListener on any offending event that the website sets. I do this as soon as the page load (just before any JavaScript of the HTML is run) and before closing the Tab, in the page and in any of its frames. Not only this, the link checker also counts how many times the page tried to use this intrusive behaviour and flags accordly. This to catch crap websites is great. Glasses Some false positives of good use of this "feature".
+
+		Important Things:
+		- Pages to check from the same host must be checked in intervals, one for each host, one for each host, idem, etc. This is related to how to feed this Link Checker.
+		- Collect nslookup soa lookpus, I don't know which Mozilla code is used for this. [the command is just >nslookup -type=soa domain.tld] but I wanted to do it with Mozilla code.
+		- Display a verbose progress netter, currently is something like [20.000 sites fetched of 4.000.000], should be [40 tabs opened, 22 tabs downloading, fetched 20.000 of 4.000.000, 500kb/sec, 5000 sites per hour, 0.8gb downloaded]
+
+		Ideas:
+		- Save page screenshots (Firefox already save thumbs of the sites) and try to match these between sites to discover new possibles networks.? (Ambitious)
+		- Use bayes theorem or even better ML, and probably discover new content to flag and networks. Math somewhat works and helps with so many data.
+		- Recheck the whole thing with "Open DNS" as dns server, investigate and flag with the flags they provide for blocked content.
+		- Have some fun testing if investigating density and frequency of words and word length helps discovering something.. by language.
+		- auto flush the DNS cache before starting!
+		- Translate the content flags with Google Translate to catch non-working sites in other languages, and pick any of these that works.
+		- Run the link checker in a virtual machine of Amazon with Remote Desktop, it should run so fast and with no limits that probably some system really complicate problem will raise.. solved by the old technique of splitting the problem in tiny problems.. running many virtual machines Cool It costs money Bug²^zilla
+
+		Data Problems:
+		- Bug Needs to design some way to interact with the data collected to actually play as Robozilla. But I still designed the LinkChecker to be independent of any data management logic. Is general purpose.
+		- Talking about flagging content, I collected with the tool "Rojos no tan rojos" some flags for errors and unwanted content, but it needs more, in different languages and about different exceptions. This is tedious and difficult in foreign languages. pmoz.info has a good collection but I refused to copy it because the tool is not so open. Then, I'm using my tiny list and adding as I encounter.
+
+		More Difficult Things:
+		- Configuring network setting in Firefox is somewhat hard. I'm starting to think that maybe two instance of Firefox running on the same database can be good, to avoid hardcoded tweaks of the browser that automatically sets on background Tabs [It does this to feel more responsive in the current or focused tab]
+		- Detect when the connection to Internet is lost. There is offline mode in Firefox, but is not enough.
+		- The bottleneck must be my Internet connection, but is not, there is 1/4~ of total checking time that my network is idle, the amount of tabs downloading data should vary and keep sync with the available bandwidth. - Somewhat solved, the previous "threaded code" was to keep a constant number of Tabs opened. Now, what remains constant is the amount of Tabs downloading content, as soon as a Tab fire DOMContentLoaded (html has been loaded, not images, etc) a new tab is opened.
+		- With some web help I created a gzip and gunzip function to store the collected data compressed(in Firefox JavaScript is not so easy to do this) -- because of some funny chars the streams get broken and I ended running the whole thing uncompressed. A SQLite database of 15Gb !! Must solve this with more patient. - Solved by using non-mozilla code https://github.com/pieroxy/lz-string/ Data compress great in UTF16 to be saved in a SQLite with no problems.
+
+		Unimportant Problems/Tweaks:
+		- Talking about World/, the pages are all fetched with UTF8 encoding, if the content is garbled is because the content is really garbled when opened in a Tab and the browser is unable to detect the encoding. I solved this problem in the tool "rojos no tan rojos" by: 1. Detecting that the page is garbled(sometimes is difficult, I guess is easy in the browser) 2. Take a look to the category were this site is listed. 3. Map the Language of the category to a possible list of good encodings to try, try until one success. This works for most, improved situation but will still fail with some. Possible solution is to send this site to Google Chrome browser, and steal the encoding used Big Evil Grin via an extension or whatever.
+		- Improve the content flag rules mechanism, this is very trivial. Flag content based on body content, header match, match in the redirects, match in any place as needed.
+
+		OK, I still have yet to analyze the first data set I just downloaded, a good start, room for improvement. Probably an year of URLs with problems to fix.. Mug
+
+		Now, I'm working entertained with another tool about unreview, a break from link checking, as soon I have a report of this huge database, I'll share smile
+
+		[edit]
+
+		Thanks for support Rob, Hope you can Join Firefox.. or any other browser, would for sure make me happy! Razz
+
+		An update on this, I just fixed most of the hard problems, the remaining are not that hard. item0 updated, it mostly mentions ideas and some details, Bug for bugs, for fixes.
+
+		The process not mentioned, looks like this:
+		1. A URL is sent to the link checker.
+		2. It fires a XMLHttpRequest to the site, which is similar to curl. (It does not interpret or eval content, and follow any server redirect). This is to catch dead sites faster.
+		3. If the site is not dead [in the meaning, if the last URL of all the redirects works [something different than domain not found]]. Then, the original URL is opened in a real background Tab.
+		4. Once the contents loads in the Tab, it gives 12 seconds to allow the site to do something dirty, as redirect with JavaScript, frames, flash or metarefresh.
+		5. Once timeouts, the whole page is parsed and lots of information is returned as an object, plus all the network information coming from the network observers.
+		6. The object is then sent to the "Flag Content" function which inspects details and flags accordly.
+		[this runs in multiple "threads"(not real threads), there is a configurable number of "how many tabs downloading content at the same time should be open", and the link check will open tabs as desired and available]
+
+		This is really exciting, in some portions of the coding process not that much, it feels very modern, I've been doing some digging and there is nothing like this, all of the JavaScript crawlers or bots, does not evaluate the page. These just act like curl, or inject HTML into divs to allow the handy document.getElementBy.. . I've been reading even research papers of webspam and crawling where they suggest and think on very hard and complicate parsing solutions to the problem that this tool just solve by opening a tab. Of course this does not scale as other, but if you have resources.. or a tiny directory, easy money! Cool
+
+		I'm not sure how to share this to "play Robozilla", my current approach is:
+		- Use the ODPExtension feature that creates a SQLite database by parsing the RDF files (somewhat 30 minutes process)
+		- Alter the table "uris" and add all the needed columns
+		- Paste a simple snippet in the Firefox console which will.. : select * from uris where checked = 0 -> for uri in uris -> linkcheck -> update uris set... check = 1, error = -1 ... etc.
+
+	//console.log('Tabs loading content: Tabs opened:'+gBrowser.tabContainer.childNodes.length)
+
+	//NEW
+
+	/*
+
+		si no es un frame lo dejo como isdownload, showip on goolge WTF
+
+		//clear BAD URL
+		update uris set checked = 0, processed = 0 where checked = 1 and processed = 0 and
+			(
+				status_error_string = "Bad URL"
+				 or  status_error_string = "x"
+				 or  status_error_string = "x"
+			)
+
+		//redirect autofix
+		select uri, uri_last from uris where checked = 1 and processed = 0 and status_error_string = "Redirect OK Candidate 4 Autofix" order by date_start asc
+
+		//mark autofix done
+		update uris set processed = 1 where checked = 1 and status_error_string = "Redirect OK Candidate 4 Autofix"
+
+		//select these not ok
+		select status_error_string, uri,match from uris where checked = 1 and status_error_string != "OK" and status_error_string != "Redirect OK" and status_error_string != "Redirect" and status_error_string != "Redirect OK Candidate 4 Autofix" order by status_error_string asc
+
+	var db = ODPExtension.rdfDatabaseOpen();
+	var select = db.query(' select * from uris where `checked` = 1 order by id desc limit 20');
+
+	var row, txt = '', site, count=0;
+	while (row = select.fetchObjects()) {
+		//site = JSON.parse(row.c_json);
+		console.log(row);
+	}
+
+//update soa
+
+	total:
+		1.683.718 -
+		97.140 downloaded 5gb -
+		130.000 -
+
+	var db = ODPExtension.rdfDatabaseOpen();
+	var select = db.query('select distinct(u.domain_id), h.host from uris u, hosts h where u.c_checked = 1 and u.c_ns = "" and u.domain_id = h.id group by u.domain_id');
+	var update = db.aConnection.createStatement(' update `uris` set `ns` = :c_ns where domain_id = :domain_id');
+
+	while(row = select.fetchObjects()){
+		var ns = ODPExtension.readURLAsync('http://localhost/mimizu/soa.php?host='+row.host);
+		update.params['ns'] = ns;
+		update.params['domain_id'] = row.domain_id;
+		update.execute();
+	}
+
+	//	 DE LOS HASHES ABRI TODOS LOS >= a 40
+
+SELECT distinct(subdomain_id), count() as total , subdomain_id, host  FROM uris u, hosts h where h.id = u.subdomain_id group by subdomain_id order by total desc limit 1000
+
+	//GROUP BY
+
+		//all hashes not blacklisted
+		SELECT distinct(c_hash), count(*) as total, uri, c_uri_last from uris u, categories c where c_checked = 1 and c_hash_ok = 0 and u.category_id = c.id and c.category glob "*Español*" group by c_hash order by total desc limit 1000
+
+		//all ids
+		SELECT distinct(ids), count(*) as total, uri, uri_last from uris  where checked = 1  group by ids order by total desc limit 1000
+
+		//by status
+		SELECT distinct(status_error_string), count(*) as total, uri, uri_last from uris  where checked = 1  group by status_error_string order by total desc limit 1000
+
+		//check for framed redirects
+		SELECT uri, c_uri_last from uris u, categories c where c_checked = 1 and u.category_id = c.id and c.category glob "*Español*" and c_hash = "a13e6f2bb4f1c652bf4229a6b0fe27af"
+
+		//whitelist hash
+		update uris set c_hash_ok = 1 where c_hash = "bee884663e65108218ffabc2a772c81a"
+
+		//all name servers not blacklisted
+		SELECT distinct(c_ns), count(*) as total, uri, c_uri_last from uris u where c_checked = 1 and c_list_white = 0 and c_list_black = 0 group by c_ns order by total desc limit 1000
+
+	SELECT  count(*) as total from uris where c_checked = 1 and c_ns = ""
+
+	SELECT distinct(c_ids), count(*) as total, uri, c_uri_last from uris u, categories c where c.category glob "*Español*" and c.id = u.category_id group by c_ids order by total desc limit 100
+
+	SELECT distinct(c_ids), count(*) as total, uri, c_uri_last from uris u, categories c where c.category glob "*Español*" and c.id = u.category_id group by c_ids order by total desc limit 100
+
+*/
+
+
+var categories = ODPExtension.categoriesTXTQuery('World/Español/', 'World/Español/').categories;
+
+var cache = 'unreview';
+
+var aCategory
+	ODPExtension.log('unreview-reds.html', ODPExtension.fileCreateTemporalHead)
+	ODPExtension.log('unreview-reds.html', '<ul>')
+
+while(aCategory = categories.shift()) {
+
+	(function(aCategory){
+		ODPExtension.runThreaded('kataslice.fetch.sites.', 20, function (onThreadDone) {
+
+			ODPExtension.readURL('http://localhost/mimizu/@unreview.php?cat='+ODPExtension.encodeUTF8(aCategory), cache, false, false,
+				function (aData) {
+					try{
+						aData = JSON.parse(aData)
+						for(var id in aData){
+							if(aData[id].httpStatus != 200) {
+								ODPExtension.log('unreview-reds.html', '<li>[<a target="_blank" href="http://www.dmoz.org/editors/editunrev/editurl?urlsubId='+aData[id].id+'&cat='+ODPExtension.encodeUTF8(aCategory)+'&offset=99999">edit</a>] <a href="'+ODPExtension.h(aData[id].url)+'">'+ODPExtension.h(aData[id].title)+'</a> - '+ODPExtension.h(aData[id].description)+'<br><small style="color:green;">'+ODPExtension.h(aData[id].url)+'</small><br><small>'+ODPExtension.h(aCategory)+'</small>')
+							}
+						}
+					} catch(e) {
+						ODPExtension.dump(aData)
+					}
+
+					onThreadDone()
+				}
+			, true, true);
+		});
+	})(aCategory)
+}
+
+//-----------------------------------------------------------------------------------------------------------
+
+var aURLs = ODPExtension.fileRead('urls.txt').split('\n')
+var aSites = []
+var categories = ODPExtension.categoriesTXTQuery('World/Español/', 'World/Español/').categories;
+
+var cache = 'unreview';
+
+var aCategory
+
+function onDone(){
+	ODPExtension.fileWrite('urls.json', JSON.stringify(aSites))
+}
+
+var total = categories.length
+while(aCategory = categories.shift()){
+
+	(function(aCategory){
+		ODPExtension.runThreaded('kataslice.fetch.sites.', 20, function (onThreadDone) {
+
+			ODPExtension.readURL('http://localhost/mimizu/@unreview.php?cat='+ODPExtension.encodeUTF8(aCategory), cache, false, false,
+				function (aData) {
+					try{
+						aData = JSON.parse(aData)
+						for(var id in aData){
+							if(aURLs.indexOf(aData[id].url) != -1){
+								aData[id].category = aCategory
+								aSites[aSites.length] = aData[id]
+							}
+						}
+					}catch(e){
+						ODPExtension.dump(aData)
+					}
+					total--
+
+					if(total <= 1){
+						setTimeout(function(){
+							onDone()
+						}, 20000)
+					}
+					onThreadDone()
+				}
+			, true, true);
+		});
+	})(aCategory)
+}
+
+
+//-----------------------------------------------------------------------------------------------------------
+Components.utils['import']("resource://gre/modules/FileUtils.jsm");
+
+var env = Components.classes["@mozilla.org/process/environment;1"]
+                    .getService(Components.interfaces.nsIEnvironment);
+var shell = new FileUtils.File(env.get("COMSPEC"));
+var args = ["/c /NOWINDOW", '', "whoisdomain xserver.jp > c:/titolala.txt"];
+
+var process = Components.classes["@mozilla.org/process/util;1"]
+                        .createInstance(Components.interfaces.nsIProcess);
+process.init(shell);
+process.runAsync(args, args.length,	{
+observe: function(aSubject, aTopic, aData)
+{
+	ODPExtension.dump('done')
+}
+}, false);
+
+
+
+//--------------------------------------------------------------
+//capitalized domains
+var db = ODPExtension.rdfDatabaseOpen();
+var row
+var query = db.query(' SELECT distinct(uri) from uris order by uri asc');
+	while(row = query.fetchObjects()){
+		var uriGood = ODPExtension.newURI(row.uri).asciiSpec.replace(/\/+$/, '')
+		var uriBad = row.uri.replace(/\/+$/, '')
+		if(uriGood != uriBad && uriGood.toLowerCase() == uriBad.toLowerCase() ){
+			ODPExtension.log('toLowerCase.txt', row.uri+'\t'+ODPExtension.newURI(row.uri).asciiSpec);
+		}
+	}
+
+//--------------------------------------------------------------
+//encoding mismatch
+var db = ODPExtension.rdfDatabaseOpen();
+var row
+var query = db.query('SELECT distinct(uri) from uris order by uri asc');
+	while(row = query.fetchObjects()){
+		var uri = ODPExtension.newURI(row.uri).asciiSpec
+		if(row.uri.replace(/\/+$/, '') != uri.replace(/\/+$/, '')){
+			ODPExtension.log('encoding.txt', row.uri+'\t'+uri);
+		}
+	}
+
+//--------------------------------------------------------------
+var db = ODPExtension.afroditaDatabaseOpen();
+var row
+var count = 0
+var done = false
+var query = db.query('SELECT id, uri from uris where checked = 1 and has_frameset = 1 and frame_count = 1 and hash_known = 0 ');
+var unique = {}
+	while(row = query.fetchObjects()){
+		if(done)
+			break
+		var cacheID = ODPExtension.sha256(row.uri)
+		var cachedFile = '/LinkChecker/'+cacheID[0]+'/'+cacheID[1]+'/'+cacheID;
+		var aData = JSON.parse(ODPExtension.uncompressSync(ODPExtension.fileRead(ODPExtension.shared.storage+cachedFile, true)))
+
+			var aDoc = ODPExtension.toDOM(aData.html, row.uri)
+			var domTree = ODPExtension.domTree(aDoc.body);
+			var domTreeBodyHash = ODPExtension.sha256(JSON.stringify(domTree));
+			aData.domTreeBody = domTree
+			aData.domTreeBodyHash = domTreeBodyHash
+			unique[domTreeBodyHash] = aData
+	}
+	for(var id in unique){
+		ODPExtension.dump(unique[id]);
+	}
+
+//---------------------------------------------------------------------
+var oRedirectionAlert = ODPExtension.redirectionAlert();
+	oRedirectionAlert.check('http://www.bjsjs.gov.cn/', function(aData){
+		ODPExtension.dump(aData);
+//		ODPExtension.fileWrite('raro.txt', JSON.stringify(aData))
+	});
+
+//------------------------------------------------------------------
+var aTab = gBrowser.addTab('about:blank')
+var aTabBrowser = gBrowser.getBrowserForTab(aTab);
+	aTabBrowser.webNavigation.allowImages = false;
+	aTabBrowser.loadURI('http://www.bjsjs.gov.cn/');
+
+	var db = ODPExtension.rdfDatabaseOpen();
+	var row
+	var query = db.query(' SELECT uri from uris u, categories c where uri = :uri and c.category glob "World/Español/*" and c.id = u.category_id limit 1');
+		var categories = ODPExtension.categoriesTXTQuery('World/Español/', 'World/Español/').categories;
+		var cache = 'unreview';
+		var aCategory
+			ODPExtension.log('unreview-rob.html', ODPExtension.fileCreateTemporalHead)
+			ODPExtension.log('unreview-rob.html', '<ul>')
+
+		while(aCategory = categories.shift()){
+			(function(aCategory){
+				ODPExtension.runThreaded('kataslice.fetch.sites.', 20, function (onThreadDone) {
+
+					ODPExtension.readURL('http://localhost/mimizu/@unreview.php?cat='+ODPExtension.encodeUTF8(aCategory), cache, false, false,
+						function (aData) {
+							try{
+								aData = JSON.parse(aData)
+								for(var id in aData){
+									query.params('uri', aData[id].url)
+									if(row = query.fetchObjects()){
+										ODPExtension.log('unreview-rob.html', '<li>[<a target="_blank" href="http://www.dmoz.org/editors/editunrev/editurl?urlsubId='+aData[id].id+'&cat='+ODPExtension.encodeUTF8(aCategory)+'&offset=99999">edit</a>] <a href="'+ODPExtension.h(aData[id].url)+'">'+ODPExtension.h(aData[id].title)+'</a> - '+ODPExtension.h(aData[id].description)+'<br><small style="color:green;">'+ODPExtension.h(aData[id].url)+'</small><br><small>'+ODPExtension.h(aCategory)+'</small>')
+									}
+									query.reset()
+								}
+							}catch(e){
+								ODPExtension.dump(e)
+							}
+
+							onThreadDone()
+						}
+					, true, true);
+				});
+			})(aCategory)
+		}

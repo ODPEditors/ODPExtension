@@ -28,7 +28,7 @@
 	this.linkCheckerItem = function(item, oRedirectionAlert, aResult, aNumber) {
 		var href = this.IDNDecodeURL(this.string(item.href))
 		if (!href || this.isGarbage(href) || !this.canFollowURL(href, this.focusedURL) ||
-		    		(aNumber < 300 && /*this function is very expensive, limit to first N items*/!this.isVisible(item)))
+		    		(aNumber < 5000 && /*this function is very expensive, limit to first N items*/!this.isVisible(item)))
 			return;
 
 		var tooltiptext = this.decodeUTF8Recursive(href);

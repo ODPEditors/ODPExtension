@@ -1,6 +1,6 @@
 (function() {
 	//sanitize the format of a category
-	var categoryCheckFormatRegExp1 = /(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_|-)*$/;
+	var categoryCheckFormatRegExp1 = /(\:|@|"|,|'| |#|>|<|\)|\(|\*|_)*$/;
 	var categoryCheckFormatRegExp2 = /^(\+|\.|\:|@|"|,|'| |#|>|<|\)|\(|\*|_|-)*/;
 	var categoryCheckFormatRegExp3 = /\r/g
 	var categoryCheckFormatRegExp4 = /\n\n/g
@@ -38,8 +38,14 @@
 		//ending with
 		aCategory = aCategory
 			.replace(categoryCheckFormatRegExp1, '')
+
+
 		//starts with
 		.replace(categoryCheckFormatRegExp2, '');
+
+		//Reference/Libraries/Library_and_Information_Science/Librarians/Ranganathan,_S._R>>.<<
+		if(aCategory.indexOf(',') == -1)
+			aCategory = aCategory.replace(/\.$/, '')
 
 		//Test/Tools_for_Editors/New_Editors/faq.html#42
 		if (aCategory.indexOf('#') != -1)
@@ -129,6 +135,10 @@
 		.replace(categoryCheckFormatRegExp1, '')
 		//starting with
 		.replace(categoryCheckFormatRegExp2, '');
+
+		//Reference/Libraries/Library_and_Information_Science/Librarians/Ranganathan,_S._R>>.<<
+		if(aCategory.indexOf(',') == -1)
+			aCategory = aCategory.replace(/\.$/, '')
 
 		//Bookmarks/D/development/Bandas y artistas/
 		if (aCategory.indexOf(' ') != -1)
@@ -258,9 +268,14 @@
 		if (aCategory == '')
 			return '';
 
+		//this.dump('1'+aCategory);
 		aCategory = this.categorySanitize(aCategory);
+		//this.dump('2'+aCategory);
 
 		//if multiples categories founds
+		if (aCategory.indexOf('  ') != -1) {
+			aCategory = aCategory.split('  ')[0]
+		}
 		if (aCategory.indexOf('\n') != -1 || aCategory.indexOf('\r') != -1) {
 			aCategory = aCategory.replace(/\r/g, '\n').replace(/\n\n/g, '\n');
 			aCategory = aCategory.split('\n')[0];
@@ -482,7 +497,7 @@
 	var categorySanitizeRegExp1 = /%2F/gi
 	var categorySanitizeRegExp2 = /\*$/
 	var categorySanitizeRegExp3 = /\\/g
-	var categorySanitizeRegExp4 = /\/+/g
+	//var categorySanitizeRegExp4 = /\/+/g
 	var categorySanitizeRegExp5 = /^\//
 	var categorySanitizeRegExp6 = /\/$/
 	var categorySanitizeRegExp7 = /^Top\//
@@ -491,7 +506,7 @@
 			.replace(categorySanitizeRegExp1, '/')
 			.replace(categorySanitizeRegExp2, '')
 			.replace(categorySanitizeRegExp3, '/')
-			.replace(categorySanitizeRegExp4, '/')
+		//	.replace(categorySanitizeRegExp4, '/')
 			.replace(categorySanitizeRegExp5, '')
 			.replace(categorySanitizeRegExp6, '')
 			.replace(categorySanitizeRegExp7, '');

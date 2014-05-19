@@ -16,15 +16,15 @@
 	var insert, query_inclusive, query_exclusive;
 
 	this.addListener('IPResolved', function (aDomain, aData) {
-		if (ODPExtension.shared.me)
+		//if (ODPExtension.shared.me)
 			ODPExtension.showIPDatabaseInsertID(aData, ODPExtension.removeWWW(aDomain));
 	});
 	this.addListener('databaseCreate', function () {
-		if (ODPExtension.shared.me)
+		//if (ODPExtension.shared.me)
 			ODPExtension.showIPDatabaseCreateTable();
 	});
 	this.addListener('databaseReady', function () {
-		if (ODPExtension.shared.me)
+		//if (ODPExtension.shared.me)
 			ODPExtension.showIPDatabaseStatements();
 	});
 
@@ -46,7 +46,7 @@
 	});
 
 	this.showIPOnDocumentLoaded = function (aDoc, aIDs) {
-		if (this.shared.me && aDoc.defaultView) {
+		if (aDoc.defaultView) {
 			var ids = []
 			for (var id in aIDs)
 				ids[ids.length] = aIDs[id]
@@ -89,7 +89,7 @@
 	}
 
 	this.showIPUpdateMenu = function (aEvent) {
-		if (this.shared.me) {
+		//if (this.shared.me) {
 
 			this.removeChilds(menupopup);
 			var row, row2, items = [], added = 0;
@@ -161,19 +161,19 @@
 				add.setAttribute("oncommand", 'ODPExtension.showIPMenuOpenAll()');
 				menupopup.appendChild(add);
 			}
-		}
+		//}
 
 	}
 
 	this.showIPUpdateOver = function (aEvent) {
-		if (this.shared.me) {
+		//if (this.shared.me) {
 			this.removeChilds(tooltip);
 			var label = this.create('label');
 
 			var ids = this.documentGetIDs(this.documentGetFocused())
 			label.setAttribute('value', ids.join('\n'));
 			tooltip.appendChild(label)
-		}
+		//}
 	}
 	this.showIPMenuOpenAll = function () {
 		var items = []
@@ -189,7 +189,7 @@
 	}
 
 	this.showIPDatabaseOpen = function () {
-		if (!database && this.shared.me) {
+		if (!database) {
 			database = this.databaseGet('IDs');
 			database.executeSimple('PRAGMA temp_store = 2');
 			database.executeSimple('PRAGMA read_uncommitted = true');
@@ -199,13 +199,13 @@
 		return database;
 	}
 	this.showIPDatabaseClose = function () {
-		if (database && this.shared.me) {
+		if (database) {
 			database.close();
 			database = false;
 		}
 	}
 	this.showIPDatabaseInsertID = function (aName, aValue) {
-		if (this.shared.me && aName != aValue) {
+		if (aName != aValue) {
 			insert.params('name', aName);
 			insert.params('value', aValue);
 
@@ -214,7 +214,6 @@
 	}
 
 	this.showIPDatabaseCreateTable = function () {
-		if (this.shared.me) {
 			var db = this.showIPDatabaseOpen()
 			db.create('\
 									CREATE TABLE IF NOT EXISTS \
@@ -231,16 +230,15 @@
 
 			this.showIPDatabaseClose()
 			this.showIPDatabaseOpen()
-		}
 	}
 
 	this.showIPDatabaseStatements = function () {
-		if (this.shared.me) {
+		//if (this.shared.me) {
 			insert = database.query('INSERT INTO `ids` ( `name`, `value` ) VALUES (:name, :value) ');
 			query_exclusive = database.query('select * from ids where name = :name and value != :value order by value asc, name asc LIMIT 300');
 			query_inclusive = database.query('select * from ids where name = :name order by value asc, name asc LIMIT 300');
 			query_inclusive_value = database.query('select * from ids where value = :value order by value asc, name asc LIMIT 300');
-		}
+		//}
 	}
 
 	return null;

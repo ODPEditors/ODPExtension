@@ -25,6 +25,7 @@
 		panel = ODPExtension.getElement('panel-fast-add');
 	});
 	var lastCategory = '';
+	var lastNote = '';
 
 	this.panelFastAddGetInformation = function (aLocation) {
 		if ( (this.preferenceGet('ui.fast.add.panel.closed') || !this.preferenceGet('enabled')) && !this.tabGetData('panel-fast-add-linked-function')) {
@@ -66,6 +67,9 @@
 
 			if (placeholder != 'Category' ||  this.getElement('panel-fast-add-category').value == '')
 				this.getElement('panel-fast-add-category').value = this.tabGetData('panel-fast-add-category') || lastCategory
+
+			if (placeholder != 'Editor Note' ||  this.getElement('panel-fast-add-note').value == '')
+				this.getElement('panel-fast-add-note').value = this.tabGetData('panel-fast-add-note') || lastNote
 
 			if(this.categoryIsRTL(this.getElement('panel-fast-add-category').value)){
 				panel.setAttribute('dir', 'rtl')
@@ -155,6 +159,7 @@
 								description = this.ucFirst(description.replace(/^\.+/, '').trim())
 
 								lastCategory = category
+								lastNote = note
 
 								if (aEvent.ctrlKey && this.confirm('Add to unreview?'))
 									var form_button = 'unrev';

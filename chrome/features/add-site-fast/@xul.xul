@@ -63,7 +63,6 @@
 			onblur="ODPExtension.panelFastAddVisibilityHide();ODPExtension.tabSaveData(this.id, this.value)"
 			onfocus="ODPExtension.panelFastAddVisibilityShow();"
 			spellcheck="true"
-			onpaste="ODPExtension.panelFastAddOnPaste(this, event)"
 		/>
 		<hbox align="right" id="ODPExtension-panel-fast-add-buttons">
 			<button label="Publish"

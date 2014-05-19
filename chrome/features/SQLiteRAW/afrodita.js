@@ -114,7 +114,7 @@
 		var version = rdf.query('PRAGMA user_version');
 		version = version.fetchObjects().user_version
 
-		var select = rdf.query('select distinct(u.uri), u.subdomain_id from uris u, categories c where c.id = u.category_id and (c.category glob "World/*" or c.category glob "Kids*")');
+		var select = rdf.query('select distinct(u.uri), u.subdomain_id from uris u, categories c where c.id = u.category_id and (c.category glob "Computers/Programming/*" or c.category glob "Computers/Software/*" or c.category glob "Reference/Libraries/Library_and_Information_Science/*")');
 
 		var insert = lc.aConnection.createStatement(' insert or ignore into `uris` (`uri`,`subdomain_id`,`version`) values (:uri, :subdomain_id, :version)');
 
@@ -128,6 +128,8 @@
 			insert.execute();
 		}
 		lc.commit();
+
+		this.dump('Importing done...');
 
 		ODPExtension.gc();
 
@@ -205,6 +207,8 @@
 		lc.executeSimple('	CREATE INDEX IF NOT EXISTS `hash_body` ON `uris` (`hash_body`) ');
 
 		lc.commit();
+
+		this.dump('Done...');
 
 	}
 

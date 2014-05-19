@@ -1,7 +1,7 @@
 (function () {
 
 	this.addListener('userInterfaceLoad', function(aEnabled) {
-		if(ODPExtension.shared.me){
+		//if(ODPExtension.shared.me){
 			var menus = ['context-from-category',
  			'context-from-categories',
  			'extension-icon-from-category',
@@ -29,7 +29,7 @@
 		 					).removeAttribute('hidden');
 		 		}
 	 		}
-		}
+		//}
 	});
 
 	this.kataslice = function (aCategory, reviewed, recursive, aFunction) {

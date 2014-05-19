@@ -63,10 +63,10 @@
 		if (!item)
 			return;
 		var tooltiptext;
-		if (this.shared.me)
+		//if (this.shared.me)
 			tooltiptext = ODPExtension.decodeUTF8(aData.urlRedirections.join('\n') + '\n' + aData.hash + '\n' + aData.status.suspicious.join('\n') + '\n' + (aData.status.match || ''))
-		else
-			tooltiptext = ODPExtension.decodeUTF8(aData.urlRedirections.join('\n') + '\n' + aData.status.suspicious.join('\n'))
+		//else
+		//	tooltiptext = ODPExtension.decodeUTF8(aData.urlRedirections.join('\n') + '\n' + aData.status.suspicious.join('\n'))
 
 			item.setAttribute('title', (tooltiptext.replace(/\n+/g, '\n').trim() + '\n' + this.shortText(aData.txt, 255)).trim());
 
